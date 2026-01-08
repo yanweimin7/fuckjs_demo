@@ -1,0 +1,64 @@
+# Flutter/Dart related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Android related
+**/android/**/generated/
+**/android/app/src/main/res/drawable-mdpi/
+**/android/app/src/main/res/drawable-hdpi/
+**/android/app/src/main/res/drawable-xhdpi/
+**/android/app/src/main/res/drawable-xxhdpi/
+**/android/app/src/main/res/drawable-xxxhdpi/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/project.properties
+**/android/settings.gradle
+*.jks
+*.keystore
+*.p12
+*.pem
+*.pub
+*.sig
+*.truststore
+
+# iOS related
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*sync/
+**/ios/**/.lsbundle
+**/ios/**/DerivedData/
+**/ios/**/Icon?
+**/ios/**/Pods/
+**/ios/**/.xcworkspace/
+**/ios/**/xcuserdata/
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.[mh]
+
+# macOS related
+**/macos/Flutter/ephemeral/
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+**/macos/Flutter/flutter_export_environment.sh
+
+# Web related
+**/web/index.html
+
+# Symbols
+app.*.symbols
+
+# Assets
+/assets/js/bundle.js
+/assets/js/bundle.js.map
