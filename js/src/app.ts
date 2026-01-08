@@ -6,6 +6,7 @@ import * as Router from './router';
 
 export function initApp() {
   Runtime.bindGlobals();
-    Router.register('/', () => React.createElement(HomePage));
-    Router.register('/detail', (params: any) => React.createElement(DetailPage, params));
+  console.log('initApp');
+  Router.register('/', () => React.createElement(HomePage));
+  Router.register('/detail', (params: any) => React.createElement(DetailPage, params));
 }

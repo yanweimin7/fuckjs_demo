@@ -41,87 +41,70 @@ final class QjsResult extends Struct {
   external int dataLen;
 }
 
-typedef NativeNativeCallHandler =
-    Void Function(
-      Pointer<Void> ctx,
-      NativeUtf8Ptr method,
-      Pointer<QjsResult> args,
-      Int32 argc,
-      Pointer<QjsResult> out,
-    );
-typedef DartNativeCallHandler =
-    void Function(
-      Pointer<Void> ctx,
-      NativeUtf8Ptr method,
-      Pointer<QjsResult> args,
-      int argc,
-      Pointer<QjsResult> out,
-    );
+typedef NativeNativeCallHandler = Void Function(
+  Pointer<Void> ctx,
+  NativeUtf8Ptr method,
+  Pointer<QjsResult> args,
+  Int32 argc,
+  Pointer<QjsResult> out,
+);
+typedef DartNativeCallHandler = void Function(
+  Pointer<Void> ctx,
+  NativeUtf8Ptr method,
+  Pointer<QjsResult> args,
+  int argc,
+  Pointer<QjsResult> out,
+);
 
-typedef NativeRegisterCallNative =
-    Void Function(
-      Pointer<Void> handle,
-      Pointer<NativeFunction<NativeNativeCallHandler>> cb,
-    );
-typedef DartRegisterCallNative =
-    void Function(
-      Pointer<Void> handle,
-      Pointer<NativeFunction<NativeNativeCallHandler>> cb,
-    );
+typedef NativeRegisterCallNative = Void Function(
+  Pointer<Void> handle,
+  Pointer<NativeFunction<NativeNativeCallHandler>> cb,
+);
+typedef DartRegisterCallNative = void Function(
+  Pointer<Void> handle,
+  Pointer<NativeFunction<NativeNativeCallHandler>> cb,
+);
 
-typedef NativeRegisterCallAsyncDefer =
-    Void Function(
-      Pointer<Void>,
-      Pointer<
-        NativeFunction<
+typedef NativeRegisterCallAsyncDefer = Void Function(
+  Pointer<Void>,
+  Pointer<
+      NativeFunction<
           Void Function(
             Pointer<Void>,
             NativeUtf8Ptr,
             Pointer<QjsResult>,
             Int32,
             Int32,
-          )
-        >
-      >,
-    );
-typedef DartRegisterCallAsyncDefer =
-    void Function(
-      Pointer<Void>,
-      Pointer<
-        NativeFunction<
+          )>>,
+);
+typedef DartRegisterCallAsyncDefer = void Function(
+  Pointer<Void>,
+  Pointer<
+      NativeFunction<
           Void Function(
             Pointer<Void>,
             NativeUtf8Ptr,
             Pointer<QjsResult>,
             Int32,
             Int32,
-          )
-        >
-      >,
-    );
+          )>>,
+);
 
-typedef NativeAsyncTypedCallHandler =
-    Void Function(
-      Pointer<Void> ctx,
-      NativeUtf8Ptr method,
-      Pointer<QjsResult> args,
-      Int32 argc,
-      Pointer<QjsResult> out,
-    );
+typedef NativeAsyncTypedCallHandler = Void Function(
+  Pointer<Void> ctx,
+  NativeUtf8Ptr method,
+  Pointer<QjsResult> args,
+  Int32 argc,
+  Pointer<QjsResult> out,
+);
 
-typedef NativeAsyncDeferCallHandler =
-    Void Function(
-      Pointer<Void> ctx,
-      NativeUtf8Ptr method,
-      Pointer<QjsResult> args,
-      Int32 argc,
-      Int32 id,
-    );
-
-typedef NativeAsyncResolve =
-    Void Function(Pointer<Void>, Int32, NativeUtf8Ptr, Int32);
-typedef DartAsyncResolve =
-    void Function(Pointer<Void>, int, NativeUtf8Ptr, int);
+typedef NativeAsyncDeferCallHandler = Void Function(
+  Pointer<Void> ctx,
+  NativeUtf8Ptr method,
+  Pointer<QjsResult> args,
+  Int32 argc,
+  Int32 id,
+);
 
 final class QuickJsFFI {
   final DynamicLibrary _lib;
@@ -179,11 +162,11 @@ final class QuickJsFFI {
   }
 
   static final Map<int, Object? Function(String, List<dynamic>)>
-  _cbCallAsyncTypedByCtx = {};
+      _cbCallAsyncTypedByCtx = {};
   static final Map<int, void Function(String, List<dynamic>, int)>
-  _cbCallStartByCtx = {};
+      _cbCallStartByCtx = {};
   static final Map<int, Object? Function(String, List<dynamic>)>
-  _cbCallNativeByCtx = {};
+      _cbCallNativeByCtx = {};
 
   @pragma('vm:entry-point')
   static void _cbCallNativeTrampoline(
@@ -232,7 +215,13 @@ final class QuickJsFFI {
         return res.s.address == 0 ? '' : res.s.toDartString();
       case qjsTypeObject:
         final s = res.s.address == 0 ? '' : res.s.toDartString();
-        return s.isEmpty ? null : jsonDecode(s);
+        if (s.isEmpty || s == 'undefined') return null;
+        try {
+          return jsonDecode(s);
+        } catch (e) {
+          debugPrint('JSON 解析失败: $s');
+          return s; // 如果不是 JSON，尝试直接返回原始字符串
+        }
       case qjsTypeByteArray:
         if (res.data.address == 0) return null;
         return res.data.asTypedList(res.dataLen);
@@ -302,36 +291,31 @@ final class QuickJsFFI {
       )
       .asFunction<void Function(Pointer<Void>)>();
 
-  late final _evalStr = _lib
-      .lookup<
-        NativeFunction<
-          Pointer<ffi.Utf8> Function(Pointer<Void>, Pointer<ffi.Utf8>)
-        >
-      >('qjs_evaluate_script')
-      .asFunction<
-        Pointer<ffi.Utf8> Function(Pointer<Void>, Pointer<ffi.Utf8>)
-      >();
-
-  late final _freeStr = _lib
-      .lookup<NativeFunction<Void Function(Pointer<ffi.Utf8>)>>(
-        'qjs_free_string',
-      )
-      .asFunction<void Function(Pointer<ffi.Utf8>)>();
-
   late final _evalVal = _lib
       .lookup<
-        NativeFunction<
-          Void Function(
-            Pointer<Void>,
-            Pointer<ffi.Utf8>,
-            Int32,
-            Pointer<QjsResult>,
-          )
-        >
-      >('qjs_evaluate_value_out')
+          NativeFunction<
+              Void Function(
+                Pointer<Void>,
+                Pointer<ffi.Utf8>,
+                Int32,
+                Pointer<QjsResult>,
+              )>>('qjs_evaluate_value_out')
       .asFunction<
-        void Function(Pointer<Void>, Pointer<ffi.Utf8>, int, Pointer<QjsResult>)
-      >();
+          void Function(
+              Pointer<Void>, Pointer<ffi.Utf8>, int, Pointer<QjsResult>)>();
+
+  late final _evalBinary = _lib
+      .lookup<
+          NativeFunction<
+              Void Function(
+                Pointer<Void>,
+                Pointer<Uint8>,
+                Int32,
+                Pointer<QjsResult>,
+              )>>('qjs_evaluate_binary')
+      .asFunction<
+          void Function(
+              Pointer<Void>, Pointer<Uint8>, int, Pointer<QjsResult>)>();
 
   late final _freeVal = _lib
       .lookup<NativeFunction<Void Function(Pointer<QjsResult>)>>(
@@ -341,19 +325,16 @@ final class QuickJsFFI {
 
   late final _registerCallAsyncTyped = _lib
       .lookup<
-        NativeFunction<
-          Void Function(
+          NativeFunction<
+              Void Function(
+                Pointer<Void>,
+                Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
+              )>>('qjs_register_call_async_typed')
+      .asFunction<
+          void Function(
             Pointer<Void>,
             Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
-          )
-        >
-      >('qjs_register_call_async_typed')
-      .asFunction<
-        void Function(
-          Pointer<Void>,
-          Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
-        )
-      >();
+          )>();
 
   late final _registerCallAsyncDefer = _lib
       .lookup<NativeFunction<NativeRegisterCallAsyncDefer>>(
@@ -363,10 +344,9 @@ final class QuickJsFFI {
 
   late final _asyncResolveTyped = _lib
       .lookup<
-        NativeFunction<
-          Void Function(Pointer<Void>, Int32, Pointer<QjsResult>, Int32)
-        >
-      >('qjs_async_resolve_typed')
+          NativeFunction<
+              Void Function(Pointer<Void>, Int32, Pointer<QjsResult>,
+                  Int32)>>('qjs_async_resolve_typed')
       .asFunction<void Function(Pointer<Void>, int, Pointer<QjsResult>, int)>();
 
   late final _registerCallNative = _lib
@@ -383,23 +363,20 @@ final class QuickJsFFI {
 
   late final _callFn = _lib
       .lookup<
-        NativeFunction<
-          Void Function(
+          NativeFunction<
+              Void Function(
+                Pointer<Void>,
+                Pointer<ffi.Utf8>,
+                Pointer<ffi.Utf8>,
+                Pointer<QjsResult>,
+              )>>('qjs_call_function')
+      .asFunction<
+          void Function(
             Pointer<Void>,
             Pointer<ffi.Utf8>,
             Pointer<ffi.Utf8>,
             Pointer<QjsResult>,
-          )
-        >
-      >('qjs_call_function')
-      .asFunction<
-        void Function(
-          Pointer<Void>,
-          Pointer<ffi.Utf8>,
-          Pointer<ffi.Utf8>,
-          Pointer<QjsResult>,
-        )
-      >();
+          )>();
 
   Pointer<Void> createRuntime() => _create();
 
@@ -410,12 +387,7 @@ final class QuickJsFFI {
   void destroyContext(Pointer<Void> ch) => _destroyCtx(ch);
 
   String evalToString(Pointer<Void> h, String code) {
-    final cstr = code.toNativeUtf8();
-    final resPtr = _evalStr(h, cstr);
-    ffi.malloc.free(cstr);
-    final result = resPtr.toDartString();
-    _freeStr(resPtr);
-    return result;
+    return eval(h, code).toString();
   }
 
   dynamic eval(Pointer<Void> h, String code, {bool resolvePromise = true}) {
@@ -423,6 +395,32 @@ final class QuickJsFFI {
     final out = ffi.calloc<QjsResult>();
     _evalVal(h, cstr, resolvePromise ? 1 : 0, out);
     ffi.malloc.free(cstr);
+    final err = out.ref.error != 0;
+    if (err) {
+      final msg = out.ref.s == Pointer<ffi.Utf8>.fromAddress(0)
+          ? 'Unknown error'
+          : out.ref.s.toDartString();
+      _freeVal(out);
+      ffi.calloc.free(out);
+      throw Exception(msg);
+    }
+
+    final res = _convertQjsResultToDart(out.ref);
+    _freeVal(out);
+    ffi.calloc.free(out);
+    return res;
+  }
+
+  dynamic evalBinary(Pointer<Void> h, Uint8List data) {
+    final out = ffi.calloc<QjsResult>();
+    // 直接使用 Uint8List 的内存，避免在 Dart 层手动分配和拷贝
+    final Pointer<Uint8> ptr = ffi.malloc<Uint8>(data.length);
+    final typedList = ptr.asTypedList(data.length);
+    typedList.setAll(0, data);
+
+    _evalBinary(h, ptr, data.length, out);
+    ffi.malloc.free(ptr);
+
     final err = out.ref.error != 0;
     if (err) {
       final msg = out.ref.s == Pointer<ffi.Utf8>.fromAddress(0)
@@ -466,16 +464,14 @@ final class QuickJsFFI {
     void Function(String, List<dynamic>, int) cb,
   ) {
     _cbCallStartByCtx[h.address] = cb;
-    final ptr =
-        Pointer.fromFunction<
-          Void Function(
-            Pointer<Void>,
-            NativeUtf8Ptr,
-            Pointer<QjsResult>,
-            Int32,
-            Int32,
-          )
-        >(QuickJsFFI._cbCallStartTrampoline);
+    final ptr = Pointer.fromFunction<
+        Void Function(
+          Pointer<Void>,
+          NativeUtf8Ptr,
+          Pointer<QjsResult>,
+          Int32,
+          Int32,
+        )>(QuickJsFFI._cbCallStartTrampoline);
     _registerCallAsyncDefer(h, ptr);
   }
 
@@ -606,6 +602,8 @@ class QuickJsContext {
 
   dynamic eval(String code, {bool resolvePromise = true}) =>
       _ffi.eval(_handle, code, resolvePromise: resolvePromise);
+
+  dynamic evalBinary(Uint8List data) => _ffi.evalBinary(_handle, data);
 
   void registerCallNative(Object? Function(String, List<dynamic>) cb) =>
       _ffi.registerCallNative(_handle, cb);

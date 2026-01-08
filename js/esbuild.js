@@ -1,8 +1,12 @@
 const esbuild = require('esbuild');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const watch = process.argv.includes('--watch');
+
+// qjsc path
+const QJSC_PATH = path.resolve(__dirname, '../../fuickjs_engine/src/main/jni/quickjs/build/qjsc');
 
 esbuild.build({
   entryPoints: ['src/index.ts'],
@@ -33,12 +37,24 @@ esbuild.build({
   const src = path.resolve(__dirname, 'dist/bundle.js');
   const destDir = path.resolve(__dirname, '../app/assets/js');
   const dest = path.join(destDir, 'bundle.js');
+  const destBin = path.join(destDir, 'bundle.qjc');
+
   try {
     fs.mkdirSync(destDir, { recursive: true });
     fs.copyFileSync(src, dest);
     console.log('Copied bundle to', dest);
+
+    // Compile to bytecode
+    if (fs.existsSync(QJSC_PATH)) {
+      console.log('Compiling to QuickJS bytecode...');
+      execSync(`${QJSC_PATH} -b -o ${destBin} ${src}`);
+      console.log('Compiled to', destBin);
+    } else {
+      console.warn('qjsc not found at', QJSC_PATH, ', skipping bytecode compilation.');
+    }
+
   } catch (e) {
-    console.error('Copy bundle failed:', e);
+    console.error('Build/Copy failed:', e);
     process.exitCode = 1;
   }
   if (watch) {

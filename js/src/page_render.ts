@@ -7,7 +7,7 @@ let renderer: any = null;
 export function ensureRenderer() {
     if (renderer) return renderer;
     renderer = createRenderer();
-    __dispatchEvent = (id: string, payload: any) => {
+    (globalThis as any).__dispatchEvent = (id: string, payload: any) => {
         renderer.dispatchEvent(id, payload);
     };
     return renderer;

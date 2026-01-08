@@ -45,8 +45,22 @@ class _FuickAppViewState extends State<FuickAppView> {
 
   Future<void> _loadBundle() async {
     try {
-      final bundle = await rootBundle.loadString('assets/js/bundle.js');
-      ctx.eval(bundle);
+      // 优先加载二进制字节码
+      try {
+        final ByteData data = await rootBundle.load('assets/js/bundle.qjc');
+        final Uint8List bytes = data.buffer.asUint8List(
+          data.offsetInBytes,
+          data.lengthInBytes,
+        );
+        ctx.evalBinary(bytes);
+        debugPrint('成功加载 QuickJS 字节码 bundle');
+      } catch (e) {
+        debugPrint('加载字节码 bundle 失败，尝试加载文本 bundle: $e');
+        final bundle = await rootBundle.loadString('assets/js/bundle.js');
+        ctx.eval(bundle);
+        debugPrint('成功加载文本 bundle');
+      }
+
       _uiController.isBundleLoaded.value = true;
     } catch (e) {
       debugPrint('加载 React bundle 失败: $e');

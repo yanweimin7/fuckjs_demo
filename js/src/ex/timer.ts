@@ -37,7 +37,7 @@ export function clearInterval(id: number) {
     }
 }
 
-__handleTimer = (id: number) => {
+(globalThis as any).__handleTimer = (id: number) => {
     const entry = timerMap.get(id);
     if (entry) {
         if (entry.type === 'timeout') {

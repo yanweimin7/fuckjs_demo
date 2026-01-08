@@ -59,6 +59,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/js/bundle.js
+    - assets/js/bundle.qjc
 
   # To add assets to your application, add an assets section, like this:
   # assets:
