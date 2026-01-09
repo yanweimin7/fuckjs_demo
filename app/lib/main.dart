@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'core/container/fuick_app_page.dart';
+import 'core/container/fuick_multi_tab_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -70,6 +71,19 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
             child: Text('打开小程序'),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (BuildContext context) {
+                    return const FuickMultiTabPage();
+                  },
+                ),
+              );
+            },
+            child: const Text('打开多 Tab 示例 (多 Context)'),
           ),
         ],
       ),

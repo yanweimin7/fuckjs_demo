@@ -34,9 +34,10 @@ class _FuickAppViewState extends State<FuickAppView> {
   @override
   void initState() {
     super.initState();
-    if (Engine.runtime == null) {
+    if (Engine.qjs == null) {
       Engine.initQjs();
     }
+    // 使用 Engine 中共享的 runtime，每个 AppView 拥有独立的 context
     ctx = Engine.runtime!.createContext();
     _uiController = FuickAppController(ctx);
     JsHandlerManager.registerHandlers(ctx, _uiController);
@@ -103,9 +104,12 @@ class _FuickAppViewState extends State<FuickAppView> {
 
   @override
   void dispose() {
-    ///延迟关闭，确保js端完成清理任务
-    Future.delayed(const Duration(seconds: 30), () {
-      ctx.dispose();
+    /// 延迟关闭 context，确保 js 端完成清理任务
+    final c = ctx;
+    final ctxAddr = c.handleAddress;
+    JsHandlerManager.disposeContext(ctxAddr);
+    Future.delayed(const Duration(seconds: 10), () {
+      c.dispose();
     });
     super.dispose();
   }

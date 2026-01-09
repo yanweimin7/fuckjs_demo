@@ -4,6 +4,7 @@ import '../../quickjs_ffi.dart';
 
 class Engine {
   static QuickJsFFI? _qjs;
+  static QuickJsFFI? get qjs => _qjs;
   static QuickJsRuntime? runtime;
 
   static initQjs() {

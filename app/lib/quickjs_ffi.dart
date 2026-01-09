@@ -104,6 +104,12 @@ final class QuickJsFFI {
   late final _destroy = _lib.lookupFunction<Void Function(Pointer<Void>),
       void Function(Pointer<Void>)>('qjs_destroy_runtime');
 
+  late final _createContext = _lib.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)>('qjs_create_context');
+  late final _destroyContext = _lib.lookupFunction<Void Function(Pointer<Void>),
+      void Function(Pointer<Void>)>('qjs_destroy_context');
+
   late final _evaluateValueOut = _lib.lookupFunction<
       Void Function(Pointer<Void>, Pointer<Void>, Int32, Pointer<QjsResult>),
       void Function(Pointer<Void>, Pointer<Void>, int,
@@ -171,46 +177,50 @@ final class QuickJsFFI {
   Pointer<Void> createRuntime() => _create();
   void destroyRuntime(Pointer<Void> h) => _destroy(h);
 
-  Pointer<QjsResult> getGlobalObject(Pointer<Void> h) {
+  Pointer<Void> createContext(Pointer<Void> rtHandle) =>
+      _createContext(rtHandle);
+  void destroyContext(Pointer<Void> ctxHandle) => _destroyContext(ctxHandle);
+
+  Pointer<QjsResult> getGlobalObject(Pointer<Void> ctxHandle) {
     final out = ffi.calloc<QjsResult>();
-    _getGlobal(h, out);
+    _getGlobal(ctxHandle, out);
     return out;
   }
 
-  void setProperty(Pointer<Void> h, Pointer<QjsResult> obj, String prop,
+  void setProperty(Pointer<Void> ctxHandle, Pointer<QjsResult> obj, String prop,
       Pointer<QjsResult> val) {
     final cprop = prop.toNativeUtf8();
-    _setProperty(h, obj, cprop, val);
+    _setProperty(ctxHandle, obj, cprop, val);
     ffi.malloc.free(cprop);
   }
 
   Pointer<QjsResult> getProperty(
-      Pointer<Void> h, Pointer<QjsResult> obj, String prop) {
+      Pointer<Void> ctxHandle, Pointer<QjsResult> obj, String prop) {
     final cstr = prop.toNativeUtf8();
     final out = ffi.calloc<QjsResult>();
-    _getProperty(h, obj, cstr, out);
+    _getProperty(ctxHandle, obj, cstr, out);
     ffi.malloc.free(cstr);
     return out;
   }
 
-  Pointer<QjsResult> newFunction(Pointer<Void> h, String name,
+  Pointer<QjsResult> newFunction(Pointer<Void> ctxHandle, String name,
       Pointer<NativeFunction<NativeAsyncTypedCallHandler>> cb) {
     final cname = name.toNativeUtf8();
     final out = ffi.calloc<QjsResult>();
-    _newFunction(h, cname, cb, out);
+    _newFunction(ctxHandle, cname, cb, out);
     ffi.malloc.free(cname);
     return out;
   }
 
   dynamic callFunction(
-      Pointer<Void> h, Pointer<QjsResult> obj, List<dynamic> args) {
+      Pointer<Void> ctxHandle, Pointer<QjsResult> obj, List<dynamic> args) {
     final out = ffi.calloc<QjsResult>();
     final cargs = ffi.calloc<QjsResult>(args.length);
     for (var i = 0; i < args.length; i++) {
       QuickJsFFI.writeOut(cargs + i, args[i]);
     }
 
-    _callFunction(h, obj, cargs, args.length, out);
+    _callFunction(ctxHandle, obj, cargs, args.length, out);
 
     for (var i = 0; i < args.length; i++) {
       _freeResult(cargs + i);
@@ -231,8 +241,8 @@ final class QuickJsFFI {
     return res;
   }
 
-  dynamic invokeMethod(Pointer<Void> h, Pointer<QjsResult> obj, String name,
-      List<dynamic> args) {
+  dynamic invokeMethod(Pointer<Void> ctxHandle, Pointer<QjsResult> obj,
+      String name, List<dynamic> args) {
     final cname = name.toNativeUtf8();
     final out = ffi.calloc<QjsResult>();
     final cargs = ffi.calloc<QjsResult>(args.length);
@@ -240,7 +250,7 @@ final class QuickJsFFI {
       QuickJsFFI.writeOut(cargs + i, args[i]);
     }
 
-    _invokeMethod(h, obj, cname, cargs, args.length, out);
+    _invokeMethod(ctxHandle, obj, cname, cargs, args.length, out);
 
     ffi.malloc.free(cname);
     for (var i = 0; i < args.length; i++) {
@@ -262,10 +272,10 @@ final class QuickJsFFI {
     return res;
   }
 
-  dynamic eval(Pointer<Void> h, String code) {
+  dynamic eval(Pointer<Void> ctxHandle, String code) {
     final cstr = code.toNativeUtf8();
     final out = ffi.calloc<QjsResult>();
-    _evaluateValueOut(h, cstr.cast(), cstr.length, out);
+    _evaluateValueOut(ctxHandle, cstr.cast(), cstr.length, out);
     ffi.malloc.free(cstr);
 
     if (out.ref.error != 0) {
@@ -282,11 +292,11 @@ final class QuickJsFFI {
     return res;
   }
 
-  dynamic evalWithBinary(Pointer<Void> h, Uint8List bytecode) {
+  dynamic evalWithBinary(Pointer<Void> ctxHandle, Uint8List bytecode) {
     final ptr = ffi.malloc<Uint8>(bytecode.length);
     ptr.asTypedList(bytecode.length).setAll(0, bytecode);
     final out = ffi.calloc<QjsResult>();
-    _evaluateValueOut(h, ptr.cast(), bytecode.length, out);
+    _evaluateValueOut(ctxHandle, ptr.cast(), bytecode.length, out);
     ffi.malloc.free(ptr);
 
     if (out.ref.error != 0) {
@@ -365,29 +375,31 @@ final class QuickJsFFI {
     }
   }
 
-  int runJobs(Pointer<Void> h) {
+  int runJobs(Pointer<Void> rtHandle, Pointer<Void> ctxHandle) {
     // 处理挂起的异步 Promise
-    if (JSObject._pendingResolvers.isNotEmpty) {
-      final ids = JSObject._pendingResolvers.keys.toList();
+    final ctxAddr = ctxHandle.address;
+    final resolvers = JSObject._pendingResolvers[ctxAddr];
+    if (resolvers != null && resolvers.isNotEmpty) {
+      final ids = resolvers.keys.toList();
       for (final id in ids) {
-        final val = JSObject._pendingResolvers.remove(id);
+        final val = resolvers.remove(id);
         final out = ffi.calloc<QjsResult>();
         QuickJsFFI.writeOut(out, val);
-        _asyncResolve(h, id, out);
+        _asyncResolve(ctxHandle, id, out);
         freeQjsResult(out);
       }
     }
-    if (JSObject._pendingRejections.isNotEmpty) {
-      final ids = JSObject._pendingRejections.keys.toList();
+    final rejections = JSObject._pendingRejections[ctxAddr];
+    if (rejections != null && rejections.isNotEmpty) {
+      final ids = rejections.keys.toList();
       for (final id in ids) {
-        final reason =
-            JSObject._pendingRejections.remove(id) ?? 'Unknown error';
+        final reason = rejections.remove(id) ?? 'Unknown error';
         final cstr = reason.toNativeUtf8();
-        _asyncReject(h, id, cstr);
+        _asyncReject(ctxHandle, id, cstr);
         ffi.malloc.free(cstr);
       }
     }
-    return _runJobs(h);
+    return _runJobs(rtHandle);
   }
 }
 
@@ -409,23 +421,23 @@ class QuickJsRuntime {
 class QuickJsContext {
   final QuickJsFFI _ffi;
   final Pointer<Void> _runtimeHandle;
+  final Pointer<Void> _handle;
   late final JSObject global;
 
-  QuickJsContext(this._ffi, this._runtimeHandle) {
-    final globalRes = _ffi.getGlobalObject(_runtimeHandle);
-    global = JSObject(_ffi, _runtimeHandle, globalRes);
+  int get handleAddress => _handle.address;
+
+  QuickJsContext(this._ffi, this._runtimeHandle)
+      : _handle = _ffi.createContext(_runtimeHandle) {
+    final globalRes = _ffi.getGlobalObject(_handle);
+    global = JSObject(_ffi, _handle, globalRes);
   }
 
   dynamic eval(String code) {
-    return _ffi.eval(_runtimeHandle, code);
+    return _ffi.eval(_handle, code);
   }
 
   dynamic evalBinary(Uint8List bytecode) {
-    // 假设 evalBinary 是执行 QuickJS 编译后的字节码
-    // 目前 FFI 层的 qjs_evaluate_value_out 接收的是 char*，
-    // 如果 code 是字节码，len 应该反映真实字节数。
-    // 这里我们先复用 eval 逻辑，但确保传递正确的字节长度。
-    return _ffi.evalWithBinary(_runtimeHandle, bytecode);
+    return _ffi.evalWithBinary(_handle, bytecode);
   }
 
   String evalToString(String code) {
@@ -434,49 +446,50 @@ class QuickJsContext {
   }
 
   int runJobs() {
-    return _ffi.runJobs(_runtimeHandle);
+    return _ffi.runJobs(_runtimeHandle, _handle);
   }
 
   void dispose() {
-    // 暂时不释放 runtime，因为 runtime 是由 QuickJsRuntime 管理的
+    JSObject.clearContextState(_handle.address);
+    _ffi.destroyContext(_handle);
   }
 }
 
 class JSObject {
   final QuickJsFFI _ffi;
-  final Pointer<Void> _runtimeHandle;
+  final Pointer<Void> _contextHandle;
   final Pointer<QjsResult> _handle;
 
-  JSObject(this._ffi, this._runtimeHandle, this._handle);
+  JSObject(this._ffi, this._contextHandle, this._handle);
 
   void setProperty(String name, dynamic value) {
     final valRes = ffi.calloc<QjsResult>();
     QuickJsFFI.writeOut(valRes, value);
-    _ffi.setProperty(_runtimeHandle, _handle, name, valRes);
+    _ffi.setProperty(_contextHandle, _handle, name, valRes);
     _ffi.freeQjsResult(valRes);
   }
 
   dynamic getProperty(String name) {
-    final res = _ffi.getProperty(_runtimeHandle, _handle, name);
+    final res = _ffi.getProperty(_contextHandle, _handle, name);
     final dartVal = QuickJsFFI.convertQjsResultToDart(res.ref);
     if (res.ref.type == qjsTypeObject || res.ref.type == qjsTypeFunction) {
       // 如果是对象或函数，返回 JSObject 封装
-      return JSObject(_ffi, _runtimeHandle, res);
+      return JSObject(_ffi, _contextHandle, res);
     }
     _ffi.freeQjsResult(res);
     return dartVal;
   }
 
   dynamic callFunction(List<dynamic> args) {
-    return _ffi.callFunction(_runtimeHandle, _handle, args);
+    return _ffi.callFunction(_contextHandle, _handle, args);
   }
 
   dynamic invoke(String name, List<dynamic> args) {
-    return _ffi.invokeMethod(_runtimeHandle, _handle, name, args);
+    return _ffi.invokeMethod(_contextHandle, _handle, name, args);
   }
 
   void defineProperty(String name, Function callback) {
-    final key = "${_runtimeHandle.address}_$name";
+    final key = "${_contextHandle.address}_$name";
     // 检查是否已经注册过
     if (_callbacks.containsKey(key)) {
       // 如果已经注册过，直接更新回调即可，不需要重新在 JS 侧 defineProperty
@@ -486,25 +499,31 @@ class JSObject {
 
     final trampoline = Pointer.fromFunction<NativeAsyncTypedCallHandler>(
         _jsNativeCallTrampoline);
-    final fnRes = _ffi.newFunction(_runtimeHandle, name, trampoline);
-    _ffi.setProperty(_runtimeHandle, _handle, name, fnRes);
+    final fnRes = _ffi.newFunction(_contextHandle, name, trampoline);
+    _ffi.setProperty(_contextHandle, _handle, name, fnRes);
 
     // 保存回调以防止被 GC
     _callbacks[key] = callback;
     _ffi.freeQjsResult(fnRes);
   }
 
+  static void clearContextState(int contextAddress) {
+    _callbacks.removeWhere((key, _) => key.startsWith("${contextAddress}_"));
+    _pendingResolvers.remove(contextAddress);
+    _pendingRejections.remove(contextAddress);
+  }
+
   static final Map<String, Function> _callbacks = {};
 
   static void _jsNativeCallTrampoline(
-    Pointer<Void> runtimeHandle,
+    Pointer<Void> contextHandle,
     NativeUtf8Ptr methodPtr,
     Pointer<QjsResult> argsPtr,
     int argc,
     Pointer<QjsResult> out,
   ) {
     final method = methodPtr.toDartString();
-    final key = "${runtimeHandle.address}_$method";
+    final key = "${contextHandle.address}_$method";
     final callback = _callbacks[key];
     if (callback == null) {
       out.ref.error = 1;
@@ -528,9 +547,11 @@ class JSObject {
         out.ref.i64 = id;
 
         result.then((value) {
-          _pendingResolvers[id] = value;
+          _pendingResolvers.putIfAbsent(contextHandle.address, () => {})[id] =
+              value;
         }).catchError((e) {
-          _pendingRejections[id] = e.toString();
+          _pendingRejections.putIfAbsent(contextHandle.address, () => {})[id] =
+              e.toString();
         });
       } else {
         // 正常返回值
@@ -543,8 +564,8 @@ class JSObject {
   }
 
   static int _nextResolverId = 1;
-  static final Map<int, dynamic> _pendingResolvers = {};
-  static final Map<int, String> _pendingRejections = {};
+  static final Map<int, Map<int, dynamic>> _pendingResolvers = {};
+  static final Map<int, Map<int, String>> _pendingRejections = {};
 }
 
 class _BinaryWriter {

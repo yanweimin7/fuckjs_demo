@@ -7,10 +7,11 @@ import '../container/fuick_app_controller.dart';
 import 'js_handler_registry.dart';
 
 class JsHandlerManager {
-  static final Map<int, Timer> _timers = {};
+  static final Map<int, Map<int, Timer>> _contextTimers = {};
 
   static registerHandlers(QuickJsContext ctx, FuickAppController controller) {
     final reg = JsHandlerRegistry(ctx);
+    final ctxAddr = ctx.handleAddress;
 
     reg.onSync('console', (args) {
       final m = args is Map ? args : {};
@@ -26,19 +27,22 @@ class JsHandlerManager {
       final delay = (m['delay'] as num?)?.toInt() ?? 0;
       final isInterval = (m['isInterval'] ?? false) as bool;
 
+      final timers = _contextTimers.putIfAbsent(ctxAddr, () => {});
+
       if (isInterval) {
-        _timers[id] = Timer.periodic(Duration(milliseconds: delay), (timer) {
+        timers[id] = Timer.periodic(Duration(milliseconds: delay), (timer) {
           try {
             ctx.global.invoke('__handleTimer', [id]);
+            ctx.runJobs(); // 每次 timer 触发后运行 jobs
           } catch (e) {
             debugPrint('Error calling __handleTimer (periodic): $e');
             timer.cancel();
-            _timers.remove(id);
+            timers.remove(id);
           }
         });
       } else {
-        _timers[id] = Timer(Duration(milliseconds: delay), () {
-          _timers.remove(id);
+        timers[id] = Timer(Duration(milliseconds: delay), () {
+          timers.remove(id);
           try {
             ctx.global.invoke('__handleTimer', [id]);
           } catch (e) {
@@ -52,13 +56,14 @@ class JsHandlerManager {
     reg.onSync('deleteTimer', (args) {
       final m = args is Map ? args : {};
       final id = (m['id'] as num?)?.toInt() ?? 0;
-      _timers.remove(id)?.cancel();
+      _contextTimers[ctxAddr]?.remove(id)?.cancel();
       return null;
     });
 
     reg.onSync('push', (args) {
-      final m =
-          args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
+      final m = args is Map
+          ? Map<String, dynamic>.from(args)
+          : <String, dynamic>{};
       final path = (m['path'] ?? '') as String;
       final params = m['params'] ?? {};
       if (path.isNotEmpty) {
@@ -73,6 +78,15 @@ class JsHandlerManager {
     });
 
     _registerToCtx(ctx, reg, controller);
+  }
+
+  static void disposeContext(int ctxAddr) {
+    final timers = _contextTimers.remove(ctxAddr);
+    if (timers != null) {
+      for (final timer in timers.values) {
+        timer.cancel();
+      }
+    }
   }
 
   static _registerToCtx(
@@ -116,7 +130,8 @@ class JsHandlerManager {
         final List listArgs = args is List ? args : [args];
         if (listArgs.length >= 2) {
           final pageId = (listArgs[0] as num).toInt();
-          final renderData = (listArgs[1] as Map?)?.cast<String, dynamic>() ??
+          final renderData =
+              (listArgs[1] as Map?)?.cast<String, dynamic>() ??
               const <String, dynamic>{};
           controller.render(pageId, renderData);
           return true;
@@ -125,7 +140,7 @@ class JsHandlerManager {
           final pageId = (m['pageId'] as num?)?.toInt();
           final renderData =
               (m['renderData'] as Map?)?.cast<String, dynamic>() ??
-                  const <String, dynamic>{};
+              const <String, dynamic>{};
           if (pageId != null) {
             controller.render(pageId, renderData);
             return true;
