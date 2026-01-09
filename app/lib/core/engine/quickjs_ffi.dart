@@ -71,14 +71,13 @@ final class QjsResult extends Struct {
 /**
  * Dart 回调处理器签名 (JS 调用 Dart 时进入)
  */
-typedef NativeAsyncTypedCallHandler =
-    Void Function(
-      Pointer<Void> ctx,
-      NativeUtf8Ptr method,
-      Pointer<QjsResult> args,
-      Int32 argc,
-      Pointer<QjsResult> out,
-    );
+typedef NativeAsyncTypedCallHandler = Void Function(
+  Pointer<Void> ctx,
+  NativeUtf8Ptr method,
+  Pointer<QjsResult> args,
+  Int32 argc,
+  Pointer<QjsResult> out,
+);
 
 /**
  * QuickJS FFI 底层绑定类
@@ -124,148 +123,126 @@ final class QuickJsFFI {
 
   // ---------------- FFI 内部绑定 (映射 C 导出函数) ----------------
 
-  late final _create = _lib
-      .lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>(
-        'qjs_create_runtime',
-      );
-  late final _destroy = _lib
-      .lookupFunction<
-        Void Function(Pointer<Void>),
-        void Function(Pointer<Void>)
-      >('qjs_destroy_runtime');
+  late final _create =
+      _lib.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>(
+    'qjs_create_runtime',
+  );
+  late final _destroy = _lib.lookupFunction<Void Function(Pointer<Void>),
+      void Function(Pointer<Void>)>('qjs_destroy_runtime');
 
-  late final _createContext = _lib
-      .lookupFunction<
-        Pointer<Void> Function(Pointer<Void>),
-        Pointer<Void> Function(Pointer<Void>)
-      >('qjs_create_context');
-  late final _destroyContext = _lib
-      .lookupFunction<
-        Void Function(Pointer<Void>),
-        void Function(Pointer<Void>)
-      >('qjs_destroy_context');
+  late final _createContext = _lib.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)>('qjs_create_context');
+  late final _destroyContext = _lib.lookupFunction<Void Function(Pointer<Void>),
+      void Function(Pointer<Void>)>('qjs_destroy_context');
 
-  late final _evaluateValueOut = _lib
-      .lookupFunction<
-        Void Function(Pointer<Void>, Pointer<Void>, Int32, Pointer<QjsResult>),
-        void Function(Pointer<Void>, Pointer<Void>, int, Pointer<QjsResult>)
-      >('qjs_evaluate_value_out');
+  late final _evaluateValueOut = _lib.lookupFunction<
+      Void Function(
+        Pointer<Void>,
+        Pointer<Void>,
+        Int32,
+        Int32,
+        Pointer<QjsResult>,
+      ),
+      void Function(Pointer<Void>, Pointer<Void>, int, int,
+          Pointer<QjsResult>)>('qjs_evaluate_value_out');
 
-  late final _freeResult = _lib
-      .lookupFunction<
-        Void Function(Pointer<QjsResult>),
-        void Function(Pointer<QjsResult>)
-      >('qjs_free_result_content');
+  late final _freeResult = _lib.lookupFunction<
+      Void Function(Pointer<QjsResult>),
+      void Function(Pointer<QjsResult>)>('qjs_free_result_content');
 
-  late final _getGlobal = _lib
-      .lookupFunction<
-        Void Function(Pointer<Void>, Pointer<QjsResult>),
-        void Function(Pointer<Void>, Pointer<QjsResult>)
-      >('qjs_get_global_object');
+  late final _getGlobal = _lib.lookupFunction<
+      Void Function(Pointer<Void>, Pointer<QjsResult>),
+      void Function(
+          Pointer<Void>, Pointer<QjsResult>)>('qjs_get_global_object');
 
-  late final _setProperty = _lib
-      .lookupFunction<
-        Void Function(
-          Pointer<Void>,
-          Pointer<QjsResult>,
-          Pointer<ffi.Utf8>,
-          Pointer<QjsResult>,
-        ),
-        void Function(
-          Pointer<Void>,
-          Pointer<QjsResult>,
-          Pointer<ffi.Utf8>,
-          Pointer<QjsResult>,
-        )
-      >('qjs_set_property');
+  late final _setProperty = _lib.lookupFunction<
+      Void Function(
+        Pointer<Void>,
+        Pointer<QjsResult>,
+        Pointer<ffi.Utf8>,
+        Pointer<QjsResult>,
+      ),
+      void Function(
+        Pointer<Void>,
+        Pointer<QjsResult>,
+        Pointer<ffi.Utf8>,
+        Pointer<QjsResult>,
+      )>('qjs_set_property');
 
-  late final _getProperty = _lib
-      .lookupFunction<
-        Void Function(
-          Pointer<Void>,
-          Pointer<QjsResult>,
-          Pointer<ffi.Utf8>,
-          Pointer<QjsResult>,
-        ),
-        void Function(
-          Pointer<Void>,
-          Pointer<QjsResult>,
-          Pointer<ffi.Utf8>,
-          Pointer<QjsResult>,
-        )
-      >('qjs_get_property');
+  late final _getProperty = _lib.lookupFunction<
+      Void Function(
+        Pointer<Void>,
+        Pointer<QjsResult>,
+        Pointer<ffi.Utf8>,
+        Pointer<QjsResult>,
+      ),
+      void Function(
+        Pointer<Void>,
+        Pointer<QjsResult>,
+        Pointer<ffi.Utf8>,
+        Pointer<QjsResult>,
+      )>('qjs_get_property');
 
-  late final _newFunction = _lib
-      .lookupFunction<
-        Void Function(
-          Pointer<Void>,
-          Pointer<ffi.Utf8>,
-          Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
-          Pointer<QjsResult>,
-        ),
-        void Function(
-          Pointer<Void>,
-          Pointer<ffi.Utf8>,
-          Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
-          Pointer<QjsResult>,
-        )
-      >('qjs_new_function');
+  late final _newFunction = _lib.lookupFunction<
+      Void Function(
+        Pointer<Void>,
+        Pointer<ffi.Utf8>,
+        Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
+        Pointer<QjsResult>,
+      ),
+      void Function(
+        Pointer<Void>,
+        Pointer<ffi.Utf8>,
+        Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
+        Pointer<QjsResult>,
+      )>('qjs_new_function');
 
-  late final _callFunction = _lib
-      .lookupFunction<
-        Void Function(
-          Pointer<Void>,
-          Pointer<QjsResult>,
-          Pointer<QjsResult>,
-          Int32,
-          Pointer<QjsResult>,
-        ),
-        void Function(
-          Pointer<Void>,
-          Pointer<QjsResult>,
-          Pointer<QjsResult>,
-          int,
-          Pointer<QjsResult>,
-        )
-      >('qjs_call_function');
+  late final _callFunction = _lib.lookupFunction<
+      Void Function(
+        Pointer<Void>,
+        Pointer<QjsResult>,
+        Pointer<QjsResult>,
+        Int32,
+        Pointer<QjsResult>,
+      ),
+      void Function(
+        Pointer<Void>,
+        Pointer<QjsResult>,
+        Pointer<QjsResult>,
+        int,
+        Pointer<QjsResult>,
+      )>('qjs_call_function');
 
-  late final _invokeMethod = _lib
-      .lookupFunction<
-        Void Function(
-          Pointer<Void>,
-          Pointer<QjsResult>,
-          Pointer<ffi.Utf8>,
-          Pointer<QjsResult>,
-          Int32,
-          Pointer<QjsResult>,
-        ),
-        void Function(
-          Pointer<Void>,
-          Pointer<QjsResult>,
-          Pointer<ffi.Utf8>,
-          Pointer<QjsResult>,
-          int,
-          Pointer<QjsResult>,
-        )
-      >('qjs_invoke_method');
+  late final _invokeMethod = _lib.lookupFunction<
+      Void Function(
+        Pointer<Void>,
+        Pointer<QjsResult>,
+        Pointer<ffi.Utf8>,
+        Pointer<QjsResult>,
+        Int32,
+        Pointer<QjsResult>,
+      ),
+      void Function(
+        Pointer<Void>,
+        Pointer<QjsResult>,
+        Pointer<ffi.Utf8>,
+        Pointer<QjsResult>,
+        int,
+        Pointer<QjsResult>,
+      )>('qjs_invoke_method');
 
-  late final _runJobs = _lib
-      .lookupFunction<
-        Int32 Function(Pointer<Void>),
-        int Function(Pointer<Void>)
-      >('qjs_run_jobs');
+  late final _runJobs = _lib.lookupFunction<Int32 Function(Pointer<Void>),
+      int Function(Pointer<Void>)>('qjs_run_jobs');
 
-  late final _asyncResolve = _lib
-      .lookupFunction<
-        Void Function(Pointer<Void>, Int32, Pointer<QjsResult>),
-        void Function(Pointer<Void>, int, Pointer<QjsResult>)
-      >('qjs_async_resolve_typed');
+  late final _asyncResolve = _lib.lookupFunction<
+      Void Function(Pointer<Void>, Int32, Pointer<QjsResult>),
+      void Function(
+          Pointer<Void>, int, Pointer<QjsResult>)>('qjs_async_resolve_typed');
 
-  late final _asyncReject = _lib
-      .lookupFunction<
-        Void Function(Pointer<Void>, Int32, Pointer<ffi.Utf8>),
-        void Function(Pointer<Void>, int, Pointer<ffi.Utf8>)
-      >('qjs_async_reject');
+  late final _asyncReject = _lib.lookupFunction<
+      Void Function(Pointer<Void>, Int32, Pointer<ffi.Utf8>),
+      void Function(Pointer<Void>, int, Pointer<ffi.Utf8>)>('qjs_async_reject');
 
   // ---------------- 业务封装接口 ----------------
 
@@ -336,9 +313,8 @@ final class QuickJsFFI {
     ffi.calloc.free(cargs);
 
     if (out.ref.error != 0) {
-      final msg = out.ref.s.address == 0
-          ? 'Unknown error'
-          : out.ref.s.toDartString();
+      final msg =
+          out.ref.s.address == 0 ? 'Unknown error' : out.ref.s.toDartString();
       _freeResult(out);
       ffi.calloc.free(out);
       throw Exception(msg);
@@ -372,9 +348,8 @@ final class QuickJsFFI {
     ffi.calloc.free(cargs);
 
     if (out.ref.error != 0) {
-      final msg = out.ref.s.address == 0
-          ? 'Unknown error'
-          : out.ref.s.toDartString();
+      final msg =
+          out.ref.s.address == 0 ? 'Unknown error' : out.ref.s.toDartString();
       _freeResult(out);
       ffi.calloc.free(out);
       throw Exception(msg);
@@ -389,13 +364,12 @@ final class QuickJsFFI {
   dynamic eval(Pointer<Void> ctxHandle, String code) {
     final cstr = code.toNativeUtf8();
     final out = ffi.calloc<QjsResult>();
-    _evaluateValueOut(ctxHandle, cstr.cast(), cstr.length, out);
+    _evaluateValueOut(ctxHandle, cstr.cast(), cstr.length, 0, out);
     ffi.malloc.free(cstr);
 
     if (out.ref.error != 0) {
-      final msg = out.ref.s.address == 0
-          ? 'Unknown error'
-          : out.ref.s.toDartString();
+      final msg =
+          out.ref.s.address == 0 ? 'Unknown error' : out.ref.s.toDartString();
       _freeResult(out);
       ffi.calloc.free(out);
       throw Exception(msg);
@@ -411,13 +385,12 @@ final class QuickJsFFI {
     final ptr = ffi.malloc<Uint8>(bytecode.length);
     ptr.asTypedList(bytecode.length).setAll(0, bytecode);
     final out = ffi.calloc<QjsResult>();
-    _evaluateValueOut(ctxHandle, ptr.cast(), bytecode.length, out);
+    _evaluateValueOut(ctxHandle, ptr.cast(), bytecode.length, 1, out);
     ffi.malloc.free(ptr);
 
     if (out.ref.error != 0) {
-      final msg = out.ref.s.address == 0
-          ? 'Unknown error'
-          : out.ref.s.toDartString();
+      final msg =
+          out.ref.s.address == 0 ? 'Unknown error' : out.ref.s.toDartString();
       _freeResult(out);
       ffi.calloc.free(out);
       throw Exception(msg);
