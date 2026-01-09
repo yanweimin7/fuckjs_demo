@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quickjs/core/handler/js_handler_registry.dart';
 import 'package:flutter_quickjs/quickjs_ffi.dart';
@@ -28,9 +29,8 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
 
       final reg1 = JsHandlerRegistry(_ctx1!);
       reg1.onSync('sum', (args) {
-        final m = args is Map
-            ? Map<String, dynamic>.from(args)
-            : <String, dynamic>{};
+        final m =
+            args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
         final a = m['a'] ?? 0;
         final b = m['b'] ?? 0;
         final s = (a is num ? a : 0) + (b is num ? b : 0);
@@ -40,9 +40,8 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
         return {'echo': args};
       });
       reg1.onAsync('sum', (args) {
-        final m = args is Map
-            ? Map<String, dynamic>.from(args)
-            : <String, dynamic>{};
+        final m =
+            args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
         final a = m['a'] ?? 0;
         final b = m['b'] ?? 0;
         final s = (a is num ? a : 0) + (b is num ? b : 0);
@@ -54,9 +53,8 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
         // });
       });
       reg1.onDefer('sum', (args, id) {
-        final m = args is Map
-            ? Map<String, dynamic>.from(args)
-            : <String, dynamic>{};
+        final m =
+            args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
         final a = m['a'] ?? 0;
         final b = m['b'] ?? 0;
         final s = (a is num ? a : 0) + (b is num ? b : 0);
@@ -93,6 +91,41 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
   void _runScript() {
     if (_ctx1 == null || _ctx2 == null) return;
     final buf = StringBuffer();
+
+    // 测试 Map 和 List 的直接传递 (二进制协议)
+    try {
+      final testData = {
+        'map': {
+          'a': 1,
+          'b': [2, 3]
+        },
+        'list': [
+          1,
+          {'x': 'y'},
+          3.14
+        ],
+        'str': 'hello',
+        'bool': true,
+        'null': null
+      };
+
+      final result = _ctx1!.evalToString('''
+        var data = ${jsonEncode(testData)};
+        JSON.stringify(data);
+      ''');
+      buf.writeln('Eval Map/List Test: $result');
+
+      // 测试 echo 处理器 (Dart -> JS -> Dart -> JS)
+      _ctx1!.eval('''
+        var echoed = sync_handler('echo', { list: [1, 2, 3], map: { key: "value" } });
+        globalThis.echoResult = JSON.stringify(echoed);
+      ''');
+      final echoRes = _ctx1!.evalToString('globalThis.echoResult');
+      buf.writeln('Echo Handler Test: $echoRes');
+    } catch (e) {
+      buf.writeln('Test Error: $e');
+    }
+
     _ctx1!.eval('''
       (function(){
         if(!globalThis.console){globalThis.console={};}

@@ -22,8 +22,8 @@ class JsHandlerManager {
 
     reg.onSync('createTimer', (args) {
       final m = args is Map ? args : {};
-      final id = m['id'] as int;
-      final delay = m['delay'] as int;
+      final id = (m['id'] as num?)?.toInt() ?? 0;
+      final delay = (m['delay'] as num?)?.toInt() ?? 0;
       final isInterval = (m['isInterval'] ?? false) as bool;
 
       if (isInterval) {
@@ -51,19 +51,9 @@ class JsHandlerManager {
 
     reg.onSync('deleteTimer', (args) {
       final m = args is Map ? args : {};
-      final id = m['id'] as int;
+      final id = (m['id'] as num?)?.toInt() ?? 0;
       _timers.remove(id)?.cancel();
       return null;
-    });
-
-    reg.onSync('renderUI', (args) {
-      final m = args is Map
-          ? Map<String, dynamic>.from(args)
-          : <String, dynamic>{};
-      int pageId = m['pageId'];
-      var renderData = m['renderData'];
-      controller.render(pageId, renderData);
-      return true;
     });
 
     reg.onSync('push', (args) {
@@ -71,9 +61,9 @@ class JsHandlerManager {
           ? Map<String, dynamic>.from(args)
           : <String, dynamic>{};
       final path = (m['path'] ?? '') as String;
-      final params = m['params'];
+      final params = m['params'] ?? {};
       if (path.isNotEmpty) {
-        controller.pushWithPath(path, params ?? {});
+        controller.pushWithPath(path, Map<String, dynamic>.from(params));
       }
       return true;
     });
@@ -93,13 +83,25 @@ class JsHandlerManager {
   ) {
     ctx.registerCallNative((method, args) {
       try {
-        if (method == 'renderUI' && args.length >= 2) {
-          final pageId = (args[0] as num).toInt();
-          final renderData =
-              (args[1] as Map?)?.cast<String, dynamic>() ??
-              const <String, dynamic>{};
-          controller.render(pageId, renderData);
-          return true;
+        if (method == 'renderUI') {
+          if (args.length >= 2) {
+            final pageId = (args[0] as num).toInt();
+            final renderData =
+                (args[1] as Map?)?.cast<String, dynamic>() ??
+                const <String, dynamic>{};
+            controller.render(pageId, renderData);
+            return true;
+          } else if (args.length == 1 && args[0] is Map) {
+            final m = args[0] as Map;
+            final pageId = (m['pageId'] as num?)?.toInt();
+            final renderData =
+                (m['renderData'] as Map?)?.cast<String, dynamic>() ??
+                const <String, dynamic>{};
+            if (pageId != null) {
+              controller.render(pageId, renderData);
+              return true;
+            }
+          }
         }
         final h = reg.sync[method];
         if (h != null) {

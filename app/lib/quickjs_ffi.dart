@@ -15,6 +15,14 @@ const int qjsTypeBigint = 6;
 const int qjsTypeObject = 7;
 const int qjsTypeByteArray = 8;
 
+const int _binaryTagNull = 0;
+const int _binaryTagBool = 1;
+const int _binaryTagInt64 = 2;
+const int _binaryTagFloat64 = 3;
+const int _binaryTagString = 4;
+const int _binaryTagList = 5;
+const int _binaryTagMap = 6;
+
 typedef NativeUtf8Ptr = Pointer<ffi.Utf8>;
 
 final class QjsResult extends Struct {
@@ -214,14 +222,10 @@ final class QuickJsFFI {
       case qjsTypeString:
         return res.s.address == 0 ? '' : res.s.toDartString();
       case qjsTypeObject:
-        final s = res.s.address == 0 ? '' : res.s.toDartString();
-        if (s.isEmpty || s == 'undefined') return null;
-        try {
-          return jsonDecode(s);
-        } catch (e) {
-          debugPrint('JSON 解析失败: $s');
-          return s; // 如果不是 JSON，尝试直接返回原始字符串
-        }
+        if (res.data.address == 0) return null;
+        final bytes = res.data.asTypedList(res.dataLen);
+        final reader = _BinaryReader(bytes);
+        return reader.read();
       case qjsTypeByteArray:
         if (res.data.address == 0) return null;
         return res.data.asTypedList(res.dataLen);
@@ -558,8 +562,13 @@ final class QuickJsFFI {
       r.f64 = v;
     } else if (v is Map || v is List) {
       r.type = qjsTypeObject;
-      final jsonStr = jsonEncode(v);
-      r.s = jsonStr.toNativeUtf8();
+      final writer = _BinaryWriter();
+      writer.write(v);
+      final bytes = writer.takeBytes();
+      final ptr = ffi.malloc<Uint8>(bytes.length);
+      ptr.asTypedList(bytes.length).setAll(0, bytes);
+      r.data = ptr;
+      r.dataLen = bytes.length;
     } else if (v is Uint8List) {
       r.type = qjsTypeByteArray;
       final ptr = ffi.malloc<Uint8>(v.length);
@@ -567,9 +576,118 @@ final class QuickJsFFI {
       r.data = ptr;
       r.dataLen = v.length;
     } else {
-      // Fallback to JSON for other objects
+      // Fallback to binary for other objects
       r.type = qjsTypeObject;
-      r.s = jsonEncode(v).toNativeUtf8();
+      final writer = _BinaryWriter();
+      writer.write(v);
+      final bytes = writer.takeBytes();
+      final ptr = ffi.malloc<Uint8>(bytes.length);
+      ptr.asTypedList(bytes.length).setAll(0, bytes);
+      r.data = ptr;
+      r.dataLen = bytes.length;
+    }
+  }
+}
+
+class _BinaryWriter {
+  final BytesBuilder _builder = BytesBuilder();
+
+  void write(dynamic v) {
+    if (v == null) {
+      _builder.addByte(_binaryTagNull);
+    } else if (v is bool) {
+      _builder.addByte(_binaryTagBool);
+      _builder.addByte(v ? 1 : 0);
+    } else if (v is int) {
+      _builder.addByte(_binaryTagInt64);
+      final data = ByteData(8)..setInt64(0, v, Endian.host);
+      _builder.add(data.buffer.asUint8List());
+    } else if (v is double) {
+      _builder.addByte(_binaryTagFloat64);
+      final data = ByteData(8)..setFloat64(0, v, Endian.host);
+      _builder.add(data.buffer.asUint8List());
+    } else if (v is String) {
+      _builder.addByte(_binaryTagString);
+      final bytes = utf8.encode(v);
+      final lenData = ByteData(4)..setUint32(0, bytes.length, Endian.host);
+      _builder.add(lenData.buffer.asUint8List());
+      _builder.add(bytes);
+    } else if (v is List) {
+      _builder.addByte(_binaryTagList);
+      final lenData = ByteData(4)..setUint32(0, v.length, Endian.host);
+      _builder.add(lenData.buffer.asUint8List());
+      for (final item in v) {
+        write(item);
+      }
+    } else if (v is Map) {
+      _builder.addByte(_binaryTagMap);
+      final lenData = ByteData(4)..setUint32(0, v.length, Endian.host);
+      _builder.add(lenData.buffer.asUint8List());
+      v.forEach((key, value) {
+        write(key.toString()); // Keys are always strings in JS objects
+        write(value);
+      });
+    } else {
+      _builder.addByte(_binaryTagNull);
+    }
+  }
+
+  Uint8List takeBytes() => _builder.takeBytes();
+}
+
+class _BinaryReader {
+  final Uint8List _bytes;
+  int _offset = 0;
+
+  _BinaryReader(this._bytes);
+
+  dynamic read() {
+    if (_offset >= _bytes.length) return null;
+    final tag = _bytes[_offset++];
+    switch (tag) {
+      case _binaryTagNull:
+        return null;
+      case _binaryTagBool:
+        return _bytes[_offset++] != 0;
+      case _binaryTagInt64:
+        final v = ByteData.sublistView(_bytes, _offset, _offset + 8)
+            .getInt64(0, Endian.host);
+        _offset += 8;
+        return v;
+      case _binaryTagFloat64:
+        final v = ByteData.sublistView(_bytes, _offset, _offset + 8)
+            .getFloat64(0, Endian.host);
+        _offset += 8;
+        return v;
+      case _binaryTagString:
+        final len = ByteData.sublistView(_bytes, _offset, _offset + 4)
+            .getUint32(0, Endian.host);
+        _offset += 4;
+        final s = utf8.decode(_bytes.sublist(_offset, _offset + len));
+        _offset += len;
+        return s;
+      case _binaryTagList:
+        final len = ByteData.sublistView(_bytes, _offset, _offset + 4)
+            .getUint32(0, Endian.host);
+        _offset += 4;
+        final list = [];
+        for (var i = 0; i < len; i++) {
+          list.add(read());
+        }
+        return list;
+      case _binaryTagMap:
+        final len = ByteData.sublistView(_bytes, _offset, _offset + 4)
+            .getUint32(0, Endian.host);
+        _offset += 4;
+        final map = {};
+        for (var i = 0; i < len; i++) {
+          final key = read();
+          final value = read();
+          map[key] = value;
+        }
+        return map;
+      default:
+        return null;
     }
   }
 }
