@@ -13,6 +13,6 @@ class JsEventDispatch {
         : payload is String
         ? payload
         : jsonEncode(payload);
-    controller.ctx.callFunction('__dispatchEvent', [eventId, p]);
+    controller.ctx.global.invoke('__dispatchEvent', [eventId, p]);
   }
 }

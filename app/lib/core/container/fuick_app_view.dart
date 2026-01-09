@@ -54,12 +54,17 @@ class _FuickAppViewState extends State<FuickAppView> {
         );
         ctx.evalBinary(bytes);
         debugPrint('成功加载 QuickJS 字节码 bundle');
+        // final bundle = await rootBundle.loadString('assets/js/bundle.js');
+        // ctx.eval(bundle);
       } catch (e) {
         debugPrint('加载字节码 bundle 失败，尝试加载文本 bundle: $e');
         final bundle = await rootBundle.loadString('assets/js/bundle.js');
         ctx.eval(bundle);
         debugPrint('成功加载文本 bundle');
       }
+
+      // 执行任务队列，确保 initApp 等异步逻辑执行完毕
+      ctx.runJobs();
 
       _uiController.isBundleLoaded.value = true;
     } catch (e) {

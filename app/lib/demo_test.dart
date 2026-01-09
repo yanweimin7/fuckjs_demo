@@ -27,40 +27,23 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
       _ctx1 = _runtime!.createContext();
       _ctx2 = _runtime!.createContext();
 
-      final reg1 = JsHandlerRegistry(_ctx1!);
-      reg1.onSync('sum', (args) {
-        final m =
-            args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
-        final a = m['a'] ?? 0;
-        final b = m['b'] ?? 0;
-        final s = (a is num ? a : 0) + (b is num ? b : 0);
-        return {'result': s};
+      // 使用新的 defineProperty 语法注册全局方法
+      _ctx1!.global.defineProperty('sum', (a, b) {
+        return (a is num ? a : 0) + (b is num ? b : 0);
       });
-      reg1.onSync('echo', (args) {
-        return {'echo': args};
+
+      _ctx1!.global.defineProperty('echo', (args) {
+        return args;
       });
-      reg1.onAsync('sum', (args) {
-        final m =
-            args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
-        final a = m['a'] ?? 0;
-        final b = m['b'] ?? 0;
-        final s = (a is num ? a : 0) + (b is num ? b : 0);
-        return {'result': s};
+
+      _ctx1!.global.defineProperty('console_log', (msg) {
+        debugPrint('JS Console: $msg');
       });
-      reg1.onDefer('sum_error', (args, id) {
-        // Future.delayed(const Duration(milliseconds: 300), () {
-        //   _ctx1!.asyncRejectTyped(id, {'error': 'sum failed'});
-        // });
-      });
-      reg1.onDefer('sum', (args, id) {
-        final m =
-            args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
-        final a = m['a'] ?? 0;
-        final b = m['b'] ?? 0;
-        final s = (a is num ? a : 0) + (b is num ? b : 0);
-        // Future.delayed(const Duration(milliseconds: 1000), () {
-        //   _ctx1!.asyncResolveTyped(id, {'result': s});
-        // });
+
+      // 异步方法测试
+      _ctx1!.global.defineProperty('asyncSum', (a, b) async {
+        await Future.delayed(const Duration(milliseconds: 500));
+        return (a is num ? a : 0) + (b is num ? b : 0);
       });
 
       final _ = JsHandlerRegistry(_ctx2!);
@@ -117,7 +100,7 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
 
       // 测试 echo 处理器 (Dart -> JS -> Dart -> JS)
       _ctx1!.eval('''
-        var echoed = sync_handler('echo', { list: [1, 2, 3], map: { key: "value" } });
+        var echoed = echo({ list: [1, 2, 3], map: { key: "value" } });
         globalThis.echoResult = JSON.stringify(echoed);
       ''');
       final echoRes = _ctx1!.evalToString('globalThis.echoResult');
@@ -144,7 +127,7 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
                    }
                    }
           }
-          dartCallTyped("console_log", JSON.stringify(arr.join(" ")))
+          console_log(arr.join(" "))
         };
       })()
     ''');
@@ -177,18 +160,20 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
     buf.writeln('eval(throw) = $e1');
     final j1 = _ctx1!.evalToString('JSON.stringify({ x: 42 })');
     buf.writeln('evalToString(JSON) = $j1');
-    final c1 = _ctx1!.eval('dartCallTyped("sum", {a:3,b:4})');
-    buf.writeln('eval(dartCall("sum",{3,4})) = $c1');
+    final c1 = _ctx1!.eval('sum(3, 4)');
+    buf.writeln('eval(sum(3, 4)) = $c1');
     _ctx1!.eval(
-      'dartCallAsyncTyped("sum", {a:10,b:20}).then(v => console.log(v))',
+      'asyncSum(10, 20).then(v => console.log("asyncSum result:", v))',
     );
-    _ctx1!.eval(
-      'dartCallAsyncDefer("sum", {a:7,b:8}).then(v => console.log(v))',
-    );
-    buf.writeln('启动延迟异步: then 会在稍后打印');
-    _ctx1!.eval(
-      'dartCallAsyncDefer("sum_error", {a:1,b:2}).catch(e => console.log("reject", e))',
-    );
+    buf.writeln('启动异步 sum: then 会在稍后打印');
+
+    // 测试通过 global.invoke 直接调用方法
+    try {
+      final res = _ctx1!.global.invoke('sum', [1000, 2000]);
+      buf.writeln('global.invoke(sum, [1000, 2000]) = $res');
+    } catch (e) {
+      buf.writeln('global.invoke Test Error: $e');
+    }
 
     _ctx2!.eval('''
       (function(){

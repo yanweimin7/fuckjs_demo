@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quickjs/quickjs_ffi.dart';
 
 import 'fuick_app_controller.dart';
 import 'js_ui.dart';
@@ -47,23 +48,34 @@ class _JsUiHostState extends State<FuickPageView> {
 
   void _checkAndRender() {
     if (widget.controller.isBundleLoaded.value) {
-      renderPage(widget.pageId, widget.controller, widget.routeInfo);
+      // 延迟一帧确保 JS 环境完全初始化
+      Future.microtask(() {
+        if (mounted) {
+          renderPage(widget.pageId, widget.controller, widget.routeInfo);
+        }
+      });
     }
   }
 
   void renderPage(int pageId, FuickAppController controller, RouteInfo info) {
-    controller.ctx.callFunction('ReactRenderer.render', [
-      pageId,
-      info.path,
-      info.params,
-    ]);
+    final ctx = controller.ctx;
+    final renderer = ctx.global.getProperty('ReactRenderer');
+    if (renderer is JSObject) {
+      renderer.invoke('render', [pageId, info.path, info.params]);
+    } else {
+      debugPrint('Warning: ReactRenderer not found in JS global context');
+    }
   }
 
   @override
   void dispose() {
     widget.controller.isBundleLoaded.removeListener(_checkAndRender);
     try {
-      widget.controller.ctx.callFunction('ReactRenderer.destroy', [pageId]);
+      final renderer =
+          widget.controller.ctx.global.getProperty('ReactRenderer');
+      if (renderer is JSObject) {
+        renderer.invoke('destroy', [widget.pageId]);
+      }
     } catch (e) {
       // ignore
     }
@@ -74,8 +86,7 @@ class _JsUiHostState extends State<FuickPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          body ??
+      body: body ??
           Center(
             child: SizedBox(
               width: 100,

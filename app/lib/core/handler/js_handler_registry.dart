@@ -2,7 +2,7 @@ import 'package:flutter_quickjs/quickjs_ffi.dart';
 
 typedef SyncHandler = dynamic Function(dynamic args);
 typedef AsyncHandler = dynamic Function(dynamic args);
-typedef DeferHandler = void Function(dynamic args, int id);
+typedef DeferHandler = void Function(dynamic args, void Function(dynamic) callback);
 
 class JsHandlerRegistry {
   final QuickJsContext ctx;

@@ -29,7 +29,7 @@ class JsHandlerManager {
       if (isInterval) {
         _timers[id] = Timer.periodic(Duration(milliseconds: delay), (timer) {
           try {
-            ctx.callFunction('__handleTimer', [id]);
+            ctx.global.invoke('__handleTimer', [id]);
           } catch (e) {
             debugPrint('Error calling __handleTimer (periodic): $e');
             timer.cancel();
@@ -40,7 +40,7 @@ class JsHandlerManager {
         _timers[id] = Timer(Duration(milliseconds: delay), () {
           _timers.remove(id);
           try {
-            ctx.callFunction('__handleTimer', [id]);
+            ctx.global.invoke('__handleTimer', [id]);
           } catch (e) {
             debugPrint('Error calling __handleTimer: $e');
           }
@@ -57,9 +57,8 @@ class JsHandlerManager {
     });
 
     reg.onSync('push', (args) {
-      final m = args is Map
-          ? Map<String, dynamic>.from(args)
-          : <String, dynamic>{};
+      final m =
+          args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
       final path = (m['path'] ?? '') as String;
       final params = m['params'] ?? {};
       if (path.isNotEmpty) {
@@ -81,54 +80,65 @@ class JsHandlerManager {
     JsHandlerRegistry reg,
     FuickAppController controller,
   ) {
-    ctx.registerCallNative((method, args) {
-      try {
-        if (method == 'renderUI') {
-          if (args.length >= 2) {
-            final pageId = (args[0] as num).toInt();
-            final renderData =
-                (args[1] as Map?)?.cast<String, dynamic>() ??
-                const <String, dynamic>{};
-            controller.render(pageId, renderData);
-            return true;
-          } else if (args.length == 1 && args[0] is Map) {
-            final m = args[0] as Map;
-            final pageId = (m['pageId'] as num?)?.toInt();
-            final renderData =
-                (m['renderData'] as Map?)?.cast<String, dynamic>() ??
-                const <String, dynamic>{};
-            if (pageId != null) {
-              controller.render(pageId, renderData);
-              return true;
-            }
-          }
-        }
-        final h = reg.sync[method];
-        if (h != null) {
-          final arg = args.isNotEmpty ? args[0] : null;
-          return h(arg);
-        }
-      } catch (e, s) {
-        print("failed to callNative $e , $s");
-      }
+    ctx.global.defineProperty('dartCallNative', (method, args) {
+      return _handleCallNative(method, args, reg, controller);
+    });
+
+    ctx.global.defineProperty('dartCallAsyncTyped', (method, args) {
+      final h = reg.async[method];
+      if (h != null) return h(args);
       return null;
     });
-    // ctx.registerCallAsyncTyped((method, args) {
-    //   final h = reg.async[method];
-    //   if (h != null) return h(args);
-    //   return null;
-    // });
-    // ctx.registerCallAsyncDefer((method, args, id) {
-    //   final h = reg.defer[method];
-    //   if (h != null) {
-    //     h(args, id);
-    //     return;
-    //   } else {
-    //     ctx.asyncResolveTyped(id, {
-    //       'ok': false,
-    //       'error': 'method $method not found',
-    //     }, isError: true);
-    //   }
-    // });
+
+    // 统一使用 defineProperty 注册，JS 侧调用时直接返回 Promise
+    ctx.global.defineProperty('dartCallAsyncDefer', (method, args) {
+      final h = reg.defer[method];
+      if (h != null) {
+        // 返回一个 Future，JS 侧会自动得到一个 Promise
+        final completer = Completer();
+        h(args, (res) {
+          completer.complete(res);
+        });
+        return completer.future;
+      }
+      return Future.error('method $method not found');
+    });
+  }
+
+  static dynamic _handleCallNative(
+    dynamic method,
+    dynamic args,
+    JsHandlerRegistry reg,
+    FuickAppController controller,
+  ) {
+    try {
+      if (method == 'renderUI') {
+        final List listArgs = args is List ? args : [args];
+        if (listArgs.length >= 2) {
+          final pageId = (listArgs[0] as num).toInt();
+          final renderData = (listArgs[1] as Map?)?.cast<String, dynamic>() ??
+              const <String, dynamic>{};
+          controller.render(pageId, renderData);
+          return true;
+        } else if (listArgs.length == 1 && listArgs[0] is Map) {
+          final m = listArgs[0] as Map;
+          final pageId = (m['pageId'] as num?)?.toInt();
+          final renderData =
+              (m['renderData'] as Map?)?.cast<String, dynamic>() ??
+                  const <String, dynamic>{};
+          if (pageId != null) {
+            controller.render(pageId, renderData);
+            return true;
+          }
+        }
+      }
+      final h = reg.sync[method];
+      if (h != null) {
+        return h(args);
+      }
+    } catch (e, s) {
+      debugPrint("failed to callNative $e , $s");
+    }
+    return null;
   }
 }
