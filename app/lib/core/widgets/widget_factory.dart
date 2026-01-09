@@ -8,8 +8,7 @@ class WidgetFactory {
   Widget build(Map<String, dynamic> node) {
     final type = node['type'] as String? ?? 'Text';
     final props = Map<String, dynamic>.from(node['props'] as Map? ?? {});
-    final children =
-        (node['children'] as List?)
+    final children = (node['children'] as List?)
             ?.map((e) => Map<String, dynamic>.from(e as Map))
             .toList() ??
         const [];
@@ -61,7 +60,8 @@ class WidgetFactory {
           ElevatedButton(
             onPressed: () {
               if (onTapEventId != null && onTapEventId.isNotEmpty) {
-                onAction('__event', {'id': onTapEventId, 'payload': onTapPayload});
+                onAction(
+                    '__event', {'id': onTapEventId, 'payload': onTapPayload});
               } else if (onTapJs != null) {
                 onAction(
                   (onTapJs['call'] ?? '') as String,
@@ -84,7 +84,10 @@ class WidgetFactory {
             decoration: InputDecoration(hintText: hint),
             onChanged: (v) {
               if (onChangedEventId != null && onChangedEventId.isNotEmpty) {
-                onAction('__event', {'id': onChangedEventId, 'payload': {'value': v}});
+                onAction('__event', {
+                  'id': onChangedEventId,
+                  'payload': {'value': v}
+                });
               } else if (onChangedJs != null) {
                 final args = Map<String, dynamic>.from(
                   onChangedJs['args'] as Map? ?? {},
@@ -95,7 +98,10 @@ class WidgetFactory {
             },
             onSubmitted: (v) {
               if (onSubmittedEventId != null && onSubmittedEventId.isNotEmpty) {
-                onAction('__event', {'id': onSubmittedEventId, 'payload': {'value': v}});
+                onAction('__event', {
+                  'id': onSubmittedEventId,
+                  'payload': {'value': v}
+                });
               } else if (onSubmittedJs != null) {
                 final args = Map<String, dynamic>.from(
                   onSubmittedJs['args'] as Map? ?? {},
@@ -116,7 +122,10 @@ class WidgetFactory {
             value: v,
             onChanged: (nv) {
               if (onChangedEventId != null && onChangedEventId.isNotEmpty) {
-                onAction('__event', {'id': onChangedEventId, 'payload': {'value': nv}});
+                onAction('__event', {
+                  'id': onChangedEventId,
+                  'payload': {'value': nv}
+                });
               } else if (onChangedJs != null) {
                 final args = Map<String, dynamic>.from(
                   onChangedJs['args'] as Map? ?? {},
@@ -130,27 +139,31 @@ class WidgetFactory {
       case 'Image':
         final url = (props['url'] ?? '') as String;
         final fit = _boxFit(props['fit'] as String?);
-        return _wrapPadding(
-          props,
-          Image.network(
-            url,
-            width: _sizeNum(props['width']),
-            height: _sizeNum(props['height']),
-            fit: fit,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                width: _sizeNum(props['width']),
-                height: _sizeNum(props['height']),
-                color: Colors.grey[300],
-                child: const Icon(Icons.error_outline),
-              );
-            },
-          ),
+        final borderRadius = _borderRadius(props['borderRadius']);
+        Widget image = Image.network(
+          url,
+          width: _sizeNum(props['width']),
+          height: _sizeNum(props['height']),
+          fit: fit,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              width: _sizeNum(props['width']),
+              height: _sizeNum(props['height']),
+              color: Colors.grey[300],
+              child: const Icon(Icons.error_outline),
+            );
+          },
         );
+        if (borderRadius != null) {
+          image = ClipRRect(borderRadius: borderRadius, child: image);
+        }
+        return _wrapPadding(props, image);
       case 'Padding':
         return Padding(
           padding: _edgeInsets(props['padding']) ?? EdgeInsets.zero,
-          child: children.isEmpty ? const SizedBox.shrink() : build(children.first),
+          child: children.isEmpty
+              ? const SizedBox.shrink()
+              : build(children.first),
         );
       case 'SizedBox':
         return SizedBox(
@@ -170,7 +183,9 @@ class WidgetFactory {
         return SingleChildScrollView(
           padding: _edgeInsets(props['padding']),
           scrollDirection: _axis(props['scrollDirection'] as String?),
-          child: children.isEmpty ? const SizedBox.shrink() : build(children.first),
+          child: children.isEmpty
+              ? const SizedBox.shrink()
+              : build(children.first),
         );
       case 'Icon':
         final cp = props['codePoint'] is num
@@ -198,6 +213,82 @@ class WidgetFactory {
           Stack(
             alignment: _stackAlignment(props['alignment'] as String?),
             children: children.map(build).toList(),
+          ),
+        );
+      case 'Positioned':
+        return Positioned(
+          left: _sizeNum(props['left']),
+          top: _sizeNum(props['top']),
+          right: _sizeNum(props['right']),
+          bottom: _sizeNum(props['bottom']),
+          width: _sizeNum(props['width']),
+          height: _sizeNum(props['height']),
+          child: children.isEmpty
+              ? const SizedBox.shrink()
+              : build(children.first),
+        );
+      case 'Opacity':
+        final opacity = (props['opacity'] is num)
+            ? (props['opacity'] as num).toDouble()
+            : 1.0;
+        return Opacity(
+          opacity: opacity,
+          child: children.isEmpty
+              ? const SizedBox.shrink()
+              : build(children.first),
+        );
+      case 'Center':
+        return Center(
+          child: children.isEmpty
+              ? const SizedBox.shrink()
+              : build(children.first),
+        );
+      case 'Expanded':
+        final flex =
+            (props['flex'] is num) ? (props['flex'] as num).toInt() : 1;
+        return Expanded(
+          flex: flex,
+          child: children.isEmpty
+              ? const SizedBox.shrink()
+              : build(children.first),
+        );
+      case 'Flexible':
+        final flex =
+            (props['flex'] is num) ? (props['flex'] as num).toInt() : 1;
+        return Flexible(
+          flex: flex,
+          child: children.isEmpty
+              ? const SizedBox.shrink()
+              : build(children.first),
+        );
+      case 'GestureDetector':
+      case 'InkWell':
+        final onTapJs = props['onTapJs'] as Map?;
+        final onTapEventId = props['onTapEventId'] as String?;
+        final onTapPayload = props['onTapPayload'];
+        final widget =
+            children.isEmpty ? const SizedBox.shrink() : build(children.first);
+        final callback = () {
+          if (onTapEventId != null && onTapEventId.isNotEmpty) {
+            onAction('__event', {'id': onTapEventId, 'payload': onTapPayload});
+          } else if (onTapJs != null) {
+            onAction((onTapJs['call'] ?? '') as String, onTapJs['args']);
+          }
+        };
+        if (type == 'InkWell') {
+          return InkWell(onTap: callback, child: widget);
+        }
+        return GestureDetector(onTap: callback, child: widget);
+      case 'CircularProgressIndicator':
+        final color = _colorFromHex(props['color'] as String?);
+        final strokeWidth = (props['strokeWidth'] is num)
+            ? (props['strokeWidth'] as num).toDouble()
+            : 4.0;
+        return _wrapPadding(
+          props,
+          CircularProgressIndicator(
+            valueColor: color != null ? AlwaysStoppedAnimation(color) : null,
+            strokeWidth: strokeWidth,
           ),
         );
       case 'Text':
@@ -368,20 +459,38 @@ class WidgetFactory {
 
   BoxDecoration? _boxDecorationFromProps(Map<String, dynamic> props) {
     final color = _colorFromHex(props['color'] as String?);
-    final br = props['borderRadius'];
-    BorderRadius? borderRadius;
+    final borderRadius = _borderRadius(props['borderRadius']);
+    final border = _border(props['border']);
+    if (color == null && borderRadius == null && border == null) return null;
+    return BoxDecoration(
+      color: color,
+      borderRadius: borderRadius,
+      border: border,
+    );
+  }
+
+  Border? _border(dynamic v) {
+    if (v is Map) {
+      final m = Map<String, dynamic>.from(v);
+      final color = _colorFromHex(m['color'] as String?) ?? Colors.black;
+      final width = _sizeNum(m['width']) ?? 1.0;
+      return Border.all(color: color, width: width);
+    }
+    return null;
+  }
+
+  BorderRadius? _borderRadius(dynamic br) {
     if (br is num) {
-      borderRadius = BorderRadius.circular(br.toDouble());
+      return BorderRadius.circular(br.toDouble());
     } else if (br is Map) {
       final m = Map<String, dynamic>.from(br);
-      borderRadius = BorderRadius.only(
+      return BorderRadius.only(
         topLeft: Radius.circular(_sizeNum(m['topLeft']) ?? 0),
         topRight: Radius.circular(_sizeNum(m['topRight']) ?? 0),
         bottomLeft: Radius.circular(_sizeNum(m['bottomLeft']) ?? 0),
         bottomRight: Radius.circular(_sizeNum(m['bottomRight']) ?? 0),
       );
     }
-    if (color == null && borderRadius == null) return null;
-    return BoxDecoration(color: color, borderRadius: borderRadius);
+    return null;
   }
 }

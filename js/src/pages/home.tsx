@@ -12,11 +12,25 @@ export default function HomePage() {
                 decoration={{ color: '#2196F3' }}
                 alignment="center"
             >
-                <Text
-                    text="QuickJS Explorer"
-                    fontSize={24}
-                    color="#FFFFFF"
-                />
+                <Column>
+                    <Text
+                        text="QuickJS Explorer"
+                        fontSize={24}
+                        color="#FFFFFF"
+                    />
+                    <SizedBox height={8} />
+                    <Row mainAxisAlignment="center">
+                        <Button
+                            text="组件示例"
+                            onTap={() => ReactRouter.push('/examples')}
+                        />
+                        <SizedBox width={10} />
+                        <Button
+                            text="复杂页面"
+                            onTap={() => ReactRouter.push('/complex')}
+                        />
+                    </Row>
+                </Column>
             </Container>
 
             {/* 列表 */}
