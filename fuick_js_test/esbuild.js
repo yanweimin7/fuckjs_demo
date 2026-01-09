@@ -55,7 +55,6 @@ esbuild.build({
     } else {
       console.warn('qjsc not found at', QJSC_PATH, ', skipping bytecode compilation.');
     }
-
   } catch (e) {
     console.error('Build/Copy failed:', e);
     process.exitCode = 1;

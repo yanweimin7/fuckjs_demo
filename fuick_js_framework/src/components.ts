@@ -5,7 +5,7 @@ export const Column = 'Column' as unknown as React.FC<JSX.ColumnProps>;
 export const Container = 'Container' as unknown as React.FC<JSX.ContainerProps>;
 export const Text = 'Text' as unknown as React.FC<JSX.TextProps>;
 export const ListView = 'ListView' as unknown as React.FC<JSX.ListViewProps>;
-export const Padding = 'Padding' as unknown as React.FC<{ padding: JSX.EdgeInsets | number; children?: any }>;
+export const Padding = 'Padding' as unknown as React.FC<JSX.PaddingProps>;
 export const Row = 'Row' as unknown as React.FC<JSX.RowProps>;
 export const Image = 'Image' as unknown as React.FC<JSX.ImageProps>;
 export const SizedBox = 'SizedBox' as unknown as React.FC<JSX.SizedBoxProps>;
@@ -23,5 +23,5 @@ export const SingleChildScrollView = 'SingleChildScrollView' as unknown as React
 export const Stack = 'Stack' as unknown as React.FC<JSX.StackProps>;
 export const Positioned = 'Positioned' as unknown as React.FC<JSX.PositionedProps>;
 export const Opacity = 'Opacity' as unknown as React.FC<JSX.OpacityProps>;
-export const CircularProgressIndicator = 'CircularProgressIndicator' as unknown as React.FC<{ color?: string; strokeWidth?: number; padding?: number | JSX.EdgeInsets }>;
+export const CircularProgressIndicator = 'CircularProgressIndicator' as unknown as React.FC<JSX.CircularProgressIndicatorProps>;
 

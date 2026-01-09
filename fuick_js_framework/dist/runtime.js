@@ -35,7 +35,6 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Runtime = void 0;
 exports.bindGlobals = bindGlobals;
-const Router = __importStar(require("./router"));
 const PageRender = __importStar(require("./page_render"));
 const Console = __importStar(require("./ex/console"));
 const Timer = __importStar(require("./ex/timer"));
@@ -49,7 +48,6 @@ function bindGlobals() {
             r.dispatchEvent(id, payload);
         }
     };
-    globalThis.ReactRouter = Router.Router;
 }
 exports.Runtime = {
     bindGlobals

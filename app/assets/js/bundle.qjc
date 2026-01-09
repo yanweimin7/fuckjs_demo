@@ -1,4 +1,4 @@
-Øz/Users/wey/work/flutter_dynamic/fuickjs_pro/js/dist/bundle.jsprocess__create__defProp __getOwnPropDesc"__getOwnPropNames__getProtoOf__hasOwnProp__commonJS__copyProps__toESM2require_react_development$require_components:require_scheduler_developmentHrequire_react_reconciler_development$require_hostConfig require_renderer"require_navigatorrequire_router&require_page_renderrequire_consolerequire_timerrequire_runtimerequire_distimport_react54import_fuick_js_framework5import_react2import_fuick_js_frameworkHomePageimport_react24import_fuick_js_framework2DetailPageimport_react34import_fuick_js_framework3ExamplesPage examples_defaultimport_react44import_fuick_js_framework4ComplexPagecomplex_defaultinitAppcbmod__requireexportstoexceptdesckeycallisNodeMode__esModulemoduleReactVersion$REACT_ELEMENT_TYPE"REACT_PORTAL_TYPE&REACT_FRAGMENT_TYPE,REACT_STRICT_MODE_TYPE&REACT_PROFILER_TYPE&REACT_PROVIDER_TYPE$REACT_CONTEXT_TYPE,REACT_FORWARD_REF_TYPE&REACT_SUSPENSE_TYPE0REACT_SUSPENSE_LIST_TYPEREACT_MEMO_TYPEREACT_LAZY_TYPE(REACT_OFFSCREEN_TYPE*MAYBE_ITERATOR_SYMBOL(FAUX_ITERATOR_SYMBOLgetIteratorFn,ReactCurrentDispatcher.ReactCurrentBatchConfig(ReactCurrentActQueue"ReactCurrentOwner,ReactDebugCurrentFrame,currentExtraStackFrame$setExtraStackFrameenableScopeAPI$enableCacheElement.enableTransitionTracing$enableLegacyHidden$enableDebugTracing(ReactSharedInternalswarn
+Æz/Users/wey/work/flutter_dynamic/fuickjs_pro/js/dist/bundle.jsprocess__create__defProp __getOwnPropDesc"__getOwnPropNames__getProtoOf__hasOwnProp__commonJS__copyProps__toESM2require_react_development$require_components:require_scheduler_developmentHrequire_react_reconciler_development$require_hostConfig require_rendererrequire_router"require_navigator&require_page_renderrequire_consolerequire_timerrequire_runtimerequire_distimport_react54import_fuick_js_framework5import_react2import_fuick_js_frameworkHomePageimport_react24import_fuick_js_framework2DetailPageimport_react34import_fuick_js_framework3ExamplesPage examples_defaultimport_react44import_fuick_js_framework4ComplexPagecomplex_defaultinitAppcbmod__requireexportstoexceptdesckeycallisNodeMode__esModulemoduleReactVersion$REACT_ELEMENT_TYPE"REACT_PORTAL_TYPE&REACT_FRAGMENT_TYPE,REACT_STRICT_MODE_TYPE&REACT_PROFILER_TYPE&REACT_PROVIDER_TYPE$REACT_CONTEXT_TYPE,REACT_FORWARD_REF_TYPE&REACT_SUSPENSE_TYPE0REACT_SUSPENSE_LIST_TYPEREACT_MEMO_TYPEREACT_LAZY_TYPE(REACT_OFFSCREEN_TYPE*MAYBE_ITERATOR_SYMBOL(FAUX_ITERATOR_SYMBOLgetIteratorFn,ReactCurrentDispatcher.ReactCurrentBatchConfig(ReactCurrentActQueue"ReactCurrentOwner,ReactDebugCurrentFrame,currentExtraStackFrame$setExtraStackFrameenableScopeAPI$enableCacheElement.enableTransitionTracing$enableLegacyHidden$enableDebugTracing(ReactSharedInternalswarn
 errorprintWarningNdidWarnStateUpdateForUnmountedComponentwarnNoop(ReactNoopUpdateQueueassignemptyObjectComponentdeprecatedAPIs0defineDeprecationWarningfnNameComponentDummyPureComponent,pureComponentPrototypecreateRefisArrayImplisArraytypeName"willCoercionThrow$testStringCoercion,checkKeyStringCoerciongetWrappedNamegetContextName0getComponentNameFromTypehasOwnPropertyRESERVED_PROPS4specialPropKeyWarningShown4specialPropRefWarningShown,didWarnAboutStringRefshasValidRefhasValidKey4defineKeyPropWarningGetter4defineRefPropWarningGetterHwarnIfStringRefCannotBeAutoConvertedReactElementcreateElement$cloneAndReplaceKeycloneElementisValidElementSEPARATORSUBSEPARATORescape didWarnAboutMaps4userProvidedKeyEscapeRegex*escapeUserProvidedKeygetElementKeymapIntoArraymapChildrencountChildrenforEachChildrentoArrayonlyChildcreateContextUninitializedPendingResolvedRejectedlazyInitializerlazyforwardRef,REACT_MODULE_REFERENCE$isValidElementTypememo"resolveDispatcheruseContextuseStateuseReduceruseRefuseEffect$useInsertionEffectuseLayoutEffectuseCallbackuseMemo&useImperativeHandleuseDebugValueuseTransition useDeferredValue
 useId(useSyncExternalStoredisabledDepthprevLogprevInfoprevWarnprevErrorprevGroup$prevGroupCollapsedprevGroupEnddisabledLogdisableLogsreenableLogs0ReactCurrentDispatcher$1prefix:describeBuiltInComponentFramereentry&componentFrameCachePossiblyWeakMap8describeNativeComponentFrame<describeFunctionComponentFrameshouldConstructHdescribeUnknownElementTypeFrameInDEV$loggedTypeFailures0ReactDebugCurrentFrame$1:setCurrentlyValidatingElementcheckPropTypes>setCurrentlyValidatingElement$1:propTypesMisspellWarningShown6getDeclarationErrorAddendum4getSourceInfoErrorAddendumDgetSourceInfoErrorAddendumForProps*ownerHasKeyUseWarning8getCurrentComponentErrorInfo&validateExplicitKey"validateChildKeys"validatePropTypes*validateFragmentProps6createElementWithValidationFdidWarnAboutDeprecatedCreateFactory6createFactoryWithValidation4cloneElementWithValidationstartTransition4didWarnAboutMessageChannelenqueueTaskImplenqueueTaskactScopeDepth"didWarnNoAwaitActactpopActScope8recursivelyFlushAsyncActWorkisFlushingflushActQueuecreateElement$1cloneElement$1createFactoryChildrenmaybeIterablemaybeIteratorimplgetCurrentStackformat_lenargs_key
 _len2
@@ -189,10 +189,10 @@ toDslcreateRenderer
 entryD[Renderer] Error in dispatchEvent:
 onTaponChangedonSubmittedEventId
 stylefilterreconcilercontainers
-rootsensureRootrootJsondslD[Renderer] Skip renderUI for page $: rootJson is nulldartCallNativerenderUIrenderData : dsl is invalid^[Renderer] Error during render commit for page performUpdatemsgworking>[Renderer] Error updating page performDestroy [Renderer] Page . unmounted successfullyL[Renderer] Attempting to destroy page ...p[Renderer] Reentrancy collision during destroy for page , retrying...B[Renderer] Error destroying page params__createBinding$__setModuleDefault__importStarNavigatorroutesregisteromkk2vo2ar&getOwnPropertyNames componentFactoryRouterreact_1renderer_1Router2rendererensureRenderer__dispatchEventfactoryapppaddingcenter"mainAxisAlignmentRoute  not foundfontSize#cc0000
+rootsensureRootrootJsondslD[Renderer] Skip renderUI for page $: rootJson is nulldartCallNativerenderUIrenderData : dsl is invalid^[Renderer] Error during render commit for page performUpdatemsgworking>[Renderer] Error updating page performDestroy [Renderer] Page . unmounted successfullyL[Renderer] Attempting to destroy page ...p[Renderer] Reentrancy collision during destroy for page , retrying...B[Renderer] Error destroying page routesregister componentFactoryRouterparams__createBinding$__setModuleDefault__importStarreact_1renderer_1Router2rendererensureRendereromkk2vo2ar&getOwnPropertyNames__dispatchEventfactoryapppaddingcenter"mainAxisAlignmentRoute  not foundfontSize#cc0000
 color
 print[WARN] [ERROR] nextTimerIdtimerMapsetTimeout2clearTimeout2setIntervalclearIntervalcreateTimerisIntervaldeleteTimerinterval6[Timer] Callback for timer & is not a function:.[Timer] Error in timer  callback:__handleTimerPageRenderConsole
-TimerbindGlobalssetupPolyfillsReactRendererReactRouteroldConsolequeueMicrotaskRuntime__exportStar
+TimerbindGlobalssetupPolyfillsReactRendereroldConsolequeueMicrotaskRuntime__exportStarNavigator
 items/examples/complex/detailbottom#F5F5F5borderRadiusdecorationspaceBetweenBhttps://picsum.photos/100/100?id=url
 coverfitItem #Viewstretch$crossAxisAlignment#2196F3alignment QuickJS Explorer#FFFFFF	ƒ~ˆN:yãO	YBguòbóLiked Shared res test future res:&dartCallNativeAsynctestFuturehello worldBhttps://picsum.photos/800/400?id=0QuickJS Flutter Renderer#333333top#E3F2FDResource ID: #1976D2#EEEEEEthicknessàThis page is rendered dynamically from JavaScript using QuickJS and React. The components you see here (Image, Column, Padding, Text, Divider) are all native Flutter widgets driven by the JS side.#666666spaceEvenlyLike
 ShareBack Hometest FutureloadingsetLoadingopacitysetOpacityprev%F l u t t e r   W i d g e t s   :yãO"1. Expanded & Rowflex#FF0000Flex 1#00FF00Flex 2*2. Stack & Positioned#F4433683. Opacity & GestureDetectornativeLogTapped!onTapJs#9C27B0Click MeToggle OpacityCurrent: toFixed*4. Progress & LoadingShow LoadingstrokeWidth5. IconsspaceAroundcodePoint#4CAF50#FF9800isFollowingsetIsFollowingactiveTabsetActiveTab
@@ -202,7 +202,7 @@ imagetopLefttopRight
 title
 likescomments
 PostsFollowers4.2kFollowingxhttps://images.unsplash.com/photo-1506744038136-46273834b3fb.Beautiful Mountain Viewrhttps://images.unsplash.com/photo-1533738363-b7f9aef128ce(City Lights at Nightxhttps://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05Forest Path#F5F7FAbottomLeftxhttps://images.unsplash.com/photo-1501785888041-af3ef285b470xhttps://images.unsplash.com/photo-1494790108377-be9c29b29330Jane Doe"@janedoe_explorerFollowøA d v e n t u r e   s e e k e r ,   p h o t o g r a p h e r ,   a n d   n a t u r e   l o v e r .   E x p l o r i n g   t h e   w o r l d   o n e   c l i c k   a t   a   t i m e .   <ÿﬂ=ÿ¯‹#4B5563Photos
-Likes#E5E7EBVnode_modules/react/cjs/react.development.jsP../fuick_js_framework/dist/components.jsfnode_modules/scheduler/cjs/scheduler.development.jsÇnode_modules/react-reconciler/cjs/react-reconciler.development.jsP../fuick_js_framework/dist/hostConfig.jsL../fuick_js_framework/dist/renderer.jsN../fuick_js_framework/dist/navigator.jsH../fuick_js_framework/dist/router.jsR../fuick_js_framework/dist/page_render.jsP../fuick_js_framework/dist/ex/console.jsL../fuick_js_framework/dist/ex/timer.jsJ../fuick_js_framework/dist/runtime.jsF../fuick_js_framework/dist/index.jsdevelopmentNODE_ENVenv∆      
+Likes#E5E7EBVnode_modules/react/cjs/react.development.jsP../fuick_js_framework/dist/components.jsfnode_modules/scheduler/cjs/scheduler.development.jsÇnode_modules/react-reconciler/cjs/react-reconciler.development.jsP../fuick_js_framework/dist/hostConfig.jsL../fuick_js_framework/dist/renderer.jsH../fuick_js_framework/dist/router.jsN../fuick_js_framework/dist/navigator.jsR../fuick_js_framework/dist/page_render.jsP../fuick_js_framework/dist/ex/console.jsL../fuick_js_framework/dist/ex/timer.jsJ../fuick_js_framework/dist/runtime.jsF../fuick_js_framework/dist/index.jsdevelopmentNODE_ENVenv∆      
 ¢   ! » 
   '  ê'   @Ã @Œ @– @“ @‘ @÷  ÿ @⁄  ‹ 	@ﬁ 
 @‡ @‚ @‰ @Ê @Ë @Í @Ï @Ó @ @Ú @Ù  ˆ @¯ @˙ @¸ @˛ @Ä @Ç @Ñ @Ü @à @ä   å !@é "@ê #@í $ î %@ñ & 
@@ -54868,18 +54868,42 @@ D¨  «ﬂÒÃ‡ÕŒƒ∑ƒ)∆∫âg  4,X++ + 0R+å."../fuick_js_framework/dist/ren
           dispatchEvent
         };
       }
+    }B  Lû  ú3  @û3  Ë  C
+û3  Ù1  †3  ú3 ﬂ”±Ìr‘rJ)∆·ä\function register(path, componentFactory) {
+        routes[path] = componentFactory;
+      }C
+Ë  Ù1  ú3 ﬂ”H(∆‰ä ;function match(path) {
+        return routes[path];
+      }¡ Ã¡Õ9î   Cf   ”  
+MA   $ ”D—  ”»Dœ  ”…D4  À”»Mœ  …M4  D—  )∆⁄ä"4,X+& &  	 Ì"../fuick_js_framework/dist/router.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.Router = void 0;
+      exports.register = register;
+      exports.match = match;
+      var routes = {};
+      function register(path, componentFactory) {
+        routes[path] = componentFactory;
+      }
+      function match(path) {
+        return routes[path];
+      }
+      exports.Router = {
+        register,
+        match
+      };
     }B  0û  ¢	   ú  C
-¢	   "Ù1  ú3  8Ω  ˜Ï9Ω  Q  ”Mz  ‘MŒ  Ú)∆ﬂä@7ófunction push(path, params) {
+¢	   "Ù1  §3  8Ω  ˜Ï9Ω  Q  ”Mz  ‘M“  Ú)∆ıä@7ófunction push(path, params) {
         if (typeof dartCallNative === "function") {
           dartCallNative("push", { path, params });
         }
       }C
-ú      8Ω  ˜Ï9Ω  N  Ú)∆‰ä@7{function pop() {
+ú      8Ω  ˜Ï9Ω  N  Ú)∆˙ä@7{function pop() {
         if (typeof dartCallNative === "function") {
           dartCallNative("pop", {});
         }
       }¡ À¡Ã9î   Cf   ”  
-MA   $ ”«DQ  ”»DN  )∆⁄ä"4,X+& Á"../fuick_js_framework/dist/navigator.js"(exports) {
+MA   $ ”«DQ  ”»DN  )∆ä"4,X+& Á"../fuick_js_framework/dist/navigator.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.push = push;
@@ -54894,13 +54918,14 @@ MA   $ ”«DQ  ”»DN  )∆⁄ä"4,X+& Á"../fuick_js_framework/dist/navigator.j
           dartCallNative("pop", {});
         }
       }
-    }B ≈û  û3  @†3 @¢3  §3  ¶3 @®3  Ë  ËC
-  d™3  ¨3 @Æ3 @∞3  §   C
-      ¨3Æ3ﬂ‡H(∆Ùä+ 1function() {
+    }B 	ºû  ¶3  @®3 @™3  »2  ¨3 @Æ3 @∞3 @≤3 @¥3 @ò 	 à' 
+ ‹	ÊËC
+  d∂3  ∏3 @∫3 @º3  §   C
+      ∏3∫3ﬂ‡H(∆äã+ 1function() {
             return m[k];
           }÷ÙÏ’⁄9î   Cg   ‘’$ œóÌ$B   «¨Ï
 ‘B  óÓ«B?   Ì«B>   Ï
-M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆äT?0S'û) 4,Ófunction(o, m, k, k2) {
+M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆ÜãT?0S'û) 4,Ófunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -54910,24 +54935,24 @@ M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆äT?0S'û) 4,Ófunction(o, m, k, k2
         }
         Object.defineProperty(o, k2, desc);
       }C
-    ™3  ¨3  Æ3  ∞3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆˘ä%Xfunction(o, m, k, k2) {
+    ∂3  ∏3  ∫3  º3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆èã%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-    !™3  ≤3  9î   Cf   ”   
-M@   ‘MA   $ )∆˝äZ°4,efunction(o, v) {
+    !∂3  æ3  9î   Cf   ”   
+M@   ‘MA   $ )∆ìãZ°4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    ™3  ≤3  ”   ±Ìr‘rJ)∆ˇä2function(o, v) {
+    ∂3  æ3  ”   ±Ìr‘rJ)∆ïã2function(o, v) {
         o["default"] = v;
       }C
-   –  @û3 †3C
-  ™3  – C
-   <¥3  ∂3   Æ3  &  À”~Ó.Ã9î   B<   BO  C  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆Ñã3ï*%¨function(o2) {
+   –  @¶3 ®3C
+  ∂3  – C
+   <¿3  ¬3   ∫3  &  À”~Ó.Ã9î   B<   BO  C  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆öã3ï*%¨function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9î   B‹  Ì¡ Á”# ∆Éã 
+          }9î   B‚  Ì¡ Á”# ∆ôã 
 îfunction(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -54936,7 +54961,7 @@ M@   ‘MA   $ )∆˝äZ°4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >ö  ∂	   Æ3  “  – û3  †3 ”Ï”B  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆ããU "*8* ;Ω&œfunction(mod) {
+  >ö  ∂	   ∫3  “  – ¶3  ®3 ”Ï”B  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆°ãU "*8* ;Ω&œfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -54944,7 +54969,7 @@ M@   ‘MA   $ )∆˝äZ°4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }¡ Nh   À¡(∆ÇãM †function() {
+        }¡ Nh   À¡(∆òãM †function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -54963,146 +54988,13 @@ M@   ‘MA   $ )∆˝äZ°4,efunction(o, v) {
           return result;
         };
       }C
-®3  Ù1  ∫3  ¶3ﬂ”±Ìr‘rJ)∆õã\function register(path, componentFactory) {
-        routes[path] = componentFactory;
-      }C
-Ë  Ù1  ¶3ﬂ”H(∆ûã ;function match(path) {
-        return routes[path];
-      }¡ƒ¡ƒ”Ï”Bœ  Ì9î   Bò  Ï¡ Ó¡À”Ï”B–  Ì9î   Bò  Ï¡Ó¡Ã”Ï”B—  Ì¡Õ9î   Cf   ”  
-MA   $ ”Dﬁ  ”√D‘  ”√D4  …ﬂÒŒƒ”√M‘  √M4   BQ  MQ   BN  MN  Dﬁ  )∆Óä+ UJ  4,X+& + 0: 9Â"../fuick_js_framework/dist/router.js"(exports) {
-      "use strict";
-      var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
-        if (k2 === void 0) k2 = k;
-        var desc = Object.getOwnPropertyDescriptor(m, k);
-        if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-          desc = { enumerable: true, get: function() {
-            return m[k];
-          } };
-        }
-        Object.defineProperty(o, k2, desc);
-      } : function(o, m, k, k2) {
-        if (k2 === void 0) k2 = k;
-        o[k2] = m[k];
-      });
-      var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
-        Object.defineProperty(o, "default", { enumerable: true, value: v });
-      } : function(o, v) {
-        o["default"] = v;
-      });
-      var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
-        var ownKeys = function(o) {
-          ownKeys = Object.getOwnPropertyNames || function(o2) {
-            var ar = [];
-            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
-            return ar;
-          };
-          return ownKeys(o);
-        };
-        return function(mod) {
-          if (mod && mod.__esModule) return mod;
-          var result = {};
-          if (mod != null) {
-            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-          }
-          __setModuleDefault(result, mod);
-          return result;
-        };
-      }();
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.Router = void 0;
-      exports.register = register;
-      exports.match = match;
-      var Navigator = __importStar(require_navigator());
-      var routes = {};
-      function register(path, componentFactory) {
-        routes[path] = componentFactory;
-      }
-      function match(path) {
-        return routes[path];
-      }
-      exports.Router = {
-        register,
-        match,
-        push: Navigator.push,
-        pop: Navigator.pop
-      };
-    }B 	ºû  û3  @†3 @¢3  »2  æ3 @¿3 @¬3 @ƒ3 @∆3 @ò 	 à' 
- ‹	ÊÍC
-  d™3  ¨3 @Æ3 @∞3  §   C
-      ¨3Æ3ﬂ‡H(∆≤ã+ 1function() {
-            return m[k];
-          }÷ÙÏ’⁄9î   Cg   ‘’$ œóÌ$B   «¨Ï
-‘B  óÓ«B?   Ì«B>   Ï
-M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆ÆãT?0S'û) 4,Ófunction(o, m, k, k2) {
-        if (k2 === void 0) k2 = k;
-        var desc = Object.getOwnPropertyDescriptor(m, k);
-        if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-          desc = { enumerable: true, get: function() {
-            return m[k];
-          } };
-        }
-        Object.defineProperty(o, k2, desc);
-      }C
-    ™3  ¨3  Æ3  ∞3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆∑ã%Xfunction(o, m, k, k2) {
-        if (k2 === void 0) k2 = k;
-        o[k2] = m[k];
-      }C
-    !™3  ≤3  9î   Cf   ”   
-M@   ‘MA   $ )∆ªãZ°4,efunction(o, v) {
-        Object.defineProperty(o, "default", { enumerable: true, value: v });
-      }C
-    ™3  ≤3  ”   ±Ìr‘rJ)∆Ωã2function(o, v) {
-        o["default"] = v;
-      }C
-   –  @û3 †3C
-  ™3  – C
-   <¥3  ∂3   Æ3  &  À”~Ó.Ã9î   B<   BO  C  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆¬ã3ï*%¨function(o2) {
-            var ar = [];
-            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
-            return ar;
-          }9î   B‹  Ì¡ Á”# ∆¡ã 
-îfunction(o) {
-          ownKeys = Object.getOwnPropertyNames || function(o2) {
-            var ar = [];
-            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
-            return ar;
-          };
-          return ownKeys(o);
-        }C
-  >ö  ∂	   Æ3  “  – û3  †3 ”Ï”B  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆…ãU "*8* ;Ω&œfunction(mod) {
-          if (mod && mod.__esModule) return mod;
-          var result = {};
-          if (mod != null) {
-            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-          }
-          __setModuleDefault(result, mod);
-          return result;
-        }¡ Nh   À¡(∆¿ãM †function() {
-        var ownKeys = function(o) {
-          ownKeys = Object.getOwnPropertyNames || function(o2) {
-            var ar = [];
-            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
-            return ar;
-          };
-          return ownKeys(o);
-        };
-        return function(mod) {
-          if (mod && mod.__esModule) return mod;
-          var result = {};
-          if (mod != null) {
-            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-          }
-          __setModuleDefault(result, mod);
-          return result;
-        };
-      }C
-    ö  ”Ï”B  Ï”(”M   (∆”ãC Xfunction(mod) {
+    ö  ”Ï”B  Ï”(”M   (∆´ãC Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       }C
-∆3    ƒ3¿3B
-   Æ  ˙  ƒ3  ﬂC`  ”‘$ )∆‚ã&5 .K(id, payload) => {
+¥3    ≤3Æ3B
+   Æ  ˙  ≤3  ﬂC`  ”‘$ )∆∫ã&5 .K(id, payload) => {
           renderer.dispatchEvent(id, payload);
-        }ﬂÏﬂ(‡B¨  „9ç   ¡ D‰  ﬂ(∆ﬁã 43îfunction ensureRenderer() {
+        }ﬂÏﬂ(‡B¨  „9ç   ¡ D„  ﬂ(∆∂ã 43îfunction ensureRenderer() {
         if (renderer)
           return renderer;
         renderer = (0, renderer_1.createRenderer)();
@@ -55111,7 +55003,7 @@ M@   ‘MA   $ )∆ªãZ°4,efunction(o, v) {
         };
         return renderer;
       }C
-ò ∆∆2  Ù1  ú3  ¬' 0 30Ã30Ã30∆3¬3æ3b b  9–  Cû    ”‘’$ ﬂÀ‡C4  ‘$ Ãc ˜Ï b c ’ÌÒÕc  CB	  c ”$ )b ·B   CZ  3  æMÁ  Ë  MÈ  ·B   CZ  5  Í  C]   ‘Î  $ M;  æMÏ  Ì  MÓ  $ $ Œc  CB	  c ”$ )∆Áã!4D+(+0+'*w&¨¨ 6„*≈function render(pageId, path, params) {
+ò ∆∆2  Ù1  §3  ¬' 0»30 30 30¥3∞3¨3b b  9–  Cû    ”‘’$ ﬂÀ‡C4  ‘$ Ãc ˜Ï b c ’ÌÒÕc  CB	  c ”$ )b ·B   CZ  3  æMÊ  Á  MË  ·B   CZ  5  È  C]   ‘Í  $ M;  æMÎ  Ï  MÌ  $ $ Œc  CB	  c ”$ )∆øã!4D+(+0+'*w&¨¨ 6„*≈function render(pageId, path, params) {
         console.log("render", pageId, path, params);
         const r = ensureRenderer();
         const factory = Router2.match(path);
@@ -55123,18 +55015,18 @@ M@   ‘MA   $ )∆ªãZ°4,efunction(o, v) {
           r.update(app, pageId);
         }
       }C
-à'∆2 @¬' p∆3B
-      ¬' ∆2 f  Cƒ	  ‡$ )∆ıã	*.() => {
+à'∆2 @¬' p¥3B
+      ¬' ∆2 f  Cƒ	  ‡$ )∆Õã	*.() => {
           r.destroy(pageId);
-        }b  ﬂÀ9≤  ¡ ∂Ú)∆Ûãçfunction destroy(pageId) {
+        }b  ﬂÀ9≤  ¡ ∂Ú)∆Àãçfunction destroy(pageId) {
         const r = ensureRenderer();
         setTimeout(() => {
           r.destroy(pageId);
         }, 0);
       }¡ƒ¡ƒ	¡ƒ
-”Ï”Bœ  Ì9î   Bò  Ï¡ Ó¡À”Ï”B–  Ì9î   Bò  Ï¡Ó¡Ã”Ï”B—  Ì¡Õ”Ï”B§  Ì¡Œ9î   Cf   ”  
-MA   $ ”√D„  ”√	D  ”√
-Dƒ	   ﬂÒƒ‡ƒ…·Òƒƒ)∆¨ã? UJ   4,X++ + 0<!‹"../fuick_js_framework/dist/page_render.js"(exports) {
+”Ï”B”  Ì9î   Bò  Ï¡ Ó¡À”Ï”B‘  Ì9î   Bò  Ï¡Ó¡Ã”Ï”B’  Ì¡Õ”Ï”B§  Ì¡Œ9î   Cf   ”  
+MA   $ ”√D⁄  ”√	D  ”√
+Dƒ	   ﬂÒƒ‡ƒ…·Òƒƒ)∆Ñã? UJ   4,X++ + 0<!‹"../fuick_js_framework/dist/page_render.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -55215,7 +55107,7 @@ Dƒ	   ﬂÒƒ‡ƒ…·Òƒƒ)∆¨ã? UJ   4,X++ + 0<!‹"../fuick_js_framework
    Ï  Ó  A
 º
   gÜ  f 0B
-    	⁄  9ò   ”# ∆Öå$(a) => String(a)  ◊b  ”CÕ  ¡ $ C\   é	  $ À8Ω  ˜Ï!9Ω  –  û  M«  c  M3   Ú)9ç   BÔ  ˜Ï9ç   CÔ  c  $ )∆ÑåD.4,I7’JI4"Ωfunction log(...args) {
+    	⁄  9ò   ”# ∆›ã$(a) => String(a)  ◊b  ”CÕ  ¡ $ C\   é	  $ À8Ω  ˜Ï!9Ω  –  û  M«  c  M3   Ú)9ç   BÓ  ˜Ï9ç   CÓ  c  $ )∆‹ãD.4,I7’JI4"Ωfunction log(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "log", message });
@@ -55224,7 +55116,7 @@ Dƒ	   ﬂÒƒ‡ƒ…·Òƒƒ)∆¨ã? UJ   4,X++ + 0<!‹"../fuick_js_framework
         }
       }A
 Ï  mÜ  f 0B
-    	⁄  9ò   ”# ∆çå$(a) => String(a)  ◊b  ”CÕ  ¡ $ C\   é	  $ À8Ω  ˜Ï!9Ω  –  6  M«  c  M3   Ú)9ç   BÔ  ˜Ï9ç   CÔ    c  û$ )∆ååD.4,I7’JI4$Àfunction warn(...args) {
+    	⁄  9ò   ”# ∆Âã$(a) => String(a)  ◊b  ”CÕ  ¡ $ C\   é	  $ À8Ω  ˜Ï!9Ω  –  6  M«  c  M3   Ú)9ç   BÓ  ˜Ï9ç   CÓ  Ô  c  û$ )∆‰ãD.4,I7’JI4$Àfunction warn(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "warn", message });
@@ -55233,7 +55125,7 @@ Dƒ	   ﬂÒƒ‡ƒ…·Òƒƒ)∆¨ã? UJ   4,X++ + 0<!‹"../fuick_js_framework
         }
       }A
 Ó  mÜ  f 0B
-    	⁄  9ò   ”# ∆ïå$(a) => String(a)  ◊b  ”CÕ  ¡ $ C\   é	  $ À8Ω  ˜Ï!9Ω  –  7  M«  c  M3   Ú)9ç   BÔ  ˜Ï9ç   CÔ  Ò  c  û$ )∆îåD.4,I7’JI4&Œfunction error(...args) {
+    	⁄  9ò   ”# ∆Ìã$(a) => String(a)  ◊b  ”CÕ  ¡ $ C\   é	  $ À8Ω  ˜Ï!9Ω  –  7  M«  c  M3   Ú)9ç   BÓ  ˜Ï9ç   CÓ    c  û$ )∆ÏãD.4,I7’JI4&Œfunction error(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "error", message });
@@ -55241,7 +55133,7 @@ Dƒ	   ﬂÒƒ‡ƒ…·Òƒƒ)∆¨ã? UJ   4,X++ + 0<!‹"../fuick_js_framework
           globalThis.print("[ERROR] " + message);
         }
       }¡ À¡Ã¡Õ9î   Cf   ”  
-MA   $ ”«Dû  ”»D6  ”…D7  )∆˛ã
+MA   $ ”«Dû  ”»D6  ”…D7  )∆÷ã
 14,X+& & –	"../fuick_js_framework/dist/ex/console.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
@@ -55272,9 +55164,9 @@ MA   $ ”«Dû  ”»D6  ”…D7  )∆˛ã
           globalThis.print("[ERROR] " + message);
         }
       }
-    }B  `û  ‰3  @Ê3 @Ë3  Í3  Ï3  Ó3  C
-Ë3 \Ã
-  ∞  Æ 0‰3 Ê3b  ﬂí„À‡CC   c  ”M¶  ™  MÔ  $ 8Ω  ˜Ï)9Ω  ¯  c  Mó  ‘Ì∂M©  	M˘  ÚÓ”c  (∆™å
+    }B  `û  ‚3  @‰3 @Ê3  Ë3  Í3  Ï3  C
+Ê3 \Ã
+  ∞  Æ 0‚3 ‰3b  ﬂí„À‡CC   c  ”M¶  ™  MÔ  $ 8Ω  ˜Ï)9Ω  ˜  c  Mó  ‘Ì∂M©  	M¯  ÚÓ”c  (∆Çå
 ' î"7Ã ¡function setTimeout2(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "timeout" });
@@ -55285,15 +55177,15 @@ MA   $ ”«Dû  ”»D6  ”…D7  )∆˛ã
         }
         return id;
       }C
-Í3  'Æ  Ê3ﬂC	   ”$ 8Ω  ˜Ï9Ω  ˙  ”Mó  Ú)∆¥å  57∞function clearTimeout2(id) {
+Ë3  'Æ  ‰3ﬂC	   ”$ 8Ω  ˜Ï9Ω  ˘  ”Mó  Ú)∆åå  57∞function clearTimeout2(id) {
         timerMap.delete(id);
         if (typeof dartCallNative === "function") {
           dartCallNative("deleteTimer", { id });
         }
       }C
-Ï3 WÃ
-  ∞  Æ 0‰3 Ê3b  ﬂí„À‡CC   c  ”M¶  ˚  MÔ  $ 8Ω  ˜Ï'9Ω  ¯  c  Mó  ‘Ì∂M©  
-M˘  Úc  (∆∫å' î"7†function setInterval(fn, ms) {
+Í3 WÃ
+  ∞  Æ 0‚3 ‰3b  ﬂí„À‡CC   c  ”M¶  ˙  MÔ  $ 8Ω  ˜Ï'9Ω  ˜  c  Mó  ‘Ì∂M©  
+M¯  Úc  (∆íå' î"7†function setInterval(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "interval" });
         if (typeof dartCallNative === "function") {
@@ -55301,12 +55193,12 @@ M˘  Úc  (∆∫å' î"7†function setInterval(fn, ms) {
         }
         return id;
       }C
-Ó3  'Æ  Ê3ﬂC	   ”$ 8Ω  ˜Ï9Ω  ˙  ”Mó  Ú)∆¬å  57∞function clearInterval(id) {
+Ï3  'Æ  ‰3ﬂC	   ”$ 8Ω  ˜Ï9Ω  ˘  ”Mó  Ú)∆öå  57∞function clearInterval(id) {
         timerMap.delete(id);
         if (typeof dartCallNative === "function") {
           dartCallNative("deleteTimer", { id });
         }
-      }B GÆ @⁄2 pÊ3B    t‚ ⁄2 Æ mH   f  B¶  ˜Ïf  C¶  $  Ó*9–  C7  ¸  C]   ‡˝  $ f  B¶  $ )Àm(   9–  C7  ˛  C]   ‡ˇ  $ «$ )0∆ŒåE+*"4»4Ó() => {
+      }B GÆ @⁄2 p‰3B    t‚ ⁄2 Æ mH   f  B¶  ˜Ïf  C¶  $  Ó*9–  C7  ˚  C]   ‡¸  $ f  B¶  $ )Àm(   9–  C7  ˝  C]   ‡˛  $ «$ )0∆¶åE+*"4»4Ó() => {
             try {
               if (typeof entry.fn === "function") {
                 entry.fn();
@@ -55316,7 +55208,7 @@ M˘  Úc  (∆∫å' î"7†function setInterval(fn, ms) {
             } catch (e) {
               console.error(`[Timer] Error in timer ${id} callback:`, e);
             }
-          }b  ﬂCB   ”$ Àc  Ï4c  BÔ  ™  ØÏﬂC	   ”$ 9ƒ   CÇ   $  CÅ   ¡ $ )∆»å"0^+!  #4*¡(id) => {
+          }b  ﬂCB   ”$ Àc  Ï4c  BÔ  ™  ØÏﬂC	   ”$ 9ƒ   CÇ   $  CÅ   ¡ $ )∆†å"0^+!  #4*¡(id) => {
         const entry = timerMap.get(id);
         if (entry) {
           if (entry.type === "timeout") {
@@ -55335,7 +55227,7 @@ M˘  Úc  (∆∫å' î"7†function setInterval(fn, ms) {
           });
         }
       }¡ Õ¡Œ¡ƒ¡ƒ9î   Cf   ”  
-MA   $ ”…D≤  ” D≥  ”√Dˆ  ”√D˜  ∑À9µ   !  Ã9ç   ¡D   )∆°åJ4,X+& & + 6F 
+MA   $ ”…D≤  ” D≥  ”√Dı  ”√Dˆ  ∑À9µ   !  Ã9ç   ¡Dˇ  )∆˘ãJ4,X+& & + 6F 
 >E»"../fuick_js_framework/dist/ex/timer.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
@@ -55394,14 +55286,13 @@ MA   $ ”…D≤  ” D≥  ”√Dˆ  ”√D˜  ∑À9µ   !  Ã9ç   ¡D   )∆°åJ4,X+& &
           });
         }
       };
-    }B 	Ø
-û  û3  @†3 @¢3  ¬3 @Ç4 @Ñ4 @Ü4 @à4  ä4 @ÍÏÓC
-  d™3  ¨3 @Æ3 @∞3  §   C
-      ¨3Æ3ﬂ‡H(∆Êå+ 1function() {
+    }B ©	û  ¶3  @®3 @™3  Ä4 @Ç4 @Ñ4 @Ü4  à4 @ÏÓC
+  d∂3  ∏3 @∫3 @º3  §   C
+      ∏3∫3ﬂ‡H(∆æå+ 1function() {
             return m[k];
           }÷ÙÏ’⁄9î   Cg   ‘’$ œóÌ$B   «¨Ï
 ‘B  óÓ«B?   Ì«B>   Ï
-M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆‚åT?0S'û) 4,Ófunction(o, m, k, k2) {
+M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆∫åT?0S'û) 4,Ófunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -55411,24 +55302,24 @@ M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆‚åT?0S'û) 4,Ófunction(o, m, k, k2
         }
         Object.defineProperty(o, k2, desc);
       }C
-    ™3  ¨3  Æ3  ∞3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆Îå%Xfunction(o, m, k, k2) {
+    ∂3  ∏3  ∫3  º3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆√å%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-    !™3  ≤3  9î   Cf   ”   
-M@   ‘MA   $ )∆ÔåZ°4,efunction(o, v) {
+    !∂3  æ3  9î   Cf   ”   
+M@   ‘MA   $ )∆«åZ°4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    ™3  ≤3  ”   ±Ìr‘rJ)∆Òå2function(o, v) {
+    ∂3  æ3  ”   ±Ìr‘rJ)∆…å2function(o, v) {
         o["default"] = v;
       }C
-   –  @û3 †3C
-  ™3  – C
-   <¥3  ∂3   Æ3  &  À”~Ó.Ã9î   B<   BO  C  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆ˆå3ï*%¨function(o2) {
+   –  @¶3 ®3C
+  ∂3  – C
+   <¿3  ¬3   ∫3  &  À”~Ó.Ã9î   B<   BO  C  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆Œå3ï*%¨function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9î   B‹  Ì¡ Á”# ∆ıå 
+          }9î   B‚  Ì¡ Á”# ∆Õå 
 îfunction(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -55437,7 +55328,7 @@ M@   ‘MA   $ )∆ÔåZ°4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >ö  ∂	   Æ3  “  – û3  †3 ”Ï”B  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆˝åU "*8* ;Ω&œfunction(mod) {
+  >ö  ∂	   ∫3  “  – ¶3  ®3 ”Ï”B  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆’åU "*8* ;Ω&œfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -55445,7 +55336,7 @@ M@   ‘MA   $ )∆ÔåZ°4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }¡ Nh   À¡(∆ÙåM †function() {
+        }¡ Nh   À¡(∆ÃåM †function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -55464,11 +55355,11 @@ M@   ‘MA   $ )∆ÔåZ°4,efunction(o, v) {
           return result;
         };
       }C
-à4   A Ç4ä4¬3B
-  Æ  ˙  ¬' 0Ç4  b  ﬂC„  $  Àc  C`  ”‘$ )∆ìç0)* {(id, payload) => {
+Ü4   1 Ä4à4B
+  Æ  ˙  ¬' 0Ä4  b  ﬂC⁄  $  Àc  C`  ”‘$ )∆Íå0)* {(id, payload) => {
             const r = PageRender.ensureRenderer();
             r.dispatchEvent(id, payload);
-          }‡9ç   ﬂB  M  ﬂBƒ	  Mƒ	  ¡ N`  M`  D  9ç   ·Bﬁ  D  )∆éç  - ¸function bindGlobals() {
+          }‡9ç   ﬂB  M  ﬂBƒ	  Mƒ	  ¡ N`  M`  D  )∆Âå Àfunction bindGlobals() {
         setupPolyfills();
         globalThis.ReactRenderer = {
           render: PageRender.render,
@@ -55478,13 +55369,12 @@ M@   ‘MA   $ )∆ÔåZ°4,efunction(o, v) {
             r.dispatchEvent(id, payload);
           }
         };
-        globalThis.ReactRouter = Router2.Router;
       }C
-ä4  °ê4 0Ñ4Ü4C
+à4  °å4 0Ç4Ñ4C
     Ã
-  9ƒ   CÇ   $  CÅ   ”$ )∆™ç'34*Bfunction(fn) {
+  9ƒ   CÇ   $  CÅ   ”$ )∆Äç'34*Bfunction(fn) {
             Promise.resolve().then(fn);
-          }b  9ç   B–  ÌÀ9ç   c  TﬂBû  Mû  ﬂB6  M6  ﬂB7  M7  D–  9ç   ‡B≤  D≤  9ç   ‡B≥  D≥  9ç   ‡Bˆ  Dˆ  9ç   ‡B˜  D˜  9ç   B	  ˜Ì9ç   ¡ D	  )∆ùçc 4 S S S ÖRM˚function setupPolyfills() {
+          }b  9ç   B–  ÌÀ9ç   c  TﬂBû  Mû  ﬂB6  M6  ﬂB7  M7  D–  9ç   ‡B≤  D≤  9ç   ‡B≥  D≥  9ç   ‡Bı  Dı  9ç   ‡Bˆ  Dˆ  9ç   B  ˜Ì9ç   ¡ D  )∆Ûåc 4 S S S ÖRM˚function setupPolyfills() {
         const oldConsole = globalThis.console || {};
         globalThis.console = {
           ...oldConsole,
@@ -55501,10 +55391,8 @@ M@   ‘MA   $ )∆ÔåZ°4,efunction(o, v) {
             Promise.resolve().then(fn);
           };
         }
-      }¡ƒ¡ƒ”Ï”Bœ  Ì9î   Bò  Ï¡ Ó¡À”Ï”B–  Ì9î   Bò  Ï¡Ó¡Ã”Ï”B—  Ì¡Õ9î   Cf   ”  
-MA   $ ”D
-  ”√D  …ﬂÒŒ…‡Òƒ…·Òƒ…‚Òƒ”√M  D
-  )∆‡å+ UJ  4,X+& 06!! 1Ò"../fuick_js_framework/dist/runtime.js"(exports) {
+      }¡ƒ¡ƒ”Ï”B”  Ì9î   Bò  Ï¡ Ó¡À”Ï”B‘  Ì9î   Bò  Ï¡Ó¡Ã”Ï”B’  Ì¡Õ9î   Cf   ”  
+MA   $ ”D  ”√D  …ﬂÒŒ…‡Òƒ…·Òƒ”√M  D  )∆∏å+ UJ  4,X+& 0<! 1å"../fuick_js_framework/dist/runtime.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -55546,7 +55434,6 @@ MA   $ ”D
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Runtime = void 0;
       exports.bindGlobals = bindGlobals;
-      var Router2 = __importStar(require_router());
       var PageRender = __importStar(require_page_render());
       var Console = __importStar(require_console());
       var Timer = __importStar(require_timer());
@@ -55560,7 +55447,6 @@ MA   $ ”D
             r.dispatchEvent(id, payload);
           }
         };
-        globalThis.ReactRouter = Router2.Router;
       }
       exports.Runtime = {
         bindGlobals
@@ -55583,14 +55469,14 @@ MA   $ ”D
           };
         }
       }
-    }B û  û3  @ñ4  ﬁ
-ÊÍÚÏÓC
-  d™3  ¨3 @Æ3 @∞3  §   C
-      ¨3Æ3ﬂ‡H(∆∫ç+ 1function() {
+    }B «û  ¶3  @®3 @í4  ™3  ﬁ
+ÊËÍÚÏÓC
+  d∂3  ∏3 @∫3 @º3  §   C
+      ∏3∫3ﬂ‡H(∆êç+ 1function() {
             return m[k];
           }÷ÙÏ’⁄9î   Cg   ‘’$ œóÌ$B   «¨Ï
 ‘B  óÓ«B?   Ì«B>   Ï
-M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆∂çT?0S'û) 4,Ófunction(o, m, k, k2) {
+M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆åçT?0S'û) 4,Ófunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -55600,14 +55486,65 @@ M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆∂çT?0S'û) 4,Ófunction(o, m, k, k2
         }
         Object.defineProperty(o, k2, desc);
       }C
-    ™3  ¨3  Æ3  ∞3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆øç%Xfunction(o, m, k, k2) {
+    ∂3  ∏3  ∫3  º3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆ïç%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-  5¨3  ˛  ∫2   û3 ”~Ó-À«   ∞Ï#9î   B<   BO  C  ‘«$ óÏﬂ‘”«ÛÅÏ“)∆√ç=!1éf* §function(m, exports2) {
+    !∂3  æ3  9î   Cf   ”   
+M@   ‘MA   $ )∆ôçZ°4,efunction(o, v) {
+        Object.defineProperty(o, "default", { enumerable: true, value: v });
+      }C
+    ∂3  æ3  ”   ±Ìr‘rJ)∆õç2function(o, v) {
+        o["default"] = v;
+      }C
+  5∏3  ˛  ∫2   ¶3 ”~Ó-À«   ∞Ï#9î   B<   BO  C  ‘«$ óÏﬂ‘”«ÛÅÏ“)∆ûç=!1éf* §function(m, exports2) {
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
-      }”Ï”Bœ  Ì9î   Bò  Ï¡ Ó¡À”Ï”B  Ì¡Ã9î   Cf   ”  
-MA   $ »ﬂ”Ú»‡”Ú»·”Ú»‚”Ú»_ ”Ú»_ ”Ú»_ ”Ú)∆¥ç$ 4" 4,X+&&Â	"../fuick_js_framework/dist/index.js"(exports) {
+      }C
+   –  @¶3 ®3C
+  ∂3  – C
+   <¿3  ¬3   ∫3  &  À”~Ó.Ã9î   B<   BO  C  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆£ç3ï*%¨function(o2) {
+            var ar = [];
+            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+            return ar;
+          }9î   B‚  Ì¡ Á”# ∆¢ç 
+îfunction(o) {
+          ownKeys = Object.getOwnPropertyNames || function(o2) {
+            var ar = [];
+            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+            return ar;
+          };
+          return ownKeys(o);
+        }C
+  >ö  ∂	   ∫3  “  – ¶3  ®3 ”Ï”B  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆™çU "*8* ;Ω&œfunction(mod) {
+          if (mod && mod.__esModule) return mod;
+          var result = {};
+          if (mod != null) {
+            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+          }
+          __setModuleDefault(result, mod);
+          return result;
+        }¡ Nh   À¡(∆°çM †function() {
+        var ownKeys = function(o) {
+          ownKeys = Object.getOwnPropertyNames || function(o2) {
+            var ar = [];
+            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+            return ar;
+          };
+          return ownKeys(o);
+        };
+        return function(mod) {
+          if (mod && mod.__esModule) return mod;
+          var result = {};
+          if (mod != null) {
+            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+          }
+          __setModuleDefault(result, mod);
+          return result;
+        };
+      }”Ï”B”  Ì9î   Bò  Ï¡ Ó¡À”Ï”B‘  Ì9î   Bò  Ï¡Ó¡Ã”Ï”B	  Ì¡Õ”Ï”B’  Ì¡Œ9î   Cf   ”  
+MA   $ ”D
+  …ﬂ”Ú…‡”Ú…·”Ú” ‚ÒD
+  …_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú)∆äç, gP  4,X+& B+A&&&™"../fuick_js_framework/dist/index.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -55622,23 +55559,52 @@ MA   $ »ﬂ”Ú»‡”Ú»·”Ú»‚”Ú»_ ”Ú»_ ”Ú»_ ”Ú)∆¥ç$ 4" 4,X+
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       });
+      var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
+        Object.defineProperty(o, "default", { enumerable: true, value: v });
+      } : function(o, v) {
+        o["default"] = v;
+      });
       var __exportStar = exports && exports.__exportStar || function(m, exports2) {
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       };
+      var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
+        var ownKeys = function(o) {
+          ownKeys = Object.getOwnPropertyNames || function(o2) {
+            var ar = [];
+            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+            return ar;
+          };
+          return ownKeys(o);
+        };
+        return function(mod) {
+          if (mod && mod.__esModule) return mod;
+          var result = {};
+          if (mod != null) {
+            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+          }
+          __setModuleDefault(result, mod);
+          return result;
+        };
+      }();
       Object.defineProperty(exports, "__esModule", { value: true });
+      exports.Navigator = void 0;
       __exportStar(require_components(), exports);
       __exportStar(require_renderer(), exports);
       __exportStar(require_router(), exports);
+      exports.Navigator = __importStar(require_navigator());
       __exportStar(require_runtime(), exports);
       __exportStar(require_page_render(), exports);
       __exportStar(require_timer(), exports);
       __exportStar(require_console(), exports);
     }C
-˛  ¸ò4 0˙¸B
-       9  CQ    % ∆Ïç4$#() => ReactRouter.push("/examples")B
-       9  CQ    % ∆Úç4$"() => ReactRouter.push("/complex")B
-  ≈Æ @˙  ¸ B
-      Æ 9  CQ    ﬂMó  % ∆êé4$)() => ReactRouter.push("/detail", { id })ﬂB   CZ  ‡B7  ”M  æM  MÁ  ﬂB   CZ  ‡B4  æMÁ    MÓ  æM  M  ﬂB   CZ  ‡B8    MÈ  ﬂB   CZ  ‡B8  ﬂB   CZ  ‡B9    C]   ”$ M  æ2Mﬂ  æ2M‡    M  $ ﬂB   CZ  ‡B:  æMﬂ  $ ﬂB   CZ  ‡B5    C]   ”$ M;  æMÏ  $ $ ﬂB   CZ  ‡B;    M;  ¡ NØ  MØ  $ $ $ % ∆ıçv9~º€ 0féÚ]” @hèg 2 ñ
+˛  ¸ñ4 0¸˙B
+      ¸  ﬂB
+  CQ    % ∆‹ç9T?() => import_fuick_js_framework.Navigator.push("/examples", {})B
+      ¸  ﬂB
+  CQ    % ∆‚ç9T>() => import_fuick_js_framework.Navigator.push("/complex", {})B
+  ≈Æ @¸  ˙ B
+      ¸  Æ ﬂB
+  CQ    ‡Mó  % ∆Äé9TA() => import_fuick_js_framework.Navigator.push("/detail", { id })‡B   CZ  ﬂB7  ”M  æM  MÊ  ‡B   CZ  ﬂB4  æMÊ    MÌ  æM  M  ‡B   CZ  ﬂB8    MË  ‡B   CZ  ﬂB8  ‡B   CZ  ﬂB9    C]   ”$ M  æ2Mﬂ  æ2M‡    M  $ ‡B   CZ  ﬂB:  æMﬂ  $ ‡B   CZ  ﬂB5    C]   ”$ M;  æMÎ  $ $ ‡B   CZ  ﬂB;    M;  ¡ NØ  MØ  $ $ $ % ∆Âçv9~º€ 0féÚ]” @hèg 2 Æ
 (id) => /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.Padding, { key: id, padding: { bottom: 12 } }, /* @__PURE__ */ import_react.default.createElement(
       import_fuick_js_framework.Container,
       {
@@ -55666,12 +55632,12 @@ MA   $ »ﬂ”Ú»‡”Ú»·”Ú»‚”Ú»_ ”Ú»_ ”Ú»_ ”Ú)∆¥ç$ 4" 4,X+
         import_fuick_js_framework.Button,
         {
           text: "View",
-          onTap: () => ReactRouter.push("/detail", { id })
+          onTap: () => import_fuick_js_framework.Navigator.push("/detail", { id })
         }
       ))
-    ))b  ∑∏π∫ª& ÀﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡B4  ædM‡    MÓ  M  Ë  M  ﬂB   CZ  ‡B3  ﬂB   CZ  ‡B5    M;  æMÏ     MÓ  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B8  Ë  MÈ  ﬂB   CZ  ‡B;  !  M;  ¡ NØ  MØ  $ ﬂB   CZ  ‡B:  æ
-Mﬂ  $ ﬂB   CZ  ‡B;  "  M;  ¡NØ  MØ  $ $ $ $ ﬂB   CZ  ‡B6  æMÁ  c  CÕ  ¡$ $ % ∆ÿç wxèo 3f]a 0héŒèµ +
-hèg 4dpv»function HomePage() {
+    ))b  ∑∏π∫ª& À‡B   CZ  ﬂB3    M  ‡B   CZ  ﬂB4  ædM‡    MÌ  M  Á  M  ‡B   CZ  ﬂB3  ‡B   CZ  ﬂB5    M;  æMÎ    MÌ  $ ‡B   CZ  ﬂB:  æM‡  $ ‡B   CZ  ﬂB8  Á  MË  ‡B   CZ  ﬂB;     M;  ¡ NØ  MØ  $ ‡B   CZ  ﬂB:  æ
+Mﬂ  $ ‡B   CZ  ﬂB;  !  M;  ¡NØ  MØ  $ $ $ $ ‡B   CZ  ﬂB6  æMÊ  c  CÕ  ¡$ $ % ∆»ç wxèo 3f]a 0héŒèµ +
+hèg 4dpvòfunction HomePage() {
     const items = [1, 2, 3, 4, 5];
     return /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react.default.createElement(
       import_fuick_js_framework.Container,
@@ -55691,13 +55657,13 @@ hèg 4dpv»function HomePage() {
         import_fuick_js_framework.Button,
         {
           text: "\u7EC4\u4EF6\u793A\u4F8B",
-          onTap: () => ReactRouter.push("/examples")
+          onTap: () => import_fuick_js_framework.Navigator.push("/examples", {})
         }
       ), /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.SizedBox, { width: 10 }), /* @__PURE__ */ import_react.default.createElement(
         import_fuick_js_framework.Button,
         {
           text: "\u590D\u6742\u9875\u9762",
-          onTap: () => ReactRouter.push("/complex")
+          onTap: () => import_fuick_js_framework.Navigator.push("/complex", {})
         }
       )))
     ), /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.ListView, { padding: 16 }, items.map((id) => /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.Padding, { key: id, padding: { bottom: 12 } }, /* @__PURE__ */ import_react.default.createElement(
@@ -55727,18 +55693,19 @@ hèg 4dpv»function HomePage() {
         import_fuick_js_framework.Button,
         {
           text: "View",
-          onTap: () => ReactRouter.push("/detail", { id })
+          onTap: () => import_fuick_js_framework.Navigator.push("/detail", { id })
         }
       ))
     )))));
   }C
-Ñ %å¿ @ÄÇB
-      ¿ 9–  Cû  #  ﬂBó  û% ∆ƒé4&() => console.log("Liked " + props.id)B
-      ¿ 9–  Cû  $  ﬂBó  û% ∆ é4 '() => console.log("Shared " + props.id)B
-       9  CN  %  ∆–é4$() => ReactRouter.pop()B
+Ñ %å¿ @ÇÄB
+      ¿ 9–  Cû  "  ﬂBó  û% ∆¥é4&() => console.log("Liked " + props.id)B
+      ¿ 9–  Cû  #  ﬂBó  û% ∆∫é4 '() => console.log("Shared " + props.id)B
+      Ç  ﬂB
+  CN  %  ∆¿é9V0() => import_fuick_js_framework2.Navigator.pop()B
       123456B
-     4  9–  Cû  &  ”% ∆÷éS4,-(res) => console.log("test future res:", res)9'  (  )  ¿ & ÚCÅ   ¡% ∆÷ékzv() => dartCallNativeAsync("testFuture", ["hello world", "123456"]).then((res) => console.log("test future res:", res))ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡B9  *  ”Bó  ûM  ø˙ M‡    M  $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  +  M;  æMÏ  ,  MÓ  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B4  æMë  æMì  ∫M-  ∫M  MÁ  .  MÓ  ∫M  M  ﬂB   CZ  ‡B5  /  C]   ”Bó  $ M;  æMÏ  0  MÓ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  1  MÓ  ∑M2  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  3  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B8  5  MÈ  ﬂB   CZ  ‡B;  6  M;  ¡ NØ  MØ  $ ﬂB   CZ  ‡B;  7  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B;  8  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B;  9  M;  ¡NØ  MØ  $ $ ﬂB   CZ  ‡B:  æ(M‡  $ $ $ $ % ∆ôéE:z\ÿè…@Z ,“èª 0jèi H Afé‘ª˙è∑ 0jé‘èΩ +  +  +  .
-l⁄function DetailPage(props) {
+    »4  9–  Cû  %  ”% ∆∆éS4,-(res) => console.log("test future res:", res)9&  '  (  ¿ & ÚCÅ   ¡% ∆∆ékzv() => dartCallNativeAsync("testFuture", ["hello world", "123456"]).then((res) => console.log("test future res:", res))‡B   CZ  ﬂBE  ‡B   CZ  ﬂB3    M  ‡B   CZ  ﬂB9  )  ”Bó  ûM  ø˙ M‡    M  $ ‡B   CZ  ﬂB7  æMÊ  ‡B   CZ  ﬂB3  ÿ	  M  ‡B   CZ  ﬂB5  *  M;  æMÎ  +  MÌ  $ ‡B   CZ  ﬂB:  æM‡  $ ‡B   CZ  ﬂB4  æMë  æMì  ∫M,  ∫M  MÊ  -  MÌ  ∫M  M  ‡B   CZ  ﬂB5  .  C]   ”Bó  $ M;  æMÎ  /  MÌ  $ $ ‡B   CZ  ﬂB:  æM‡  $ ‡B   CZ  ﬂBD  0  MÌ  ∑M1  $ ‡B   CZ  ﬂB:  æM‡  $ ‡B   CZ  ﬂB5  2  M;  æMÎ  3  MÌ  $ ‡B   CZ  ﬂB:  æM‡  $ ‡B   CZ  ﬂB8  4  MË  ‡B   CZ  ﬂB;  5  M;  ¡ NØ  MØ  $ ‡B   CZ  ﬂB;  6  M;  ¡NØ  MØ  $ ‡B   CZ  ﬂB;  7  M;  ¡NØ  MØ  $ ‡B   CZ  ﬂB;  8  M;  ¡NØ  MØ  $ $ ‡B   CZ  ﬂB:  æ(M‡  $ $ $ $ % ∆âéE:z\ÿè…@Z ,“èª 0jèi H Afé‘ª˙è∑ 0jé‘èΩ +  +  +  .
+lÛfunction DetailPage(props) {
     return /* @__PURE__ */ import_react2.default.createElement(import_fuick_js_framework2.SingleChildScrollView, null, /* @__PURE__ */ import_react2.default.createElement(import_fuick_js_framework2.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react2.default.createElement(
       import_fuick_js_framework2.Image,
       {
@@ -55793,7 +55760,7 @@ l⁄function DetailPage(props) {
       import_fuick_js_framework2.Button,
       {
         text: "Back Home",
-        onTap: () => ReactRouter.pop()
+        onTap: () => import_fuick_js_framework2.Navigator.pop()
       }
     ), /* @__PURE__ */ import_react2.default.createElement(
       import_fuick_js_framework2.Button,
@@ -55803,23 +55770,23 @@ l⁄function DetailPage(props) {
       }
     )), /* @__PURE__ */ import_react2.default.createElement(import_fuick_js_framework2.SizedBox, { height: 40 })))));
   }
-   3¶Ù4 0ˆ4p¯40˙4pÜà
-     ˙4
+   3¶Ú4 0Ù4pˆ40¯4pÜà
+     ¯4
    
-¸4        ‡?”∑ØÏ¿ (∑(∆·éø&<(prev) => prev === 1 ? 0.5 : 1f  ¡ # ∆·éπ&0() => setOpacity((prev) => prev === 1 ? 0.5 : 1)
-     ˆ4
-      ˆ4 f  	# ∆„é8() => setLoading(false)f  
-Ò9≤  ¡ ø–Ú)∆·é¯-·[U() => {
+˙4        ‡?”∑ØÏ¿ (∑(∆—éø&<(prev) => prev === 1 ? 0.5 : 1f  ¡ # ∆—éπ&0() => setOpacity((prev) => prev === 1 ? 0.5 : 1)
+     Ù4
+      Ù4 f  	# ∆”é8() => setLoading(false)f  
+Ò9≤  ¡ ø–Ú)∆—é¯-·[U() => {
       setLoading(true);
       setTimeout(() => setLoading(false), 2e3);
-    }b b b b  ÙÌÇ ÀÇ ÃÖÓﬂB   Cx  	$ Ó„ÙÌÇ ÕÇ ŒÖÓﬂB   Cx  ∑$ Ó„ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  ?  M;  æMÏ  ,  MÓ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  @  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æ
-M‡  $ ﬂB   CZ  ‡B8  ﬂB   CZ  ‡B@  ∑MA  ﬂB   CZ  ‡B4  B  MÓ  æ2M‡  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  C  M;     MÓ  $ $ $ $ ﬂB   CZ  ‡B@  ∏MA  ﬂB   CZ  ‡B4  D  MÓ  æ2M‡  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  E  M;     MÓ  $ $ $ $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  F  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æ
-M‡  $ ﬂB   CZ  ‡B<  ﬂB   CZ  ‡BF  Ë  M  ø» Mﬂ  ø» M‡  ﬂB   CZ  ‡B4  1  MÓ  ø» Mﬂ  ø» M‡  $ ﬂB   CZ  ‡BG  æM-  æMë  ﬂB   CZ  ‡B4    MÓ  æ<Mﬂ  æ<M‡  $ $ ﬂB   CZ  ‡BG  æM  æMì  ﬂB   CZ  ‡B4  G  MÓ  æ<Mﬂ  æ<M‡  $ $ ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  <  M;  $ $ $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  H  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æ
-M‡  $ ﬂB   CZ  ‡B8    MÈ  ﬂB   CZ  ‡BB  I  M  J  M3   M√  MK  ﬂB   CZ  ‡BH  c M<  ﬂB   CZ  ‡B4  L  MÓ  ædMﬂ  ædM‡  æM  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  M  M;     MÓ  $ $ $ $ $ ﬂB   CZ  ‡B3  ﬂB   CZ  ‡B;  N  M;  ¡ NØ  MØ  $ ﬂB   CZ  ‡B:  æ
-M‡  $ ﬂB   CZ  ‡B5  O  C]   c CP  ∑$ $ M;  $ $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  Q  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æ
-M‡  $ ﬂB   CZ  ‡B8  ﬂB   CZ  ‡B;  R  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B:  æMﬂ  $ c  Ï'ﬂB   CZ  ‡BI    MÓ  πMS  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  T  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æ
-M‡  $ ﬂB   CZ  ‡B8  U  MÈ  ﬂB   CZ  ‡B=  Ø„  MV    MÓ  æ(M1   $ é	  ﬂB   CZ  ‡B=  ë‰  MV  W  MÓ  æ(M1   $ é	  ﬂB   CZ  ‡B=  Â  MV  X  MÓ  æ(M1   $ é	  ﬂB   CZ  ‡B=  ∂Ë  MV  L  MÓ  æ(M1   $ é	  $
- ﬂB   CZ  ‡B:  æ(M‡  $ $ $ % ∆ﬁéÕ–X≤X\ÿ“é\∫ 3 ¬é‘Ú™é‘\¥zÃ±¯\∫¸˛zÃ±¯\∫ 5 Äé‘kæÚ≤é‘\∫ﬁêÌî¢‰Úí¢ÏÚí\∫ ⁄é‘kæÚ¿é‘éˆ¸ƒÑ ˜¥\∫ 5 Ñ\∫Ÿ⁄é‘z¢éé‘kæÚ≤é‘\¥‹ÌY±Ë §é‘kæÚòé‘éÙ 5 ö 5 ö 5 ö 8 úÀ;() => {
+    }b b b b  ÙÌÇ ÀÇ ÃÖÓﬂB   Cx  	$ Ó„ÙÌÇ ÕÇ ŒÖÓﬂB   Cx  ∑$ Ó„ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B7  æMÊ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  >  M;  æMÎ  +  MÌ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  ?  M;  æMÎ  3  MÌ  $ ﬂB   CZ  ‡B:  æ
+M‡  $ ﬂB   CZ  ‡B8  ﬂB   CZ  ‡B@  ∑M@  ﬂB   CZ  ‡B4  A  MÌ  æ2M‡  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  B  M;    MÌ  $ $ $ $ ﬂB   CZ  ‡B@  ∏M@  ﬂB   CZ  ‡B4  C  MÌ  æ2M‡  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  D  M;    MÌ  $ $ $ $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  E  M;  æMÎ  3  MÌ  $ ﬂB   CZ  ‡B:  æ
+M‡  $ ﬂB   CZ  ‡B<  ﬂB   CZ  ‡BF  Á  M  ø» Mﬂ  ø» M‡  ﬂB   CZ  ‡B4  0  MÌ  ø» Mﬂ  ø» M‡  $ ﬂB   CZ  ‡BG  æM,  æMë  ﬂB   CZ  ‡B4    MÌ  æ<Mﬂ  æ<M‡  $ $ ﬂB   CZ  ‡BG  æM  æMì  ﬂB   CZ  ‡B4  F  MÌ  æ<Mﬂ  æ<M‡  $ $ ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  <  M;  $ $ $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  G  M;  æMÎ  3  MÌ  $ ﬂB   CZ  ‡B:  æ
+M‡  $ ﬂB   CZ  ‡B8    MË  ﬂB   CZ  ‡BB  H  M  I  M3   M√  MJ  ﬂB   CZ  ‡BH  c M;  ﬂB   CZ  ‡B4  K  MÌ  ædMﬂ  ædM‡  æM  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  L  M;    MÌ  $ $ $ $ $ ﬂB   CZ  ‡B3  ﬂB   CZ  ‡B;  M  M;  ¡ NØ  MØ  $ ﬂB   CZ  ‡B:  æ
+M‡  $ ﬂB   CZ  ‡B5  N  C]   c CO  ∑$ $ M;  $ $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  P  M;  æMÎ  3  MÌ  $ ﬂB   CZ  ‡B:  æ
+M‡  $ ﬂB   CZ  ‡B8  ﬂB   CZ  ‡B;  Q  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B:  æMﬂ  $ c  Ï'ﬂB   CZ  ‡BI    MÌ  πMR  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  S  M;  æMÎ  3  MÌ  $ ﬂB   CZ  ‡B:  æ
+M‡  $ ﬂB   CZ  ‡B8  T  MË  ﬂB   CZ  ‡B=  Ø„  MU    MÌ  æ(M1   $ é	  ﬂB   CZ  ‡B=  ë‰  MU  V  MÌ  æ(M1   $ é	  ﬂB   CZ  ‡B=  Â  MU  W  MÌ  æ(M1   $ é	  ﬂB   CZ  ‡B=  ∂Ë  MU  K  MÌ  æ(M1   $ é	  $
+ ﬂB   CZ  ‡B:  æ(M‡  $ $ $ % ∆ŒéÕ–X≤X\ÿ“é\∫ 3 ¬é‘Ú™é‘\¥zÃ±¯\∫¸˛zÃ±¯\∫ 5 Äé‘kæÚ≤é‘\∫ﬁêÌî¢‰Úí¢ÏÚí\∫ ⁄é‘kæÚ¿é‘éˆ¸ƒÑ ˜¥\∫ 5 Ñ\∫Ÿ⁄é‘z¢éé‘kæÚ≤é‘\¥‹ÌY±Ë §é‘kæÚòé‘éÙ 5 ö 5 ö 5 ö 8 úÀ;() => {
     const [loading, setLoading] = import_react3.default.useState(false);
     const [opacity, setOpacity] = import_react3.default.useState(1);
     return /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SingleChildScrollView, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Padding, { padding: 16 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Flutter Widgets \u793A\u4F8B", fontSize: 24, color: "#333333" })), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "1. Expanded & Row", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Row, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Expanded, { flex: 1 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#FF0000", height: 50 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Flex 1", color: "#FFFFFF" })))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Expanded, { flex: 2 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#00FF00", height: 50 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Flex 2", color: "#FFFFFF" }))))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Divider, null), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "2. Stack & Positioned", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Stack, { alignment: "center", width: 200, height: 200 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#EEEEEE", width: 200, height: 200 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Positioned, { top: 20, left: 20 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#2196F3", width: 60, height: 60 })), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Positioned, { bottom: 20, right: 20 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#F44336", width: 60, height: 60 })), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Center" })))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Divider, null), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "3. Opacity & GestureDetector", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.GestureDetector, { onTapJs: { call: "nativeLog", args: { message: "Tapped!" } } }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Opacity, { opacity }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#9C27B0", width: 100, height: 100, borderRadius: 8 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Click Me", color: "#FFFFFF" }))))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Column, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Button, { text: "Toggle Opacity", onTap: () => setOpacity((prev) => prev === 1 ? 0.5 : 1) }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: `Current: ${opacity.toFixed(1)}` }))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Divider, null), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "4. Progress & Loading", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Row, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Button, { text: "Show Loading", onTap: () => {
@@ -55827,15 +55794,15 @@ M‡  $ ﬂB   CZ  ‡B8  U  MÈ  ﬂB   CZ  ‡B=  Ø„  MV    MÓ  æ(M1  
       setTimeout(() => setLoading(false), 2e3);
     } }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { width: 20 }), loading && /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.CircularProgressIndicator, { color: "#2196F3", strokeWidth: 3 })), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Divider, null), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "5. Icons", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Icon, { codePoint: 58287, color: "#2196F3", size: 40 }), " ", /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Icon, { codePoint: 58513, color: "#4CAF50", size: 40 }), " ", /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Icon, { codePoint: 58751, color: "#FF9800", size: 40 }), " ", /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Icon, { codePoint: 59574, color: "#9C27B0", size: 40 }), " "), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 40 }))));
   }
-   $í≤5 p¥5p∂5p∏5p∫50º50é"ê#128856
+   $í∞5 p≤5p¥5p∂5p∏50∫50é"ê#128856
      
- ¥5≤5 f  f ó# ∆±è"() => setIsFollowing(!isFollowing)
+ ≤5∞5 f  f ó# ∆°è"() => setIsFollowing(!isFollowing)
   
- áæ5  ∞  é  ê ﬂB   CZ  ‡B3  ‘M  Ë  M  ﬂB   CZ  ‡B5  ”BA   M;  æMÏ  `  MÓ  $ ﬂB   CZ  ‡B5  ”Bj  M;  æMÏ  a  MÓ  $ % ∆∫èÇ	9í¨ä˜ò≠(stat, index) => /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { key: index, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: stat.value, fontSize: 18, color: "#1A1C1E" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: stat.label, fontSize: 12, color: "#6B7280" }))
-  Ïƒ5 @∏5é  ê ∂5
-      ∏5 ƒ5 f  ‡# ∆∫è»	&() => setActiveTab(tab)‡B   CZ  ·BB  ”M  ¡ NØ  MØ  ‡B   CZ  ·B3  Ë  M  ‡B   CZ  ·B4  æMë  æMì  æ
-M-  æ
-M  MÁ  ‡B   CZ  ·B5  ”M;  æMÏ  f ”ØÏc  Óa  MÓ  $ $ f ”ØÏ.‡B   CZ  ·B4  ∏M‡  æ(Mﬂ  c  MÓ  $ $ % ∆∫è»9Ç∂úèü 4
+ áº5  ∞  é  ê ﬂB   CZ  ‡B3  ‘M  Á  M  ﬂB   CZ  ‡B5  ”BA   M;  æMÎ  _  MÌ  $ ﬂB   CZ  ‡B5  ”Bj  M;  æMÎ  `  MÌ  $ % ∆™èÇ	9í¨ä˜ò≠(stat, index) => /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { key: index, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: stat.value, fontSize: 18, color: "#1A1C1E" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: stat.label, fontSize: 12, color: "#6B7280" }))
+  Ï¬5 @∂5é  ê ¥5
+      ∂5 ¬5 f  ‡# ∆™è»	&() => setActiveTab(tab)‡B   CZ  ·BB  ”M  ¡ NØ  MØ  ‡B   CZ  ·B3  Á  M  ‡B   CZ  ·B4  æMë  æMì  æ
+M,  æ
+M  MÊ  ‡B   CZ  ·B5  ”M;  æMÎ  f ”ØÏb  Ó`  MÌ  $ $ f ”ØÏ.‡B   CZ  ·B4  ∏M‡  æ(Mﬂ  b  MÌ  $ $ % ∆™è»9Ç∂úèü 4
  .õWvÀ(tab) => /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.GestureDetector, { key: tab, onTap: () => setActiveTab(tab) }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(
       import_fuick_js_framework4.Container,
       {
@@ -55850,8 +55817,8 @@ M  MÁ  ‡B   CZ  ·B5  ”M;  æMÏ  f ”ØÏc  Óa  MÓ  $ $ f ”ØÏ.
         }
       )
     ), activeTab === tab && /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Container, { height: 2, width: 40, color: "#3B82F6" })))
-  & Ø»5  é  ê ﬂB   CZ  ‡B4  ”Bó  M     MÓ  æM  æM  Me  ∂MÁ  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡B4  ø» M‡  ﬂB   CZ  ‡B9  ”Bf  M    M  øêMﬂ  ø» M‡  æMg  æMh  M  $ $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  ”Bi  M;  æMÏ  `  MÓ  $ ﬂB   CZ  ‡B:  æ
-M‡  $ ﬂB   CZ  ‡B8  ÿ	  MÈ  Ë  M  ﬂB   CZ  ‡B=  à„  MV  æM1   a  MÓ  $ é	  ﬂB   CZ  ‡B:  ∫Mﬂ  $ ﬂB   CZ  ‡B5  ¬C]   ”Bj  $ M;  æMÏ  a  MÓ  $ ﬂB   CZ  ‡B:  æMﬂ  $ ﬂB   CZ  ‡B=  P·  MV  æM1   a  MÓ  $ é	  ﬂB   CZ  ‡B:  ∫Mﬂ  $ ﬂB   CZ  ‡B5  ¬C]   ”Bk  $ M;  æMÏ  a  MÓ  $ $ $ $ $ % ∆«èå8:â AhéÙÖ◊ Ql“é˜òé‘¿§ 5 öâ– : ¢é“ 5 öâ–‡(post) => /* @__PURE__ */ import_react4.default.createElement(
+  & Ø∆5  é  ê ﬂB   CZ  ‡B4  ”Bó  M    MÌ  æM  æM  Md  ∂MÊ  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡B4  ø» M‡  ﬂB   CZ  ‡B9  ”Be  M    M  øêMﬂ  ø» M‡  æMf  æMg  M  $ $ ﬂB   CZ  ‡B7  æMÊ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  ”Bh  M;  æMÎ  _  MÌ  $ ﬂB   CZ  ‡B:  æ
+M‡  $ ﬂB   CZ  ‡B8  ÿ	  MË  Á  M  ﬂB   CZ  ‡B=  à„  MU  æM1   `  MÌ  $ é	  ﬂB   CZ  ‡B:  ∫Mﬂ  $ ﬂB   CZ  ‡B5  ¬C]   ”Bi  $ M;  æMÎ  `  MÌ  $ ﬂB   CZ  ‡B:  æMﬂ  $ ﬂB   CZ  ‡B=  P·  MU  æM1   `  MÌ  $ é	  ﬂB   CZ  ‡B:  ∫Mﬂ  $ ﬂB   CZ  ‡B5  ¬C]   ”Bj  $ M;  æMÎ  `  MÌ  $ $ $ $ $ % ∆∑èå8:â AhéÙÖ◊ Ql“é˜òé‘¿§ 5 öâ– : ¢é“ 5 öâ–‡(post) => /* @__PURE__ */ import_react4.default.createElement(
       import_fuick_js_framework4.Container,
       {
         key: post.id,
@@ -55870,9 +55837,9 @@ M‡  $ ﬂB   CZ  ‡B8  ÿ	  MÈ  Ë  M  ﬂB   CZ  ‡B=  à„  MV  æM1  
           borderRadius: { topLeft: 16, topRight: 16 }
         }
       )), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Padding, { padding: 15 }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: post.title, fontSize: 18, color: "#1A1C1E" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.SizedBox, { height: 10 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Row, { mainAxisAlignment: "start", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Icon, { codePoint: 58248, size: 18, color: "#6B7280" }), " ", /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.SizedBox, { width: 4 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: `${post.likes}`, fontSize: 14, color: "#6B7280" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.SizedBox, { width: 20 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Icon, { codePoint: 57680, size: 18, color: "#6B7280" }), " ", /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.SizedBox, { width: 4 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: `${post.comments}`, fontSize: 14, color: "#6B7280" })))))
-    )b b b b b b  ÙÌÇ ÀÇ ÃÖÓﬂB   Cx  	$ Ó„ÙÌÇ ÕÇ ŒÖÓﬂB   Cx  l  $ Óﬂl  Mj  ¿ MA   m  Mj  n  MA   o  Mj  ¿MA   & ƒ∑Mó  p  Mf  æ|Mj  æMk  q  Mi  ∏Mó  r  Mf  æYMj  ªMk  s  Mi  πMó  t  Mf  ø Mj  æ*Mk  u  Mi  & ƒﬂB   CZ  ‡B4  v  MÓ  ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡BF  w  M  ﬂB   CZ  ‡B4  ø» M‡  øêMﬂ  ﬂB   CZ  ‡B9  x  M    M  øêMﬂ  ø» M‡  $ $ ﬂB   CZ  ‡BG  æÿM  æMë  ﬂB   CZ  ‡B4  ædMﬂ  ædM‡  æ2M     MÓ  ∫MÁ  ﬂB   CZ  ‡B4  æ\Mﬂ  æ\M‡  æ.M  ﬂB   CZ  ‡B9  y  M    M  æ\Mﬂ  æ\M‡  æ.M  $ $ $ $ $ ﬂB   CZ  ‡B:  æ2M‡  $ ﬂB   CZ  ‡B7  æMë  æMì  æ
-M-  æ
-M  MÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B8    MÈ  Ë  M  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  z  M;  æMÏ  `  MÓ  $ ﬂB   CZ  ‡B5  {  M;  æMÏ  a  MÓ  $ $ ﬂB   CZ  ‡B;  c  Ïo  Ó|  M;  ¡NØ  MØ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  }  M;  æMÏ  ~  MÓ  $ $ $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B4     MÓ  æM  æMÁ  ﬂB   CZ  ‡B8  U  MÈ  c CÕ  ¡$ $ $ $ ﬂB   CZ  ‡B7  æMë  æMì  MÁ  ﬂB   CZ  ‡B8  ÿ	  MÈ  l    Ä  & CÕ  ¡$ $ $ ﬂB   CZ  ‡BD  ∑M‡  Å  MÓ  $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3    M  c CÕ  ¡$ $ $ $	 $ % ∆ÎémÓj≤ ”:é‡\ÿéÙéÊ≠É <l£k 7 ' Jfé‘ 4 ¶é¿≤éÚò 3ë :
+    )b b b b b b  ÙÌÇ ÀÇ ÃÖÓﬂB   Cx  	$ Ó„ÙÌÇ ÕÇ ŒÖÓﬂB   Cx  k  $ Óﬂk  Mj  ¿ MA   l  Mj  m  MA   n  Mj  ¿MA   & ƒ∑Mó  o  Me  æ|Mi  æMj  p  Mh  ∏Mó  q  Me  æYMi  ªMj  r  Mh  πMó  s  Me  ø Mi  æ*Mj  t  Mh  & ƒﬂB   CZ  ‡B4  u  MÌ  ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡BF  v  M  ﬂB   CZ  ‡B4  ø» M‡  øêMﬂ  ﬂB   CZ  ‡B9  w  M    M  øêMﬂ  ø» M‡  $ $ ﬂB   CZ  ‡BG  æÿM  æMë  ﬂB   CZ  ‡B4  ædMﬂ  ædM‡  æ2M    MÌ  ∫MÊ  ﬂB   CZ  ‡B4  æ\Mﬂ  æ\M‡  æ.M  ﬂB   CZ  ‡B9  x  M    M  æ\Mﬂ  æ\M‡  æ.M  $ $ $ $ $ ﬂB   CZ  ‡B:  æ2M‡  $ ﬂB   CZ  ‡B7  æMë  æMì  æ
+M,  æ
+M  MÊ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B8    MË  Á  M  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  y  M;  æMÎ  _  MÌ  $ ﬂB   CZ  ‡B5  z  M;  æMÎ  `  MÌ  $ $ ﬂB   CZ  ‡B;  c  Ïn  Ó{  M;  ¡NØ  MØ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  |  M;  æMÎ  }  MÌ  $ $ $ ﬂB   CZ  ‡B7  æMÊ  ﬂB   CZ  ‡B4    MÌ  æM  æMÊ  ﬂB   CZ  ‡B8  T  MË  c CÕ  ¡$ $ $ $ ﬂB   CZ  ‡B7  æMë  æMì  MÊ  ﬂB   CZ  ‡B8  ÿ	  MË  k  ~    & CÕ  ¡$ $ $ ﬂB   CZ  ‡BD  ∑M‡  Ä  MÌ  $ ﬂB   CZ  ‡B7  æMÊ  ﬂB   CZ  ‡B3    M  c CÕ  ¡$ $ $ $	 $ % ∆€émÓj≤ ”:é‡\ÿéÙéÊ≠É <l£k 7 ' Jfé‘ 4 ¶é¿≤éÚò 3ë :
 lèk 6n“‘ûò÷¿¸ ∫ ’ªÙ“òæD() => {
     const [isFollowing, setIsFollowing] = import_react4.default.useState(false);
     const [activeTab, setActiveTab] = import_react4.default.useState("Posts");
@@ -55987,21 +55954,19 @@ lèk 6n“‘ûò÷¿¸ ∫ ’ªÙ“òæD() => {
     )))))));
   }C
 ñ   Ñ ˆ˛Ñå!î%¯B
-      ˆ  ˛ ﬂB   CZ  ‡% ∆‚è59T3() => import_react5.default.createElement(HomePage)B
-   ú3  ˆ  Ñ ﬂB   CZ  ‡”% ∆„è;9`C(params) => import_react5.default.createElement(DetailPage, params)B
-   ú3  ˆ  å ﬂB   CZ  ‡”% ∆‰è=9`I(params) => import_react5.default.createElement(examples_default, params)B
-   ú3  ˆ  î ﬂB   CZ  ‡”% ∆Âè<9`H(params) => import_react5.default.createElement(complex_default, params)_ B
-  C  $  9–  Cû    $ _ Bﬁ  C‘  P  ¡ $ _ Bﬁ  C‘    ¡$ _ Bﬁ  C‘    ¡$ _ Bﬁ  C‘    ¡$ )∆ﬂèCFE40CD:CCD:CCD:CCD‚function initApp() {
+      ˆ  ˛ ﬂB   CZ  ‡% ∆“è59T3() => import_react5.default.createElement(HomePage)B
+   §3  ˆ  Ñ ﬂB   CZ  ‡”% ∆”è;9`C(params) => import_react5.default.createElement(DetailPage, params)B
+   §3  ˆ  å ﬂB   CZ  ‡”% ∆‘è=9`I(params) => import_react5.default.createElement(examples_default, params)B
+   §3  ˆ  î ﬂB   CZ  ‡”% ∆’è<9`H(params) => import_react5.default.createElement(complex_default, params)_ B  C  $  9–  Cû    $ _ B—  Cœ  P  ¡ $ _ B—  Cœ    ¡$ _ B—  Cœ    ¡$ _ B—  Cœ    ¡$ )∆œèCFE40CD:CCD:CCD:CCD‚function initApp() {
     import_fuick_js_framework5.Runtime.bindGlobals();
     console.log("initApp");
     import_fuick_js_framework5.Router.register("/", () => import_react5.default.createElement(HomePage));
     import_fuick_js_framework5.Router.register("/detail", (params) => import_react5.default.createElement(DetailPage, params));
     import_fuick_js_framework5.Router.register("/examples", (params) => import_react5.default.createElement(examples_default, params));
     import_fuick_js_framework5.Router.register("/complex", (params) => import_react5.default.createElement(complex_default, params));
-  }¡ƒ¡ƒ¡ƒ&9î   Bò  À9î   Bf   Ã9î   Bg   Õ9î   B‹  Œ9î   B`   ƒ9î   B<   BO  ƒ¡ NÎ   ƒ¡NÏ   ƒ¡NÌ   ƒ√¡UÇ  Òƒ	√¡UÉ  Òƒ
-√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√¡	Uà  Òƒ√¡
-Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ¡N  ≈ ƒ!√√	Òƒ"√√Òƒ#¡N	  ≈$ƒ%√&)∆_ r8D § @ Ñ òÏ# ¥ ¿ ( |
- § F ~ ® >+-+ Ä+ à+ + ˛Qôß3() => {
+  }¡ƒ¡ƒ¡ƒ&9î   Bò  À9î   Bf   Ã9î   Bg   Õ9î   B‚  Œ9î   B`   ƒ9î   B<   BO  ƒ¡ NÎ   ƒ¡NÏ   ƒ¡NÌ   ƒ√¡UÅ  Òƒ	√¡UÇ  Òƒ
+√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡	Uá  Òƒ√¡
+Uà  Òƒ√¡Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ¡N  ≈ ƒ!√√	Òƒ"√√Òƒ#¡N	  ≈$ƒ%√&)∆_ r8D § @ Ñ òÏ# ¥ ¿ , ( § F ~ § r+-+ Ä+ à+ + ˛QÍ¢3() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -73750,6 +73715,28 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
     }
   });
 
+  // ../fuick_js_framework/dist/router.js
+  var require_router = __commonJS({
+    "../fuick_js_framework/dist/router.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.Router = void 0;
+      exports.register = register;
+      exports.match = match;
+      var routes = {};
+      function register(path, componentFactory) {
+        routes[path] = componentFactory;
+      }
+      function match(path) {
+        return routes[path];
+      }
+      exports.Router = {
+        register,
+        match
+      };
+    }
+  });
+
   // ../fuick_js_framework/dist/navigator.js
   var require_navigator = __commonJS({
     "../fuick_js_framework/dist/navigator.js"(exports) {
@@ -73767,68 +73754,6 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
           dartCallNative("pop", {});
         }
       }
-    }
-  });
-
-  // ../fuick_js_framework/dist/router.js
-  var require_router = __commonJS({
-    "../fuick_js_framework/dist/router.js"(exports) {
-      "use strict";
-      var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
-        if (k2 === void 0) k2 = k;
-        var desc = Object.getOwnPropertyDescriptor(m, k);
-        if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-          desc = { enumerable: true, get: function() {
-            return m[k];
-          } };
-        }
-        Object.defineProperty(o, k2, desc);
-      } : function(o, m, k, k2) {
-        if (k2 === void 0) k2 = k;
-        o[k2] = m[k];
-      });
-      var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
-        Object.defineProperty(o, "default", { enumerable: true, value: v });
-      } : function(o, v) {
-        o["default"] = v;
-      });
-      var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
-        var ownKeys = function(o) {
-          ownKeys = Object.getOwnPropertyNames || function(o2) {
-            var ar = [];
-            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
-            return ar;
-          };
-          return ownKeys(o);
-        };
-        return function(mod) {
-          if (mod && mod.__esModule) return mod;
-          var result = {};
-          if (mod != null) {
-            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-          }
-          __setModuleDefault(result, mod);
-          return result;
-        };
-      }();
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.Router = void 0;
-      exports.register = register;
-      exports.match = match;
-      var Navigator = __importStar(require_navigator());
-      var routes = {};
-      function register(path, componentFactory) {
-        routes[path] = componentFactory;
-      }
-      function match(path) {
-        return routes[path];
-      }
-      exports.Router = {
-        register,
-        match,
-        push: Navigator.push,
-        pop: Navigator.pop
-      };
     }
   });
 
@@ -74056,7 +73981,6 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Runtime = void 0;
       exports.bindGlobals = bindGlobals;
-      var Router2 = __importStar(require_router());
       var PageRender = __importStar(require_page_render());
       var Console = __importStar(require_console());
       var Timer = __importStar(require_timer());
@@ -74070,7 +73994,6 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
             r.dispatchEvent(id, payload);
           }
         };
-        globalThis.ReactRouter = Router2.Router;
       }
       exports.Runtime = {
         bindGlobals
@@ -74113,13 +74036,39 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       });
+      var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
+        Object.defineProperty(o, "default", { enumerable: true, value: v });
+      } : function(o, v) {
+        o["default"] = v;
+      });
       var __exportStar = exports && exports.__exportStar || function(m, exports2) {
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       };
+      var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
+        var ownKeys = function(o) {
+          ownKeys = Object.getOwnPropertyNames || function(o2) {
+            var ar = [];
+            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+            return ar;
+          };
+          return ownKeys(o);
+        };
+        return function(mod) {
+          if (mod && mod.__esModule) return mod;
+          var result = {};
+          if (mod != null) {
+            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+          }
+          __setModuleDefault(result, mod);
+          return result;
+        };
+      }();
       Object.defineProperty(exports, "__esModule", { value: true });
+      exports.Navigator = void 0;
       __exportStar(require_components(), exports);
       __exportStar(require_renderer(), exports);
       __exportStar(require_router(), exports);
+      exports.Navigator = __importStar(require_navigator());
       __exportStar(require_runtime(), exports);
       __exportStar(require_page_render(), exports);
       __exportStar(require_timer(), exports);
@@ -74154,13 +74103,13 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
         import_fuick_js_framework.Button,
         {
           text: "\u7EC4\u4EF6\u793A\u4F8B",
-          onTap: () => ReactRouter.push("/examples")
+          onTap: () => import_fuick_js_framework.Navigator.push("/examples", {})
         }
       ), /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.SizedBox, { width: 10 }), /* @__PURE__ */ import_react.default.createElement(
         import_fuick_js_framework.Button,
         {
           text: "\u590D\u6742\u9875\u9762",
-          onTap: () => ReactRouter.push("/complex")
+          onTap: () => import_fuick_js_framework.Navigator.push("/complex", {})
         }
       )))
     ), /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.ListView, { padding: 16 }, items.map((id) => /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.Padding, { key: id, padding: { bottom: 12 } }, /* @__PURE__ */ import_react.default.createElement(
@@ -74190,7 +74139,7 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
         import_fuick_js_framework.Button,
         {
           text: "View",
-          onTap: () => ReactRouter.push("/detail", { id })
+          onTap: () => import_fuick_js_framework.Navigator.push("/detail", { id })
         }
       ))
     )))));
@@ -74254,7 +74203,7 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
       import_fuick_js_framework2.Button,
       {
         text: "Back Home",
-        onTap: () => ReactRouter.pop()
+        onTap: () => import_fuick_js_framework2.Navigator.pop()
       }
     ), /* @__PURE__ */ import_react2.default.createElement(
       import_fuick_js_framework2.Button,
@@ -74408,4 +74357,4 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
 
   // src/index.ts
   initApp();
-}Ï)ﬂÌè  Mê  Më  „¡ /∆ã  Œü  
+}Ï)ﬂÌé  Mè  Mê  „¡ /∆ã  Æü  

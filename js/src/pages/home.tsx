@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, Container, Text, ListView, Padding, Row, Image, SizedBox, Button } from 'fuick_js_framework';
+import { Column, Container, Text, ListView, Padding, Row, Image, SizedBox, Button, Navigator } from 'fuick_js_framework';
 
 export default function HomePage() {
     const items = [1, 2, 3, 4, 5];
@@ -22,12 +22,12 @@ export default function HomePage() {
                     <Row mainAxisAlignment="center">
                         <Button
                             text="组件示例"
-                            onTap={() => ReactRouter.push('/examples')}
+                            onTap={() => Navigator.push('/examples', {})}
                         />
                         <SizedBox width={10} />
                         <Button
                             text="复杂页面"
-                            onTap={() => ReactRouter.push('/complex')}
+                            onTap={() => Navigator.push('/complex', {})}
                         />
                     </Row>
                 </Column>
@@ -60,7 +60,7 @@ export default function HomePage() {
                                 </Row>
                                 <Button
                                     text="View"
-                                    onTap={() => ReactRouter.push('/detail', { id })}
+                                    onTap={() => Navigator.push('/detail', { id })}
                                 />
                             </Row>
                         </Container>

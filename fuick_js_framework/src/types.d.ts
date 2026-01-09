@@ -24,12 +24,6 @@ declare global {
     destroy: (pageId: number) => void;
   };
 
-  var ReactRouter: {
-    register: (path: string, componentFactory: any) => void;
-    push: (path: string, params?: any) => void;
-    pop: () => void;
-  };
-
   var queueMicrotask: (fn: () => void) => void;
   var __handleTimer: (id: number) => void;
   var __dispatchEvent: (id: string, payload: any) => void;
@@ -199,13 +193,23 @@ declare global {
       scrollDirection?: 'horizontal' | 'vertical';
     }
 
+    interface PaddingProps extends BaseProps {
+      padding: number | EdgeInsets;
+    }
+
+    interface CircularProgressIndicatorProps extends BaseProps {
+      color?: string;
+      strokeWidth?: number;
+      padding?: number | EdgeInsets;
+    }
+
     interface IntrinsicElements {
       Column: ColumnProps;
       Row: RowProps;
       Text: TextProps;
       Image: ImageProps;
       Container: ContainerProps;
-      Padding: { padding: number | EdgeInsets; children?: any; key?: any };
+      Padding: PaddingProps;
       SizedBox: SizedBoxProps;
       Divider: DividerProps;
       Button: ButtonProps;
@@ -217,7 +221,7 @@ declare global {
       Icon: IconProps;
       TextField: TextFieldProps;
       Switch: SwitchProps;
-      CircularProgressIndicator: { color?: string; strokeWidth?: number; key?: any; padding?: number | EdgeInsets };
+      CircularProgressIndicator: CircularProgressIndicatorProps;
       GestureDetector: GestureDetectorProps;
       InkWell: GestureDetectorProps;
       Stack: StackProps;

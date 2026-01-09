@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, Container, Text, Padding, Row, Image, SizedBox, Button, Divider, SingleChildScrollView } from 'fuick_js_framework';
+import { Column, Container, Text, Padding, Row, Image, SizedBox, Button, Divider, SingleChildScrollView, Navigator } from 'fuick_js_framework';
 
 interface DetailPageProps {
     id: any;
@@ -68,7 +68,7 @@ export default function DetailPage(props: DetailPageProps) {
                             />
                             <Button
                                 text="Back Home"
-                                onTap={() => ReactRouter.pop()}
+                                onTap={() => Navigator.pop()}
                             />
 
                             <Button

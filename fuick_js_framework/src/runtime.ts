@@ -14,7 +14,6 @@ export function bindGlobals() {
       r.dispatchEvent(id, payload);
     }
   };
-  (globalThis as any).ReactRouter = Router.Router;
 }
 
 export const Runtime = {

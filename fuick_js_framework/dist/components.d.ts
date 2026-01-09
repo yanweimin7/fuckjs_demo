@@ -3,10 +3,7 @@ export declare const Column: React.FC<JSX.ColumnProps>;
 export declare const Container: React.FC<JSX.ContainerProps>;
 export declare const Text: React.FC<JSX.TextProps>;
 export declare const ListView: React.FC<JSX.ListViewProps>;
-export declare const Padding: React.FC<{
-    padding: JSX.EdgeInsets | number;
-    children?: any;
-}>;
+export declare const Padding: React.FC<JSX.PaddingProps>;
 export declare const Row: React.FC<JSX.RowProps>;
 export declare const Image: React.FC<JSX.ImageProps>;
 export declare const SizedBox: React.FC<JSX.SizedBoxProps>;
@@ -24,8 +21,4 @@ export declare const SingleChildScrollView: React.FC<JSX.SingleChildScrollViewPr
 export declare const Stack: React.FC<JSX.StackProps>;
 export declare const Positioned: React.FC<JSX.PositionedProps>;
 export declare const Opacity: React.FC<JSX.OpacityProps>;
-export declare const CircularProgressIndicator: React.FC<{
-    color?: string;
-    strokeWidth?: number;
-    padding?: number | JSX.EdgeInsets;
-}>;
+export declare const CircularProgressIndicator: React.FC<JSX.CircularProgressIndicatorProps>;

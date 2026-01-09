@@ -15,6 +15,4 @@ export function match(path: string): ComponentFactory | undefined {
 export const Router = {
     register,
     match,
-    push: Navigator.push,
-    pop: Navigator.pop
 };
