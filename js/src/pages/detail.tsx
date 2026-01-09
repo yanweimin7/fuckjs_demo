@@ -70,6 +70,11 @@ export default function DetailPage(props: DetailPageProps) {
                                 text="Back Home"
                                 onTap={() => ReactRouter.pop()}
                             />
+
+                            <Button
+                                text="test Future"
+                                onTap={() => dartCallNativeAsync('testFuture', ['hello world', '123456']).then((res: any) => console.log('test future res:', res))}
+                            />
                         </Row>
 
                         <SizedBox height={40} />

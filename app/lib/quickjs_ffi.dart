@@ -376,30 +376,48 @@ final class QuickJsFFI {
   }
 
   int runJobs(Pointer<Void> rtHandle, Pointer<Void> ctxHandle) {
-    // 处理挂起的异步 Promise
-    final ctxAddr = ctxHandle.address;
-    final resolvers = JSObject._pendingResolvers[ctxAddr];
-    if (resolvers != null && resolvers.isNotEmpty) {
-      final ids = resolvers.keys.toList();
-      for (final id in ids) {
-        final val = resolvers.remove(id);
-        final out = ffi.calloc<QjsResult>();
-        QuickJsFFI.writeOut(out, val);
-        _asyncResolve(ctxHandle, id, out);
-        freeQjsResult(out);
+    int totalExecuted = 0;
+    bool hasMore;
+    do {
+      hasMore = false;
+
+      // 1. 处理挂起的异步 Promise (Resolvers)
+      final ctxAddr = ctxHandle.address;
+      final resolvers = JSObject._pendingResolvers[ctxAddr];
+      if (resolvers != null && resolvers.isNotEmpty) {
+        final ids = resolvers.keys.toList();
+        for (final id in ids) {
+          final val = resolvers.remove(id);
+          final out = ffi.calloc<QjsResult>();
+          QuickJsFFI.writeOut(out, val);
+          _asyncResolve(ctxHandle, id, out);
+          freeQjsResult(out);
+          hasMore = true;
+        }
       }
-    }
-    final rejections = JSObject._pendingRejections[ctxAddr];
-    if (rejections != null && rejections.isNotEmpty) {
-      final ids = rejections.keys.toList();
-      for (final id in ids) {
-        final reason = rejections.remove(id) ?? 'Unknown error';
-        final cstr = reason.toNativeUtf8();
-        _asyncReject(ctxHandle, id, cstr);
-        ffi.malloc.free(cstr);
+
+      // 2. 处理挂起的异步 Promise (Rejections)
+      final rejections = JSObject._pendingRejections[ctxAddr];
+      if (rejections != null && rejections.isNotEmpty) {
+        final ids = rejections.keys.toList();
+        for (final id in ids) {
+          final reason = rejections.remove(id) ?? 'Unknown error';
+          final cstr = reason.toNativeUtf8();
+          _asyncReject(ctxHandle, id, cstr);
+          ffi.malloc.free(cstr);
+          hasMore = true;
+        }
       }
-    }
-    return _runJobs(rtHandle);
+
+      // 3. 执行 QuickJS 自身的任务队列
+      if (_runJobs(rtHandle) > 0) {
+        hasMore = true;
+      }
+
+      if (hasMore) totalExecuted++;
+    } while (hasMore);
+
+    return totalExecuted;
   }
 }
 
@@ -424,10 +442,13 @@ class QuickJsContext {
   final Pointer<Void> _handle;
   late final JSObject global;
 
+  static final Map<int, QuickJsContext> _instances = {};
+
   int get handleAddress => _handle.address;
 
   QuickJsContext(this._ffi, this._runtimeHandle)
       : _handle = _ffi.createContext(_runtimeHandle) {
+    _instances[_handle.address] = this;
     final globalRes = _ffi.getGlobalObject(_handle);
     global = JSObject(_ffi, _handle, globalRes);
   }
@@ -450,6 +471,7 @@ class QuickJsContext {
   }
 
   void dispose() {
+    _instances.remove(_handle.address);
     JSObject.clearContextState(_handle.address);
     _ffi.destroyContext(_handle);
   }
@@ -549,9 +571,18 @@ class JSObject {
         result.then((value) {
           _pendingResolvers.putIfAbsent(contextHandle.address, () => {})[id] =
               value;
+          // 关键：Future 完成后，立即触发 runJobs 以解析 JS Promise
+          // 使用 scheduleMicrotask 确保在当前 Dart 调用结束后执行，避免重入问题
+          Future.microtask(() {
+            QuickJsContext._instances[contextHandle.address]?.runJobs();
+          });
         }).catchError((e) {
           _pendingRejections.putIfAbsent(contextHandle.address, () => {})[id] =
               e.toString();
+          // 关键：Future 失败后，立即触发 runJobs 以 reject JS Promise
+          Future.microtask(() {
+            QuickJsContext._instances[contextHandle.address]?.runJobs();
+          });
         });
       } else {
         // 正常返回值

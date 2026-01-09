@@ -16,6 +16,7 @@ declare global {
 
   // Bridge function to call Flutter
   function dartCallNative(method: string, args: any): any;
+  function dartCallNativeAsync(method: string, args: any): Promise<any>;
 
   // Global polyfills and managers
   var ReactRenderer: {

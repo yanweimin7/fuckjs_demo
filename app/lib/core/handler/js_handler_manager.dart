@@ -61,9 +61,8 @@ class JsHandlerManager {
     });
 
     reg.onSync('push', (args) {
-      final m = args is Map
-          ? Map<String, dynamic>.from(args)
-          : <String, dynamic>{};
+      final m =
+          args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
       final path = (m['path'] ?? '') as String;
       final params = m['params'] ?? {};
       if (path.isNotEmpty) {
@@ -75,6 +74,13 @@ class JsHandlerManager {
     reg.onSync('pop', (args) {
       controller.pop();
       return true;
+    });
+
+    reg.onDefer('testFuture', (args, callback) {
+      print('wey testFuture args $args');
+      Future.delayed(const Duration(seconds: 2), () {
+        callback('abac');
+      });
     });
 
     _registerToCtx(ctx, reg, controller);
@@ -98,14 +104,8 @@ class JsHandlerManager {
       return _handleCallNative(method, args, reg, controller);
     });
 
-    ctx.global.defineProperty('dartCallAsyncTyped', (method, args) {
-      final h = reg.async[method];
-      if (h != null) return h(args);
-      return null;
-    });
-
     // 统一使用 defineProperty 注册，JS 侧调用时直接返回 Promise
-    ctx.global.defineProperty('dartCallAsyncDefer', (method, args) {
+    ctx.global.defineProperty('dartCallNativeAsync', (method, args) {
       final h = reg.defer[method];
       if (h != null) {
         // 返回一个 Future，JS 侧会自动得到一个 Promise
@@ -128,19 +128,12 @@ class JsHandlerManager {
     try {
       if (method == 'renderUI') {
         final List listArgs = args is List ? args : [args];
-        if (listArgs.length >= 2) {
-          final pageId = (listArgs[0] as num).toInt();
-          final renderData =
-              (listArgs[1] as Map?)?.cast<String, dynamic>() ??
-              const <String, dynamic>{};
-          controller.render(pageId, renderData);
-          return true;
-        } else if (listArgs.length == 1 && listArgs[0] is Map) {
+        if (listArgs.length == 1 && listArgs[0] is Map) {
           final m = listArgs[0] as Map;
           final pageId = (m['pageId'] as num?)?.toInt();
           final renderData =
               (m['renderData'] as Map?)?.cast<String, dynamic>() ??
-              const <String, dynamic>{};
+                  const <String, dynamic>{};
           if (pageId != null) {
             controller.render(pageId, renderData);
             return true;
