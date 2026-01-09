@@ -1,5 +1,5 @@
 {
-  "name": "react-json-renderer",
+  "name": "fuickapp1",
   "version": "0.1.0",
   "private": true,
   "description": "React reconciler renderer that outputs JSON DSL and dispatches to Flutter via QuickJS",

@@ -8,7 +8,11 @@ export function bindGlobals() {
   setupPolyfills();
   (globalThis as any).ReactRenderer = {
     render: PageRender.render,
-    destroy: PageRender.destroy
+    destroy: PageRender.destroy,
+    dispatchEvent: (id: string, payload: any) => {
+      const r = PageRender.ensureRenderer();
+      r.dispatchEvent(id, payload);
+    }
   };
   (globalThis as any).ReactRouter = Router.Router;
 }

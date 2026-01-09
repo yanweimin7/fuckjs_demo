@@ -11,6 +11,6 @@ class FuickAppPage extends StatefulWidget {
 class _FuickAppPageState extends State<FuickAppPage> {
   @override
   Widget build(BuildContext context) {
-    return FuickAppView();
+    return FuickAppView(appName: 'bundle');
   }
 }

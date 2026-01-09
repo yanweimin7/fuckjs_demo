@@ -60,6 +60,8 @@ flutter:
   assets:
     - assets/js/bundle.js
     - assets/js/bundle.qjc
+    - assets/js/fuick_js_test.js
+    - assets/js/fuick_js_test.qjc
 
   # To add assets to your application, add an assets section, like this:
   # assets:

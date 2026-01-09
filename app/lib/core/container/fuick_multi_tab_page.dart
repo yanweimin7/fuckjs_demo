@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'fuick_app_view.dart';
 
 class FuickMultiTabPage extends StatefulWidget {
@@ -13,18 +14,15 @@ class _FuickMultiTabPageState extends State<FuickMultiTabPage> {
 
   // 使用 PageStorageKey 保持各 Tab 状态
   final List<Widget> _tabs = [
-    const FuickAppView(key: PageStorageKey('tab_1')),
-    const FuickAppView(key: PageStorageKey('tab_2')),
-    const FuickAppView(key: PageStorageKey('tab_3')),
+    const FuickAppView(key: PageStorageKey('tab_1'), appName: 'bundle'),
+    const FuickAppView(key: PageStorageKey('tab_2'), appName: 'fuick_js_test'),
+    const FuickAppView(key: PageStorageKey('tab_3'), appName: 'fuick_js_test'),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _tabs,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _tabs),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -33,18 +31,9 @@ class _FuickMultiTabPageState extends State<FuickMultiTabPage> {
           });
         },
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '首页',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: '分类',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '我的',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '首页'),
+          BottomNavigationBarItem(icon: Icon(Icons.category), label: '分类'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的'),
         ],
       ),
     );

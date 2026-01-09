@@ -55464,19 +55464,27 @@ M@   ‘MA   $ )∆ÔåZ°4,efunction(o, v) {
           return result;
         };
       }C
-à4    5 ä4Ç4¬3ﬂ9ç   ‡B  M  ‡Bƒ	  Mƒ	  D  9ç   ·Bﬁ  D  )∆éç  ! Êfunction bindGlobals() {
+à4   A Ç4ä4¬3B
+  Æ  ˙  ¬' 0Ç4  b  ﬂC„  $  Àc  C`  ”‘$ )∆ìç0)* {(id, payload) => {
+            const r = PageRender.ensureRenderer();
+            r.dispatchEvent(id, payload);
+          }‡9ç   ﬂB  M  ﬂBƒ	  Mƒ	  ¡ N`  M`  D  9ç   ·Bﬁ  D  )∆éç  - ¸function bindGlobals() {
         setupPolyfills();
         globalThis.ReactRenderer = {
           render: PageRender.render,
-          destroy: PageRender.destroy
+          destroy: PageRender.destroy,
+          dispatchEvent: (id, payload) => {
+            const r = PageRender.ensureRenderer();
+            r.dispatchEvent(id, payload);
+          }
         };
         globalThis.ReactRouter = Router2.Router;
       }C
 ä4  °ê4 0Ñ4Ü4C
     Ã
-  9ƒ   CÇ   $  CÅ   ”$ )∆¶ç'34*Bfunction(fn) {
+  9ƒ   CÇ   $  CÅ   ”$ )∆™ç'34*Bfunction(fn) {
             Promise.resolve().then(fn);
-          }b  9ç   B–  ÌÀ9ç   c  TﬂBû  Mû  ﬂB6  M6  ﬂB7  M7  D–  9ç   ‡B≤  D≤  9ç   ‡B≥  D≥  9ç   ‡Bˆ  Dˆ  9ç   ‡B˜  D˜  9ç   B	  ˜Ì9ç   ¡ D	  )∆ôçc 4 S S S ÖRM˚function setupPolyfills() {
+          }b  9ç   B–  ÌÀ9ç   c  TﬂBû  Mû  ﬂB6  M6  ﬂB7  M7  D–  9ç   ‡B≤  D≤  9ç   ‡B≥  D≥  9ç   ‡Bˆ  Dˆ  9ç   ‡B˜  D˜  9ç   B	  ˜Ì9ç   ¡ D	  )∆ùçc 4 S S S ÖRM˚function setupPolyfills() {
         const oldConsole = globalThis.console || {};
         globalThis.console = {
           ...oldConsole,
@@ -55496,7 +55504,7 @@ M@   ‘MA   $ )∆ÔåZ°4,efunction(o, v) {
       }¡ƒ¡ƒ”Ï”Bœ  Ì9î   Bò  Ï¡ Ó¡À”Ï”B–  Ì9î   Bò  Ï¡Ó¡Ã”Ï”B—  Ì¡Õ9î   Cf   ”  
 MA   $ ”D
   ”√D  …ﬂÒŒ…‡Òƒ…·Òƒ…‚Òƒ”√M  D
-  )∆‡å+ UJ  4,X+& 06!! 1€"../fuick_js_framework/dist/runtime.js"(exports) {
+  )∆‡å+ UJ  4,X+& 06!! 1Ò"../fuick_js_framework/dist/runtime.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -55546,7 +55554,11 @@ MA   $ ”D
         setupPolyfills();
         globalThis.ReactRenderer = {
           render: PageRender.render,
-          destroy: PageRender.destroy
+          destroy: PageRender.destroy,
+          dispatchEvent: (id, payload) => {
+            const r = PageRender.ensureRenderer();
+            r.dispatchEvent(id, payload);
+          }
         };
         globalThis.ReactRouter = Router2.Router;
       }
@@ -55574,11 +55586,11 @@ MA   $ ”D
     }B û  û3  @ñ4  ﬁ
 ÊÍÚÏÓC
   d™3  ¨3 @Æ3 @∞3  §   C
-      ¨3Æ3ﬂ‡H(∆∂ç+ 1function() {
+      ¨3Æ3ﬂ‡H(∆∫ç+ 1function() {
             return m[k];
           }÷ÙÏ’⁄9î   Cg   ‘’$ œóÌ$B   «¨Ï
 ‘B  óÓ«B?   Ì«B>   Ï
-M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆≤çT?0S'û) 4,Ófunction(o, m, k, k2) {
+M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆∂çT?0S'û) 4,Ófunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -55588,14 +55600,14 @@ M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆≤çT?0S'û) 4,Ófunction(o, m, k, k2
         }
         Object.defineProperty(o, k2, desc);
       }C
-    ™3  ¨3  Æ3  ∞3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆ªç%Xfunction(o, m, k, k2) {
+    ™3  ¨3  Æ3  ∞3  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆øç%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-  5¨3  ˛  ∫2   û3 ”~Ó-À«   ∞Ï#9î   B<   BO  C  ‘«$ óÏﬂ‘”«ÛÅÏ“)∆øç=!1éf* §function(m, exports2) {
+  5¨3  ˛  ∫2   û3 ”~Ó-À«   ∞Ï#9î   B<   BO  C  ‘«$ óÏﬂ‘”«ÛÅÏ“)∆√ç=!1éf* §function(m, exports2) {
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       }”Ï”Bœ  Ì9î   Bò  Ï¡ Ó¡À”Ï”B  Ì¡Ã9î   Cf   ”  
-MA   $ »ﬂ”Ú»‡”Ú»·”Ú»‚”Ú»_ ”Ú»_ ”Ú»_ ”Ú)∆∞ç$ 4" 4,X+&&Â	"../fuick_js_framework/dist/index.js"(exports) {
+MA   $ »ﬂ”Ú»‡”Ú»·”Ú»‚”Ú»_ ”Ú»_ ”Ú»_ ”Ú)∆¥ç$ 4" 4,X+&&Â	"../fuick_js_framework/dist/index.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -55623,10 +55635,10 @@ MA   $ »ﬂ”Ú»‡”Ú»·”Ú»‚”Ú»_ ”Ú»_ ”Ú»_ ”Ú)∆∞ç$ 4" 4,X+
       __exportStar(require_console(), exports);
     }C
 ˛  ¸ò4 0˙¸B
-       9  CQ    % ∆Ëç4$#() => ReactRouter.push("/examples")B
-       9  CQ    % ∆Óç4$"() => ReactRouter.push("/complex")B
+       9  CQ    % ∆Ïç4$#() => ReactRouter.push("/examples")B
+       9  CQ    % ∆Úç4$"() => ReactRouter.push("/complex")B
   ≈Æ @˙  ¸ B
-      Æ 9  CQ    ﬂMó  % ∆åé4$)() => ReactRouter.push("/detail", { id })ﬂB   CZ  ‡B7  ”M  æM  MÁ  ﬂB   CZ  ‡B4  æMÁ    MÓ  æM  M  ﬂB   CZ  ‡B8    MÈ  ﬂB   CZ  ‡B8  ﬂB   CZ  ‡B9    C]   ”$ M  æ2Mﬂ  æ2M‡    M  $ ﬂB   CZ  ‡B:  æMﬂ  $ ﬂB   CZ  ‡B5    C]   ”$ M;  æMÏ  $ $ ﬂB   CZ  ‡B;    M;  ¡ NØ  MØ  $ $ $ % ∆Òçv9~º€ 0féÚ]” @hèg 2 ñ
+      Æ 9  CQ    ﬂMó  % ∆êé4$)() => ReactRouter.push("/detail", { id })ﬂB   CZ  ‡B7  ”M  æM  MÁ  ﬂB   CZ  ‡B4  æMÁ    MÓ  æM  M  ﬂB   CZ  ‡B8    MÈ  ﬂB   CZ  ‡B8  ﬂB   CZ  ‡B9    C]   ”$ M  æ2Mﬂ  æ2M‡    M  $ ﬂB   CZ  ‡B:  æMﬂ  $ ﬂB   CZ  ‡B5    C]   ”$ M;  æMÏ  $ $ ﬂB   CZ  ‡B;    M;  ¡ NØ  MØ  $ $ $ % ∆ıçv9~º€ 0féÚ]” @hèg 2 ñ
 (id) => /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.Padding, { key: id, padding: { bottom: 12 } }, /* @__PURE__ */ import_react.default.createElement(
       import_fuick_js_framework.Container,
       {
@@ -55658,7 +55670,7 @@ MA   $ »ﬂ”Ú»‡”Ú»·”Ú»‚”Ú»_ ”Ú»_ ”Ú»_ ”Ú)∆∞ç$ 4" 4,X+
         }
       ))
     ))b  ∑∏π∫ª& ÀﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡B4  ædM‡    MÓ  M  Ë  M  ﬂB   CZ  ‡B3  ﬂB   CZ  ‡B5    M;  æMÏ     MÓ  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B8  Ë  MÈ  ﬂB   CZ  ‡B;  !  M;  ¡ NØ  MØ  $ ﬂB   CZ  ‡B:  æ
-Mﬂ  $ ﬂB   CZ  ‡B;  "  M;  ¡NØ  MØ  $ $ $ $ ﬂB   CZ  ‡B6  æMÁ  c  CÕ  ¡$ $ % ∆‘ç wxèo 3f]a 0héŒèµ +
+Mﬂ  $ ﬂB   CZ  ‡B;  "  M;  ¡NØ  MØ  $ $ $ $ ﬂB   CZ  ‡B6  æMÁ  c  CÕ  ¡$ $ % ∆ÿç wxèo 3f]a 0héŒèµ +
 hèg 4dpv»function HomePage() {
     const items = [1, 2, 3, 4, 5];
     return /* @__PURE__ */ import_react.default.createElement(import_fuick_js_framework.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react.default.createElement(
@@ -55721,11 +55733,11 @@ hèg 4dpv»function HomePage() {
     )))));
   }C
 Ñ %å¿ @ÄÇB
-      ¿ 9–  Cû  #  ﬂBó  û% ∆¿é4&() => console.log("Liked " + props.id)B
-      ¿ 9–  Cû  $  ﬂBó  û% ∆∆é4 '() => console.log("Shared " + props.id)B
-       9  CN  %  ∆Ãé4$() => ReactRouter.pop()B
+      ¿ 9–  Cû  #  ﬂBó  û% ∆ƒé4&() => console.log("Liked " + props.id)B
+      ¿ 9–  Cû  $  ﬂBó  û% ∆ é4 '() => console.log("Shared " + props.id)B
+       9  CN  %  ∆–é4$() => ReactRouter.pop()B
       123456B
-     4  9–  Cû  &  ”% ∆“éS4,-(res) => console.log("test future res:", res)9'  (  )  ¿ & ÚCÅ   ¡% ∆“ékzv() => dartCallNativeAsync("testFuture", ["hello world", "123456"]).then((res) => console.log("test future res:", res))ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡B9  *  ”Bó  ûM  ø˙ M‡    M  $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  +  M;  æMÏ  ,  MÓ  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B4  æMë  æMì  ∫M-  ∫M  MÁ  .  MÓ  ∫M  M  ﬂB   CZ  ‡B5  /  C]   ”Bó  $ M;  æMÏ  0  MÓ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  1  MÓ  ∑M2  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  3  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B8  5  MÈ  ﬂB   CZ  ‡B;  6  M;  ¡ NØ  MØ  $ ﬂB   CZ  ‡B;  7  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B;  8  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B;  9  M;  ¡NØ  MØ  $ $ ﬂB   CZ  ‡B:  æ(M‡  $ $ $ $ % ∆ïéE:z\ÿè…@Z ,“èª 0jèi H Afé‘ª˙è∑ 0jé‘èΩ +  +  +  .
+     4  9–  Cû  &  ”% ∆÷éS4,-(res) => console.log("test future res:", res)9'  (  )  ¿ & ÚCÅ   ¡% ∆÷ékzv() => dartCallNativeAsync("testFuture", ["hello world", "123456"]).then((res) => console.log("test future res:", res))ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡B9  *  ”Bó  ûM  ø˙ M‡    M  $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  +  M;  æMÏ  ,  MÓ  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B4  æMë  æMì  ∫M-  ∫M  MÁ  .  MÓ  ∫M  M  ﬂB   CZ  ‡B5  /  C]   ”Bó  $ M;  æMÏ  0  MÓ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  1  MÓ  ∑M2  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  3  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B8  5  MÈ  ﬂB   CZ  ‡B;  6  M;  ¡ NØ  MØ  $ ﬂB   CZ  ‡B;  7  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B;  8  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B;  9  M;  ¡NØ  MØ  $ $ ﬂB   CZ  ‡B:  æ(M‡  $ $ $ $ % ∆ôéE:z\ÿè…@Z ,“èª 0jèi H Afé‘ª˙è∑ 0jé‘èΩ +  +  +  .
 l⁄function DetailPage(props) {
     return /* @__PURE__ */ import_react2.default.createElement(import_fuick_js_framework2.SingleChildScrollView, null, /* @__PURE__ */ import_react2.default.createElement(import_fuick_js_framework2.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react2.default.createElement(
       import_fuick_js_framework2.Image,
@@ -55794,10 +55806,10 @@ l⁄function DetailPage(props) {
    3¶Ù4 0ˆ4p¯40˙4pÜà
      ˙4
    
-¸4        ‡?”∑ØÏ¿ (∑(∆›éø&<(prev) => prev === 1 ? 0.5 : 1f  ¡ # ∆›éπ&0() => setOpacity((prev) => prev === 1 ? 0.5 : 1)
+¸4        ‡?”∑ØÏ¿ (∑(∆·éø&<(prev) => prev === 1 ? 0.5 : 1f  ¡ # ∆·éπ&0() => setOpacity((prev) => prev === 1 ? 0.5 : 1)
      ˆ4
-      ˆ4 f  	# ∆ﬂé8() => setLoading(false)f  
-Ò9≤  ¡ ø–Ú)∆›é¯-·[U() => {
+      ˆ4 f  	# ∆„é8() => setLoading(false)f  
+Ò9≤  ¡ ø–Ú)∆·é¯-·[U() => {
       setLoading(true);
       setTimeout(() => setLoading(false), 2e3);
     }b b b b  ÙÌÇ ÀÇ ÃÖÓﬂB   Cx  	$ Ó„ÙÌÇ ÕÇ ŒÖÓﬂB   Cx  ∑$ Ó„ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B<  ﬂB   CZ  ‡B5  ?  M;  æMÏ  ,  MÓ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  @  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æ
@@ -55807,7 +55819,7 @@ M‡  $ ﬂB   CZ  ‡B8    MÈ  ﬂB   CZ  ‡BB  I  M  J  M3   M√ 
 M‡  $ ﬂB   CZ  ‡B5  O  C]   c CP  ∑$ $ M;  $ $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  Q  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æ
 M‡  $ ﬂB   CZ  ‡B8  ﬂB   CZ  ‡B;  R  M;  ¡NØ  MØ  $ ﬂB   CZ  ‡B:  æMﬂ  $ c  Ï'ﬂB   CZ  ‡BI    MÓ  πMS  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡BD  $ ﬂB   CZ  ‡B5  T  M;  æMÏ  4  MÓ  $ ﬂB   CZ  ‡B:  æ
 M‡  $ ﬂB   CZ  ‡B8  U  MÈ  ﬂB   CZ  ‡B=  Ø„  MV    MÓ  æ(M1   $ é	  ﬂB   CZ  ‡B=  ë‰  MV  W  MÓ  æ(M1   $ é	  ﬂB   CZ  ‡B=  Â  MV  X  MÓ  æ(M1   $ é	  ﬂB   CZ  ‡B=  ∂Ë  MV  L  MÓ  æ(M1   $ é	  $
- ﬂB   CZ  ‡B:  æ(M‡  $ $ $ % ∆⁄éÕ–X≤X\ÿ“é\∫ 3 ¬é‘Ú™é‘\¥zÃ±¯\∫¸˛zÃ±¯\∫ 5 Äé‘kæÚ≤é‘\∫ﬁêÌî¢‰Úí¢ÏÚí\∫ ⁄é‘kæÚ¿é‘éˆ¸ƒÑ ˜¥\∫ 5 Ñ\∫Ÿ⁄é‘z¢éé‘kæÚ≤é‘\¥‹ÌY±Ë §é‘kæÚòé‘éÙ 5 ö 5 ö 5 ö 8 úÀ;() => {
+ ﬂB   CZ  ‡B:  æ(M‡  $ $ $ % ∆ﬁéÕ–X≤X\ÿ“é\∫ 3 ¬é‘Ú™é‘\¥zÃ±¯\∫¸˛zÃ±¯\∫ 5 Äé‘kæÚ≤é‘\∫ﬁêÌî¢‰Úí¢ÏÚí\∫ ⁄é‘kæÚ¿é‘éˆ¸ƒÑ ˜¥\∫ 5 Ñ\∫Ÿ⁄é‘z¢éé‘kæÚ≤é‘\¥‹ÌY±Ë §é‘kæÚòé‘éÙ 5 ö 5 ö 5 ö 8 úÀ;() => {
     const [loading, setLoading] = import_react3.default.useState(false);
     const [opacity, setOpacity] = import_react3.default.useState(1);
     return /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SingleChildScrollView, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Padding, { padding: 16 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Flutter Widgets \u793A\u4F8B", fontSize: 24, color: "#333333" })), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "1. Expanded & Row", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Row, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Expanded, { flex: 1 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#FF0000", height: 50 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Flex 1", color: "#FFFFFF" })))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Expanded, { flex: 2 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#00FF00", height: 50 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Flex 2", color: "#FFFFFF" }))))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Divider, null), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "2. Stack & Positioned", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Stack, { alignment: "center", width: 200, height: 200 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#EEEEEE", width: 200, height: 200 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Positioned, { top: 20, left: 20 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#2196F3", width: 60, height: 60 })), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Positioned, { bottom: 20, right: 20 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#F44336", width: 60, height: 60 })), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Center" })))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Divider, null), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "3. Opacity & GestureDetector", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.GestureDetector, { onTapJs: { call: "nativeLog", args: { message: "Tapped!" } } }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Opacity, { opacity }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Container, { color: "#9C27B0", width: 100, height: 100, borderRadius: 8 }, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "Click Me", color: "#FFFFFF" }))))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Column, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Button, { text: "Toggle Opacity", onTap: () => setOpacity((prev) => prev === 1 ? 0.5 : 1) }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: `Current: ${opacity.toFixed(1)}` }))), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Divider, null), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Text, { text: "4. Progress & Loading", fontSize: 18, color: "#666666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.SizedBox, { height: 10 }), /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Row, null, /* @__PURE__ */ import_react3.default.createElement(import_fuick_js_framework3.Button, { text: "Show Loading", onTap: () => {
@@ -55817,13 +55829,13 @@ M‡  $ ﬂB   CZ  ‡B8  U  MÈ  ﬂB   CZ  ‡B=  Ø„  MV    MÓ  æ(M1  
   }
    $í≤5 p¥5p∂5p∏5p∫50º50é"ê#128856
      
- ¥5≤5 f  f ó# ∆≠è"() => setIsFollowing(!isFollowing)
+ ¥5≤5 f  f ó# ∆±è"() => setIsFollowing(!isFollowing)
   
- áæ5  ∞  é  ê ﬂB   CZ  ‡B3  ‘M  Ë  M  ﬂB   CZ  ‡B5  ”BA   M;  æMÏ  `  MÓ  $ ﬂB   CZ  ‡B5  ”Bj  M;  æMÏ  a  MÓ  $ % ∆∂èÇ	9í¨ä˜ò≠(stat, index) => /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { key: index, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: stat.value, fontSize: 18, color: "#1A1C1E" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: stat.label, fontSize: 12, color: "#6B7280" }))
+ áæ5  ∞  é  ê ﬂB   CZ  ‡B3  ‘M  Ë  M  ﬂB   CZ  ‡B5  ”BA   M;  æMÏ  `  MÓ  $ ﬂB   CZ  ‡B5  ”Bj  M;  æMÏ  a  MÓ  $ % ∆∫èÇ	9í¨ä˜ò≠(stat, index) => /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { key: index, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: stat.value, fontSize: 18, color: "#1A1C1E" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: stat.label, fontSize: 12, color: "#6B7280" }))
   Ïƒ5 @∏5é  ê ∂5
-      ∏5 ƒ5 f  ‡# ∆∂è»	&() => setActiveTab(tab)‡B   CZ  ·BB  ”M  ¡ NØ  MØ  ‡B   CZ  ·B3  Ë  M  ‡B   CZ  ·B4  æMë  æMì  æ
+      ∏5 ƒ5 f  ‡# ∆∫è»	&() => setActiveTab(tab)‡B   CZ  ·BB  ”M  ¡ NØ  MØ  ‡B   CZ  ·B3  Ë  M  ‡B   CZ  ·B4  æMë  æMì  æ
 M-  æ
-M  MÁ  ‡B   CZ  ·B5  ”M;  æMÏ  f ”ØÏc  Óa  MÓ  $ $ f ”ØÏ.‡B   CZ  ·B4  ∏M‡  æ(Mﬂ  c  MÓ  $ $ % ∆∂è»9Ç∂úèü 4
+M  MÁ  ‡B   CZ  ·B5  ”M;  æMÏ  f ”ØÏc  Óa  MÓ  $ $ f ”ØÏ.‡B   CZ  ·B4  ∏M‡  æ(Mﬂ  c  MÓ  $ $ % ∆∫è»9Ç∂úèü 4
  .õWvÀ(tab) => /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.GestureDetector, { key: tab, onTap: () => setActiveTab(tab) }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(
       import_fuick_js_framework4.Container,
       {
@@ -55839,7 +55851,7 @@ M  MÁ  ‡B   CZ  ·B5  ”M;  æMÏ  f ”ØÏc  Óa  MÓ  $ $ f ”ØÏ.
       )
     ), activeTab === tab && /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Container, { height: 2, width: 40, color: "#3B82F6" })))
   & Ø»5  é  ê ﬂB   CZ  ‡B4  ”Bó  M     MÓ  æM  æM  Me  ∂MÁ  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡B4  ø» M‡  ﬂB   CZ  ‡B9  ”Bf  M    M  øêMﬂ  ø» M‡  æMg  æMh  M  $ $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  ”Bi  M;  æMÏ  `  MÓ  $ ﬂB   CZ  ‡B:  æ
-M‡  $ ﬂB   CZ  ‡B8  ÿ	  MÈ  Ë  M  ﬂB   CZ  ‡B=  à„  MV  æM1   a  MÓ  $ é	  ﬂB   CZ  ‡B:  ∫Mﬂ  $ ﬂB   CZ  ‡B5  ¬C]   ”Bj  $ M;  æMÏ  a  MÓ  $ ﬂB   CZ  ‡B:  æMﬂ  $ ﬂB   CZ  ‡B=  P·  MV  æM1   a  MÓ  $ é	  ﬂB   CZ  ‡B:  ∫Mﬂ  $ ﬂB   CZ  ‡B5  ¬C]   ”Bk  $ M;  æMÏ  a  MÓ  $ $ $ $ $ % ∆√èå8:â AhéÙÖ◊ Ql“é˜òé‘¿§ 5 öâ– : ¢é“ 5 öâ–‡(post) => /* @__PURE__ */ import_react4.default.createElement(
+M‡  $ ﬂB   CZ  ‡B8  ÿ	  MÈ  Ë  M  ﬂB   CZ  ‡B=  à„  MV  æM1   a  MÓ  $ é	  ﬂB   CZ  ‡B:  ∫Mﬂ  $ ﬂB   CZ  ‡B5  ¬C]   ”Bj  $ M;  æMÏ  a  MÓ  $ ﬂB   CZ  ‡B:  æMﬂ  $ ﬂB   CZ  ‡B=  P·  MV  æM1   a  MÓ  $ é	  ﬂB   CZ  ‡B:  ∫Mﬂ  $ ﬂB   CZ  ‡B5  ¬C]   ”Bk  $ M;  æMÏ  a  MÓ  $ $ $ $ $ % ∆«èå8:â AhéÙÖ◊ Ql“é˜òé‘¿§ 5 öâ– : ¢é“ 5 öâ–‡(post) => /* @__PURE__ */ import_react4.default.createElement(
       import_fuick_js_framework4.Container,
       {
         key: post.id,
@@ -55860,7 +55872,7 @@ M‡  $ ﬂB   CZ  ‡B8  ÿ	  MÈ  Ë  M  ﬂB   CZ  ‡B=  à„  MV  æM1  
       )), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Padding, { padding: 15 }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: post.title, fontSize: 18, color: "#1A1C1E" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.SizedBox, { height: 10 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Row, { mainAxisAlignment: "start", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Icon, { codePoint: 58248, size: 18, color: "#6B7280" }), " ", /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.SizedBox, { width: 4 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: `${post.likes}`, fontSize: 14, color: "#6B7280" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.SizedBox, { width: 20 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Icon, { codePoint: 57680, size: 18, color: "#6B7280" }), " ", /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.SizedBox, { width: 4 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: `${post.comments}`, fontSize: 14, color: "#6B7280" })))))
     )b b b b b b  ÙÌÇ ÀÇ ÃÖÓﬂB   Cx  	$ Ó„ÙÌÇ ÕÇ ŒÖÓﬂB   Cx  l  $ Óﬂl  Mj  ¿ MA   m  Mj  n  MA   o  Mj  ¿MA   & ƒ∑Mó  p  Mf  æ|Mj  æMk  q  Mi  ∏Mó  r  Mf  æYMj  ªMk  s  Mi  πMó  t  Mf  ø Mj  æ*Mk  u  Mi  & ƒﬂB   CZ  ‡B4  v  MÓ  ﬂB   CZ  ‡BE  ﬂB   CZ  ‡B3    M  ﬂB   CZ  ‡BF  w  M  ﬂB   CZ  ‡B4  ø» M‡  øêMﬂ  ﬂB   CZ  ‡B9  x  M    M  øêMﬂ  ø» M‡  $ $ ﬂB   CZ  ‡BG  æÿM  æMë  ﬂB   CZ  ‡B4  ædMﬂ  ædM‡  æ2M     MÓ  ∫MÁ  ﬂB   CZ  ‡B4  æ\Mﬂ  æ\M‡  æ.M  ﬂB   CZ  ‡B9  y  M    M  æ\Mﬂ  æ\M‡  æ.M  $ $ $ $ $ ﬂB   CZ  ‡B:  æ2M‡  $ ﬂB   CZ  ‡B7  æMë  æMì  æ
 M-  æ
-M  MÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B8    MÈ  Ë  M  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  z  M;  æMÏ  `  MÓ  $ ﬂB   CZ  ‡B5  {  M;  æMÏ  a  MÓ  $ $ ﬂB   CZ  ‡B;  c  Ïo  Ó|  M;  ¡NØ  MØ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  }  M;  æMÏ  ~  MÓ  $ $ $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B4     MÓ  æM  æMÁ  ﬂB   CZ  ‡B8  U  MÈ  c CÕ  ¡$ $ $ $ ﬂB   CZ  ‡B7  æMë  æMì  MÁ  ﬂB   CZ  ‡B8  ÿ	  MÈ  l    Ä  & CÕ  ¡$ $ $ ﬂB   CZ  ‡BD  ∑M‡  Å  MÓ  $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3    M  c CÕ  ¡$ $ $ $	 $ % ∆ÁémÓj≤ ”:é‡\ÿéÙéÊ≠É <l£k 7 ' Jfé‘ 4 ¶é¿≤éÚò 3ë :
+M  MÁ  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B8    MÈ  Ë  M  ﬂB   CZ  ‡B3  ÿ	  M  ﬂB   CZ  ‡B5  z  M;  æMÏ  `  MÓ  $ ﬂB   CZ  ‡B5  {  M;  æMÏ  a  MÓ  $ $ ﬂB   CZ  ‡B;  c  Ïo  Ó|  M;  ¡NØ  MØ  $ $ ﬂB   CZ  ‡B:  æM‡  $ ﬂB   CZ  ‡B5  }  M;  æMÏ  ~  MÓ  $ $ $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B4     MÓ  æM  æMÁ  ﬂB   CZ  ‡B8  U  MÈ  c CÕ  ¡$ $ $ $ ﬂB   CZ  ‡B7  æMë  æMì  MÁ  ﬂB   CZ  ‡B8  ÿ	  MÈ  l    Ä  & CÕ  ¡$ $ $ ﬂB   CZ  ‡BD  ∑M‡  Å  MÓ  $ ﬂB   CZ  ‡B7  æMÁ  ﬂB   CZ  ‡B3    M  c CÕ  ¡$ $ $ $	 $ % ∆ÎémÓj≤ ”:é‡\ÿéÙéÊ≠É <l£k 7 ' Jfé‘ 4 ¶é¿≤éÚò 3ë :
 lèk 6n“‘ûò÷¿¸ ∫ ’ªÙ“òæD() => {
     const [isFollowing, setIsFollowing] = import_react4.default.useState(false);
     const [activeTab, setActiveTab] = import_react4.default.useState("Posts");
@@ -55975,11 +55987,11 @@ lèk 6n“‘ûò÷¿¸ ∫ ’ªÙ“òæD() => {
     )))))));
   }C
 ñ   Ñ ˆ˛Ñå!î%¯B
-      ˆ  ˛ ﬂB   CZ  ‡% ∆ﬁè59T3() => import_react5.default.createElement(HomePage)B
-   ú3  ˆ  Ñ ﬂB   CZ  ‡”% ∆ﬂè;9`C(params) => import_react5.default.createElement(DetailPage, params)B
-   ú3  ˆ  å ﬂB   CZ  ‡”% ∆‡è=9`I(params) => import_react5.default.createElement(examples_default, params)B
-   ú3  ˆ  î ﬂB   CZ  ‡”% ∆·è<9`H(params) => import_react5.default.createElement(complex_default, params)_ B
-  C  $  9–  Cû    $ _ Bﬁ  C‘  P  ¡ $ _ Bﬁ  C‘    ¡$ _ Bﬁ  C‘    ¡$ _ Bﬁ  C‘    ¡$ )∆€èCFE40CD:CCD:CCD:CCD‚function initApp() {
+      ˆ  ˛ ﬂB   CZ  ‡% ∆‚è59T3() => import_react5.default.createElement(HomePage)B
+   ú3  ˆ  Ñ ﬂB   CZ  ‡”% ∆„è;9`C(params) => import_react5.default.createElement(DetailPage, params)B
+   ú3  ˆ  å ﬂB   CZ  ‡”% ∆‰è=9`I(params) => import_react5.default.createElement(examples_default, params)B
+   ú3  ˆ  î ﬂB   CZ  ‡”% ∆Âè<9`H(params) => import_react5.default.createElement(complex_default, params)_ B
+  C  $  9–  Cû    $ _ Bﬁ  C‘  P  ¡ $ _ Bﬁ  C‘    ¡$ _ Bﬁ  C‘    ¡$ _ Bﬁ  C‘    ¡$ )∆ﬂèCFE40CD:CCD:CCD:CCD‚function initApp() {
     import_fuick_js_framework5.Runtime.bindGlobals();
     console.log("initApp");
     import_fuick_js_framework5.Router.register("/", () => import_react5.default.createElement(HomePage));
@@ -55989,7 +56001,7 @@ lèk 6n“‘ûò÷¿¸ ∫ ’ªÙ“òæD() => {
   }¡ƒ¡ƒ¡ƒ&9î   Bò  À9î   Bf   Ã9î   Bg   Õ9î   B‹  Œ9î   B`   ƒ9î   B<   BO  ƒ¡ NÎ   ƒ¡NÏ   ƒ¡NÌ   ƒ√¡UÇ  Òƒ	√¡UÉ  Òƒ
 √¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√¡	Uà  Òƒ√¡
 Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ√√	Òƒ√√Òƒ¡N  ≈ ƒ!√√	Òƒ"√√Òƒ#¡N	  ≈$ƒ%√&)∆_ r8D § @ Ñ òÏ# ¥ ¿ ( |
- § F ~ † >+-+ Ä+ à+ + ˛QÉ¶3() => {
+ § F ~ ® >+-+ Ä+ à+ + ˛Qôß3() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -74052,7 +74064,11 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
         setupPolyfills();
         globalThis.ReactRenderer = {
           render: PageRender.render,
-          destroy: PageRender.destroy
+          destroy: PageRender.destroy,
+          dispatchEvent: (id, payload) => {
+            const r = PageRender.ensureRenderer();
+            r.dispatchEvent(id, payload);
+          }
         };
         globalThis.ReactRouter = Router2.Router;
       }
@@ -74392,4 +74408,4 @@ Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√
 
   // src/index.ts
   initApp();
-}Ï)ﬂÌè  Mê  Më  „¡ /∆ã  ∆ü  
+}Ï)ﬂÌè  Mê  Më  „¡ /∆ã  Œü  

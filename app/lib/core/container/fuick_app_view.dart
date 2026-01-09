@@ -8,7 +8,9 @@ import 'fuick_app_controller.dart';
 import 'fuick_page_view.dart';
 
 class FuickAppView extends StatefulWidget {
-  const FuickAppView({super.key});
+  final String appName;
+
+  const FuickAppView({super.key, required this.appName});
 
   @override
   State<FuickAppView> createState() => _FuickAppViewState();
@@ -48,20 +50,22 @@ class _FuickAppViewState extends State<FuickAppView> {
     try {
       // 优先加载二进制字节码
       try {
-        final ByteData data = await rootBundle.load('assets/js/bundle.qjc');
+        final ByteData data = await rootBundle.load(
+          'assets/js/${widget.appName}.qjc',
+        );
         final Uint8List bytes = data.buffer.asUint8List(
           data.offsetInBytes,
           data.lengthInBytes,
         );
         ctx.evalBinary(bytes);
-        debugPrint('成功加载 QuickJS 字节码 bundle');
-        // final bundle = await rootBundle.loadString('assets/js/bundle.js');
-        // ctx.eval(bundle);
+        debugPrint('成功加载 QuickJS 字节码 bundle ${widget.appName}');
       } catch (e) {
         debugPrint('加载字节码 bundle 失败，尝试加载文本 bundle: $e');
-        final bundle = await rootBundle.loadString('assets/js/bundle.js');
+        final bundle = await rootBundle.loadString(
+          'assets/js/${widget.appName}.js',
+        );
         ctx.eval(bundle);
-        debugPrint('成功加载文本 bundle');
+        debugPrint('成功加载文本 bundle ${widget.appName}');
       }
 
       // 执行任务队列，确保 initApp 等异步逻辑执行完毕
