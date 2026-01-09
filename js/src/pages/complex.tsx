@@ -14,7 +14,7 @@ import {
     SingleChildScrollView,
     Image,
     GestureDetector,
-} from '../components';
+} from 'fuick_js_framework';
 
 const ComplexPage = () => {
     const [isFollowing, setIsFollowing] = React.useState(false);

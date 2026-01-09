@@ -20,10 +20,12 @@ esbuild.build({
     '.ts': 'ts',
     '.tsx': 'tsx',
   },
+  mainFields: ['module', 'main'],
   alias: {
     'react': path.resolve(__dirname, 'node_modules/react/cjs/react.development.js'),
     'react-reconciler': path.resolve(__dirname, 'node_modules/react-reconciler/cjs/react-reconciler.development.js'),
     'scheduler': path.resolve(__dirname, 'node_modules/scheduler/cjs/scheduler.development.js'),
+    'fuick_js_framework': path.resolve(__dirname, '../fuick_js_framework/dist/index.js'),
   },
   define: {
     'process.env.NODE_ENV': '"development"',

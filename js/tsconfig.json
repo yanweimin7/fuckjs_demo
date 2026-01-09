@@ -20,13 +20,7 @@
       ]
     }
   },
-  "files": [
-    "src/types.d.ts",
-    "global.d.ts"
-  ],
   "include": [
-    "src/**/*",
-    "src/**/*.d.ts",
-    "global.d.ts"
+    "src/**/*"
   ]
 }

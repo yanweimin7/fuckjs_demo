@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, Container, Text, ListView, Padding, Row, Image, SizedBox, Button } from '../components';
+import { Column, Container, Text, ListView, Padding, Row, Image, SizedBox, Button } from 'fuick_js_framework';
 
 export default function HomePage() {
     const items = [1, 2, 3, 4, 5];

@@ -17,7 +17,7 @@ import {
   SizedBox,
   Divider,
   SingleChildScrollView
-} from '../components';
+} from 'fuick_js_framework';
 
 const ExamplesPage = () => {
   const [loading, setLoading] = React.useState(false);

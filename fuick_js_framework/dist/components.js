@@ -1,0 +1,27 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
+// 导出内置组件名字符串，并关联类型定义
+exports.Column = 'Column';
+exports.Container = 'Container';
+exports.Text = 'Text';
+exports.ListView = 'ListView';
+exports.Padding = 'Padding';
+exports.Row = 'Row';
+exports.Image = 'Image';
+exports.SizedBox = 'SizedBox';
+exports.Button = 'Button';
+exports.Center = 'Center';
+exports.Icon = 'Icon';
+exports.TextField = 'TextField';
+exports.Switch = 'Switch';
+exports.Expanded = 'Expanded';
+exports.Flexible = 'Flexible';
+exports.GestureDetector = 'GestureDetector';
+exports.InkWell = 'InkWell';
+exports.Divider = 'Divider';
+exports.SingleChildScrollView = 'SingleChildScrollView';
+exports.Stack = 'Stack';
+exports.Positioned = 'Positioned';
+exports.Opacity = 'Opacity';
+exports.CircularProgressIndicator = 'CircularProgressIndicator';

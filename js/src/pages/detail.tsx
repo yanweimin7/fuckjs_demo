@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, Container, Text, Padding, Row, Image, SizedBox, Button, Divider, SingleChildScrollView } from '../components';
+import { Column, Container, Text, Padding, Row, Image, SizedBox, Button, Divider, SingleChildScrollView } from 'fuick_js_framework';
 
 interface DetailPageProps {
     id: any;

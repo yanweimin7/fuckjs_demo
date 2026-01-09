@@ -1,10 +1,9 @@
 import React from 'react';
+import { Router, Runtime } from 'fuick_js_framework';
 import HomePage from './pages/home';
 import DetailPage from './pages/detail';
 import ExamplesPage from './pages/examples';
 import ComplexPage from './pages/complex';
-import * as Runtime from './runtime';
-import * as Router from './router';
 
 export function initApp() {
   Runtime.bindGlobals();
