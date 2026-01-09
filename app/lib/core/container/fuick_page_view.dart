@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quickjs/quickjs_ffi.dart';
 
+import '../engine/jsobject.dart';
 import 'fuick_app_controller.dart';
 import 'js_ui.dart';
 
@@ -71,8 +71,9 @@ class _JsUiHostState extends State<FuickPageView> {
   void dispose() {
     widget.controller.isBundleLoaded.removeListener(_checkAndRender);
     try {
-      final renderer =
-          widget.controller.ctx.global.getProperty('ReactRenderer');
+      final renderer = widget.controller.ctx.global.getProperty(
+        'ReactRenderer',
+      );
       if (renderer is JSObject) {
         renderer.invoke('destroy', [widget.pageId]);
       }
@@ -86,7 +87,8 @@ class _JsUiHostState extends State<FuickPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: body ??
+      body:
+          body ??
           Center(
             child: SizedBox(
               width: 100,

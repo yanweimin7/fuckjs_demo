@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_quickjs/core/engine/runtime.dart';
 
-import '../../quickjs_ffi.dart';
+import 'quickjs_ffi.dart';
 
 class Engine {
   static QuickJsFFI? _qjs;

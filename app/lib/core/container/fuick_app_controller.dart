@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../quickjs_ffi.dart';
+import '../engine/jscontext.dart';
 import 'fuick_page.dart';
 import 'fuick_page_view.dart';
 

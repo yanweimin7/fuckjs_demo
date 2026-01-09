@@ -1,7 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_quickjs/core/engine/quickjs_ffi.dart';
 import 'package:flutter_quickjs/core/handler/js_handler_registry.dart';
-import 'package:flutter_quickjs/quickjs_ffi.dart';
+
+import 'core/engine/jscontext.dart';
+import 'core/engine/runtime.dart';
 
 class QuickJsDemoPage extends StatefulWidget {
   const QuickJsDemoPage({super.key});
@@ -80,16 +84,16 @@ class _QuickJsDemoPageState extends State<QuickJsDemoPage> {
       final testData = {
         'map': {
           'a': 1,
-          'b': [2, 3]
+          'b': [2, 3],
         },
         'list': [
           1,
           {'x': 'y'},
-          3.14
+          3.14,
         ],
         'str': 'hello',
         'bool': true,
-        'null': null
+        'null': null,
       };
 
       final result = _ctx1!.evalToString('''

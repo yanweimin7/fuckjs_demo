@@ -4,7 +4,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart' as ffi;
-import 'package:flutter/foundation.dart';
+
+import 'jsobject.dart';
 
 /**
  * QuickJS 桥接层 Dart 实现
@@ -70,13 +71,14 @@ final class QjsResult extends Struct {
 /**
  * Dart 回调处理器签名 (JS 调用 Dart 时进入)
  */
-typedef NativeAsyncTypedCallHandler = Void Function(
-  Pointer<Void> ctx,
-  NativeUtf8Ptr method,
-  Pointer<QjsResult> args,
-  Int32 argc,
-  Pointer<QjsResult> out,
-);
+typedef NativeAsyncTypedCallHandler =
+    Void Function(
+      Pointer<Void> ctx,
+      NativeUtf8Ptr method,
+      Pointer<QjsResult> args,
+      Int32 argc,
+      Pointer<QjsResult> out,
+    );
 
 /**
  * QuickJS FFI 底层绑定类
@@ -122,79 +124,148 @@ final class QuickJsFFI {
 
   // ---------------- FFI 内部绑定 (映射 C 导出函数) ----------------
 
-  late final _create =
-      _lib.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>(
-          'qjs_create_runtime');
-  late final _destroy = _lib.lookupFunction<Void Function(Pointer<Void>),
-      void Function(Pointer<Void>)>('qjs_destroy_runtime');
+  late final _create = _lib
+      .lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>(
+        'qjs_create_runtime',
+      );
+  late final _destroy = _lib
+      .lookupFunction<
+        Void Function(Pointer<Void>),
+        void Function(Pointer<Void>)
+      >('qjs_destroy_runtime');
 
-  late final _createContext = _lib.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)>('qjs_create_context');
-  late final _destroyContext = _lib.lookupFunction<Void Function(Pointer<Void>),
-      void Function(Pointer<Void>)>('qjs_destroy_context');
+  late final _createContext = _lib
+      .lookupFunction<
+        Pointer<Void> Function(Pointer<Void>),
+        Pointer<Void> Function(Pointer<Void>)
+      >('qjs_create_context');
+  late final _destroyContext = _lib
+      .lookupFunction<
+        Void Function(Pointer<Void>),
+        void Function(Pointer<Void>)
+      >('qjs_destroy_context');
 
-  late final _evaluateValueOut = _lib.lookupFunction<
-      Void Function(Pointer<Void>, Pointer<Void>, Int32, Pointer<QjsResult>),
-      void Function(Pointer<Void>, Pointer<Void>, int,
-          Pointer<QjsResult>)>('qjs_evaluate_value_out');
+  late final _evaluateValueOut = _lib
+      .lookupFunction<
+        Void Function(Pointer<Void>, Pointer<Void>, Int32, Pointer<QjsResult>),
+        void Function(Pointer<Void>, Pointer<Void>, int, Pointer<QjsResult>)
+      >('qjs_evaluate_value_out');
 
-  late final _freeResult = _lib.lookupFunction<
-      Void Function(Pointer<QjsResult>),
-      void Function(Pointer<QjsResult>)>('qjs_free_result_content');
+  late final _freeResult = _lib
+      .lookupFunction<
+        Void Function(Pointer<QjsResult>),
+        void Function(Pointer<QjsResult>)
+      >('qjs_free_result_content');
 
-  late final _getGlobal = _lib.lookupFunction<
-      Void Function(Pointer<Void>, Pointer<QjsResult>),
-      void Function(
-          Pointer<Void>, Pointer<QjsResult>)>('qjs_get_global_object');
+  late final _getGlobal = _lib
+      .lookupFunction<
+        Void Function(Pointer<Void>, Pointer<QjsResult>),
+        void Function(Pointer<Void>, Pointer<QjsResult>)
+      >('qjs_get_global_object');
 
-  late final _setProperty = _lib.lookupFunction<
-      Void Function(Pointer<Void>, Pointer<QjsResult>, Pointer<ffi.Utf8>,
-          Pointer<QjsResult>),
-      void Function(Pointer<Void>, Pointer<QjsResult>, Pointer<ffi.Utf8>,
-          Pointer<QjsResult>)>('qjs_set_property');
+  late final _setProperty = _lib
+      .lookupFunction<
+        Void Function(
+          Pointer<Void>,
+          Pointer<QjsResult>,
+          Pointer<ffi.Utf8>,
+          Pointer<QjsResult>,
+        ),
+        void Function(
+          Pointer<Void>,
+          Pointer<QjsResult>,
+          Pointer<ffi.Utf8>,
+          Pointer<QjsResult>,
+        )
+      >('qjs_set_property');
 
-  late final _getProperty = _lib.lookupFunction<
-      Void Function(Pointer<Void>, Pointer<QjsResult>, Pointer<ffi.Utf8>,
-          Pointer<QjsResult>),
-      void Function(Pointer<Void>, Pointer<QjsResult>, Pointer<ffi.Utf8>,
-          Pointer<QjsResult>)>('qjs_get_property');
+  late final _getProperty = _lib
+      .lookupFunction<
+        Void Function(
+          Pointer<Void>,
+          Pointer<QjsResult>,
+          Pointer<ffi.Utf8>,
+          Pointer<QjsResult>,
+        ),
+        void Function(
+          Pointer<Void>,
+          Pointer<QjsResult>,
+          Pointer<ffi.Utf8>,
+          Pointer<QjsResult>,
+        )
+      >('qjs_get_property');
 
-  late final _newFunction = _lib.lookupFunction<
-      Void Function(
+  late final _newFunction = _lib
+      .lookupFunction<
+        Void Function(
           Pointer<Void>,
           Pointer<ffi.Utf8>,
           Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
-          Pointer<QjsResult>),
-      void Function(
+          Pointer<QjsResult>,
+        ),
+        void Function(
           Pointer<Void>,
           Pointer<ffi.Utf8>,
           Pointer<NativeFunction<NativeAsyncTypedCallHandler>>,
-          Pointer<QjsResult>)>('qjs_new_function');
+          Pointer<QjsResult>,
+        )
+      >('qjs_new_function');
 
-  late final _callFunction = _lib.lookupFunction<
-      Void Function(Pointer<Void>, Pointer<QjsResult>, Pointer<QjsResult>,
-          Int32, Pointer<QjsResult>),
-      void Function(Pointer<Void>, Pointer<QjsResult>, Pointer<QjsResult>, int,
-          Pointer<QjsResult>)>('qjs_call_function');
+  late final _callFunction = _lib
+      .lookupFunction<
+        Void Function(
+          Pointer<Void>,
+          Pointer<QjsResult>,
+          Pointer<QjsResult>,
+          Int32,
+          Pointer<QjsResult>,
+        ),
+        void Function(
+          Pointer<Void>,
+          Pointer<QjsResult>,
+          Pointer<QjsResult>,
+          int,
+          Pointer<QjsResult>,
+        )
+      >('qjs_call_function');
 
-  late final _invokeMethod = _lib.lookupFunction<
-      Void Function(Pointer<Void>, Pointer<QjsResult>, Pointer<ffi.Utf8>,
-          Pointer<QjsResult>, Int32, Pointer<QjsResult>),
-      void Function(Pointer<Void>, Pointer<QjsResult>, Pointer<ffi.Utf8>,
-          Pointer<QjsResult>, int, Pointer<QjsResult>)>('qjs_invoke_method');
+  late final _invokeMethod = _lib
+      .lookupFunction<
+        Void Function(
+          Pointer<Void>,
+          Pointer<QjsResult>,
+          Pointer<ffi.Utf8>,
+          Pointer<QjsResult>,
+          Int32,
+          Pointer<QjsResult>,
+        ),
+        void Function(
+          Pointer<Void>,
+          Pointer<QjsResult>,
+          Pointer<ffi.Utf8>,
+          Pointer<QjsResult>,
+          int,
+          Pointer<QjsResult>,
+        )
+      >('qjs_invoke_method');
 
-  late final _runJobs = _lib.lookupFunction<Int32 Function(Pointer<Void>),
-      int Function(Pointer<Void>)>('qjs_run_jobs');
+  late final _runJobs = _lib
+      .lookupFunction<
+        Int32 Function(Pointer<Void>),
+        int Function(Pointer<Void>)
+      >('qjs_run_jobs');
 
-  late final _asyncResolve = _lib.lookupFunction<
-      Void Function(Pointer<Void>, Int32, Pointer<QjsResult>),
-      void Function(
-          Pointer<Void>, int, Pointer<QjsResult>)>('qjs_async_resolve_typed');
+  late final _asyncResolve = _lib
+      .lookupFunction<
+        Void Function(Pointer<Void>, Int32, Pointer<QjsResult>),
+        void Function(Pointer<Void>, int, Pointer<QjsResult>)
+      >('qjs_async_resolve_typed');
 
-  late final _asyncReject = _lib.lookupFunction<
-      Void Function(Pointer<Void>, Int32, Pointer<ffi.Utf8>),
-      void Function(Pointer<Void>, int, Pointer<ffi.Utf8>)>('qjs_async_reject');
+  late final _asyncReject = _lib
+      .lookupFunction<
+        Void Function(Pointer<Void>, Int32, Pointer<ffi.Utf8>),
+        void Function(Pointer<Void>, int, Pointer<ffi.Utf8>)
+      >('qjs_async_reject');
 
   // ---------------- 业务封装接口 ----------------
 
@@ -211,15 +282,22 @@ final class QuickJsFFI {
     return out;
   }
 
-  void setProperty(Pointer<Void> ctxHandle, Pointer<QjsResult> obj, String prop,
-      Pointer<QjsResult> val) {
+  void setProperty(
+    Pointer<Void> ctxHandle,
+    Pointer<QjsResult> obj,
+    String prop,
+    Pointer<QjsResult> val,
+  ) {
     final cprop = prop.toNativeUtf8();
     _setProperty(ctxHandle, obj, cprop, val);
     ffi.malloc.free(cprop);
   }
 
   Pointer<QjsResult> getProperty(
-      Pointer<Void> ctxHandle, Pointer<QjsResult> obj, String prop) {
+    Pointer<Void> ctxHandle,
+    Pointer<QjsResult> obj,
+    String prop,
+  ) {
     final cstr = prop.toNativeUtf8();
     final out = ffi.calloc<QjsResult>();
     _getProperty(ctxHandle, obj, cstr, out);
@@ -227,8 +305,11 @@ final class QuickJsFFI {
     return out;
   }
 
-  Pointer<QjsResult> newFunction(Pointer<Void> ctxHandle, String name,
-      Pointer<NativeFunction<NativeAsyncTypedCallHandler>> cb) {
+  Pointer<QjsResult> newFunction(
+    Pointer<Void> ctxHandle,
+    String name,
+    Pointer<NativeFunction<NativeAsyncTypedCallHandler>> cb,
+  ) {
     final cname = name.toNativeUtf8();
     final out = ffi.calloc<QjsResult>();
     _newFunction(ctxHandle, cname, cb, out);
@@ -237,7 +318,10 @@ final class QuickJsFFI {
   }
 
   dynamic callFunction(
-      Pointer<Void> ctxHandle, Pointer<QjsResult> obj, List<dynamic> args) {
+    Pointer<Void> ctxHandle,
+    Pointer<QjsResult> obj,
+    List<dynamic> args,
+  ) {
     final out = ffi.calloc<QjsResult>();
     final cargs = ffi.calloc<QjsResult>(args.length);
     for (var i = 0; i < args.length; i++) {
@@ -252,8 +336,9 @@ final class QuickJsFFI {
     ffi.calloc.free(cargs);
 
     if (out.ref.error != 0) {
-      final msg =
-          out.ref.s.address == 0 ? 'Unknown error' : out.ref.s.toDartString();
+      final msg = out.ref.s.address == 0
+          ? 'Unknown error'
+          : out.ref.s.toDartString();
       _freeResult(out);
       ffi.calloc.free(out);
       throw Exception(msg);
@@ -265,8 +350,12 @@ final class QuickJsFFI {
     return res;
   }
 
-  dynamic invokeMethod(Pointer<Void> ctxHandle, Pointer<QjsResult> obj,
-      String name, List<dynamic> args) {
+  dynamic invokeMethod(
+    Pointer<Void> ctxHandle,
+    Pointer<QjsResult> obj,
+    String name,
+    List<dynamic> args,
+  ) {
     final cname = name.toNativeUtf8();
     final out = ffi.calloc<QjsResult>();
     final cargs = ffi.calloc<QjsResult>(args.length);
@@ -283,8 +372,9 @@ final class QuickJsFFI {
     ffi.calloc.free(cargs);
 
     if (out.ref.error != 0) {
-      final msg =
-          out.ref.s.address == 0 ? 'Unknown error' : out.ref.s.toDartString();
+      final msg = out.ref.s.address == 0
+          ? 'Unknown error'
+          : out.ref.s.toDartString();
       _freeResult(out);
       ffi.calloc.free(out);
       throw Exception(msg);
@@ -303,8 +393,9 @@ final class QuickJsFFI {
     ffi.malloc.free(cstr);
 
     if (out.ref.error != 0) {
-      final msg =
-          out.ref.s.address == 0 ? 'Unknown error' : out.ref.s.toDartString();
+      final msg = out.ref.s.address == 0
+          ? 'Unknown error'
+          : out.ref.s.toDartString();
       _freeResult(out);
       ffi.calloc.free(out);
       throw Exception(msg);
@@ -324,8 +415,9 @@ final class QuickJsFFI {
     ffi.malloc.free(ptr);
 
     if (out.ref.error != 0) {
-      final msg =
-          out.ref.s.address == 0 ? 'Unknown error' : out.ref.s.toDartString();
+      final msg = out.ref.s.address == 0
+          ? 'Unknown error'
+          : out.ref.s.toDartString();
       _freeResult(out);
       ffi.calloc.free(out);
       throw Exception(msg);
@@ -420,7 +512,7 @@ final class QuickJsFFI {
 
       // 1. 处理挂起的异步 Promise (Resolvers)
       final ctxAddr = ctxHandle.address;
-      final resolvers = JSObject._pendingResolvers[ctxAddr];
+      final resolvers = JSObject.pendingResolvers[ctxAddr];
       if (resolvers != null && resolvers.isNotEmpty) {
         final ids = resolvers.keys.toList();
         for (final id in ids) {
@@ -434,7 +526,7 @@ final class QuickJsFFI {
       }
 
       // 2. 处理挂起的异步 Promise (Rejections)
-      final rejections = JSObject._pendingRejections[ctxAddr];
+      final rejections = JSObject.pendingRejections[ctxAddr];
       if (rejections != null && rejections.isNotEmpty) {
         final ids = rejections.keys.toList();
         for (final id in ids) {
@@ -459,210 +551,6 @@ final class QuickJsFFI {
 }
 
 /**
- * QuickJS Runtime 封装
- * 每个 Runtime 对应一个 JS 引擎实例，拥有独立的内存堆
- */
-class QuickJsRuntime {
-  final QuickJsFFI _ffi;
-  final Pointer<Void> _handle;
-
-  QuickJsRuntime(this._ffi) : _handle = _ffi.createRuntime();
-
-  /**
-   * 创建一个相互隔离的上下文
-   */
-  QuickJsContext createContext() {
-    return QuickJsContext(_ffi, _handle);
-  }
-
-  void dispose() {
-    _ffi.destroyRuntime(_handle);
-  }
-}
-
-/**
- * QuickJS 上下文封装
- * 提供代码执行和环境管理能力
- */
-class QuickJsContext {
-  final QuickJsFFI _ffi;
-  final Pointer<Void> _runtimeHandle;
-  final Pointer<Void> _handle;
-  late final JSObject global;
-
-  // 用于在 FFI 静态回调中寻找 Context 实例
-  static final Map<int, QuickJsContext> _instances = {};
-
-  int get handleAddress => _handle.address;
-
-  QuickJsContext(this._ffi, this._runtimeHandle)
-      : _handle = _ffi.createContext(_runtimeHandle) {
-    _instances[_handle.address] = this;
-    final globalRes = _ffi.getGlobalObject(_handle);
-    global = JSObject(_ffi, _handle, globalRes);
-  }
-
-  dynamic eval(String code) {
-    return _ffi.eval(_handle, code);
-  }
-
-  dynamic evalBinary(Uint8List bytecode) {
-    return _ffi.evalWithBinary(_handle, bytecode);
-  }
-
-  String evalToString(String code) {
-    final res = eval(code);
-    return res?.toString() ?? 'null';
-  }
-
-  /**
-   * 手动触发任务执行
-   */
-  int runJobs() {
-    return _ffi.runJobs(_runtimeHandle, _handle);
-  }
-
-  void dispose() {
-    _instances.remove(_handle.address);
-    JSObject.clearContextState(_handle.address);
-    _ffi.destroyContext(_handle);
-  }
-}
-
-/**
- * JS 对象包装类
- * 支持属性读写、函数调用以及 Dart 方法绑定
- */
-class JSObject {
-  final QuickJsFFI _ffi;
-  final Pointer<Void> _contextHandle;
-  final Pointer<QjsResult> _handle;
-
-  JSObject(this._ffi, this._contextHandle, this._handle);
-
-  void setProperty(String name, dynamic value) {
-    final valRes = ffi.calloc<QjsResult>();
-    QuickJsFFI.writeOut(valRes, value);
-    _ffi.setProperty(_contextHandle, _handle, name, valRes);
-    _ffi.freeQjsResult(valRes);
-  }
-
-  dynamic getProperty(String name) {
-    final res = _ffi.getProperty(_contextHandle, _handle, name);
-    final dartVal = QuickJsFFI.convertQjsResultToDart(res.ref);
-    if (res.ref.type == qjsTypeObject || res.ref.type == qjsTypeFunction) {
-      // 如果是对象或函数，返回 JSObject 封装以支持链式操作
-      return JSObject(_ffi, _contextHandle, res);
-    }
-    _ffi.freeQjsResult(res);
-    return dartVal;
-  }
-
-  dynamic callFunction(List<dynamic> args) {
-    return _ffi.callFunction(_contextHandle, _handle, args);
-  }
-
-  dynamic invoke(String name, List<dynamic> args) {
-    return _ffi.invokeMethod(_contextHandle, _handle, name, args);
-  }
-
-  /**
-   * 在 JS 对象上定义一个方法，该方法执行时会回调 Dart 函数
-   */
-  void defineProperty(String name, Function callback) {
-    final key = "${_contextHandle.address}_$name";
-    if (_callbacks.containsKey(key)) {
-      _callbacks[key] = callback;
-      return;
-    }
-
-    // 注册 C 侧蹦床函数
-    final trampoline = Pointer.fromFunction<NativeAsyncTypedCallHandler>(
-        _jsNativeCallTrampoline);
-    final fnRes = _ffi.newFunction(_contextHandle, name, trampoline);
-    _ffi.setProperty(_contextHandle, _handle, name, fnRes);
-
-    // 保存回调以防止被 Dart GC，并用于静态方法查找
-    _callbacks[key] = callback;
-    _ffi.freeQjsResult(fnRes);
-  }
-
-  /**
-   * 清除特定 Context 的所有状态 (回调和异步解析器)
-   */
-  static void clearContextState(int contextAddress) {
-    _callbacks.removeWhere((key, _) => key.startsWith("${contextAddress}_"));
-    _pendingResolvers.remove(contextAddress);
-    _pendingRejections.remove(contextAddress);
-  }
-
-  // 存储所有已注册的 Dart 回调 (Key: contextAddress_methodName)
-  static final Map<String, Function> _callbacks = {};
-
-  /**
-   * JS 调用 Dart 的核心蹦床函数 (FFI 静态方法)
-   */
-  static void _jsNativeCallTrampoline(
-    Pointer<Void> contextHandle,
-    NativeUtf8Ptr methodPtr,
-    Pointer<QjsResult> argsPtr,
-    int argc,
-    Pointer<QjsResult> out,
-  ) {
-    final method = methodPtr.toDartString();
-    final key = "${contextHandle.address}_$method";
-    final callback = _callbacks[key];
-    if (callback == null) {
-      out.ref.error = 1;
-      out.ref.s = 'Method not found: $method'.toNativeUtf8();
-      return;
-    }
-
-    final args = [];
-    for (var i = 0; i < argc; i++) {
-      args.add(QuickJsFFI.convertQjsResultToDart(argsPtr[i]));
-    }
-
-    try {
-      final result = Function.apply(callback, args);
-
-      // 特殊处理 Future: 将其映射为 JS Promise
-      if (result is Future) {
-        final id = _nextResolverId++;
-        out.ref.type = qjsTypePromise;
-        out.ref.i64 = id;
-
-        result.then((value) {
-          _pendingResolvers.putIfAbsent(contextHandle.address, () => {})[id] =
-              value;
-          // 关键：Future 完成后，利用微任务触发 runJobs 以推进 JS Promise 状态
-          Future.microtask(() {
-            QuickJsContext._instances[contextHandle.address]?.runJobs();
-          });
-        }).catchError((e) {
-          _pendingRejections.putIfAbsent(contextHandle.address, () => {})[id] =
-              e.toString();
-          Future.microtask(() {
-            QuickJsContext._instances[contextHandle.address]?.runJobs();
-          });
-        });
-      } else {
-        // 同步返回值
-        QuickJsFFI.writeOut(out, result);
-      }
-    } catch (e) {
-      out.ref.error = 1;
-      out.ref.s = e.toString().toNativeUtf8();
-    }
-  }
-
-  static int _nextResolverId = 1;
-  // 待处理的异步结果 (contextAddress -> resolverId -> result)
-  static final Map<int, Map<int, dynamic>> _pendingResolvers = {};
-  static final Map<int, Map<int, String>> _pendingRejections = {};
-}
-
-/**
  * 二进制协议写入器
  */
 class _BinaryWriter {
@@ -675,30 +563,32 @@ class _BinaryWriter {
       _builder.addByte(v ? 1 : 0);
     } else if (v is int) {
       _builder.addByte(_binaryTagInt64);
-      _builder
-          .add((ByteData(8)..setInt64(0, v, Endian.host)).buffer.asUint8List());
+      _builder.add(
+        (ByteData(8)..setInt64(0, v, Endian.host)).buffer.asUint8List(),
+      );
     } else if (v is double) {
       _builder.addByte(_binaryTagFloat64);
       _builder.add(
-          (ByteData(8)..setFloat64(0, v, Endian.host)).buffer.asUint8List());
+        (ByteData(8)..setFloat64(0, v, Endian.host)).buffer.asUint8List(),
+      );
     } else if (v is String) {
       _builder.addByte(_binaryTagString);
       final b = utf8.encode(v);
-      _builder.add((ByteData(4)..setUint32(0, b.length, Endian.host))
-          .buffer
-          .asUint8List());
+      _builder.add(
+        (ByteData(4)..setUint32(0, b.length, Endian.host)).buffer.asUint8List(),
+      );
       _builder.add(b);
     } else if (v is List) {
       _builder.addByte(_binaryTagList);
-      _builder.add((ByteData(4)..setUint32(0, v.length, Endian.host))
-          .buffer
-          .asUint8List());
+      _builder.add(
+        (ByteData(4)..setUint32(0, v.length, Endian.host)).buffer.asUint8List(),
+      );
       for (var e in v) write(e);
     } else if (v is Map) {
       _builder.addByte(_binaryTagMap);
-      _builder.add((ByteData(4)..setUint32(0, v.length, Endian.host))
-          .buffer
-          .asUint8List());
+      _builder.add(
+        (ByteData(4)..setUint32(0, v.length, Endian.host)).buffer.asUint8List(),
+      );
       v.forEach((k, value) {
         write(k.toString());
         write(value);
@@ -725,25 +615,37 @@ class _BinaryReader {
       case _binaryTagBool:
         return _bytes[_offset++] != 0;
       case _binaryTagInt64:
-        final v = ByteData.sublistView(_bytes, _offset, _offset + 8)
-            .getInt64(0, Endian.host);
+        final v = ByteData.sublistView(
+          _bytes,
+          _offset,
+          _offset + 8,
+        ).getInt64(0, Endian.host);
         _offset += 8;
         return v;
       case _binaryTagFloat64:
-        final v = ByteData.sublistView(_bytes, _offset, _offset + 8)
-            .getFloat64(0, Endian.host);
+        final v = ByteData.sublistView(
+          _bytes,
+          _offset,
+          _offset + 8,
+        ).getFloat64(0, Endian.host);
         _offset += 8;
         return v;
       case _binaryTagString:
-        final len = ByteData.sublistView(_bytes, _offset, _offset + 4)
-            .getUint32(0, Endian.host);
+        final len = ByteData.sublistView(
+          _bytes,
+          _offset,
+          _offset + 4,
+        ).getUint32(0, Endian.host);
         _offset += 4;
         final s = utf8.decode(_bytes.sublist(_offset, _offset + len));
         _offset += len;
         return s;
       case _binaryTagList:
-        final len = ByteData.sublistView(_bytes, _offset, _offset + 4)
-            .getUint32(0, Endian.host);
+        final len = ByteData.sublistView(
+          _bytes,
+          _offset,
+          _offset + 4,
+        ).getUint32(0, Endian.host);
         _offset += 4;
         final list = [];
         for (var i = 0; i < len; i++) {
@@ -751,8 +653,11 @@ class _BinaryReader {
         }
         return list;
       case _binaryTagMap:
-        final len = ByteData.sublistView(_bytes, _offset, _offset + 4)
-            .getUint32(0, Endian.host);
+        final len = ByteData.sublistView(
+          _bytes,
+          _offset,
+          _offset + 4,
+        ).getUint32(0, Endian.host);
         _offset += 4;
         final map = {};
         for (var i = 0; i < len; i++) {

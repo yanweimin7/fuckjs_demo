@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_quickjs/quickjs_ffi.dart';
 
 import '../container/fuick_app_controller.dart';
+import '../engine/jscontext.dart';
 import 'js_handler_registry.dart';
 
 class JsHandlerManager {
@@ -61,8 +61,9 @@ class JsHandlerManager {
     });
 
     reg.onSync('push', (args) {
-      final m =
-          args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
+      final m = args is Map
+          ? Map<String, dynamic>.from(args)
+          : <String, dynamic>{};
       final path = (m['path'] ?? '') as String;
       final params = m['params'] ?? {};
       if (path.isNotEmpty) {
@@ -133,7 +134,7 @@ class JsHandlerManager {
           final pageId = (m['pageId'] as num?)?.toInt();
           final renderData =
               (m['renderData'] as Map?)?.cast<String, dynamic>() ??
-                  const <String, dynamic>{};
+              const <String, dynamic>{};
           if (pageId != null) {
             controller.render(pageId, renderData);
             return true;
