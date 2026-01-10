@@ -10,13 +10,24 @@ const react_reconciler_1 = __importDefault(require("react-reconciler"));
 const hostConfig_1 = require("./hostConfig");
 const eventHandlers = {};
 const pageEvents = {};
+const nodeEventMap = new Map();
 let nextEventId = 1;
-function createEvent(fn, pageId) {
+function createEvent(fn, pageId, nodeId, key) {
+    const nodeEvents = nodeEventMap.get(nodeId) || {};
+    if (nodeEvents[key]) {
+        const existingId = nodeEvents[key];
+        if (eventHandlers[existingId]) {
+            eventHandlers[existingId].fn = fn; // Update function reference
+            return existingId;
+        }
+    }
     const id = String(nextEventId++);
     eventHandlers[id] = { fn, pageId };
     if (!pageEvents[pageId])
         pageEvents[pageId] = new Set();
     pageEvents[pageId].add(id);
+    nodeEvents[key] = id;
+    nodeEventMap.set(nodeId, nodeEvents);
     return id;
 }
 function dispatchEvent(id, payload) {
@@ -29,7 +40,7 @@ function dispatchEvent(id, payload) {
         console.error(`[Renderer] Error in dispatchEvent:`, e);
     }
 }
-function mapInteractiveProps(type, props, pageId) {
+function mapInteractiveProps(type, props, pageId, nodeId) {
     const p = {};
     if (props) {
         for (const key in props) {
@@ -40,7 +51,7 @@ function mapInteractiveProps(type, props, pageId) {
             const value = props[key];
             if (typeof value === 'function') {
                 if (key === 'onTap' || key === 'onChanged' || key === 'onSubmitted') {
-                    const id = createEvent(value, pageId);
+                    const id = createEvent(value, pageId, nodeId, key);
                     p[key + 'EventId'] = id;
                 }
             }
@@ -60,34 +71,57 @@ function toDsl(node, pageId) {
     const type = node.type;
     if (!type)
         return null; // 必须有 type 才是有效的 DSL 节点
-    const props = mapInteractiveProps(type, node.props || {}, pageId) || {};
+    const props = mapInteractiveProps(type, node.props || {}, pageId, node.id) || {};
     const children = (node.children || [])
         .map((child) => toDsl(child, pageId))
         .filter((c) => c !== null && c !== undefined);
     return {
+        id: node.id,
         type: String(type),
         props: props,
         children: children
     };
 }
 function createRenderer() {
-    const reconciler = (0, react_reconciler_1.default)((0, hostConfig_1.createHostConfig)((pageId, rootJson) => {
+    const renderedPages = new Set();
+    const reconciler = (0, react_reconciler_1.default)((0, hostConfig_1.createHostConfig)((pageId, rootJson, changedNodes) => {
         try {
             if (!rootJson) {
                 console.warn(`[Renderer] Skip renderUI for page ${pageId}: rootJson is null`);
                 return;
             }
-            const dsl = toDsl(rootJson, pageId);
-            if (dsl && dsl.type) {
-                if (typeof dartCallNative === 'function') {
-                    dartCallNative('renderUI', {
-                        pageId: Number(pageId),
-                        renderData: dsl
-                    });
+            const isInitial = !renderedPages.has(pageId);
+            if (isInitial) {
+                const dsl = toDsl(rootJson, pageId);
+                if (dsl && dsl.type) {
+                    if (typeof dartCallNative === 'function') {
+                        dartCallNative('renderUI', {
+                            pageId: Number(pageId),
+                            renderData: dsl
+                        });
+                        renderedPages.add(pageId);
+                    }
                 }
             }
             else {
-                console.warn(`[Renderer] Skip renderUI for page ${pageId}: dsl is invalid`, dsl);
+                // Partial update
+                const patches = Array.from(changedNodes).map(node => {
+                    const type = node.type;
+                    const props = mapInteractiveProps(type, node.props || {}, pageId, node.id) || {};
+                    const childrenIds = (node.children || []).map((c) => c.id);
+                    return {
+                        id: node.id,
+                        type: String(type),
+                        props: props,
+                        childrenIds: childrenIds
+                    };
+                });
+                if (patches.length > 0 && typeof dartCallNative === 'function') {
+                    dartCallNative('patchUI', {
+                        pageId: Number(pageId),
+                        patches: patches
+                    });
+                }
             }
         }
         catch (e) {
@@ -137,6 +171,7 @@ function createRenderer() {
                         });
                         delete roots[pageId];
                         delete containers[pageId];
+                        renderedPages.delete(pageId);
                     }
                     catch (e) {
                         const msg = e.message || String(e);
@@ -148,6 +183,7 @@ function createRenderer() {
                             console.error(`[Renderer] Error destroying page ${pageId}:`, e);
                             delete roots[pageId];
                             delete containers[pageId];
+                            renderedPages.delete(pageId);
                         }
                     }
                 };
@@ -159,6 +195,10 @@ function createRenderer() {
                 }
                 delete pageEvents[pageId];
             }
+            // Clear nodeEventMap for nodes belonging to this page
+            // Note: This is a bit tricky as we don't track node-to-page mapping easily.
+            // But since nodeIds are global, we can just leave it for now or implement a better cleanup.
+            // A better way is to use a WeakMap if we had the actual node objects as keys.
         },
         createEvent,
         dispatchEvent,

@@ -61,9 +61,8 @@ class JsHandlerManager {
     });
 
     reg.onSync('push', (args) {
-      final m = args is Map
-          ? Map<String, dynamic>.from(args)
-          : <String, dynamic>{};
+      final m =
+          args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
       final path = (m['path'] ?? '') as String;
       final params = m['params'] ?? {};
       if (path.isNotEmpty) {
@@ -134,9 +133,20 @@ class JsHandlerManager {
           final pageId = (m['pageId'] as num?)?.toInt();
           final renderData =
               (m['renderData'] as Map?)?.cast<String, dynamic>() ??
-              const <String, dynamic>{};
+                  const <String, dynamic>{};
           if (pageId != null) {
             controller.render(pageId, renderData);
+            return true;
+          }
+        }
+      } else if (method == 'patchUI') {
+        final List listArgs = args is List ? args : [args];
+        if (listArgs.length == 1 && listArgs[0] is Map) {
+          final m = listArgs[0] as Map;
+          final pageId = (m['pageId'] as num?)?.toInt();
+          final patches = (m['patches'] as List?) ?? [];
+          if (pageId != null) {
+            controller.patch(pageId, patches);
             return true;
           }
         }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../widgets/fuick_node.dart';
 import '../engine/jsobject.dart';
 import 'fuick_app_controller.dart';
 import 'js_ui.dart';
@@ -28,14 +28,24 @@ class FuickPageView extends StatefulWidget {
 }
 
 class _JsUiHostState extends State<FuickPageView> {
-  Widget? body;
+  final FuickNodeManager nodeManager = FuickNodeManager();
+  FuickNode? rootNode;
+  bool _hasRendered = false;
 
   @override
   void initState() {
     super.initState();
     widget.controller.onPageRender[widget.pageId] = (dsl) {
-      body = JSRender.buildFromDsl(dsl, widget.controller);
-      if (mounted) setState(() {});
+      if (rootNode == null) {
+        rootNode = nodeManager.getOrCreateNode(dsl, nodeManager);
+        if (mounted) setState(() {});
+      } else {
+        nodeManager.getOrCreateNode(dsl, nodeManager);
+      }
+    };
+
+    widget.controller.onPagePatch[widget.pageId] = (patches) {
+      nodeManager.applyPatches(patches, nodeManager);
     };
 
     // 监听 bundle 加载状态
@@ -47,7 +57,9 @@ class _JsUiHostState extends State<FuickPageView> {
   }
 
   void _checkAndRender() {
+    if (_hasRendered) return;
     if (widget.controller.isBundleLoaded.value) {
+      _hasRendered = true;
       // 延迟一帧确保 JS 环境完全初始化
       Future.microtask(() {
         if (mounted) {
@@ -72,14 +84,15 @@ class _JsUiHostState extends State<FuickPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: body ??
-          Center(
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: CircularProgressIndicator(),
-            ),
-          ),
+      body: rootNode == null
+          ? const Center(
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : JSRender.buildFromNode(rootNode!, widget.controller),
     );
   }
 }

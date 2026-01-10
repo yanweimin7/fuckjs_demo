@@ -1,17 +1,55 @@
 import 'package:flutter/material.dart';
 
+import 'fuick_node.dart';
+
 class WidgetFactory {
   final void Function(String call, dynamic args) onAction;
 
   WidgetFactory({required this.onAction});
 
-  Widget build(Map<String, dynamic> node) {
-    final type = node['type'] as String? ?? 'Text';
-    final props = Map<String, dynamic>.from(node['props'] as Map? ?? {});
-    final children = (node['children'] as List?)
-            ?.map((e) => Map<String, dynamic>.from(e as Map))
-            .toList() ??
-        const [];
+  Widget build(Map<String, dynamic> dsl) {
+    final type = dsl['type'] as String? ?? 'Text';
+    final props = Map<String, dynamic>.from(dsl['props'] as Map? ?? {});
+    final children = (dsl['children'] as List?) ?? [];
+    return _buildInternal(type, props, children);
+  }
+
+  Widget buildFromNode(FuickNode node, {bool forceWrap = false}) {
+    if (forceWrap || node.isBoundary) {
+      return _FuickNodeWidget(node: node, factory: this);
+    }
+    return _buildInternal(node.type, node.props, node.children);
+  }
+
+  Widget _buildInternal(
+    String type,
+    Map<String, dynamic> props,
+    dynamic children,
+  ) {
+    List<Widget> buildChildren() {
+      if (children is List<FuickNode>) {
+        return children.map((n) => buildFromNode(n)).toList();
+      } else if (children is List) {
+        return children
+            .map((e) => build(Map<String, dynamic>.from(e as Map)))
+            .toList();
+      }
+      return const [];
+    }
+
+    Widget buildFirstChild() {
+      if (children is List<FuickNode>) {
+        return children.isEmpty
+            ? const SizedBox.shrink()
+            : buildFromNode(children.first);
+      } else if (children is List) {
+        return children.isEmpty
+            ? const SizedBox.shrink()
+            : build(Map<String, dynamic>.from(children.first as Map));
+      }
+      return const SizedBox.shrink();
+    }
+
     switch (type) {
       case 'Column':
         return _wrapPadding(
@@ -22,7 +60,7 @@ class WidgetFactory {
               props['crossAxisAlignment'] as String?,
             ),
             mainAxisSize: _mainAxisSize(props['mainAxisSize'] as String?),
-            children: children.map(build).toList(),
+            children: buildChildren(),
           ),
         );
       case 'Row':
@@ -34,7 +72,7 @@ class WidgetFactory {
               props['crossAxisAlignment'] as String?,
             ),
             mainAxisSize: _mainAxisSize(props['mainAxisSize'] as String?),
-            children: children.map(build).toList(),
+            children: buildChildren(),
           ),
         );
       case 'Container':
@@ -45,9 +83,7 @@ class WidgetFactory {
             height: _sizeNum(props['height']),
             alignment: _alignment(props['alignment'] as String?),
             decoration: _boxDecorationFromProps(props),
-            child: children.isEmpty
-                ? const SizedBox.shrink()
-                : build(children.first),
+            child: buildFirstChild(),
           ),
         );
       case 'Button':
@@ -60,20 +96,19 @@ class WidgetFactory {
           ElevatedButton(
             onPressed: () {
               if (onTapEventId != null && onTapEventId.isNotEmpty) {
-                onAction(
-                    '__event', {'id': onTapEventId, 'payload': onTapPayload});
+                onAction('__event', {
+                  'id': onTapEventId,
+                  'payload': onTapPayload,
+                });
               } else if (onTapJs != null) {
-                onAction(
-                  (onTapJs['call'] ?? '') as String,
-                  onTapJs['args'],
-                );
+                onAction((onTapJs['call'] ?? '') as String, onTapJs['args']);
               }
             },
             child: Text(text),
           ),
         );
       case 'TextField':
-        final hint = (props['hint'] ?? '') as String;
+        final hint = (props['hintText'] ?? props['hint'] ?? '') as String;
         final onChangedJs = props['onChangedJs'] as Map?;
         final onSubmittedJs = props['onSubmittedJs'] as Map?;
         final onChangedEventId = props['onChangedEventId'] as String?;
@@ -81,12 +116,15 @@ class WidgetFactory {
         return _wrapPadding(
           props,
           TextField(
-            decoration: InputDecoration(hintText: hint),
+            decoration: InputDecoration(
+              hintText: hint,
+              border: props['border'] == 'none' ? InputBorder.none : null,
+            ),
             onChanged: (v) {
               if (onChangedEventId != null && onChangedEventId.isNotEmpty) {
                 onAction('__event', {
                   'id': onChangedEventId,
-                  'payload': {'value': v}
+                  'payload': v,
                 });
               } else if (onChangedJs != null) {
                 final args = Map<String, dynamic>.from(
@@ -100,7 +138,7 @@ class WidgetFactory {
               if (onSubmittedEventId != null && onSubmittedEventId.isNotEmpty) {
                 onAction('__event', {
                   'id': onSubmittedEventId,
-                  'payload': {'value': v}
+                  'payload': v,
                 });
               } else if (onSubmittedJs != null) {
                 final args = Map<String, dynamic>.from(
@@ -124,7 +162,7 @@ class WidgetFactory {
               if (onChangedEventId != null && onChangedEventId.isNotEmpty) {
                 onAction('__event', {
                   'id': onChangedEventId,
-                  'payload': {'value': nv}
+                  'payload': nv,
                 });
               } else if (onChangedJs != null) {
                 final args = Map<String, dynamic>.from(
@@ -161,15 +199,16 @@ class WidgetFactory {
       case 'Padding':
         return Padding(
           padding: _edgeInsets(props['padding']) ?? EdgeInsets.zero,
-          child: children.isEmpty
-              ? const SizedBox.shrink()
-              : build(children.first),
+          child: buildFirstChild(),
         );
       case 'SizedBox':
         return SizedBox(
           width: _sizeNum(props['width']),
           height: _sizeNum(props['height']),
-          child: children.isEmpty ? null : build(children.first),
+          child: (children is List && children.isEmpty) ||
+                  (children is List<FuickNode> && children.isEmpty)
+              ? null
+              : buildFirstChild(),
         );
       case 'Divider':
         return Divider(
@@ -183,9 +222,7 @@ class WidgetFactory {
         return SingleChildScrollView(
           padding: _edgeInsets(props['padding']),
           scrollDirection: _axis(props['scrollDirection'] as String?),
-          child: children.isEmpty
-              ? const SizedBox.shrink()
-              : build(children.first),
+          child: buildFirstChild(),
         );
       case 'Icon':
         final cp = props['codePoint'] is num
@@ -204,7 +241,7 @@ class WidgetFactory {
             shrinkWrap: true,
             padding: _edgeInsets(props['padding']),
             scrollDirection: _axis(props['scrollDirection'] as String?),
-            children: children.map(build).toList(),
+            children: buildChildren(),
           ),
         );
       case 'Stack':
@@ -212,7 +249,7 @@ class WidgetFactory {
           props,
           Stack(
             alignment: _stackAlignment(props['alignment'] as String?),
-            children: children.map(build).toList(),
+            children: buildChildren(),
           ),
         );
       case 'Positioned':
@@ -223,51 +260,29 @@ class WidgetFactory {
           bottom: _sizeNum(props['bottom']),
           width: _sizeNum(props['width']),
           height: _sizeNum(props['height']),
-          child: children.isEmpty
-              ? const SizedBox.shrink()
-              : build(children.first),
+          child: buildFirstChild(),
         );
       case 'Opacity':
         final opacity = (props['opacity'] is num)
             ? (props['opacity'] as num).toDouble()
             : 1.0;
-        return Opacity(
-          opacity: opacity,
-          child: children.isEmpty
-              ? const SizedBox.shrink()
-              : build(children.first),
-        );
+        return Opacity(opacity: opacity, child: buildFirstChild());
       case 'Center':
-        return Center(
-          child: children.isEmpty
-              ? const SizedBox.shrink()
-              : build(children.first),
-        );
+        return Center(child: buildFirstChild());
       case 'Expanded':
         final flex =
             (props['flex'] is num) ? (props['flex'] as num).toInt() : 1;
-        return Expanded(
-          flex: flex,
-          child: children.isEmpty
-              ? const SizedBox.shrink()
-              : build(children.first),
-        );
+        return Expanded(flex: flex, child: buildFirstChild());
       case 'Flexible':
         final flex =
             (props['flex'] is num) ? (props['flex'] as num).toInt() : 1;
-        return Flexible(
-          flex: flex,
-          child: children.isEmpty
-              ? const SizedBox.shrink()
-              : build(children.first),
-        );
+        return Flexible(flex: flex, child: buildFirstChild());
       case 'GestureDetector':
       case 'InkWell':
         final onTapJs = props['onTapJs'] as Map?;
         final onTapEventId = props['onTapEventId'] as String?;
         final onTapPayload = props['onTapPayload'];
-        final widget =
-            children.isEmpty ? const SizedBox.shrink() : build(children.first);
+        final widget = buildFirstChild();
         final callback = () {
           if (onTapEventId != null && onTapEventId.isNotEmpty) {
             onAction('__event', {'id': onTapEventId, 'payload': onTapPayload});
@@ -291,6 +306,17 @@ class WidgetFactory {
             strokeWidth: strokeWidth,
           ),
         );
+      case 'Expanded':
+        return Expanded(
+          flex: (props['flex'] as num?)?.toInt() ?? 1,
+          child: buildFirstChild(),
+        );
+      case 'Flexible':
+        return Flexible(
+          flex: (props['flex'] as num?)?.toInt() ?? 1,
+          fit: props['fit'] == 'tight' ? FlexFit.tight : FlexFit.loose,
+          child: buildFirstChild(),
+        );
       case 'Text':
       default:
         final text = (props['text'] ?? '') as String;
@@ -298,11 +324,17 @@ class WidgetFactory {
             ? (props['fontSize'] as num).toDouble()
             : null;
         final color = _colorFromHex(props['color'] as String?);
+        final fontWeight =
+            props['fontWeight'] == 'bold' ? FontWeight.bold : null;
         return _wrapPadding(
           props,
           Text(
             text,
-            style: TextStyle(fontSize: fontSize, color: color),
+            style: TextStyle(
+              fontSize: fontSize,
+              color: color,
+              fontWeight: fontWeight,
+            ),
           ),
         );
     }
@@ -492,5 +524,58 @@ class WidgetFactory {
       );
     }
     return null;
+  }
+}
+
+class _FuickNodeWidget extends StatefulWidget {
+  final FuickNode node;
+  final WidgetFactory factory;
+
+  _FuickNodeWidget({required this.node, required this.factory})
+      : super(key: ValueKey(node.id));
+
+  @override
+  State<_FuickNodeWidget> createState() => _FuickNodeWidgetState();
+}
+
+class _FuickNodeWidgetState extends State<_FuickNodeWidget> {
+  @override
+  void initState() {
+    super.initState();
+    widget.node.addListener(_onNodeChanged);
+  }
+
+  @override
+  void didUpdateWidget(_FuickNodeWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.node != widget.node) {
+      oldWidget.node.removeListener(_onNodeChanged);
+      widget.node.addListener(_onNodeChanged);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.node.removeListener(_onNodeChanged);
+    super.dispose();
+  }
+
+  void _onNodeChanged() {
+    if (mounted) {
+      debugPrint(
+          '[Flutter] Node ${widget.node.id} (${widget.node.type}) triggered setState()');
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint(
+        '[Flutter] Building _FuickNodeWidget for Node ${widget.node.id} (${widget.node.type})');
+    return widget.factory._buildInternal(
+      widget.node.type,
+      widget.node.props,
+      widget.node.children,
+    );
   }
 }

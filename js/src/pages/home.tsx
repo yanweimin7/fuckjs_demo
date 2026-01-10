@@ -29,6 +29,11 @@ export default function HomePage() {
                             text="复杂页面"
                             onTap={() => Navigator.push('/complex', {})}
                         />
+                        <SizedBox width={10} />
+                        <Button
+                            text="局部刷新"
+                            onTap={() => Navigator.push('/partial_refresh', {})}
+                        />
                     </Row>
                 </Column>
             </Container>

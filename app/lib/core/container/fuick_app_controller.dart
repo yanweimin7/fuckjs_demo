@@ -16,6 +16,7 @@ class FuickAppController {
   final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
   final Map<String, Map<String, dynamic>> _routes = {};
   final Map<int, Function(Map<String, dynamic>)> onPageRender = {};
+  final Map<int, Function(List<dynamic>)> onPagePatch = {};
 
   final ValueNotifier<bool> isBundleLoaded = ValueNotifier<bool>(false);
 
@@ -23,6 +24,10 @@ class FuickAppController {
 
   void render(int pageId, Map<String, dynamic> dsl) {
     onPageRender[pageId]?.call(dsl);
+  }
+
+  void patch(int pageId, List<dynamic> patches) {
+    onPagePatch[pageId]?.call(patches);
   }
 
   void renderPage(int pageId, String path, Map<String, dynamic> params) {

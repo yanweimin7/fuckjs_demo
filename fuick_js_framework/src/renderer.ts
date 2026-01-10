@@ -8,26 +8,52 @@ interface EventHandler {
 
 const eventHandlers: Record<string, EventHandler> = {};
 const pageEvents: Record<number, Set<string>> = {};
+const nodeEventMap: Map<number, Record<string, string>> = new Map();
 let nextEventId = 1;
 
-export function createEvent(fn: Function, pageId: number): string {
+const BOUNDARY_TYPES = new Set([
+  'Column', 'Row', 'Stack', 'ListView', 'GridView',
+  'TextField', 'Switch', 'Button', 'InkWell', 'GestureDetector'
+]);
+
+function isBoundaryNode(type: string, props: any): boolean {
+  if (BOUNDARY_TYPES.has(type)) return true;
+  if (type === 'Container' && (props?.color || props?.decoration || props?.border || props?.borderRadius)) return true;
+  return false;
+}
+
+export function createEvent(fn: Function, pageId: number, nodeId: number, key: string): string {
+  const nodeEvents = nodeEventMap.get(nodeId) || {};
+  if (nodeEvents[key]) {
+    const existingId = nodeEvents[key];
+    if (eventHandlers[existingId]) {
+      eventHandlers[existingId].fn = fn; // Update function reference
+      return existingId;
+    }
+  }
+
   const id = String(nextEventId++);
   eventHandlers[id] = { fn, pageId };
   if (!pageEvents[pageId]) pageEvents[pageId] = new Set();
   pageEvents[pageId].add(id);
+
+  nodeEvents[key] = id;
+  nodeEventMap.set(nodeId, nodeEvents);
   return id;
 }
 
 export function dispatchEvent(id: string, payload: any) {
   try {
     const entry = eventHandlers[id];
-    if (entry && typeof entry.fn === 'function') entry.fn(payload);
+    if (entry && typeof entry.fn === 'function') {
+      entry.fn(payload);
+    }
   } catch (e) {
     console.error(`[Renderer] Error in dispatchEvent:`, e);
   }
 }
 
-function mapInteractiveProps(type: string, props: any, pageId: number) {
+function mapInteractiveProps(type: string, props: any, pageId: number, nodeId: number) {
   const p: any = {};
   if (props) {
     for (const key in props) {
@@ -37,7 +63,7 @@ function mapInteractiveProps(type: string, props: any, pageId: number) {
       const value = props[key];
       if (typeof value === 'function') {
         if (key === 'onTap' || key === 'onChanged' || key === 'onSubmitted') {
-          const id = createEvent(value, pageId);
+          const id = createEvent(value, pageId, nodeId, key);
           p[key + 'EventId'] = id;
         }
       } else if (key === 'style' && value && typeof value === 'object') {
@@ -55,35 +81,67 @@ function toDsl(node: any, pageId: number): any {
   const type = node.type;
   if (!type) return null; // 必须有 type 才是有效的 DSL 节点
 
-  const props = mapInteractiveProps(type, node.props || {}, pageId) || {};
+  const props = mapInteractiveProps(type, node.props || {}, pageId, node.id) || {};
   const children = (node.children || [])
     .map((child: any) => toDsl(child, pageId))
     .filter((c: any) => c !== null && c !== undefined);
 
   return {
+    id: node.id,
     type: String(type),
+    isBoundary: isBoundaryNode(type, node.props),
     props: props,
     children: children
   };
 }
 
 export function createRenderer() {
-  const reconciler = ReactReconciler(createHostConfig((pageId: number, rootJson: any) => {
+  const renderedPages = new Set<number>();
+
+  const reconciler = ReactReconciler(createHostConfig((pageId: number, rootJson: any, changedNodes: Set<any>) => {
     try {
       if (!rootJson) {
         console.warn(`[Renderer] Skip renderUI for page ${pageId}: rootJson is null`);
         return;
       }
-      const dsl = toDsl(rootJson, pageId);
-      if (dsl && dsl.type) {
-        if (typeof dartCallNative === 'function') {
-          dartCallNative('renderUI', {
-            pageId: Number(pageId),
-            renderData: dsl
-          });
+
+      const isInitial = !renderedPages.has(pageId);
+      console.log(`[Renderer] onCommit for page ${pageId}, isInitial: ${isInitial}, changedNodes: ${changedNodes.size}`);
+
+      if (isInitial) {
+        const dsl = toDsl(rootJson, pageId);
+        if (dsl && dsl.type) {
+          if (typeof dartCallNative === 'function') {
+            console.log(`[Renderer] calling renderUI for page ${pageId}`);
+            dartCallNative('renderUI', {
+              pageId: Number(pageId),
+              renderData: dsl
+            });
+            renderedPages.add(pageId);
+          }
         }
       } else {
-        console.warn(`[Renderer] Skip renderUI for page ${pageId}: dsl is invalid`, dsl);
+        // Partial update
+        const patches = Array.from(changedNodes).map(node => {
+          const type = node.type;
+          const props = mapInteractiveProps(type, node.props || {}, pageId, node.id) || {};
+          const childrenIds = (node.children || []).map((c: any) => c.id);
+          return {
+            id: node.id,
+            type: String(type),
+            isBoundary: isBoundaryNode(type, node.props),
+            props: props,
+            childrenIds: childrenIds
+          };
+        });
+
+        if (patches.length > 0 && typeof dartCallNative === 'function') {
+          console.log(`[Renderer] calling patchUI for page ${pageId}, patches: ${patches.length}`);
+          dartCallNative('patchUI', {
+            pageId: Number(pageId),
+            patches: patches
+          });
+        }
       }
     } catch (e) {
       console.error(`[Renderer] Error during render commit for page ${pageId}:`, e);
@@ -135,6 +193,7 @@ export function createRenderer() {
             });
             delete roots[pageId];
             delete containers[pageId];
+            renderedPages.delete(pageId);
           } catch (e: any) {
             const msg = e.message || String(e);
             if (msg.includes('327') || msg.includes('working')) {
@@ -144,6 +203,7 @@ export function createRenderer() {
               console.error(`[Renderer] Error destroying page ${pageId}:`, e);
               delete roots[pageId];
               delete containers[pageId];
+              renderedPages.delete(pageId);
             }
           }
         };
@@ -157,6 +217,11 @@ export function createRenderer() {
         }
         delete pageEvents[pageId];
       }
+
+      // Clear nodeEventMap for nodes belonging to this page
+      // Note: This is a bit tricky as we don't track node-to-page mapping easily.
+      // But since nodeIds are global, we can just leave it for now or implement a better cleanup.
+      // A better way is to use a WeakMap if we had the actual node objects as keys.
     },
     createEvent,
     dispatchEvent,

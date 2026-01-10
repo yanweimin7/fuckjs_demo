@@ -8,11 +8,10 @@ class JsEventDispatch {
     String eventId,
     dynamic payload,
   ) {
-    final p = payload == null
-        ? '{}'
-        : payload is String
-        ? payload
-        : jsonEncode(payload);
-    controller.ctx.global.invoke('__dispatchEvent', [eventId, p]);
+    if (payload == null) {
+      controller.ctx.global.invoke('__dispatchEvent', [eventId]);
+    } else {
+      controller.ctx.global.invoke('__dispatchEvent', [eventId, payload]);
+    }
   }
 }
