@@ -23,6 +23,8 @@ class FuickAppController {
   FuickAppController(this.ctx);
 
   void render(int pageId, Map<String, dynamic> dsl) {
+    debugPrint(
+        '[Flutter] Controller.render pageId: $pageId, type: ${dsl['type']}');
     onPageRender[pageId]?.call(dsl);
   }
 
@@ -85,5 +87,26 @@ class FuickAppController {
     final nav = navKey.currentState;
     if (nav == null) return;
     nav.popUntil((route) => route.settings.name == name);
+  }
+}
+
+class FuickAppScope extends InheritedWidget {
+  final FuickAppController controller;
+
+  const FuickAppScope({
+    super.key,
+    required this.controller,
+    required super.child,
+  });
+
+  static FuickAppController? of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<FuickAppScope>()
+        ?.controller;
+  }
+
+  @override
+  bool updateShouldNotify(FuickAppScope oldWidget) {
+    return controller != oldWidget.controller;
   }
 }

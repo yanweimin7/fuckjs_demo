@@ -1,11 +1,42 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createHostConfig = void 0;
+exports.createHostConfig = exports.Node = void 0;
+exports.getNodeById = getNodeById;
 const TEXT_TYPE = 'Text';
 let nextNodeId = 1;
+const allNodes = new Map();
+function getNodeById(id) {
+    return allNodes.get(id);
+}
+class Node {
+    constructor(type, props) {
+        this.children = [];
+        this.eventCallbacks = new Map();
+        this.id = nextNodeId++;
+        this.type = type;
+        this.props = { ...(props || {}) };
+        allNodes.set(this.id, this);
+    }
+    applyProps(newProps) {
+        this.props = { ...(newProps || {}) };
+    }
+    saveCallback(key, fn) {
+        this.eventCallbacks.set(key, fn);
+    }
+    getCallback(key) {
+        return this.eventCallbacks.get(key);
+    }
+    destroy() {
+        allNodes.delete(this.id);
+        this.eventCallbacks.clear();
+        for (const child of this.children) {
+            child.destroy();
+        }
+    }
+}
+exports.Node = Node;
 function makeNode(type, props) {
-    const p = { ...(props || {}) };
-    return { id: nextNodeId++, type, props: p, children: [] };
+    return new Node(type, props);
 }
 function applyProps(node, newProps) {
     node.props = { ...(newProps || {}) };
@@ -43,6 +74,7 @@ function shallowEqual(a, b) {
 }
 const createHostConfig = (onCommit) => {
     const changedNodes = new Set();
+    const deletedIds = new Set();
     return {
         now: Date.now,
         supportsMutation: true,
@@ -61,6 +93,7 @@ const createHostConfig = (onCommit) => {
             return node;
         },
         appendInitialChild: (parent, child) => {
+            child.parent = parent;
             parent.children.push(child);
             changedNodes.add(parent);
         },
@@ -70,10 +103,12 @@ const createHostConfig = (onCommit) => {
             changedNodes.add(child);
         },
         appendChild: (parent, child) => {
+            child.parent = parent;
             parent.children.push(child);
             changedNodes.add(parent);
         },
         insertBefore: (parentInstance, child, beforeChild) => {
+            child.parent = parentInstance;
             const i = parentInstance.children.indexOf(beforeChild);
             if (i >= 0) {
                 parentInstance.children.splice(i, 0, child);
@@ -87,12 +122,16 @@ const createHostConfig = (onCommit) => {
             const i = parentInstance.children.indexOf(child);
             if (i >= 0)
                 parentInstance.children.splice(i, 1);
+            deletedIds.add(child.id);
+            child.destroy();
             changedNodes.add(parentInstance);
         },
         removeChildFromContainer: (container, child) => {
             if (container.root === child) {
                 container.root = null;
             }
+            deletedIds.add(child.id);
+            child.destroy();
         },
         insertInContainerBefore: (container, child, beforeChild) => {
             container.root = child;
@@ -101,8 +140,13 @@ const createHostConfig = (onCommit) => {
         resetTextContent: (instance) => {
         },
         detachDeletedInstance: (instance) => {
+            deletedIds.add(instance.id);
+            instance.destroy();
         },
         clearContainer: (container) => {
+            if (container.root) {
+                deletedIds.add(container.root.id);
+            }
             container.root = null;
         },
         prepareUpdate: (instance, type, oldProps, newProps, root, hostContext) => {
@@ -110,8 +154,12 @@ const createHostConfig = (onCommit) => {
                 return null;
             return true;
         },
+        updateFiberProps: (instance, type, newProps) => {
+            instance.applyProps(newProps);
+            changedNodes.add(instance);
+        },
         commitUpdate: (instance, updatePayload, type, oldProps, newProps, internalInstanceHandle) => {
-            applyProps(instance, newProps);
+            instance.applyProps(newProps);
             changedNodes.add(instance);
         },
         commitTextUpdate: (textInstance, oldText, newText) => {
@@ -119,11 +167,12 @@ const createHostConfig = (onCommit) => {
             changedNodes.add(textInstance);
         },
         resetAfterCommit: (container) => {
-            console.log(`[HostConfig] Commit finished for page ${container.pageId}, changed nodes: ${changedNodes.size}`);
+            console.log(`[HostConfig] Commit finished for page ${container.pageId}, changed nodes: ${changedNodes.size}, deleted nodes: ${deletedIds.size}`);
             if (typeof onCommit === 'function') {
-                onCommit(container.pageId, container.root, new Set(changedNodes));
+                onCommit(container.pageId, container.root, new Set(changedNodes), new Set(deletedIds));
             }
             changedNodes.clear();
+            deletedIds.clear();
         },
         prepareForCommit: (container) => {
         },

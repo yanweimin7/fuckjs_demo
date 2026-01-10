@@ -1,4 +1,3 @@
-export * from './registry';
 export * from './types';
 export * from './Text';
 export * from './Column';
@@ -26,3 +25,4 @@ export * from './CircularProgressIndicator';
 export * from './SafeArea';
 export * from './Scaffold';
 export * from './AppBar';
+export * from './FlutterProps';

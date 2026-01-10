@@ -3,6 +3,9 @@ export interface EdgeInsets {
     top?: number;
     right?: number;
     bottom?: number;
+    all?: number;
+    vertical?: number;
+    horizontal?: number;
 }
 
 export interface BoxDecoration {
@@ -18,6 +21,7 @@ export interface BoxDecoration {
 export interface BaseProps {
     key?: string | number;
     children?: any;
+    refId?: string;
 }
 
 export interface WidgetProps extends BaseProps {

@@ -18,4 +18,8 @@ class Engine {
       runtime = null;
     }
   }
+
+  static void setUseBinaryProtocol(bool use) {
+    _qjs?.setUseBinaryProtocol(use);
+  }
 }

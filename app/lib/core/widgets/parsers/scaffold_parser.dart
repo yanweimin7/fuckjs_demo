@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import '../widget_factory.dart';
+import '../widget_utils.dart';
+import 'widget_parser.dart';
+
+class ScaffoldParser extends WidgetParser {
+  @override
+  String get type => 'Scaffold';
+
+  @override
+  Widget parse(BuildContext context, Map<String, dynamic> props,
+      dynamic children, WidgetFactory factory) {
+    final appBarDsl = props['appBar'];
+    final bodyDsl = props['body'];
+    final fabDsl = props['floatingActionButton'];
+
+    return Scaffold(
+      backgroundColor:
+          WidgetUtils.colorFromHex(props['backgroundColor'] as String?),
+      appBar: appBarDsl != null
+          ? factory.build(context, appBarDsl) as PreferredSizeWidget?
+          : null,
+      body: bodyDsl != null ? factory.build(context, bodyDsl) : null,
+      floatingActionButton:
+          fabDsl != null ? factory.build(context, fabDsl) : null,
+    );
+  }
+}

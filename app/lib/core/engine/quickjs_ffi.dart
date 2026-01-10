@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:ffi/ffi.dart' as ffi;
 
 import 'jsobject.dart';
@@ -244,6 +245,10 @@ final class QuickJsFFI {
       Void Function(Pointer<Void>, Int32, Pointer<ffi.Utf8>),
       void Function(Pointer<Void>, int, Pointer<ffi.Utf8>)>('qjs_async_reject');
 
+  late final _setUseBinaryProtocol =
+      _lib.lookupFunction<Void Function(Int32), void Function(int)>(
+          'qjs_set_use_binary_protocol');
+
   // ---------------- 业务封装接口 ----------------
 
   Pointer<Void> createRuntime() => _create();
@@ -407,6 +412,13 @@ final class QuickJsFFI {
     ffi.calloc.free(p);
   }
 
+  static bool _useBinaryProtocol = true;
+
+  void setUseBinaryProtocol(bool use) {
+    _useBinaryProtocol = use;
+    _setUseBinaryProtocol(use ? 1 : 0);
+  }
+
   /**
    * 将 FFI 的 QjsResult 转换为 Dart 对象
    */
@@ -430,10 +442,37 @@ final class QuickJsFFI {
           if (res.i64 != 0) return true;
           return null;
         }
-        // 使用二进制协议反序列化
+
         final bytes = res.data.asTypedList(res.dataLen);
-        final reader = _BinaryReader(bytes);
-        return reader.read();
+
+        // 自动探测协议：如果第一个字节不是有效的二进制标签 (0-6)，则尝试 JSON 解析
+        bool isBinary = false;
+        if (bytes.isNotEmpty) {
+          final firstByte = bytes[0];
+          if (firstByte >= _binaryTagNull && firstByte <= _binaryTagMap) {
+            isBinary = true;
+          }
+        }
+
+        if (isBinary && _useBinaryProtocol) {
+          // 使用二进制协议反序列化
+          try {
+            final reader = _BinaryReader(bytes);
+            return reader.read();
+          } catch (e) {
+            debugPrint('二进制解析失败，尝试 JSON: $e');
+            // 回退到 JSON 尝试
+          }
+        }
+
+        // 使用 JSON 解析
+        try {
+          final jsonStr = utf8.decode(bytes);
+          return json.decode(jsonStr);
+        } catch (e) {
+          debugPrint('JSON 解析失败: $e');
+          return null;
+        }
       default:
         return null;
     }
@@ -459,15 +498,24 @@ final class QuickJsFFI {
       out.ref.type = qjsTypeFloat64;
       out.ref.f64 = v;
     } else {
-      // 其他复杂类型使用二进制协议序列化传输
+      // 其他复杂类型根据协议选择序列化方式
       out.ref.type = qjsTypeObject;
-      final writer = _BinaryWriter();
-      writer.write(v);
-      final bytes = writer.takeBytes();
-      final ptr = ffi.malloc<Uint8>(bytes.length);
-      ptr.asTypedList(bytes.length).setAll(0, bytes);
-      out.ref.data = ptr;
-      out.ref.dataLen = bytes.length;
+      if (_useBinaryProtocol) {
+        final writer = _BinaryWriter();
+        writer.write(v);
+        final bytes = writer.takeBytes();
+        final ptr = ffi.malloc<Uint8>(bytes.length);
+        ptr.asTypedList(bytes.length).setAll(0, bytes);
+        out.ref.data = ptr;
+        out.ref.dataLen = bytes.length;
+      } else {
+        final jsonStr = json.encode(v);
+        final bytes = utf8.encode(jsonStr);
+        final ptr = ffi.malloc<Uint8>(bytes.length);
+        ptr.asTypedList(bytes.length).setAll(0, bytes);
+        out.ref.data = ptr;
+        out.ref.dataLen = bytes.length;
+      }
     }
   }
 

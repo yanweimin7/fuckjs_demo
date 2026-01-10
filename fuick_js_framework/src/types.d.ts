@@ -28,59 +28,34 @@ declare global {
   }
 
   namespace JSX {
-    type TextProps = import('./widgets/Text').TextProps;
-    type ColumnProps = import('./widgets/Column').ColumnProps;
-    type RowProps = import('./widgets/Row').RowProps;
-    type ContainerProps = import('./widgets/Container').ContainerProps;
-    type ButtonProps = import('./widgets/Button').ButtonProps;
-    type TextFieldProps = import('./widgets/TextField').TextFieldProps;
-    type SwitchProps = import('./widgets/Switch').SwitchProps;
-    type SizedBoxProps = import('./widgets/SizedBox').SizedBoxProps;
-    type ImageProps = import('./widgets/Image').ImageProps;
-    type ListViewProps = import('./widgets/ListView').ListViewProps;
-    type PaddingProps = import('./widgets/Padding').PaddingProps;
-    type StackProps = import('./widgets/Stack').StackProps;
-    type PositionedProps = import('./widgets/Positioned').PositionedProps;
-    type IconProps = import('./widgets/Icon').IconProps;
-    type OpacityProps = import('./widgets/Opacity').OpacityProps;
-    type CenterProps = import('./widgets/Center').CenterProps;
-    type ExpandedProps = import('./widgets/Expanded').ExpandedProps;
-    type FlexibleProps = import('./widgets/Flexible').FlexibleProps;
-    type GestureDetectorProps = import('./widgets/GestureDetector').GestureDetectorProps;
-    type DividerProps = import('./widgets/Divider').DividerProps;
-    type SingleChildScrollViewProps = import('./widgets/SingleChildScrollView').SingleChildScrollViewProps;
-    type CircularProgressIndicatorProps = import('./widgets/CircularProgressIndicator').CircularProgressIndicatorProps;
-    type SafeAreaProps = import('./widgets/SafeArea').SafeAreaProps;
-    type ScaffoldProps = import('./widgets/Scaffold').ScaffoldProps;
-    type AppBarProps = import('./widgets/AppBar').AppBarProps;
-
     interface IntrinsicElements {
-      Text: TextProps;
-      Column: ColumnProps;
-      Row: RowProps;
-      Container: ContainerProps;
-      Button: ButtonProps;
-      TextField: TextFieldProps;
-      Switch: SwitchProps;
-      SizedBox: SizedBoxProps;
-      Image: ImageProps;
-      ListView: ListViewProps;
-      Padding: PaddingProps;
-      Stack: StackProps;
-      Positioned: PositionedProps;
-      Icon: IconProps;
-      Opacity: OpacityProps;
-      Center: CenterProps;
-      Expanded: ExpandedProps;
-      Flexible: FlexibleProps;
-      GestureDetector: GestureDetectorProps;
-      InkWell: InkWellProps;
-      Divider: DividerProps;
-      SingleChildScrollView: SingleChildScrollViewProps;
-      CircularProgressIndicator: CircularProgressIndicatorProps;
-      SafeArea: SafeAreaProps;
-      Scaffold: ScaffoldProps;
-      AppBar: AppBarProps;
+      'flutter-text': import('./widgets/Text').TextProps;
+      'flutter-column': import('./widgets/Column').ColumnProps;
+      'flutter-row': import('./widgets/Row').RowProps;
+      'flutter-container': import('./widgets/Container').ContainerProps;
+      'flutter-button': import('./widgets/Button').ButtonProps;
+      'flutter-text-field': import('./widgets/TextField').TextFieldProps;
+      'flutter-switch': import('./widgets/Switch').SwitchProps;
+      'flutter-sized-box': import('./widgets/SizedBox').SizedBoxProps;
+      'flutter-image': import('./widgets/Image').ImageProps;
+      'flutter-list-view': import('./widgets/ListView').ListViewProps;
+      'flutter-padding': import('./widgets/Padding').PaddingProps;
+      'flutter-stack': import('./widgets/Stack').StackProps;
+      'flutter-positioned': import('./widgets/Positioned').PositionedProps;
+      'flutter-icon': import('./widgets/Icon').IconProps;
+      'flutter-opacity': import('./widgets/Opacity').OpacityProps;
+      'flutter-center': import('./widgets/Center').CenterProps;
+      'flutter-expanded': import('./widgets/Expanded').ExpandedProps;
+      'flutter-flexible': import('./widgets/Flexible').FlexibleProps;
+      'flutter-gesture-detector': import('./widgets/GestureDetector').GestureDetectorProps;
+      'flutter-ink-well': import('./widgets/InkWell').InkWellProps;
+      'flutter-divider': import('./widgets/Divider').DividerProps;
+      'flutter-single-child-scroll-view': import('./widgets/SingleChildScrollView').SingleChildScrollViewProps;
+      'flutter-circular-progress-indicator': import('./widgets/CircularProgressIndicator').CircularProgressIndicatorProps;
+      'flutter-safe-area': import('./widgets/SafeArea').SafeAreaProps;
+      'flutter-scaffold': import('./widgets/Scaffold').ScaffoldProps;
+      'flutter-app-bar': import('./widgets/AppBar').AppBarProps;
+      'flutter-props': { propsKey: string; children?: any };
       [elemName: string]: any;
     }
   }

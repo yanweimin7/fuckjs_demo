@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/fuick_node.dart';
-import '../engine/jsobject.dart';
+import '../widgets/widget_factory.dart';
 import 'fuick_app_controller.dart';
-import 'js_ui.dart';
 
 class RouteInfo {
   final String path;
@@ -36,16 +36,25 @@ class _JsUiHostState extends State<FuickPageView> {
   void initState() {
     super.initState();
     widget.controller.onPageRender[widget.pageId] = (dsl) {
-      if (rootNode == null) {
-        rootNode = nodeManager.getOrCreateNode(dsl, nodeManager);
+      debugPrint(
+        '[Flutter] FuickPageView.onPageRender pageId: ${widget.pageId}, rootNode exists: ${rootNode != null}',
+      );
+      final newNode = nodeManager.getOrCreateNode(dsl, nodeManager);
+      if (rootNode != newNode) {
+        rootNode = newNode;
+        debugPrint('[Flutter] FuickPageView set rootNode to: ${rootNode?.id}');
         if (mounted) setState(() {});
-      } else {
-        nodeManager.getOrCreateNode(dsl, nodeManager);
       }
     };
 
     widget.controller.onPagePatch[widget.pageId] = (patches) {
       nodeManager.applyPatches(patches, nodeManager);
+      // 如果 rootNode 没被监听（虽然理论上 build 会包一层监听），强制在 patch 后触发一次重建
+      if (rootNode != null && !rootNode!.hasListeners) {
+        debugPrint(
+            '[Flutter] RootNode has no listeners after patch, forcing setState');
+        if (mounted) setState(() {});
+      }
     };
 
     // 监听 bundle 加载状态
@@ -92,7 +101,14 @@ class _JsUiHostState extends State<FuickPageView> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : JSRender.buildFromNode(rootNode!, widget.controller),
+          : FuickAppScope(
+              controller: widget.controller,
+              child: WidgetFactory().buildFromNode(
+                context,
+                rootNode!,
+                forceWrap: true,
+              ),
+            ),
     );
   }
 }

@@ -1,537 +1,148 @@
 import 'package:flutter/material.dart';
 
 import 'fuick_node.dart';
+import 'parsers/widget_parser.dart';
+import 'parsers/column_parser.dart';
+import 'parsers/row_parser.dart';
+import 'parsers/text_parser.dart';
+import 'parsers/container_parser.dart';
+import 'parsers/scaffold_parser.dart';
+import 'parsers/app_bar_parser.dart';
+import 'parsers/button_parser.dart';
+import 'parsers/text_field_parser.dart';
+import 'parsers/switch_parser.dart';
+import 'parsers/image_parser.dart';
+import 'parsers/padding_parser.dart';
+import 'parsers/sized_box_parser.dart';
+import 'parsers/divider_parser.dart';
+import 'parsers/single_child_scroll_view_parser.dart';
+import 'parsers/icon_parser.dart';
+import 'parsers/list_view_parser.dart';
+import 'parsers/stack_parser.dart';
+import 'parsers/positioned_parser.dart';
+import 'parsers/opacity_parser.dart';
+import 'parsers/center_parser.dart';
+import 'parsers/expanded_parser.dart';
+import 'parsers/flexible_parser.dart';
+import 'parsers/gesture_detector_parser.dart';
+import 'parsers/ink_well_parser.dart';
+import 'parsers/circular_progress_indicator_parser.dart';
+import 'parsers/safe_area_parser.dart';
 
 class WidgetFactory {
-  final void Function(String call, dynamic args) onAction;
+  static final WidgetFactory _instance = WidgetFactory._internal();
+  factory WidgetFactory() => _instance;
+  WidgetFactory._internal() {
+    _registerDefaultParsers();
+  }
 
-  WidgetFactory({required this.onAction});
+  final Map<String, WidgetParser> _parsers = {};
 
-  Widget build(Map<String, dynamic> dsl) {
+  void _registerDefaultParsers() {
+    register(ColumnParser());
+    register(RowParser());
+    register(TextParser());
+    register(ContainerParser());
+    register(ScaffoldParser());
+    register(AppBarParser());
+    register(ButtonParser());
+    register(TextFieldParser());
+    register(SwitchParser());
+    register(ImageParser());
+    register(PaddingParser());
+    register(SizedBoxParser());
+    register(DividerParser());
+    register(SingleChildScrollViewParser());
+    register(IconParser());
+    register(ListViewParser());
+    register(StackParser());
+    register(PositionedParser());
+    register(OpacityParser());
+    register(CenterParser());
+    register(ExpandedParser());
+    register(FlexibleParser());
+    register(GestureDetectorParser());
+    register(InkWellParser());
+    register(CircularProgressIndicatorParser());
+    register(SafeAreaParser());
+  }
+
+  void register(WidgetParser parser) {
+    _parsers[parser.type] = parser;
+  }
+
+  void disposeNode(int id, String type) {
+    _parsers[type]?.dispose(id);
+  }
+
+  Widget build(BuildContext context, dynamic dslOrNode) {
+    if (dslOrNode is FuickNode) {
+      return buildFromNode(context, dslOrNode);
+    }
+    if (dslOrNode is! Map) {
+      return const SizedBox.shrink();
+    }
+    final dsl = Map<String, dynamic>.from(dslOrNode);
     final type = dsl['type'] as String? ?? 'Text';
     final props = Map<String, dynamic>.from(dsl['props'] as Map? ?? {});
     final children = (dsl['children'] as List?) ?? [];
-    return _buildInternal(type, props, children);
+    return buildInternal(context, type, props, children);
   }
 
-  Widget buildFromNode(FuickNode node, {bool forceWrap = false}) {
+  Widget buildFromNode(
+    BuildContext context,
+    FuickNode node, {
+    bool forceWrap = false,
+  }) {
     if (forceWrap || node.isBoundary) {
       return _FuickNodeWidget(node: node, factory: this);
     }
-    return _buildInternal(node.type, node.props, node.children);
+    return buildInternal(context, node.type, node.props, node.children);
   }
 
-  Widget _buildInternal(
+  Widget buildInternal(
+    BuildContext context,
     String type,
     Map<String, dynamic> props,
     dynamic children,
   ) {
-    List<Widget> buildChildren() {
-      if (children is List<FuickNode>) {
-        return children.map((n) => buildFromNode(n)).toList();
-      } else if (children is List) {
-        return children
-            .map((e) => build(Map<String, dynamic>.from(e as Map)))
-            .toList();
-      }
-      return const [];
+    final parser = _parsers[type];
+    if (parser != null) {
+      return parser.parse(context, props, children, this);
     }
 
-    Widget buildFirstChild() {
-      if (children is List<FuickNode>) {
-        return children.isEmpty
-            ? const SizedBox.shrink()
-            : buildFromNode(children.first);
-      } else if (children is List) {
-        return children.isEmpty
-            ? const SizedBox.shrink()
-            : build(Map<String, dynamic>.from(children.first as Map));
-      }
-      return const SizedBox.shrink();
+    // Default to Text parser if not found
+    final textParser = _parsers['Text'];
+    if (textParser != null) {
+      return textParser.parse(context, props, children, this);
     }
 
-    switch (type) {
-      case 'Column':
-        return _wrapPadding(
-          props,
-          Column(
-            mainAxisAlignment: _mainAxis(props['mainAxisAlignment'] as String?),
-            crossAxisAlignment: _crossAxis(
-              props['crossAxisAlignment'] as String?,
-            ),
-            mainAxisSize: _mainAxisSize(props['mainAxisSize'] as String?),
-            children: buildChildren(),
-          ),
-        );
-      case 'Row':
-        return _wrapPadding(
-          props,
-          Row(
-            mainAxisAlignment: _mainAxis(props['mainAxisAlignment'] as String?),
-            crossAxisAlignment: _crossAxis(
-              props['crossAxisAlignment'] as String?,
-            ),
-            mainAxisSize: _mainAxisSize(props['mainAxisSize'] as String?),
-            children: buildChildren(),
-          ),
-        );
-      case 'Container':
-        final decoration = _boxDecorationFromProps(props);
-        return Container(
-          width: _sizeNum(props['width']),
-          height: _sizeNum(props['height']),
-          alignment: _alignment(props['alignment'] as String?),
-          padding: _edgeInsets(props['padding']),
-          margin: _edgeInsets(props['margin']),
-          decoration: decoration,
-          child: buildFirstChild(),
-        );
-      case 'Button':
-        final text = (props['text'] ?? '') as String;
-        final onTapJs = props['onTapJs'] as Map?;
-        final onTapEventId = props['onTapEventId'] as String?;
-        final onTapPayload = props['onTapPayload'];
-        return _wrapPadding(
-          props,
-          ElevatedButton(
-            onPressed: () {
-              if (onTapEventId != null && onTapEventId.isNotEmpty) {
-                onAction('__event', {
-                  'id': onTapEventId,
-                  'payload': onTapPayload,
-                });
-              } else if (onTapJs != null) {
-                onAction((onTapJs['call'] ?? '') as String, onTapJs['args']);
-              }
-            },
-            child: Text(text),
-          ),
-        );
-      case 'TextField':
-        final hint = (props['hintText'] ?? props['hint'] ?? '') as String;
-        final onChangedJs = props['onChangedJs'] as Map?;
-        final onSubmittedJs = props['onSubmittedJs'] as Map?;
-        final onChangedEventId = props['onChangedEventId'] as String?;
-        final onSubmittedEventId = props['onSubmittedEventId'] as String?;
-        return _wrapPadding(
-          props,
-          TextField(
-            decoration: InputDecoration(
-              hintText: hint,
-              border: props['border'] == 'none' ? InputBorder.none : null,
-            ),
-            onChanged: (v) {
-              if (onChangedEventId != null && onChangedEventId.isNotEmpty) {
-                onAction('__event', {'id': onChangedEventId, 'payload': v});
-              } else if (onChangedJs != null) {
-                final args = Map<String, dynamic>.from(
-                  onChangedJs['args'] as Map? ?? {},
-                );
-                args['value'] = v;
-                onAction((onChangedJs['call'] ?? '') as String, args);
-              }
-            },
-            onSubmitted: (v) {
-              if (onSubmittedEventId != null && onSubmittedEventId.isNotEmpty) {
-                onAction('__event', {'id': onSubmittedEventId, 'payload': v});
-              } else if (onSubmittedJs != null) {
-                final args = Map<String, dynamic>.from(
-                  onSubmittedJs['args'] as Map? ?? {},
-                );
-                args['value'] = v;
-                onAction((onSubmittedJs['call'] ?? '') as String, args);
-              }
-            },
-          ),
-        );
-      case 'Switch':
-        final v = props['value'] == true;
-        final onChangedJs = props['onChangedJs'] as Map?;
-        final onChangedEventId = props['onChangedEventId'] as String?;
-        return _wrapPadding(
-          props,
-          Switch(
-            value: v,
-            onChanged: (nv) {
-              if (onChangedEventId != null && onChangedEventId.isNotEmpty) {
-                onAction('__event', {'id': onChangedEventId, 'payload': nv});
-              } else if (onChangedJs != null) {
-                final args = Map<String, dynamic>.from(
-                  onChangedJs['args'] as Map? ?? {},
-                );
-                args['value'] = nv;
-                onAction((onChangedJs['call'] ?? '') as String, args);
-              }
-            },
-          ),
-        );
-      case 'Image':
-        final url = (props['url'] ?? '') as String;
-        final fit = _boxFit(props['fit'] as String?);
-        final borderRadius = _borderRadius(props['borderRadius']);
-        Widget image = Image.network(
-          url,
-          width: _sizeNum(props['width']),
-          height: _sizeNum(props['height']),
-          fit: fit,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: _sizeNum(props['width']),
-              height: _sizeNum(props['height']),
-              color: Colors.grey[300],
-              child: const Icon(Icons.error_outline),
-            );
-          },
-        );
-        if (borderRadius != null) {
-          image = ClipRRect(borderRadius: borderRadius, child: image);
-        }
-        return _wrapPadding(props, image);
-      case 'Padding':
-        return Padding(
-          padding: _edgeInsets(props['padding']) ?? EdgeInsets.zero,
-          child: buildFirstChild(),
-        );
-      case 'SizedBox':
-        return SizedBox(
-          width: _sizeNum(props['width']),
-          height: _sizeNum(props['height']),
-          child: (children is List && children.isEmpty) ||
-                  (children is List<FuickNode> && children.isEmpty)
-              ? null
-              : buildFirstChild(),
-        );
-      case 'Divider':
-        return Divider(
-          height: _sizeNum(props['height']),
-          thickness: _sizeNum(props['thickness']),
-          color: _colorFromHex(props['color'] as String?),
-          indent: _sizeNum(props['indent']),
-          endIndent: _sizeNum(props['endIndent']),
-        );
-      case 'SingleChildScrollView':
-        return SingleChildScrollView(
-          padding: _edgeInsets(props['padding']),
-          scrollDirection: _axis(props['scrollDirection'] as String?),
-          child: buildFirstChild(),
-        );
-      case 'Icon':
-        final cp = props['codePoint'] is num
-            ? (props['codePoint'] as num).toInt()
-            : null;
-        final color = _colorFromHex(props['color'] as String?);
-        final size = _sizeNum(props['size']);
-        final data = cp == null
-            ? Icons.circle
-            : IconData(cp, fontFamily: 'MaterialIcons');
-        return _wrapPadding(props, Icon(data, color: color, size: size));
-      case 'ListView':
-        return _wrapPadding(
-          props,
-          ListView(
-            shrinkWrap: true,
-            padding: _edgeInsets(props['padding']),
-            scrollDirection: _axis(props['scrollDirection'] as String?),
-            children: buildChildren(),
-          ),
-        );
-      case 'Stack':
-        return _wrapPadding(
-          props,
-          Stack(
-            alignment: _stackAlignment(props['alignment'] as String?),
-            children: buildChildren(),
-          ),
-        );
-      case 'Positioned':
-        return Positioned(
-          left: _sizeNum(props['left']),
-          top: _sizeNum(props['top']),
-          right: _sizeNum(props['right']),
-          bottom: _sizeNum(props['bottom']),
-          width: _sizeNum(props['width']),
-          height: _sizeNum(props['height']),
-          child: buildFirstChild(),
-        );
-      case 'Opacity':
-        final opacity = (props['opacity'] is num)
-            ? (props['opacity'] as num).toDouble()
-            : 1.0;
-        return Opacity(opacity: opacity, child: buildFirstChild());
-      case 'Center':
-        return Center(child: buildFirstChild());
-      case 'Expanded':
-        final flex =
-            (props['flex'] is num) ? (props['flex'] as num).toInt() : 1;
-        return Expanded(flex: flex, child: buildFirstChild());
-      case 'Flexible':
-        final flex =
-            (props['flex'] is num) ? (props['flex'] as num).toInt() : 1;
-        return Flexible(flex: flex, child: buildFirstChild());
-      case 'GestureDetector':
-      case 'InkWell':
-        final onTapJs = props['onTapJs'] as Map?;
-        final onTapEventId = props['onTapEventId'] as String?;
-        final onTapPayload = props['onTapPayload'];
-        final widget = buildFirstChild();
-        final callback = () {
-          if (onTapEventId != null && onTapEventId.isNotEmpty) {
-            onAction('__event', {'id': onTapEventId, 'payload': onTapPayload});
-          } else if (onTapJs != null) {
-            onAction((onTapJs['call'] ?? '') as String, onTapJs['args']);
-          }
-        };
-        if (type == 'InkWell') {
-          return InkWell(onTap: callback, child: widget);
-        }
-        return GestureDetector(onTap: callback, child: widget);
-      case 'CircularProgressIndicator':
-        final color = _colorFromHex(props['color'] as String?);
-        final strokeWidth = (props['strokeWidth'] is num)
-            ? (props['strokeWidth'] as num).toDouble()
-            : 4.0;
-        return _wrapPadding(
-          props,
-          CircularProgressIndicator(
-            valueColor: color != null ? AlwaysStoppedAnimation(color) : null,
-            strokeWidth: strokeWidth,
-          ),
-        );
-      case 'Expanded':
-        return Expanded(
-          flex: (props['flex'] as num?)?.toInt() ?? 1,
-          child: buildFirstChild(),
-        );
-      case 'Flexible':
-        return Flexible(
-          flex: (props['flex'] as num?)?.toInt() ?? 1,
-          fit: props['fit'] == 'tight' ? FlexFit.tight : FlexFit.loose,
-          child: buildFirstChild(),
-        );
-      case 'Text':
-      default:
-        final text = (props['text'] ?? '') as String;
-        final fontSize = (props['fontSize'] is num)
-            ? (props['fontSize'] as num).toDouble()
-            : null;
-        final color = _colorFromHex(props['color'] as String?);
-        final fontWeight =
-            props['fontWeight'] == 'bold' ? FontWeight.bold : null;
-        return _wrapPadding(
-          props,
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: fontSize,
-              color: color,
-              fontWeight: fontWeight,
-            ),
-          ),
-        );
-    }
+    return const SizedBox.shrink();
   }
 
-  Widget _wrapPadding(Map<String, dynamic> props, Widget child) {
-    final p = props['padding'];
-    if (p is num) {
-      return Padding(padding: EdgeInsets.all(p.toDouble()), child: child);
+  List<Widget> buildChildren(BuildContext context, dynamic children) {
+    if (children is List<FuickNode>) {
+      return children.map((n) => buildFromNode(context, n)).toList();
+    } else if (children is List) {
+      return children
+          .map((e) => e != null ? build(context, e) : null)
+          .whereType<Widget>()
+          .toList();
     }
-    final ei = _edgeInsets(p);
-    if (ei != null) {
-      return Padding(padding: ei, child: child);
-    }
-    return child;
+    return const [];
   }
 
-  Widget _wrapMarginAndPadding(Map<String, dynamic> props, Widget child) {
-    final margin = _edgeInsets(props['margin']);
-    final padding = _edgeInsets(props['padding']);
-    Widget c = child;
-    if (padding != null) {
-      c = Padding(padding: padding, child: c);
+  Widget buildFirstChild(BuildContext context, dynamic children) {
+    if (children is List<FuickNode>) {
+      return children.isEmpty
+          ? const SizedBox.shrink()
+          : buildFromNode(context, children.first);
+    } else if (children is List) {
+      return children.isEmpty
+          ? const SizedBox.shrink()
+          : build(context, children.first);
     }
-    if (margin != null) {
-      c = Padding(padding: margin, child: c);
-    }
-    return c;
-  }
-
-  MainAxisAlignment _mainAxis(String? v) {
-    switch (v) {
-      case 'start':
-        return MainAxisAlignment.start;
-      case 'end':
-        return MainAxisAlignment.end;
-      case 'spaceBetween':
-        return MainAxisAlignment.spaceBetween;
-      case 'spaceAround':
-        return MainAxisAlignment.spaceAround;
-      case 'spaceEvenly':
-        return MainAxisAlignment.spaceEvenly;
-      case 'center':
-      default:
-        return MainAxisAlignment.center;
-    }
-  }
-
-  CrossAxisAlignment _crossAxis(String? v) {
-    switch (v) {
-      case 'start':
-        return CrossAxisAlignment.start;
-      case 'end':
-        return CrossAxisAlignment.end;
-      case 'stretch':
-        return CrossAxisAlignment.stretch;
-      case 'center':
-      default:
-        return CrossAxisAlignment.center;
-    }
-  }
-
-  MainAxisSize _mainAxisSize(String? v) {
-    switch (v) {
-      case 'min':
-        return MainAxisSize.min;
-      case 'max':
-      default:
-        return MainAxisSize.max;
-    }
-  }
-
-  Alignment? _alignment(String? v) {
-    switch (v) {
-      case 'center':
-        return Alignment.center;
-      case 'topLeft':
-        return Alignment.topLeft;
-      case 'topRight':
-        return Alignment.topRight;
-      case 'bottomLeft':
-        return Alignment.bottomLeft;
-      case 'bottomRight':
-        return Alignment.bottomRight;
-      default:
-        return null;
-    }
-  }
-
-  Axis _axis(String? v) {
-    switch (v) {
-      case 'horizontal':
-        return Axis.horizontal;
-      case 'vertical':
-      default:
-        return Axis.vertical;
-    }
-  }
-
-  BoxFit? _boxFit(String? v) {
-    switch (v) {
-      case 'cover':
-        return BoxFit.cover;
-      case 'contain':
-        return BoxFit.contain;
-      case 'fill':
-        return BoxFit.fill;
-      case 'fitWidth':
-        return BoxFit.fitWidth;
-      case 'fitHeight':
-        return BoxFit.fitHeight;
-      case 'none':
-        return BoxFit.none;
-      case 'scaleDown':
-        return BoxFit.scaleDown;
-      default:
-        return null;
-    }
-  }
-
-  Alignment _stackAlignment(String? v) {
-    return _alignment(v) ?? Alignment.center;
-  }
-
-  double? _sizeNum(dynamic v) {
-    if (v is num) return v.toDouble();
-    return null;
-  }
-
-  EdgeInsets? _edgeInsets(dynamic v) {
-    if (v is num) return EdgeInsets.all(v.toDouble());
-    if (v is Map) {
-      final m = Map<String, dynamic>.from(v);
-      return EdgeInsets.only(
-        left: (m['left'] is num) ? (m['left'] as num).toDouble() : 0,
-        top: (m['top'] is num) ? (m['top'] as num).toDouble() : 0,
-        right: (m['right'] is num) ? (m['right'] as num).toDouble() : 0,
-        bottom: (m['bottom'] is num) ? (m['bottom'] as num).toDouble() : 0,
-      );
-    }
-    return null;
-  }
-
-  Color? _colorFromHex(String? hex) {
-    if (hex == null || hex.isEmpty) return null;
-    final s = hex.replaceFirst('#', '');
-    final v = int.tryParse(s, radix: 16);
-    if (v == null) return null;
-    if (s.length <= 6) {
-      return Color(0xFF000000 | v);
-    }
-    return Color(v);
-  }
-
-  BoxDecoration? _boxDecorationFromProps(Map<String, dynamic> props) {
-    // 1. 获取顶级属性
-    Color? color = _colorFromHex(props['color'] as String?);
-    BorderRadius? borderRadius = _borderRadius(props['borderRadius']);
-    Border? border = _border(props['border']);
-
-    // 2. 如果存在 decoration 对象，则从中提取属性并覆盖/补充顶级属性
-    final decorationProp = props['decoration'];
-    if (decorationProp is Map) {
-      final m = Map<String, dynamic>.from(decorationProp);
-      if (m['color'] != null) {
-        color = _colorFromHex(m['color'] as String?);
-      }
-      if (m['borderRadius'] != null) {
-        borderRadius = _borderRadius(m['borderRadius']);
-      }
-      if (m['border'] != null) {
-        border = _border(m['border']);
-      }
-    }
-
-    if (color == null && borderRadius == null && border == null) return null;
-    return BoxDecoration(
-      color: color,
-      borderRadius: borderRadius,
-      border: border,
-    );
-  }
-
-  Border? _border(dynamic v) {
-    if (v is Map) {
-      final m = Map<String, dynamic>.from(v);
-      final color = _colorFromHex(m['color'] as String?) ?? Colors.black;
-      final width = _sizeNum(m['width']) ?? 1.0;
-      return Border.all(color: color, width: width);
-    }
-    return null;
-  }
-
-  BorderRadius? _borderRadius(dynamic br) {
-    if (br is num) {
-      return BorderRadius.circular(br.toDouble());
-    } else if (br is Map) {
-      final m = Map<String, dynamic>.from(br);
-      return BorderRadius.only(
-        topLeft: Radius.circular(_sizeNum(m['topLeft']) ?? 0),
-        topRight: Radius.circular(_sizeNum(m['topRight']) ?? 0),
-        bottomLeft: Radius.circular(_sizeNum(m['bottomLeft']) ?? 0),
-        bottomRight: Radius.circular(_sizeNum(m['bottomRight']) ?? 0),
-      );
-    }
-    return null;
+    return const SizedBox.shrink();
   }
 }
 
@@ -569,9 +180,12 @@ class _FuickNodeWidgetState extends State<_FuickNodeWidget> {
   }
 
   void _onNodeChanged() {
+    debugPrint(
+      '[Flutter] _FuickNodeWidgetState._onNodeChanged for node ${widget.node.id} (${widget.node.type}), mounted: $mounted',
+    );
     if (mounted) {
       debugPrint(
-        '[Flutter] Node ${widget.node.id} (${widget.node.type}) triggered setState()',
+        '[Flutter] Node ${widget.node.id} (${widget.node.type}) triggering setState()',
       );
       setState(() {});
     }
@@ -579,7 +193,8 @@ class _FuickNodeWidgetState extends State<_FuickNodeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.factory._buildInternal(
+    return widget.factory.buildInternal(
+      context,
       widget.node.type,
       widget.node.props,
       widget.node.children,

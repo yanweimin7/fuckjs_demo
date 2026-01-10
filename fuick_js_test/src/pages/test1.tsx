@@ -10,6 +10,8 @@ export const TestPage1 = () => {
           <Text text="Test Page 1" fontSize={24} color="#1a1a1a" />
           <Text text="This is a page from the new test project." fontSize={16} color="#666666" padding={{ top: 10, bottom: 20 }} />
           <Button text="Click Me" onTap={() => Navigator.push('/test2', {})} />
+          <Container height={10} />
+          <Button text="Node Operations Demo" onTap={() => Navigator.push('/demo_ops', {})} />
         </Column>
 
       </Center>

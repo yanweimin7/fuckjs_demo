@@ -47,8 +47,8 @@ function ensureRenderer() {
     if (renderer)
         return renderer;
     renderer = (0, renderer_1.createRenderer)();
-    globalThis.__dispatchEvent = (id, payload) => {
-        renderer.dispatchEvent(id, payload);
+    globalThis.__dispatchEvent = (eventObj, payload) => {
+        renderer.dispatchEvent(eventObj, payload);
     };
     return renderer;
 }

@@ -1,92 +1,124 @@
 import ReactReconciler from 'react-reconciler';
-import { createHostConfig } from './hostConfig';
-import { isBoundaryWidget, getWidgetMetadata } from './widgets';
+import { createHostConfig, Node, getNodeById } from './hostConfig';
 
-interface EventHandler {
-  fn: Function;
-  pageId: number;
-}
-
-const eventHandlers: Record<string, EventHandler> = {};
-const pageEvents: Record<number, Set<string>> = {};
-const nodeEventMap: Map<number, Record<string, string>> = new Map();
-let nextEventId = 1;
-
-function isBoundaryNode(type: string): boolean {
-  return isBoundaryWidget(type);
-}
-
-export function createEvent(fn: Function, pageId: number, nodeId: number, key: string): string {
-  const nodeEvents = nodeEventMap.get(nodeId) || {};
-  if (nodeEvents[key]) {
-    const existingId = nodeEvents[key];
-    if (eventHandlers[existingId]) {
-      eventHandlers[existingId].fn = fn; // Update function reference
-      return existingId;
-    }
+function isBoundaryNode(node: Node): boolean {
+  if (node.props && node.props.isBoundary !== undefined) {
+    return !!node.props.isBoundary;
   }
-
-  const id = String(nextEventId++);
-  eventHandlers[id] = { fn, pageId };
-  if (!pageEvents[pageId]) pageEvents[pageId] = new Set();
-  pageEvents[pageId].add(id);
-
-  nodeEvents[key] = id;
-  nodeEventMap.set(nodeId, nodeEvents);
-  return id;
+  return false;
 }
 
-export function dispatchEvent(id: string, payload: any) {
+export function dispatchEvent(eventObj: any, payload: any) {
   try {
-    const entry = eventHandlers[id];
-    if (entry && typeof entry.fn === 'function') {
-      entry.fn(payload);
+    const nodeId = eventObj?.id;
+    const eventKey = eventObj?.eventKey;
+    const node = getNodeById(nodeId);
+    if (node) {
+      const fn = node.getCallback(eventKey);
+      if (typeof fn === 'function') {
+        fn(payload);
+      }
     }
   } catch (e) {
     console.error(`[Renderer] Error in dispatchEvent:`, e);
   }
 }
 
-function mapInteractiveProps(type: string, props: any, pageId: number, nodeId: number) {
+function mapInteractiveProps(type: string, props: any, pageId: number, node: Node) {
   const p: any = {};
-  const metadata = getWidgetMetadata(type);
-  const supportedEvents = new Set(metadata?.events || []);
 
   if (props) {
     for (const key in props) {
       if (key === 'children') continue;
-      if (key === 'key' || key === 'ref') continue;
+      if (key === 'key' || key === 'ref' || key === 'isBoundary') continue;
 
       const value = props[key];
       if (typeof value === 'function') {
-        if (supportedEvents.has(key)) {
-          const id = createEvent(value, pageId, nodeId, key);
-          p[key + 'EventId'] = id;
-        }
+        node.saveCallback(key, value);
+        p[key] = { id: node.id, eventKey: key };
       } else if (key === 'style' && value && typeof value === 'object') {
         p[key] = { ...value };
       } else {
+        // Check if value is or contains a React Element
+        const hasJSX = (val: any): boolean => {
+          if (!val || typeof val !== 'object') return false;
+          if (val.$$typeof) return true;
+          if (Array.isArray(val)) return val.some(hasJSX);
+          return false;
+        };
+
+        if (hasJSX(value)) {
+          const componentName = node.type;
+          throw new Error(
+            `[FuickJS] JSX/React Elements are not allowed in props (detected in '${key}' prop of '${componentName}'). ` +
+            `Please use the 'FlutterProps' component or 'children' instead.`
+          );
+        }
         p[key] = value;
       }
     }
+
   }
   return p;
 }
 
-function toDsl(node: any, pageId: number): any {
+function toDsl(node: Node, pageId: number): any {
   if (!node || typeof node !== 'object') return null;
-  const type = node.type;
+  let type = node.type;
   if (!type) return null; // 必须有 type 才是有效的 DSL 节点
 
-  const props = mapInteractiveProps(type, node.props || {}, pageId, node.id) || {};
-  const children = (node.children || [])
-    .map((child: any) => toDsl(child, pageId))
-    .filter((c: any) => c !== null && c !== undefined);
+  // Strip 'flutter-' prefix and convert kebab-case to PascalCase for Flutter side recognition
+  if (type === 'flutter-props') {
+    type = 'FlutterProps';
+  } else if (type.startsWith('flutter-')) {
+    type = type.substring(8)
+      .split('-')
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('');
+  }
+
+  const props = mapInteractiveProps(type, node.props || {}, pageId, node) || {};
+
+  // Inject node ID into props for stateful components like TextField to persist state
+  props['__nodeId'] = node.id;
+
+  const rawChildren = node.children || [];
+  const children: any[] = [];
+
+  for (const child of rawChildren) {
+    if (child && child.type === 'flutter-props') {
+      const propsKey = child.props?.propsKey;
+      if (propsKey) {
+        const propChildren = (child.children || [])
+          .map((c: any) => toDsl(c, pageId))
+          .filter((c: any) => c !== null);
+
+        if (propChildren.length > 0) {
+          const newValue = propChildren.length === 1 ? propChildren[0] : propChildren;
+          if (props[propsKey]) {
+            // If already exists, convert to list or append to list
+            if (Array.isArray(props[propsKey])) {
+              props[propsKey].push(newValue);
+            } else {
+              props[propsKey] = [props[propsKey], newValue];
+            }
+          } else {
+            props[propsKey] = newValue;
+          }
+        }
+      }
+    } else {
+      const dslChild = toDsl(child, pageId);
+      if (dslChild) {
+        children.push(dslChild);
+      }
+    }
+  }
 
   return {
     id: node.id,
     type: String(type),
-    isBoundary: isBoundaryNode(type),
+    isBoundary: isBoundaryNode(node),
     props: props,
     children: children
   };
@@ -95,16 +127,13 @@ function toDsl(node: any, pageId: number): any {
 export function createRenderer() {
   const renderedPages = new Set<number>();
 
-  const reconciler = ReactReconciler(createHostConfig((pageId: number, rootJson: any, changedNodes: Set<any>) => {
+  const reconciler = ReactReconciler(createHostConfig((pageId: number, rootJson: any, changedNodes: Set<any>, deletedIds?: Set<number>) => {
     try {
       if (!rootJson) {
         console.warn(`[Renderer] Skip renderUI for page ${pageId}: rootJson is null`);
         return;
       }
-
       const isInitial = !renderedPages.has(pageId);
-      console.log(`[Renderer] onCommit for page ${pageId}, isInitial: ${isInitial}, changedNodes: ${changedNodes.size}`);
-
       if (isInitial) {
         const dsl = toDsl(rootJson, pageId);
         if (dsl && dsl.type) {
@@ -119,21 +148,52 @@ export function createRenderer() {
         }
       } else {
         // Partial update
-        const patches = Array.from(changedNodes).map(node => {
-          const type = node.type;
-          const props = mapInteractiveProps(type, node.props || {}, pageId, node.id) || {};
-          const childrenIds = (node.children || []).map((c: any) => c.id);
-          return {
-            id: node.id,
-            type: String(type),
-            isBoundary: isBoundaryNode(type),
-            props: props,
-            childrenIds: childrenIds
-          };
-        });
+        const patches: any[] = [];
+        const processedNodes = new Set<number>();
+
+        // Handle deletions
+        if (deletedIds && deletedIds.size > 0) {
+          for (const id of deletedIds) {
+            patches.push({ id, action: 'remove' });
+          }
+        }
+
+        // Sort nodes by ID or depth to ensure parent-child consistency if needed, 
+        // but here we just need to handle flutter-props redirection.
+        for (const node of changedNodes) {
+          if (processedNodes.has(node.id)) continue;
+
+          let targetNode = node;
+          // If this is a flutter-props node, we need to patch its parent 
+          // because flutter-props is merged into parent props.
+          if (targetNode.type === 'flutter-props') {
+            if (targetNode.parent) {
+              targetNode = targetNode.parent;
+            } else {
+              continue; // Root cannot be flutter-props
+            }
+          }
+
+          if (processedNodes.has(targetNode.id)) continue;
+
+          // When mapping props for a node, we need the SAME logic as toDsl 
+          // to pull in any flutter-props children.
+          const dsl = toDsl(targetNode, pageId);
+          if (dsl) {
+            patches.push({
+              id: dsl.id,
+              type: dsl.type,
+              isBoundary: dsl.isBoundary,
+              props: dsl.props,
+              childrenIds: dsl.children.map((c: any) => c.id)
+            });
+            processedNodes.add(targetNode.id);
+          }
+        }
 
         if (patches.length > 0 && typeof dartCallNative === 'function') {
-          console.log(`[Renderer] calling patchUI for page ${pageId}, patches: ${patches.length}`);
+          console.log(`[Renderer] Sending ${patches.length} patches to Flutter for page ${pageId}`);
+          // console.log(`[Renderer] Patches: ${JSON.stringify(patches)}`);
           dartCallNative('patchUI', {
             pageId: Number(pageId),
             patches: patches
@@ -147,6 +207,7 @@ export function createRenderer() {
 
   const containers: Record<number, any> = {};
   const roots: Record<number, any> = {};
+  const deletedNodes: Record<number, Set<number>> = {};
 
   function ensureRoot(pageId: number) {
     if (roots[pageId]) return roots[pageId];
@@ -154,6 +215,7 @@ export function createRenderer() {
     const root = (reconciler as any).createContainer(container, 0, false, null);
     containers[pageId] = container;
     roots[pageId] = root;
+    deletedNodes[pageId] = new Set();
     return root;
   }
 
@@ -184,7 +246,6 @@ export function createRenderer() {
       if (root) {
         const performDestroy = () => {
           try {
-            console.log(`[Renderer] Attempting to destroy page ${pageId}...`);
             reconciler.updateContainer(null, root, null, () => {
               console.log(`[Renderer] Page ${pageId} unmounted successfully`);
             });
@@ -207,20 +268,8 @@ export function createRenderer() {
 
         performDestroy();
       }
-
-      if (pageEvents[pageId]) {
-        for (const id of pageEvents[pageId]) {
-          delete eventHandlers[id];
-        }
-        delete pageEvents[pageId];
-      }
-
-      // Clear nodeEventMap for nodes belonging to this page
-      // Note: This is a bit tricky as we don't track node-to-page mapping easily.
-      // But since nodeIds are global, we can just leave it for now or implement a better cleanup.
-      // A better way is to use a WeakMap if we had the actual node objects as keys.
     },
-    createEvent,
+
     dispatchEvent,
   };
 }
