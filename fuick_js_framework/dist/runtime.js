@@ -40,14 +40,17 @@ const Console = __importStar(require("./ex/console"));
 const Timer = __importStar(require("./ex/timer"));
 function bindGlobals() {
     setupPolyfills();
-    globalThis.ReactRenderer = {
-        render: PageRender.render,
-        destroy: PageRender.destroy,
-        dispatchEvent: (id, payload) => {
-            const r = PageRender.ensureRenderer();
-            r.dispatchEvent(id, payload);
+    // 显式挂载到 globalThis，确保 Flutter 侧可以访问到
+    Object.assign(globalThis, {
+        FuickUIController: {
+            render: PageRender.render,
+            destroy: PageRender.destroy,
+            dispatchEvent: (id, payload) => {
+                const r = PageRender.ensureRenderer();
+                r.dispatchEvent(id, payload);
+            }
         }
-    };
+    });
 }
 exports.Runtime = {
     bindGlobals

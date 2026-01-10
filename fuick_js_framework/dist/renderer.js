@@ -79,8 +79,8 @@ function createRenderer() {
             }
             const dsl = toDsl(rootJson, pageId);
             if (dsl && dsl.type) {
-                if (typeof globalThis.dartCallNative === 'function') {
-                    globalThis.dartCallNative('renderUI', {
+                if (typeof dartCallNative === 'function') {
+                    dartCallNative('renderUI', {
                         pageId: Number(pageId),
                         renderData: dsl
                     });

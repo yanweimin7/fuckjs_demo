@@ -6,14 +6,18 @@ import * as Timer from './ex/timer';
 
 export function bindGlobals() {
   setupPolyfills();
-  (globalThis as any).ReactRenderer = {
-    render: PageRender.render,
-    destroy: PageRender.destroy,
-    dispatchEvent: (id: string, payload: any) => {
-      const r = PageRender.ensureRenderer();
-      r.dispatchEvent(id, payload);
+
+  // 显式挂载到 globalThis，确保 Flutter 侧可以访问到
+  Object.assign(globalThis, {
+    FuickUIController: {
+      render: PageRender.render,
+      destroy: PageRender.destroy,
+      dispatchEvent: (id: string, payload: any) => {
+        const r = PageRender.ensureRenderer();
+        r.dispatchEvent(id, payload);
+      }
     }
-  };
+  });
 }
 
 export const Runtime = {

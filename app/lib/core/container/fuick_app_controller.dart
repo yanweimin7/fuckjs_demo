@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../engine/jscontext.dart';
+import '../engine/jsobject.dart';
 import 'fuick_page.dart';
 import 'fuick_page_view.dart';
 
@@ -22,6 +23,26 @@ class FuickAppController {
 
   void render(int pageId, Map<String, dynamic> dsl) {
     onPageRender[pageId]?.call(dsl);
+  }
+
+  void renderPage(int pageId, String path, Map<String, dynamic> params) {
+    final renderer = ctx.global.getProperty('FuickUIController');
+    if (renderer is JSObject) {
+      renderer.invoke('render', [pageId, path, params]);
+    } else {
+      debugPrint('Warning: FuickUIController not found in JS global context');
+    }
+  }
+
+  void destroyPage(int pageId) {
+    try {
+      final renderer = ctx.global.getProperty('FuickUIController');
+      if (renderer is JSObject) {
+        renderer.invoke('destroy', [pageId]);
+      }
+    } catch (e) {
+      // ignore
+    }
   }
 
   void pushWithPath(String path, Map<String, dynamic> params) {

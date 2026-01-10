@@ -51,35 +51,20 @@ class _JsUiHostState extends State<FuickPageView> {
       // 延迟一帧确保 JS 环境完全初始化
       Future.microtask(() {
         if (mounted) {
-          renderPage(widget.pageId, widget.controller, widget.routeInfo);
+          widget.controller.renderPage(
+            widget.pageId,
+            widget.routeInfo.path,
+            widget.routeInfo.params,
+          );
         }
       });
-    }
-  }
-
-  void renderPage(int pageId, FuickAppController controller, RouteInfo info) {
-    final ctx = controller.ctx;
-    final renderer = ctx.global.getProperty('ReactRenderer');
-    if (renderer is JSObject) {
-      renderer.invoke('render', [pageId, info.path, info.params]);
-    } else {
-      debugPrint('Warning: ReactRenderer not found in JS global context');
     }
   }
 
   @override
   void dispose() {
     widget.controller.isBundleLoaded.removeListener(_checkAndRender);
-    try {
-      final renderer = widget.controller.ctx.global.getProperty(
-        'ReactRenderer',
-      );
-      if (renderer is JSObject) {
-        renderer.invoke('destroy', [widget.pageId]);
-      }
-    } catch (e) {
-      // ignore
-    }
+    widget.controller.destroyPage(widget.pageId);
     widget.controller.onPageRender.remove(widget.pageId);
     super.dispose();
   }
@@ -87,8 +72,7 @@ class _JsUiHostState extends State<FuickPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          body ??
+      body: body ??
           Center(
             child: SizedBox(
               width: 100,

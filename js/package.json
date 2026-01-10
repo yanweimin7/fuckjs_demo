@@ -9,11 +9,12 @@
     "dev": "node esbuild.js --watch"
   },
   "dependencies": {
+    "fuick_js_framework": "file:../fuick_js_framework",
     "react": "^18.2.0",
-    "react-reconciler": "^0.29.2",
-    "fuick_js_framework": "file:../fuick_js_framework"
+    "react-reconciler": "^0.29.2"
   },
   "devDependencies": {
+    "@types/react": "^19.2.7",
     "esbuild": "^0.21.4"
   }
 }
