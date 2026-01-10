@@ -4,5 +4,6 @@ export * from './router';
 export * as Navigator from './navigator';
 export * from './runtime';
 export * from './page_render';
+export * from './ErrorBoundary';
 export * from './ex/timer';
 export * from './ex/console';

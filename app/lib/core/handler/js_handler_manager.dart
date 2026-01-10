@@ -61,8 +61,9 @@ class JsHandlerManager {
     });
 
     reg.onSync('push', (args) {
-      final m =
-          args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
+      final m = args is Map
+          ? Map<String, dynamic>.from(args)
+          : <String, dynamic>{};
       final path = (m['path'] ?? '') as String;
       final params = m['params'] ?? {};
       if (path.isNotEmpty) {
@@ -76,7 +77,7 @@ class JsHandlerManager {
       return true;
     });
 
-    reg.onDefer('testFuture', (args, callback) {
+    reg.onDefer('testFuture', (args, callback, reject) {
       print('wey testFuture args $args');
       Future.delayed(const Duration(seconds: 2), () {
         callback('abac');
@@ -110,9 +111,15 @@ class JsHandlerManager {
       if (h != null) {
         // 返回一个 Future，JS 侧会自动得到一个 Promise
         final completer = Completer();
-        h(args, (res) {
-          completer.complete(res);
-        });
+        h(
+          args,
+          (res) {
+            completer.complete(res);
+          },
+          (e) {
+            completer.completeError(e);
+          },
+        );
         return completer.future;
       }
       return Future.error('method $method not found');
@@ -133,7 +140,7 @@ class JsHandlerManager {
           final pageId = (m['pageId'] as num?)?.toInt();
           final renderData =
               (m['renderData'] as Map?)?.cast<String, dynamic>() ??
-                  const <String, dynamic>{};
+              const <String, dynamic>{};
           if (pageId != null) {
             controller.render(pageId, renderData);
             return true;

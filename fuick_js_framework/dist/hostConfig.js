@@ -10,6 +10,37 @@ function makeNode(type, props) {
 function applyProps(node, newProps) {
     node.props = { ...(newProps || {}) };
 }
+function shallowEqual(a, b) {
+    if (a === b)
+        return true;
+    if (!a || !b || typeof a !== 'object' || typeof b !== 'object')
+        return false;
+    const keysA = Object.keys(a).filter(k => k !== 'children');
+    const keysB = Object.keys(b).filter(k => k !== 'children');
+    if (keysA.length !== keysB.length)
+        return false;
+    for (const key of keysA) {
+        if (Object.prototype.hasOwnProperty.call(b, key)) {
+            if (a[key] !== b[key]) {
+                // Only recurse for plain objects that might be style/decoration
+                if (a[key] && b[key] &&
+                    typeof a[key] === 'object' && typeof b[key] === 'object' &&
+                    !Array.isArray(a[key]) && !Array.isArray(b[key]) &&
+                    a[key].constructor === Object && b[key].constructor === Object) {
+                    if (!shallowEqual(a[key], b[key]))
+                        return false;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        else {
+            return false;
+        }
+    }
+    return true;
+}
 const createHostConfig = (onCommit) => {
     const changedNodes = new Set();
     return {
@@ -62,23 +93,21 @@ const createHostConfig = (onCommit) => {
             if (container.root === child) {
                 container.root = null;
             }
-            // Container root changed, but we don't have a node for container.
-            // Usually container root change means a full render.
         },
         insertInContainerBefore: (container, child, beforeChild) => {
             container.root = child;
             changedNodes.add(child);
         },
         resetTextContent: (instance) => {
-            // No-op for our DSL
         },
         detachDeletedInstance: (instance) => {
-            // No-op
         },
         clearContainer: (container) => {
             container.root = null;
         },
         prepareUpdate: (instance, type, oldProps, newProps, root, hostContext) => {
+            if (shallowEqual(oldProps, newProps))
+                return null;
             return true;
         },
         commitUpdate: (instance, updatePayload, type, oldProps, newProps, internalInstanceHandle) => {

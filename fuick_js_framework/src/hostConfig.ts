@@ -22,17 +22,26 @@ function applyProps(node: Node, newProps: any) {
 function shallowEqual(a: any, b: any) {
   if (a === b) return true;
   if (!a || !b || typeof a !== 'object' || typeof b !== 'object') return false;
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
+  const keysA = Object.keys(a).filter(k => k !== 'children');
+  const keysB = Object.keys(b).filter(k => k !== 'children');
   if (keysA.length !== keysB.length) return false;
   for (const key of keysA) {
-    if (a[key] !== b[key]) {
-      // Special case for style or nested objects
-      if (typeof a[key] === 'object' && typeof b[key] === 'object') {
-        if (!shallowEqual(a[key], b[key])) return false;
-      } else {
-        return false;
+    if (Object.prototype.hasOwnProperty.call(b, key)) {
+      if (a[key] !== b[key]) {
+        // Only recurse for plain objects that might be style/decoration
+        if (
+          a[key] && b[key] &&
+          typeof a[key] === 'object' && typeof b[key] === 'object' &&
+          !Array.isArray(a[key]) && !Array.isArray(b[key]) &&
+          a[key].constructor === Object && b[key].constructor === Object
+        ) {
+          if (!shallowEqual(a[key], b[key])) return false;
+        } else {
+          return false;
+        }
       }
+    } else {
+      return false;
     }
   }
   return true;

@@ -76,15 +76,15 @@ class WidgetFactory {
           ),
         );
       case 'Container':
-        return _wrapMarginAndPadding(
-          props,
-          Container(
-            width: _sizeNum(props['width']),
-            height: _sizeNum(props['height']),
-            alignment: _alignment(props['alignment'] as String?),
-            decoration: _boxDecorationFromProps(props),
-            child: buildFirstChild(),
-          ),
+        final decoration = _boxDecorationFromProps(props);
+        return Container(
+          width: _sizeNum(props['width']),
+          height: _sizeNum(props['height']),
+          alignment: _alignment(props['alignment'] as String?),
+          padding: _edgeInsets(props['padding']),
+          margin: _edgeInsets(props['margin']),
+          decoration: decoration,
+          child: buildFirstChild(),
         );
       case 'Button':
         final text = (props['text'] ?? '') as String;
@@ -122,10 +122,7 @@ class WidgetFactory {
             ),
             onChanged: (v) {
               if (onChangedEventId != null && onChangedEventId.isNotEmpty) {
-                onAction('__event', {
-                  'id': onChangedEventId,
-                  'payload': v,
-                });
+                onAction('__event', {'id': onChangedEventId, 'payload': v});
               } else if (onChangedJs != null) {
                 final args = Map<String, dynamic>.from(
                   onChangedJs['args'] as Map? ?? {},
@@ -136,10 +133,7 @@ class WidgetFactory {
             },
             onSubmitted: (v) {
               if (onSubmittedEventId != null && onSubmittedEventId.isNotEmpty) {
-                onAction('__event', {
-                  'id': onSubmittedEventId,
-                  'payload': v,
-                });
+                onAction('__event', {'id': onSubmittedEventId, 'payload': v});
               } else if (onSubmittedJs != null) {
                 final args = Map<String, dynamic>.from(
                   onSubmittedJs['args'] as Map? ?? {},
@@ -160,10 +154,7 @@ class WidgetFactory {
             value: v,
             onChanged: (nv) {
               if (onChangedEventId != null && onChangedEventId.isNotEmpty) {
-                onAction('__event', {
-                  'id': onChangedEventId,
-                  'payload': nv,
-                });
+                onAction('__event', {'id': onChangedEventId, 'payload': nv});
               } else if (onChangedJs != null) {
                 final args = Map<String, dynamic>.from(
                   onChangedJs['args'] as Map? ?? {},
@@ -490,9 +481,26 @@ class WidgetFactory {
   }
 
   BoxDecoration? _boxDecorationFromProps(Map<String, dynamic> props) {
-    final color = _colorFromHex(props['color'] as String?);
-    final borderRadius = _borderRadius(props['borderRadius']);
-    final border = _border(props['border']);
+    // 1. 获取顶级属性
+    Color? color = _colorFromHex(props['color'] as String?);
+    BorderRadius? borderRadius = _borderRadius(props['borderRadius']);
+    Border? border = _border(props['border']);
+
+    // 2. 如果存在 decoration 对象，则从中提取属性并覆盖/补充顶级属性
+    final decorationProp = props['decoration'];
+    if (decorationProp is Map) {
+      final m = Map<String, dynamic>.from(decorationProp);
+      if (m['color'] != null) {
+        color = _colorFromHex(m['color'] as String?);
+      }
+      if (m['borderRadius'] != null) {
+        borderRadius = _borderRadius(m['borderRadius']);
+      }
+      if (m['border'] != null) {
+        border = _border(m['border']);
+      }
+    }
+
     if (color == null && borderRadius == null && border == null) return null;
     return BoxDecoration(
       color: color,
@@ -563,15 +571,14 @@ class _FuickNodeWidgetState extends State<_FuickNodeWidget> {
   void _onNodeChanged() {
     if (mounted) {
       debugPrint(
-          '[Flutter] Node ${widget.node.id} (${widget.node.type}) triggered setState()');
+        '[Flutter] Node ${widget.node.id} (${widget.node.type}) triggered setState()',
+      );
       setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(
-        '[Flutter] Building _FuickNodeWidget for Node ${widget.node.id} (${widget.node.type})');
     return widget.factory._buildInternal(
       widget.node.type,
       widget.node.props,

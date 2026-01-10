@@ -43,5 +43,6 @@ __exportStar(require("./router"), exports);
 exports.Navigator = __importStar(require("./navigator"));
 __exportStar(require("./runtime"), exports);
 __exportStar(require("./page_render"), exports);
+__exportStar(require("./ErrorBoundary"), exports);
 __exportStar(require("./ex/timer"), exports);
 __exportStar(require("./ex/console"), exports);

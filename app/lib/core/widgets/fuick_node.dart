@@ -22,12 +22,12 @@ class FuickNode extends ChangeNotifier {
     bool childrenChanged = !_isListEqual(children, newChildren);
 
     if (propsChanged) {
-      debugPrint('[Flutter] Node $id ($type) props changed: $newProps');
+      // debugPrint('[Flutter] Node $id ($type) props changed: $newProps');
       props = newProps;
     }
     if (childrenChanged) {
-      debugPrint(
-          '[Flutter] Node $id ($type) children changed: ${newChildren.length} items');
+      // debugPrint(
+      //     '[Flutter] Node $id ($type) children changed: ${newChildren.length} items');
       children = newChildren;
       // Update parent pointers for new children
       for (final child in children) {
@@ -42,11 +42,11 @@ class FuickNode extends ChangeNotifier {
 
   void notify() {
     if (hasListeners) {
-      debugPrint('[Flutter] Node $id ($type) notifying listeners');
+      // debugPrint('[Flutter] Node $id ($type) notifying listeners');
       notifyListeners();
     } else {
-      debugPrint(
-          '[Flutter] Node $id ($type) bubbling update to parent ${parent?.id}');
+      // debugPrint(
+      //     '[Flutter] Node $id ($type) bubbling update to parent ${parent?.id}');
       parent?.notify();
     }
   }
@@ -129,7 +129,8 @@ class FuickNodeManager {
         final id = (m['id'] as num).toInt();
         // isBoundary is usually fixed for a node, but could theoretically change
         final props = Map<String, dynamic>.from(m['props'] as Map? ?? {});
-        final childrenIds = (m['childrenIds'] as List?)
+        final childrenIds =
+            (m['childrenIds'] as List?)
                 ?.map((e) => (e as num).toInt())
                 .toList() ??
             [];

@@ -2,7 +2,11 @@ import '../engine/jscontext.dart';
 
 typedef SyncHandler = dynamic Function(dynamic args);
 typedef DeferHandler =
-    void Function(dynamic args, void Function(dynamic) callback);
+    void Function(
+      dynamic args,
+      void Function(dynamic) resolve,
+      void Function(dynamic) reject,
+    );
 
 class JsHandlerRegistry {
   final QuickJsContext ctx;

@@ -1,5 +1,6 @@
 import ReactReconciler from 'react-reconciler';
 import { createHostConfig } from './hostConfig';
+import { isBoundaryWidget, getWidgetMetadata } from './widgets';
 
 interface EventHandler {
   fn: Function;
@@ -11,15 +12,8 @@ const pageEvents: Record<number, Set<string>> = {};
 const nodeEventMap: Map<number, Record<string, string>> = new Map();
 let nextEventId = 1;
 
-const BOUNDARY_TYPES = new Set([
-  'Column', 'Row', 'Stack', 'ListView', 'GridView',
-  'TextField', 'Switch', 'Button', 'InkWell', 'GestureDetector'
-]);
-
-function isBoundaryNode(type: string, props: any): boolean {
-  if (BOUNDARY_TYPES.has(type)) return true;
-  if (type === 'Container' && (props?.color || props?.decoration || props?.border || props?.borderRadius)) return true;
-  return false;
+function isBoundaryNode(type: string): boolean {
+  return isBoundaryWidget(type);
 }
 
 export function createEvent(fn: Function, pageId: number, nodeId: number, key: string): string {
@@ -55,6 +49,9 @@ export function dispatchEvent(id: string, payload: any) {
 
 function mapInteractiveProps(type: string, props: any, pageId: number, nodeId: number) {
   const p: any = {};
+  const metadata = getWidgetMetadata(type);
+  const supportedEvents = new Set(metadata?.events || []);
+
   if (props) {
     for (const key in props) {
       if (key === 'children') continue;
@@ -62,7 +59,7 @@ function mapInteractiveProps(type: string, props: any, pageId: number, nodeId: n
 
       const value = props[key];
       if (typeof value === 'function') {
-        if (key === 'onTap' || key === 'onChanged' || key === 'onSubmitted') {
+        if (supportedEvents.has(key)) {
           const id = createEvent(value, pageId, nodeId, key);
           p[key + 'EventId'] = id;
         }
@@ -89,7 +86,7 @@ function toDsl(node: any, pageId: number): any {
   return {
     id: node.id,
     type: String(type),
-    isBoundary: isBoundaryNode(type, node.props),
+    isBoundary: isBoundaryNode(type),
     props: props,
     children: children
   };
@@ -129,7 +126,7 @@ export function createRenderer() {
           return {
             id: node.id,
             type: String(type),
-            isBoundary: isBoundaryNode(type, node.props),
+            isBoundary: isBoundaryNode(type),
             props: props,
             childrenIds: childrenIds
           };
@@ -154,7 +151,7 @@ export function createRenderer() {
   function ensureRoot(pageId: number) {
     if (roots[pageId]) return roots[pageId];
     const container = { root: null, pageId };
-    const root = reconciler.createContainer(container, 0, false, null);
+    const root = (reconciler as any).createContainer(container, 0, false, null);
     containers[pageId] = container;
     roots[pageId] = root;
     return root;

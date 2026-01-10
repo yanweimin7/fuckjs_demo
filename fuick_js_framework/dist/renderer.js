@@ -8,10 +8,14 @@ exports.dispatchEvent = dispatchEvent;
 exports.createRenderer = createRenderer;
 const react_reconciler_1 = __importDefault(require("react-reconciler"));
 const hostConfig_1 = require("./hostConfig");
+const widgets_1 = require("./widgets");
 const eventHandlers = {};
 const pageEvents = {};
 const nodeEventMap = new Map();
 let nextEventId = 1;
+function isBoundaryNode(type) {
+    return (0, widgets_1.isBoundaryWidget)(type);
+}
 function createEvent(fn, pageId, nodeId, key) {
     const nodeEvents = nodeEventMap.get(nodeId) || {};
     if (nodeEvents[key]) {
@@ -33,8 +37,9 @@ function createEvent(fn, pageId, nodeId, key) {
 function dispatchEvent(id, payload) {
     try {
         const entry = eventHandlers[id];
-        if (entry && typeof entry.fn === 'function')
+        if (entry && typeof entry.fn === 'function') {
             entry.fn(payload);
+        }
     }
     catch (e) {
         console.error(`[Renderer] Error in dispatchEvent:`, e);
@@ -42,6 +47,8 @@ function dispatchEvent(id, payload) {
 }
 function mapInteractiveProps(type, props, pageId, nodeId) {
     const p = {};
+    const metadata = (0, widgets_1.getWidgetMetadata)(type);
+    const supportedEvents = new Set(metadata?.events || []);
     if (props) {
         for (const key in props) {
             if (key === 'children')
@@ -50,7 +57,7 @@ function mapInteractiveProps(type, props, pageId, nodeId) {
                 continue;
             const value = props[key];
             if (typeof value === 'function') {
-                if (key === 'onTap' || key === 'onChanged' || key === 'onSubmitted') {
+                if (supportedEvents.has(key)) {
                     const id = createEvent(value, pageId, nodeId, key);
                     p[key + 'EventId'] = id;
                 }
@@ -78,6 +85,7 @@ function toDsl(node, pageId) {
     return {
         id: node.id,
         type: String(type),
+        isBoundary: isBoundaryNode(type),
         props: props,
         children: children
     };
@@ -91,10 +99,12 @@ function createRenderer() {
                 return;
             }
             const isInitial = !renderedPages.has(pageId);
+            console.log(`[Renderer] onCommit for page ${pageId}, isInitial: ${isInitial}, changedNodes: ${changedNodes.size}`);
             if (isInitial) {
                 const dsl = toDsl(rootJson, pageId);
                 if (dsl && dsl.type) {
                     if (typeof dartCallNative === 'function') {
+                        console.log(`[Renderer] calling renderUI for page ${pageId}`);
                         dartCallNative('renderUI', {
                             pageId: Number(pageId),
                             renderData: dsl
@@ -112,11 +122,13 @@ function createRenderer() {
                     return {
                         id: node.id,
                         type: String(type),
+                        isBoundary: isBoundaryNode(type),
                         props: props,
                         childrenIds: childrenIds
                     };
                 });
                 if (patches.length > 0 && typeof dartCallNative === 'function') {
+                    console.log(`[Renderer] calling patchUI for page ${pageId}, patches: ${patches.length}`);
                     dartCallNative('patchUI', {
                         pageId: Number(pageId),
                         patches: patches
