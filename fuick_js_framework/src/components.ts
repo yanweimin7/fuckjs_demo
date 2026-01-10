@@ -25,3 +25,6 @@ export const Stack = Widgets.Stack as unknown as React.FC<JSX.StackProps>;
 export const Positioned = Widgets.Positioned as unknown as React.FC<JSX.PositionedProps>;
 export const Opacity = Widgets.Opacity as unknown as React.FC<JSX.OpacityProps>;
 export const CircularProgressIndicator = Widgets.CircularProgressIndicator as unknown as React.FC<JSX.CircularProgressIndicatorProps>;
+export const SafeArea = Widgets.SafeArea as unknown as React.FC<JSX.SafeAreaProps>;
+export const Scaffold = Widgets.Scaffold as unknown as React.FC<JSX.ScaffoldProps>;
+export const AppBar = Widgets.AppBar as unknown as React.FC<JSX.AppBarProps>;

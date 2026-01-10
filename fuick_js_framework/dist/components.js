@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
+exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
 const Widgets = __importStar(require("./widgets"));
 // 导出内置组件名字符串，并关联类型定义
 exports.Column = Widgets.Column;
@@ -59,3 +59,6 @@ exports.Stack = Widgets.Stack;
 exports.Positioned = Widgets.Positioned;
 exports.Opacity = Widgets.Opacity;
 exports.CircularProgressIndicator = Widgets.CircularProgressIndicator;
+exports.SafeArea = Widgets.SafeArea;
+exports.Scaffold = Widgets.Scaffold;
+exports.AppBar = Widgets.AppBar;

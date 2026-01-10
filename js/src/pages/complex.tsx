@@ -16,8 +16,7 @@ import {
     GestureDetector,
     Expanded,
     Center,
-    ErrorBoundary,
-} from 'fuick_js_framework';
+ } from 'fuick_js_framework';
 
 const ComplexPage = () => {
     const [activeTab, setActiveTab] = React.useState('Hot Picks');
@@ -38,15 +37,7 @@ const ComplexPage = () => {
     ];
 
     return (
-        <ErrorBoundary fallback={(error: Error) => (
-            <Container color="#FFF0F0" padding={20}>
-                <Column crossAxisAlignment="start">
-                    <Text text="页面渲染出错" fontSize={20} color="#D32F2F" fontWeight="bold" />
-                    <SizedBox height={10} />
-                    <Text text={error.message} fontSize={14} color="#333333" />
-                </Column>
-            </Container>
-        )}>
+      
             <Container color="#FFFFFF">
                 <SingleChildScrollView>
                     <Column crossAxisAlignment="stretch">
@@ -294,8 +285,7 @@ const ComplexPage = () => {
                     </Column>
                 </SingleChildScrollView>
             </Container>
-        </ErrorBoundary>
-    );
+     );
 };
 
 export default ComplexPage;

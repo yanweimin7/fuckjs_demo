@@ -48,25 +48,11 @@ class _FuickAppViewState extends State<FuickAppView> {
 
   Future<void> _loadBundle() async {
     try {
-      // 优先加载二进制字节码
-      try {
-        final ByteData data = await rootBundle.load(
-          'assets/js/${widget.appName}.qjc',
-        );
-        final Uint8List bytes = data.buffer.asUint8List(
-          data.offsetInBytes,
-          data.lengthInBytes,
-        );
-        ctx.evalBinary(bytes);
-        debugPrint('成功加载 QuickJS 字节码 bundle ${widget.appName}');
-      } catch (e) {
-        debugPrint('加载字节码 bundle 失败，尝试加载文本 bundle: $e');
-        final bundle = await rootBundle.loadString(
-          'assets/js/${widget.appName}.js',
-        );
-        ctx.eval(bundle);
-        debugPrint('成功加载文本 bundle ${widget.appName}');
-      }
+      // 1. 加载基础框架包 (framework.bundle)
+      await _loadSingleBundle('framework.bundle');
+
+      // 2. 加载业务逻辑包
+      await _loadSingleBundle(widget.appName);
 
       // 执行任务队列，确保 initApp 等异步逻辑执行完毕
       ctx.runJobs();
@@ -74,6 +60,34 @@ class _FuickAppViewState extends State<FuickAppView> {
       _uiController.isBundleLoaded.value = true;
     } catch (e) {
       debugPrint('加载 React bundle 失败: $e');
+    }
+  }
+
+  Future<void> _loadSingleBundle(String bundleName) async {
+    try {
+      // 优先加载二进制字节码
+      try {
+        final ByteData data = await rootBundle.load(
+          'assets/js/$bundleName.qjc',
+        );
+        final Uint8List bytes = data.buffer.asUint8List(
+          data.offsetInBytes,
+          data.lengthInBytes,
+        );
+        ctx.evalBinary(bytes);
+        debugPrint('成功加载 QuickJS 字节码 bundle $bundleName');
+      } catch (e) {
+        debugPrint('加载字节码 bundle $bundleName 失败，尝试加载文本 bundle: $e');
+        final bundle = await rootBundle.loadString(
+          'assets/js/$bundleName.js',
+        );
+        ctx.eval(bundle);
+        debugPrint('成功加载文本 bundle $bundleName');
+      }
+    } catch (e) {
+      debugPrint('加载 bundle $bundleName 失败: $e');
+      // 基础框架包加载失败可能是致命的，业务包加载失败也可能是致命的
+      rethrow;
     }
   }
 

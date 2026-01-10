@@ -22,3 +22,6 @@ export declare const Stack: React.FC<JSX.StackProps>;
 export declare const Positioned: React.FC<JSX.PositionedProps>;
 export declare const Opacity: React.FC<JSX.OpacityProps>;
 export declare const CircularProgressIndicator: React.FC<JSX.CircularProgressIndicatorProps>;
+export declare const SafeArea: React.FC<JSX.SafeAreaProps>;
+export declare const Scaffold: React.FC<JSX.ScaffoldProps>;
+export declare const AppBar: React.FC<JSX.AppBarProps>;

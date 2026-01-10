@@ -9,6 +9,18 @@ const watch = process.argv.includes('--watch');
 const QJSC_PATH = path.resolve(__dirname, '../../fuickjs_engine/src/main/jni/quickjs/build/qjsc');
 const PROJECT_NAME = 'fuick_js_test';
 
+const globalsPlugin = {
+  name: 'globals',
+  setup(build) {
+    build.onResolve({ filter: /^react$/ }, args => ({ path: args.path, namespace: 'globals' }))
+    build.onResolve({ filter: /^fuick_js_framework$/ }, args => ({ path: args.path, namespace: 'globals' }))
+    build.onLoad({ filter: /.*/, namespace: 'globals' }, args => {
+      if (args.path === 'react') return { contents: 'module.exports = globalThis.React', loader: 'js' }
+      if (args.path === 'fuick_js_framework') return { contents: 'module.exports = globalThis.FuickFramework', loader: 'js' }
+    })
+  },
+}
+
 esbuild.build({
   entryPoints: ['src/index.ts'],
   bundle: true,
@@ -22,12 +34,7 @@ esbuild.build({
     '.tsx': 'tsx',
   },
   mainFields: ['module', 'main'],
-  alias: {
-    'react': path.resolve(__dirname, 'node_modules/react/cjs/react.development.js'),
-    'react-reconciler': path.resolve(__dirname, 'node_modules/react-reconciler/cjs/react-reconciler.development.js'),
-    'scheduler': path.resolve(__dirname, 'node_modules/scheduler/cjs/scheduler.development.js'),
-    'fuick_js_framework': path.resolve(__dirname, '../fuick_js_framework/dist/index.js'),
-  },
+  plugins: [globalsPlugin],
   define: {
     'process.env.NODE_ENV': '"development"',
     global: 'globalThis',
