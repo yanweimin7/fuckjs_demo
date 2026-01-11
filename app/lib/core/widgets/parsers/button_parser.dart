@@ -9,8 +9,9 @@ class ButtonParser extends WidgetParser {
   String get type => 'Button';
 
   @override
-  Widget parse(BuildContext context, Map<String, dynamic> props, dynamic children, WidgetFactory factory) {
-    final text = (props['text'] ?? '') as String;
+  Widget parse(BuildContext context, Map<String, dynamic> props,
+      dynamic children, WidgetFactory factory) {
+    final text = (props['text'] ?? '').toString();
     final event = props['onTap'];
     return WidgetUtils.wrapPadding(
       props,

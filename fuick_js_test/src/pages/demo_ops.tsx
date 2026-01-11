@@ -8,20 +8,36 @@ export const DemoOpsPage = () => {
   ]);
 
   const addItem = () => {
-    console.log("wine add item");
     const newId = items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1;
-    setItems([...items, { id: newId, text: `项目 ${newId}` }]);
-    console.log("wine add item", items.map(e => e.text).join(","));
+    const newItems = [...items, { id: newId, text: `项目 ${newId}` }];
+    setItems(newItems);
+    console.log("wine add item:", newItems.map(e => e.text).join(", "));
   };
 
   const deleteItem = (id: number) => {
-    setItems(items.filter(item => item.id !== id));
+    const newItems = items.filter(item => item.id !== id);
+    setItems(newItems);
+    console.log("wine delete item, remaining:", newItems.map(e => e.text).join(", "));
   };
 
   const updateItem = (id: number) => {
-    setItems(items.map(item =>
+    const newItems = items.map(item =>
       item.id === id ? { ...item, text: `${item.text} (已更新)` } : item
-    ));
+    );
+    setItems(newItems);
+    console.log("wine update item, current:", newItems.map(e => e.text).join(", "));
+  };
+
+  const reverseItems = () => {
+    const newItems = [...items].reverse();
+    setItems(newItems);
+    console.log("wine reverse items:", newItems.map(e => e.text).join(", "));
+  };
+
+  const shuffleItems = () => {
+    const newItems = [...items].sort(() => Math.random() - 0.5);
+    setItems(newItems);
+    console.log("wine shuffle items:", newItems.map(e => e.text).join(", "));
   };
 
   return (
@@ -32,7 +48,13 @@ export const DemoOpsPage = () => {
           <Column crossAxisAlignment="start">
             <Row mainAxisAlignment="spaceBetween">
               <Text text="列表项" fontSize={20} fontWeight="bold" />
-              <Button text="添加项目" onTap={addItem} />
+              <Row>
+                <Button text="反转" onTap={reverseItems} />
+                <Container width={8} />
+                <Button text="打乱" onTap={shuffleItems} />
+                <Container width={8} />
+                <Button text="添加" onTap={addItem} />
+              </Row>
             </Row>
 
             <Divider height={20} />

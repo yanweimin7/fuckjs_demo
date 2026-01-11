@@ -22,7 +22,7 @@ class AppBarParser extends WidgetParser {
           .toList();
     } else if (actionsDsl != null) {
       final action = factory.build(context, actionsDsl);
-      if (action != null) actions = [action];
+      actions = [action];
     }
 
     return AppBar(

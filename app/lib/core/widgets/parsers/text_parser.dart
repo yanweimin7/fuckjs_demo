@@ -8,12 +8,15 @@ class TextParser extends WidgetParser {
   String get type => 'Text';
 
   @override
-  Widget parse(BuildContext context, Map<String, dynamic> props, dynamic children, WidgetFactory factory) {
-    final text = (props['text'] ?? '') as String;
-    final fontSize = (props['fontSize'] is num) ? (props['fontSize'] as num).toDouble() : null;
+  Widget parse(BuildContext context, Map<String, dynamic> props,
+      dynamic children, WidgetFactory factory) {
+    final text = (props['text'] ?? '').toString();
+    final fontSize = (props['fontSize'] is num)
+        ? (props['fontSize'] as num).toDouble()
+        : null;
     final color = WidgetUtils.colorFromHex(props['color'] as String?);
     final fontWeight = props['fontWeight'] == 'bold' ? FontWeight.bold : null;
-    
+
     return WidgetUtils.wrapPadding(
       props,
       Text(

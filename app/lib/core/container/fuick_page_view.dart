@@ -39,7 +39,7 @@ class _JsUiHostState extends State<FuickPageView> {
       debugPrint(
         '[Flutter] FuickPageView.onPageRender pageId: ${widget.pageId}, rootNode exists: ${rootNode != null}',
       );
-      final newNode = nodeManager.getOrCreateNode(dsl, nodeManager);
+      final newNode = nodeManager.createNode(dsl, nodeManager);
       if (rootNode != newNode) {
         rootNode = newNode;
         debugPrint('[Flutter] FuickPageView set rootNode to: ${rootNode?.id}');
@@ -49,12 +49,6 @@ class _JsUiHostState extends State<FuickPageView> {
 
     widget.controller.onPagePatch[widget.pageId] = (patches) {
       nodeManager.applyPatches(patches, nodeManager);
-      // 如果 rootNode 没被监听（虽然理论上 build 会包一层监听），强制在 patch 后触发一次重建
-      if (rootNode != null && !rootNode!.hasListeners) {
-        debugPrint(
-            '[Flutter] RootNode has no listeners after patch, forcing setState');
-        if (mounted) setState(() {});
-      }
     };
 
     // 监听 bundle 加载状态
@@ -101,12 +95,15 @@ class _JsUiHostState extends State<FuickPageView> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : FuickAppScope(
-              controller: widget.controller,
-              child: WidgetFactory().buildFromNode(
-                context,
-                rootNode!,
-                forceWrap: true,
+          : FuickNodeManagerProvider(
+              manager: nodeManager,
+              child: FuickAppScope(
+                controller: widget.controller,
+                child: WidgetFactory().buildFromNode(
+                  context,
+                  rootNode!,
+                  forceWrap: true,
+                ),
               ),
             ),
     );

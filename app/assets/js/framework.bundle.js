@@ -1901,27 +1901,6 @@ var process=process||{env:{NODE_ENV:"development"}};
     }
   });
 
-  // ../fuick_js_framework/dist/widgets/registry.js
-  var require_registry = __commonJS({
-    "../fuick_js_framework/dist/widgets/registry.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.registerWidget = registerWidget;
-      exports.getWidgetMetadata = getWidgetMetadata;
-      exports.isBoundaryWidget = isBoundaryWidget;
-      var registry = {};
-      function registerWidget(metadata) {
-        registry[metadata.name] = metadata;
-      }
-      function getWidgetMetadata(name) {
-        return registry[name];
-      }
-      function isBoundaryWidget(name) {
-        return registry[name]?.isBoundary ?? false;
-      }
-    }
-  });
-
   // ../fuick_js_framework/dist/widgets/types.js
   var require_types = __commonJS({
     "../fuick_js_framework/dist/widgets/types.js"(exports) {
@@ -1934,14 +1913,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Text = __commonJS({
     "../fuick_js_framework/dist/widgets/Text.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Text = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Text",
-        isBoundary: false
-      });
-      exports.Text = "Text";
+      var react_1 = __importDefault(require_react_development());
+      var Text = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-text", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.Text = Text;
+      exports.default = Text;
     }
   });
 
@@ -1949,14 +1933,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Column = __commonJS({
     "../fuick_js_framework/dist/widgets/Column.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Column = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Column",
-        isBoundary: true
-      });
-      exports.Column = "Column";
+      var react_1 = __importDefault(require_react_development());
+      var Column = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-column", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.Column = Column;
+      exports.default = Column;
     }
   });
 
@@ -1964,14 +1953,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Row = __commonJS({
     "../fuick_js_framework/dist/widgets/Row.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Row = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Row",
-        isBoundary: true
-      });
-      exports.Row = "Row";
+      var react_1 = __importDefault(require_react_development());
+      var Row = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-row", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.Row = Row;
+      exports.default = Row;
     }
   });
 
@@ -1979,14 +1973,32 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Container = __commonJS({
     "../fuick_js_framework/dist/widgets/Container.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Container = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Container",
-        isBoundary: true
-      });
-      exports.Container = "Container";
+      var react_1 = __importDefault(require_react_development());
+      var Container = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-container", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.Container = Container;
+      exports.default = Container;
+    }
+  });
+
+  // ../fuick_js_framework/dist/utils/ids.js
+  var require_ids = __commonJS({
+    "../fuick_js_framework/dist/utils/ids.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.refsId = refsId;
+      var idCounter = 0;
+      function refsId() {
+        return `ref_${Date.now()}_${idCounter++}`;
+      }
     }
   });
 
@@ -1994,15 +2006,28 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Button = __commonJS({
     "../fuick_js_framework/dist/widgets/Button.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Button = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Button",
-        isBoundary: true,
-        events: ["onTap"]
-      });
-      exports.Button = "Button";
+      var react_1 = __importDefault(require_react_development());
+      var ids_1 = require_ids();
+      var Button = class extends react_1.default.Component {
+        constructor() {
+          super(...arguments);
+          this.controllerId = (0, ids_1.refsId)();
+        }
+        render() {
+          return react_1.default.createElement("flutter-button", {
+            ...this.props,
+            refId: this.props.refId || this.controllerId,
+            isBoundary: true
+          });
+        }
+      };
+      exports.Button = Button;
+      exports.default = Button;
     }
   });
 
@@ -2010,15 +2035,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_TextField = __commonJS({
     "../fuick_js_framework/dist/widgets/TextField.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.TextField = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "TextField",
-        isBoundary: true,
-        events: ["onChanged", "onSubmitted"]
-      });
-      exports.TextField = "TextField";
+      var react_1 = __importDefault(require_react_development());
+      var TextField = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-text-field", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.TextField = TextField;
+      exports.default = TextField;
     }
   });
 
@@ -2026,15 +2055,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Switch = __commonJS({
     "../fuick_js_framework/dist/widgets/Switch.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Switch = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Switch",
-        isBoundary: true,
-        events: ["onChanged"]
-      });
-      exports.Switch = "Switch";
+      var react_1 = __importDefault(require_react_development());
+      var Switch = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-switch", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.Switch = Switch;
+      exports.default = Switch;
     }
   });
 
@@ -2042,14 +2075,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Expanded = __commonJS({
     "../fuick_js_framework/dist/widgets/Expanded.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Expanded = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Expanded",
-        isBoundary: false
-      });
-      exports.Expanded = "Expanded";
+      var react_1 = __importDefault(require_react_development());
+      var Expanded = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-expanded", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.Expanded = Expanded;
+      exports.default = Expanded;
     }
   });
 
@@ -2057,14 +2095,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_ListView = __commonJS({
     "../fuick_js_framework/dist/widgets/ListView.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.ListView = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "ListView",
-        isBoundary: true
-      });
-      exports.ListView = "ListView";
+      var react_1 = __importDefault(require_react_development());
+      var ListView = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-list-view", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.ListView = ListView;
+      exports.default = ListView;
     }
   });
 
@@ -2072,14 +2115,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Padding = __commonJS({
     "../fuick_js_framework/dist/widgets/Padding.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Padding = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Padding",
-        isBoundary: false
-      });
-      exports.Padding = "Padding";
+      var react_1 = __importDefault(require_react_development());
+      var Padding = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-padding", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.Padding = Padding;
+      exports.default = Padding;
     }
   });
 
@@ -2087,14 +2135,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Image = __commonJS({
     "../fuick_js_framework/dist/widgets/Image.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Image = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Image",
-        isBoundary: false
-      });
-      exports.Image = "Image";
+      var react_1 = __importDefault(require_react_development());
+      var Image = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-image", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.Image = Image;
+      exports.default = Image;
     }
   });
 
@@ -2102,14 +2155,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_SizedBox = __commonJS({
     "../fuick_js_framework/dist/widgets/SizedBox.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.SizedBox = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "SizedBox",
-        isBoundary: false
-      });
-      exports.SizedBox = "SizedBox";
+      var react_1 = __importDefault(require_react_development());
+      var SizedBox = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-sized-box", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.SizedBox = SizedBox;
+      exports.default = SizedBox;
     }
   });
 
@@ -2117,14 +2175,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Center = __commonJS({
     "../fuick_js_framework/dist/widgets/Center.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Center = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Center",
-        isBoundary: false
-      });
-      exports.Center = "Center";
+      var react_1 = __importDefault(require_react_development());
+      var Center = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-center", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.Center = Center;
+      exports.default = Center;
     }
   });
 
@@ -2132,14 +2195,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Icon = __commonJS({
     "../fuick_js_framework/dist/widgets/Icon.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Icon = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Icon",
-        isBoundary: false
-      });
-      exports.Icon = "Icon";
+      var react_1 = __importDefault(require_react_development());
+      var Icon = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-icon", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.Icon = Icon;
+      exports.default = Icon;
     }
   });
 
@@ -2147,14 +2215,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Flexible = __commonJS({
     "../fuick_js_framework/dist/widgets/Flexible.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Flexible = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Flexible",
-        isBoundary: false
-      });
-      exports.Flexible = "Flexible";
+      var react_1 = __importDefault(require_react_development());
+      var Flexible = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-flexible", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.Flexible = Flexible;
+      exports.default = Flexible;
     }
   });
 
@@ -2162,15 +2235,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_GestureDetector = __commonJS({
     "../fuick_js_framework/dist/widgets/GestureDetector.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.GestureDetector = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "GestureDetector",
-        isBoundary: true,
-        events: ["onTap"]
-      });
-      exports.GestureDetector = "GestureDetector";
+      var react_1 = __importDefault(require_react_development());
+      var GestureDetector = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-gesture-detector", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.GestureDetector = GestureDetector;
+      exports.default = GestureDetector;
     }
   });
 
@@ -2178,15 +2255,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_InkWell = __commonJS({
     "../fuick_js_framework/dist/widgets/InkWell.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.InkWell = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "InkWell",
-        isBoundary: true,
-        events: ["onTap"]
-      });
-      exports.InkWell = "InkWell";
+      var react_1 = __importDefault(require_react_development());
+      var InkWell = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-ink-well", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.InkWell = InkWell;
+      exports.default = InkWell;
     }
   });
 
@@ -2194,14 +2275,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Divider = __commonJS({
     "../fuick_js_framework/dist/widgets/Divider.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Divider = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Divider",
-        isBoundary: false
-      });
-      exports.Divider = "Divider";
+      var react_1 = __importDefault(require_react_development());
+      var Divider = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-divider", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.Divider = Divider;
+      exports.default = Divider;
     }
   });
 
@@ -2209,14 +2295,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_SingleChildScrollView = __commonJS({
     "../fuick_js_framework/dist/widgets/SingleChildScrollView.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.SingleChildScrollView = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "SingleChildScrollView",
-        isBoundary: true
-      });
-      exports.SingleChildScrollView = "SingleChildScrollView";
+      var react_1 = __importDefault(require_react_development());
+      var SingleChildScrollView = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-single-child-scroll-view", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.SingleChildScrollView = SingleChildScrollView;
+      exports.default = SingleChildScrollView;
     }
   });
 
@@ -2224,14 +2315,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Stack = __commonJS({
     "../fuick_js_framework/dist/widgets/Stack.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Stack = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Stack",
-        isBoundary: true
-      });
-      exports.Stack = "Stack";
+      var react_1 = __importDefault(require_react_development());
+      var Stack = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-stack", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.Stack = Stack;
+      exports.default = Stack;
     }
   });
 
@@ -2239,14 +2335,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Positioned = __commonJS({
     "../fuick_js_framework/dist/widgets/Positioned.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Positioned = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Positioned",
-        isBoundary: false
-      });
-      exports.Positioned = "Positioned";
+      var react_1 = __importDefault(require_react_development());
+      var Positioned = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-positioned", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.Positioned = Positioned;
+      exports.default = Positioned;
     }
   });
 
@@ -2254,14 +2355,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Opacity = __commonJS({
     "../fuick_js_framework/dist/widgets/Opacity.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Opacity = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Opacity",
-        isBoundary: false
-      });
-      exports.Opacity = "Opacity";
+      var react_1 = __importDefault(require_react_development());
+      var Opacity = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-opacity", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.Opacity = Opacity;
+      exports.default = Opacity;
     }
   });
 
@@ -2269,14 +2375,19 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_CircularProgressIndicator = __commonJS({
     "../fuick_js_framework/dist/widgets/CircularProgressIndicator.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.CircularProgressIndicator = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "CircularProgressIndicator",
-        isBoundary: false
-      });
-      exports.CircularProgressIndicator = "CircularProgressIndicator";
+      var react_1 = __importDefault(require_react_development());
+      var CircularProgressIndicator = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-circular-progress-indicator", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.CircularProgressIndicator = CircularProgressIndicator;
+      exports.default = CircularProgressIndicator;
     }
   });
 
@@ -2284,14 +2395,38 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_SafeArea = __commonJS({
     "../fuick_js_framework/dist/widgets/SafeArea.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.SafeArea = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "SafeArea",
-        isBoundary: false
-      });
-      exports.SafeArea = "SafeArea";
+      var react_1 = __importDefault(require_react_development());
+      var SafeArea = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-safe-area", { ...this.props, isBoundary: false });
+        }
+      };
+      exports.SafeArea = SafeArea;
+      exports.default = SafeArea;
+    }
+  });
+
+  // ../fuick_js_framework/dist/widgets/FlutterProps.js
+  var require_FlutterProps = __commonJS({
+    "../fuick_js_framework/dist/widgets/FlutterProps.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.FlutterProps = void 0;
+      var react_1 = __importDefault(require_react_development());
+      var FlutterProps = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-props", { propsKey: this.props.propsKey }, this.props.children);
+        }
+      };
+      exports.FlutterProps = FlutterProps;
     }
   });
 
@@ -2299,14 +2434,21 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_Scaffold = __commonJS({
     "../fuick_js_framework/dist/widgets/Scaffold.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Scaffold = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "Scaffold",
-        isBoundary: true
-      });
-      exports.Scaffold = "Scaffold";
+      var react_1 = __importDefault(require_react_development());
+      var FlutterProps_1 = require_FlutterProps();
+      var Scaffold = class extends react_1.default.Component {
+        render() {
+          const { appBar, body, floatingActionButton, children, ...otherProps } = this.props;
+          return react_1.default.createElement("flutter-scaffold", { ...otherProps, isBoundary: true }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), children);
+        }
+      };
+      exports.Scaffold = Scaffold;
+      exports.default = Scaffold;
     }
   });
 
@@ -2314,14 +2456,21 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_AppBar = __commonJS({
     "../fuick_js_framework/dist/widgets/AppBar.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.AppBar = void 0;
-      var registry_1 = require_registry();
-      (0, registry_1.registerWidget)({
-        name: "AppBar",
-        isBoundary: false
-      });
-      exports.AppBar = "AppBar";
+      var react_1 = __importDefault(require_react_development());
+      var FlutterProps_1 = require_FlutterProps();
+      var AppBar = class extends react_1.default.Component {
+        render() {
+          const { title, leading, actions, children, ...otherProps } = this.props;
+          return react_1.default.createElement("flutter-app-bar", { ...otherProps, isBoundary: false }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), children);
+        }
+      };
+      exports.AppBar = AppBar;
+      exports.default = AppBar;
     }
   });
 
@@ -2346,7 +2495,6 @@ var process=process||{env:{NODE_ENV:"development"}};
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      __exportStar(require_registry(), exports);
       __exportStar(require_types(), exports);
       __exportStar(require_Text(), exports);
       __exportStar(require_Column(), exports);
@@ -2374,6 +2522,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       __exportStar(require_SafeArea(), exports);
       __exportStar(require_Scaffold(), exports);
       __exportStar(require_AppBar(), exports);
+      __exportStar(require_FlutterProps(), exports);
     }
   });
 
@@ -2419,7 +2568,7 @@ var process=process||{env:{NODE_ENV:"development"}};
         };
       }();
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
+      exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
       var Widgets = __importStar(require_widgets());
       exports.Column = Widgets.Column;
       exports.Container = Widgets.Container;
@@ -2447,6 +2596,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       exports.SafeArea = Widgets.SafeArea;
       exports.Scaffold = Widgets.Scaffold;
       exports.AppBar = Widgets.AppBar;
+      exports.FlutterProps = Widgets.FlutterProps;
     }
   });
 
@@ -18020,44 +18170,124 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_hostConfig = __commonJS({
     "../fuick_js_framework/dist/hostConfig.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.createHostConfig = void 0;
-      var TEXT_TYPE = "Text";
+      exports.createHostConfig = exports.Node = exports.TEXT_TYPE = void 0;
+      exports.getNodeById = getNodeById;
+      var react_1 = __importDefault(require_react_development());
+      exports.TEXT_TYPE = "Text";
       var nextNodeId = 1;
-      function makeNode(type, props) {
-        const p = { ...props || {} };
-        return { id: nextNodeId++, type, props: p, children: [] };
+      var allNodes = /* @__PURE__ */ new Map();
+      function getNodeById(id) {
+        return allNodes.get(id);
       }
-      function applyProps(node, newProps) {
-        node.props = { ...newProps || {} };
-      }
-      function shallowEqual(a, b) {
-        if (a === b)
-          return true;
-        if (!a || !b || typeof a !== "object" || typeof b !== "object")
-          return false;
-        const keysA = Object.keys(a).filter((k) => k !== "children");
-        const keysB = Object.keys(b).filter((k) => k !== "children");
-        if (keysA.length !== keysB.length)
-          return false;
-        for (const key of keysA) {
-          if (Object.prototype.hasOwnProperty.call(b, key)) {
-            if (a[key] !== b[key]) {
-              if (a[key] && b[key] && typeof a[key] === "object" && typeof b[key] === "object" && !Array.isArray(a[key]) && !Array.isArray(b[key]) && a[key].constructor === Object && b[key].constructor === Object) {
-                if (!shallowEqual(a[key], b[key]))
-                  return false;
-              } else {
-                return false;
+      var Node = class {
+        constructor(type, props, container) {
+          this.children = [];
+          this.eventCallbacks = /* @__PURE__ */ new Map();
+          this.id = nextNodeId++;
+          this.type = type;
+          this.props = {};
+          this.container = container;
+          allNodes.set(this.id, this);
+          this.applyProps(props);
+        }
+        applyProps(newProps) {
+          if (newProps) {
+            this.clearCallbacks();
+            const propKeys = Object.keys(newProps);
+            for (const key of propKeys) {
+              if (key === "children")
+                continue;
+              const value = newProps[key];
+              this.props[key] = value;
+              if (typeof value === "function") {
+                this.saveCallback(key, value);
               }
             }
-          } else {
-            return false;
           }
         }
-        return true;
-      }
-      var createHostConfig = (onCommit) => {
-        const changedNodes = /* @__PURE__ */ new Set();
+        saveCallback(key, fn) {
+          this.eventCallbacks.set(key, fn);
+        }
+        clearCallbacks() {
+          this.eventCallbacks.clear();
+        }
+        getCallback(key) {
+          return this.eventCallbacks.get(key);
+        }
+        toDsl() {
+          let type = this.type;
+          if (!type)
+            return null;
+          if (type.startsWith("flutter-")) {
+            type = type.substring(8).split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("");
+          }
+          const props = {};
+          if (this.props) {
+            for (const key in this.props) {
+              if (key === "children")
+                continue;
+              if (key === "key" || key === "ref" || key === "isBoundary")
+                continue;
+              const value = this.props[key];
+              if (typeof value === "function") {
+                this.saveCallback(key, value);
+                props[key] = { id: this.id, eventKey: key };
+              } else if (key === "style" && value && typeof value === "object") {
+                props[key] = { ...value };
+              } else {
+                props[key] = value;
+              }
+            }
+          }
+          props["__nodeId"] = this.id;
+          const children = [];
+          for (const child of this.children) {
+            if (child.type === "flutter-props") {
+              const propsKey = child.props?.propsKey;
+              if (propsKey) {
+                const propChildren = child.children.map((c) => c.toDsl()).filter((c) => c !== null);
+                if (propChildren.length > 0) {
+                  const newValue = propChildren.length === 1 ? propChildren[0] : propChildren;
+                  if (props[propsKey]) {
+                    if (Array.isArray(props[propsKey])) {
+                      props[propsKey].push(newValue);
+                    } else {
+                      props[propsKey] = [props[propsKey], newValue];
+                    }
+                  } else {
+                    props[propsKey] = newValue;
+                  }
+                }
+              }
+            } else {
+              const dslChild = child.toDsl();
+              if (dslChild) {
+                children.push(dslChild);
+              }
+            }
+          }
+          return {
+            id: this.id,
+            type: String(type),
+            isBoundary: !!this.props?.isBoundary,
+            props,
+            children
+          };
+        }
+        destroy() {
+          allNodes.delete(this.id);
+          this.eventCallbacks.clear();
+          for (const child of this.children) {
+            child.destroy();
+          }
+        }
+      };
+      exports.Node = Node;
+      var createHostConfig = () => {
         return {
           now: Date.now,
           supportsMutation: true,
@@ -18065,79 +18295,99 @@ var process=process||{env:{NODE_ENV:"development"}};
           getRootHostContext: (root) => null,
           getChildHostContext: (parentHostContext, type, root) => null,
           shouldSetTextContent: (type, props) => false,
-          createInstance: (type, props, root, hostContext, internalInstanceHandle) => {
-            const node = makeNode(type, props);
-            changedNodes.add(node);
-            return node;
+          createInstance: (type, props, container) => {
+            return container.createInstance(type, props);
           },
-          createTextInstance: (text, root, hostContext, internalInstanceHandle) => {
-            const node = makeNode(TEXT_TYPE, { text });
-            changedNodes.add(node);
-            return node;
+          createTextInstance: (text, container) => {
+            return container.createTextInstance(text);
           },
           appendInitialChild: (parent, child) => {
+            child.parent = parent;
             parent.children.push(child);
-            changedNodes.add(parent);
+            if (parent.container) {
+              parent.container.changedNodes.add(parent);
+            }
           },
           finalizeInitialChildren: (instance, type, props, rootContainer, hostContext) => false,
           appendChildToContainer: (container, child) => {
-            container.root = child;
-            changedNodes.add(child);
+            container.appendChildToContainer(child);
           },
           appendChild: (parent, child) => {
-            parent.children.push(child);
-            changedNodes.add(parent);
-          },
-          insertBefore: (parentInstance, child, beforeChild) => {
-            const i = parentInstance.children.indexOf(beforeChild);
-            if (i >= 0) {
-              parentInstance.children.splice(i, 0, child);
+            if (parent.container) {
+              parent.container.appendChild(parent, child);
             } else {
-              parentInstance.children.push(child);
+              child.parent = parent;
+              parent.children.push(child);
+              const container = parent.container;
+              if (container) {
+                container.changedNodes.add(parent);
+              }
             }
-            changedNodes.add(parentInstance);
           },
-          removeChild: (parentInstance, child) => {
-            const i = parentInstance.children.indexOf(child);
-            if (i >= 0)
-              parentInstance.children.splice(i, 1);
-            changedNodes.add(parentInstance);
+          insertBefore: (parent, child, beforeChild) => {
+            if (parent.container) {
+              parent.container.insertBefore(parent, child, beforeChild);
+            } else {
+              child.parent = parent;
+              const i = parent.children.indexOf(beforeChild);
+              if (i >= 0) {
+                parent.children.splice(i, 0, child);
+              } else {
+                parent.children.push(child);
+              }
+            }
+          },
+          removeChild: (parent, child) => {
+            if (parent.container) {
+              parent.container.removeChild(parent, child);
+            } else {
+              const i = parent.children.indexOf(child);
+              if (i >= 0)
+                parent.children.splice(i, 1);
+              child.destroy();
+            }
           },
           removeChildFromContainer: (container, child) => {
-            if (container.root === child) {
-              container.root = null;
-            }
+            container.removeChildFromContainer(child);
           },
           insertInContainerBefore: (container, child, beforeChild) => {
-            container.root = child;
-            changedNodes.add(child);
+            container.appendChildToContainer(child);
           },
           resetTextContent: (instance) => {
           },
           detachDeletedInstance: (instance) => {
+            instance.destroy();
           },
           clearContainer: (container) => {
             container.root = null;
           },
           prepareUpdate: (instance, type, oldProps, newProps, root, hostContext) => {
-            if (shallowEqual(oldProps, newProps))
+            if (oldProps === newProps)
               return null;
             return true;
           },
+          updateFiberProps: (instance, type, newProps) => {
+            instance.applyProps(newProps);
+          },
           commitUpdate: (instance, updatePayload, type, oldProps, newProps, internalInstanceHandle) => {
-            applyProps(instance, newProps);
-            changedNodes.add(instance);
+            instance.applyProps(newProps);
+            if (instance.container) {
+              const container = instance.container;
+              if (typeof container.markChanged === "function") {
+                container.markChanged(instance);
+              } else {
+                container.changedNodes.add(instance);
+              }
+            }
           },
           commitTextUpdate: (textInstance, oldText, newText) => {
             textInstance.props.text = String(newText);
-            changedNodes.add(textInstance);
+            if (textInstance.container) {
+              textInstance.container.commitTextUpdate(textInstance, newText);
+            }
           },
           resetAfterCommit: (container) => {
-            console.log(`[HostConfig] Commit finished for page ${container.pageId}, changed nodes: ${changedNodes.size}`);
-            if (typeof onCommit === "function") {
-              onCommit(container.pageId, container.root, new Set(changedNodes));
-            }
-            changedNodes.clear();
+            container.commit();
           },
           prepareForCommit: (container) => {
           },
@@ -18145,6 +18395,196 @@ var process=process||{env:{NODE_ENV:"development"}};
         };
       };
       exports.createHostConfig = createHostConfig;
+    }
+  });
+
+  // ../fuick_js_framework/dist/PageContainer.js
+  var require_PageContainer = __commonJS({
+    "../fuick_js_framework/dist/PageContainer.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.PageContainer = void 0;
+      var hostConfig_1 = require_hostConfig();
+      var PageContainer = class {
+        constructor(pageId) {
+          this.root = null;
+          this.changedNodes = /* @__PURE__ */ new Set();
+          this.rendered = false;
+          this.pageId = pageId;
+        }
+        markChanged(node) {
+          if (!node)
+            return;
+          let current = node;
+          while (current.parent && !current.props?.isBoundary) {
+            current = current.parent;
+          }
+          this.changedNodes.add(current);
+        }
+        createInstance(type, props) {
+          const node = new hostConfig_1.Node(type, props, this);
+          this.markChanged(node);
+          return node;
+        }
+        createTextInstance(text) {
+          const node = new hostConfig_1.Node(hostConfig_1.TEXT_TYPE, { text }, this);
+          this.markChanged(node);
+          return node;
+        }
+        appendChild(parent, child) {
+          if (child.parent) {
+            const oldIndex = child.parent.children.indexOf(child);
+            if (oldIndex >= 0) {
+              child.parent.children.splice(oldIndex, 1);
+              this.markChanged(child.parent);
+            }
+          }
+          child.parent = parent;
+          parent.children.push(child);
+          this.markChanged(parent);
+        }
+        insertBefore(parent, child, beforeChild) {
+          if (child.parent) {
+            const oldIndex = child.parent.children.indexOf(child);
+            if (oldIndex >= 0) {
+              child.parent.children.splice(oldIndex, 1);
+              if (child.parent !== parent) {
+                this.markChanged(child.parent);
+              }
+            }
+          }
+          child.parent = parent;
+          const i = parent.children.indexOf(beforeChild);
+          if (i >= 0) {
+            parent.children.splice(i, 0, child);
+          } else {
+            parent.children.push(child);
+          }
+          this.markChanged(parent);
+        }
+        removeChild(parent, child) {
+          const i = parent.children.indexOf(child);
+          if (i >= 0)
+            parent.children.splice(i, 1);
+          child.destroy();
+          this.markChanged(parent);
+        }
+        appendChildToContainer(child) {
+          this.root = child;
+          this.markChanged(child);
+        }
+        removeChildFromContainer(child) {
+          if (this.root === child) {
+            this.root = null;
+          }
+          child.destroy();
+        }
+        commitTextUpdate(node, text) {
+          node.props.text = String(text);
+          this.markChanged(node);
+        }
+        commit() {
+          try {
+            if (this.changedNodes.size === 0) {
+              return;
+            }
+            console.log(`[PageContainer] Starting commit for page ${this.pageId}, changed nodes: ${this.changedNodes.size}`);
+            if (!this.root) {
+              console.warn(`[PageContainer] Skip commit for page ${this.pageId}: root is null`);
+              return;
+            }
+            if (typeof dartCallNative !== "function")
+              return;
+            const rootChanged = this.changedNodes.has(this.root);
+            if (!this.rendered || rootChanged) {
+              const dsl = this.root.toDsl();
+              if (dsl && dsl.type) {
+                console.log(`[PageContainer] calling renderUI for page ${this.pageId} DSL:`, JSON.stringify(dsl));
+                dartCallNative("renderUI", {
+                  pageId: Number(this.pageId),
+                  renderData: dsl
+                });
+                this.rendered = true;
+              }
+            } else {
+              const patches = [];
+              const processedNodes = /* @__PURE__ */ new Set();
+              console.log(`[PageContainer] Total changed nodes: ${this.changedNodes.size} [${Array.from(this.changedNodes).map((n) => `${n.type}#${n.id}(p:${n.parent?.id || 0})`).join(", ")}]`);
+              const topLevelChangedNodes = [];
+              for (const node of this.changedNodes) {
+                let targetNode = node;
+                if (targetNode.type === "flutter-props" && targetNode.parent) {
+                  targetNode = targetNode.parent;
+                }
+                let isRedundant = false;
+                let current = targetNode.parent;
+                while (current) {
+                  if (this.changedNodes.has(current)) {
+                    isRedundant = true;
+                    break;
+                  }
+                  current = current.parent;
+                }
+                if (!isRedundant) {
+                  if (!topLevelChangedNodes.includes(targetNode)) {
+                    topLevelChangedNodes.push(targetNode);
+                  }
+                }
+              }
+              console.log(`[PageContainer] Top-level changed nodes: ${topLevelChangedNodes.length} [${topLevelChangedNodes.map((n) => `${n.type}#${n.id}`).join(", ")}]`);
+              for (const node of topLevelChangedNodes) {
+                if (processedNodes.has(node.id))
+                  continue;
+                let targetNode = node;
+                if (targetNode.type === "flutter-props") {
+                  if (targetNode.parent) {
+                    targetNode = targetNode.parent;
+                  } else {
+                    continue;
+                  }
+                }
+                if (processedNodes.has(targetNode.id))
+                  continue;
+                if (targetNode === this.root)
+                  continue;
+                const dsl = targetNode.toDsl();
+                if (dsl) {
+                  if (targetNode.props?.isBoundary && targetNode.children.length > 0 && !dsl.children) {
+                    const children = [];
+                    for (const child of targetNode.children) {
+                      const childDsl = child.toDsl();
+                      if (childDsl)
+                        children.push(childDsl);
+                    }
+                    dsl.children = children;
+                  }
+                  patches.push(dsl);
+                  processedNodes.add(targetNode.id);
+                }
+              }
+              if (patches.length > 0) {
+                for (const p of patches) {
+                  const childIds = p.children ? p.children.map((c) => c.id) : [];
+                  console.log(`[PageContainer] Patch for ${p.type}#${p.id}: childrenCount=${childIds.length}, childIds=[${childIds.join(",")}], props=${JSON.stringify(p.props)}`);
+                }
+                console.log(`[PageContainer] Sending ${patches.length} patches to Flutter:`, JSON.stringify(patches));
+                dartCallNative("patchUI", {
+                  pageId: Number(this.pageId),
+                  patches
+                });
+              }
+            }
+          } catch (e) {
+            console.error(`[PageContainer] Error during commit for page ${this.pageId}:`, e);
+          } finally {
+            this.clear();
+          }
+        }
+        clear() {
+          this.changedNodes.clear();
+        }
+      };
+      exports.PageContainer = PageContainer;
     }
   });
 
@@ -18156,141 +18596,34 @@ var process=process||{env:{NODE_ENV:"development"}};
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.createEvent = createEvent;
       exports.dispatchEvent = dispatchEvent;
       exports.createRenderer = createRenderer;
       var react_reconciler_1 = __importDefault(require_react_reconciler_development());
       var hostConfig_1 = require_hostConfig();
-      var widgets_1 = require_widgets();
-      var eventHandlers = {};
-      var pageEvents = {};
-      var nodeEventMap = /* @__PURE__ */ new Map();
-      var nextEventId = 1;
-      function isBoundaryNode(type) {
-        return (0, widgets_1.isBoundaryWidget)(type);
-      }
-      function createEvent(fn, pageId, nodeId, key) {
-        const nodeEvents = nodeEventMap.get(nodeId) || {};
-        if (nodeEvents[key]) {
-          const existingId = nodeEvents[key];
-          if (eventHandlers[existingId]) {
-            eventHandlers[existingId].fn = fn;
-            return existingId;
-          }
-        }
-        const id = String(nextEventId++);
-        eventHandlers[id] = { fn, pageId };
-        if (!pageEvents[pageId])
-          pageEvents[pageId] = /* @__PURE__ */ new Set();
-        pageEvents[pageId].add(id);
-        nodeEvents[key] = id;
-        nodeEventMap.set(nodeId, nodeEvents);
-        return id;
-      }
-      function dispatchEvent(id, payload) {
+      var PageContainer_1 = require_PageContainer();
+      function dispatchEvent(eventObj, payload) {
         try {
-          const entry = eventHandlers[id];
-          if (entry && typeof entry.fn === "function") {
-            entry.fn(payload);
+          const nodeId = eventObj?.id;
+          const eventKey = eventObj?.eventKey;
+          const node = (0, hostConfig_1.getNodeById)(nodeId);
+          if (node) {
+            const fn = node.getCallback(eventKey);
+            if (typeof fn === "function") {
+              fn(payload);
+            }
           }
         } catch (e) {
           console.error(`[Renderer] Error in dispatchEvent:`, e);
         }
       }
-      function mapInteractiveProps(type, props, pageId, nodeId) {
-        const p = {};
-        const metadata = (0, widgets_1.getWidgetMetadata)(type);
-        const supportedEvents = new Set(metadata?.events || []);
-        if (props) {
-          for (const key in props) {
-            if (key === "children")
-              continue;
-            if (key === "key" || key === "ref")
-              continue;
-            const value = props[key];
-            if (typeof value === "function") {
-              if (supportedEvents.has(key)) {
-                const id = createEvent(value, pageId, nodeId, key);
-                p[key + "EventId"] = id;
-              }
-            } else if (key === "style" && value && typeof value === "object") {
-              p[key] = { ...value };
-            } else {
-              p[key] = value;
-            }
-          }
-        }
-        return p;
-      }
-      function toDsl(node, pageId) {
-        if (!node || typeof node !== "object")
-          return null;
-        const type = node.type;
-        if (!type)
-          return null;
-        const props = mapInteractiveProps(type, node.props || {}, pageId, node.id) || {};
-        const children = (node.children || []).map((child) => toDsl(child, pageId)).filter((c) => c !== null && c !== void 0);
-        return {
-          id: node.id,
-          type: String(type),
-          isBoundary: isBoundaryNode(type),
-          props,
-          children
-        };
-      }
       function createRenderer() {
-        const renderedPages = /* @__PURE__ */ new Set();
-        const reconciler = (0, react_reconciler_1.default)((0, hostConfig_1.createHostConfig)((pageId, rootJson, changedNodes) => {
-          try {
-            if (!rootJson) {
-              console.warn(`[Renderer] Skip renderUI for page ${pageId}: rootJson is null`);
-              return;
-            }
-            const isInitial = !renderedPages.has(pageId);
-            console.log(`[Renderer] onCommit for page ${pageId}, isInitial: ${isInitial}, changedNodes: ${changedNodes.size}`);
-            if (isInitial) {
-              const dsl = toDsl(rootJson, pageId);
-              if (dsl && dsl.type) {
-                if (typeof dartCallNative === "function") {
-                  console.log(`[Renderer] calling renderUI for page ${pageId}`);
-                  dartCallNative("renderUI", {
-                    pageId: Number(pageId),
-                    renderData: dsl
-                  });
-                  renderedPages.add(pageId);
-                }
-              }
-            } else {
-              const patches = Array.from(changedNodes).map((node) => {
-                const type = node.type;
-                const props = mapInteractiveProps(type, node.props || {}, pageId, node.id) || {};
-                const childrenIds = (node.children || []).map((c) => c.id);
-                return {
-                  id: node.id,
-                  type: String(type),
-                  isBoundary: isBoundaryNode(type),
-                  props,
-                  childrenIds
-                };
-              });
-              if (patches.length > 0 && typeof dartCallNative === "function") {
-                console.log(`[Renderer] calling patchUI for page ${pageId}, patches: ${patches.length}`);
-                dartCallNative("patchUI", {
-                  pageId: Number(pageId),
-                  patches
-                });
-              }
-            }
-          } catch (e) {
-            console.error(`[Renderer] Error during render commit for page ${pageId}:`, e);
-          }
-        }));
+        const reconciler = (0, react_reconciler_1.default)((0, hostConfig_1.createHostConfig)());
         const containers = {};
         const roots = {};
         function ensureRoot(pageId) {
           if (roots[pageId])
             return roots[pageId];
-          const container = { root: null, pageId };
+          const container = new PageContainer_1.PageContainer(pageId);
           const root = reconciler.createContainer(container, 0, false, null);
           containers[pageId] = container;
           roots[pageId] = root;
@@ -18319,36 +18652,25 @@ var process=process||{env:{NODE_ENV:"development"}};
             if (root) {
               const performDestroy = () => {
                 try {
-                  console.log(`[Renderer] Attempting to destroy page ${pageId}...`);
                   reconciler.updateContainer(null, root, null, () => {
                     console.log(`[Renderer] Page ${pageId} unmounted successfully`);
                   });
                   delete roots[pageId];
                   delete containers[pageId];
-                  renderedPages.delete(pageId);
                 } catch (e) {
                   const msg = e.message || String(e);
                   if (msg.includes("327") || msg.includes("working")) {
-                    console.warn(`[Renderer] Reentrancy collision during destroy for page ${pageId}, retrying...`);
                     globalThis.setTimeout(performDestroy, 16);
                   } else {
                     console.error(`[Renderer] Error destroying page ${pageId}:`, e);
                     delete roots[pageId];
                     delete containers[pageId];
-                    renderedPages.delete(pageId);
                   }
                 }
               };
               performDestroy();
             }
-            if (pageEvents[pageId]) {
-              for (const id of pageEvents[pageId]) {
-                delete eventHandlers[id];
-              }
-              delete pageEvents[pageId];
-            }
           },
-          createEvent,
           dispatchEvent
         };
       }
@@ -18453,8 +18775,8 @@ var process=process||{env:{NODE_ENV:"development"}};
         if (renderer)
           return renderer;
         renderer = (0, renderer_1.createRenderer)();
-        globalThis.__dispatchEvent = (id, payload) => {
-          renderer.dispatchEvent(id, payload);
+        globalThis.__dispatchEvent = (eventObj, payload) => {
+          renderer.dispatchEvent(eventObj, payload);
         };
         return renderer;
       }

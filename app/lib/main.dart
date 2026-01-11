@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'core/container/fuick_app_page.dart';
 import 'core/container/fuick_multi_tab_page.dart';
-import 'core/engine/engine.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,7 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           ElevatedButton(
             onPressed: () {
-              Engine.setUseBinaryProtocol(false);
               Navigator.of(context).push(
                 CupertinoPageRoute(
                   builder: (BuildContext context) {

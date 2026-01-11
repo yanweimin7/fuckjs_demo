@@ -106,6 +106,7 @@ class WidgetFactory {
     Map<String, dynamic> props,
     dynamic children,
   ) {
+    // debugPrint('[WidgetFactory] building $type with props: $props');
     final parser = _parsers[type];
     if (parser != null) {
       return parser.parse(context, props, children, this);
@@ -122,7 +123,14 @@ class WidgetFactory {
 
   List<Widget> buildChildren(BuildContext context, dynamic children) {
     if (children is List<FuickNode>) {
-      return children.map((n) => buildFromNode(context, n)).toList();
+      final Set<int> seenIds = {};
+      final List<Widget> widgets = [];
+      for (final node in children) {
+        if (seenIds.contains(node.id)) continue;
+        widgets.add(buildFromNode(context, node));
+        seenIds.add(node.id);
+      }
+      return widgets;
     } else if (children is List) {
       return children
           .map((e) => e != null ? build(context, e) : null)
@@ -158,36 +166,63 @@ class _FuickNodeWidget extends StatefulWidget {
 }
 
 class _FuickNodeWidgetState extends State<_FuickNodeWidget> {
+  FuickNodeManager? _manager;
+  late FuickNode _currentNode;
+
   @override
   void initState() {
     super.initState();
-    widget.node.addListener(_onNodeChanged);
+    _currentNode = widget.node;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final newManager = FuickNodeManagerProvider.of(context);
+    if (_manager != newManager) {
+      if (_manager != null) {
+        _manager!.removeListener(_currentNode.id, _onNodeChanged);
+      }
+      _manager = newManager;
+      if (_manager != null) {
+        _manager!.addListener(_currentNode.id, _onNodeChanged);
+      }
+    }
   }
 
   @override
   void didUpdateWidget(_FuickNodeWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.node.id != widget.node.id) {
+      if (_manager != null) {
+        _manager!.removeListener(oldWidget.node.id, _onNodeChanged);
+        _manager!.addListener(widget.node.id, _onNodeChanged);
+      }
+    }
     if (oldWidget.node != widget.node) {
-      oldWidget.node.removeListener(_onNodeChanged);
-      widget.node.addListener(_onNodeChanged);
+      _currentNode = widget.node;
     }
   }
 
   @override
   void dispose() {
-    widget.node.removeListener(_onNodeChanged);
+    if (_manager != null) {
+      _manager!.removeListener(_currentNode.id, _onNodeChanged);
+    }
     super.dispose();
   }
 
-  void _onNodeChanged() {
+  void _onNodeChanged(FuickNode newNode) {
     debugPrint(
-      '[Flutter] _FuickNodeWidgetState._onNodeChanged for node ${widget.node.id} (${widget.node.type}), mounted: $mounted',
+      '[Flutter] _FuickNodeWidgetState._onNodeChanged for node ${newNode.id} (${newNode.type}), mounted: $mounted',
     );
     if (mounted) {
       debugPrint(
-        '[Flutter] Node ${widget.node.id} (${widget.node.type}) triggering setState()',
+        '[Flutter] Node ${newNode.id} (${newNode.type}) triggering setState() with new data',
       );
-      setState(() {});
+      setState(() {
+        _currentNode = newNode;
+      });
     }
   }
 
@@ -195,9 +230,9 @@ class _FuickNodeWidgetState extends State<_FuickNodeWidget> {
   Widget build(BuildContext context) {
     return widget.factory.buildInternal(
       context,
-      widget.node.type,
-      widget.node.props,
-      widget.node.children,
+      _currentNode.type,
+      _currentNode.props,
+      _currentNode.children,
     );
   }
 }
