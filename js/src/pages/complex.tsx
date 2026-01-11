@@ -140,7 +140,9 @@ const ComplexPage = () => {
 
     // 自动刷新测试
     React.useEffect(() => {
+        console.log('setinternal');
         const timer = setInterval(() => {
+            
             setCount(c => c + 1);
         }, 2000);
         return () => clearInterval(timer);
@@ -148,6 +150,7 @@ const ComplexPage = () => {
 
     // Banner 自动轮播逻辑
     React.useEffect(() => {
+        console.log('setinternal 222');
         const timer = setInterval(() => {
             setCurrentBanner(c => (c + 1) % 3);
         }, 5000);

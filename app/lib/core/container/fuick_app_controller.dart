@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import '../engine/jscontext.dart';
-import '../engine/jsobject.dart';
+import '../engine/jscontext_interface.dart';
+import '../handler/js_handler_manager.dart';
 import 'fuick_page.dart';
 import 'fuick_page_view.dart';
 
@@ -12,15 +12,18 @@ int get nextPageId {
 }
 
 class FuickAppController {
-  final QuickJsContext ctx;
+  final IQuickJsContext ctx;
   final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
   final Map<String, Map<String, dynamic>> _routes = {};
   final Map<int, Function(Map<String, dynamic>)> onPageRender = {};
   final Map<int, Function(List<dynamic>)> onPagePatch = {};
+  final NativeServiceBinder nativeServiceBinder = NativeServiceBinder();
 
   final ValueNotifier<bool> isBundleLoaded = ValueNotifier<bool>(false);
 
-  FuickAppController(this.ctx);
+  FuickAppController(this.ctx) {
+    nativeServiceBinder.init(ctx, this);
+  }
 
   void render(int pageId, Map<String, dynamic> dsl) {
     // debugPrint(
@@ -33,23 +36,11 @@ class FuickAppController {
   }
 
   void renderPage(int pageId, String path, Map<String, dynamic> params) {
-    final renderer = ctx.global.getProperty('FuickUIController');
-    if (renderer is JSObject) {
-      renderer.invoke('render', [pageId, path, params]);
-    } else {
-      debugPrint('Warning: FuickUIController not found in JS global context');
-    }
+    ctx.invoke('FuickUIController', 'render', [pageId, path, params]);
   }
 
   void destroyPage(int pageId) {
-    try {
-      final renderer = ctx.global.getProperty('FuickUIController');
-      if (renderer is JSObject) {
-        renderer.invoke('destroy', [pageId]);
-      }
-    } catch (e) {
-      // ignore
-    }
+    ctx.invoke('FuickUIController', 'destroy', [pageId]);
   }
 
   void pushWithPath(String path, Map<String, dynamic> params) {
@@ -87,6 +78,13 @@ class FuickAppController {
     final nav = navKey.currentState;
     if (nav == null) return;
     nav.popUntil((route) => route.settings.name == name);
+  }
+
+  void dispose() {
+    nativeServiceBinder.dispose();
+    Future.delayed(const Duration(seconds: 10), () {
+      ctx.dispose();
+    });
   }
 }
 

@@ -1,6 +1,5 @@
 import ReactReconciler from 'react-reconciler';
 import { createHostConfig } from './hostConfig';
-import { Node } from './node';
 import { PageContainer } from './PageContainer';
 
 const containers: Record<number, PageContainer> = {};

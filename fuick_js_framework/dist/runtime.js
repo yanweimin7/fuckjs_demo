@@ -69,6 +69,12 @@ function setupPolyfills() {
     globalThis.clearTimeout = Timer.clearTimeout;
     globalThis.setInterval = Timer.setInterval;
     globalThis.clearInterval = Timer.clearInterval;
+    // Performance
+    if (!globalThis.performance) {
+        globalThis.performance = {
+            now: () => Date.now()
+        };
+    }
     // queueMicrotask
     if (typeof globalThis.queueMicrotask !== 'function') {
         globalThis.queueMicrotask = function (fn) {

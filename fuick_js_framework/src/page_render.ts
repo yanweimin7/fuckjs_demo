@@ -7,14 +7,12 @@ let renderer: any = null;
 export function ensureRenderer() {
     if (renderer) return renderer;
     renderer = createRenderer();
-    (globalThis as any).__dispatchEvent = (eventObj: any, payload: any) => {
-        renderer.dispatchEvent(eventObj, payload);
-    };
     return renderer;
 }
 
 export function render(pageId: number, path: string, params: any) {
     const r = ensureRenderer();
+    console.log('render', pageId, path, params);
     const factory = Router.match(path);
     if (typeof factory === 'function') {
         const app = factory(params || {});
@@ -29,7 +27,5 @@ export function render(pageId: number, path: string, params: any) {
 
 export function destroy(pageId: number) {
     const r = ensureRenderer();
-    setTimeout(() => {
-        r.destroy(pageId);
-    }, 0);
+    r.destroy(pageId);
 }

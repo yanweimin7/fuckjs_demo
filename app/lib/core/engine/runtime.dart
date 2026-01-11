@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_quickjs/core/engine/quickjs_ffi.dart';
 
 import 'jscontext.dart';
@@ -18,10 +19,12 @@ class QuickJsRuntime {
    * 创建一个相互隔离的上下文
    */
   QuickJsContext createContext() {
+    debugPrint('create js context');
     return QuickJsContext(_ffi, _handle);
   }
 
   void dispose() {
+    debugPrint('dispose js context');
     _ffi.destroyRuntime(_handle);
   }
 }

@@ -18932,13 +18932,11 @@ var process=process||{env:{NODE_ENV:"development"}};
         if (renderer)
           return renderer;
         renderer = (0, renderer_1.createRenderer)();
-        globalThis.__dispatchEvent = (eventObj, payload) => {
-          renderer.dispatchEvent(eventObj, payload);
-        };
         return renderer;
       }
       function render(pageId, path, params) {
         const r = ensureRenderer();
+        console.log("render", pageId, path, params);
         const factory = Router.match(path);
         if (typeof factory === "function") {
           const app = factory(params || {});
@@ -18950,9 +18948,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       }
       function destroy(pageId) {
         const r = ensureRenderer();
-        setTimeout(() => {
-          r.destroy(pageId);
-        }, 0);
+        r.destroy(pageId);
       }
     }
   });
@@ -19006,8 +19002,9 @@ var process=process||{env:{NODE_ENV:"development"}};
       function setTimeout2(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "timeout" });
+        const delay = ms || 0;
         if (typeof dartCallNative === "function") {
-          dartCallNative("createTimer", { id, delay: ms || 0, isInterval: false });
+          dartCallNative("createTimer", { id, delay, isInterval: false });
         } else {
           fn();
         }
@@ -19130,6 +19127,11 @@ var process=process||{env:{NODE_ENV:"development"}};
         globalThis.clearTimeout = Timer.clearTimeout;
         globalThis.setInterval = Timer.setInterval;
         globalThis.clearInterval = Timer.clearInterval;
+        if (!globalThis.performance) {
+          globalThis.performance = {
+            now: () => Date.now()
+          };
+        }
         if (typeof globalThis.queueMicrotask !== "function") {
           globalThis.queueMicrotask = function(fn) {
             Promise.resolve().then(fn);

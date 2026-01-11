@@ -5,8 +5,10 @@ export function setTimeout(fn: Function, ms?: number): number {
     const id = nextTimerId++;
     timerMap.set(id, { fn, type: 'timeout' });
 
+    const delay = ms || 0;
+
     if (typeof dartCallNative === 'function') {
-        dartCallNative('createTimer', { id, delay: ms || 0, isInterval: false });
+        dartCallNative('createTimer', { id, delay, isInterval: false });
     } else {
         fn();
     }
@@ -23,7 +25,6 @@ export function clearTimeout(id: number) {
 export function setInterval(fn: Function, ms?: number): number {
     const id = nextTimerId++;
     timerMap.set(id, { fn, type: 'interval' });
-
     if (typeof dartCallNative === 'function') {
         dartCallNative('createTimer', { id, delay: ms || 0, isInterval: true });
     }

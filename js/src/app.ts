@@ -8,7 +8,7 @@ import PartialRefreshPage from './pages/partial_refresh';
 
 export function initApp() {
   Runtime.bindGlobals();
-  console.log('initApp');
+    console.log('initApp');
   Router.register('/', () => React.createElement(HomePage));
   Router.register('/detail', (params: any) => React.createElement(DetailPage, params));
   Router.register('/examples', (params: any) => React.createElement(ExamplesPage, params));

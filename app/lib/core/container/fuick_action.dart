@@ -9,6 +9,9 @@ class FuickAction {
       debugPrint('[FuickAction] Error: FuickAppScope not found in context');
       return;
     }
-    controller.ctx.global.invoke('__dispatchEvent', [eventObj, value]);
+    controller.ctx.invoke('FuickUIController', 'dispatchEvent', [
+      eventObj,
+      value,
+    ]);
   }
 }

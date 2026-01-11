@@ -1,4 +1,4 @@
-Ãé/Users/wey/work/flutter_dynamic/fuickjs_pro/js/dist/framework.bundle.jsprocess__create__defProp __getOwnPropDesc"__getOwnPropNames__getProtoOf__hasOwnProp__commonJS__copyProps__toESM2require_react_developmentrequire_typesrequire_Textrequire_Columnrequire_Row"require_Containerrequire_Buttonrequire_ids"require_TextFieldrequire_Switch require_Expanded require_ListViewrequire_Paddingrequire_Image require_SizedBoxrequire_Centerrequire_Icon require_Flexible.require_GestureDetectorrequire_InkWellrequire_Divider:require_SingleChildScrollViewrequire_Stack$require_Positionedrequire_OpacityBrequire_CircularProgressIndicator require_SafeArea(require_FlutterProps require_Scaffoldrequire_AppBar require_PageView require_GridViewrequire_widgets$require_components:require_scheduler_developmentHrequire_react_reconciler_development$require_hostConfigrequire_node*require_PageContainer require_rendererrequire_router"require_navigator&require_page_renderrequire_consolerequire_timerrequire_runtime*require_ErrorBoundaryrequire_distimport_reactFuickFrameworkcbmod__requireexportstoexceptdesckeycallisNodeMode__esModulemoduleReactVersion$REACT_ELEMENT_TYPE"REACT_PORTAL_TYPE&REACT_FRAGMENT_TYPE,REACT_STRICT_MODE_TYPE&REACT_PROFILER_TYPE&REACT_PROVIDER_TYPE$REACT_CONTEXT_TYPE,REACT_FORWARD_REF_TYPE&REACT_SUSPENSE_TYPE0REACT_SUSPENSE_LIST_TYPEREACT_MEMO_TYPEREACT_LAZY_TYPE(REACT_OFFSCREEN_TYPE*MAYBE_ITERATOR_SYMBOL(FAUX_ITERATOR_SYMBOLgetIteratorFn,ReactCurrentDispatcher.ReactCurrentBatchConfig(ReactCurrentActQueue"ReactCurrentOwner,ReactDebugCurrentFrame,currentExtraStackFrame$setExtraStackFrameenableScopeAPI$enableCacheElement.enableTransitionTracing$enableLegacyHidden$enableDebugTracing(ReactSharedInternalswarn
+Àé/Users/wey/work/flutter_dynamic/fuickjs_pro/js/dist/framework.bundle.jsprocess__create__defProp __getOwnPropDesc"__getOwnPropNames__getProtoOf__hasOwnProp__commonJS__copyProps__toESM2require_react_developmentrequire_typesrequire_Textrequire_Columnrequire_Row"require_Containerrequire_Buttonrequire_ids"require_TextFieldrequire_Switch require_Expanded require_ListViewrequire_Paddingrequire_Image require_SizedBoxrequire_Centerrequire_Icon require_Flexible.require_GestureDetectorrequire_InkWellrequire_Divider:require_SingleChildScrollViewrequire_Stack$require_Positionedrequire_OpacityBrequire_CircularProgressIndicator require_SafeArea(require_FlutterProps require_Scaffoldrequire_AppBar require_PageView require_GridViewrequire_widgets$require_components:require_scheduler_developmentHrequire_react_reconciler_development$require_hostConfigrequire_node*require_PageContainer require_rendererrequire_router"require_navigator&require_page_renderrequire_consolerequire_timerrequire_runtime*require_ErrorBoundaryrequire_distimport_reactFuickFrameworkcbmod__requireexportstoexceptdesckeycallisNodeMode__esModulemoduleReactVersion$REACT_ELEMENT_TYPE"REACT_PORTAL_TYPE&REACT_FRAGMENT_TYPE,REACT_STRICT_MODE_TYPE&REACT_PROFILER_TYPE&REACT_PROVIDER_TYPE$REACT_CONTEXT_TYPE,REACT_FORWARD_REF_TYPE&REACT_SUSPENSE_TYPE0REACT_SUSPENSE_LIST_TYPEREACT_MEMO_TYPEREACT_LAZY_TYPE(REACT_OFFSCREEN_TYPE*MAYBE_ITERATOR_SYMBOL(FAUX_ITERATOR_SYMBOLgetIteratorFn,ReactCurrentDispatcher.ReactCurrentBatchConfig(ReactCurrentActQueue"ReactCurrentOwner,ReactDebugCurrentFrame,currentExtraStackFrame$setExtraStackFrameenableScopeAPI$enableCacheElement.enableTransitionTracing$enableLegacyHidden$enableDebugTracing(ReactSharedInternalswarn
 errorprintWarningNdidWarnStateUpdateForUnmountedComponentwarnNoop(ReactNoopUpdateQueueassignemptyObjectComponentdeprecatedAPIs0defineDeprecationWarningfnNameComponentDummyPureComponent,pureComponentPrototypecreateRefisArrayImplisArraytypeName"willCoercionThrow$testStringCoercion,checkKeyStringCoerciongetWrappedNamegetContextName0getComponentNameFromTypehasOwnPropertyRESERVED_PROPS4specialPropKeyWarningShown4specialPropRefWarningShown,didWarnAboutStringRefshasValidRefhasValidKey4defineKeyPropWarningGetter4defineRefPropWarningGetterHwarnIfStringRefCannotBeAutoConvertedReactElementcreateElement$cloneAndReplaceKeycloneElementisValidElementSEPARATORSUBSEPARATORescape didWarnAboutMaps4userProvidedKeyEscapeRegex*escapeUserProvidedKeygetElementKeymapIntoArraymapChildrencountChildrenforEachChildrentoArrayonlyChildcreateContextUninitializedPendingResolvedRejectedlazyInitializerlazyforwardRef,REACT_MODULE_REFERENCE$isValidElementTypememo"resolveDispatcheruseContextuseStateuseReduceruseRefuseEffect$useInsertionEffectuseLayoutEffectuseCallbackuseMemo&useImperativeHandleuseDebugValueuseTransition useDeferredValue
 useId(useSyncExternalStoredisabledDepthprevLogprevInfoprevWarnprevErrorprevGroup$prevGroupCollapsedprevGroupEnddisabledLogdisableLogsreenableLogs0ReactCurrentDispatcher$1prefix:describeBuiltInComponentFramereentry&componentFrameCachePossiblyWeakMap8describeNativeComponentFrame<describeFunctionComponentFrameshouldConstructHdescribeUnknownElementTypeFrameInDEV$loggedTypeFailures0ReactDebugCurrentFrame$1:setCurrentlyValidatingElementcheckPropTypes>setCurrentlyValidatingElement$1:propTypesMisspellWarningShown6getDeclarationErrorAddendum4getSourceInfoErrorAddendumDgetSourceInfoErrorAddendumForProps*ownerHasKeyUseWarning8getCurrentComponentErrorInfo&validateExplicitKey"validateChildKeys"validatePropTypes*validateFragmentProps6createElementWithValidationFdidWarnAboutDeprecatedCreateFactory6createFactoryWithValidation4cloneElementWithValidationstartTransition4didWarnAboutMessageChannelenqueueTaskImplenqueueTaskactScopeDepth"didWarnNoAwaitActactpopActScope8recursivelyFlushAsyncActWorkisFlushingflushActQueuecreateElement$1cloneElement$1createFactoryChildrenmaybeIterablemaybeIteratorimplgetCurrentStackformat_lenargs_key
 _len2
@@ -190,7 +190,7 @@ root2objpathupdatedoldPathnewPatholdKeybcopyWithRename() expects pa
 react$selector.component2selector.has_pseudo_classselector.role selector.test_idselector.textInfinitydeepEqualdiffProps createHostConfigvalAvalBhasChangesoldValnewVal"parentHostContextchangedNodesrootContainerbeforeChildapplyProps,internalInstanceHandlehasDslChangesmarkChangedcommit updateFiberPropsnextNodeIdNodeeventKeyspropKeysclearCallbackssaveCallback registerCallback$unregisterCallbackgetCallbackpropChildrendslChildpartcharAttoUpperCase
 toDslstartsWithflutter-substring-eventKeypageId
 stylefilternode_1PageContainerrenderedeventCallbacksnodeIdrootChangeddslpatchesprocessedNodes(topLevelChangedNodestargetNodeisRedundantdartCallNativerenderUIrenderDatapatchUIZ[PageContainer] Error during commit for page $react_reconciler_1hostConfig_1PageContainer_1containers
-rootscreateRenderereventObjD[Renderer] Error in dispatchEvent:reconcilerensureRootperformUpdatemsgworking>[Renderer] Error updating page performDestroy [Renderer] Page . unmounted successfullyB[Renderer] Error destroying page routesregister componentFactoryRouterparamsrenderer_1rendererensureRenderer__dispatchEventfactoryapppaddingcenter"mainAxisAlignmentRoute  not foundfontSize#cc0000
+rootscreateRenderereventObjD[Renderer] Error in dispatchEvent:reconcilerensureRootperformUpdatemsgworking>[Renderer] Error updating page performDestroy [Renderer] Page . unmounted successfullyB[Renderer] Error destroying page routesregister componentFactoryRouterparamsrenderer_1rendererensureRendererfactoryapppaddingcenter"mainAxisAlignmentRoute  not foundfontSize#cc0000
 color
 print[WARN] [ERROR] nextTimerIdtimerMapsetTimeout2clearTimeout2setIntervalclearIntervalcreateTimerisIntervaldeleteTimerinterval
 entry6[Timer] Callback for timer & is not a function:.[Timer] Error in timer  callback:__handleTimerPageRenderConsole
@@ -57063,20 +57063,15 @@ M@   ‘MA   $ )∆–ìZ°4,efunction(o, v) {
     ¬  ”Ï”B*  Ï”(”M   (∆ËìC Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       }C
-ä5    à5Ü5B
-   ‰4  ¢  à5  ﬂC∏  ”‘$ )∆˜ì&5 .W(eventObj, payload) => {
-          renderer.dispatchEvent(eventObj, payload);
-        }ﬂÏﬂ(‡B1  „9ç   ¡ DF  ﬂ(∆Ûì 43†function ensureRenderer() {
+ä5     à5Ü5ﬂÏﬂ(‡B1  Á(∆Ûì 4¢function ensureRenderer() {
         if (renderer)
           return renderer;
         renderer = (0, renderer_1.createRenderer)();
-        globalThis.__dispatchEvent = (eventObj, payload) => {
-          renderer.dispatchEvent(eventObj, payload);
-        };
         return renderer;
       }C
-¿ ∞∞4  §3  Ñ5  Ù( 0é50ê50ê50ä5Ç5êb b  ﬂÀ‡CH  ‘$ Ãc ˜Ï b c ’ÌÒÕc  Cú	  c ”$ )b ·B   Cn  L  æMI  J  MK  ·B   Cn  I  L  C]   ‘M  $ MO  æMN  O  MP  $ $ Œc  Cú	  c ”$ )∆¸ì&+&+0+'*w&¨¨ 6„*èfunction render(pageId, path, params) {
+¿ ∆∞4  §3  Ñ5  Ù( 0å50é50é50ä5Ç5êb b  ﬂÀ9‰  C≤     ”‘’$ ‡CH  ‘$ Ãc ˜Ï b c ’ÌÒÕc  Cú	  c ”$ )b ·B   Cn  L  æMH  I  MJ  ·B   Cn  I  K  C]   ‘L  $ MO  æMM  N  MO  $ $ Œc  Cú	  c ”$ )∆˘ì&4]*+0+'*w&¨¨ 6„*ƒfunction render(pageId, path, params) {
         const r = ensureRenderer();
+        console.log("render", pageId, path, params);
         const factory = Router.match(path);
         if (typeof factory === "function") {
           const app = factory(params || {});
@@ -57086,20 +57081,15 @@ M@   ‘MA   $ )∆–ìZ°4,efunction(o, v) {
           r.update(app, pageId);
         }
       }C
-∫(∞4 @Ù( pä5B
-      Ù( ∞4 f  C
-  ‡$ )∆âî	*.() => {
-          r.destroy(pageId);
-        }b  ﬂÀ9  ¡ ∂Ú)∆áîçfunction destroy(pageId) {
+∫( ∞4  Ù( 0ä5b  ﬂÀc  C
+  ”$ )∆Öî*afunction destroy(pageId) {
         const r = ensureRenderer();
-        setTimeout(() => {
-          r.destroy(pageId);
-        }, 0);
+        r.destroy(pageId);
       }¡ƒ¡ƒ	¡ƒ
 ”Ï”Bñ  Ì9î   B¨  Ï¡ Ó¡À”Ï”Bû  Ì9î   B¨  Ï¡Ó¡Ã”Ï”Bü  Ì¡Õ”Ï”BG  Ì¡Œ9î   Cf   ”*  
 MA   $ ”√DE  ”√	D   ”√
 D
-   ﬂÒƒ‡ƒ…·Òƒƒ)∆¡ì? UJ   4,X++ + 0<!±"../fuick_js_framework/dist/page_render.js"(exports) {
+   ﬂÒƒ‡ƒ…·Òƒƒ)∆¡ì? UJ   4,X++ + 0<!º"../fuick_js_framework/dist/page_render.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -57153,13 +57143,11 @@ D
         if (renderer)
           return renderer;
         renderer = (0, renderer_1.createRenderer)();
-        globalThis.__dispatchEvent = (eventObj, payload) => {
-          renderer.dispatchEvent(eventObj, payload);
-        };
         return renderer;
       }
       function render(pageId, path, params) {
         const r = ensureRenderer();
+        console.log("render", pageId, path, params);
         const factory = Router.match(path);
         if (typeof factory === "function") {
           const app = factory(params || {});
@@ -57171,15 +57159,13 @@ D
       }
       function destroy(pageId) {
         const r = ensureRenderer();
-        setTimeout(() => {
-          r.destroy(pageId);
-        }, 0);
+        r.destroy(pageId);
       }
     }B  :∆  ‰
    î  ñ  A
 ‰
   gÆ  f 0B
-    	Ç  9ò   ”# ∆ôî$(a) => String(a)  ◊b  ”C·  ¡ $ C\   Ë	  $ À8'  ˜Ï!9'  ‰  ≤  M€  c  M3   Ú)9ç   BQ  ˜Ï9ç   CQ  c  $ )∆òîD.4,I7’JI4"Ωfunction log(...args) {
+    	Ç  9ò   ”# ∆ïî$(a) => String(a)  ◊b  ”C·  ¡ $ C\   Ë	  $ À8'  ˜Ï!9'  ‰  ≤  M€  c  M3   Ú)9ç   BP  ˜Ï9ç   CP  c  $ )∆îîD.4,I7’JI4"Ωfunction log(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "log", message });
@@ -57188,7 +57174,7 @@ D
         }
       }A
 î  mÆ  f 0B
-    	Ç  9ò   ”# ∆°î$(a) => String(a)  ◊b  ”C·  ¡ $ C\   Ë	  $ À8'  ˜Ï!9'  ‰  J  M€  c  M3   Ú)9ç   BQ  ˜Ï9ç   CQ  R  c  û$ )∆†îD.4,I7’JI4$Àfunction warn(...args) {
+    	Ç  9ò   ”# ∆ùî$(a) => String(a)  ◊b  ”C·  ¡ $ C\   Ë	  $ À8'  ˜Ï!9'  ‰  J  M€  c  M3   Ú)9ç   BP  ˜Ï9ç   CP  Q  c  û$ )∆úîD.4,I7’JI4$Àfunction warn(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "warn", message });
@@ -57197,7 +57183,7 @@ D
         }
       }A
 ñ  mÆ  f 0B
-    	Ç  9ò   ”# ∆©î$(a) => String(a)  ◊b  ”C·  ¡ $ C\   Ë	  $ À8'  ˜Ï!9'  ‰  K  M€  c  M3   Ú)9ç   BQ  ˜Ï9ç   CQ  S  c  û$ )∆®îD.4,I7’JI4&Œfunction error(...args) {
+    	Ç  9ò   ”# ∆•î$(a) => String(a)  ◊b  ”C·  ¡ $ C\   Ë	  $ À8'  ˜Ï!9'  ‰  K  M€  c  M3   Ú)9ç   BP  ˜Ï9ç   CP  R  c  û$ )∆§îD.4,I7’JI4&Œfunction error(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "error", message });
@@ -57205,7 +57191,7 @@ D
           globalThis.print("[ERROR] " + message);
         }
       }¡ À¡Ã¡Õ9î   Cf   ”*  
-MA   $ ”«D≤  ”»DJ  ”…DK  )∆íî
+MA   $ ”«D≤  ”»DJ  ”…DK  )∆éî
 14,X+& & –	"../fuick_js_framework/dist/ex/console.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
@@ -57236,28 +57222,29 @@ MA   $ ”«D≤  ”»DJ  ”…DK  )∆íî
           globalThis.print("[ERROR] " + message);
         }
       }
-    }B  `∆  ®5  @™5 @¨5  Æ5  ∞5  ≤5  C
-¨5 \Ù
-  Ë  Ê 0®5 ™5b  ﬂí„À‡CC   c  ”M∫    M  $ 8'  ˜Ï)9'  Z  c  MÛ  ‘Ì∂M  	M[  ÚÓ”c  (∆æî
-' î"7Ã ¡function setTimeout2(fn, ms) {
+    }B  `∆  ¶5  @®5 @™5  ¨5  Æ5  ∞5  C
+™5 cÙ
+  Ë  Ê 0à0¶5 ®5b b  ﬂí„À‡CC   c  ”M∫    M  $ ‘Ì∂Ã8'  ˜Ï&9'  Y  c  MÛ  c M  	MZ  ÚÓ”c  (∆∫î
+6 ∏"7Ω ◊function setTimeout2(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "timeout" });
+        const delay = ms || 0;
         if (typeof dartCallNative === "function") {
-          dartCallNative("createTimer", { id, delay: ms || 0, isInterval: false });
+          dartCallNative("createTimer", { id, delay, isInterval: false });
         } else {
           fn();
         }
         return id;
       }C
-Æ5  'Ê  ™5ﬂC	   ”$ 8'  ˜Ï9'  \  ”MÛ  Ú)∆»î  57∞function clearTimeout2(id) {
+¨5  'Ê  ®5ﬂC	   ”$ 8'  ˜Ï9'  [  ”MÛ  Ú)∆≈î  57∞function clearTimeout2(id) {
         timerMap.delete(id);
         if (typeof dartCallNative === "function") {
           dartCallNative("deleteTimer", { id });
         }
       }C
-∞5 WÙ
-  Ë  Ê 0®5 ™5b  ﬂí„À‡CC   c  ”M∫  ]  M  $ 8'  ˜Ï'9'  Z  c  MÛ  ‘Ì∂M  
-M[  Úc  (∆Œî' î"7†function setInterval(fn, ms) {
+Æ5 WÙ
+  Ë  Ê 0¶5 ®5b  ﬂí„À‡CC   c  ”M∫  \  M  $ 8'  ˜Ï'9'  Y  c  MÛ  ‘Ì∂M  
+MZ  Úc  (∆Àî' î"7†function setInterval(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "interval" });
         if (typeof dartCallNative === "function") {
@@ -57265,12 +57252,12 @@ M[  Úc  (∆Œî' î"7†function setInterval(fn, ms) {
         }
         return id;
       }C
-≤5  'Ê  ™5ﬂC	   ”$ 8'  ˜Ï9'  \  ”MÛ  Ú)∆÷î  57∞function clearInterval(id) {
+∞5  'Ê  ®5ﬂC	   ”$ 8'  ˜Ï9'  [  ”MÛ  Ú)∆”î  57∞function clearInterval(id) {
         timerMap.delete(id);
         if (typeof dartCallNative === "function") {
           dartCallNative("deleteTimer", { id });
         }
-      }B GÊ @º5 p™5B    tä º5 Ê mH   f  B∫  ˜Ïf  C∫  $  Ó*9‰  CK  _  C]   ‡`  $ f  B∫  $ )Àm(   9‰  CK  a  C]   ‡b  $ «$ )0∆‚îE+*"4»4Ó() => {
+      }B GÊ @∫5 p®5B    tä ∫5 Ê mH   f  B∫  ˜Ïf  C∫  $  Ó*9‰  CK  ^  C]   ‡_  $ f  B∫  $ )Àm(   9‰  CK  `  C]   ‡a  $ «$ )0∆ﬂîE+*"4»4Ó() => {
             try {
               if (typeof entry.fn === "function") {
                 entry.fn();
@@ -57280,7 +57267,7 @@ M[  Úc  (∆Œî' î"7†function setInterval(fn, ms) {
             } catch (e) {
               console.error(`[Timer] Error in timer ${id} callback:`, e);
             }
-          }b  ﬂCB   ”$ Àc  Ï4c  B    ØÏﬂC	   ”$ 9ƒ   CÇ   $  CÅ   ¡ $ )∆‹î"0^+!  #4*¡(id) => {
+          }b  ﬂCB   ”$ Àc  Ï4c  B    ØÏﬂC	   ”$ 9ƒ   CÇ   $  CÅ   ¡ $ )∆Ÿî"0^+!  #4*¡(id) => {
         const entry = timerMap.get(id);
         if (entry) {
           if (entry.type === "timeout") {
@@ -57299,8 +57286,8 @@ M[  Úc  (∆Œî' î"7†function setInterval(fn, ms) {
           });
         }
       }¡ Õ¡Œ¡ƒ¡ƒ9î   Cf   ”*  
-MA   $ ”…D  ” D  ”√DX  ”√DY  ∑À9µ   !  Ã9ç   ¡Dc  )∆µîJ4,X+& & + 6F 
->E»"../fuick_js_framework/dist/ex/timer.js"(exports) {
+MA   $ ”…D  ” D  ”√DW  ”√DX  ∑À9µ   !  Ã9ç   ¡Db  )∆±îJ4,X+& & + 6F 
+@Eﬁ"../fuick_js_framework/dist/ex/timer.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.setTimeout = setTimeout2;
@@ -57312,8 +57299,9 @@ MA   $ ”…D  ” D  ”√DX  ”√DY  ∑À9µ   !  Ã9ç   ¡Dc  )∆µîJ4,X+& &
       function setTimeout2(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "timeout" });
+        const delay = ms || 0;
         if (typeof dartCallNative === "function") {
-          dartCallNative("createTimer", { id, delay: ms || 0, isInterval: false });
+          dartCallNative("createTimer", { id, delay, isInterval: false });
         } else {
           fn();
         }
@@ -57359,13 +57347,13 @@ MA   $ ”…D  ” D  ”√DX  ”√DY  ∑À9µ   !  Ã9ç   ¡Dc  )∆µîJ4,X+& &
         }
       };
     }B 
-	±∆  ¨  @º @æ  »5 @ 5 @Ã5 @Œ5  –5 @“5 @‘5 	@∞3≤4¥5C
+	±∆  ¨  @º @æ  ∆5 @»5 @ 5 @Ã5  Œ5 @–5 @“5 	@∞3≤4¥5C
   d∞  ≤ @¥ @∂  Ã   C
-      ≤¥ﬂ‡H(∆˙î+ 1function() {
+      ≤¥ﬂ‡H(∆˜î+ 1function() {
             return m[k];
           }÷ÙÏ’⁄9î   Cg   ‘’$ œóÌ$B   «¨Ï
 ‘B*  óÓ«B?   Ì«B>   Ï
-M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆ˆîT?0S'û) 4,Ófunction(o, m, k, k2) {
+M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆ÛîT?0S'û) 4,Ófunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -57375,24 +57363,24 @@ M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆ˆîT?0S'û) 4,Ófunction(o, m, k, k2
         }
         Object.defineProperty(o, k2, desc);
       }C
-    ∞  ≤  ¥  ∂  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆ˇî%Xfunction(o, m, k, k2) {
+    ∞  ≤  ¥  ∂  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆¸î%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
     !∞  ƒ  9î   Cf   ”   
-M@   ‘MA   $ )∆ÉïZ°4,efunction(o, v) {
+M@   ‘MA   $ )∆ÄïZ°4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    ∞  ƒ  ”   ±Ìr‘rJ)∆Öï2function(o, v) {
+    ∞  ƒ  ”   ±Ìr‘rJ)∆Çï2function(o, v) {
         o["default"] = v;
       }C
    –  @¨ ºC
   ∞  – C
-   <∆  »   ¥  &  À”~Ó.Ã9î   B<   Bc  C(  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆äï3ï*%¨function(o2) {
+   <∆  »   ¥  &  À”~Ó.Ã9î   B<   Bc  C(  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆áï3ï*%¨function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9î   B•  Ì¡ Á”# ∆âï 
+          }9î   B•  Ì¡ Á”# ∆Üï 
 îfunction(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -57401,7 +57389,7 @@ M@   ‘MA   $ )∆ÉïZ°4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >¬  ﬁ	   ¥  ˙  – ¨  º ”Ï”B*  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆ëïU "*8* ;Ω&œfunction(mod) {
+  >¬  ﬁ	   ¥  ˙  – ¨  º ”Ï”B*  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆éïU "*8* ;Ω&œfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -57409,7 +57397,7 @@ M@   ‘MA   $ )∆ÉïZ°4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }¡ Nh   À¡(∆àïM †function() {
+        }¡ Nh   À¡(∆ÖïM †function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -57428,13 +57416,13 @@ M@   ‘MA   $ )∆ÉïZ°4,efunction(o, v) {
           return result;
         };
       }C
-Œ5   ? »5–5B
-  Ê  ¢  Ù( 0»5  b  ﬂCE  $  Àc  C∏  ”‘$ )∆ßï0)* Å(id, payload) => {
+Ã5   ? ∆5Œ5B
+  Ê  ¢  Ù( 0∆5  b  ﬂCE  $  Àc  C∏  ”‘$ )∆§ï0)* Å(id, payload) => {
               const r = PageRender.ensureRenderer();
               r.dispatchEvent(id, payload);
             }‡9î   CP  9ç   ﬂB   M   ﬂB
   M
-  ¡ N∏  M∏  Mk  $ )∆°ï 4Çfunction bindGlobals() {
+  ¡ N∏  M∏  Mj  $ )∆ûï 4Çfunction bindGlobals() {
         setupPolyfills();
         Object.assign(globalThis, {
           FuickUIController: {
@@ -57447,18 +57435,19 @@ M@   ‘MA   $ )∆ÉïZ°4,efunction(o, v) {
           }
         });
       }C
-–5  ¬ÿ5 0⁄5p“5 5Ã5‘5	C
+Œ5  Ê÷5 0ÿ5p–5»5 5“5	B
+       9û   CW  %  ∆ºï4() => Date.now()C
     Ù
-  9ƒ   CÇ   $  CÅ   ”$ )∆æï'34*Bfunction(fn) {
+  9ƒ   CÇ   $  CÅ   ”$ )∆¿ï'34*Bfunction(fn) {
             Promise.resolve().then(fn);
           }C
    	Ù
-  “5  ⁄5ﬂf ”Ò)∆√ï'3 .ifunction(fn) {
+  –5  ÿ5ﬂf ”Ò)∆≈ï'3 .ifunction(fn) {
             notifyMicrotaskEnqueued();
             originalQueueMicrotask(fn);
-          }b  9ç   B‰  ÌÀ9ç   c  T‡B≤  M≤  ‡BJ  MJ  ‡BK  MK  D‰  9ç   ·B  D  9ç   ·B  D  9ç   ·BX  DX  9ç   ·BY  DY  9ç   Bn  ˜Ì9ç   ¡ Dn  Ób 9ç   Bn  Ã9ç   ¡Dn  i ‚)∆±ïc 4 S S S ÖRM 
+          }b  9ç   B‰  ÌÀ9ç   c  T‡B≤  M≤  ‡BJ  MJ  ‡BK  MK  D‰  9ç   ·B  D  9ç   ·B  D  9ç   ·BW  DW  9ç   ·BX  DX  9ç   B  óÏ9ç   ¡ NW  MW  D  9ç   Bm  ˜Ì9ç   ¡Dm  Ób 9ç   Bm  Ã9ç   ¡Dm  i ‚)∆Æïc 4 S S S ï !NM 
   
-Öfunction setupPolyfills() {
+äfunction setupPolyfills() {
         const oldConsole = globalThis.console || {};
         globalThis.console = {
           ...oldConsole,
@@ -57470,6 +57459,11 @@ M@   ‘MA   $ )∆ÉïZ°4,efunction(o, v) {
         globalThis.clearTimeout = Timer.clearTimeout;
         globalThis.setInterval = Timer.setInterval;
         globalThis.clearInterval = Timer.clearInterval;
+        if (!globalThis.performance) {
+          globalThis.performance = {
+            now: () => Date.now()
+          };
+        }
         if (typeof globalThis.queueMicrotask !== "function") {
           globalThis.queueMicrotask = function(fn) {
             Promise.resolve().then(fn);
@@ -57483,24 +57477,24 @@ M@   ‘MA   $ )∆ÉïZ°4,efunction(o, v) {
         }
         setupPromiseInterception();
       }C
-“5      9ç   Bo  ˜Ï9ç   Co  $  )∆ ï5VM4úfunction notifyMicrotaskEnqueued() {
+–5      9ç   Bn  ˜Ï9ç   Cn  $  )∆Ãï5VM4úfunction notifyMicrotaskEnqueued() {
         if (typeof globalThis.__qjs_run_jobs === "function") {
           globalThis.__qjs_run_jobs();
         }
       }C
-‘5  Q‡5 0‚5p‰5pÊ5p“5C
-  Ë5  Í5    “5  ‚5Àﬂf C(  «”‘% ∆‘ï:2ïfunction(onfulfilled, onrejected) {
+“5  Qﬁ5 0‡5p‚5p‰5p–5C
+  Ê5  Ë5    –5  ‡5Àﬂf C(  «”‘% ∆÷ï:2ïfunction(onfulfilled, onrejected) {
           notifyMicrotaskEnqueued();
           return originalThen.call(this, onfulfilled, onrejected);
         }C
-  Í5    “5  ‰5Àﬂf C(  «”% ∆ÿï:4|function(onrejected) {
+  Ë5    –5  ‚5Àﬂf C(  «”% ∆⁄ï:4|function(onrejected) {
           notifyMicrotaskEnqueued();
           return originalCatch.call(this, onrejected);
         }C
-  Ï5    “5  Ê5Àﬂf C(  «”% ∆‹ï:8|function(onfinally) {
+  Í5    –5  ‰5Àﬂf C(  «”% ∆ﬁï:8|function(onfinally) {
           notifyMicrotaskEnqueued();
           return originalFinally.call(this, onfinally);
-        }b b b b  9ƒ   B<   Àc  BÅ   Ãc  B   Õc  B   Œc  ¡ DÅ   c  ¡D   c  ¡D   )∆œï 2
+        }b b b b  9ƒ   B<   Àc  BÅ   Ãc  B   Õc  B   Œc  ¡ DÅ   c  ¡D   c  ¡D   )∆—ï 2
  
   
  Øfunction setupPromiseInterception() {
@@ -57521,7 +57515,7 @@ M@   ‘MA   $ )∆ÉïZ°4,efunction(o, v) {
           return originalFinally.call(this, onfinally);
         };
       }¡ƒ¡ƒ¡ƒ¡ƒ	”Ï”Bñ  Ì9î   B¨  Ï¡ Ó¡À”Ï”Bû  Ì9î   B¨  Ï¡Ó¡Ã”Ï”Bü  Ì¡Õ9î   Cf   ”*  
-MA   $ ”Dw  ”√Dg  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mg  Dw  )∆ÙîS UJ  4,X+& 0<! 1¶ "../fuick_js_framework/dist/runtime.js"(exports) {
+MA   $ ”Dv  ”√Df  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mf  Dv  )∆ÒîS UJ  4,X+& 0<! 1´!"../fuick_js_framework/dist/runtime.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -57594,6 +57588,11 @@ MA   $ ”Dw  ”√Dg  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mg  Dw  )∆ÙîS UJ  4,X+& 0<
         globalThis.clearTimeout = Timer.clearTimeout;
         globalThis.setInterval = Timer.setInterval;
         globalThis.clearInterval = Timer.clearInterval;
+        if (!globalThis.performance) {
+          globalThis.performance = {
+            now: () => Date.now()
+          };
+        }
         if (typeof globalThis.queueMicrotask !== "function") {
           globalThis.queueMicrotask = function(fn) {
             Promise.resolve().then(fn);
@@ -57630,10 +57629,10 @@ MA   $ ”Dw  ”√Dg  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mg  Dw  )∆ÙîS UJ  4,X+& 0<
           return originalFinally.call(this, onfinally);
         };
       }
-    }B w∆  é   ê  5  Ó p‹	C
-    ¬  ”Ï”B*  Ï”(”M   (∆ËïC Xfunction(mod) {
+    }B w∆  é   ê  Ó5  Ó p‹	C
+    ¬  ”Ï”B*  Ï”(”M   (∆ÍïC Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }∆  =Ë  Ê  ‰    ÓÀÃb +«5»”! e f  Ïc $  c 	M  MK  D◊	  c (∆Ôï	5Ö øclass extends react_1.default.Component {
+      }∆  =Ë  Ê  ‰    ÓÀÃb +«5»”! e f  Ïc $  c 	M  MK  D◊	  c (∆Òï	5Ö øclass extends react_1.default.Component {
         constructor(props) {
           super(props);
           this.state = { hasError: false, error: null };
@@ -57654,11 +57653,11 @@ MA   $ ”Dw  ”√Dg  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mg  Dw  )∆ÙîS UJ  4,X+& 0<
           return this.props.children;
         }
       }B    ñ  
-M  ”MK  (∆Ûï WgetDerivedStateFromError(error) {
+M  ”MK  (∆ıï WgetDerivedStateFromError(error) {
           return { hasError: true, error };
-        }B    ñ  ∫*  9‰  CK  y  ”‘$ )∆ˆï	4{componentDidCatch(error, errorInfo) {
+        }B    ñ  ∫*  9‰  CK  x  ”‘$ )∆¯ï	4{componentDidCatch(error, errorInfo) {
           console.error("[ErrorBoundary] Caught error:", error, errorInfo);
-        }B     S  À«B◊	  B  Ï9«BÙ  B  ˜Ï«BÙ  C  «B◊	  BK  % «BÙ  B  Ì(«BÙ  B9  (∆˘ï	ÜNI¢render() {
+        }B     S  À«B◊	  B  Ï9«BÙ  B  ˜Ï«BÙ  C  «B◊	  BK  % «BÙ  B  Ì(«BÙ  B9  (∆˚ï	ÜNI¢render() {
           if (this.state.hasError) {
             if (typeof this.props.fallback === "function") {
               return this.props.fallback(this.state.error);
@@ -57667,9 +57666,9 @@ M  ”MK  (∆Ûï WgetDerivedStateFromError(error) {
           }
           return this.props.children;
         }”Ï”BG  Ì¡ À9î   Cf   ”*  
-MA   $ ”Dx  «ﬂÒ–B   BR  b ¿Wx  ¡Us
+MA   $ ”Dw  «ﬂÒ–B   BR  b ¿Ww  ¡Us
    ¡UÆ
-   ¡U    Œi Õ”…Dx  )∆Êï  4,X++< :,;£	"../fuick_js_framework/dist/ErrorBoundary.js"(exports) {
+   ¡U    Œi Õ”…Dw  )∆Ëï  4,X++< :,;£	"../fuick_js_framework/dist/ErrorBoundary.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -57702,11 +57701,11 @@ MA   $ ”Dx  «ﬂÒ–B   BR  b ¿Wx  ¡Us
     }B 
 ◊∆  ¨  @º @Æ  æ  û*™0¨1Æ2∂6∞3∏7¥5≤4ÍC
   d∞  ≤ @¥ @∂  Ã   C
-      ≤¥ﬂ‡H(∆èñ+ 1function() {
+      ≤¥ﬂ‡H(∆ëñ+ 1function() {
             return m[k];
           }÷ÙÏ’⁄9î   Cg   ‘’$ œóÌ$B   «¨Ï
 ‘B*  óÓ«B?   Ì«B>   Ï
-M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆ãñT?0S'û) 4,Ófunction(o, m, k, k2) {
+M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆çñT?0S'û) 4,Ófunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -57716,27 +57715,27 @@ M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆ãñT?0S'û) 4,Ófunction(o, m, k, k2
         }
         Object.defineProperty(o, k2, desc);
       }C
-    ∞  ≤  ¥  ∂  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆îñ%Xfunction(o, m, k, k2) {
+    ∞  ≤  ¥  ∂  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆ññ%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
     !∞  ƒ  9î   Cf   ”   
-M@   ‘MA   $ )∆òñZ°4,efunction(o, v) {
+M@   ‘MA   $ )∆öñZ°4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    ∞  ƒ  ”   ±Ìr‘rJ)∆öñ2function(o, v) {
+    ∞  ƒ  ”   ±Ìr‘rJ)∆úñ2function(o, v) {
         o["default"] = v;
       }C
-  5≤  ∏  ∫   ¨ ”~Ó-À«   ∞Ï#9î   B<   Bc  C(  ‘«$ óÏﬂ‘”«ÛÅÏ“)∆ùñ=!1éf* §function(m, exports2) {
+  5≤  ∏  ∫   ¨ ”~Ó-À«   ∞Ï#9î   B<   Bc  C(  ‘«$ óÏﬂ‘”«ÛÅÏ“)∆üñ=!1éf* §function(m, exports2) {
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       }C
    –  @¨ ºC
   ∞  – C
-   <∆  »   ¥  &  À”~Ó.Ã9î   B<   Bc  C(  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆¢ñ3ï*%¨function(o2) {
+   <∆  »   ¥  &  À”~Ó.Ã9î   B<   Bc  C(  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆§ñ3ï*%¨function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9î   B•  Ì¡ Á”# ∆°ñ 
+          }9î   B•  Ì¡ Á”# ∆£ñ 
 îfunction(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -57745,7 +57744,7 @@ M@   ‘MA   $ )∆òñZ°4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >¬  ﬁ	   ¥  ˙  – ¨  º ”Ï”B*  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆©ñU "*8* ;Ω&œfunction(mod) {
+  >¬  ﬁ	   ¥  ˙  – ¨  º ”Ï”B*  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆´ñU "*8* ;Ω&œfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -57753,7 +57752,7 @@ M@   ‘MA   $ )∆òñZ°4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }¡ Nh   À¡(∆†ñM †function() {
+        }¡ Nh   À¡(∆¢ñM †function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -57772,7 +57771,7 @@ M@   ‘MA   $ )∆òñZ°4,efunction(o, v) {
           return result;
         };
       }”Ï”Bñ  Ì9î   B¨  Ï¡ Ó¡À”Ï”Bû  Ì9î   B¨  Ï¡Ó¡Ã”Ï”Bó  Ì¡Õ”Ï”Bü  Ì¡Œ9î   Cf   ”*  
-MA   $ ”Dz  …ﬂ”Ú…‡”Ú…·”Ú” ‚ÒDz  …_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú…_	 ”Ú)∆âñ4 gP  4,X+& B+A&&&&&å"../fuick_js_framework/dist/index.js"(exports) {
+MA   $ ”Dy  …ﬂ”Ú…‡”Ú…·”Ú” ‚ÒDy  …_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú…_	 ”Ú)∆ãñ4 gP  4,X+& B+A&&&&&å"../fuick_js_framework/dist/index.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -57826,10 +57825,10 @@ MA   $ ”Dz  …ﬂ”Ú…‡”Ú…·”Ú” ‚ÒDz  …_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú…_ 
       __exportStar(require_timer(), exports);
       __exportStar(require_console(), exports);
       __exportStar(require_ids(), exports);
-    }9î   B¨  À9î   Bf   Ã9î   Bg   Õ9î   B•  Œ9î   B`   ƒ9î   B<   Bc  ƒ¡ NÎ   ƒ¡NÏ   ƒ¡NÌ   ƒ√¡U{  Òƒ	√¡U|  Òƒ
-√¡U}  Òƒ√¡U~  Òƒ√¡U  Òƒ√¡UÄ  Òƒ√¡	UÅ  Òƒ√¡
-UÇ  Òƒ√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√¡Uà  Òƒ√¡Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√¡Uè  Òƒ√¡Uê  Òƒ√¡Uë  Òƒ√¡Uí  Òƒ √¡Uì  Òƒ!√¡Uî  Òƒ"√¡Uï  Òƒ#√¡Uñ  Òƒ$√¡Uó  Òƒ%√¡ Uò  Òƒ&√¡!Uô  Òƒ'√¡"Uö  Òƒ(√¡#Uõ  Òƒ)√¡$Uú  Òƒ*√¡%Uù  Òƒ+√¡&Uû  Òƒ,√¡'Uü  Òƒ-√¡(U†  Òƒ.√¡)U°  Òƒ/√¡*U¢  Òƒ0√¡+U£  Òƒ1√¡,U§  Òƒ2√¡-U•  Òƒ3√¡.U¶  Òƒ4√¡/Uß  Òƒ5√¡0U®  Òƒ6√¡1U©  Òƒ7√¡2U™  Òƒ8√√	Òƒ9√√8Òƒ:9ç   √9B   D´  9ç   √:D  )∆’ f8D §  ( ( ( ( ,  8 ( (  8 ( ( ( ( ( ( ( (  ( ( (
- ( ($ (! ( & , , 8  8 l ¢ Ñ òÏ# Ü  ˙	 ¥ , ( ¢ F ~ ‰ F v+!9X π¬4() => {
+    }9î   B¨  À9î   Bf   Ã9î   Bg   Õ9î   B•  Œ9î   B`   ƒ9î   B<   Bc  ƒ¡ NÎ   ƒ¡NÏ   ƒ¡NÌ   ƒ√¡Uz  Òƒ	√¡U{  Òƒ
+√¡U|  Òƒ√¡U}  Òƒ√¡U~  Òƒ√¡U  Òƒ√¡	UÄ  Òƒ√¡
+UÅ  Òƒ√¡UÇ  Òƒ√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√¡Uà  Òƒ√¡Uâ  Òƒ√¡Uä  Òƒ√¡Uã  Òƒ√¡Uå  Òƒ√¡Uç  Òƒ√¡Ué  Òƒ√¡Uè  Òƒ√¡Uê  Òƒ√¡Uë  Òƒ √¡Uí  Òƒ!√¡Uì  Òƒ"√¡Uî  Òƒ#√¡Uï  Òƒ$√¡Uñ  Òƒ%√¡ Uó  Òƒ&√¡!Uò  Òƒ'√¡"Uô  Òƒ(√¡#Uö  Òƒ)√¡$Uõ  Òƒ*√¡%Uú  Òƒ+√¡&Uù  Òƒ,√¡'Uû  Òƒ-√¡(Uü  Òƒ.√¡)U†  Òƒ/√¡*U°  Òƒ0√¡+U¢  Òƒ1√¡,U£  Òƒ2√¡-U§  Òƒ3√¡.U•  Òƒ4√¡/U¶  Òƒ5√¡0Uß  Òƒ6√¡1U®  Òƒ7√¡2U©  Òƒ8√√	Òƒ9√√8Òƒ:9ç   √9B   D™  9ç   √:D  )∆÷ f8D §  ( ( ( ( ,  8 ( (  8 ( ( ( ( ( ( ( (  ( ( (
+ ( ($ (! ( & , , 8  8 l ¢ Ñ òÏ# Ü  ˙	 ¥ , ( ö F Ä Ó F v+!9X ﬂ¬4() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -76761,13 +76760,11 @@ UÇ  Òƒ√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√
         if (renderer)
           return renderer;
         renderer = (0, renderer_1.createRenderer)();
-        globalThis.__dispatchEvent = (eventObj, payload) => {
-          renderer.dispatchEvent(eventObj, payload);
-        };
         return renderer;
       }
       function render(pageId, path, params) {
         const r = ensureRenderer();
+        console.log("render", pageId, path, params);
         const factory = Router.match(path);
         if (typeof factory === "function") {
           const app = factory(params || {});
@@ -76779,9 +76776,7 @@ UÇ  Òƒ√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√
       }
       function destroy(pageId) {
         const r = ensureRenderer();
-        setTimeout(() => {
-          r.destroy(pageId);
-        }, 0);
+        r.destroy(pageId);
       }
     }
   });
@@ -76835,8 +76830,9 @@ UÇ  Òƒ√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√
       function setTimeout2(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "timeout" });
+        const delay = ms || 0;
         if (typeof dartCallNative === "function") {
-          dartCallNative("createTimer", { id, delay: ms || 0, isInterval: false });
+          dartCallNative("createTimer", { id, delay, isInterval: false });
         } else {
           fn();
         }
@@ -76959,6 +76955,11 @@ UÇ  Òƒ√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√
         globalThis.clearTimeout = Timer.clearTimeout;
         globalThis.setInterval = Timer.setInterval;
         globalThis.clearInterval = Timer.clearInterval;
+        if (!globalThis.performance) {
+          globalThis.performance = {
+            now: () => Date.now()
+          };
+        }
         if (typeof globalThis.queueMicrotask !== "function") {
           globalThis.queueMicrotask = function(fn) {
             Promise.resolve().then(fn);
@@ -77097,4 +77098,4 @@ UÇ  Òƒ√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ√
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;
   globalThis.FuickFramework = FuickFramework;
-}Ï)ﬂÌ¨  M≠  MÆ  „¡ /∆ã  à≠  
+}Ï)ﬂÌ´  M¨  M≠  „¡ /∆ã  å≠  

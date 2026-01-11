@@ -12,17 +12,16 @@ declare global {
   interface GlobalFramework {
     render: (pageId: number, path: string, params: any) => void;
     destroy: (pageId: number) => void;
+    __dispatchEvent: (id: string, payload: any) => void;
   }
 
   var FuickUIController: GlobalFramework;
   var queueMicrotask: (fn: () => void) => void;
   var __handleTimer: (id: number) => void;
-  var __dispatchEvent: (id: string, payload: any) => void;
 
   // Extend globalThis
   interface Object {
     FuickUIController: GlobalFramework;
-    __dispatchEvent: (id: string, payload: any) => void;
     dartCallNative: (method: string, args: any) => any;
     dartCallNativeAsync: (method: string, args: any) => Promise<any>;
   }

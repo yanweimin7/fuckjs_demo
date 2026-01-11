@@ -47,13 +47,11 @@ function ensureRenderer() {
     if (renderer)
         return renderer;
     renderer = (0, renderer_1.createRenderer)();
-    globalThis.__dispatchEvent = (eventObj, payload) => {
-        renderer.dispatchEvent(eventObj, payload);
-    };
     return renderer;
 }
 function render(pageId, path, params) {
     const r = ensureRenderer();
+    console.log('render', pageId, path, params);
     const factory = Router.match(path);
     if (typeof factory === 'function') {
         const app = factory(params || {});
@@ -66,7 +64,5 @@ function render(pageId, path, params) {
 }
 function destroy(pageId) {
     const r = ensureRenderer();
-    setTimeout(() => {
-        r.destroy(pageId);
-    }, 0);
+    r.destroy(pageId);
 }
