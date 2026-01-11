@@ -85,7 +85,6 @@ const AssetItem = ({ symbol, name, balance, value, change, icon, color }: any) =
 
 export const HomeTab = () => {
   const [currentBannerIndex, setCurrentBannerIndex] = React.useState(0);
-
   React.useEffect(() => {
     console.log('HomeTab: useEffect starting, BANNERS length:', BANNERS.length);
     const timer = setInterval(() => {

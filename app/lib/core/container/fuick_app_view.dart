@@ -54,9 +54,6 @@ class _FuickAppViewState extends State<FuickAppView> {
       // 2. 加载业务逻辑包
       await _loadSingleBundle(widget.appName);
 
-      // 执行任务队列，确保 initApp 等异步逻辑执行完毕
-      ctx.runJobs();
-
       _uiController.isBundleLoaded.value = true;
     } catch (e) {
       debugPrint('加载 React bundle 失败: $e');

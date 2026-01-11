@@ -249,6 +249,10 @@ final class QuickJsFFI {
       _lib.lookupFunction<Void Function(Int32), void Function(int)>(
           'qjs_set_use_binary_protocol');
 
+  late final _initDefaultBindings = _lib.lookupFunction<
+      Void Function(Pointer<Void>),
+      void Function(Pointer<Void>)>('qjs_init_default_bindings');
+
   // ---------------- 业务封装接口 ----------------
 
   Pointer<Void> createRuntime() => _create();
@@ -257,6 +261,9 @@ final class QuickJsFFI {
   Pointer<Void> createContext(Pointer<Void> rtHandle) =>
       _createContext(rtHandle);
   void destroyContext(Pointer<Void> ctxHandle) => _destroyContext(ctxHandle);
+
+  void initDefaultBindings(Pointer<Void> ctxHandle) =>
+      _initDefaultBindings(ctxHandle);
 
   Pointer<QjsResult> getGlobalObject(Pointer<Void> ctxHandle) {
     final out = ffi.calloc<QjsResult>();

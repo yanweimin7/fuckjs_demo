@@ -19052,6 +19052,16 @@ var process=process||{env:{NODE_ENV:"development"}};
             Promise.resolve().then(fn);
           };
         }
+        setupPromiseInterception();
+      }
+      function setupPromiseInterception() {
+        const originalThen = Promise.prototype.then;
+        Promise.prototype.then = function(onfulfilled, onrejected) {
+          if (typeof globalThis.dartCallNative === "function") {
+            globalThis.dartCallNative("onMicrotaskEnqueued", null);
+          }
+          return originalThen.call(this, onfulfilled, onrejected);
+        };
       }
     }
   });

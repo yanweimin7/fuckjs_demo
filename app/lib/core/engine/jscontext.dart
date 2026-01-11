@@ -21,6 +21,7 @@ class QuickJsContext {
 
   QuickJsContext(this._ffi, this._runtimeHandle)
     : _handle = _ffi.createContext(_runtimeHandle) {
+    _ffi.initDefaultBindings(_handle);
     instances[_handle.address] = this;
     final globalRes = _ffi.getGlobalObject(_handle);
     global = JSObject(_ffi, _handle, globalRes);

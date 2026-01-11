@@ -33,7 +33,6 @@ class JsHandlerManager {
         timers[id] = Timer.periodic(Duration(milliseconds: delay), (timer) {
           try {
             ctx.global.invoke('__handleTimer', [id]);
-            ctx.runJobs(); // 每次 timer 触发后运行 jobs
           } catch (e) {
             debugPrint('Error calling __handleTimer (periodic): $e');
             timer.cancel();
@@ -45,7 +44,6 @@ class JsHandlerManager {
           timers.remove(id);
           try {
             ctx.global.invoke('__handleTimer', [id]);
-            ctx.runJobs(); // Ensure microtasks run after timeout
           } catch (e) {
             debugPrint('Error calling __handleTimer: $e');
           }

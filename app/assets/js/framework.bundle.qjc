@@ -1,4 +1,4 @@
-∫é/Users/wey/work/flutter_dynamic/fuickjs_pro/js/dist/framework.bundle.jsprocess__create__defProp __getOwnPropDesc"__getOwnPropNames__getProtoOf__hasOwnProp__commonJS__copyProps__toESM2require_react_developmentrequire_typesrequire_Textrequire_Columnrequire_Row"require_Containerrequire_idsrequire_Button"require_TextFieldrequire_Switch require_Expanded require_ListViewrequire_Paddingrequire_Image require_SizedBoxrequire_Centerrequire_Icon require_Flexible.require_GestureDetectorrequire_InkWellrequire_Divider:require_SingleChildScrollViewrequire_Stack$require_Positionedrequire_OpacityBrequire_CircularProgressIndicator require_SafeArea(require_FlutterProps require_Scaffoldrequire_AppBar require_PageViewrequire_widgets$require_components:require_scheduler_developmentHrequire_react_reconciler_development$require_hostConfig*require_PageContainer require_rendererrequire_router"require_navigator&require_page_renderrequire_consolerequire_timerrequire_runtime*require_ErrorBoundaryrequire_distimport_reactFuickFrameworkcbmod__requireexportstoexceptdesckeycallisNodeMode__esModulemoduleReactVersion$REACT_ELEMENT_TYPE"REACT_PORTAL_TYPE&REACT_FRAGMENT_TYPE,REACT_STRICT_MODE_TYPE&REACT_PROFILER_TYPE&REACT_PROVIDER_TYPE$REACT_CONTEXT_TYPE,REACT_FORWARD_REF_TYPE&REACT_SUSPENSE_TYPE0REACT_SUSPENSE_LIST_TYPEREACT_MEMO_TYPEREACT_LAZY_TYPE(REACT_OFFSCREEN_TYPE*MAYBE_ITERATOR_SYMBOL(FAUX_ITERATOR_SYMBOLgetIteratorFn,ReactCurrentDispatcher.ReactCurrentBatchConfig(ReactCurrentActQueue"ReactCurrentOwner,ReactDebugCurrentFrame,currentExtraStackFrame$setExtraStackFrameenableScopeAPI$enableCacheElement.enableTransitionTracing$enableLegacyHidden$enableDebugTracing(ReactSharedInternalswarn
+øé/Users/wey/work/flutter_dynamic/fuickjs_pro/js/dist/framework.bundle.jsprocess__create__defProp __getOwnPropDesc"__getOwnPropNames__getProtoOf__hasOwnProp__commonJS__copyProps__toESM2require_react_developmentrequire_typesrequire_Textrequire_Columnrequire_Row"require_Containerrequire_idsrequire_Button"require_TextFieldrequire_Switch require_Expanded require_ListViewrequire_Paddingrequire_Image require_SizedBoxrequire_Centerrequire_Icon require_Flexible.require_GestureDetectorrequire_InkWellrequire_Divider:require_SingleChildScrollViewrequire_Stack$require_Positionedrequire_OpacityBrequire_CircularProgressIndicator require_SafeArea(require_FlutterProps require_Scaffoldrequire_AppBar require_PageViewrequire_widgets$require_components:require_scheduler_developmentHrequire_react_reconciler_development$require_hostConfig*require_PageContainer require_rendererrequire_router"require_navigator&require_page_renderrequire_consolerequire_timerrequire_runtime*require_ErrorBoundaryrequire_distimport_reactFuickFrameworkcbmod__requireexportstoexceptdesckeycallisNodeMode__esModulemoduleReactVersion$REACT_ELEMENT_TYPE"REACT_PORTAL_TYPE&REACT_FRAGMENT_TYPE,REACT_STRICT_MODE_TYPE&REACT_PROFILER_TYPE&REACT_PROVIDER_TYPE$REACT_CONTEXT_TYPE,REACT_FORWARD_REF_TYPE&REACT_SUSPENSE_TYPE0REACT_SUSPENSE_LIST_TYPEREACT_MEMO_TYPEREACT_LAZY_TYPE(REACT_OFFSCREEN_TYPE*MAYBE_ITERATOR_SYMBOL(FAUX_ITERATOR_SYMBOLgetIteratorFn,ReactCurrentDispatcher.ReactCurrentBatchConfig(ReactCurrentActQueue"ReactCurrentOwner,ReactDebugCurrentFrame,currentExtraStackFrame$setExtraStackFrameenableScopeAPI$enableCacheElement.enableTransitionTracing$enableLegacyHidden$enableDebugTracing(ReactSharedInternalswarn
 errorprintWarningNdidWarnStateUpdateForUnmountedComponentwarnNoop(ReactNoopUpdateQueueassignemptyObjectComponentdeprecatedAPIs0defineDeprecationWarningfnNameComponentDummyPureComponent,pureComponentPrototypecreateRefisArrayImplisArraytypeName"willCoercionThrow$testStringCoercion,checkKeyStringCoerciongetWrappedNamegetContextName0getComponentNameFromTypehasOwnPropertyRESERVED_PROPS4specialPropKeyWarningShown4specialPropRefWarningShown,didWarnAboutStringRefshasValidRefhasValidKey4defineKeyPropWarningGetter4defineRefPropWarningGetterHwarnIfStringRefCannotBeAutoConvertedReactElementcreateElement$cloneAndReplaceKeycloneElementisValidElementSEPARATORSUBSEPARATORescape didWarnAboutMaps4userProvidedKeyEscapeRegex*escapeUserProvidedKeygetElementKeymapIntoArraymapChildrencountChildrenforEachChildrentoArrayonlyChildcreateContextUninitializedPendingResolvedRejectedlazyInitializerlazyforwardRef,REACT_MODULE_REFERENCE$isValidElementTypememo"resolveDispatcheruseContextuseStateuseReduceruseRefuseEffect$useInsertionEffectuseLayoutEffectuseCallbackuseMemo&useImperativeHandleuseDebugValueuseTransition useDeferredValue
 useId(useSyncExternalStoredisabledDepthprevLogprevInfoprevWarnprevErrorprevGroup$prevGroupCollapsedprevGroupEnddisabledLogdisableLogsreenableLogs0ReactCurrentDispatcher$1prefix:describeBuiltInComponentFramereentry&componentFrameCachePossiblyWeakMap8describeNativeComponentFrame<describeFunctionComponentFrameshouldConstructHdescribeUnknownElementTypeFrameInDEV$loggedTypeFailures0ReactDebugCurrentFrame$1:setCurrentlyValidatingElementcheckPropTypes>setCurrentlyValidatingElement$1:propTypesMisspellWarningShown6getDeclarationErrorAddendum4getSourceInfoErrorAddendumDgetSourceInfoErrorAddendumForProps*ownerHasKeyUseWarning8getCurrentComponentErrorInfo&validateExplicitKey"validateChildKeys"validatePropTypes*validateFragmentProps6createElementWithValidationFdidWarnAboutDeprecatedCreateFactory6createFactoryWithValidation4cloneElementWithValidationstartTransition4didWarnAboutMessageChannelenqueueTaskImplenqueueTaskactScopeDepth"didWarnNoAwaitActactpopActScope8recursivelyFlushAsyncActWorkisFlushingflushActQueuecreateElement$1cloneElement$1createFactoryChildrenmaybeIterablemaybeIteratorimplgetCurrentStackformat_lenargs_key
 _len2
@@ -194,7 +194,7 @@ rootsensureRootperformUpdatemsgworking>[Renderer] Error updating page 
 color
 print[WARN] [ERROR] nextTimerIdtimerMapsetTimeout2clearTimeout2setIntervalclearIntervalcreateTimerisIntervaldeleteTimerinterval
 entry6[Timer] Callback for timer & is not a function:.[Timer] Error in timer  callback:__handleTimerPageRenderConsole
-TimerbindGlobalssetupPolyfills"FuickUIControlleroldConsolequeueMicrotaskRuntimeErrorBoundary:[ErrorBoundary] Caught error:NavigatorVnode_modules/react/cjs/react.development.jsV../fuick_js_framework/dist/widgets/types.jsT../fuick_js_framework/dist/widgets/Text.jsX../fuick_js_framework/dist/widgets/Column.jsR../fuick_js_framework/dist/widgets/Row.js^../fuick_js_framework/dist/widgets/Container.jsN../fuick_js_framework/dist/utils/ids.jsX../fuick_js_framework/dist/widgets/Button.js^../fuick_js_framework/dist/widgets/TextField.jsX../fuick_js_framework/dist/widgets/Switch.js\../fuick_js_framework/dist/widgets/Expanded.js\../fuick_js_framework/dist/widgets/ListView.jsZ../fuick_js_framework/dist/widgets/Padding.jsV../fuick_js_framework/dist/widgets/Image.js\../fuick_js_framework/dist/widgets/SizedBox.jsX../fuick_js_framework/dist/widgets/Center.jsT../fuick_js_framework/dist/widgets/Icon.js\../fuick_js_framework/dist/widgets/Flexible.jsj../fuick_js_framework/dist/widgets/GestureDetector.jsZ../fuick_js_framework/dist/widgets/InkWell.jsZ../fuick_js_framework/dist/widgets/Divider.jsv../fuick_js_framework/dist/widgets/SingleChildScrollView.jsV../fuick_js_framework/dist/widgets/Stack.js`../fuick_js_framework/dist/widgets/Positioned.jsZ../fuick_js_framework/dist/widgets/Opacity.js~../fuick_js_framework/dist/widgets/CircularProgressIndicator.js\../fuick_js_framework/dist/widgets/SafeArea.jsd../fuick_js_framework/dist/widgets/FlutterProps.js\../fuick_js_framework/dist/widgets/Scaffold.jsX../fuick_js_framework/dist/widgets/AppBar.js\../fuick_js_framework/dist/widgets/PageView.jsV../fuick_js_framework/dist/widgets/index.jsP../fuick_js_framework/dist/components.jsfnode_modules/scheduler/cjs/scheduler.development.jsÇnode_modules/react-reconciler/cjs/react-reconciler.development.jsP../fuick_js_framework/dist/hostConfig.jsV../fuick_js_framework/dist/PageContainer.jsL../fuick_js_framework/dist/renderer.jsH../fuick_js_framework/dist/router.jsN../fuick_js_framework/dist/navigator.jsR../fuick_js_framework/dist/page_render.jsP../fuick_js_framework/dist/ex/console.jsL../fuick_js_framework/dist/ex/timer.jsJ../fuick_js_framework/dist/runtime.jsV../fuick_js_framework/dist/ErrorBoundary.jsF../fuick_js_framework/dist/index.js
+TimerbindGlobalssetupPolyfills0setupPromiseInterception"FuickUIControlleroldConsolequeueMicrotaskoriginalThenonfulfilledonrejected&onMicrotaskEnqueuedRuntimeErrorBoundary:[ErrorBoundary] Caught error:NavigatorVnode_modules/react/cjs/react.development.jsV../fuick_js_framework/dist/widgets/types.jsT../fuick_js_framework/dist/widgets/Text.jsX../fuick_js_framework/dist/widgets/Column.jsR../fuick_js_framework/dist/widgets/Row.js^../fuick_js_framework/dist/widgets/Container.jsN../fuick_js_framework/dist/utils/ids.jsX../fuick_js_framework/dist/widgets/Button.js^../fuick_js_framework/dist/widgets/TextField.jsX../fuick_js_framework/dist/widgets/Switch.js\../fuick_js_framework/dist/widgets/Expanded.js\../fuick_js_framework/dist/widgets/ListView.jsZ../fuick_js_framework/dist/widgets/Padding.jsV../fuick_js_framework/dist/widgets/Image.js\../fuick_js_framework/dist/widgets/SizedBox.jsX../fuick_js_framework/dist/widgets/Center.jsT../fuick_js_framework/dist/widgets/Icon.js\../fuick_js_framework/dist/widgets/Flexible.jsj../fuick_js_framework/dist/widgets/GestureDetector.jsZ../fuick_js_framework/dist/widgets/InkWell.jsZ../fuick_js_framework/dist/widgets/Divider.jsv../fuick_js_framework/dist/widgets/SingleChildScrollView.jsV../fuick_js_framework/dist/widgets/Stack.js`../fuick_js_framework/dist/widgets/Positioned.jsZ../fuick_js_framework/dist/widgets/Opacity.js~../fuick_js_framework/dist/widgets/CircularProgressIndicator.js\../fuick_js_framework/dist/widgets/SafeArea.jsd../fuick_js_framework/dist/widgets/FlutterProps.js\../fuick_js_framework/dist/widgets/Scaffold.jsX../fuick_js_framework/dist/widgets/AppBar.js\../fuick_js_framework/dist/widgets/PageView.jsV../fuick_js_framework/dist/widgets/index.jsP../fuick_js_framework/dist/components.jsfnode_modules/scheduler/cjs/scheduler.development.jsÇnode_modules/react-reconciler/cjs/react-reconciler.development.jsP../fuick_js_framework/dist/hostConfig.jsV../fuick_js_framework/dist/PageContainer.jsL../fuick_js_framework/dist/renderer.jsH../fuick_js_framework/dist/router.jsN../fuick_js_framework/dist/navigator.jsR../fuick_js_framework/dist/page_render.jsP../fuick_js_framework/dist/ex/console.jsL../fuick_js_framework/dist/ex/timer.jsJ../fuick_js_framework/dist/runtime.jsV../fuick_js_framework/dist/ErrorBoundary.jsF../fuick_js_framework/dist/index.js
 ReactdevelopmentNODE_ENVenv∆      
 ¢   ! » 
   9  1ñ9   @Ã @Œ @– @“ @‘ @÷  ÿ @⁄  ‹ 	@ﬁ 
@@ -57189,7 +57189,8 @@ MA   $ ”…D	  ” D
           });
         }
       };
-    }B ©	¬  ¶  @∂ @∏  æ5 @¿5 @¬5 @ƒ5  ∆5 @¨1Æ2∞3C
+    }B 	≠
+¬  ¶  @∂ @∏  æ5 @¿5 @¬5 @ƒ5  ∆5 @»5 @¨1Æ2∞3C
   d™  ¨ @Æ @∞  »   C
       ¨Æﬂ‡H(∆ßî+ 1function() {
             return m[k];
@@ -57264,7 +57265,7 @@ M@   ‘MA   $ )∆∞îZ°4,efunction(o, v) {
               r.dispatchEvent(id, payload);
             }‡9î   CN  9ç   ﬂB  M  ﬂB
   M
-  ¡ N¥  M¥  Md  $ )∆Œî 4Çfunction bindGlobals() {
+  ¡ N¥  M¥  Me  $ )∆Œî 4Çfunction bindGlobals() {
         setupPolyfills();
         Object.assign(globalThis, {
           FuickUIController: {
@@ -57277,13 +57278,13 @@ M@   ‘MA   $ )∆∞îZ°4,efunction(o, v) {
           }
         });
       }C
-∆5  ° 5 0¿5¬5C
+∆5  £Ã5 0¿5¬5»5C
     
   9ƒ   CÇ   $  CÅ   ”$ )∆Îî'34*Bfunction(fn) {
             Promise.resolve().then(fn);
           }b  9ç   B‚  ÌÀ9ç   c  TﬂB∞  M∞  ﬂBH  MH  ﬂBI  MI  D‚  9ç   ‡B	  D	  9ç   ‡B
   D
-  9ç   ‡BS  DS  9ç   ‡BT  DT  9ç   Bf  ˜Ì9ç   ¡ Df  )∆ﬁîc 4 S S S ÖRM˚function setupPolyfills() {
+  9ç   ‡BS  DS  9ç   ‡BT  DT  9ç   Bg  ˜Ì9ç   ¡ Dg  ·)∆ﬁîc 4 S S S ÖRM üfunction setupPolyfills() {
         const oldConsole = globalThis.console || {};
         globalThis.console = {
           ...oldConsole,
@@ -57300,8 +57301,24 @@ M@   ‘MA   $ )∆∞îZ°4,efunction(o, v) {
             Promise.resolve().then(fn);
           };
         }
-      }¡ƒ¡ƒ”Ï”Bì  Ì9î   B™  Ï¡ Ó¡À”Ï”Bõ  Ì9î   B™  Ï¡Ó¡Ã”Ï”Bú  Ì¡Õ9î   Cf   ”(  
-MA   $ ”Dg  ”√Db  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mb  Dg  )∆°î+ UJ  4,X+& 0<! 1√"../fuick_js_framework/dist/runtime.js"(exports) {
+        setupPromiseInterception();
+      }C
+»5   %–5 pC
+  1“5  ‘5    –5 À9ç   B"  ˜Ï9ç   C"  k  $ f  C&  «”‘% ∆Ûî"?$M4^Åfunction(onfulfilled, onrejected) {
+          if (typeof globalThis.dartCallNative === "function") {
+            globalThis.dartCallNative("onMicrotaskEnqueued", null);
+          }
+          return originalThen.call(this, onfulfilled, onrejected);
+        }b  9ƒ   B<   BÅ   À9ƒ   B<   ¡ DÅ   )∆ÒîcÜfunction setupPromiseInterception() {
+        const originalThen = Promise.prototype.then;
+        Promise.prototype.then = function(onfulfilled, onrejected) {
+          if (typeof globalThis.dartCallNative === "function") {
+            globalThis.dartCallNative("onMicrotaskEnqueued", null);
+          }
+          return originalThen.call(this, onfulfilled, onrejected);
+        };
+      }¡ƒ¡ƒ¡ƒ”Ï”Bì  Ì9î   B™  Ï¡ Ó¡À”Ï”Bõ  Ì9î   B™  Ï¡Ó¡Ã”Ï”Bú  Ì¡Õ9î   Cf   ”(  
+MA   $ ”Dl  ”√Db  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mb  Dl  )∆°î? UJ  4,X+& 0<! 1Ù"../fuick_js_framework/dist/runtime.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -57379,11 +57396,21 @@ MA   $ ”Dg  ”√Db  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mb  Dg  )∆°î+ UJ  4,X+& 0<
             Promise.resolve().then(fn);
           };
         }
+        setupPromiseInterception();
       }
-    }B w¬  ä   å  –5  Ó p‹	C
-    æ  ”Ï”B(  Ï”(”M   (∆˜îC Xfunction(mod) {
+      function setupPromiseInterception() {
+        const originalThen = Promise.prototype.then;
+        Promise.prototype.then = function(onfulfilled, onrejected) {
+          if (typeof globalThis.dartCallNative === "function") {
+            globalThis.dartCallNative("onMicrotaskEnqueued", null);
+          }
+          return originalThen.call(this, onfulfilled, onrejected);
+        };
+      }
+    }B w¬  ä   å  ⁄5  Ó p‹	C
+    æ  ”Ï”B(  Ï”(”M   (∆ÅïC Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }∆  =‰  Ê  ‰    ÓÀÃb +«5»”! e f  Ïc $  c 	M  MI  D”	  c (∆˛î	5Ö øclass extends react_1.default.Component {
+      }∆  =‰  Ê  ‰    ÓÀÃb +«5»”! e f  Ïc $  c 	M  MI  D”	  c (∆àï	5Ö øclass extends react_1.default.Component {
         constructor(props) {
           super(props);
           this.state = { hasError: false, error: null };
@@ -57404,11 +57431,11 @@ MA   $ ”Dg  ”√Db  …ﬂÒŒ…‡Òƒ…·Òƒ”√Mb  Dg  )∆°î+ UJ  4,X+& 0<
           return this.props.children;
         }
       }B    í  
-M  ”MI  (∆Çï WgetDerivedStateFromError(error) {
+M  ”MI  (∆åï WgetDerivedStateFromError(error) {
           return { hasError: true, error };
-        }B    í  ≤*  9‚  CI  i  ”‘$ )∆Öï	4{componentDidCatch(error, errorInfo) {
+        }B    í  ≤*  9‚  CI  n  ”‘$ )∆èï	4{componentDidCatch(error, errorInfo) {
           console.error("[ErrorBoundary] Caught error:", error, errorInfo);
-        }B     S  À«B”	  B  Ï9«BÚ  B  ˜Ï«BÚ  C  «B”	  BI  % «BÚ  B  Ì(«BÚ  B7  (∆àï	ÜNI¢render() {
+        }B     S  À«B”	  B  Ï9«BÚ  B  ˜Ï«BÚ  C  «B”	  BI  % «BÚ  B  Ì(«BÚ  B7  (∆íï	ÜNI¢render() {
           if (this.state.hasError) {
             if (typeof this.props.fallback === "function") {
               return this.props.fallback(this.state.error);
@@ -57417,9 +57444,9 @@ M  ”MI  (∆Çï WgetDerivedStateFromError(error) {
           }
           return this.props.children;
         }”Ï”BE  Ì¡ À9î   Cf   ”(  
-MA   $ ”Dh  «ﬂÒ–B   BP  b ¿Wh  ¡Uo
+MA   $ ”Dm  «ﬂÒ–B   BP  b ¿Wm  ¡Uo
    ¡U™
-   ¡U   Œi Õ”…Dh  )∆ıî  4,X++< :,;£	"../fuick_js_framework/dist/ErrorBoundary.js"(exports) {
+   ¡U   Œi Õ”…Dm  )∆ˇî  4,X++< :,;£	"../fuick_js_framework/dist/ErrorBoundary.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -57451,11 +57478,11 @@ MA   $ ”Dh  «ﬂÒ–B   BP  b ¿Wh  ¡Uo
       exports.ErrorBoundary = ErrorBoundary;
     }B 	œ¬  ¶  @∂ @®  ∏  ú)¶.®/™0≤4¨1¥5∞3Æ2C
   d™  ¨ @Æ @∞  »   C
-      ¨Æﬂ‡H(∆ûï+ 1function() {
+      ¨Æﬂ‡H(∆®ï+ 1function() {
             return m[k];
           }÷ÙÏ’⁄9î   Cg   ‘’$ œóÌ$B   «¨Ï
 ‘B(  óÓ«B?   Ì«B>   Ï
-M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆öïT?0S'û) 4,Ófunction(o, m, k, k2) {
+M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆§ïT?0S'û) 4,Ófunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -57465,27 +57492,27 @@ M@   ¡ NB   MB   À9î   Cf   ”÷«$ )∆öïT?0S'û) 4,Ófunction(o, m, k, k2
         }
         Object.defineProperty(o, k2, desc);
       }C
-    ™  ¨  Æ  ∞  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆£ï%Xfunction(o, m, k, k2) {
+    ™  ¨  Æ  ∞  ÷ÙÏ’⁄”÷±Ìr‘’HrJ)∆≠ï%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
     !™  º  9î   Cf   ”   
-M@   ‘MA   $ )∆ßïZ°4,efunction(o, v) {
+M@   ‘MA   $ )∆±ïZ°4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    ™  º  ”   ±Ìr‘rJ)∆©ï2function(o, v) {
+    ™  º  ”   ±Ìr‘rJ)∆≥ï2function(o, v) {
         o["default"] = v;
       }C
-  5¨  ≤  ¥   ¶ ”~Ó-À«   ∞Ï#9î   B<   Ba  C&  ‘«$ óÏﬂ‘”«ÛÅÏ“)∆¨ï=!1éf* §function(m, exports2) {
+  5¨  ≤  ¥   ¶ ”~Ó-À«   ∞Ï#9î   B<   Ba  C&  ‘«$ óÏﬂ‘”«ÛÅÏ“)∆∂ï=!1éf* §function(m, exports2) {
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       }C
    –  @¶ ∂C
   ™  – C
-   <æ  ¿   Æ  &  À”~Ó.Ã9î   B<   Ba  C&  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆±ï3ï*%¨function(o2) {
+   <æ  ¿   Æ  &  À”~Ó.Ã9î   B<   Ba  C&  ”»$ Ï««Î±Ìr»rJÅÏ—«(∆ªï3ï*%¨function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9î   B°  Ì¡ Á”# ∆∞ï 
+          }9î   B°  Ì¡ Á”# ∆∫ï 
 îfunction(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -57494,7 +57521,7 @@ M@   ‘MA   $ )∆ßïZ°4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >æ  ⁄	   Æ  ˆ  – ¶  ∂ ”Ï”B(  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆∏ïU "*8* ;Ω&œfunction(mod) {
+  >æ  ⁄	   Æ  ˆ  – ¶  ∂ ”Ï”B(  Ï”(À”ÆÏ$ﬂ”ÒÃ∂Õ…»ÎßÏ»…H   ∞Ï	‡«”»…HÛîÓ‰·«”Ú«(∆¬ïU "*8* ;Ω&œfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -57502,7 +57529,7 @@ M@   ‘MA   $ )∆ßïZ°4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }¡ Nh   À¡(∆ØïM †function() {
+        }¡ Nh   À¡(∆πïM †function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -57521,7 +57548,7 @@ M@   ‘MA   $ )∆ßïZ°4,efunction(o, v) {
           return result;
         };
       }”Ï”Bì  Ì9î   B™  Ï¡ Ó¡À”Ï”Bõ  Ì9î   B™  Ï¡Ó¡Ã”Ï”Bî  Ì¡Õ”Ï”Bú  Ì¡Œ9î   Cf   ”(  
-MA   $ ”Dj  …ﬂ”Ú…‡”Ú…·”Ú” ‚ÒDj  …_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú)∆òï0 gP  4,X+& B+A&&&&‡"../fuick_js_framework/dist/index.js"(exports) {
+MA   $ ”Do  …ﬂ”Ú…‡”Ú…·”Ú” ‚ÒDo  …_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú)∆¢ï0 gP  4,X+& B+A&&&&‡"../fuick_js_framework/dist/index.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -57574,10 +57601,10 @@ MA   $ ”Dj  …ﬂ”Ú…‡”Ú…·”Ú” ‚ÒDj  …_ ”Ú…_ ”Ú…_ ”Ú…_ ”Ú…_ 
       __exportStar(require_ErrorBoundary(), exports);
       __exportStar(require_timer(), exports);
       __exportStar(require_console(), exports);
-    }9î   B™  À9î   Bf   Ã9î   Bg   Õ9î   B°  Œ9î   B`   ƒ9î   B<   Ba  ƒ¡ NÎ   ƒ¡NÏ   ƒ¡NÌ   ƒ√¡Uk  Òƒ	√¡Ul  Òƒ
-√¡Um  Òƒ√¡Un  Òƒ√¡Uo  Òƒ√¡Up  Òƒ√¡	Uq  Òƒ√¡
-Ur  Òƒ√¡Us  Òƒ√¡Ut  Òƒ√¡Uu  Òƒ√¡Uv  Òƒ√¡Uw  Òƒ√¡Ux  Òƒ√¡Uy  Òƒ√¡Uz  Òƒ√¡U{  Òƒ√¡U|  Òƒ√¡U}  Òƒ√¡U~  Òƒ√¡U  Òƒ√¡UÄ  Òƒ√¡UÅ  Òƒ√¡UÇ  Òƒ √¡UÉ  Òƒ!√¡UÑ  Òƒ"√¡UÖ  Òƒ#√¡UÜ  Òƒ$√¡Uá  Òƒ%√¡ Uà  Òƒ&√¡!Uâ  Òƒ'√¡"Uä  Òƒ(√¡#Uã  Òƒ)√¡$Uå  Òƒ*√¡%Uç  Òƒ+√¡&Ué  Òƒ,√¡'Uè  Òƒ-√¡(Uê  Òƒ.√¡)Uë  Òƒ/√¡*Uí  Òƒ0√¡+Uì  Òƒ1√¡,Uî  Òƒ2√¡-Uï  Òƒ3√¡.Uñ  Òƒ4√¡/Uó  Òƒ5√¡0Uò  Òƒ6√√	Òƒ7√√6Òƒ89ç   √7B   Dô  9ç   √8D  )∆Ã f8D §  ( ( ( (  : ( ( (  ( ( ( ( ( ( ( ( (  ( ( (
- ( ($ (! ( & , , ( j ñ Ñ òÏ# Ã Ë	 ≤ , ( ¢ F ~ ® F t+!9X ú•4() => {
+    }9î   B™  À9î   Bf   Ã9î   Bg   Õ9î   B°  Œ9î   B`   ƒ9î   B<   Ba  ƒ¡ NÎ   ƒ¡NÏ   ƒ¡NÌ   ƒ√¡Up  Òƒ	√¡Uq  Òƒ
+√¡Ur  Òƒ√¡Us  Òƒ√¡Ut  Òƒ√¡Uu  Òƒ√¡	Uv  Òƒ√¡
+Uw  Òƒ√¡Ux  Òƒ√¡Uy  Òƒ√¡Uz  Òƒ√¡U{  Òƒ√¡U|  Òƒ√¡U}  Òƒ√¡U~  Òƒ√¡U  Òƒ√¡UÄ  Òƒ√¡UÅ  Òƒ√¡UÇ  Òƒ√¡UÉ  Òƒ√¡UÑ  Òƒ√¡UÖ  Òƒ√¡UÜ  Òƒ√¡Uá  Òƒ √¡Uà  Òƒ!√¡Uâ  Òƒ"√¡Uä  Òƒ#√¡Uã  Òƒ$√¡Uå  Òƒ%√¡ Uç  Òƒ&√¡!Ué  Òƒ'√¡"Uè  Òƒ(√¡#Uê  Òƒ)√¡$Uë  Òƒ*√¡%Uí  Òƒ+√¡&Uì  Òƒ,√¡'Uî  Òƒ-√¡(Uï  Òƒ.√¡)Uñ  Òƒ/√¡*Uó  Òƒ0√¡+Uò  Òƒ1√¡,Uô  Òƒ2√¡-Uö  Òƒ3√¡.Uõ  Òƒ4√¡/Uú  Òƒ5√¡0Uù  Òƒ6√√	Òƒ7√√6Òƒ89ç   √7B   Dû  9ç   √8D  )∆Ã f8D §  ( ( ( (  : ( ( (  ( ( ( ( ( ( ( ( (  ( ( (
+ ( ($ (! ( & , , ( j ñ Ñ òÏ# Ã Ë	 ≤ , ( ¢ F ~ º F t+!9X Õ®4() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -76629,6 +76656,16 @@ Ur  Òƒ√¡Us  Òƒ√¡Ut  Òƒ√¡Uu  Òƒ√¡Uv  Òƒ√¡Uw  Òƒ√
             Promise.resolve().then(fn);
           };
         }
+        setupPromiseInterception();
+      }
+      function setupPromiseInterception() {
+        const originalThen = Promise.prototype.then;
+        Promise.prototype.then = function(onfulfilled, onrejected) {
+          if (typeof globalThis.dartCallNative === "function") {
+            globalThis.dartCallNative("onMicrotaskEnqueued", null);
+          }
+          return originalThen.call(this, onfulfilled, onrejected);
+        };
       }
     }
   });
@@ -76731,4 +76768,4 @@ Ur  Òƒ√¡Us  Òƒ√¡Ut  Òƒ√¡Uu  Òƒ√¡Uv  Òƒ√¡Uw  Òƒ√
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;
   globalThis.FuickFramework = FuickFramework;
-}Ï)ﬂÌö  Mõ  Mú  „¡ /∆ã  §´  
+}Ï)ﬂÌü  M†  M°  „¡ /∆ã  ∏´  

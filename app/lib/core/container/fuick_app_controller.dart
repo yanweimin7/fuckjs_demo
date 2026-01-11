@@ -36,7 +36,6 @@ class FuickAppController {
     final renderer = ctx.global.getProperty('FuickUIController');
     if (renderer is JSObject) {
       renderer.invoke('render', [pageId, path, params]);
-      ctx.runJobs(); // Ensure microtasks (like useEffect) run
     } else {
       debugPrint('Warning: FuickUIController not found in JS global context');
     }

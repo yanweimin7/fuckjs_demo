@@ -40,9 +40,51 @@ function setupPolyfills() {
   globalThis.setInterval = Timer.setInterval as any;
   globalThis.clearInterval = Timer.clearInterval as any;
 
+  // queueMicrotask
   if (typeof globalThis.queueMicrotask !== 'function') {
     globalThis.queueMicrotask = function (fn: () => void) {
       Promise.resolve().then(fn);
     };
+  } else {
+    const originalQueueMicrotask = globalThis.queueMicrotask;
+    globalThis.queueMicrotask = function (fn: () => void) {
+      notifyMicrotaskEnqueued();
+      originalQueueMicrotask(fn);
+    };
   }
+
+  setupPromiseInterception();
+}
+
+function notifyMicrotaskEnqueued() {
+  // @ts-ignore
+  if (typeof globalThis.__qjs_run_jobs === 'function') {
+    // @ts-ignore
+    globalThis.__qjs_run_jobs();
+  }
+}
+
+function setupPromiseInterception() {
+  const Proto = Promise.prototype;
+  const originalThen = Proto.then;
+  const originalCatch = Proto.catch;
+  const originalFinally = Proto.finally;
+
+  // @ts-ignore
+  Proto.then = function (onfulfilled?: any, onrejected?: any) {
+    notifyMicrotaskEnqueued();
+    return originalThen.call(this, onfulfilled, onrejected);
+  };
+
+  // @ts-ignore
+  Proto.catch = function (onrejected?: any) {
+    notifyMicrotaskEnqueued();
+    return originalCatch.call(this, onrejected);
+  };
+
+  // @ts-ignore
+  Proto.finally = function (onfinally?: any) {
+    notifyMicrotaskEnqueued();
+    return originalFinally.call(this, onfinally);
+  };
 }

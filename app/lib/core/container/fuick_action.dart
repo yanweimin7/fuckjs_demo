@@ -10,6 +10,5 @@ class FuickAction {
       return;
     }
     controller.ctx.global.invoke('__dispatchEvent', [eventObj, value]);
-    controller.ctx.runJobs(); // Ensure microtasks run after event dispatch
   }
 }

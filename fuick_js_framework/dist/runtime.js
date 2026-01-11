@@ -74,4 +74,18 @@ function setupPolyfills() {
             Promise.resolve().then(fn);
         };
     }
+    setupPromiseInterception();
+}
+function setupPromiseInterception() {
+    const originalThen = Promise.prototype.then;
+    // @ts-ignore
+    Promise.prototype.then = function (onfulfilled, onrejected) {
+        // 通知 Dart：JS 侧产生了新的微任务
+        // @ts-ignore
+        if (typeof globalThis.dartCallNative === 'function') {
+            // @ts-ignore
+            globalThis.dartCallNative('onMicrotaskEnqueued', null);
+        }
+        return originalThen.call(this, onfulfilled, onrejected);
+    };
 }
