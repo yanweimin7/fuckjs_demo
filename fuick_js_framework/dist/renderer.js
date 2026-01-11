@@ -8,15 +8,17 @@ exports.createRenderer = createRenderer;
 const react_reconciler_1 = __importDefault(require("react-reconciler"));
 const hostConfig_1 = require("./hostConfig");
 const PageContainer_1 = require("./PageContainer");
+const containers = {};
+const roots = {};
 function dispatchEvent(eventObj, payload) {
     try {
+        const pageId = eventObj?.pageId;
         const nodeId = eventObj?.id;
         const eventKey = eventObj?.eventKey;
-        const node = (0, hostConfig_1.getNodeById)(nodeId);
-        if (node) {
-            const fn = node.getCallback(eventKey);
+        const container = containers[pageId];
+        if (container) {
+            const fn = container.getCallback(nodeId, eventKey);
             if (typeof fn === 'function') {
-                // Wrap with act-like behavior if necessary or ensure React flushes updates
                 fn(payload);
             }
         }
@@ -27,8 +29,6 @@ function dispatchEvent(eventObj, payload) {
 }
 function createRenderer() {
     const reconciler = (0, react_reconciler_1.default)((0, hostConfig_1.createHostConfig)());
-    const containers = {};
-    const roots = {};
     function ensureRoot(pageId) {
         if (roots[pageId])
             return roots[pageId];

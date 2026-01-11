@@ -69,23 +69,46 @@ function setupPolyfills() {
     globalThis.clearTimeout = Timer.clearTimeout;
     globalThis.setInterval = Timer.setInterval;
     globalThis.clearInterval = Timer.clearInterval;
+    // queueMicrotask
     if (typeof globalThis.queueMicrotask !== 'function') {
         globalThis.queueMicrotask = function (fn) {
             Promise.resolve().then(fn);
         };
     }
+    else {
+        const originalQueueMicrotask = globalThis.queueMicrotask;
+        globalThis.queueMicrotask = function (fn) {
+            notifyMicrotaskEnqueued();
+            originalQueueMicrotask(fn);
+        };
+    }
     setupPromiseInterception();
 }
-function setupPromiseInterception() {
-    const originalThen = Promise.prototype.then;
+function notifyMicrotaskEnqueued() {
     // @ts-ignore
-    Promise.prototype.then = function (onfulfilled, onrejected) {
-        // 通知 Dart：JS 侧产生了新的微任务
+    if (typeof globalThis.__qjs_run_jobs === 'function') {
         // @ts-ignore
-        if (typeof globalThis.dartCallNative === 'function') {
-            // @ts-ignore
-            globalThis.dartCallNative('onMicrotaskEnqueued', null);
-        }
+        globalThis.__qjs_run_jobs();
+    }
+}
+function setupPromiseInterception() {
+    const Proto = Promise.prototype;
+    const originalThen = Proto.then;
+    const originalCatch = Proto.catch;
+    const originalFinally = Proto.finally;
+    // @ts-ignore
+    Proto.then = function (onfulfilled, onrejected) {
+        notifyMicrotaskEnqueued();
         return originalThen.call(this, onfulfilled, onrejected);
+    };
+    // @ts-ignore
+    Proto.catch = function (onrejected) {
+        notifyMicrotaskEnqueued();
+        return originalCatch.call(this, onrejected);
+    };
+    // @ts-ignore
+    Proto.finally = function (onfinally) {
+        notifyMicrotaskEnqueued();
+        return originalFinally.call(this, onfinally);
     };
 }

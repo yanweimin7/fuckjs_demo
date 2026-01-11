@@ -33,7 +33,7 @@ void qjs_call_function(void *handle, QjsResult *obj_res, QjsResult *args,
 void qjs_invoke_method(void *handle, QjsResult *obj_res, const char *name,
                        QjsResult *args, int32_t argc, QjsResult *out);
 void qjs_evaluate_value_out(void *handle, const char *code, int32_t len,
-                            QjsResult *out);
+                            int32_t is_bytecode, QjsResult *out);
 int32_t qjs_run_jobs(void *handle);
 
 void qjs_async_resolve_typed(void *handle, int id, QjsResult *result);

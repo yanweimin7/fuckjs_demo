@@ -18196,119 +18196,8 @@ var process=process||{env:{NODE_ENV:"development"}};
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.createHostConfig = exports.Node = exports.TEXT_TYPE = void 0;
-      exports.getNodeById = getNodeById;
+      exports.createHostConfig = void 0;
       var react_1 = __importDefault(require_react_development());
-      exports.TEXT_TYPE = "Text";
-      var nextNodeId = 1;
-      var allNodes = /* @__PURE__ */ new Map();
-      function getNodeById(id) {
-        return allNodes.get(id);
-      }
-      var Node = class {
-        constructor(type, props, container) {
-          this.children = [];
-          this.eventCallbacks = /* @__PURE__ */ new Map();
-          this.id = nextNodeId++;
-          this.type = type;
-          this.props = {};
-          this.container = container;
-          allNodes.set(this.id, this);
-          this.applyProps(props);
-        }
-        applyProps(newProps) {
-          if (newProps) {
-            this.clearCallbacks();
-            const propKeys = Object.keys(newProps);
-            for (const key of propKeys) {
-              if (key === "children")
-                continue;
-              const value = newProps[key];
-              this.props[key] = value;
-              if (typeof value === "function") {
-                this.saveCallback(key, value);
-              }
-            }
-          }
-        }
-        saveCallback(key, fn) {
-          this.eventCallbacks.set(key, fn);
-        }
-        clearCallbacks() {
-          this.eventCallbacks.clear();
-        }
-        getCallback(key) {
-          return this.eventCallbacks.get(key);
-        }
-        toDsl() {
-          let type = this.type;
-          if (!type)
-            return null;
-          if (type.startsWith("flutter-")) {
-            type = type.substring(8).split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("");
-          }
-          const props = {};
-          if (this.props) {
-            for (const key in this.props) {
-              if (key === "children")
-                continue;
-              if (key === "key" || key === "ref" || key === "isBoundary")
-                continue;
-              const value = this.props[key];
-              if (typeof value === "function") {
-                this.saveCallback(key, value);
-                props[key] = { id: this.id, eventKey: key };
-              } else if (key === "style" && value && typeof value === "object") {
-                props[key] = { ...value };
-              } else {
-                props[key] = value;
-              }
-            }
-          }
-          props["__nodeId"] = this.id;
-          const children = [];
-          for (const child of this.children) {
-            if (child.type === "flutter-props") {
-              const propsKey = child.props?.propsKey;
-              if (propsKey) {
-                const propChildren = child.children.map((c) => c.toDsl()).filter((c) => c !== null);
-                if (propChildren.length > 0) {
-                  const newValue = propChildren.length === 1 ? propChildren[0] : propChildren;
-                  if (props[propsKey]) {
-                    if (Array.isArray(props[propsKey])) {
-                      props[propsKey].push(newValue);
-                    } else {
-                      props[propsKey] = [props[propsKey], newValue];
-                    }
-                  } else {
-                    props[propsKey] = newValue;
-                  }
-                }
-              }
-            } else {
-              const dslChild = child.toDsl();
-              if (dslChild) {
-                children.push(dslChild);
-              }
-            }
-          }
-          return {
-            id: this.id,
-            type: String(type),
-            isBoundary: !!this.props?.isBoundary,
-            props,
-            children
-          };
-        }
-        destroy() {
-          allNodes.delete(this.id);
-          this.eventCallbacks.clear();
-          for (const child of this.children) {
-            child.destroy();
-          }
-        }
-      };
-      exports.Node = Node;
       function deepEqual(objA, objB) {
         if (objA === objB)
           return true;
@@ -18456,11 +18345,23 @@ var process=process||{env:{NODE_ENV:"development"}};
           commitUpdate: (instance, updatePayload, type, oldProps, newProps, internalInstanceHandle) => {
             instance.applyProps(newProps);
             if (updatePayload && instance.container) {
-              const container = instance.container;
-              if (typeof container.markChanged === "function") {
-                container.markChanged(instance);
-              } else {
-                container.changedNodes.add(instance);
+              let hasDslChanges = false;
+              for (let i = 0; i < updatePayload.length; i += 2) {
+                const key = updatePayload[i];
+                const newVal = updatePayload[i + 1];
+                const oldVal = oldProps[key];
+                if (!(key in oldProps) || newVal === null || typeof oldVal !== "function" || typeof newVal !== "function") {
+                  hasDslChanges = true;
+                  break;
+                }
+              }
+              if (hasDslChanges) {
+                const container = instance.container;
+                if (typeof container.markChanged === "function") {
+                  container.markChanged(instance);
+                } else {
+                  container.changedNodes.add(instance);
+                }
               }
             }
           },
@@ -18482,19 +18383,148 @@ var process=process||{env:{NODE_ENV:"development"}};
     }
   });
 
+  // ../fuick_js_framework/dist/node.js
+  var require_node = __commonJS({
+    "../fuick_js_framework/dist/node.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.Node = exports.TEXT_TYPE = void 0;
+      exports.TEXT_TYPE = "Text";
+      var nextNodeId = 1;
+      var Node = class {
+        constructor(type, props, container) {
+          this.children = [];
+          this.eventKeys = /* @__PURE__ */ new Set();
+          this.id = nextNodeId++;
+          this.type = type;
+          this.props = {};
+          this.container = container;
+          this.applyProps(props);
+        }
+        applyProps(newProps) {
+          this.clearCallbacks();
+          this.props = {};
+          if (newProps) {
+            const propKeys = Object.keys(newProps);
+            for (const key of propKeys) {
+              if (key === "children")
+                continue;
+              const value = newProps[key];
+              this.props[key] = value;
+              if (typeof value === "function") {
+                this.saveCallback(key, value);
+              }
+            }
+          }
+        }
+        saveCallback(key, fn) {
+          this.eventKeys.add(key);
+          this.container?.registerCallback(this.id, key, fn);
+        }
+        clearCallbacks() {
+          if (this.container) {
+            for (const key of this.eventKeys) {
+              this.container.unregisterCallback(this.id, key);
+            }
+          }
+          this.eventKeys.clear();
+        }
+        getCallback(key) {
+          return this.container?.getCallback(this.id, key);
+        }
+        toDsl() {
+          let type = this.type;
+          if (!type)
+            return null;
+          if (type.startsWith("flutter-")) {
+            type = type.substring(8).split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("");
+          }
+          const props = {};
+          if (this.props) {
+            for (const key in this.props) {
+              if (key === "children")
+                continue;
+              if (key === "key" || key === "ref" || key === "isBoundary")
+                continue;
+              const value = this.props[key];
+              if (typeof value === "function") {
+                props[key] = { id: this.id, eventKey: key, pageId: this.container?.pageId };
+              } else if (key === "style" && value && typeof value === "object") {
+                props[key] = { ...value };
+              } else {
+                props[key] = value;
+              }
+            }
+          }
+          props["__nodeId"] = this.id;
+          const children = [];
+          for (const child of this.children) {
+            if (child.type === "flutter-props") {
+              const propsKey = child.props?.propsKey;
+              if (propsKey) {
+                const propChildren = child.children.map((c) => c.toDsl()).filter((c) => c !== null);
+                if (propChildren.length > 0) {
+                  const newValue = propChildren.length === 1 ? propChildren[0] : propChildren;
+                  if (props[propsKey]) {
+                    if (Array.isArray(props[propsKey])) {
+                      props[propsKey].push(newValue);
+                    } else {
+                      props[propsKey] = [props[propsKey], newValue];
+                    }
+                  } else {
+                    props[propsKey] = newValue;
+                  }
+                }
+              }
+            } else {
+              const dslChild = child.toDsl();
+              if (dslChild) {
+                children.push(dslChild);
+              }
+            }
+          }
+          return {
+            id: this.id,
+            type: String(type),
+            isBoundary: !!this.props?.isBoundary,
+            props,
+            children
+          };
+        }
+        destroy() {
+          this.clearCallbacks();
+          for (const child of this.children) {
+            child.destroy();
+          }
+        }
+      };
+      exports.Node = Node;
+    }
+  });
+
   // ../fuick_js_framework/dist/PageContainer.js
   var require_PageContainer = __commonJS({
     "../fuick_js_framework/dist/PageContainer.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.PageContainer = void 0;
-      var hostConfig_1 = require_hostConfig();
+      var node_1 = require_node();
       var PageContainer = class {
         constructor(pageId) {
           this.root = null;
           this.changedNodes = /* @__PURE__ */ new Set();
           this.rendered = false;
+          this.eventCallbacks = /* @__PURE__ */ new Map();
           this.pageId = pageId;
+        }
+        registerCallback(nodeId, eventKey, fn) {
+          this.eventCallbacks.set(`${nodeId}:${eventKey}`, fn);
+        }
+        unregisterCallback(nodeId, eventKey) {
+          this.eventCallbacks.delete(`${nodeId}:${eventKey}`);
+        }
+        getCallback(nodeId, eventKey) {
+          return this.eventCallbacks.get(`${nodeId}:${eventKey}`);
         }
         markChanged(node) {
           if (!node)
@@ -18506,12 +18536,12 @@ var process=process||{env:{NODE_ENV:"development"}};
           this.changedNodes.add(current);
         }
         createInstance(type, props) {
-          const node = new hostConfig_1.Node(type, props, this);
+          const node = new node_1.Node(type, props, this);
           this.markChanged(node);
           return node;
         }
         createTextInstance(text) {
-          const node = new hostConfig_1.Node(hostConfig_1.TEXT_TYPE, { text }, this);
+          const node = new node_1.Node(node_1.TEXT_TYPE, { text }, this);
           this.markChanged(node);
           return node;
         }
@@ -18675,13 +18705,16 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_reconciler_1 = __importDefault(require_react_reconciler_development());
       var hostConfig_1 = require_hostConfig();
       var PageContainer_1 = require_PageContainer();
+      var containers = {};
+      var roots = {};
       function dispatchEvent(eventObj, payload) {
         try {
+          const pageId = eventObj?.pageId;
           const nodeId = eventObj?.id;
           const eventKey = eventObj?.eventKey;
-          const node = (0, hostConfig_1.getNodeById)(nodeId);
-          if (node) {
-            const fn = node.getCallback(eventKey);
+          const container = containers[pageId];
+          if (container) {
+            const fn = container.getCallback(nodeId, eventKey);
             if (typeof fn === "function") {
               fn(payload);
             }
@@ -18692,8 +18725,6 @@ var process=process||{env:{NODE_ENV:"development"}};
       }
       function createRenderer() {
         const reconciler = (0, react_reconciler_1.default)((0, hostConfig_1.createHostConfig)());
-        const containers = {};
-        const roots = {};
         function ensureRoot(pageId) {
           if (roots[pageId])
             return roots[pageId];
@@ -19051,16 +19082,36 @@ var process=process||{env:{NODE_ENV:"development"}};
           globalThis.queueMicrotask = function(fn) {
             Promise.resolve().then(fn);
           };
+        } else {
+          const originalQueueMicrotask = globalThis.queueMicrotask;
+          globalThis.queueMicrotask = function(fn) {
+            notifyMicrotaskEnqueued();
+            originalQueueMicrotask(fn);
+          };
         }
         setupPromiseInterception();
       }
+      function notifyMicrotaskEnqueued() {
+        if (typeof globalThis.__qjs_run_jobs === "function") {
+          globalThis.__qjs_run_jobs();
+        }
+      }
       function setupPromiseInterception() {
-        const originalThen = Promise.prototype.then;
-        Promise.prototype.then = function(onfulfilled, onrejected) {
-          if (typeof globalThis.dartCallNative === "function") {
-            globalThis.dartCallNative("onMicrotaskEnqueued", null);
-          }
+        const Proto = Promise.prototype;
+        const originalThen = Proto.then;
+        const originalCatch = Proto.catch;
+        const originalFinally = Proto.finally;
+        Proto.then = function(onfulfilled, onrejected) {
+          notifyMicrotaskEnqueued();
           return originalThen.call(this, onfulfilled, onrejected);
+        };
+        Proto.catch = function(onrejected) {
+          notifyMicrotaskEnqueued();
+          return originalCatch.call(this, onrejected);
+        };
+        Proto.finally = function(onfinally) {
+          notifyMicrotaskEnqueued();
+          return originalFinally.call(this, onfinally);
         };
       }
     }

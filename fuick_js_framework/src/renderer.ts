@@ -1,16 +1,21 @@
 import ReactReconciler from 'react-reconciler';
-import { createHostConfig, Node, getNodeById } from './hostConfig';
+import { createHostConfig } from './hostConfig';
+import { Node } from './node';
 import { PageContainer } from './PageContainer';
+
+const containers: Record<number, PageContainer> = {};
+const roots: Record<number, any> = {};
 
 export function dispatchEvent(eventObj: any, payload: any) {
   try {
+    const pageId = eventObj?.pageId;
     const nodeId = eventObj?.id;
     const eventKey = eventObj?.eventKey;
-    const node = getNodeById(nodeId);
-    if (node) {
-      const fn = node.getCallback(eventKey);
+
+    const container = containers[pageId];
+    if (container) {
+      const fn = container.getCallback(nodeId, eventKey);
       if (typeof fn === 'function') {
-        // Wrap with act-like behavior if necessary or ensure React flushes updates
         fn(payload);
       }
     }
@@ -21,9 +26,6 @@ export function dispatchEvent(eventObj: any, payload: any) {
 
 export function createRenderer() {
   const reconciler = ReactReconciler(createHostConfig());
-
-  const containers: Record<number, PageContainer> = {};
-  const roots: Record<number, any> = {};
 
   function ensureRoot(pageId: number) {
     if (roots[pageId]) return roots[pageId];

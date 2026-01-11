@@ -1,13 +1,26 @@
-import { Node, TEXT_TYPE } from './hostConfig';
+import { Node, TEXT_TYPE } from './node';
 
 export class PageContainer {
   pageId: number;
   root: Node | null = null;
   changedNodes: Set<Node> = new Set();
   rendered: boolean = false;
+  private eventCallbacks: Map<string, Function> = new Map();
 
   constructor(pageId: number) {
     this.pageId = pageId;
+  }
+
+  public registerCallback(nodeId: number, eventKey: string, fn: Function) {
+    this.eventCallbacks.set(`${nodeId}:${eventKey}`, fn);
+  }
+
+  public unregisterCallback(nodeId: number, eventKey: string) {
+    this.eventCallbacks.delete(`${nodeId}:${eventKey}`);
+  }
+
+  public getCallback(nodeId: number, eventKey: string): Function | undefined {
+    return this.eventCallbacks.get(`${nodeId}:${eventKey}`);
   }
 
   public markChanged(node: Node | null) {

@@ -1,145 +1,6 @@
 import React from 'react';
 import { PageContainer } from './PageContainer';
-
-export const TEXT_TYPE = 'Text';
-let nextNodeId = 1;
-
-const allNodes = new Map<number, Node>();
-
-export function getNodeById(id: number): Node | undefined {
-  return allNodes.get(id);
-}
-
-export class Node {
-  id: number;
-  type: string;
-  props: any;
-  children: Node[] = [];
-  parent?: Node;
-  container?: PageContainer;
-  private eventCallbacks: Map<string, Function> = new Map();
-
-  constructor(type: string, props: any, container?: PageContainer) {
-    this.id = nextNodeId++;
-    this.type = type;
-    this.props = {}; // Initialize empty props
-    this.container = container;
-    allNodes.set(this.id, this);
-    this.applyProps(props);
-  }
-
-  applyProps(newProps: any) {
-    if (newProps) {
-      // Use Object.assign to ensure all properties from newProps are copied, 
-      // but filter out children as they are handled by reconciler.
-      this.clearCallbacks();
-      const propKeys = Object.keys(newProps);
-      for (const key of propKeys) {
-        if (key === 'children') continue;
-        const value = newProps[key];
-        this.props[key] = value;
-        if (typeof value === 'function') {
-          this.saveCallback(key, value);
-        }
-      }
-    }
-  }
-
-  saveCallback(key: string, fn: Function) {
-    this.eventCallbacks.set(key, fn);
-  }
-
-  clearCallbacks() {
-    this.eventCallbacks.clear();
-  }
-
-  getCallback(key: string): Function | undefined {
-    return this.eventCallbacks.get(key);
-  }
-
-  toDsl(): any {
-    let type = this.type;
-    if (!type) return null;
-
-    // Strip 'flutter-' prefix and convert kebab-case to PascalCase for Flutter side recognition
-    if (type.startsWith('flutter-')) {
-      type = type.substring(8)
-        .split('-')
-        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-        .join('');
-    }
-
-    const props: any = {};
-    if (this.props) {
-      // Use for...in for maximum compatibility with all object types
-      for (const key in this.props) {
-        if (key === 'children') continue;
-        if (key === 'key' || key === 'ref' || key === 'isBoundary') continue;
-
-        const value = this.props[key];
-        if (typeof value === 'function') {
-          this.saveCallback(key, value);
-          props[key] = { id: this.id, eventKey: key };
-        } else if (key === 'style' && value && typeof value === 'object') {
-          props[key] = { ...value };
-        } else {
-          props[key] = value;
-        }
-      }
-    }
-
-    // Inject node ID into props for stateful components like TextField to persist state
-    props['__nodeId'] = this.id;
-
-    const children: any[] = [];
-    for (const child of this.children) {
-      if (child.type === 'flutter-props') {
-        const propsKey = child.props?.propsKey;
-        if (propsKey) {
-          const propChildren = child.children
-            .map((c: any) => c.toDsl())
-            .filter((c: any) => c !== null);
-
-          if (propChildren.length > 0) {
-            const newValue = propChildren.length === 1 ? propChildren[0] : propChildren;
-            if (props[propsKey]) {
-              if (Array.isArray(props[propsKey])) {
-                props[propsKey].push(newValue);
-              } else {
-                props[propsKey] = [props[propsKey], newValue];
-              }
-            } else {
-              props[propsKey] = newValue;
-            }
-          }
-        }
-      } else {
-        const dslChild = child.toDsl();
-        if (dslChild) {
-          children.push(dslChild);
-        }
-      }
-    }
-
-    return {
-      id: this.id,
-      type: String(type),
-      isBoundary: !!this.props?.isBoundary,
-      props: props,
-      children: children
-    };
-  }
-
-  destroy() {
-    allNodes.delete(this.id);
-    this.eventCallbacks.clear();
-    for (const child of this.children) {
-      child.destroy();
-    }
-  }
-}
-
-
+import { Node, TEXT_TYPE } from './node';
 
 function deepEqual(objA: any, objB: any): boolean {
   if (objA === objB) return true;
@@ -306,16 +167,33 @@ export const createHostConfig = (): any => {
 
       // Only mark as changed if there was an actual payload (calculated in prepareUpdate)
       if (updatePayload && instance.container) {
-        // Optimization: check if only functions changed. 
-        // If only functions changed, their representation in DSL (id, eventKey) 
-        // remains the same, so we don't necessarily need a new Flutter patch 
-        // unless the UI needs to reflect something.
-        // For now, we always mark changed if diffProps returned a payload to be safe.
-        const container = instance.container as any;
-        if (typeof container.markChanged === 'function') {
-          container.markChanged(instance);
-        } else {
-          container.changedNodes.add(instance);
+        // Optimization: check if there are any changes that affect the DSL.
+        // If only function references changed for existing event keys, 
+        // the DSL (id, eventKey) remains the same, so no UI patch is needed.
+        let hasDslChanges = false;
+        for (let i = 0; i < updatePayload.length; i += 2) {
+          const key = updatePayload[i];
+          const newVal = updatePayload[i + 1];
+          const oldVal = oldProps[key];
+
+          // DSL changes if:
+          // 1. A prop was added or removed
+          // 2. A non-function prop changed
+          // 3. A prop changed from function to non-function (or vice versa)
+          if (!(key in oldProps) || newVal === null ||
+            typeof oldVal !== 'function' || typeof newVal !== 'function') {
+            hasDslChanges = true;
+            break;
+          }
+        }
+
+        if (hasDslChanges) {
+          const container = instance.container as any;
+          if (typeof container.markChanged === 'function') {
+            container.markChanged(instance);
+          } else {
+            container.changedNodes.add(instance);
+          }
         }
       }
     },
