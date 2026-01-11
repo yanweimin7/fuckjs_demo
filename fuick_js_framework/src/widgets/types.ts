@@ -22,6 +22,7 @@ export interface BaseProps {
     key?: string | number;
     children?: any;
     refId?: string;
+    isBoundary?: boolean;
 }
 
 export interface WidgetProps extends BaseProps {

@@ -28,7 +28,7 @@ class TextFieldParser extends WidgetParser {
     // The DSL structure usually has 'id' at the root of the node object.
     // However, in the current 'parse' interface, we don't pass the full DSL, only props.
     // Let's assume for now that if we need state persistence, the node ID should be in props.
-    final nodeId = (props['__nodeId'] as num?)?.toInt();
+    final nodeId = (props['id'] as num?)?.toInt();
 
     TextEditingController? controller;
     if (nodeId != null) {

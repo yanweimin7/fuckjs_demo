@@ -2303,7 +2303,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var SingleChildScrollView = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-single-child-scroll-view", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-single-child-scroll-view", { ...this.props });
         }
       };
       exports.SingleChildScrollView = SingleChildScrollView;
@@ -18456,7 +18456,6 @@ var process=process||{env:{NODE_ENV:"development"}};
               }
             }
           }
-          props["__nodeId"] = this.id;
           const children = [];
           for (const child of this.children) {
             if (child.type === "flutter-props") {
@@ -18486,7 +18485,7 @@ var process=process||{env:{NODE_ENV:"development"}};
           return {
             id: this.id,
             type: String(type),
-            isBoundary: !!this.props?.isBoundary,
+            ...this.props?.isBoundary ? { isBoundary: true } : {},
             props,
             children
           };
@@ -18552,6 +18551,11 @@ var process=process||{env:{NODE_ENV:"development"}};
               child.parent.children.splice(oldIndex, 1);
               this.markChanged(child.parent);
             }
+          } else {
+            const oldIndex = parent.children.indexOf(child);
+            if (oldIndex >= 0) {
+              parent.children.splice(oldIndex, 1);
+            }
           }
           child.parent = parent;
           parent.children.push(child);
@@ -18565,6 +18569,11 @@ var process=process||{env:{NODE_ENV:"development"}};
               if (child.parent !== parent) {
                 this.markChanged(child.parent);
               }
+            }
+          } else {
+            const oldIndex = parent.children.indexOf(child);
+            if (oldIndex >= 0) {
+              parent.children.splice(oldIndex, 1);
             }
           }
           child.parent = parent;
@@ -18607,9 +18616,9 @@ var process=process||{env:{NODE_ENV:"development"}};
             }
             if (typeof dartCallNative !== "function")
               return;
-            const rootChanged = this.changedNodes.has(this.root);
+            const rootChanged = this.root && this.changedNodes.has(this.root);
             if (!this.rendered || rootChanged) {
-              const dsl = this.root.toDsl();
+              const dsl = this.root?.toDsl();
               if (dsl && dsl.type) {
                 dartCallNative("renderUI", {
                   pageId: Number(this.pageId),
@@ -18654,19 +18663,8 @@ var process=process||{env:{NODE_ENV:"development"}};
                 }
                 if (processedNodes.has(targetNode.id))
                   continue;
-                if (targetNode === this.root)
-                  continue;
                 const dsl = targetNode.toDsl();
                 if (dsl) {
-                  if (targetNode.props?.isBoundary && targetNode.children.length > 0 && !dsl.children) {
-                    const children = [];
-                    for (const child of targetNode.children) {
-                      const childDsl = child.toDsl();
-                      if (childDsl)
-                        children.push(childDsl);
-                    }
-                    dsl.children = children;
-                  }
                   patches.push(dsl);
                   processedNodes.add(targetNode.id);
                 }

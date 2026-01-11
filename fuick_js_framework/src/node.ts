@@ -86,8 +86,7 @@ export class Node {
       }
     }
 
-    // Inject node ID into props for stateful components like TextField to persist state
-    props['__nodeId'] = this.id;
+    // Children are handled separately
 
     const children: any[] = [];
     for (const child of this.children) {
@@ -122,7 +121,7 @@ export class Node {
     return {
       id: this.id,
       type: String(type),
-      isBoundary: !!this.props?.isBoundary,
+      ...(this.props?.isBoundary ? { isBoundary: true } : {}),
       props: props,
       children: children
     };

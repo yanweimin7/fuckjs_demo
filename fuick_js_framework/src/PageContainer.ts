@@ -53,6 +53,13 @@ export class PageContainer {
         child.parent.children.splice(oldIndex, 1);
         this.markChanged(child.parent);
       }
+    } else {
+      // Even if it doesn't have a parent, it might already be in this parent's children 
+      // due to appendInitialChild or other reasons.
+      const oldIndex = parent.children.indexOf(child);
+      if (oldIndex >= 0) {
+        parent.children.splice(oldIndex, 1);
+      }
     }
 
     child.parent = parent;
@@ -70,6 +77,12 @@ export class PageContainer {
         if (child.parent !== parent) {
           this.markChanged(child.parent);
         }
+      }
+    } else {
+      // Ensure it's not already in the target parent's children
+      const oldIndex = parent.children.indexOf(child);
+      if (oldIndex >= 0) {
+        parent.children.splice(oldIndex, 1);
       }
     }
 
@@ -121,10 +134,10 @@ export class PageContainer {
       if (typeof dartCallNative !== 'function') return;
 
       // If root node is in changedNodes or it's the initial render, use renderUI
-      const rootChanged = this.changedNodes.has(this.root);
+      const rootChanged = this.root && this.changedNodes.has(this.root);
 
       if (!this.rendered || rootChanged) {
-        const dsl = this.root.toDsl();
+        const dsl = this.root?.toDsl();
         if (dsl && dsl.type) {
           dartCallNative('renderUI', {
             pageId: Number(this.pageId),
@@ -140,7 +153,6 @@ export class PageContainer {
         const topLevelChangedNodes: Node[] = [];
         for (const node of this.changedNodes) {
           let targetNode = node;
-          // For flutter-props, we care about the parent component being updated
           if (targetNode.type === 'flutter-props' && targetNode.parent) {
             targetNode = targetNode.parent;
           }
@@ -152,11 +164,9 @@ export class PageContainer {
               isRedundant = true;
               break;
             }
-            // Also check if any flutter-props child of an ancestor is in changedNodes (rare but possible)
             current = current.parent;
           }
           if (!isRedundant) {
-            // Avoid duplicates if multiple children of same parent changed
             if (!topLevelChangedNodes.includes(targetNode)) {
               topLevelChangedNodes.push(targetNode);
             }
@@ -176,20 +186,10 @@ export class PageContainer {
           }
 
           if (processedNodes.has(targetNode.id)) continue;
-          if (targetNode === this.root) continue;
 
+          // Allow root node as patch if it's not rootChanged (shouldn't happen with current logic but for safety)
           const dsl = targetNode.toDsl();
           if (dsl) {
-            // Force include children for boundary nodes that have children, 
-            // even if only props were marked as changed.
-            if (targetNode.props?.isBoundary && targetNode.children.length > 0 && !dsl.children) {
-              const children: any[] = [];
-              for (const child of targetNode.children) {
-                const childDsl = child.toDsl();
-                if (childDsl) children.push(childDsl);
-              }
-              dsl.children = children;
-            }
             patches.push(dsl);
             processedNodes.add(targetNode.id);
           }
@@ -208,7 +208,6 @@ export class PageContainer {
       this.clear();
     }
   }
-
 
   clear() {
     this.changedNodes.clear();
