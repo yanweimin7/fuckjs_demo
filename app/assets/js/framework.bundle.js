@@ -18287,6 +18287,70 @@ var process=process||{env:{NODE_ENV:"development"}};
         }
       };
       exports.Node = Node;
+      function deepEqual(objA, objB) {
+        if (objA === objB)
+          return true;
+        if (!objA || !objB || typeof objA !== "object" || typeof objB !== "object")
+          return false;
+        if (react_1.default.isValidElement(objA) || react_1.default.isValidElement(objB))
+          return objA === objB;
+        const keysA = Object.keys(objA);
+        const keysB = Object.keys(objB);
+        if (keysA.length !== keysB.length)
+          return false;
+        for (const key of keysA) {
+          if (!Object.prototype.hasOwnProperty.call(objB, key))
+            return false;
+          const valA = objA[key];
+          const valB = objB[key];
+          if (valA && valB && typeof valA === "object" && typeof valB === "object") {
+            if (!deepEqual(valA, valB))
+              return false;
+          } else if (valA !== valB) {
+            return false;
+          }
+        }
+        return true;
+      }
+      function diffProps(oldProps, newProps) {
+        const updatePayload = [];
+        let hasChanges = false;
+        for (const key in oldProps) {
+          if (key === "children")
+            continue;
+          if (!(key in newProps)) {
+            updatePayload.push(key, null);
+            hasChanges = true;
+          } else if (oldProps[key] !== newProps[key]) {
+            const oldVal = oldProps[key];
+            const newVal = newProps[key];
+            if (typeof oldVal === "function" && typeof newVal === "function") {
+              updatePayload.push(key, newVal);
+              hasChanges = true;
+            } else if (react_1.default.isValidElement(oldVal) || react_1.default.isValidElement(newVal)) {
+              updatePayload.push(key, newVal);
+              hasChanges = true;
+            } else if (oldVal && newVal && typeof oldVal === "object" && typeof newVal === "object") {
+              if (!deepEqual(oldVal, newVal)) {
+                updatePayload.push(key, newVal);
+                hasChanges = true;
+              }
+            } else {
+              updatePayload.push(key, newVal);
+              hasChanges = true;
+            }
+          }
+        }
+        for (const key in newProps) {
+          if (key === "children")
+            continue;
+          if (!(key in oldProps)) {
+            updatePayload.push(key, newProps[key]);
+            hasChanges = true;
+          }
+        }
+        return hasChanges ? updatePayload : null;
+      }
       var createHostConfig = () => {
         return {
           now: Date.now,
@@ -18362,16 +18426,14 @@ var process=process||{env:{NODE_ENV:"development"}};
             container.root = null;
           },
           prepareUpdate: (instance, type, oldProps, newProps, root, hostContext) => {
-            if (oldProps === newProps)
-              return null;
-            return true;
+            return diffProps(oldProps, newProps);
           },
           updateFiberProps: (instance, type, newProps) => {
             instance.applyProps(newProps);
           },
           commitUpdate: (instance, updatePayload, type, oldProps, newProps, internalInstanceHandle) => {
             instance.applyProps(newProps);
-            if (instance.container) {
+            if (updatePayload && instance.container) {
               const container = instance.container;
               if (typeof container.markChanged === "function") {
                 container.markChanged(instance);
@@ -18488,9 +18550,7 @@ var process=process||{env:{NODE_ENV:"development"}};
             if (this.changedNodes.size === 0) {
               return;
             }
-            console.log(`[PageContainer] Starting commit for page ${this.pageId}, changed nodes: ${this.changedNodes.size}`);
             if (!this.root) {
-              console.warn(`[PageContainer] Skip commit for page ${this.pageId}: root is null`);
               return;
             }
             if (typeof dartCallNative !== "function")
@@ -18499,7 +18559,6 @@ var process=process||{env:{NODE_ENV:"development"}};
             if (!this.rendered || rootChanged) {
               const dsl = this.root.toDsl();
               if (dsl && dsl.type) {
-                console.log(`[PageContainer] calling renderUI for page ${this.pageId} DSL:`, JSON.stringify(dsl));
                 dartCallNative("renderUI", {
                   pageId: Number(this.pageId),
                   renderData: dsl
@@ -18509,7 +18568,6 @@ var process=process||{env:{NODE_ENV:"development"}};
             } else {
               const patches = [];
               const processedNodes = /* @__PURE__ */ new Set();
-              console.log(`[PageContainer] Total changed nodes: ${this.changedNodes.size} [${Array.from(this.changedNodes).map((n) => `${n.type}#${n.id}(p:${n.parent?.id || 0})`).join(", ")}]`);
               const topLevelChangedNodes = [];
               for (const node of this.changedNodes) {
                 let targetNode = node;
@@ -18531,7 +18589,6 @@ var process=process||{env:{NODE_ENV:"development"}};
                   }
                 }
               }
-              console.log(`[PageContainer] Top-level changed nodes: ${topLevelChangedNodes.length} [${topLevelChangedNodes.map((n) => `${n.type}#${n.id}`).join(", ")}]`);
               for (const node of topLevelChangedNodes) {
                 if (processedNodes.has(node.id))
                   continue;
@@ -18563,11 +18620,6 @@ var process=process||{env:{NODE_ENV:"development"}};
                 }
               }
               if (patches.length > 0) {
-                for (const p of patches) {
-                  const childIds = p.children ? p.children.map((c) => c.id) : [];
-                  console.log(`[PageContainer] Patch for ${p.type}#${p.id}: childrenCount=${childIds.length}, childIds=[${childIds.join(",")}], props=${JSON.stringify(p.props)}`);
-                }
-                console.log(`[PageContainer] Sending ${patches.length} patches to Flutter:`, JSON.stringify(patches));
                 dartCallNative("patchUI", {
                   pageId: Number(this.pageId),
                   patches
@@ -18781,7 +18833,6 @@ var process=process||{env:{NODE_ENV:"development"}};
         return renderer;
       }
       function render(pageId, path, params) {
-        console.log("render", pageId, path, params);
         const r = ensureRenderer();
         const factory = Router.match(path);
         if (typeof factory === "function") {

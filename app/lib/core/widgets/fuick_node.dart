@@ -20,7 +20,6 @@ class FuickNode {
     List<FuickNode> newChildren,
     FuickNodeManager manager,
   ) {
-    debugPrint('[FuickNode] Updated node $id ($type) with props: $newProps');
     props = _processProps(newProps, manager);
     children = newChildren;
   }
@@ -99,10 +98,7 @@ class FuickNodeManager {
     }
   }
 
-  FuickNode createNode(
-    Map<String, dynamic> dsl,
-    FuickNodeManager manager,
-  ) {
+  FuickNode createNode(Map<String, dynamic> dsl, FuickNodeManager manager) {
     final id = (dsl['id'] as num).toInt();
     final type = dsl['type'] as String;
     final isBoundary = dsl['isBoundary'] == true;
@@ -111,9 +107,7 @@ class FuickNodeManager {
 
     // 1. Recursively create children first
     final List<FuickNode> children = childrenDsl
-        .map(
-          (c) => createNode(Map<String, dynamic>.from(c as Map), manager),
-        )
+        .map((c) => createNode(Map<String, dynamic>.from(c as Map), manager))
         .toList();
 
     // 2. Create new node
@@ -131,6 +125,8 @@ class FuickNodeManager {
     return node;
   }
 
+  ///为什么不采用dart端维护同样的vnode节点，js端只发送有更新的props的方案，因为js端可能触发节点顺序变化，一个listview，如果使用key，会造成key乱掉。维护逻辑变得很重。
+  ///现在比较简单，js端算出最高那一层需要刷新的id，将全量children数据都传递过来，触发刷新
   void applyPatches(List<dynamic> patches, FuickNodeManager manager) {
     for (final patch in patches) {
       if (patch is! Map) continue;

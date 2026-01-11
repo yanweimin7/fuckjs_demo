@@ -23,8 +23,8 @@ class FuickAppController {
   FuickAppController(this.ctx);
 
   void render(int pageId, Map<String, dynamic> dsl) {
-    debugPrint(
-        '[Flutter] Controller.render pageId: $pageId, type: ${dsl['type']}');
+    // debugPrint(
+    //     '[Flutter] Controller.render pageId: $pageId, type: ${dsl['type']}');
     onPageRender[pageId]?.call(dsl);
   }
 

@@ -139,45 +139,85 @@ export class Node {
   }
 }
 
-function shallowEqual(a: any, b: any) {
-  if (a === b) return true;
-  if (!a || !b || typeof a !== 'object' || typeof b !== 'object') return false;
-  const keysA = Object.keys(a).filter(k => k !== 'children');
-  const keysB = Object.keys(b).filter(k => k !== 'children');
+
+
+function deepEqual(objA: any, objB: any): boolean {
+  if (objA === objB) return true;
+  if (!objA || !objB || typeof objA !== 'object' || typeof objB !== 'object') return false;
+
+  // Handle React elements - we already handle them in diffProps, 
+  // but if they end up here, we should treat them as not equal if references differ.
+  if (React.isValidElement(objA) || React.isValidElement(objB)) return objA === objB;
+
+  const keysA = Object.keys(objA);
+  const keysB = Object.keys(objB);
+
   if (keysA.length !== keysB.length) return false;
+
   for (const key of keysA) {
-    if (Object.prototype.hasOwnProperty.call(b, key)) {
-      const valA = a[key];
-      const valB = b[key];
-      if (valA !== valB) {
-        // Optimization: If both are functions, their DSL representation is the same
-        // { id: nodeId, eventKey: key }, so we can treat them as equal to avoid redundant updates.
-        if (typeof valA === 'function' && typeof valB === 'function') {
-          continue;
-        }
+    if (!Object.prototype.hasOwnProperty.call(objB, key)) return false;
 
-        // Skip deep comparison for React elements to avoid performance issues or infinite loops
-        if (React.isValidElement(valA) || React.isValidElement(valB)) {
-          return false;
-        }
+    const valA = objA[key];
+    const valB = objB[key];
 
-        // Only recurse for plain objects that might be style/decoration
-        if (
-          valA && valB &&
-          typeof valA === 'object' && typeof valB === 'object' &&
-          !Array.isArray(valA) && !Array.isArray(valB) &&
-          valA.constructor === Object && valB.constructor === Object
-        ) {
-          if (!shallowEqual(valA, valB)) return false;
-        } else {
-          return false;
-        }
-      }
-    } else {
+    // Recursively check for deep equality
+    if (valA && valB && typeof valA === 'object' && typeof valB === 'object') {
+      if (!deepEqual(valA, valB)) return false;
+    } else if (valA !== valB) {
       return false;
     }
   }
+
   return true;
+}
+
+function diffProps(oldProps: any, newProps: any): any[] | null {
+  const updatePayload: any[] = [];
+  let hasChanges = false;
+
+  // Check for deleted or changed props
+  for (const key in oldProps) {
+    if (key === 'children') continue;
+    if (!(key in newProps)) {
+      updatePayload.push(key, null);
+      hasChanges = true;
+    } else if (oldProps[key] !== newProps[key]) {
+      // Special check for functions/objects
+      const oldVal = oldProps[key];
+      const newVal = newProps[key];
+
+      if (typeof oldVal === 'function' && typeof newVal === 'function') {
+        // Even if the function reference changed, we might not need a Flutter patch
+        // if the representation is the same. But we need to update JS side callbacks.
+        updatePayload.push(key, newVal);
+        hasChanges = true;
+      } else if (React.isValidElement(oldVal) || React.isValidElement(newVal)) {
+        // If it's a JSX element (React element), we should treat it as changed
+        // as its internal content might have changed.
+        updatePayload.push(key, newVal);
+        hasChanges = true;
+      } else if (oldVal && newVal && typeof oldVal === 'object' && typeof newVal === 'object') {
+        if (!deepEqual(oldVal, newVal)) {
+          updatePayload.push(key, newVal);
+          hasChanges = true;
+        }
+      } else {
+        updatePayload.push(key, newVal);
+        hasChanges = true;
+      }
+    }
+  }
+
+  // Check for new props
+  for (const key in newProps) {
+    if (key === 'children') continue;
+    if (!(key in oldProps)) {
+      updatePayload.push(key, newProps[key]);
+      hasChanges = true;
+    }
+  }
+
+  return hasChanges ? updatePayload : null;
 }
 
 export const createHostConfig = (): any => {
@@ -255,20 +295,22 @@ export const createHostConfig = (): any => {
       container.root = null;
     },
     prepareUpdate: (instance: Node, type: string, oldProps: any, newProps: any, root: any, hostContext: any) => {
-      // Return true if any prop changed (including functions) to ensure commitUpdate is called
-      // and callbacks are updated. We will decide whether to trigger a Flutter patch in commitUpdate.
-      if (oldProps === newProps) return null;
-      return true;
+      return diffProps(oldProps, newProps);
     },
     updateFiberProps: (instance: Node, type: string, newProps: any) => {
       instance.applyProps(newProps);
     },
     commitUpdate: (instance: Node, updatePayload: any, type: string, oldProps: any, newProps: any, internalInstanceHandle: any) => {
-      // Always apply props
+      // Update props on the Node instance
       instance.applyProps(newProps);
 
-      // Always mark as changed to be safe, PageContainer.markChanged will find the nearest boundary
-      if (instance.container) {
+      // Only mark as changed if there was an actual payload (calculated in prepareUpdate)
+      if (updatePayload && instance.container) {
+        // Optimization: check if only functions changed. 
+        // If only functions changed, their representation in DSL (id, eventKey) 
+        // remains the same, so we don't necessarily need a new Flutter patch 
+        // unless the UI needs to reflect something.
+        // For now, we always mark changed if diffProps returned a payload to be safe.
         const container = instance.container as any;
         if (typeof container.markChanged === 'function') {
           container.markChanged(instance);

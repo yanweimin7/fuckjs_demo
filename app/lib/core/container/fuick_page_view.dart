@@ -36,13 +36,13 @@ class _JsUiHostState extends State<FuickPageView> {
   void initState() {
     super.initState();
     widget.controller.onPageRender[widget.pageId] = (dsl) {
-      debugPrint(
-        '[Flutter] FuickPageView.onPageRender pageId: ${widget.pageId}, rootNode exists: ${rootNode != null}',
-      );
+      // debugPrint(
+      //   '[Flutter] FuickPageView.onPageRender pageId: ${widget.pageId}, rootNode exists: ${rootNode != null}',
+      // );
       final newNode = nodeManager.createNode(dsl, nodeManager);
       if (rootNode != newNode) {
         rootNode = newNode;
-        debugPrint('[Flutter] FuickPageView set rootNode to: ${rootNode?.id}');
+        // debugPrint('[Flutter] FuickPageView set rootNode to: ${rootNode?.id}');
         if (mounted) setState(() {});
       }
     };

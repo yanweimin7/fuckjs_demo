@@ -14,7 +14,6 @@ export function ensureRenderer() {
 }
 
 export function render(pageId: number, path: string, params: any) {
-    console.log('render', pageId, path, params);
     const r = ensureRenderer();
     const factory = Router.match(path);
     if (typeof factory === 'function') {

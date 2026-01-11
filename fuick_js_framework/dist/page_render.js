@@ -53,7 +53,6 @@ function ensureRenderer() {
     return renderer;
 }
 function render(pageId, path, params) {
-    console.log('render', pageId, path, params);
     const r = ensureRenderer();
     const factory = Router.match(path);
     if (typeof factory === 'function') {

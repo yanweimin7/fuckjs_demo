@@ -89,29 +89,24 @@ var process=process||{env:{NODE_ENV:"development"}};
       const newId = items.length > 0 ? Math.max(...items.map((i) => i.id)) + 1 : 1;
       const newItems = [...items, { id: newId, text: `\u9879\u76EE ${newId}` }];
       setItems(newItems);
-      console.log("wine add item:", newItems.map((e) => e.text).join(", "));
     };
     const deleteItem = (id) => {
       const newItems = items.filter((item) => item.id !== id);
       setItems(newItems);
-      console.log("wine delete item, remaining:", newItems.map((e) => e.text).join(", "));
     };
     const updateItem = (id) => {
       const newItems = items.map(
         (item) => item.id === id ? { ...item, text: `${item.text} (\u5DF2\u66F4\u65B0)` } : item
       );
       setItems(newItems);
-      console.log("wine update item, current:", newItems.map((e) => e.text).join(", "));
     };
     const reverseItems = () => {
       const newItems = [...items].reverse();
       setItems(newItems);
-      console.log("wine reverse items:", newItems.map((e) => e.text).join(", "));
     };
     const shuffleItems = () => {
       const newItems = [...items].sort(() => Math.random() - 0.5);
       setItems(newItems);
-      console.log("wine shuffle items:", newItems.map((e) => e.text).join(", "));
     };
     return /* @__PURE__ */ import_react3.default.createElement(
       import_fuick_js_framework3.Scaffold,

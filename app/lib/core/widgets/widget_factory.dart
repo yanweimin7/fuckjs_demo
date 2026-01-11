@@ -213,13 +213,7 @@ class _FuickNodeWidgetState extends State<_FuickNodeWidget> {
   }
 
   void _onNodeChanged(FuickNode newNode) {
-    debugPrint(
-      '[Flutter] _FuickNodeWidgetState._onNodeChanged for node ${newNode.id} (${newNode.type}), mounted: $mounted',
-    );
     if (mounted) {
-      debugPrint(
-        '[Flutter] Node ${newNode.id} (${newNode.type}) triggering setState() with new data',
-      );
       setState(() {
         _currentNode = newNode;
       });

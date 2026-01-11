@@ -101,9 +101,7 @@ export class PageContainer {
       if (this.changedNodes.size === 0) {
         return;
       }
-      console.log(`[PageContainer] Starting commit for page ${this.pageId}, changed nodes: ${this.changedNodes.size}`);
       if (!this.root) {
-        console.warn(`[PageContainer] Skip commit for page ${this.pageId}: root is null`);
         return;
       }
 
@@ -115,7 +113,6 @@ export class PageContainer {
       if (!this.rendered || rootChanged) {
         const dsl = this.root.toDsl();
         if (dsl && dsl.type) {
-          console.log(`[PageContainer] calling renderUI for page ${this.pageId} DSL:`, JSON.stringify(dsl));
           dartCallNative('renderUI', {
             pageId: Number(this.pageId),
             renderData: dsl
@@ -125,9 +122,6 @@ export class PageContainer {
       } else {
         const patches: any[] = [];
         const processedNodes = new Set<number>();
-
-        // Log the current changed nodes for debugging
-        console.log(`[PageContainer] Total changed nodes: ${this.changedNodes.size} [${Array.from(this.changedNodes).map(n => `${n.type}#${n.id}(p:${n.parent?.id || 0})`).join(', ')}]`);
 
         // Optimization: Only send patches for the top-most changed nodes.
         const topLevelChangedNodes: Node[] = [];
@@ -155,8 +149,6 @@ export class PageContainer {
             }
           }
         }
-
-        console.log(`[PageContainer] Top-level changed nodes: ${topLevelChangedNodes.length} [${topLevelChangedNodes.map(n => `${n.type}#${n.id}`).join(', ')}]`);
 
         for (const node of topLevelChangedNodes) {
           if (processedNodes.has(node.id)) continue;
@@ -191,7 +183,6 @@ export class PageContainer {
         }
 
         if (patches.length > 0) {
-          console.log(`[PageContainer] Sending ${patches.length} patches to Flutter`);
           dartCallNative('patchUI', {
             pageId: Number(this.pageId),
             patches: patches
