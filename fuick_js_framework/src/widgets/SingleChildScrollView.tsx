@@ -7,7 +7,7 @@ export interface SingleChildScrollViewProps extends WidgetProps {
 
 export class SingleChildScrollView extends React.Component<SingleChildScrollViewProps> {
   render(): ReactNode {
-    return React.createElement('flutter-single-child-scroll-view', { ...this.props });
+    return React.createElement('flutter-single-child-scroll-view', { ...this.props});
   }
 }
 

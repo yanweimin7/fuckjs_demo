@@ -1941,7 +1941,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var Column = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-column", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-column", { ...this.props });
         }
       };
       exports.Column = Column;
@@ -1961,7 +1961,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var Row = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-row", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-row", { ...this.props });
         }
       };
       exports.Row = Row;
@@ -1981,11 +1981,33 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var Container = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-container", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-container", { ...this.props });
         }
       };
       exports.Container = Container;
       exports.default = Container;
+    }
+  });
+
+  // ../fuick_js_framework/dist/widgets/Button.js
+  var require_Button = __commonJS({
+    "../fuick_js_framework/dist/widgets/Button.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.Button = void 0;
+      var react_1 = __importDefault(require_react_development());
+      var Button = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-button", {
+            ...this.props
+          });
+        }
+      };
+      exports.Button = Button;
+      exports.default = Button;
     }
   });
 
@@ -2002,35 +2024,6 @@ var process=process||{env:{NODE_ENV:"development"}};
     }
   });
 
-  // ../fuick_js_framework/dist/widgets/Button.js
-  var require_Button = __commonJS({
-    "../fuick_js_framework/dist/widgets/Button.js"(exports) {
-      "use strict";
-      var __importDefault = exports && exports.__importDefault || function(mod) {
-        return mod && mod.__esModule ? mod : { "default": mod };
-      };
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.Button = void 0;
-      var react_1 = __importDefault(require_react_development());
-      var ids_1 = require_ids();
-      var Button = class extends react_1.default.Component {
-        constructor() {
-          super(...arguments);
-          this.controllerId = (0, ids_1.refsId)();
-        }
-        render() {
-          return react_1.default.createElement("flutter-button", {
-            ...this.props,
-            refId: this.props.refId || this.controllerId,
-            isBoundary: true
-          });
-        }
-      };
-      exports.Button = Button;
-      exports.default = Button;
-    }
-  });
-
   // ../fuick_js_framework/dist/widgets/TextField.js
   var require_TextField = __commonJS({
     "../fuick_js_framework/dist/widgets/TextField.js"(exports) {
@@ -2041,9 +2034,17 @@ var process=process||{env:{NODE_ENV:"development"}};
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.TextField = void 0;
       var react_1 = __importDefault(require_react_development());
+      var ids_1 = require_ids();
       var TextField = class extends react_1.default.Component {
+        constructor() {
+          super(...arguments);
+          this.refId = (0, ids_1.refsId)();
+        }
         render() {
-          return react_1.default.createElement("flutter-text-field", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-text-field", {
+            ...this.props,
+            refId: this.props.refId || this.refId
+          });
         }
       };
       exports.TextField = TextField;
@@ -2063,7 +2064,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var Switch = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-switch", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-switch", { ...this.props });
         }
       };
       exports.Switch = Switch;
@@ -2083,7 +2084,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var Expanded = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-expanded", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-expanded", { ...this.props });
         }
       };
       exports.Expanded = Expanded;
@@ -2101,9 +2102,17 @@ var process=process||{env:{NODE_ENV:"development"}};
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.ListView = void 0;
       var react_1 = __importDefault(require_react_development());
+      var ids_1 = require_ids();
       var ListView = class extends react_1.default.Component {
+        constructor() {
+          super(...arguments);
+          this.refId = (0, ids_1.refsId)();
+        }
         render() {
-          return react_1.default.createElement("flutter-list-view", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-list-view", {
+            ...this.props,
+            refId: this.props.refId || this.refId
+          });
         }
       };
       exports.ListView = ListView;
@@ -2123,7 +2132,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var Padding = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-padding", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-padding", { ...this.props });
         }
       };
       exports.Padding = Padding;
@@ -2163,7 +2172,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var SizedBox = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-sized-box", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-sized-box", { ...this.props });
         }
       };
       exports.SizedBox = SizedBox;
@@ -2223,7 +2232,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var Flexible = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-flexible", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-flexible", { ...this.props });
         }
       };
       exports.Flexible = Flexible;
@@ -2243,7 +2252,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var GestureDetector = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-gesture-detector", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-gesture-detector", { ...this.props });
         }
       };
       exports.GestureDetector = GestureDetector;
@@ -2263,7 +2272,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var InkWell = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-ink-well", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-ink-well", { ...this.props });
         }
       };
       exports.InkWell = InkWell;
@@ -2323,7 +2332,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var react_1 = __importDefault(require_react_development());
       var Stack = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-stack", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-stack", { ...this.props });
         }
       };
       exports.Stack = Stack;
@@ -2444,7 +2453,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       var Scaffold = class extends react_1.default.Component {
         render() {
           const { appBar, body, floatingActionButton, children, ...otherProps } = this.props;
-          return react_1.default.createElement("flutter-scaffold", { ...otherProps, isBoundary: true }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), children);
+          return react_1.default.createElement("flutter-scaffold", { ...otherProps }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), children);
         }
       };
       exports.Scaffold = Scaffold;
@@ -2484,13 +2493,49 @@ var process=process||{env:{NODE_ENV:"development"}};
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.PageView = void 0;
       var react_1 = __importDefault(require_react_development());
+      var ids_1 = require_ids();
       var PageView = class extends react_1.default.Component {
+        constructor() {
+          super(...arguments);
+          this.refId = (0, ids_1.refsId)();
+        }
         render() {
-          return react_1.default.createElement("flutter-page-view", { ...this.props, isBoundary: true });
+          return react_1.default.createElement("flutter-page-view", {
+            ...this.props,
+            refId: this.props.refId || this.refId
+          });
         }
       };
       exports.PageView = PageView;
       exports.default = PageView;
+    }
+  });
+
+  // ../fuick_js_framework/dist/widgets/GridView.js
+  var require_GridView = __commonJS({
+    "../fuick_js_framework/dist/widgets/GridView.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.GridView = void 0;
+      var react_1 = __importDefault(require_react_development());
+      var ids_1 = require_ids();
+      var GridView = class extends react_1.default.Component {
+        constructor() {
+          super(...arguments);
+          this.refId = (0, ids_1.refsId)();
+        }
+        render() {
+          return react_1.default.createElement("flutter-grid-view", {
+            ...this.props,
+            refId: this.props.refId || this.refId
+          });
+        }
+      };
+      exports.GridView = GridView;
+      exports.default = GridView;
     }
   });
 
@@ -2544,6 +2589,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       __exportStar(require_AppBar(), exports);
       __exportStar(require_FlutterProps(), exports);
       __exportStar(require_PageView(), exports);
+      __exportStar(require_GridView(), exports);
     }
   });
 
@@ -2589,7 +2635,7 @@ var process=process||{env:{NODE_ENV:"development"}};
         };
       }();
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.PageView = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
+      exports.GridView = exports.PageView = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
       var Widgets = __importStar(require_widgets());
       exports.Column = Widgets.Column;
       exports.Container = Widgets.Container;
@@ -2618,7 +2664,13 @@ var process=process||{env:{NODE_ENV:"development"}};
       exports.Scaffold = Widgets.Scaffold;
       exports.AppBar = Widgets.AppBar;
       exports.FlutterProps = Widgets.FlutterProps;
-      exports.PageView = Widgets.PageView;
+      var widgets_1 = require_widgets();
+      Object.defineProperty(exports, "PageView", { enumerable: true, get: function() {
+        return widgets_1.PageView;
+      } });
+      Object.defineProperty(exports, "GridView", { enumerable: true, get: function() {
+        return widgets_1.GridView;
+      } });
     }
   });
 
@@ -18456,6 +18508,7 @@ var process=process||{env:{NODE_ENV:"development"}};
               }
             }
           }
+          const refId = this.props?.refId;
           const children = [];
           for (const child of this.children) {
             if (child.type === "flutter-props") {
@@ -18484,6 +18537,7 @@ var process=process||{env:{NODE_ENV:"development"}};
           }
           return {
             id: this.id,
+            ...refId ? { refId: String(refId) } : {},
             type: String(type),
             ...this.props?.isBoundary ? { isBoundary: true } : {},
             props,
@@ -19205,6 +19259,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       __exportStar(require_ErrorBoundary(), exports);
       __exportStar(require_timer(), exports);
       __exportStar(require_console(), exports);
+      __exportStar(require_ids(), exports);
     }
   });
 

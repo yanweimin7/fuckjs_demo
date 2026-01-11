@@ -26,4 +26,4 @@ export declare const SafeArea: typeof Widgets.SafeArea;
 export declare const Scaffold: typeof Widgets.Scaffold;
 export declare const AppBar: typeof Widgets.AppBar;
 export declare const FlutterProps: typeof Widgets.FlutterProps;
-export declare const PageView: typeof Widgets.PageView;
+export { PageView, GridView } from './widgets';

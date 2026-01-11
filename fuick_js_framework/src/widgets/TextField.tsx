@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { WidgetProps } from './types';
+import { refsId } from '../utils/ids';
 
 export interface TextFieldProps extends WidgetProps {
   hintText?: string;
@@ -9,8 +10,13 @@ export interface TextFieldProps extends WidgetProps {
 }
 
 export class TextField extends React.Component<TextFieldProps> {
+  private refId = refsId();
+
   render(): ReactNode {
-    return React.createElement('flutter-text-field', { ...this.props, isBoundary: true });
+    return React.createElement('flutter-text-field', {
+      ...this.props,
+      refId: this.props.refId || this.refId
+    });
   }
 }
 

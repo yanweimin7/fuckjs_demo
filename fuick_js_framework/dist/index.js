@@ -46,3 +46,4 @@ __exportStar(require("./page_render"), exports);
 __exportStar(require("./ErrorBoundary"), exports);
 __exportStar(require("./ex/timer"), exports);
 __exportStar(require("./ex/console"), exports);
+__exportStar(require("./utils/ids"), exports);

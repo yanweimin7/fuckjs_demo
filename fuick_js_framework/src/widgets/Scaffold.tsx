@@ -14,7 +14,7 @@ export class Scaffold extends React.Component<ScaffoldProps> {
     const { appBar, body, floatingActionButton, children, ...otherProps } = this.props;
     return React.createElement(
       'flutter-scaffold',
-      { ...otherProps, isBoundary: true },
+      { ...otherProps },
       appBar && React.createElement(FlutterProps, { propsKey: 'appBar' }, appBar),
       body && React.createElement(FlutterProps, { propsKey: 'body' }, body),
       floatingActionButton && React.createElement(FlutterProps, { propsKey: 'floatingActionButton' }, floatingActionButton),

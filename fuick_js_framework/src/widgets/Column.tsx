@@ -9,7 +9,7 @@ export interface ColumnProps extends WidgetProps {
 
 export class Column extends React.Component<ColumnProps> {
   render(): ReactNode {
-    return React.createElement('flutter-column', { ...this.props, isBoundary: true });
+    return React.createElement('flutter-column', { ...this.props });
   }
 }
 

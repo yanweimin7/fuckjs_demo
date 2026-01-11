@@ -8,7 +8,7 @@ export interface StackProps extends WidgetProps {
 
 export class Stack extends React.Component<StackProps> {
   render(): ReactNode {
-    return React.createElement('flutter-stack', { ...this.props, isBoundary: true });
+    return React.createElement('flutter-stack', { ...this.props });
   }
 }
 

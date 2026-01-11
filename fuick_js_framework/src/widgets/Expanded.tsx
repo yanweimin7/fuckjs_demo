@@ -7,7 +7,7 @@ export interface ExpandedProps extends WidgetProps {
 
 export class Expanded extends React.Component<ExpandedProps> {
   render(): ReactNode {
-    return React.createElement('flutter-expanded', { ...this.props, isBoundary: true });
+    return React.createElement('flutter-expanded', { ...this.props });
   }
 }
 

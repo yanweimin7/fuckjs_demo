@@ -9,7 +9,7 @@ class PageViewParser extends WidgetParser {
   @override
   String get type => 'PageView';
 
-  final Map<int, PageController> _controllers = {};
+  final Map<String, PageController> _controllers = {};
 
   // _lastJSPage 是为了 打断“指令回环”并防止动画抖动 。
   //
@@ -38,7 +38,7 @@ class PageViewParser extends WidgetParser {
   // - JS 意图 ( _lastJSPage )：老板下达的命令。
   // - 物理现状 ( controller.page )：员工当前的工作进度。
   // 只有当 新命令 != 旧命令 时，我们才去调整工作进度。如果仅仅是检查工作进度（直接用 controller.page ），很容易因为进度没赶上命令而重复下令。
-  final Map<int, int> _lastJSPage = {};
+  final Map<String, int> _lastJSPage = {};
 
   @override
   Widget parse(
@@ -48,21 +48,21 @@ class PageViewParser extends WidgetParser {
     WidgetFactory factory,
   ) {
     final int? currentPage = (props['currentPage'] as num?)?.toInt();
-    final int? id = (props['id'] as num?)?.toInt();
+    final String? refId = props['refId']?.toString();
 
-    debugPrint(
-      'PageViewParser: parse id=$id, currentPage=$currentPage, lastJSPage=${_lastJSPage[id]}',
-    );
+    // debugPrint(
+    //   'PageViewParser: parse refId=$refId, currentPage=$currentPage, lastJSPage=${_lastJSPage[refId]}',
+    // );
 
     PageController? controller;
-    if (id != null) {
-      controller = _controllers[id];
+    if (refId != null) {
+      controller = _controllers[refId];
       if (controller == null) {
         controller = PageController(initialPage: currentPage ?? 0);
-        _controllers[id] = controller;
-      } else if (currentPage != null && _lastJSPage[id] != currentPage) {
+        _controllers[refId] = controller;
+      } else if (currentPage != null && _lastJSPage[refId] != currentPage) {
         // Only animate if the prop actually changed from the JS side
-        _lastJSPage[id] = currentPage;
+        _lastJSPage[refId] = currentPage;
         if (controller.hasClients && controller.page?.round() != currentPage) {
           debugPrint('PageViewParser: animating to page $currentPage');
           Future.microtask(() {
@@ -79,14 +79,14 @@ class PageViewParser extends WidgetParser {
     return WidgetUtils.wrapPadding(
       props,
       PageView(
-        key: id != null ? ValueKey('pageview_$id') : null,
+        key: refId != null ? ValueKey('pageview_$refId') : null,
         controller: controller,
         scrollDirection: props['scrollDirection'] == 'vertical'
             ? Axis.vertical
             : Axis.horizontal,
         onPageChanged: (index) {
-          if (id != null) {
-            _lastJSPage[id] = index;
+          if (refId != null) {
+            _lastJSPage[refId] = index;
           }
           if (props['onPageChanged'] != null) {
             FuickAction.event(context, props['onPageChanged'], value: index);
@@ -98,8 +98,9 @@ class PageViewParser extends WidgetParser {
   }
 
   @override
-  void dispose(int id) {
-    _controllers.remove(id)?.dispose();
-    _lastJSPage.remove(id);
+  void dispose(int nodeId) {
+    // We are using refId for controller management, which is a string.
+    // The nodeId cleanup is handled by the framework but we might not have a direct mapping here.
+    // PageControllers in _controllers will persist as long as the parser lives or until manually cleared.
   }
 }

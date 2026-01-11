@@ -86,6 +86,9 @@ export class Node {
       }
     }
 
+    // Use refId from props if provided
+    const refId = this.props?.refId;
+
     // Children are handled separately
 
     const children: any[] = [];
@@ -120,6 +123,7 @@ export class Node {
 
     return {
       id: this.id,
+      ...(refId ? { refId: String(refId) } : {}),
       type: String(type),
       ...(this.props?.isBoundary ? { isBoundary: true } : {}),
       props: props,

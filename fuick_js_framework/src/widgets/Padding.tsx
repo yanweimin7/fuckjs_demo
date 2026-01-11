@@ -7,7 +7,7 @@ export interface PaddingProps extends WidgetProps {
 
 export class Padding extends React.Component<PaddingProps> {
   render(): ReactNode {
-    return React.createElement('flutter-padding', { ...this.props, isBoundary: true });
+    return React.createElement('flutter-padding', { ...this.props });
   }
 }
 

@@ -7,3 +7,4 @@ export * from './page_render';
 export * from './ErrorBoundary';
 export * from './ex/timer';
 export * from './ex/console';
+export * from './utils/ids';

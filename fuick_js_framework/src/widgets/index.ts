@@ -27,3 +27,4 @@ export * from './Scaffold';
 export * from './AppBar';
 export * from './FlutterProps';
 export * from './PageView';
+export * from './GridView';

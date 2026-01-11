@@ -8,7 +8,7 @@ export interface FlexibleProps extends WidgetProps {
 
 export class Flexible extends React.Component<FlexibleProps> {
   render(): ReactNode {
-    return React.createElement('flutter-flexible', { ...this.props, isBoundary: true });
+    return React.createElement('flutter-flexible', { ...this.props });
   }
 }
 
