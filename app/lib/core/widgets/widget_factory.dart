@@ -28,6 +28,7 @@ import 'parsers/gesture_detector_parser.dart';
 import 'parsers/ink_well_parser.dart';
 import 'parsers/circular_progress_indicator_parser.dart';
 import 'parsers/safe_area_parser.dart';
+import 'parsers/page_view_parser.dart';
 
 class WidgetFactory {
   static final WidgetFactory _instance = WidgetFactory._internal();
@@ -65,6 +66,7 @@ class WidgetFactory {
     register(InkWellParser());
     register(CircularProgressIndicatorParser());
     register(SafeAreaParser());
+    register(PageViewParser());
   }
 
   void register(WidgetParser parser) {

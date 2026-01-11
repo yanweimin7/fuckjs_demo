@@ -12,6 +12,7 @@ import {
   Stack,
   Positioned,
   Divider,
+  PageView,
 } from 'fuick_js_framework';
 
 const ASSETS = [
@@ -19,6 +20,12 @@ const ASSETS = [
   { id: 'btc', symbol: 'BTC', name: 'Bitcoin', balance: '0.045', value: '1,920.15', change: '-1.2%', icon: 'currency_bitcoin', color: '#F7931A' },
   { id: 'usdt', symbol: 'USDT', name: 'Tether', balance: '1,250.00', value: '1,250.00', change: '0.0%', icon: 'attach_money', color: '#26A17B' },
   { id: 'sol', symbol: 'SOL', name: 'Solana', balance: '25.4', value: '2,415.80', change: '+5.7%', icon: 'wb_sunny', color: '#14F195' },
+];
+
+const BANNERS = [
+  { id: 1, title: 'New Layer 2 Scaling', subtitle: 'Experience faster transactions with lower fees', color: '#3D7EFF', icon: 'speed' },
+  { id: 2, title: 'DeFi Summer is Back', subtitle: 'Earn up to 15% APY on your stablecoins', color: '#00C853', icon: 'trending_up' },
+  { id: 3, title: 'NFT Marketplace Live', subtitle: 'Discover rare digital collectibles today', color: '#9159FF', icon: 'auto_awesome' },
 ];
 
 const ActionButton = ({ icon, label, color = '#3D7EFF' }: any) => (
@@ -77,10 +84,68 @@ const AssetItem = ({ symbol, name, balance, value, change, icon, color }: any) =
 );
 
 export const HomeTab = () => {
+  const [currentBannerIndex, setCurrentBannerIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    console.log('HomeTab: useEffect starting, BANNERS length:', BANNERS.length);
+    const timer = setInterval(() => {
+      console.log('HomeTab: Interval tick');
+      setCurrentBannerIndex((prev) => {
+        const next = (prev + 1) % BANNERS.length;
+        console.log('HomeTab: Transitioning index from', prev, 'to', next);
+        return next;
+      });
+    }, 4000);
+    return () => {
+      console.log('HomeTab: useEffect clearing timer');
+      clearInterval(timer);
+    };
+  }, []);
+
   return (
     <ListView>
       <Padding padding={{ left: 20, right: 20, top: 10, bottom: 20 }}>
         <Column crossAxisAlignment="stretch">
+          {/* Operations Banner */}
+          <Container height={140} margin={{ bottom: 24 }}>
+            <PageView
+              currentPage={currentBannerIndex}
+              id={1001}
+              onPageChanged={(index) => setCurrentBannerIndex(index)}
+            >
+              {BANNERS.map((banner) => (
+                <Container
+                  key={banner.id}
+                  padding={{ all: 20 }}
+                  decoration={{
+                    color: banner.color,
+                    borderRadius: 20,
+                  }}
+                >
+                  <Row>
+                    <Expanded>
+                      <Column crossAxisAlignment="start" mainAxisAlignment="center">
+                        <Text text={banner.title} color="#FFFFFF" fontSize={18} fontWeight="bold" />
+                        <Container height={8} />
+                        <Text text={banner.subtitle} color="#FFFFFFCC" fontSize={13} />
+                      </Column>
+                    </Expanded>
+                    <Container width={12} />
+                    <Container
+                      width={56}
+                      height={56}
+                      decoration={{ color: '#FFFFFF20', borderRadius: 28 }}
+                    >
+                      <Center>
+                        <Icon name={banner.icon} color="#FFFFFF" size={32} />
+                      </Center>
+                    </Container>
+                  </Row>
+                </Container>
+              ))}
+            </PageView>
+          </Container>
+
           {/* Enhanced Wallet Card */}
           <Stack>
             <Container

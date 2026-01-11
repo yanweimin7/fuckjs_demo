@@ -10,6 +10,7 @@ import {
   Expanded,
   ListView,
   Divider,
+  TextField,
 } from 'fuick_js_framework';
 
 const MARKET_DATA = [
@@ -89,6 +90,8 @@ const CategoryPill = ({ label, active }: any) => (
 );
 
 export const MarketTab = () => {
+  const [searchText, setSearchText] = React.useState('');
+
   return (
     <ListView>
       <Padding padding={{ all: 20 }}>
@@ -96,15 +99,20 @@ export const MarketTab = () => {
           <Text text="Market Insights" fontSize={24} fontWeight="bold" color="#1A1D1F" />
           <Container height={20} />
 
-          {/* Search Bar Mock */}
+          {/* Search Bar with TextField */}
           <Container
-            padding={{ horizontal: 16, vertical: 12 }}
+            padding={{ horizontal: 16, vertical: 4 }}
             decoration={{ color: '#F0F3F6', borderRadius: 16 }}
           >
             <Row>
               <Icon name="search" color="#9A9FA5" size={20} />
               <Container width={10} />
-              <Text text="Search crypto assets..." color="#9A9FA5" fontSize={15} />
+              <Expanded>
+                <TextField
+                  hintText="Search crypto assets..."
+                  onChanged={(v) => setSearchText(v)}
+                />
+              </Expanded>
             </Row>
           </Container>
 
@@ -133,7 +141,10 @@ export const MarketTab = () => {
           <Container height={8} />
           <Divider />
 
-          {MARKET_DATA.map(item => (
+          {MARKET_DATA.filter(item =>
+            item.symbol.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.name.toLowerCase().includes(searchText.toLowerCase())
+          ).map(item => (
             <MarketItem key={item.id} {...item} />
           ))}
         </Column>

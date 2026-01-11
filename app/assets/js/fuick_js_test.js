@@ -130,6 +130,11 @@ var process=process||{env:{NODE_ENV:"development"}};
     { id: "usdt", symbol: "USDT", name: "Tether", balance: "1,250.00", value: "1,250.00", change: "0.0%", icon: "attach_money", color: "#26A17B" },
     { id: "sol", symbol: "SOL", name: "Solana", balance: "25.4", value: "2,415.80", change: "+5.7%", icon: "wb_sunny", color: "#14F195" }
   ];
+  var BANNERS = [
+    { id: 1, title: "New Layer 2 Scaling", subtitle: "Experience faster transactions with lower fees", color: "#3D7EFF", icon: "speed" },
+    { id: 2, title: "DeFi Summer is Back", subtitle: "Earn up to 15% APY on your stablecoins", color: "#00C853", icon: "trending_up" },
+    { id: 3, title: "NFT Marketplace Live", subtitle: "Discover rare digital collectibles today", color: "#9159FF", icon: "auto_awesome" }
+  ];
   var ActionButton = ({ icon, label, color = "#3D7EFF" }) => /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, null, /* @__PURE__ */ import_react4.default.createElement(
     import_fuick_js_framework4.Container,
     {
@@ -161,7 +166,50 @@ var process=process||{env:{NODE_ENV:"development"}};
     }
   )))));
   var HomeTab = () => {
-    return /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.ListView, null, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Padding, { padding: { left: 20, right: 20, top: 10, bottom: 20 } }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Stack, null, /* @__PURE__ */ import_react4.default.createElement(
+    const [currentBannerIndex, setCurrentBannerIndex] = import_react4.default.useState(0);
+    import_react4.default.useEffect(() => {
+      console.log("HomeTab: useEffect starting, BANNERS length:", BANNERS.length);
+      const timer = setInterval(() => {
+        console.log("HomeTab: Interval tick");
+        setCurrentBannerIndex((prev) => {
+          const next = (prev + 1) % BANNERS.length;
+          console.log("HomeTab: Transitioning index from", prev, "to", next);
+          return next;
+        });
+      }, 4e3);
+      return () => {
+        console.log("HomeTab: useEffect clearing timer");
+        clearInterval(timer);
+      };
+    }, []);
+    return /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.ListView, null, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Padding, { padding: { left: 20, right: 20, top: 10, bottom: 20 } }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Container, { height: 140, margin: { bottom: 24 } }, /* @__PURE__ */ import_react4.default.createElement(
+      import_fuick_js_framework4.PageView,
+      {
+        currentPage: currentBannerIndex,
+        id: 1001,
+        onPageChanged: (index) => setCurrentBannerIndex(index)
+      },
+      BANNERS.map((banner) => /* @__PURE__ */ import_react4.default.createElement(
+        import_fuick_js_framework4.Container,
+        {
+          key: banner.id,
+          padding: { all: 20 },
+          decoration: {
+            color: banner.color,
+            borderRadius: 20
+          }
+        },
+        /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Row, null, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Expanded, null, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { crossAxisAlignment: "start", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: banner.title, color: "#FFFFFF", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Container, { height: 8 }), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Text, { text: banner.subtitle, color: "#FFFFFFCC", fontSize: 13 }))), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Container, { width: 12 }), /* @__PURE__ */ import_react4.default.createElement(
+          import_fuick_js_framework4.Container,
+          {
+            width: 56,
+            height: 56,
+            decoration: { color: "#FFFFFF20", borderRadius: 28 }
+          },
+          /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Center, null, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Icon, { name: banner.icon, color: "#FFFFFF", size: 32 }))
+        ))
+      ))
+    )), /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Stack, null, /* @__PURE__ */ import_react4.default.createElement(
       import_fuick_js_framework4.Container,
       {
         height: 200,
@@ -231,14 +279,23 @@ var process=process||{env:{NODE_ENV:"development"}};
     )
   );
   var MarketTab = () => {
+    const [searchText, setSearchText] = import_react5.default.useState("");
     return /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.ListView, null, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Padding, { padding: { all: 20 } }, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Text, { text: "Market Insights", fontSize: 24, fontWeight: "bold", color: "#1A1D1F" }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 20 }), /* @__PURE__ */ import_react5.default.createElement(
       import_fuick_js_framework5.Container,
       {
-        padding: { horizontal: 16, vertical: 12 },
+        padding: { horizontal: 16, vertical: 4 },
         decoration: { color: "#F0F3F6", borderRadius: 16 }
       },
-      /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Row, null, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Icon, { name: "search", color: "#9A9FA5", size: 20 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { width: 10 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Text, { text: "Search crypto assets...", color: "#9A9FA5", fontSize: 15 }))
-    ), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 24 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 40 }, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.ListView, { scrollDirection: "horizontal" }, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Row, null, /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "All", active: true }), /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "Layer 1", active: false }), /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "DeFi", active: false }), /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "Gaming", active: false }), /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "NFTs", active: false })))), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 24 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Text, { text: "Asset / 24h Volume", fontSize: 13, color: "#9A9FA5", fontWeight: "bold" }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Text, { text: "Price / Change", fontSize: 13, color: "#9A9FA5", fontWeight: "bold" })), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 8 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Divider, null), MARKET_DATA.map((item) => /* @__PURE__ */ import_react5.default.createElement(MarketItem, { key: item.id, ...item })))));
+      /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Row, null, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Icon, { name: "search", color: "#9A9FA5", size: 20 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { width: 10 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Expanded, null, /* @__PURE__ */ import_react5.default.createElement(
+        import_fuick_js_framework5.TextField,
+        {
+          hintText: "Search crypto assets...",
+          onChanged: (v) => setSearchText(v)
+        }
+      )))
+    ), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 24 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 40 }, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.ListView, { scrollDirection: "horizontal" }, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Row, null, /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "All", active: true }), /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "Layer 1", active: false }), /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "DeFi", active: false }), /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "Gaming", active: false }), /* @__PURE__ */ import_react5.default.createElement(CategoryPill, { label: "NFTs", active: false })))), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 24 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Text, { text: "Asset / 24h Volume", fontSize: 13, color: "#9A9FA5", fontWeight: "bold" }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Text, { text: "Price / Change", fontSize: 13, color: "#9A9FA5", fontWeight: "bold" })), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Container, { height: 8 }), /* @__PURE__ */ import_react5.default.createElement(import_fuick_js_framework5.Divider, null), MARKET_DATA.filter(
+      (item) => item.symbol.toLowerCase().includes(searchText.toLowerCase()) || item.name.toLowerCase().includes(searchText.toLowerCase())
+    ).map((item) => /* @__PURE__ */ import_react5.default.createElement(MarketItem, { key: item.id, ...item })))));
   };
 
   // src/pages/wallet/tabs/TradeTab.tsx

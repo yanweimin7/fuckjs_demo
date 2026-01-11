@@ -2474,6 +2474,26 @@ var process=process||{env:{NODE_ENV:"development"}};
     }
   });
 
+  // ../fuick_js_framework/dist/widgets/PageView.js
+  var require_PageView = __commonJS({
+    "../fuick_js_framework/dist/widgets/PageView.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.PageView = void 0;
+      var react_1 = __importDefault(require_react_development());
+      var PageView = class extends react_1.default.Component {
+        render() {
+          return react_1.default.createElement("flutter-page-view", { ...this.props, isBoundary: true });
+        }
+      };
+      exports.PageView = PageView;
+      exports.default = PageView;
+    }
+  });
+
   // ../fuick_js_framework/dist/widgets/index.js
   var require_widgets = __commonJS({
     "../fuick_js_framework/dist/widgets/index.js"(exports) {
@@ -2523,6 +2543,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       __exportStar(require_Scaffold(), exports);
       __exportStar(require_AppBar(), exports);
       __exportStar(require_FlutterProps(), exports);
+      __exportStar(require_PageView(), exports);
     }
   });
 
@@ -2568,7 +2589,7 @@ var process=process||{env:{NODE_ENV:"development"}};
         };
       }();
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
+      exports.PageView = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
       var Widgets = __importStar(require_widgets());
       exports.Column = Widgets.Column;
       exports.Container = Widgets.Container;
@@ -2597,6 +2618,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       exports.Scaffold = Widgets.Scaffold;
       exports.AppBar = Widgets.AppBar;
       exports.FlutterProps = Widgets.FlutterProps;
+      exports.PageView = Widgets.PageView;
     }
   });
 

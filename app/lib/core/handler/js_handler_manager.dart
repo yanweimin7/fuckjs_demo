@@ -45,6 +45,7 @@ class JsHandlerManager {
           timers.remove(id);
           try {
             ctx.global.invoke('__handleTimer', [id]);
+            ctx.runJobs(); // Ensure microtasks run after timeout
           } catch (e) {
             debugPrint('Error calling __handleTimer: $e');
           }
@@ -61,9 +62,8 @@ class JsHandlerManager {
     });
 
     reg.onSync('push', (args) {
-      final m = args is Map
-          ? Map<String, dynamic>.from(args)
-          : <String, dynamic>{};
+      final m =
+          args is Map ? Map<String, dynamic>.from(args) : <String, dynamic>{};
       final path = (m['path'] ?? '') as String;
       final params = m['params'] ?? {};
       if (path.isNotEmpty) {
@@ -140,7 +140,7 @@ class JsHandlerManager {
           final pageId = (m['pageId'] as num?)?.toInt();
           final renderData =
               (m['renderData'] as Map?)?.cast<String, dynamic>() ??
-              const <String, dynamic>{};
+                  const <String, dynamic>{};
           if (pageId != null) {
             controller.render(pageId, renderData);
             return true;

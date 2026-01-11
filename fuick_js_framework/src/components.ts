@@ -27,3 +27,4 @@ export const SafeArea = Widgets.SafeArea;
 export const Scaffold = Widgets.Scaffold;
 export const AppBar = Widgets.AppBar;
 export const FlutterProps = Widgets.FlutterProps;
+export const PageView = Widgets.PageView;
