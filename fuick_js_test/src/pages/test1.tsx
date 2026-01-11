@@ -12,6 +12,9 @@ export const TestPage1 = () => {
           <Button text="Click Me" onTap={() => Navigator.push('/test2', {})} />
           <Container height={10} />
           <Button text="Node Operations Demo" onTap={() => Navigator.push('/demo_ops', {})} />
+          <Container height={10} />
+          <Button text="Wallet App Demo" onTap={() => Navigator.push('/wallet', {})} />
+
         </Column>
 
       </Center>
