@@ -85,21 +85,19 @@ const AssetItem = ({ symbol, name, balance, value, change, icon, color }: any) =
 
 export const HomeTab = () => {
   const [currentBannerIndex, setCurrentBannerIndex] = React.useState(0);
+  const pageViewRef = React.useRef<PageView>(null);
+
   React.useEffect(() => {
-    console.log('HomeTab: useEffect starting, BANNERS length:', BANNERS.length);
     const timer = setInterval(() => {
-      console.log('HomeTab: Interval tick');
-      setCurrentBannerIndex((prev) => {
-        const next = (prev + 1) % BANNERS.length;
-        console.log('HomeTab: Transitioning index from', prev, 'to', next);
-        return next;
-      });
+      const next = (currentBannerIndex + 1) % BANNERS.length;
+      if (pageViewRef.current) {
+        pageViewRef.current.animateToPage(next);
+      }
     }, 4000);
     return () => {
-      console.log('HomeTab: useEffect clearing timer');
       clearInterval(timer);
     };
-  }, []);
+  }, [currentBannerIndex]);
 
   return (
     <ListView>
@@ -108,7 +106,8 @@ export const HomeTab = () => {
           {/* Operations Banner */}
           <Container height={140} margin={{ bottom: 24 }}>
             <PageView
-              currentPage={currentBannerIndex}
+              ref={pageViewRef}
+              initialPage={currentBannerIndex}
               id={1001}
               onPageChanged={(index) => setCurrentBannerIndex(index)}
             >

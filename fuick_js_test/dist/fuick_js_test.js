@@ -167,25 +167,23 @@ var process=process||{env:{NODE_ENV:"development"}};
   )))));
   var HomeTab = () => {
     const [currentBannerIndex, setCurrentBannerIndex] = import_react4.default.useState(0);
+    const pageViewRef = import_react4.default.useRef(null);
     import_react4.default.useEffect(() => {
-      console.log("HomeTab: useEffect starting, BANNERS length:", BANNERS.length);
       const timer = setInterval(() => {
-        console.log("HomeTab: Interval tick");
-        setCurrentBannerIndex((prev) => {
-          const next = (prev + 1) % BANNERS.length;
-          console.log("HomeTab: Transitioning index from", prev, "to", next);
-          return next;
-        });
+        const next = (currentBannerIndex + 1) % BANNERS.length;
+        if (pageViewRef.current) {
+          pageViewRef.current.animateToPage(next);
+        }
       }, 4e3);
       return () => {
-        console.log("HomeTab: useEffect clearing timer");
         clearInterval(timer);
       };
-    }, []);
+    }, [currentBannerIndex]);
     return /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.ListView, null, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Padding, { padding: { left: 20, right: 20, top: 10, bottom: 20 } }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react4.default.createElement(import_fuick_js_framework4.Container, { height: 140, margin: { bottom: 24 } }, /* @__PURE__ */ import_react4.default.createElement(
       import_fuick_js_framework4.PageView,
       {
-        currentPage: currentBannerIndex,
+        ref: pageViewRef,
+        initialPage: currentBannerIndex,
         id: 1001,
         onPageChanged: (index) => setCurrentBannerIndex(index)
       },
