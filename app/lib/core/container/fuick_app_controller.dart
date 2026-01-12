@@ -44,7 +44,8 @@ class FuickAppController {
   }
 
   dynamic getItemDSL(int pageId, String refId, int index) {
-    return ctx.invoke('FuickUIController', 'getItemDSL', [pageId, refId, index]);
+    return ctx
+        .invoke('FuickUIController', 'getItemDSL', [pageId, refId, index]);
   }
 
   void pushWithPath(String path, Map<String, dynamic> params) {

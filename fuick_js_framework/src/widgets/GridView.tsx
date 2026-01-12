@@ -11,13 +11,14 @@ export interface GridViewProps extends WidgetProps {
   itemCount?: number;
   itemBuilder?: (index: number) => ReactNode;
   shrinkWrap?: boolean;
+  cacheKey?: any;
 }
 
 export class GridView extends React.Component<GridViewProps> {
   private _refId = refsId();
 
   public get refId() {
-    return this.props.refId || this._refId;
+    return this.props.refId || this.props.id || (this.props as any).key || this._refId;
   }
 
   public animateTo(offset: number, duration: number = 300, curve: string = 'easeInOut') {

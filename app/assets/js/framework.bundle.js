@@ -980,7 +980,7 @@ var process=process||{env:{NODE_ENV:"production"}};
           this._refId = (0, ids_1.refsId)();
         }
         get refId() {
-          return this.props.refId || this._refId;
+          return this.props.refId || this.props.id || this.props.key || this._refId;
         }
         animateTo(offset, duration = 300, curve = "easeInOut") {
           if (typeof globalThis.dartCallNative === "function") {

@@ -7,6 +7,7 @@ export interface ListViewProps extends WidgetProps {
   shrinkWrap?: boolean;
   itemCount?: number;
   itemBuilder?: (index: number) => ReactNode;
+  cacheKey?: any;
 }
 
 export class ListView extends React.Component<ListViewProps> {

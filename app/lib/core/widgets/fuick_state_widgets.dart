@@ -54,8 +54,8 @@ class _FuickPageViewState extends State<FuickPageView> {
   }
 }
 
-typedef ScrollWidgetBuilder =
-    Widget Function(BuildContext context, ScrollController controller);
+typedef ScrollWidgetBuilder = Widget Function(
+    BuildContext context, ScrollController controller);
 
 class FuickScrollable extends StatefulWidget {
   final String? refId;
@@ -132,8 +132,12 @@ class _FuickItemDSLBuilderState extends State<FuickItemDSLBuilder> {
 
   void _resolveDSL() {
     if (widget.dslOrFuture is Future) {
-      _loading = true;
-      (widget.dslOrFuture as Future).then((value) {
+      final future = widget.dslOrFuture as Future;
+      // If we already have a DSL, don't set loading to true to avoid flickering
+      if (_dsl == null) {
+        _loading = true;
+      }
+      future.then((value) {
         if (mounted) {
           setState(() {
             _dsl = value;
@@ -149,9 +153,10 @@ class _FuickItemDSLBuilderState extends State<FuickItemDSLBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
+    // Only show loading if we don't have any DSL to show
+    if (_loading && _dsl == null) {
       return const SizedBox(
-        height: 50,
+        height: 80,
         child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
       );
     }

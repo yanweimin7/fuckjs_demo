@@ -1566,13 +1566,13 @@ MA   $ ÓD-  ÇßğñÌàğÍÈB   B¼  b ÀW-  ÁUç  ÁU/   ÁU0   ÁUŒ   Ä
     }B Æ  ¤   ¦ @Ê @ä  î pÜ	êC
     Â  ÓìÓB*  ìÓ(ÓM   (ÆÊC Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }Æ    @æ  ä  œ    îÊËÌb  Í+Ç5È&  ¶ÉS' e f  ìc $  c àBà  ğDî  c (ÆÒ	D£ /0Ÿclass extends react_1.default.Component {
+      }Æ    @æ  ä  œ    îÊËÌb  Í+Ç5È&  ¶ÉS' e f  ìc $  c àBà  ğDî  c (ÆÒ	D£ /0Âclass extends react_1.default.Component {
         constructor() {
           super(...arguments);
           this._refId = (0, ids_1.refsId)();
         }
         get refId() {
-          return this.props.refId || this._refId;
+          return this.props.refId || this.props.id || this.props.key || this._refId;
         }
         animateTo(offset, duration = 300, curve = "easeInOut") {
           if (typeof globalThis.dartCallNative === "function") {
@@ -1593,8 +1593,8 @@ MA   $ ÓD-  ÇßğñÌàğÍÈB   B¼  b ÀW-  ÁUç  ÁU/   ÁU0   ÁUŒ   Ä
             isBoundary: true
           }, children);
         }
-      }B       ËÇBT  Bç  íÇBî  (ÆÖ Iget refId() {
-          return this.props.refId || this._refId;
+      }B     6  ËÇBT  Bç  í&ÇBT  Bï  íÇBT  B'  íÇBî  (ÆÖ lget refId() {
+          return this.props.refId || this.props.id || this.props.key || this._refId;
         }@   ~à  â  ä  àÿÿÿÿ â ä   Îb b b  ÓËÔôì¿,ÜÌÕôìó  İÍ9   Bô  ÷ìL9   Cô  õ  ÊBç  Mç  ö  M÷  ÓMğ  ÔMñ  ÕMò  Mø  2  Mù  $ )ÆÙ	îVM4óanimateTo(offset, duration = 300, curve = "easeInOut") {
           if (typeof globalThis.dartCallNative === "function") {
             globalThis.dartCallNative("componentCommand", {
@@ -1615,7 +1615,7 @@ MÖ  c  % Æã	 82©render() {
             isBoundary: true
           }, children);
         }ÓìÓBÒ  íÁ Ë9”   Cf   Ó*  
-MA   $ ÓD2  ÇßğñÌàğÍÈB   B¼  b ÀW2  ÁUç  ÁUö   ÁUŒ   Äi ÎÓÊD2  ÓÊD   )ÆÈ  4,X++<# 8:& ¸"../fuick_js_framework/dist/widgets/GridView.js"(exports) {
+MA   $ ÓD2  ÇßğñÌàğÍÈB   B¼  b ÀW2  ÁUç  ÁUö   ÁUŒ   Äi ÎÓÊD2  ÓÊD   )ÆÈ  4,X++<# 8:& Û"../fuick_js_framework/dist/widgets/GridView.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -1630,7 +1630,7 @@ MA   $ ÓD2  ÇßğñÌàğÍÈB   B¼  b ÀW2  ÁUç  ÁUö   ÁUŒ   Äi ÎÓÊ
           this._refId = (0, ids_1.refsId)();
         }
         get refId() {
-          return this.props.refId || this._refId;
+          return this.props.refId || this.props.id || this.props.key || this._refId;
         }
         animateTo(offset, duration = 300, curve = "easeInOut") {
           if (typeof globalThis.dartCallNative === "function") {
@@ -20412,7 +20412,7 @@ MA   $ ÓD4  ÉßğÓòÉàğÓòÉáğÓòÓÊâğñD4  É_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ 
     }9”   B9  Ë9”   Bf   Ì9”   Bg   Í9”   B@  Î9”   B`   Ä9”   B<   Be  ÄÁ Në   ÄÁNì   ÄÁNí   ÄÃÁU5  ñÄ	ÃÁU6  ñÄ
 ÃÁU7  ñÄÃÁU8  ñÄÃÁU9  ñÄÃÁU:  ñÄÃÁ	U;  ñÄÃÁ
 U<  ñÄÃÁU=  ñÄÃÁU>  ñÄÃÁU?  ñÄÃÁU@  ñÄÃÁUA  ñÄÃÁUB  ñÄÃÁUC  ñÄÃÁUD  ñÄÃÁUE  ñÄÃÁUF  ñÄÃÁUG  ñÄÃÁUH  ñÄÃÁUI  ñÄÃÁUJ  ñÄÃÁUK  ñÄÃÁUL  ñÄ ÃÁUM  ñÄ!ÃÁUN  ñÄ"ÃÁUO  ñÄ#ÃÁUP  ñÄ$ÃÁUQ  ñÄ%ÃÁ UR  ñÄ&ÃÁ!US  ñÄ'ÃÁ"UT  ñÄ(ÃÁ#UU  ñÄ)ÃÁ$UV  ñÄ*ÃÁ%UW  ñÄ+ÃÁ&UX  ñÄ,ÃÁ'UY  ñÄ-ÃÁ(UZ  ñÄ.ÃÁ)U[  ñÄ/ÃÁ*U\  ñÄ0ÃÁ+U]  ñÄ1ÃÁ,U^  ñÄ2ÃÁ-U_  ñÄ3ÃÁ.U`  ñÄ4ÃÁ/Ua  ñÄ5ÃÁ0Ub  ñÄ6ÃÁ1Uc  ñÄ7ÃÁ2Ud  ñÄ8ÃÃ	ğñÄ9ÃÃ8ğñÄ:9   Ã9B   De  9   Ã:D  )ÆÕ f8J ¢  ( ( ( ( ,   : ( (  X ( ( ( ( ( ( ( (  ( : (
- ( ($ (! ( & , , h  X l ¢ ú šJ) † ö Â	 Â , ( ¨ F œ ğ F v+!9X ×Ô() => {
+ ( ($ (! ( & , , h  X l ¢ ú šJ) † ö Â	 Â , ( ¨ F œ ğ F v+!9X úÔ() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -21392,7 +21392,7 @@ U<  ñÄÃÁU=  ñÄÃÁU>  ñÄÃÁU?  ñÄÃÁU@  ñÄÃÁUA  ñÄÃ
           this._refId = (0, ids_1.refsId)();
         }
         get refId() {
-          return this.props.refId || this._refId;
+          return this.props.refId || this.props.id || this.props.key || this._refId;
         }
         animateTo(offset, duration = 300, curve = "easeInOut") {
           if (typeof globalThis.dartCallNative === "function") {

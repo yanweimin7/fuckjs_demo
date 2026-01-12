@@ -391,6 +391,7 @@ const ComplexPage = () => {
             backgroundColor="#F8FAFC"
         >
             <ListView
+                cacheKey={count}
                 itemCount={listData.length + 8}
                 itemBuilder={(index: number) => {
                     if (index === 0) return headerSection;

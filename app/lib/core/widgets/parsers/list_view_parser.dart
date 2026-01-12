@@ -11,19 +11,20 @@ class ListViewParser extends WidgetParser {
   @override
   String get type => 'ListView';
 
-  final Map<String, ScrollController> _controllers = {};
+  final Map<String, GlobalKey<FuickListViewState>> _keys = {};
 
   @override
   void dispose(int nodeId) {}
 
   @override
   void onCommand(String refId, String method, dynamic args) {
-    final controller = _controllers[refId];
-    if (controller == null) {
-      debugPrint('ListViewParser: controller not found for refId $refId');
+    final state = _keys[refId]?.currentState;
+    if (state == null) {
+      debugPrint('ListViewParser: state not found for refId $refId');
       return;
     }
 
+    final controller = state.controller;
     if (method == 'animateTo') {
       final double offset = (args['offset'] as num).toDouble();
       final int duration = (args['duration'] as num?)?.toInt() ?? 300;
@@ -48,67 +49,150 @@ class ListViewParser extends WidgetParser {
     WidgetFactory factory,
   ) {
     final String? refId = props['refId']?.toString();
+    final dynamic cacheKey = props['cacheKey'];
+
+    if (refId != null && !_keys.containsKey(refId)) {
+      _keys[refId] = GlobalKey<FuickListViewState>();
+    }
 
     return WidgetUtils.wrapPadding(
       props,
-      FuickScrollable(
+      FuickListView(
+        key: refId != null ? _keys[refId] : null,
         refId: refId,
-        onControllerCreated: (controller) {
-          if (refId != null) {
-            _controllers[refId] = controller;
-          }
-        },
+        cacheKey: cacheKey,
+        itemCount: (props['itemCount'] as num?)?.toInt(),
+        shrinkWrap: props['shrinkWrap'] ?? true,
+        padding: WidgetUtils.edgeInsets(props['padding']),
+        scrollDirection: WidgetUtils.axis(props['scrollDirection'] as String?),
         onDispose: () {
           if (refId != null) {
-            _controllers.remove(refId);
+            _keys.remove(refId);
           }
         },
-        builder: (context, controller) {
+        itemBuilder: (context, index) {
           final bool hasBuilder = props['hasBuilder'] ?? false;
-          final int? itemCount = (props['itemCount'] as num?)?.toInt();
+          if (!hasBuilder || refId == null) return Container();
 
-          if (hasBuilder && itemCount != null && refId != null) {
-            final appScope = FuickAppScope.of(context);
-            final pageScope = FuickPageScope.of(context);
+          final appScope = FuickAppScope.of(context);
+          final pageScope = FuickPageScope.of(context);
+          if (appScope == null || pageScope == null) return Container();
 
-            return ListView.builder(
-              controller: controller,
-              itemCount: itemCount,
-              shrinkWrap: props['shrinkWrap'] ?? false,
-              padding: WidgetUtils.edgeInsets(props['padding']),
-              scrollDirection: WidgetUtils.axis(
-                props['scrollDirection'] as String?,
-              ),
-              itemBuilder: (context, index) {
-                if (appScope == null || pageScope == null) return Container();
-                final dslOrFuture = appScope.getItemDSL(
-                  pageScope.pageId,
-                  refId,
-                  index,
-                );
-
-                return FuickItemDSLBuilder(
-                  dslOrFuture: dslOrFuture,
-                  builder: (context, dsl) => factory.build(context, dsl),
-                );
-              },
-            );
+          // Check local cache first
+          final state = _keys[refId]?.currentState;
+          if (state != null) {
+            final cachedDsl = state.getCachedDsl(index);
+            if (cachedDsl != null) {
+              return factory.build(context, cachedDsl);
+            }
           }
 
-          final List<Widget> childrenWidgets =
-              factory.buildChildren(context, children);
+          final dslOrFuture = appScope.getItemDSL(
+            pageScope.pageId,
+            refId,
+            index,
+          );
 
-          return ListView(
-            controller: controller,
-            shrinkWrap: props['shrinkWrap'] ?? true,
-            padding: WidgetUtils.edgeInsets(props['padding']),
-            scrollDirection: WidgetUtils.axis(
-              props['scrollDirection'] as String?,
-            ),
-            children: childrenWidgets,
+          return FuickItemDSLBuilder(
+            dslOrFuture: dslOrFuture,
+            builder: (context, dsl) {
+              // Store in local cache when resolved
+              if (state != null) {
+                state.setCachedDsl(index, dsl);
+              }
+              return factory.build(context, dsl);
+            },
           );
         },
+        children: props['hasBuilder'] == true
+            ? null
+            : factory.buildChildren(context, children),
       ),
+    );
+  }
+}
+
+class FuickListView extends StatefulWidget {
+  final String? refId;
+  final int? itemCount;
+  final bool shrinkWrap;
+  final EdgeInsetsGeometry? padding;
+  final Axis scrollDirection;
+  final dynamic cacheKey;
+  final List<Widget>? children;
+  final Widget Function(BuildContext context, int index)? itemBuilder;
+  final ControllerCallback<ScrollController>? onControllerCreated;
+  final VoidCallback? onDispose;
+
+  const FuickListView({
+    super.key,
+    this.refId,
+    this.itemCount,
+    this.shrinkWrap = false,
+    this.padding,
+    this.scrollDirection = Axis.vertical,
+    this.cacheKey,
+    this.children,
+    this.itemBuilder,
+    this.onControllerCreated,
+    this.onDispose,
+  });
+
+  @override
+  State<FuickListView> createState() => FuickListViewState();
+}
+
+class FuickListViewState extends State<FuickListView> {
+  late ScrollController _controller;
+  ScrollController get controller => _controller;
+  final Map<int, dynamic> _dslCache = {};
+
+  dynamic getCachedDsl(int index) => _dslCache[index];
+  void setCachedDsl(int index, dynamic dsl) => _dslCache[index] = dsl;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+    widget.onControllerCreated?.call(_controller);
+  }
+
+  @override
+  void didUpdateWidget(FuickListView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.cacheKey != oldWidget.cacheKey) {
+      setState(() {
+        _dslCache.clear();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.onDispose?.call();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.itemBuilder != null && widget.itemCount != null) {
+      return ListView.builder(
+        controller: _controller,
+        itemCount: widget.itemCount,
+        shrinkWrap: widget.shrinkWrap,
+        padding: widget.padding,
+        scrollDirection: widget.scrollDirection,
+        itemBuilder: widget.itemBuilder!,
+      );
+    }
+
+    return ListView(
+      controller: _controller,
+      shrinkWrap: widget.shrinkWrap,
+      padding: widget.padding,
+      scrollDirection: widget.scrollDirection,
+      children: widget.children ?? [],
     );
   }
 }
