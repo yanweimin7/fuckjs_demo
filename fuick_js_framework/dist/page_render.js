@@ -51,8 +51,9 @@ function ensureRenderer() {
     return renderer;
 }
 function render(pageId, path, params) {
+    const startTime = Date.now();
     const r = ensureRenderer();
-    console.log('render', pageId, path, params);
+    console.log(`[JS Performance] render start for ${path}, pageId: ${pageId}`);
     const factory = Router.match(path);
     if (typeof factory === 'function') {
         const app = factory(params || {});
@@ -62,6 +63,7 @@ function render(pageId, path, params) {
         const app = react_1.default.createElement('Column', { padding: 16, mainAxisAlignment: 'center' }, react_1.default.createElement('Text', { text: `Route ${path} not found`, fontSize: 16, color: '#cc0000' }));
         r.update(app, pageId);
     }
+    console.log(`[JS Performance] render total cost for ${path}: ${Date.now() - startTime}ms`);
 }
 function destroy(pageId) {
     const r = ensureRenderer();

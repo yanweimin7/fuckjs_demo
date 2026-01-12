@@ -64,7 +64,6 @@ class ListViewParser extends WidgetParser {
           }
         },
         builder: (context, controller) {
-          print('wine props ${props}');
           final bool hasBuilder = props['hasBuilder'] ?? false;
           final int? itemCount = (props['itemCount'] as num?)?.toInt();
 

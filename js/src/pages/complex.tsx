@@ -163,7 +163,7 @@ const ComplexPage = () => {
 
     // 生成更大量、更多样化的模拟数据 - 使用 useMemo 避免重复生成
     const listData = React.useMemo(() => {
-        const data = Array.from({ length: 200 }, (_, i) => ({
+        const data = Array.from({ length: 10000 }, (_, i) => ({
             id: i, 
             title: `Token ${i + count}`,
             category: i % 3 === 0 ? 'DeFi' : i % 3 === 1 ? 'NFT' : 'L1',

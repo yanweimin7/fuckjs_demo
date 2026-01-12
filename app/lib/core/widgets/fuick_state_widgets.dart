@@ -155,7 +155,6 @@ class _FuickItemDSLBuilderState extends State<FuickItemDSLBuilder> {
         child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
       );
     }
-    print('wine dsl $_dsl');
     if (_dsl == null) return const SizedBox.shrink();
     return widget.builder(context, _dsl);
   }

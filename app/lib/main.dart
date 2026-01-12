@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'core/container/fuick_app_page.dart';
 import 'core/container/fuick_multi_tab_page.dart';
+import 'core/engine/engine.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // 预热 Isolate 引擎，减少第一次打开小程序的延迟
+  EngineInit.initIsolate();
   runApp(const MyApp());
 }
 

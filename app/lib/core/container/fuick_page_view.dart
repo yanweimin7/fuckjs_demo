@@ -35,7 +35,12 @@ class _JsUiHostState extends State<FuickPageView> {
   @override
   void initState() {
     super.initState();
+    final startTime = DateTime.now();
     widget.controller.onPageRender[widget.pageId] = (dsl) {
+      final cost = DateTime.now().difference(startTime).inMilliseconds;
+      debugPrint(
+        '[Performance] First render (pageId: ${widget.pageId}) cost: ${cost}ms from initState',
+      );
       // debugPrint(
       //   '[Flutter] FuickPageView.onPageRender pageId: ${widget.pageId}, rootNode exists: ${rootNode != null}',
       // );
@@ -64,7 +69,7 @@ class _JsUiHostState extends State<FuickPageView> {
     if (widget.controller.isBundleLoaded.value) {
       _hasRendered = true;
       // 延迟一帧确保 JS 环境完全初始化
-      Future.microtask(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           widget.controller.renderPage(
             widget.pageId,
@@ -116,11 +121,7 @@ class _JsUiHostState extends State<FuickPageView> {
 class FuickPageScope extends InheritedWidget {
   final int pageId;
 
-  const FuickPageScope({
-    super.key,
-    required this.pageId,
-    required super.child,
-  });
+  const FuickPageScope({super.key, required this.pageId, required super.child});
 
   static FuickPageScope? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<FuickPageScope>();

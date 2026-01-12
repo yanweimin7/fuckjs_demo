@@ -21,24 +21,35 @@ const globalsPlugin = {
 }
 
 async function build() {
+  const isProd = !watch;
+  const reactPath = isProd
+    ? 'node_modules/react/cjs/react.production.min.js'
+    : 'node_modules/react/cjs/react.development.js';
+  const reconcilerPath = isProd
+    ? 'node_modules/react-reconciler/cjs/react-reconciler.production.min.js'
+    : 'node_modules/react-reconciler/cjs/react-reconciler.development.js';
+  const schedulerPath = isProd
+    ? 'node_modules/scheduler/cjs/scheduler.production.min.js'
+    : 'node_modules/scheduler/cjs/scheduler.development.js';
+
   const commonOptions = {
     bundle: true,
     platform: 'neutral',
     format: 'iife',
     target: 'es2020',
     minify: false,
-    sourcemap: true,
+    sourcemap: !isProd,
     loader: {
       '.ts': 'ts',
       '.tsx': 'tsx',
     },
     mainFields: ['module', 'main'],
     define: {
-      'process.env.NODE_ENV': '"development"',
+      'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
       global: 'globalThis',
     },
     banner: {
-      js: 'var process=process||{env:{NODE_ENV:\"development\"}};',
+      js: `var process=process||{env:{NODE_ENV:\"${isProd ? 'production' : 'development'}\"}};`,
     },
   };
 
@@ -54,9 +65,9 @@ async function build() {
     entryPoints: ['src/framework_entry.ts'],
     outfile: 'dist/framework.bundle.js',
     alias: {
-      'react': path.resolve(__dirname, 'node_modules/react/cjs/react.development.js'),
-      'react-reconciler': path.resolve(__dirname, 'node_modules/react-reconciler/cjs/react-reconciler.development.js'),
-      'scheduler': path.resolve(__dirname, 'node_modules/scheduler/cjs/scheduler.development.js'),
+      'react': path.resolve(__dirname, reactPath),
+      'react-reconciler': path.resolve(__dirname, reconcilerPath),
+      'scheduler': path.resolve(__dirname, schedulerPath),
       'fuick_js_framework': path.resolve(__dirname, '../fuick_js_framework/dist/index.js'),
     },
   });

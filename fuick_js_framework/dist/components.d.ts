@@ -2,7 +2,7 @@ import * as Widgets from './widgets';
 export declare const Column: typeof Widgets.Column;
 export declare const Container: typeof Widgets.Container;
 export declare const Text: typeof Widgets.Text;
-export declare const ListView: import("react").FC<Widgets.ListViewProps>;
+export declare const ListView: typeof Widgets.ListView;
 export declare const Padding: typeof Widgets.Padding;
 export declare const Row: typeof Widgets.Row;
 export declare const Image: typeof Widgets.Image;

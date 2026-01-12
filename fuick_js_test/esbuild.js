@@ -8,6 +8,7 @@ const watch = process.argv.includes('--watch');
 // qjsc path
 const QJSC_PATH = path.resolve(__dirname, '../../fuickjs_engine/src/main/jni/quickjs/build/qjsc');
 const PROJECT_NAME = 'fuick_js_test';
+const isProd = !watch;
 
 const globalsPlugin = {
   name: 'globals',
@@ -28,7 +29,7 @@ esbuild.build({
   format: 'iife',
   target: 'es2020',
   minify: false,
-  sourcemap: true,
+  sourcemap: !isProd,
   loader: {
     '.ts': 'ts',
     '.tsx': 'tsx',
@@ -36,11 +37,11 @@ esbuild.build({
   mainFields: ['module', 'main'],
   plugins: [globalsPlugin],
   define: {
-    'process.env.NODE_ENV': '"development"',
+    'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
     global: 'globalThis',
   },
   banner: {
-    js: 'var process=process||{env:{NODE_ENV:\"development\"}};',
+    js: `var process=process||{env:{NODE_ENV:\"${isProd ? 'production' : 'development'}\"}};`,
   },
   outfile: `dist/${PROJECT_NAME}.js`,
 }).then(result => {

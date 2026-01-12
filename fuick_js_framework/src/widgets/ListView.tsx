@@ -9,17 +9,34 @@ export interface ListViewProps extends WidgetProps {
   itemBuilder?: (index: number) => ReactNode;
 }
 
-export const ListView: React.FC<ListViewProps> = (props) => {
-  const refId = React.useMemo(() => props.refId || refsId(), [props.refId]);
+export class ListView extends React.Component<ListViewProps> {
+  private _refId = refsId();
 
-  const { children, ...rest } = props;
+  public get refId() {
+    return this.props.refId || this._refId;
+  }
 
-  return React.createElement('flutter-list-view', {
-    ...rest,
-    hasBuilder: !!props.itemBuilder,
-    refId: refId,
-    isBoundary: true
-  }, children);
-};
+  public animateTo(offset: number, duration: number = 300, curve: string = 'easeInOut') {
+    if (typeof (globalThis as any).dartCallNative === 'function') {
+      (globalThis as any).dartCallNative('componentCommand', {
+        refId: this.refId,
+        method: 'animateTo',
+        args: { offset, duration, curve },
+        nodeType: 'ListView'
+      });
+    }
+  }
+
+  render(): ReactNode {
+    const { children, ...rest } = this.props;
+
+    return React.createElement('flutter-list-view', {
+      ...rest,
+      hasBuilder: !!this.props.itemBuilder,
+      refId: this.refId,
+      isBoundary: true
+    }, children);
+  }
+}
 
 export default ListView;

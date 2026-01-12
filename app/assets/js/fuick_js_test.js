@@ -1,4 +1,4 @@
-var process=process||{env:{NODE_ENV:"development"}};
+var process=process||{env:{NODE_ENV:"production"}};
 "use strict";
 (() => {
   var __create = Object.create;
@@ -507,4 +507,3 @@ var process=process||{env:{NODE_ENV:"development"}};
   // src/index.ts
   initApp();
 })();
-//# sourceMappingURL=fuick_js_test.js.map

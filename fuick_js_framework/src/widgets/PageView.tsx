@@ -9,12 +9,16 @@ export interface PageViewProps extends WidgetProps {
 }
 
 export class PageView extends React.Component<PageViewProps> {
-  private refId = refsId();
+  private _refId = refsId();
+
+  public get refId() {
+    return this.props.refId || this._refId;
+  }
 
   public animateToPage(page: number, duration: number = 300, curve: string = 'easeInOut') {
     if (typeof (globalThis as any).dartCallNative === 'function') {
       (globalThis as any).dartCallNative('componentCommand', {
-        refId: this.props.refId || this.refId,
+        refId: this.refId,
         method: 'animateToPage',
         args: { page, duration, curve },
         nodeType: 'PageView'
@@ -22,12 +26,12 @@ export class PageView extends React.Component<PageViewProps> {
     }
   }
 
-  public setPageIndex(index: number) {
+  public jumpToPage(page: number) {
     if (typeof (globalThis as any).dartCallNative === 'function') {
       (globalThis as any).dartCallNative('componentCommand', {
-        refId: this.props.refId || this.refId,
-        method: 'setPageIndex',
-        args: { index },
+        refId: this.refId,
+        method: 'jumpToPage',
+        args: { page },
         nodeType: 'PageView'
       });
     }
@@ -36,7 +40,7 @@ export class PageView extends React.Component<PageViewProps> {
   render(): ReactNode {
     return React.createElement('flutter-page-view', {
       ...this.props,
-      refId: this.props.refId || this.refId,
+      refId: this.refId,
       isBoundary: true
     });
   }

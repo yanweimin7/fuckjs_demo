@@ -50,12 +50,19 @@ class _FuickAppViewState extends State<FuickAppView> {
   }
 
   Future<void> _initEngine() async {
+    final stopwatch = Stopwatch()..start();
     if (widget.useIsolate) {
       final contextId =
           '${widget.appName}_${DateTime.now().microsecondsSinceEpoch}';
       await EngineInit.initIsolate();
+      debugPrint(
+        '[Performance] initIsolate cost: ${stopwatch.elapsedMilliseconds}ms',
+      );
       final delegate = JsContextDelegate(contextId);
       await delegate.init();
+      debugPrint(
+        '[Performance] JsContextDelegate.init cost: ${stopwatch.elapsedMilliseconds}ms',
+      );
       ctx = delegate;
     } else {
       if (EngineInit.qjs == null) {
@@ -73,11 +80,18 @@ class _FuickAppViewState extends State<FuickAppView> {
 
   Future<void> _loadBundle() async {
     if (!_isReady) return;
+    final stopwatch = Stopwatch()..start();
     try {
       // 1. 加载基础框架包 (framework.bundle)
       await _loadSingleBundle('framework.bundle');
+      debugPrint(
+        '[Performance] load framework.bundle cost: ${stopwatch.elapsedMilliseconds}ms',
+      );
       // 2. 加载业务逻辑包
       await _loadSingleBundle(widget.appName);
+      debugPrint(
+        '[Performance] load business bundle cost: ${stopwatch.elapsedMilliseconds}ms',
+      );
 
       _appController.isBundleLoaded.value = true;
     } catch (e) {

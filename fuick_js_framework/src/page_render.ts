@@ -11,8 +11,9 @@ export function ensureRenderer() {
 }
 
 export function render(pageId: number, path: string, params: any) {
+    const startTime = Date.now();
     const r = ensureRenderer();
-    console.log('render', pageId, path, params);
+    console.log(`[JS Performance] render start for ${path}, pageId: ${pageId}`);
     const factory = Router.match(path);
     if (typeof factory === 'function') {
         const app = factory(params || {});
@@ -23,6 +24,7 @@ export function render(pageId: number, path: string, params: any) {
         );
         r.update(app, pageId);
     }
+    console.log(`[JS Performance] render total cost for ${path}: ${Date.now() - startTime}ms`);
 }
 
 export function destroy(pageId: number) {
