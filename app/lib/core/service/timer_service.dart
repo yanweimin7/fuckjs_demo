@@ -11,7 +11,6 @@ class TimerService extends BaseFuickService {
     registerMethod('createTimer', (args) {
       final m = args is Map ? args : {};
       final id = (m['id'] as num).toInt();
-      print('wine creatTime $id');
 
       // 先尝试取消已存在的同名定时器，防止重复
       timers.remove(id)?.cancel();

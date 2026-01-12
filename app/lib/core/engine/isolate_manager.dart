@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
-
 import '../handler/js_handler_manager.dart';
+import '../service/console_service.dart';
+import '../service/timer_service.dart';
 import 'engine.dart';
 import 'jscontext.dart';
 
@@ -48,8 +48,22 @@ class IsolateManager {
           final ctx = EngineInit.runtime!.createContext();
           contexts[contextId] = ctx;
 
+          final binder = NativeServiceBinder();
+          binders[contextId] = binder;
+          // Only register services that can run in isolate
+          binder.init(
+            ctx,
+            null,
+            allowedServices: [TimerService, ConsoleService],
+          );
+
           ctx.onCallNative = (method, args) {
             try {
+              // Try local binder first
+              if (binder.canHandle(method)) {
+                return binder.handleNativeCall(method, args);
+              }
+
               // Forward to main isolate
               final responsePort = ReceivePort();
               mainSendPort.send({
@@ -111,9 +125,9 @@ class IsolateManager {
         await ctx.runJobs();
       } else if (type == 'disposeContext') {
         if (ctx != null) {
-          ctx.dispose();
           contexts.remove(contextId);
           binders.remove(contextId)?.dispose();
+          ctx.dispose();
         }
         result = null;
       }

@@ -10,6 +10,21 @@ function setTimeout(fn, ms) {
     const id = nextTimerId++;
     timerMap.set(id, { fn, type: 'timeout' });
     const delay = ms || 0;
+    if (delay === 0) {
+        Promise.resolve().then(() => {
+            const entry = timerMap.get(id);
+            if (entry) {
+                timerMap.delete(id);
+                try {
+                    fn();
+                }
+                catch (e) {
+                    console.error(`[Timer] Error in setTimeout(0) callback:`, e);
+                }
+            }
+        });
+        return id;
+    }
     if (typeof dartCallNative === 'function') {
         dartCallNative('createTimer', { id, delay, isInterval: false });
     }
