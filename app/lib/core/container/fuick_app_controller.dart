@@ -81,9 +81,9 @@ class FuickAppController {
   }
 
   void dispose() {
-    nativeServiceBinder.dispose();
     Future.delayed(const Duration(seconds: 10), () {
       ctx.dispose();
+      nativeServiceBinder.dispose();
     });
   }
 }

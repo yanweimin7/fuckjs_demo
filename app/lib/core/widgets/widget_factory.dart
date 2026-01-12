@@ -29,6 +29,7 @@ import 'parsers/ink_well_parser.dart';
 import 'parsers/circular_progress_indicator_parser.dart';
 import 'parsers/safe_area_parser.dart';
 import 'parsers/page_view_parser.dart';
+import 'parsers/grid_view_parser.dart';
 
 class WidgetFactory {
   static final WidgetFactory _instance = WidgetFactory._internal();
@@ -67,6 +68,7 @@ class WidgetFactory {
     register(CircularProgressIndicatorParser());
     register(SafeAreaParser());
     register(PageViewParser());
+    register(GridViewParser());
   }
 
   void register(WidgetParser parser) {
@@ -77,9 +79,16 @@ class WidgetFactory {
     _parsers[type]?.dispose(id);
   }
 
+  void dispatchCommand(String type, String refId, String method, dynamic args) {
+    _parsers[type]?.onCommand(refId, method, args);
+  }
+
   Widget build(BuildContext context, dynamic dslOrNode) {
     if (dslOrNode is FuickNode) {
       return buildFromNode(context, dslOrNode);
+    }
+    if (dslOrNode is String) {
+      return Text(dslOrNode);
     }
     if (dslOrNode is! Map) {
       return const SizedBox.shrink();

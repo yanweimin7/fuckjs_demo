@@ -16,7 +16,8 @@ export class GridView extends React.Component<GridViewProps> {
   render(): ReactNode {
     return React.createElement('flutter-grid-view', {
       ...this.props,
-      refId: this.props.refId || this.refId
+      refId: this.props.refId || this.refId,
+      isBoundary: true
     });
   }
 }

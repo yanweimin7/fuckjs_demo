@@ -164,6 +164,7 @@ class WidgetUtils {
     Color? color = colorFromHex(props['color'] as String?);
     BorderRadius? borderRadius = getBorderRadius(props['borderRadius']);
     Border? border = getBorder(props['border']);
+    List<BoxShadow>? boxShadow = getBoxShadow(props['boxShadow']);
 
     final decorationProp = props['decoration'];
     if (decorationProp is Map) {
@@ -177,14 +178,50 @@ class WidgetUtils {
       if (m['border'] != null) {
         border = getBorder(m['border']);
       }
+      if (m['boxShadow'] != null) {
+        boxShadow = getBoxShadow(m['boxShadow']);
+      }
     }
 
-    if (color == null && borderRadius == null && border == null) return null;
+    if (color == null &&
+        borderRadius == null &&
+        border == null &&
+        boxShadow == null) return null;
     return BoxDecoration(
       color: color,
       borderRadius: borderRadius,
       border: border,
+      boxShadow: boxShadow,
     );
+  }
+
+  static List<BoxShadow>? getBoxShadow(dynamic v) {
+    if (v is Map) {
+      final m = Map<String, dynamic>.from(v);
+      final color = colorFromHex(m['color'] as String?) ?? Colors.black26;
+      final blurRadius = sizeNum(m['blurRadius']) ?? 0.0;
+      final spreadRadius = sizeNum(m['spreadRadius']) ?? 0.0;
+      final offsetMap = m['offset'] as Map?;
+      final offset = Offset(
+        sizeNum(offsetMap?['dx']) ?? 0.0,
+        sizeNum(offsetMap?['dy']) ?? 0.0,
+      );
+      return [
+        BoxShadow(
+          color: color,
+          blurRadius: blurRadius,
+          spreadRadius: spreadRadius,
+          offset: offset,
+        )
+      ];
+    } else if (v is List) {
+      return v
+          .map((e) => getBoxShadow(e))
+          .whereType<List<BoxShadow>>()
+          .expand((e) => e)
+          .toList();
+    }
+    return null;
   }
 
   static Border? getBorder(dynamic v) {
@@ -210,5 +247,106 @@ class WidgetUtils {
       );
     }
     return null;
+  }
+
+  static Curve curve(String? v) {
+    switch (v) {
+      case 'linear':
+        return Curves.linear;
+      case 'easeIn':
+        return Curves.easeIn;
+      case 'easeOut':
+        return Curves.easeOut;
+      case 'easeInOut':
+        return Curves.easeInOut;
+      case 'bounceIn':
+        return Curves.bounceIn;
+      case 'bounceOut':
+        return Curves.bounceOut;
+      default:
+        return Curves.easeInOut;
+    }
+  }
+
+  static SliverGridDelegate gridDelegate(dynamic v) {
+    if (v is Map) {
+      final m = Map<String, dynamic>.from(v);
+      final String? type = m['type']?.toString();
+      if (type == 'fixedCrossAxisCount' || m['crossAxisCount'] != null) {
+        return SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: (m['crossAxisCount'] as num?)?.toInt() ?? 2,
+          mainAxisSpacing: (m['mainAxisSpacing'] as num?)?.toDouble() ?? 0.0,
+          crossAxisSpacing: (m['crossAxisSpacing'] as num?)?.toDouble() ?? 0.0,
+          childAspectRatio: (m['childAspectRatio'] as num?)?.toDouble() ?? 1.0,
+        );
+      } else if (type == 'maxCrossAxisExtent' ||
+          m['maxCrossAxisExtent'] != null) {
+        return SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent:
+              (m['maxCrossAxisExtent'] as num?)?.toDouble() ?? 200.0,
+          mainAxisSpacing: (m['mainAxisSpacing'] as num?)?.toDouble() ?? 0.0,
+          crossAxisSpacing: (m['crossAxisSpacing'] as num?)?.toDouble() ?? 0.0,
+          childAspectRatio: (m['childAspectRatio'] as num?)?.toDouble() ?? 1.0,
+        );
+      }
+    }
+    return const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2);
+  }
+
+  static IconData iconData(String? name) {
+    switch (name) {
+      case 'notifications':
+        return Icons.notifications;
+      case 'account_balance_wallet':
+        return Icons.account_balance_wallet;
+      case 'swap_horiz':
+        return Icons.swap_horiz;
+      case 'payments':
+        return Icons.payments;
+      case 'qr_code_scanner':
+        return Icons.qr_code_scanner;
+      case 'history':
+        return Icons.history;
+      case 'pie_chart':
+        return Icons.pie_chart;
+      case 'show_chart':
+        return Icons.show_chart;
+      case 'assessment':
+        return Icons.assessment;
+      case 'psychology':
+        return Icons.psychology;
+      case 'info':
+        return Icons.info;
+      case 'bar_chart':
+        return Icons.bar_chart;
+      case 'add':
+        return Icons.add;
+      case 'trending_up':
+        return Icons.trending_up;
+      case 'trending_down':
+        return Icons.trending_down;
+      case 'arrow_back':
+        return Icons.arrow_back;
+      case 'search':
+        return Icons.search;
+      case 'more_vert':
+        return Icons.more_vert;
+      case 'star':
+        return Icons.star;
+      case 'settings':
+        return Icons.settings;
+      case 'person':
+        return Icons.person;
+      case 'home':
+        return Icons.home;
+      case 'favorite':
+        return Icons.favorite;
+      case 'share':
+        return Icons.share;
+      case 'error_outline':
+        return Icons.error_outline;
+      default:
+        return Icons.circle;
+    }
   }
 }

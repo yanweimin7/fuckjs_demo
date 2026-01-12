@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:flutter/foundation.dart';
 
 import 'jscontext.dart';
 import 'quickjs_ffi.dart';
@@ -86,7 +87,9 @@ class JSObject {
     final method = methodPtr.toDartString();
     final key = "${contextHandle.address}_$method";
     final callback = _callbacks[key];
+
     if (callback == null) {
+      debugPrint("[Dart] Method not found: $method (key: $key)");
       out.ref.error = 1;
       out.ref.s = 'Method not found: $method'.toNativeUtf8();
       return;
@@ -96,7 +99,6 @@ class JSObject {
     for (var i = 0; i < argc; i++) {
       args.add(QuickJsFFI.convertQjsResultToDart(argsPtr[i]));
     }
-
     try {
       final result = Function.apply(callback, args);
 
@@ -105,7 +107,6 @@ class JSObject {
         final id = _nextResolverId++;
         out.ref.type = qjsTypePromise;
         out.ref.i64 = id;
-
         result
             .then((value) {
               pendingResolvers.putIfAbsent(
@@ -127,7 +128,6 @@ class JSObject {
                 QuickJsContext.instances[contextHandle.address]?.runJobs();
               });
             });
-      } else {
         // 同步返回值
         QuickJsFFI.writeOut(out, result);
       }

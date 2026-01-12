@@ -8,7 +8,7 @@ const roots: Record<number, any> = {};
 export function dispatchEvent(eventObj: any, payload: any) {
   try {
     const pageId = eventObj?.pageId;
-    const nodeId = eventObj?.id;
+    const nodeId: number | string = eventObj?.id;
     const eventKey = eventObj?.eventKey;
 
     const container = containers[pageId];

@@ -7,6 +7,8 @@ export interface AppBarProps extends BaseProps {
   leading?: any;
   actions?: any[];
   backgroundColor?: string;
+  foregroundColor?: string;
+  elevation?: number;
 }
 
 export class AppBar extends React.Component<AppBarProps> {

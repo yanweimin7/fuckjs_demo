@@ -16,40 +16,58 @@ typedef ServiceBuilder = BaseFuickService Function();
 class NativeServiceBinder {
   final List<ServiceBuilder> _serviceBuilders = [];
   List<BaseFuickService> _services = [];
+  final Map<String, SyncMethodHandler> _handlers = {};
 
   void _registerService(ServiceBuilder serviceBuilder) {
     _serviceBuilders.add(serviceBuilder);
   }
 
-  void init(IQuickJsContext ctx, FuickAppController controller) {
-    _registerService(() => TimerService());
-    _registerService(() => ConsoleService());
-    _registerService(() => NavigationService());
-    _registerService(() => UIService());
+  void init(
+    IQuickJsContext ctx,
+    FuickAppController? controller, {
+    List<Type>? allowedServices,
+  }) {
+    if (_serviceBuilders.isEmpty) {
+      _registerService(() => TimerService());
+      _registerService(() => ConsoleService());
+      _registerService(() => NavigationService());
+      _registerService(() => UIService());
+    }
 
-    _services = _serviceBuilders.map((builder) {
-      final service = builder();
+    _services = _serviceBuilders.map((builder) => builder()).where((service) {
+      if (allowedServices == null) return true;
+      return allowedServices.contains(service.runtimeType);
+    }).map((service) {
       service.init(ctx, controller);
       return service;
     }).toList();
 
     ///todo: 优化，换成xxx.xxx格式
-    final Map<String, SyncMethodHandler> handlers = {};
-    _services.forEach((e) {
-      handlers.addAll(e.syncMethods);
-    });
+    _handlers.clear();
+    for (var e in _services) {
+      _handlers.addAll(e.syncMethods);
+    }
 
     ctx.onCallNative = (method, args) {
       try {
-        final h = handlers[method];
-        if (h != null) {
-          return h(args);
-        }
+        return handleNativeCall(method, args);
       } catch (e, s) {
-        debugPrint("failed to callNative $e , $s");
+        debugPrint("failed to callNative $method $e , $s");
       }
       return null;
     };
+  }
+
+  dynamic handleNativeCall(String method, dynamic args) {
+    final h = _handlers[method];
+    if (h != null) {
+      return h(args);
+    }
+    return null;
+  }
+
+  bool canHandle(String method) {
+    return _handlers.containsKey(method);
   }
 
   void dispose() {

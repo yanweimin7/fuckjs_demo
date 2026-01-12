@@ -2043,7 +2043,8 @@ var process=process||{env:{NODE_ENV:"development"}};
         render() {
           return react_1.default.createElement("flutter-text-field", {
             ...this.props,
-            refId: this.props.refId || this.refId
+            refId: this.props.refId || this.refId,
+            isBoundary: true
           });
         }
       };
@@ -2111,7 +2112,8 @@ var process=process||{env:{NODE_ENV:"development"}};
         render() {
           return react_1.default.createElement("flutter-list-view", {
             ...this.props,
-            refId: this.props.refId || this.refId
+            refId: this.props.refId || this.refId,
+            isBoundary: true
           });
         }
       };
@@ -2310,9 +2312,18 @@ var process=process||{env:{NODE_ENV:"development"}};
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.SingleChildScrollView = void 0;
       var react_1 = __importDefault(require_react_development());
+      var ids_1 = require_ids();
       var SingleChildScrollView = class extends react_1.default.Component {
+        constructor() {
+          super(...arguments);
+          this.refId = (0, ids_1.refsId)();
+        }
         render() {
-          return react_1.default.createElement("flutter-single-child-scroll-view", { ...this.props });
+          return react_1.default.createElement("flutter-single-child-scroll-view", {
+            ...this.props,
+            refId: this.props.refId || this.refId,
+            isBoundary: true
+          });
         }
       };
       exports.SingleChildScrollView = SingleChildScrollView;
@@ -2499,10 +2510,31 @@ var process=process||{env:{NODE_ENV:"development"}};
           super(...arguments);
           this.refId = (0, ids_1.refsId)();
         }
+        animateToPage(page, duration = 300, curve = "easeInOut") {
+          if (typeof globalThis.dartCallNative === "function") {
+            globalThis.dartCallNative("componentCommand", {
+              refId: this.props.refId || this.refId,
+              method: "animateToPage",
+              args: { page, duration, curve },
+              nodeType: "PageView"
+            });
+          }
+        }
+        setPageIndex(index) {
+          if (typeof globalThis.dartCallNative === "function") {
+            globalThis.dartCallNative("componentCommand", {
+              refId: this.props.refId || this.refId,
+              method: "setPageIndex",
+              args: { index },
+              nodeType: "PageView"
+            });
+          }
+        }
         render() {
           return react_1.default.createElement("flutter-page-view", {
             ...this.props,
-            refId: this.props.refId || this.refId
+            refId: this.props.refId || this.refId,
+            isBoundary: true
           });
         }
       };
@@ -2530,7 +2562,8 @@ var process=process||{env:{NODE_ENV:"development"}};
         render() {
           return react_1.default.createElement("flutter-grid-view", {
             ...this.props,
-            refId: this.props.refId || this.refId
+            refId: this.props.refId || this.refId,
+            isBoundary: true
           });
         }
       };
@@ -18447,7 +18480,7 @@ var process=process||{env:{NODE_ENV:"development"}};
         constructor(type, props, container) {
           this.children = [];
           this.eventKeys = /* @__PURE__ */ new Set();
-          this.id = nextNodeId++;
+          this.id = props && typeof props.id === "number" ? props.id : nextNodeId++;
           this.type = type;
           this.props = {};
           this.container = container;

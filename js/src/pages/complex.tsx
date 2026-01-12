@@ -18,6 +18,8 @@ import {
     Center,
     PageView,
     GridView,
+    Scaffold,
+    AppBar,
 } from 'fuick_js_framework';
 
 const BannerItem = ({ color, title, subtitle }: { color: string, title: string, subtitle: string }) => (
@@ -83,7 +85,7 @@ const AssetListItem = ({ item }: { item: any }) => {
                                 <SizedBox height={6} />
                                 <Row crossAxisAlignment="center">
                                     <Icon
-                                        icon={Number(item.change) >= 0 ? 'trending_up' : 'trending_down'}
+                                        name={Number(item.change) >= 0 ? 'trending_up' : 'trending_down'}
                                         size={14}
                                         color={Number(item.change) >= 0 ? '#10B981' : '#EF4444'}
                                     />
@@ -105,7 +107,7 @@ const AssetListItem = ({ item }: { item: any }) => {
                         <Row mainAxisAlignment="spaceBetween">
                             <Row>
                                 <Container width={32} height={32} decoration={{ color: '#F1F5F9', borderRadius: 8 }} alignment="center">
-                                    <Icon icon="bar_chart" size={16} color="#64748B" />
+                                    <Icon name="bar_chart" size={16} color="#64748B" />
                                 </Container>
                                 <SizedBox width={12} />
                                 <Column crossAxisAlignment="start">
@@ -115,7 +117,7 @@ const AssetListItem = ({ item }: { item: any }) => {
                             </Row>
                             <Row>
                                 <Container width={32} height={32} decoration={{ color: '#F1F5F9', borderRadius: 8 }} alignment="center">
-                                    <Icon icon="history" size={16} color="#64748B" />
+                                    <Icon name="history" size={16} color="#64748B" />
                                 </Container>
                                 <SizedBox width={12} />
                                 <Column crossAxisAlignment="start">
@@ -124,7 +126,7 @@ const AssetListItem = ({ item }: { item: any }) => {
                                 </Column>
                             </Row>
                             <Container padding={8} decoration={{ color: '#6366F1', borderRadius: 12 }}>
-                                <Icon icon="add" size={16} color="#FFFFFF" />
+                                <Icon name="add" size={16} color="#FFFFFF" />
                             </Container>
                         </Row>
                     </Column>
@@ -137,12 +139,13 @@ const AssetListItem = ({ item }: { item: any }) => {
 const ComplexPage = () => {
     const [count, setCount] = React.useState(0);
     const [currentBanner, setCurrentBanner] = React.useState(0);
+    const pageViewRef = React.useRef<PageView>(null);
 
     // 自动刷新测试
     React.useEffect(() => {
         console.log('setinternal');
         const timer = setInterval(() => {
-            
+
             setCount(c => c + 1);
         }, 2000);
         return () => clearInterval(timer);
@@ -150,12 +153,14 @@ const ComplexPage = () => {
 
     // Banner 自动轮播逻辑
     React.useEffect(() => {
-        console.log('setinternal 222');
         const timer = setInterval(() => {
-            setCurrentBanner(c => (c + 1) % 3);
-        }, 5000);
+            const nextBanner = (currentBanner + 1) % 3;
+            if (pageViewRef.current) {
+                pageViewRef.current?.animateToPage(nextBanner);
+            }
+        }, 3000);
         return () => clearInterval(timer);
-    }, []);
+    }, [currentBanner]);
 
     // 生成更大量、更多样化的模拟数据
     const listData = Array.from({ length: 200 }, (_, i) => ({
@@ -169,18 +174,21 @@ const ComplexPage = () => {
     }));
 
     return (
-        <Container color="#F8FAFC" isBoundary={true}>
+        <Scaffold
+            appBar={<AppBar title="Complex Layout" backgroundColor="#FFFFFF" foregroundColor="#1E293B" elevation={0} />}
+            backgroundColor="#F8FAFC"
+        >
             <SingleChildScrollView>
                 <Column crossAxisAlignment="stretch">
-                    {/* 顶部状态栏模拟 */}
-                    <Padding padding={{ left: 20, right: 20, top: 10, bottom: 10 }}>
-                        <Row mainAxisAlignment="spaceBetween">
+                    {/* Header Section */}
+                    <Padding padding={20}>
+                        <Row mainAxisAlignment="spaceBetween" crossAxisAlignment="center">
                             <Column crossAxisAlignment="start">
                                 <Text text="Good Morning," fontSize={14} color="#64748B" />
                                 <Text text="Fuick Developer" fontSize={20} fontWeight="bold" color="#1E293B" />
                             </Column>
                             <Container width={40} height={40} decoration={{ color: '#E2E8F0', borderRadius: 20 }} alignment="center">
-                                <Icon icon="notifications" size={20} color="#64748B" />
+                                <Icon name="notifications" size={20} color="#64748B" />
                             </Container>
                         </Row>
                     </Padding>
@@ -189,8 +197,10 @@ const ComplexPage = () => {
                     <Padding padding={16}>
                         <Container height={180}>
                             <PageView
-                                currentPage={currentBanner}
+                                ref={pageViewRef}
+                                initialPage={0}
                                 onPageChanged={(index: number) => setCurrentBanner(index)}
+                                refId="complex_page_view"
                             >
                                 <BannerItem color="#6366F1" title="ETH 2.0 Staking" subtitle="Earn up to 12% APR on your ETH" />
                                 <BannerItem color="#EC4899" title="NFT Marketplace" subtitle="Discover unique digital collectibles" />
@@ -219,10 +229,10 @@ const ComplexPage = () => {
                                                 decoration={{ color: `${action.color}15`, borderRadius: 16 }}
                                                 alignment="center"
                                             >
-                                                <Icon icon={action.icon} size={24} color={action.color} />
+                                                <Icon name={action.icon} size={24} color={action.color} />
                                             </Container>
                                             <SizedBox height={8} />
-                                            <Text text={action.label} fontSize={12} color="#64748B" fontWeight="medium" />
+                                            <Text text={action.label} fontSize={12} color="#64748B" fontWeight="bold" />
                                         </Column>
                                     </Padding>
                                 ))}
@@ -252,7 +262,7 @@ const ComplexPage = () => {
                                             <Column crossAxisAlignment="start">
                                                 <Row mainAxisAlignment="spaceBetween">
                                                     <Container width={36} height={36} decoration={{ color: ['#6366F115', '#10B98115', '#F59E0B15', '#EC489915'][i], borderRadius: 10 }} alignment="center">
-                                                        <Icon icon={['pie_chart', 'show_chart', 'account_balance_wallet', 'assessment'][i]} size={18} color={['#6366F1', '#10B981', '#F59E0B', '#EC4899'][i]} />
+                                                        <Icon name={['pie_chart', 'show_chart', 'account_balance_wallet', 'assessment'][i]} size={18} color={['#6366F1', '#10B981', '#F59E0B', '#EC4899'][i]} />
                                                     </Container>
                                                     <Text text={`+${(Math.random() * 5).toFixed(1)}%`} fontSize={11} color="#10B981" fontWeight="bold" />
                                                 </Row>
@@ -284,7 +294,7 @@ const ComplexPage = () => {
                                         <Text text="24h AI Prediction" color="#94A3B8" fontSize={12} />
                                     </Column>
                                     <Container width={48} height={48} decoration={{ color: 'rgba(255,255,255,0.1)', borderRadius: 24 }} alignment="center">
-                                        <Icon icon="psychology" size={24} color="#FFFFFF" />
+                                        <Icon name="psychology" size={24} color="#FFFFFF" />
                                     </Container>
                                 </Row>
                                 <SizedBox height={24} />
@@ -313,7 +323,7 @@ const ComplexPage = () => {
                                     decoration={{ color: 'rgba(255,255,255,0.05)', borderRadius: 12 }}
                                 >
                                     <Row>
-                                        <Icon icon="info" size={16} color="#94A3B8" />
+                                        <Icon name="info" size={16} color="#94A3B8" />
                                         <SizedBox width={8} />
                                         <Expanded>
                                             <Text
@@ -377,7 +387,7 @@ const ComplexPage = () => {
                     <SizedBox height={100} />
                 </Column>
             </SingleChildScrollView>
-        </Container>
+        </Scaffold>
     );
 };
 

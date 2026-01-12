@@ -12,4 +12,6 @@ abstract class WidgetParser {
   );
 
   void dispose(int nodeId) {}
+
+  void onCommand(String refId, String method, dynamic args) {}
 }

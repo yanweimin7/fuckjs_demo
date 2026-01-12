@@ -4,9 +4,9 @@ import '../widget_factory.dart';
 import '../widget_utils.dart';
 import 'widget_parser.dart';
 
-class SingleChildScrollViewParser extends WidgetParser {
+class GridViewParser extends WidgetParser {
   @override
-  String get type => 'SingleChildScrollView';
+  String get type => 'GridView';
 
   final Map<String, ScrollController> _controllers = {};
 
@@ -14,8 +14,7 @@ class SingleChildScrollViewParser extends WidgetParser {
   void onCommand(String refId, String method, dynamic args) {
     final controller = _controllers[refId];
     if (controller == null) {
-      debugPrint(
-          'SingleChildScrollViewParser: controller not found for refId $refId');
+      debugPrint('GridViewParser: controller not found for refId $refId');
       return;
     }
 
@@ -40,6 +39,8 @@ class SingleChildScrollViewParser extends WidgetParser {
       dynamic children, WidgetFactory factory) {
     final String? refId = props['refId']?.toString();
 
+    final gridDelegate = WidgetUtils.gridDelegate(props['gridDelegate']);
+
     return WidgetUtils.wrapPadding(
       props,
       FuickScrollable(
@@ -55,12 +56,14 @@ class SingleChildScrollViewParser extends WidgetParser {
           }
         },
         builder: (context, controller) {
-          return SingleChildScrollView(
+          return GridView(
             controller: controller,
+            gridDelegate: gridDelegate,
+            shrinkWrap: props['shrinkWrap'] ?? true,
             padding: WidgetUtils.edgeInsets(props['padding']),
             scrollDirection:
                 WidgetUtils.axis(props['scrollDirection'] as String?),
-            child: factory.buildFirstChild(context, children),
+            children: factory.buildChildren(context, children),
           );
         },
       ),

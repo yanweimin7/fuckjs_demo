@@ -13,7 +13,8 @@ export class ListView extends React.Component<ListViewProps> {
   render(): ReactNode {
     return React.createElement('flutter-list-view', {
       ...this.props,
-      refId: this.props.refId || this.refId
+      refId: this.props.refId || this.refId,
+      isBoundary: true
     });
   }
 }

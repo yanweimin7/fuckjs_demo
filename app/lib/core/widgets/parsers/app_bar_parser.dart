@@ -31,6 +31,8 @@ class AppBarParser extends WidgetParser {
       actions: actions,
       backgroundColor:
           WidgetUtils.colorFromHex(props['backgroundColor'] as String?),
+      foregroundColor:
+          WidgetUtils.colorFromHex(props['foregroundColor'] as String?),
       centerTitle: props['centerTitle'] as bool?,
       elevation: WidgetUtils.sizeNum(props['elevation']),
     );

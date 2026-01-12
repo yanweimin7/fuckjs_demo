@@ -4,7 +4,7 @@ export const TEXT_TYPE = 'Text';
 let nextNodeId = 1;
 
 export class Node {
-  id: number;
+  id: number | string;
   type: string;
   props: any;
   children: Node[] = [];
@@ -13,7 +13,7 @@ export class Node {
   private eventKeys: Set<string> = new Set();
 
   constructor(type: string, props: any, container?: PageContainer) {
-    this.id = nextNodeId++;
+    this.id = (props && typeof props.id === 'number') ? props.id : nextNodeId++;
     this.type = type;
     this.props = {}; // Initialize empty props
     this.container = container;

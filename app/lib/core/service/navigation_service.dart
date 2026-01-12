@@ -9,13 +9,13 @@ class NavigationService extends BaseFuickService {
       final path = (m['path'] ?? '') as String;
       final params = m['params'] ?? {};
       if (path.isNotEmpty) {
-        controller.pushWithPath(path, Map<String, dynamic>.from(params));
+        controller?.pushWithPath(path, Map<String, dynamic>.from(params));
       }
       return true;
     });
 
     registerMethod('pop', (args) {
-      controller.pop();
+      controller?.pop();
       return true;
     });
   }

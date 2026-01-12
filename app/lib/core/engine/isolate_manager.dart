@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 
+import '../handler/js_handler_manager.dart';
 import 'engine.dart';
 import 'jscontext.dart';
 
@@ -13,6 +14,7 @@ class IsolateManager {
   final SendPort mainSendPort;
 
   final Map<String, QuickJsContext> contexts = {};
+  final Map<String, NativeServiceBinder> binders = {};
 
   IsolateManager(this.mainSendPort) {
     if (EngineInit.qjs == null) {
@@ -34,6 +36,7 @@ class IsolateManager {
   ) async {
     try {
       if (type == 'createContext') {
+        print("IsolateManager: creating context $contextId");
         if (!contexts.containsKey(contextId)) {
           if (EngineInit.runtime == null) {
             EngineInit.initQjs();
@@ -44,21 +47,26 @@ class IsolateManager {
 
           final ctx = EngineInit.runtime!.createContext();
           contexts[contextId] = ctx;
-          ctx.onCallNative = (method, args) {
-            print("wine ctx oncallnative $method ,$args");
-            final responsePort = ReceivePort();
 
-            ///发消息给main isolate，执行service方法
-            mainSendPort.send({
-              'contextId': contextId,
-              'type': 'callNative',
-              'replyPort': responsePort.sendPort,
-              'payload': {'method': method, 'args': args},
-            });
-            return _waitForResponse(responsePort);
+          ctx.onCallNative = (method, args) {
+            try {
+              // Forward to main isolate
+              final responsePort = ReceivePort();
+              mainSendPort.send({
+                'contextId': contextId,
+                'type': 'callNative',
+                'replyPort': responsePort.sendPort,
+                'payload': {'method': method, 'args': args},
+              });
+              return _waitForResponse(responsePort);
+            } catch (e, s) {
+              print("Isolate onCallNative error: $e\n$s");
+              rethrow;
+            }
           };
 
           ctx.onCallNativeAsync = (method, args) {
+            // Forward to main isolate
             final responsePort = ReceivePort();
             mainSendPort.send({
               'contextId': contextId,
@@ -69,11 +77,10 @@ class IsolateManager {
             return _waitForResponse(responsePort);
           };
 
-          // Inject a flag to indicate that we are running in an Isolate
-          await ctx.eval('globalThis.__IS_ISOLATE__ = true;');
+          print("IsolateManager: context $contextId ready, sending response");
+          mainSendPort.send({'type': 'response', 'id': id, 'payload': null});
+          return;
         }
-        mainSendPort.send({'type': 'response', 'id': id, 'payload': null});
-        return;
       }
 
       final ctx = contexts[contextId];
@@ -101,12 +108,12 @@ class IsolateManager {
         final methodName = payload['methodName'] as String;
         final args = payload['args'] as List;
         result = await ctx!.invoke(objectName, methodName, args);
-        print("wine resut $result");
         await ctx.runJobs();
       } else if (type == 'disposeContext') {
         if (ctx != null) {
           ctx.dispose();
           contexts.remove(contextId);
+          binders.remove(contextId)?.dispose();
         }
         result = null;
       }

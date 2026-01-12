@@ -11,15 +11,15 @@ export class PageContainer {
     this.pageId = pageId;
   }
 
-  public registerCallback(nodeId: number, eventKey: string, fn: Function) {
+  public registerCallback(nodeId: number | string, eventKey: string, fn: Function) {
     this.eventCallbacks.set(`${nodeId}:${eventKey}`, fn);
   }
 
-  public unregisterCallback(nodeId: number, eventKey: string) {
+  public unregisterCallback(nodeId: number | string, eventKey: string) {
     this.eventCallbacks.delete(`${nodeId}:${eventKey}`);
   }
 
-  public getCallback(nodeId: number, eventKey: string): Function | undefined {
+  public getCallback(nodeId: number | string, eventKey: string): Function | undefined {
     return this.eventCallbacks.get(`${nodeId}:${eventKey}`);
   }
 
@@ -147,7 +147,7 @@ export class PageContainer {
         }
       } else {
         const patches: any[] = [];
-        const processedNodes = new Set<number>();
+        const processedNodes = new Set<number | string>();
 
         // Optimization: Only send patches for the top-most changed nodes.
         const topLevelChangedNodes: Node[] = [];

@@ -14,13 +14,18 @@ class ScaffoldParser extends WidgetParser {
     final bodyDsl = props['body'];
     final fabDsl = props['floatingActionButton'];
 
+    Widget? body = bodyDsl != null ? factory.build(context, bodyDsl) : null;
+    if (body == null && children != null) {
+      body = factory.buildFirstChild(context, children);
+    }
+
     return Scaffold(
       backgroundColor:
           WidgetUtils.colorFromHex(props['backgroundColor'] as String?),
       appBar: appBarDsl != null
           ? factory.build(context, appBarDsl) as PreferredSizeWidget?
           : null,
-      body: bodyDsl != null ? factory.build(context, bodyDsl) : null,
+      body: body,
       floatingActionButton:
           fabDsl != null ? factory.build(context, fabDsl) : null,
     );

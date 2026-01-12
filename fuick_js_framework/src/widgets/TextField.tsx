@@ -15,7 +15,8 @@ export class TextField extends React.Component<TextFieldProps> {
   render(): ReactNode {
     return React.createElement('flutter-text-field', {
       ...this.props,
-      refId: this.props.refId || this.refId
+      refId: this.props.refId || this.refId,
+      isBoundary: true
     });
   }
 }

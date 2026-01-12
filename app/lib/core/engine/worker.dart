@@ -71,7 +71,6 @@ class IsolateWorker {
         completer?.complete(payload);
       }
     } else if (type == 'callNative' || type == 'callNativeAsync') {
-      print("[MainIsolate] callNative from seperate isolate");
       if (contextId == null) return;
       final delegate = _delegates[contextId];
       if (delegate == null) return;

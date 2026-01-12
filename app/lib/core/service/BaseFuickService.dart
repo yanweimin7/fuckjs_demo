@@ -8,11 +8,11 @@ abstract class BaseFuickService {
   final Map<String, SyncMethodHandler> syncMethods = {};
 
   late IQuickJsContext ctx;
-  late FuickAppController controller;
+  FuickAppController? controller;
   bool _isDisposed = false;
   bool get isDisposed => _isDisposed;
 
-  void init(IQuickJsContext context, FuickAppController appController) {
+  void init(IQuickJsContext context, FuickAppController? appController) {
     ctx = context;
     controller = appController;
     _isDisposed = false;
