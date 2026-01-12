@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quickjs/core/container/fuick_app_controller.dart';
+import 'package:flutter_quickjs/core/container/fuick_page_view.dart';
+
 import '../fuick_state_widgets.dart';
 import '../widget_factory.dart';
 import '../widget_utils.dart';
@@ -11,7 +14,7 @@ class ListViewParser extends WidgetParser {
   final Map<String, ScrollController> _controllers = {};
 
   @override
-  void dispose(int id) {}
+  void dispose(int nodeId) {}
 
   @override
   void onCommand(String refId, String method, dynamic args) {
@@ -38,8 +41,12 @@ class ListViewParser extends WidgetParser {
   }
 
   @override
-  Widget parse(BuildContext context, Map<String, dynamic> props,
-      dynamic children, WidgetFactory factory) {
+  Widget parse(
+    BuildContext context,
+    Map<String, dynamic> props,
+    dynamic children,
+    WidgetFactory factory,
+  ) {
     final String? refId = props['refId']?.toString();
 
     return WidgetUtils.wrapPadding(
@@ -57,13 +64,49 @@ class ListViewParser extends WidgetParser {
           }
         },
         builder: (context, controller) {
+          print('wine props ${props}');
+          final bool hasBuilder = props['hasBuilder'] ?? false;
+          final int? itemCount = (props['itemCount'] as num?)?.toInt();
+
+          if (hasBuilder && itemCount != null && refId != null) {
+            final appScope = FuickAppScope.of(context);
+            final pageScope = FuickPageScope.of(context);
+
+            return ListView.builder(
+              controller: controller,
+              itemCount: itemCount,
+              shrinkWrap: props['shrinkWrap'] ?? false,
+              padding: WidgetUtils.edgeInsets(props['padding']),
+              scrollDirection: WidgetUtils.axis(
+                props['scrollDirection'] as String?,
+              ),
+              itemBuilder: (context, index) {
+                if (appScope == null || pageScope == null) return Container();
+                final dslOrFuture = appScope.getItemDSL(
+                  pageScope.pageId,
+                  refId,
+                  index,
+                );
+
+                return FuickItemDSLBuilder(
+                  dslOrFuture: dslOrFuture,
+                  builder: (context, dsl) => factory.build(context, dsl),
+                );
+              },
+            );
+          }
+
+          final List<Widget> childrenWidgets =
+              factory.buildChildren(context, children);
+
           return ListView(
             controller: controller,
             shrinkWrap: props['shrinkWrap'] ?? true,
             padding: WidgetUtils.edgeInsets(props['padding']),
-            scrollDirection:
-                WidgetUtils.axis(props['scrollDirection'] as String?),
-            children: factory.buildChildren(context, children),
+            scrollDirection: WidgetUtils.axis(
+              props['scrollDirection'] as String?,
+            ),
+            children: childrenWidgets,
           );
         },
       ),

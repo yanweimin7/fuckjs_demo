@@ -17,10 +17,13 @@ export class Node {
     this.type = type;
     this.props = {}; // Initialize empty props
     this.container = container;
+    this.container?.registerNode(this);
     this.applyProps(props);
   }
 
   applyProps(newProps: any) {
+    // If refId changes, we might need to update the container's refId map.
+    // But refId is usually stable for a node.
     this.clearCallbacks();
     // Re-initialize props to ensure deleted props are removed
     this.props = {};
@@ -36,6 +39,9 @@ export class Node {
         }
       }
     }
+
+    // If we have a container, we should re-register to update refId mapping
+    this.container?.registerNode(this);
   }
 
   saveCallback(key: string, fn: Function) {
@@ -133,6 +139,7 @@ export class Node {
 
   destroy() {
     this.clearCallbacks();
+    this.container?.unregisterNode(this);
     for (const child of this.children) {
       child.destroy();
     }

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Node, TEXT_TYPE } from './node';
 
 export class PageContainer {
@@ -6,9 +7,29 @@ export class PageContainer {
   changedNodes: Set<Node> = new Set();
   rendered: boolean = false;
   private eventCallbacks: Map<string, Function> = new Map();
+  private nodes: Map<number | string, Node> = new Map();
+  private nodesByRefId: Map<string, Node> = new Map();
 
   constructor(pageId: number) {
     this.pageId = pageId;
+  }
+
+  public registerNode(node: Node) {
+    this.nodes.set(node.id, node);
+    if (node.props?.refId) {
+      this.nodesByRefId.set(node.props.refId, node);
+    }
+  }
+
+  public unregisterNode(node: Node) {
+    this.nodes.delete(node.id);
+    if (node.props?.refId) {
+      this.nodesByRefId.delete(node.props.refId);
+    }
+  }
+
+  public getNodeByRefId(refId: string): Node | undefined {
+    return this.nodesByRefId.get(refId);
   }
 
   public registerCallback(nodeId: number | string, eventKey: string, fn: Function) {
@@ -207,6 +228,97 @@ export class PageContainer {
     } finally {
       this.clear();
     }
+  }
+
+  public getItemDSL(refId: string, index: number): any {
+    const node = this.getNodeByRefId(refId);
+    if (!node) {
+      return null;
+    }
+
+    const itemBuilder = node.props?.itemBuilder;
+    if (typeof itemBuilder !== 'function') {
+      return null;
+    }
+
+    try {
+      const element = itemBuilder(index);
+      const dsl = this.elementToDsl(element);
+      return dsl;
+    } catch (e) {
+      console.error(`[PageContainer] Error in itemBuilder for refId ${refId} at index ${index}:`, e);
+      return null;
+    }
+  }
+
+  private elementToDsl(element: any): any {
+    if (!element) return null;
+
+    if (typeof element === 'string' || typeof element === 'number') {
+      return { type: 'Text', props: { text: String(element) } };
+    }
+
+    if (Array.isArray(element)) {
+      return element.map(e => this.elementToDsl(e)).filter(e => e !== null);
+    }
+
+    if (element.type) {
+      let type = element.type;
+      const originalProps = element.props || {};
+
+      if (typeof type === 'function') {
+        // Handle class components
+        if (type.prototype && type.prototype.isReactComponent) {
+          const instance = new (type as any)(originalProps);
+          return this.elementToDsl(instance.render());
+        }
+        // Handle functional components
+        return this.elementToDsl((type as any)(originalProps));
+      }
+
+      // It's a primitive (string) type
+      const props = { ...originalProps };
+      const children = props.children;
+      delete props.children;
+
+      if (typeof type === 'string' && type.startsWith('flutter-')) {
+        type = type.substring(8)
+          .split('-')
+          .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1))
+          .join('');
+      }
+
+      const dslChildren: any[] = [];
+      const childrenToProcess = Array.isArray(children) ? children : (children ? [children] : []);
+
+      for (const child of childrenToProcess) {
+        const childDsl = this.elementToDsl(child);
+        if (childDsl) {
+          if (Array.isArray(childDsl)) {
+            dslChildren.push(...childDsl);
+          } else {
+            dslChildren.push(childDsl);
+          }
+        }
+      }
+
+      // Handle special props that might be React elements
+      for (const key in props) {
+        if (React.isValidElement(props[key])) {
+          props[key] = this.elementToDsl(props[key]);
+        }
+      }
+
+      const result = {
+        type: String(type),
+        props: props,
+        children: dslChildren
+      };
+
+      return result;
+    }
+
+    return null;
   }
 
   clear() {

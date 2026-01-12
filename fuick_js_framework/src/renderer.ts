@@ -83,5 +83,12 @@ export function createRenderer() {
     },
 
     dispatchEvent,
+    getItemDSL(pageId: number, refId: string, index: number) {
+      const container = containers[pageId];
+      if (container) {
+        return container.getItemDSL(refId, index);
+      }
+      return null;
+    }
   };
 }

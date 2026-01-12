@@ -5,18 +5,21 @@ import { refsId } from '../utils/ids';
 export interface ListViewProps extends WidgetProps {
   scrollDirection?: 'horizontal' | 'vertical';
   shrinkWrap?: boolean;
+  itemCount?: number;
+  itemBuilder?: (index: number) => ReactNode;
 }
 
-export class ListView extends React.Component<ListViewProps> {
-  private refId = refsId();
+export const ListView: React.FC<ListViewProps> = (props) => {
+  const refId = React.useMemo(() => props.refId || refsId(), [props.refId]);
 
-  render(): ReactNode {
-    return React.createElement('flutter-list-view', {
-      ...this.props,
-      refId: this.props.refId || this.refId,
-      isBoundary: true
-    });
-  }
-}
+  const { children, ...rest } = props;
+
+  return React.createElement('flutter-list-view', {
+    ...rest,
+    hasBuilder: !!props.itemBuilder,
+    refId: refId,
+    isBoundary: true
+  }, children);
+};
 
 export default ListView;

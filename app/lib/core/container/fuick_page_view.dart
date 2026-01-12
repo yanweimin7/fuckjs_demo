@@ -99,13 +99,35 @@ class _JsUiHostState extends State<FuickPageView> {
               manager: nodeManager,
               child: FuickAppScope(
                 controller: widget.controller,
-                child: WidgetFactory().buildFromNode(
-                  context,
-                  rootNode!,
-                  forceWrap: true,
+                child: FuickPageScope(
+                  pageId: widget.pageId,
+                  child: WidgetFactory().buildFromNode(
+                    context,
+                    rootNode!,
+                    forceWrap: true,
+                  ),
                 ),
               ),
             ),
     );
+  }
+}
+
+class FuickPageScope extends InheritedWidget {
+  final int pageId;
+
+  const FuickPageScope({
+    super.key,
+    required this.pageId,
+    required super.child,
+  });
+
+  static FuickPageScope? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<FuickPageScope>();
+  }
+
+  @override
+  bool updateShouldNotify(FuickPageScope oldWidget) {
+    return pageId != oldWidget.pageId;
   }
 }

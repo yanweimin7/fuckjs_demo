@@ -11,7 +11,7 @@ abstract class IQuickJsContext {
   int get handleAddress;
 
   /// 在全局对象上调用方法 (由具体实现决定如何处理)
-  Future<dynamic> invoke(
+  dynamic invoke(
     String? objectName,
     String methodName,
     List<dynamic> args,

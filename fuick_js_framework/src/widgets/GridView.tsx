@@ -8,18 +8,21 @@ export interface GridViewProps extends WidgetProps {
   crossAxisSpacing?: number;
   childAspectRatio?: number;
   padding?: any;
+  itemCount?: number;
+  itemBuilder?: (index: number) => ReactNode;
+  shrinkWrap?: boolean;
 }
 
-export class GridView extends React.Component<GridViewProps> {
-  private refId = refsId();
+export const GridView: React.FC<GridViewProps> = (props) => {
+  const refId = React.useMemo(() => props.refId || refsId(), [props.refId]);
 
-  render(): ReactNode {
-    return React.createElement('flutter-grid-view', {
-      ...this.props,
-      refId: this.props.refId || this.refId,
-      isBoundary: true
-    });
-  }
-}
+  const { children, ...rest } = props;
+  return React.createElement('flutter-grid-view', {
+    ...rest,
+    hasBuilder: !!props.itemBuilder,
+    refId: refId,
+    isBoundary: true
+  }, children);
+};
 
 export default GridView;

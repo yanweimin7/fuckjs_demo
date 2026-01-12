@@ -54,8 +54,8 @@ class _FuickPageViewState extends State<FuickPageView> {
   }
 }
 
-typedef ScrollWidgetBuilder = Widget Function(
-    BuildContext context, ScrollController controller);
+typedef ScrollWidgetBuilder =
+    Widget Function(BuildContext context, ScrollController controller);
 
 class FuickScrollable extends StatefulWidget {
   final String? refId;
@@ -95,5 +95,68 @@ class _FuickScrollableState extends State<FuickScrollable> {
   @override
   Widget build(BuildContext context) {
     return widget.builder(context, _controller);
+  }
+}
+
+class FuickItemDSLBuilder extends StatefulWidget {
+  final dynamic dslOrFuture;
+  final Widget Function(BuildContext context, dynamic dsl) builder;
+
+  const FuickItemDSLBuilder({
+    super.key,
+    required this.dslOrFuture,
+    required this.builder,
+  });
+
+  @override
+  State<FuickItemDSLBuilder> createState() => _FuickItemDSLBuilderState();
+}
+
+class _FuickItemDSLBuilderState extends State<FuickItemDSLBuilder> {
+  dynamic _dsl;
+  bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _resolveDSL();
+  }
+
+  @override
+  void didUpdateWidget(FuickItemDSLBuilder oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.dslOrFuture != oldWidget.dslOrFuture) {
+      _resolveDSL();
+    }
+  }
+
+  void _resolveDSL() {
+    if (widget.dslOrFuture is Future) {
+      _loading = true;
+      (widget.dslOrFuture as Future).then((value) {
+        if (mounted) {
+          setState(() {
+            _dsl = value;
+            _loading = false;
+          });
+        }
+      });
+    } else {
+      _dsl = widget.dslOrFuture;
+      _loading = false;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_loading) {
+      return const SizedBox(
+        height: 50,
+        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      );
+    }
+    print('wine dsl $_dsl');
+    if (_dsl == null) return const SizedBox.shrink();
+    return widget.builder(context, _dsl);
   }
 }

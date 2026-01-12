@@ -54,7 +54,7 @@ class JsContextDelegate implements IQuickJsContext {
       IsolateWorker.instance.sendRequest(contextId, 'evalBinary', bytecode);
 
   @override
-  Future<dynamic> invoke(
+  dynamic invoke(
     String? objectName,
     String methodName,
     List<dynamic> args,

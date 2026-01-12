@@ -2104,21 +2104,18 @@ var process=process||{env:{NODE_ENV:"development"}};
       exports.ListView = void 0;
       var react_1 = __importDefault(require_react_development());
       var ids_1 = require_ids();
-      var ListView = class extends react_1.default.Component {
-        constructor() {
-          super(...arguments);
-          this.refId = (0, ids_1.refsId)();
-        }
-        render() {
-          return react_1.default.createElement("flutter-list-view", {
-            ...this.props,
-            refId: this.props.refId || this.refId,
-            isBoundary: true
-          });
-        }
+      var ListView = (props) => {
+        const refId = react_1.default.useMemo(() => props.refId || (0, ids_1.refsId)(), [props.refId]);
+        const { children, ...rest } = props;
+        return react_1.default.createElement("flutter-list-view", {
+          ...rest,
+          hasBuilder: !!props.itemBuilder,
+          refId,
+          isBoundary: true
+        }, children);
       };
       exports.ListView = ListView;
-      exports.default = ListView;
+      exports.default = exports.ListView;
     }
   });
 
@@ -2554,21 +2551,18 @@ var process=process||{env:{NODE_ENV:"development"}};
       exports.GridView = void 0;
       var react_1 = __importDefault(require_react_development());
       var ids_1 = require_ids();
-      var GridView = class extends react_1.default.Component {
-        constructor() {
-          super(...arguments);
-          this.refId = (0, ids_1.refsId)();
-        }
-        render() {
-          return react_1.default.createElement("flutter-grid-view", {
-            ...this.props,
-            refId: this.props.refId || this.refId,
-            isBoundary: true
-          });
-        }
+      var GridView = (props) => {
+        const refId = react_1.default.useMemo(() => props.refId || (0, ids_1.refsId)(), [props.refId]);
+        const { children, ...rest } = props;
+        return react_1.default.createElement("flutter-grid-view", {
+          ...rest,
+          hasBuilder: !!props.itemBuilder,
+          refId,
+          isBoundary: true
+        }, children);
       };
       exports.GridView = GridView;
-      exports.default = GridView;
+      exports.default = exports.GridView;
     }
   });
 
@@ -18484,6 +18478,7 @@ var process=process||{env:{NODE_ENV:"development"}};
           this.type = type;
           this.props = {};
           this.container = container;
+          this.container?.registerNode(this);
           this.applyProps(props);
         }
         applyProps(newProps) {
@@ -18501,6 +18496,7 @@ var process=process||{env:{NODE_ENV:"development"}};
               }
             }
           }
+          this.container?.registerNode(this);
         }
         saveCallback(key, fn) {
           this.eventKeys.add(key);
@@ -18579,6 +18575,7 @@ var process=process||{env:{NODE_ENV:"development"}};
         }
         destroy() {
           this.clearCallbacks();
+          this.container?.unregisterNode(this);
           for (const child of this.children) {
             child.destroy();
           }
@@ -18592,8 +18589,12 @@ var process=process||{env:{NODE_ENV:"development"}};
   var require_PageContainer = __commonJS({
     "../fuick_js_framework/dist/PageContainer.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.PageContainer = void 0;
+      var react_1 = __importDefault(require_react_development());
       var node_1 = require_node();
       var PageContainer = class {
         constructor(pageId) {
@@ -18601,7 +18602,24 @@ var process=process||{env:{NODE_ENV:"development"}};
           this.changedNodes = /* @__PURE__ */ new Set();
           this.rendered = false;
           this.eventCallbacks = /* @__PURE__ */ new Map();
+          this.nodes = /* @__PURE__ */ new Map();
+          this.nodesByRefId = /* @__PURE__ */ new Map();
           this.pageId = pageId;
+        }
+        registerNode(node) {
+          this.nodes.set(node.id, node);
+          if (node.props?.refId) {
+            this.nodesByRefId.set(node.props.refId, node);
+          }
+        }
+        unregisterNode(node) {
+          this.nodes.delete(node.id);
+          if (node.props?.refId) {
+            this.nodesByRefId.delete(node.props.refId);
+          }
+        }
+        getNodeByRefId(refId) {
+          return this.nodesByRefId.get(refId);
         }
         registerCallback(nodeId, eventKey, fn) {
           this.eventCallbacks.set(`${nodeId}:${eventKey}`, fn);
@@ -18769,6 +18787,75 @@ var process=process||{env:{NODE_ENV:"development"}};
             this.clear();
           }
         }
+        getItemDSL(refId, index) {
+          const node = this.getNodeByRefId(refId);
+          if (!node) {
+            return null;
+          }
+          const itemBuilder = node.props?.itemBuilder;
+          if (typeof itemBuilder !== "function") {
+            return null;
+          }
+          try {
+            const element = itemBuilder(index);
+            const dsl = this.elementToDsl(element);
+            return dsl;
+          } catch (e) {
+            console.error(`[PageContainer] Error in itemBuilder for refId ${refId} at index ${index}:`, e);
+            return null;
+          }
+        }
+        elementToDsl(element) {
+          if (!element)
+            return null;
+          if (typeof element === "string" || typeof element === "number") {
+            return { type: "Text", props: { text: String(element) } };
+          }
+          if (Array.isArray(element)) {
+            return element.map((e) => this.elementToDsl(e)).filter((e) => e !== null);
+          }
+          if (element.type) {
+            let type = element.type;
+            const originalProps = element.props || {};
+            if (typeof type === "function") {
+              if (type.prototype && type.prototype.isReactComponent) {
+                const instance = new type(originalProps);
+                return this.elementToDsl(instance.render());
+              }
+              return this.elementToDsl(type(originalProps));
+            }
+            const props = { ...originalProps };
+            const children = props.children;
+            delete props.children;
+            if (typeof type === "string" && type.startsWith("flutter-")) {
+              type = type.substring(8).split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("");
+            }
+            const dslChildren = [];
+            const childrenToProcess = Array.isArray(children) ? children : children ? [children] : [];
+            for (const child of childrenToProcess) {
+              const childDsl = this.elementToDsl(child);
+              if (childDsl) {
+                if (Array.isArray(childDsl)) {
+                  dslChildren.push(...childDsl);
+                } else {
+                  dslChildren.push(childDsl);
+                }
+              }
+            }
+            for (const key in props) {
+              if (react_1.default.isValidElement(props[key])) {
+                props[key] = this.elementToDsl(props[key]);
+              }
+            }
+            const result = {
+              type: String(type),
+              props,
+              children: dslChildren
+            };
+            return result;
+          }
+          return null;
+        }
         clear() {
           this.changedNodes.clear();
         }
@@ -18861,7 +18948,14 @@ var process=process||{env:{NODE_ENV:"development"}};
               performDestroy();
             }
           },
-          dispatchEvent
+          dispatchEvent,
+          getItemDSL(pageId, refId, index) {
+            const container = containers[pageId];
+            if (container) {
+              return container.getItemDSL(refId, index);
+            }
+            return null;
+          }
         };
       }
     }
@@ -18957,6 +19051,7 @@ var process=process||{env:{NODE_ENV:"development"}};
       exports.ensureRenderer = ensureRenderer;
       exports.render = render;
       exports.destroy = destroy;
+      exports.getItemDSL = getItemDSL;
       var react_1 = __importDefault(require_react_development());
       var renderer_1 = require_renderer();
       var Router = __importStar(require_router());
@@ -18982,6 +19077,10 @@ var process=process||{env:{NODE_ENV:"development"}};
       function destroy(pageId) {
         const r = ensureRenderer();
         r.destroy(pageId);
+      }
+      function getItemDSL(pageId, refId, index) {
+        const r = ensureRenderer();
+        return r.getItemDSL(pageId, refId, index);
       }
     }
   });
@@ -19152,6 +19251,7 @@ var process=process||{env:{NODE_ENV:"development"}};
           FuickUIController: {
             render: PageRender.render,
             destroy: PageRender.destroy,
+            getItemDSL: PageRender.getItemDSL,
             dispatchEvent: (id, payload) => {
               const r = PageRender.ensureRenderer();
               r.dispatchEvent(id, payload);

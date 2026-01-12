@@ -90,11 +90,11 @@ class QuickJsContext implements IQuickJsContext {
   }
 
   @override
-  Future<dynamic> invoke(
+  dynamic invoke(
     String? objectName,
     String methodName,
     List<dynamic> args,
-  ) async {
+  ) {
     if (objectName == null) {
       return global.invoke(methodName, args);
     }

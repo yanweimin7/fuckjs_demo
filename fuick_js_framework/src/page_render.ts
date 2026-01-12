@@ -29,3 +29,8 @@ export function destroy(pageId: number) {
     const r = ensureRenderer();
     r.destroy(pageId);
 }
+
+export function getItemDSL(pageId: number, refId: string, index: number) {
+    const r = ensureRenderer();
+    return r.getItemDSL(pageId, refId, index);
+}

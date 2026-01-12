@@ -12,6 +12,7 @@ export function bindGlobals() {
     FuickUIController: {
       render: PageRender.render,
       destroy: PageRender.destroy,
+      getItemDSL: PageRender.getItemDSL,
       dispatchEvent: (id: string, payload: any) => {
         const r = PageRender.ensureRenderer();
         r.dispatchEvent(id, payload);

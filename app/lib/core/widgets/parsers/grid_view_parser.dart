@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quickjs/core/container/fuick_app_controller.dart';
+import 'package:flutter_quickjs/core/container/fuick_page_view.dart';
 import '../fuick_state_widgets.dart';
 import '../widget_factory.dart';
 import '../widget_utils.dart';
@@ -9,6 +11,9 @@ class GridViewParser extends WidgetParser {
   String get type => 'GridView';
 
   final Map<String, ScrollController> _controllers = {};
+
+  @override
+  void dispose(int nodeId) {}
 
   @override
   void onCommand(String refId, String method, dynamic args) {
@@ -39,7 +44,7 @@ class GridViewParser extends WidgetParser {
       dynamic children, WidgetFactory factory) {
     final String? refId = props['refId']?.toString();
 
-    final gridDelegate = WidgetUtils.gridDelegate(props['gridDelegate']);
+    final gridDelegate = WidgetUtils.gridDelegate(props);
 
     return WidgetUtils.wrapPadding(
       props,
@@ -56,6 +61,37 @@ class GridViewParser extends WidgetParser {
           }
         },
         builder: (context, controller) {
+          final bool hasBuilder = props['hasBuilder'] ?? false;
+          final int? itemCount = (props['itemCount'] as num?)?.toInt();
+
+          if (hasBuilder && itemCount != null && refId != null) {
+            final appScope = FuickAppScope.of(context);
+            final pageScope = FuickPageScope.of(context);
+
+            return GridView.builder(
+              controller: controller,
+              gridDelegate: gridDelegate,
+              itemCount: itemCount,
+              shrinkWrap: props['shrinkWrap'] ?? false,
+              padding: WidgetUtils.edgeInsets(props['padding']),
+              scrollDirection:
+                  WidgetUtils.axis(props['scrollDirection'] as String?),
+              itemBuilder: (context, index) {
+                if (appScope == null || pageScope == null) return Container();
+                final dslOrFuture =
+                    appScope.getItemDSL(pageScope.pageId, refId, index);
+
+                return FuickItemDSLBuilder(
+                  dslOrFuture: dslOrFuture,
+                  builder: (context, dsl) => factory.build(context, dsl),
+                );
+              },
+            );
+          }
+
+          final List<Widget> childrenWidgets =
+              factory.buildChildren(context, children);
+
           return GridView(
             controller: controller,
             gridDelegate: gridDelegate,
@@ -63,7 +99,7 @@ class GridViewParser extends WidgetParser {
             padding: WidgetUtils.edgeInsets(props['padding']),
             scrollDirection:
                 WidgetUtils.axis(props['scrollDirection'] as String?),
-            children: factory.buildChildren(context, children),
+            children: childrenWidgets,
           );
         },
       ),

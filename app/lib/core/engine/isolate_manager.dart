@@ -36,7 +36,6 @@ class IsolateManager {
   ) async {
     try {
       if (type == 'createContext') {
-        print("IsolateManager: creating context $contextId");
         if (!contexts.containsKey(contextId)) {
           if (EngineInit.runtime == null) {
             EngineInit.initQjs();
@@ -91,7 +90,6 @@ class IsolateManager {
             return _waitForResponse(responsePort);
           };
 
-          print("IsolateManager: context $contextId ready, sending response");
           mainSendPort.send({'type': 'response', 'id': id, 'payload': null});
           return;
         }

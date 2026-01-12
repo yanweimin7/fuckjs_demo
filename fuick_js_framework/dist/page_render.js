@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ensureRenderer = ensureRenderer;
 exports.render = render;
 exports.destroy = destroy;
+exports.getItemDSL = getItemDSL;
 const react_1 = __importDefault(require("react"));
 const renderer_1 = require("./renderer");
 const Router = __importStar(require("./router"));
@@ -65,4 +66,8 @@ function render(pageId, path, params) {
 function destroy(pageId) {
     const r = ensureRenderer();
     r.destroy(pageId);
+}
+function getItemDSL(pageId, refId, index) {
+    const r = ensureRenderer();
+    return r.getItemDSL(pageId, refId, index);
 }
