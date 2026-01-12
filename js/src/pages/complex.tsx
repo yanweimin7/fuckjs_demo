@@ -37,7 +37,7 @@ const BannerItem = ({ color, title, subtitle }: { color: string, title: string, 
     </Container>
 );
 
-const AssetListItem = ({ item }: { item: any }) => {
+const AssetListItem = React.memo(({ item }: { item: any }) => {
     return (
         <Container>
             <Padding padding={{ bottom: 16 }}>
@@ -55,7 +55,7 @@ const AssetListItem = ({ item }: { item: any }) => {
                                 <Stack>
                                     <Container width={56} height={56} decoration={{ color: '#F8FAFC', borderRadius: 28 }} alignment="center">
                                         <Image
-                                            url={`https://api.dicebear.com/7.x/identicon/svg?seed=${item.title}`}
+                                            url={`https://i.pravatar.cc/150?u=${item.id}`}
                                             width={40}
                                             height={40}
                                             borderRadius={20}
@@ -113,7 +113,7 @@ const AssetListItem = ({ item }: { item: any }) => {
                                 <SizedBox width={12} />
                                 <Column crossAxisAlignment="start">
                                     <Text text="Market Cap" fontSize={10} color="#94A3B8" />
-                                    <Text text={`$${(Math.random() * 100).toFixed(1)}B`} fontSize={12} fontWeight="bold" color="#475569" />
+                                    <Text text={`$${item.marketCap}B`} fontSize={12} fontWeight="bold" color="#475569" />
                                 </Column>
                             </Row>
                             <Row>
@@ -123,7 +123,7 @@ const AssetListItem = ({ item }: { item: any }) => {
                                 <SizedBox width={12} />
                                 <Column crossAxisAlignment="start">
                                     <Text text="All Time High" fontSize={10} color="#94A3B8" />
-                                    <Text text={`$${(Number(item.price) * 1.2).toFixed(2)}`} fontSize={12} fontWeight="bold" color="#475569" />
+                                    <Text text={`$${item.ath}`} fontSize={12} fontWeight="bold" color="#475569" />
                                 </Column>
                             </Row>
                             <Container padding={8} decoration={{ color: '#6366F1', borderRadius: 12 }}>
@@ -135,8 +135,7 @@ const AssetListItem = ({ item }: { item: any }) => {
             </Padding>
         </Container>
     );
-};
-
+});
 const ComplexPage = () => {
     const [count, setCount] = React.useState(0);
     const [currentBanner, setCurrentBanner] = React.useState(0);
@@ -146,25 +145,31 @@ const ComplexPage = () => {
     React.useEffect(() => {
         const timer = setInterval(() => {
             setCount(c => c + 1);
-        }, 2000);
+        }, 10000);
         return () => clearInterval(timer);
     }, []);
 
     // Banner 自动轮播逻辑
     React.useEffect(() => {
         const timer = setInterval(() => {
-            const nextBanner = (currentBanner + 1) % 3;
-            if (pageViewRef.current) {
-                pageViewRef.current?.animateToPage(nextBanner);
-            }
-        }, 3000);
-        return () => clearInterval(timer);
-    }, [currentBanner]);
+            // 使用函数式更新获取最新的 currentBanner，避免闭包陷阱
+            setCurrentBanner(prev => {
+                const nextBanner = (prev + 1) % 3;
+                console.log(`[Complex] Auto-sliding from ${prev} to ${nextBanner}`);
 
-    // 生成更大量、更多样化的模拟数据 - 使用 useMemo 避免重复生成
+                if (pageViewRef.current) {
+                    pageViewRef.current.animateToPage(nextBanner);
+                }
+                return nextBanner;
+            });
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []); // 移除 currentBanner 依赖，由 setInterval 内部处理更新
+
+    // 生成更大量、更多样化的模拟数据
     const listData = React.useMemo(() => {
-        const data = Array.from({ length: 10000 }, (_, i) => ({
-            id: i, 
+        return Array.from({ length: 1000 }, (_, i) => ({
+            id: i,
             title: `Token ${i + count}`,
             category: i % 3 === 0 ? 'DeFi' : i % 3 === 1 ? 'NFT' : 'L1',
             price: (Math.random() * 50000 + 100).toFixed(2),
@@ -172,8 +177,8 @@ const ComplexPage = () => {
             volume: (Math.random() * 5000).toFixed(1) + 'M',
             color: ['#2196F3', '#9C27B0', '#FF9800', '#E91E63'][i % 4],
             marketCap: (Math.random() * 100).toFixed(1),
+            ath: (Math.random() * 60000).toFixed(2),
         }));
-        return data;
     }, [count]);
 
     // 预定义各部分组件以提高性能
@@ -197,8 +202,6 @@ const ComplexPage = () => {
                 <PageView
                     ref={pageViewRef}
                     initialPage={0}
-                    onPageChanged={(index: number) => setCurrentBanner(index)}
-                    refId="complex_page_view"
                 >
                     <BannerItem color="#6366F1" title="ETH 2.0 Staking" subtitle="Earn up to 12% APR on your ETH" />
                     <BannerItem color="#EC4899" title="NFT Marketplace" subtitle="Discover unique digital collectibles" />
@@ -206,7 +209,7 @@ const ComplexPage = () => {
                 </PageView>
             </Container>
         </Padding>
-    ), [currentBanner]);
+    ), []); // Removed currentBanner dependency to prevent PageView re-mounting
 
     const quickActionsSection = React.useMemo(() => (
         <Padding padding={{ bottom: 24 }}>

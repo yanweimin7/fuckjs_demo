@@ -266,10 +266,25 @@ export class PageContainer {
       let type = element.type;
       const originalProps = element.props || {};
 
+      // Handle React.memo and React.forwardRef
+      if (typeof type === 'object' && type.type) {
+        type = type.type;
+      }
+
       if (typeof type === 'function') {
         // Handle class components
         if (type.prototype && type.prototype.isReactComponent) {
           const instance = new (type as any)(originalProps);
+
+          // Support refs in elementToDsl (important for itemBuilder)
+          if (element.ref) {
+            if (typeof element.ref === 'function') {
+              element.ref(instance);
+            } else if (typeof element.ref === 'object' && element.ref !== null) {
+              (element.ref as any).current = instance;
+            }
+          }
+
           return this.elementToDsl(instance.render());
         }
         // Handle functional components

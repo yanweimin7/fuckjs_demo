@@ -31,15 +31,17 @@ class PageViewParser extends WidgetParser {
       final curveName = args['curve'] as String? ?? 'easeInOut';
 
       final curve = WidgetUtils.curve(curveName);
+      debugPrint('PageViewParser: animateToPage $page for refId $refId');
 
       controller.animateToPage(
         page,
         duration: Duration(milliseconds: duration),
         curve: curve,
       );
-    } else if (method == 'setPageIndex') {
-      final index = (args['index'] as num).toInt();
-      controller.jumpToPage(index);
+    } else if (method == 'jumpToPage' || method == 'setPageIndex') {
+      final page = (args['page'] ?? args['index'] as num).toInt();
+      debugPrint('PageViewParser: jumpToPage $page for refId $refId');
+      controller.jumpToPage(page);
     }
   }
 

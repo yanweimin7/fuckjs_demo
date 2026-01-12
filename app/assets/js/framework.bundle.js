@@ -417,7 +417,10 @@ var process=process||{env:{NODE_ENV:"production"}};
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.refsId = refsId;
       var idCounter = 0;
-      function refsId() {
+      function refsId(seed) {
+        if (seed) {
+          return `ref_${seed}`;
+        }
         return `ref_${Date.now()}_${idCounter++}`;
       }
     }
@@ -509,7 +512,7 @@ var process=process||{env:{NODE_ENV:"production"}};
           this._refId = (0, ids_1.refsId)();
         }
         get refId() {
-          return this.props.refId || this._refId;
+          return this.props.refId || this.props.id || this._refId;
         }
         animateTo(offset, duration = 300, curve = "easeInOut") {
           if (typeof globalThis.dartCallNative === "function") {
@@ -925,7 +928,7 @@ var process=process||{env:{NODE_ENV:"production"}};
           this._refId = (0, ids_1.refsId)();
         }
         get refId() {
-          return this.props.refId || this._refId;
+          return this.props.refId || this.props.id || this._refId;
         }
         animateToPage(page, duration = 300, curve = "easeInOut") {
           if (typeof globalThis.dartCallNative === "function") {
@@ -6691,9 +6694,19 @@ var process=process||{env:{NODE_ENV:"production"}};
           if (element.type) {
             let type = element.type;
             const originalProps = element.props || {};
+            if (typeof type === "object" && type.type) {
+              type = type.type;
+            }
             if (typeof type === "function") {
               if (type.prototype && type.prototype.isReactComponent) {
                 const instance = new type(originalProps);
+                if (element.ref) {
+                  if (typeof element.ref === "function") {
+                    element.ref(instance);
+                  } else if (typeof element.ref === "object" && element.ref !== null) {
+                    element.ref.current = instance;
+                  }
+                }
                 return this.elementToDsl(instance.render());
               }
               return this.elementToDsl(type(originalProps));

@@ -12,7 +12,7 @@ export class PageView extends React.Component<PageViewProps> {
   private _refId = refsId();
 
   public get refId() {
-    return this.props.refId || this._refId;
+    return this.props.refId || this.props.id || this._refId;
   }
 
   public animateToPage(page: number, duration: number = 300, curve: string = 'easeInOut') {
