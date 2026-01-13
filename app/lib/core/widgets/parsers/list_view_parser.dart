@@ -28,54 +28,56 @@ class ListViewParser extends WidgetParser {
     final String? refId = props['refId']?.toString();
     final dynamic cacheKey = props['cacheKey'];
 
+    final bool hasBuilder = props['hasBuilder'] ?? false;
+    final int? itemCount = (props['itemCount'] as num?)?.toInt();
+
     return WidgetUtils.wrapPadding(
       props,
       FuickListView(
         refId: refId,
         cacheKey: cacheKey,
-        itemCount: (props['itemCount'] as num?)?.toInt(),
+        itemCount: itemCount,
         shrinkWrap: props['shrinkWrap'] ?? true,
         physics: WidgetUtils.scrollPhysics(props['physics'] as String?),
         padding: WidgetUtils.edgeInsets(props['padding']),
         scrollDirection: WidgetUtils.axis(props['scrollDirection'] as String? ??
             props['orientation'] as String?),
-        itemBuilder: (context, index) {
-          final bool hasBuilder = props['hasBuilder'] ?? false;
-          if (!hasBuilder || refId == null) return Container();
+        itemBuilder: hasBuilder
+            ? (context, index) {
+                if (refId == null) return Container();
 
-          final appScope = FuickAppScope.of(context);
-          final pageScope = FuickPageScope.of(context);
-          if (appScope == null || pageScope == null) return Container();
+                final appScope = FuickAppScope.of(context);
+                final pageScope = FuickPageScope.of(context);
+                if (appScope == null || pageScope == null) return Container();
 
-          // Check local cache first
-          final state = FuickListView.of(context);
-          if (state != null) {
-            final cachedDsl = state.getCachedDsl(index);
-            if (cachedDsl != null) {
-              return factory.build(context, cachedDsl);
-            }
-          }
+                // Check local cache first
+                final state = FuickListView.of(context);
+                if (state != null) {
+                  final cachedDsl = state.getCachedDsl(index);
+                  if (cachedDsl != null) {
+                    return factory.build(context, cachedDsl);
+                  }
+                }
 
-          final dslOrFuture = appScope.getItemDSL(
-            pageScope.pageId,
-            refId,
-            index,
-          );
+                final dslOrFuture = appScope.getItemDSL(
+                  pageScope.pageId,
+                  refId,
+                  index,
+                );
 
-          return FuickItemDSLBuilder(
-            dslOrFuture: dslOrFuture,
-            builder: (context, dsl) {
-              // Store in local cache when resolved
-              if (state != null) {
-                state.setCachedDsl(index, dsl);
+                return FuickItemDSLBuilder(
+                  dslOrFuture: dslOrFuture,
+                  builder: (context, dsl) {
+                    // Store in local cache when resolved
+                    if (state != null) {
+                      state.setCachedDsl(index, dsl);
+                    }
+                    return factory.build(context, dsl);
+                  },
+                );
               }
-              return factory.build(context, dsl);
-            },
-          );
-        },
-        children: props['hasBuilder'] == true
-            ? null
-            : factory.buildChildren(context, children),
+            : null,
+        children: hasBuilder ? null : factory.buildChildren(context, children),
       ),
     );
   }

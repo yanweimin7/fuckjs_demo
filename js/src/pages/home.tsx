@@ -19,27 +19,29 @@ export default function HomePage() {
                         color="#FFFFFF"
                     />
                     <SizedBox height={8} />
-                    <BatchedListView orientation="horizontal" shrinkWrap={true}>
-                        <Button
-                            text="组件示例"
-                            onTap={() => Navigator.push('/examples', {})}
-                        />
-                        <SizedBox width={10} />
-                        <Button
-                            text="复杂页面"
-                            onTap={() => Navigator.push('/complex', {})}
-                        />
-                        <SizedBox width={10} />
-                        <Button
-                            text="局部刷新"
-                            onTap={() => Navigator.push('/partial_refresh', {})}
-                        />
-                        <SizedBox width={10} />
-                        <Button
-                            text="钱包"
-                            onTap={() => Navigator.push('/wallet', {})}
-                        />
-                    </BatchedListView>
+                    <SizedBox height={50}>
+                        <ListView orientation="horizontal" shrinkWrap={true}>
+                            <Button
+                                text="组件示例"
+                                onTap={() => Navigator.push('/examples', {})}
+                            />
+                            <SizedBox width={10} />
+                            <Button
+                                text="复杂页面"
+                                onTap={() => Navigator.push('/complex', {})}
+                            />
+                            <SizedBox width={10} />
+                            <Button
+                                text="局部刷新"
+                                onTap={() => Navigator.push('/partial_refresh', {})}
+                            />
+                            <SizedBox width={10} />
+                            <Button
+                                text="钱包"
+                                onTap={() => Navigator.push('/wallet', {})}
+                            />
+                        </ListView>
+                    </SizedBox>
                 </Column>
             </Container>
 
