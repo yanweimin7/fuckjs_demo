@@ -14,7 +14,6 @@ class InkWellParser extends WidgetParser {
     return InkWell(
       onTap: onTapObj != null
           ? () {
-              debugPrint('[InkWell] onTap triggered! eventObj: $onTapObj');
               FuickAction.event(context, onTapObj);
             }
           : null,

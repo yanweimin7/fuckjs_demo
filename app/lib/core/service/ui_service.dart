@@ -35,7 +35,6 @@ class UIService extends BaseFuickService {
     });
 
     registerMethod('componentCommand', (args) {
-      debugPrint('[UIService] componentCommand: args=$args');
       final List listArgs = args is List ? args : [args];
       if (listArgs.length == 1 && listArgs[0] is Map) {
         final m = listArgs[0] as Map;

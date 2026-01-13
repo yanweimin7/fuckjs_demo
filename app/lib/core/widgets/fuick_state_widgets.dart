@@ -42,8 +42,6 @@ class _FuickPageViewState extends State<FuickPageView>
   void initState() {
     super.initState();
     _controller = PageController(initialPage: widget.initialPage);
-    debugPrint(
-        '[FuickPageView] initState: refId=${widget.refId}, controller=$_controller');
     widget.onControllerCreated?.call(_controller);
   }
 
@@ -91,8 +89,6 @@ class _FuickPageViewState extends State<FuickPageView>
   void didUpdateWidget(FuickPageView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.refId != oldWidget.refId) {
-      debugPrint(
-          '[FuickPageView] didUpdateWidget: refId changed from ${oldWidget.refId} to ${widget.refId}');
       _unregisterCommandListener(oldWidget.refId);
       _registerCommandListener();
 
@@ -107,8 +103,6 @@ class _FuickPageViewState extends State<FuickPageView>
 
   @override
   void dispose() {
-    debugPrint(
-        '[FuickPageView] dispose: refId=${widget.refId}, controller=$_controller');
     _unregisterCommandListener(widget.refId);
     widget.onDispose?.call(_controller);
     _controller.dispose();

@@ -23,8 +23,6 @@ class PageViewParser extends WidgetParser {
     final int? initialPage = (props['initialPage'] as num?)?.toInt();
     final String? refId = props['refId']?.toString();
 
-    debugPrint('[PageViewParser] parse: refId=$refId, props=$props');
-
     return WidgetUtils.wrapPadding(
       props,
       FuickPageView(
