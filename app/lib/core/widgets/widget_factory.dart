@@ -30,6 +30,7 @@ import 'parsers/circular_progress_indicator_parser.dart';
 import 'parsers/safe_area_parser.dart';
 import 'parsers/page_view_parser.dart';
 import 'parsers/grid_view_parser.dart';
+import 'parsers/batched_list_view_parser.dart';
 
 class WidgetFactory {
   WidgetFactory() {
@@ -67,6 +68,7 @@ class WidgetFactory {
     register(SafeAreaParser());
     register(PageViewParser());
     register(GridViewParser());
+    register(BatchedListViewParser());
   }
 
   void register(WidgetParser parser) {

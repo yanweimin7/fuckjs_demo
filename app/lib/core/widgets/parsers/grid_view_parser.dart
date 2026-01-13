@@ -184,6 +184,10 @@ class FuickGridViewState extends State<FuickGridView>
         setCachedDsl(index, dsl);
         forceUpdate();
       }
+    } else if (method == 'refresh') {
+      setState(() {
+        _dslCache.clear();
+      });
     }
   }
 

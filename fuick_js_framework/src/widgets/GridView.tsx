@@ -29,6 +29,10 @@ export class GridView extends BaseWidget<GridViewProps> {
     this.callNativeCommand('updateItem', { index, dsl: finalDsl });
   }
 
+  public refresh() {
+    this.callNativeCommand('refresh');
+  }
+
   render(): ReactNode {
     const { children, ...rest } = this.props;
     return React.createElement('flutter-grid-view', {

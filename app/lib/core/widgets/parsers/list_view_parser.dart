@@ -37,7 +37,8 @@ class ListViewParser extends WidgetParser {
         shrinkWrap: props['shrinkWrap'] ?? true,
         physics: WidgetUtils.scrollPhysics(props['physics'] as String?),
         padding: WidgetUtils.edgeInsets(props['padding']),
-        scrollDirection: WidgetUtils.axis(props['scrollDirection'] as String?),
+        scrollDirection: WidgetUtils.axis(props['scrollDirection'] as String? ??
+            props['orientation'] as String?),
         itemBuilder: (context, index) {
           final bool hasBuilder = props['hasBuilder'] ?? false;
           if (!hasBuilder || refId == null) return Container();
@@ -187,6 +188,10 @@ class FuickListViewState extends State<FuickListView>
         setCachedDsl(index, dsl);
         forceUpdate();
       }
+    } else if (method == 'refresh') {
+      setState(() {
+        _dslCache.clear();
+      });
     }
   }
 

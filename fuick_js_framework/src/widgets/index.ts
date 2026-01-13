@@ -29,3 +29,4 @@ export * from './AppBar';
 export * from './FlutterProps';
 export * from './PageView';
 export * from './GridView';
+export * from './BatchedListView';

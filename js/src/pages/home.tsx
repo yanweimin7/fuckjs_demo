@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, Container, Text, ListView, Padding, Row, Image, SizedBox, Button, Navigator } from 'fuick_js_framework';
+import { Column, Container, Text, ListView, Padding, Row, Image, SizedBox, Button, Navigator, BatchedListView } from 'fuick_js_framework';
 
 export default function HomePage() {
     const items = [1, 2, 3, 4, 5];
@@ -19,7 +19,7 @@ export default function HomePage() {
                         color="#FFFFFF"
                     />
                     <SizedBox height={8} />
-                    <Row mainAxisAlignment="center">
+                    <BatchedListView orientation="horizontal" shrinkWrap={true}>
                         <Button
                             text="组件示例"
                             onTap={() => Navigator.push('/examples', {})}
@@ -34,7 +34,12 @@ export default function HomePage() {
                             text="局部刷新"
                             onTap={() => Navigator.push('/partial_refresh', {})}
                         />
-                    </Row>
+                        <SizedBox width={10} />
+                        <Button
+                            text="钱包"
+                            onTap={() => Navigator.push('/wallet', {})}
+                        />
+                    </BatchedListView>
                 </Column>
             </Container>
 

@@ -5,6 +5,7 @@ import { elementToDsl } from '../page_render';
 
 export interface ListViewProps extends WidgetProps {
   scrollDirection?: 'horizontal' | 'vertical';
+  orientation?: 'horizontal' | 'vertical';
   shrinkWrap?: boolean;
   itemCount?: number;
   itemBuilder?: (index: number) => ReactNode;
@@ -27,6 +28,10 @@ export class ListView extends BaseWidget<ListViewProps> {
     }
 
     this.callNativeCommand('updateItem', { index, dsl: finalDsl });
+  }
+
+  public refresh() {
+    this.callNativeCommand('refresh');
   }
 
   render(): ReactNode {

@@ -229,7 +229,6 @@ const ComplexPage = () => {
                 <PageView
                     ref={pageViewRef}
                     initialPage={0}
-                    refId="banner_page_view"
                 >
                     <BannerItem color="#6366F1" title="ETH 2.0 Staking" subtitle="Earn up to 12% APR on your ETH" />
                     <BannerItem color="#EC4899" title="NFT Marketplace" subtitle="Discover unique digital collectibles" />
@@ -420,7 +419,6 @@ const ComplexPage = () => {
         >
             <ListView
                 ref={listViewRef}
-                refId="main_list_view"
                 cacheKey={count}
                 shrinkWrap={false}
                 itemCount={listData.length + 8}

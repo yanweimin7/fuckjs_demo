@@ -6465,6 +6465,9 @@ var process=process||{env:{NODE_ENV:"production"}};
           }
           this.callNativeCommand("updateItem", { index, dsl: finalDsl });
         }
+        refresh() {
+          this.callNativeCommand("refresh");
+        }
         render() {
           const { children, ...rest } = this.props;
           return react_1.default.createElement("flutter-list-view", {
@@ -6906,6 +6909,9 @@ var process=process||{env:{NODE_ENV:"production"}};
           }
           this.callNativeCommand("updateItem", { index, dsl: finalDsl });
         }
+        refresh() {
+          this.callNativeCommand("refresh");
+        }
         render() {
           const { children, ...rest } = this.props;
           return react_1.default.createElement("flutter-grid-view", {
@@ -6918,6 +6924,45 @@ var process=process||{env:{NODE_ENV:"production"}};
       };
       exports.GridView = GridView;
       exports.default = GridView;
+    }
+  });
+
+  // ../fuick_js_framework/dist/widgets/BatchedListView.js
+  var require_BatchedListView = __commonJS({
+    "../fuick_js_framework/dist/widgets/BatchedListView.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.BatchedListView = void 0;
+      var react_1 = __importDefault(require_react_production_min());
+      var BaseWidget_1 = require_BaseWidget();
+      var page_render_1 = require_page_render();
+      var BatchedListView = class extends BaseWidget_1.BaseWidget {
+        animateTo(offset, duration = 300, curve = "easeInOut") {
+          this.callNativeCommand("animateTo", { offset, duration, curve });
+        }
+        jumpTo(offset) {
+          this.callNativeCommand("jumpTo", { offset });
+        }
+        render() {
+          const { itemCount, itemBuilder, children, ...rest } = this.props;
+          const items = [];
+          for (let i = 0; i < itemCount; i++) {
+            const element = itemBuilder(i);
+            items.push((0, page_render_1.elementToDsl)(this.pageId, element));
+          }
+          return react_1.default.createElement("flutter-batched-list-view", {
+            ...rest,
+            items,
+            refId: this.scopedRefId,
+            isBoundary: true
+          });
+        }
+      };
+      exports.BatchedListView = BatchedListView;
+      exports.default = BatchedListView;
     }
   });
 
@@ -6973,6 +7018,7 @@ var process=process||{env:{NODE_ENV:"production"}};
       __exportStar(require_FlutterProps(), exports);
       __exportStar(require_PageView(), exports);
       __exportStar(require_GridView(), exports);
+      __exportStar(require_BatchedListView(), exports);
     }
   });
 
@@ -7018,7 +7064,7 @@ var process=process||{env:{NODE_ENV:"production"}};
         };
       }();
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.GridView = exports.PageView = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
+      exports.BatchedListView = exports.GridView = exports.PageView = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
       var Widgets = __importStar(require_widgets());
       exports.Column = Widgets.Column;
       exports.Container = Widgets.Container;
@@ -7053,6 +7099,9 @@ var process=process||{env:{NODE_ENV:"production"}};
       } });
       Object.defineProperty(exports, "GridView", { enumerable: true, get: function() {
         return widgets_1.GridView;
+      } });
+      Object.defineProperty(exports, "BatchedListView", { enumerable: true, get: function() {
+        return widgets_1.BatchedListView;
       } });
     }
   });
