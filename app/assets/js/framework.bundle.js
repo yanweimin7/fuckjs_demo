@@ -6175,33 +6175,40 @@ var process=process||{env:{NODE_ENV:"production"}};
          * @param nodeId The ID of the node owning these props
          * @param props The raw props object
          * @param nodeType Optional node type for debugging
+         * @param path Current path in nested objects for event mapping
          * @returns Processed props ready for DSL
          */
-        processProps(nodeId, props, nodeType) {
-          if (!props)
+        processProps(nodeId, props, nodeType, path = "") {
+          if (!props || typeof props !== "object")
             return props;
+          if (react_1.default.isValidElement(props))
+            return this.elementToDsl(props);
+          if (Array.isArray(props)) {
+            return props.map((item, index) => this.processProps(nodeId, item, nodeType, path ? `${path}[${index}]` : `[${index}]`));
+          }
           const processedProps = {};
           for (const key in props) {
-            if (key === "children" || key === "key" || key === "ref" || key === "isBoundary")
+            if (path === "" && (key === "children" || key === "key" || key === "ref" || key === "isBoundary"))
               continue;
+            if (key === "itemBuilder" && (nodeType === "ListView" || nodeType === "BatchedListView" || nodeType?.includes("list-view"))) {
+              continue;
+            }
             const value = props[key];
+            const fullKey = path ? `${path}.${key}` : key;
             if (typeof value === "function") {
-              this.registerCallback(nodeId, key, value);
+              this.registerCallback(nodeId, fullKey, value);
               if (nodeType === "InkWell" || nodeType === "GestureDetector") {
-                console.log(`[PageContainer] Registered callback for node ${nodeType}(${nodeId}), key: ${key}`);
+                console.log(`[PageContainer] Registered callback for node ${nodeType}(${nodeId}), key: ${fullKey}`);
               }
               processedProps[key] = {
                 "id": Number(nodeId),
-                // Use id instead of nodeId for consistency with renderer.ts
                 "nodeId": Number(nodeId),
-                "eventKey": String(key),
+                "eventKey": String(fullKey),
                 "pageId": Number(this.pageId),
                 "isFuickEvent": true
               };
-            } else if (react_1.default.isValidElement(value)) {
-              processedProps[key] = this.elementToDsl(value);
-            } else if (key === "style" && value && typeof value === "object") {
-              processedProps[key] = { ...value };
+            } else if (value && typeof value === "object") {
+              processedProps[key] = this.processProps(nodeId, value, nodeType, fullKey);
             } else {
               processedProps[key] = value;
             }

@@ -349,41 +349,77 @@ export class PageContainer {
   }
 
   /**
-   * Process properties to handle functions (callbacks) and React elements
-   * @param nodeId The ID of the node owning these props
-   * @param props The raw props object
-   * @param nodeType Optional node type for debugging
-   * @returns Processed props ready for DSL
+   * 递归处理组件属性，将 React/JS 特有的属性转换为 Flutter 可识别的 DSL 格式
+   * 
+   * 处理逻辑包括：
+   * 1. 识别并转换函数回调为 Flutter 事件对象 (isFuickEvent)
+   * 2. 递归处理嵌套的对象和数组
+   * 3. 过滤掉 React 内部使用的私有属性
+   * 4. 处理嵌套的 React 元素 (Element to DSL)
+   * 
+   * @param nodeId 当前属性所属节点的 ID，用于事件回调定位
+   * @param props 原始属性对象
+   * @param nodeType 节点类型 (如 'ListView', 'Text')，用于特殊逻辑处理
+   * @param path 当前处理的属性路径 (如 'decoration.color')，用于生成唯一的事件 key
+   * @returns 处理后的 DSL 属性对象
    */
-  processProps(nodeId: number, props: any, nodeType?: string): any {
-    if (!props) return props;
+  processProps(nodeId: number, props: any, nodeType?: string, path: string = ''): any {
+    // Case 1: 基础类型或空值直接返回
+    if (!props || typeof props !== 'object') return props;
+
+    // Case 2: 如果属性值是一个 React 元素，将其转换为 DSL 结构
+    // 例如：AppBar 的 title 属性传入了一个 <Text> 组件
+    if (React.isValidElement(props)) return this.elementToDsl(props);
+
+    // Case 3: 处理数组，递归转换数组中的每个元素
+    if (Array.isArray(props)) {
+      return props.map((item, index) => this.processProps(nodeId, item, nodeType, path ? `${path}[${index}]` : `[${index}]`));
+    }
 
     const processedProps: any = {};
     for (const key in props) {
-      if (key === 'children' || key === 'key' || key === 'ref' || key === 'isBoundary') continue;
+      // Case 4: 过滤 React 内部属性
+      // children 已在 elementToDsl 中单独处理，key/ref/isBoundary 仅在 JS 层使用，不传递给 Flutter
+      if (path === '' && (key === 'children' || key === 'key' || key === 'ref' || key === 'isBoundary')) continue;
+
+      // Case 5: 列表类组件的 itemBuilder 特殊处理
+      // itemBuilder 是按需调用的数据源，不是普通点击事件，不应被转换为 Flutter Event 对象。
+      // 它会在 Flutter 侧通过 getItemDSL 接口反向调用 JS 来获取每一项的 DSL。
+      if (key === 'itemBuilder' && (
+        nodeType === 'ListView' ||
+        nodeType === 'BatchedListView' ||
+        nodeType?.includes('list-view')
+      )) {
+        continue;
+      }
 
       const value = props[key];
+      // 生成完整的属性路径，用于事件回调时精准定位
+      const fullKey = path ? `${path}.${key}` : key;
+
       if (typeof value === 'function') {
-        // Register the callback
-        this.registerCallback(nodeId, key, value);
+        // Case 6: 处理函数回调
+        // 将 JS 函数注册到 PageContainer，并返回一个 Flutter 可识别的事件协议对象
+        this.registerCallback(nodeId, fullKey, value);
 
         if (nodeType === 'InkWell' || nodeType === 'GestureDetector') {
-          console.log(`[PageContainer] Registered callback for node ${nodeType}(${nodeId}), key: ${key}`);
+          console.log(`[PageContainer] Registered callback for node ${nodeType}(${nodeId}), key: ${fullKey}`);
         }
 
-        // Transform to event object for Flutter
+        // 构造 Flutter 侧解析的事件描述对象
         processedProps[key] = {
-          "id": Number(nodeId), // Use id instead of nodeId for consistency with renderer.ts
-          "nodeId": Number(nodeId),
-          "eventKey": String(key),
-          "pageId": Number(this.pageId),
-          "isFuickEvent": true
+          "id": Number(nodeId),        // 节点 ID
+          "nodeId": Number(nodeId),    // 节点 ID (兼容性保留)
+          "eventKey": String(fullKey), // 唯一的事件标识符 (包含路径)
+          "pageId": Number(this.pageId), // 页面 ID
+          "isFuickEvent": true         // 标识这是一个需要 JS 回调的事件
         };
-      } else if (React.isValidElement(value)) {
-        processedProps[key] = this.elementToDsl(value);
-      } else if (key === 'style' && value && typeof value === 'object') {
-        processedProps[key] = { ...value };
+      } else if (value && typeof value === 'object') {
+        // Case 7: 递归处理嵌套对象
+        // 例如：decoration: { color: '#ff0000', border: { ... } }
+        processedProps[key] = this.processProps(nodeId, value, nodeType, fullKey);
       } else {
+        // Case 8: 基础数据类型 (string, number, boolean) 直接赋值
         processedProps[key] = value;
       }
     }
