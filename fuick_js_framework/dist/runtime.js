@@ -46,9 +46,9 @@ function bindGlobals() {
             render: PageRender.render,
             destroy: PageRender.destroy,
             getItemDSL: PageRender.getItemDSL,
-            dispatchEvent: (id, payload) => {
+            dispatchEvent: (eventObj, payload) => {
                 const r = PageRender.ensureRenderer();
-                r.dispatchEvent(id, payload);
+                r.dispatchEvent(eventObj, payload);
             }
         }
     });

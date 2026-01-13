@@ -20,7 +20,6 @@ class TimerService extends BaseFuickService {
 
       if (isInterval) {
         timers[id] = Timer.periodic(Duration(milliseconds: delay), (timer) {
-          print('wey timers run');
           if (isDisposed) {
             timer.cancel();
             return;

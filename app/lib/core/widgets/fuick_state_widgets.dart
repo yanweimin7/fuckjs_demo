@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../service/fuick_command_bus.dart';
+import 'widget_utils.dart';
+import '../container/fuick_page_view.dart'; // Import for FuickPageScope
+import '../container/fuick_app_controller.dart'; // Import for FuickAppScope
 
 typedef ControllerCallback<T> = void Function(T controller);
 
@@ -9,7 +13,7 @@ class FuickPageView extends StatefulWidget {
   final ValueChanged<int>? onPageChanged;
   final List<Widget> children;
   final ControllerCallback<PageController>? onControllerCreated;
-  final VoidCallback? onDispose;
+  final ControllerCallback<PageController>? onDispose;
 
   const FuickPageView({
     super.key,
@@ -26,25 +30,94 @@ class FuickPageView extends StatefulWidget {
   State<FuickPageView> createState() => _FuickPageViewState();
 }
 
-class _FuickPageViewState extends State<FuickPageView> {
+class _FuickPageViewState extends State<FuickPageView>
+    with AutomaticKeepAliveClientMixin {
   late PageController _controller;
+  FuickCommandBus? _commandBus;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
     _controller = PageController(initialPage: widget.initialPage);
+    debugPrint(
+        '[FuickPageView] initState: refId=${widget.refId}, controller=$_controller');
     widget.onControllerCreated?.call(_controller);
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _commandBus = FuickAppScope.of(context)?.commandBus;
+    _unregisterCommandListener(widget.refId);
+    _registerCommandListener();
+  }
+
+  void _registerCommandListener() {
+    if (widget.refId != null && _commandBus != null) {
+      _commandBus!.addListener(widget.refId!, _onCommand);
+    }
+  }
+
+  void _unregisterCommandListener(String? refId) {
+    if (refId != null && _commandBus != null) {
+      _commandBus!.removeListener(refId, _onCommand);
+    }
+  }
+
+  void _onCommand(String method, dynamic args) {
+    if (!mounted || !_controller.hasClients) return;
+
+    if (method == 'animateToPage') {
+      final page = (args['page'] as num).toInt();
+      final duration = (args['duration'] as num?)?.toInt() ?? 300;
+      final curveName = args['curve'] as String? ?? 'easeInOut';
+      final curve = WidgetUtils.curve(curveName);
+
+      _controller.animateToPage(
+        page,
+        duration: Duration(milliseconds: duration),
+        curve: curve,
+      );
+    } else if (method == 'jumpToPage' || method == 'setPageIndex') {
+      final page = (args['page'] ?? args['index'] as num).toInt();
+      _controller.jumpToPage(page);
+    }
+  }
+
+  @override
+  void didUpdateWidget(FuickPageView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.refId != oldWidget.refId) {
+      debugPrint(
+          '[FuickPageView] didUpdateWidget: refId changed from ${oldWidget.refId} to ${widget.refId}');
+      _unregisterCommandListener(oldWidget.refId);
+      _registerCommandListener();
+
+      if (oldWidget.refId != null) {
+        oldWidget.onDispose?.call(_controller);
+      }
+      if (widget.refId != null) {
+        widget.onControllerCreated?.call(_controller);
+      }
+    }
+  }
+
+  @override
   void dispose() {
-    widget.onDispose?.call();
+    debugPrint(
+        '[FuickPageView] dispose: refId=${widget.refId}, controller=$_controller');
+    _unregisterCommandListener(widget.refId);
+    widget.onDispose?.call(_controller);
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return PageView(
       controller: _controller,
       scrollDirection: widget.scrollDirection,
@@ -61,7 +134,7 @@ class FuickScrollable extends StatefulWidget {
   final String? refId;
   final ScrollWidgetBuilder builder;
   final ControllerCallback<ScrollController>? onControllerCreated;
-  final VoidCallback? onDispose;
+  final ControllerCallback<ScrollController>? onDispose;
 
   const FuickScrollable({
     super.key,
@@ -75,8 +148,13 @@ class FuickScrollable extends StatefulWidget {
   State<FuickScrollable> createState() => _FuickScrollableState();
 }
 
-class _FuickScrollableState extends State<FuickScrollable> {
+class _FuickScrollableState extends State<FuickScrollable>
+    with AutomaticKeepAliveClientMixin {
   late ScrollController _controller;
+  FuickCommandBus? _commandBus;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -86,15 +164,185 @@ class _FuickScrollableState extends State<FuickScrollable> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _commandBus = FuickAppScope.of(context)?.commandBus;
+    _unregisterCommandListener(widget.refId);
+    _registerCommandListener();
+  }
+
+  void _registerCommandListener() {
+    if (widget.refId != null && _commandBus != null) {
+      _commandBus!.addListener(widget.refId!, _onCommand);
+    }
+  }
+
+  void _unregisterCommandListener(String? refId) {
+    if (refId != null && _commandBus != null) {
+      _commandBus!.removeListener(refId, _onCommand);
+    }
+  }
+
+  void _onCommand(String method, dynamic args) {
+    if (!mounted || !_controller.hasClients) return;
+
+    if (method == 'animateTo') {
+      final offset = (args['offset'] as num).toDouble();
+      final duration = (args['duration'] as num?)?.toInt() ?? 300;
+      final curveName = args['curve'] as String? ?? 'easeInOut';
+      final curve = WidgetUtils.curve(curveName);
+
+      _controller.animateTo(
+        offset,
+        duration: Duration(milliseconds: duration),
+        curve: curve,
+      );
+    } else if (method == 'jumpTo') {
+      final offset = (args['offset'] as num).toDouble();
+      _controller.jumpTo(offset);
+    }
+  }
+
+  @override
+  void didUpdateWidget(FuickScrollable oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.refId != oldWidget.refId) {
+      _unregisterCommandListener(oldWidget.refId);
+      _registerCommandListener();
+
+      if (oldWidget.refId != null) {
+        oldWidget.onDispose?.call(_controller);
+      }
+      if (widget.refId != null) {
+        widget.onControllerCreated?.call(_controller);
+      }
+    }
+  }
+
+  @override
   void dispose() {
-    widget.onDispose?.call();
+    _unregisterCommandListener(widget.refId);
+    widget.onDispose?.call(_controller);
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return widget.builder(context, _controller);
+  }
+}
+
+class FuickTextField extends StatefulWidget {
+  final String? refId;
+  final String text;
+  final String hintText;
+  final String? border;
+  final Map<String, dynamic> props;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final ControllerCallback<TextEditingController>? onControllerCreated;
+  final ControllerCallback<TextEditingController>? onDispose;
+
+  const FuickTextField({
+    super.key,
+    this.refId,
+    required this.text,
+    required this.hintText,
+    this.border,
+    required this.props,
+    this.onChanged,
+    this.onSubmitted,
+    this.onControllerCreated,
+    this.onDispose,
+  });
+
+  @override
+  State<FuickTextField> createState() => _FuickTextFieldState();
+}
+
+class _FuickTextFieldState extends State<FuickTextField> {
+  late TextEditingController _controller;
+  FuickCommandBus? _commandBus;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.text);
+    widget.onControllerCreated?.call(_controller);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _commandBus = FuickAppScope.of(context)?.commandBus;
+    _unregisterCommandListener(widget.refId);
+    _registerCommandListener();
+  }
+
+  void _registerCommandListener() {
+    if (widget.refId != null && _commandBus != null) {
+      _commandBus!.addListener(widget.refId!, _onCommand);
+    }
+  }
+
+  void _unregisterCommandListener(String? refId) {
+    if (refId != null && _commandBus != null) {
+      _commandBus!.removeListener(refId, _onCommand);
+    }
+  }
+
+  void _onCommand(String method, dynamic args) {
+    if (!mounted) return;
+
+    if (method == 'setText') {
+      final newText = (args is String ? args : args['text'] as String?) ?? '';
+      _controller.text = newText;
+    } else if (method == 'clear') {
+      _controller.clear();
+    }
+  }
+
+  @override
+  void didUpdateWidget(FuickTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.text != oldWidget.text && widget.text != _controller.text) {
+      _controller.text = widget.text;
+    }
+
+    if (widget.refId != oldWidget.refId) {
+      _unregisterCommandListener(oldWidget.refId);
+      _registerCommandListener();
+
+      if (oldWidget.refId != null) {
+        oldWidget.onDispose?.call(_controller);
+      }
+      if (widget.refId != null) {
+        widget.onControllerCreated?.call(_controller);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _unregisterCommandListener(widget.refId);
+    widget.onDispose?.call(_controller);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: _controller,
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        border: widget.border == 'none' ? InputBorder.none : null,
+      ),
+      onChanged: widget.onChanged,
+      onSubmitted: widget.onSubmitted,
+    );
   }
 }
 

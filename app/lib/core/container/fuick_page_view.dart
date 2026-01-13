@@ -106,7 +106,7 @@ class _JsUiHostState extends State<FuickPageView> {
                 controller: widget.controller,
                 child: FuickPageScope(
                   pageId: widget.pageId,
-                  child: WidgetFactory().buildFromNode(
+                  child: widget.controller.widgetFactory.buildFromNode(
                     context,
                     rootNode!,
                     forceWrap: true,
@@ -125,6 +125,12 @@ class FuickPageScope extends InheritedWidget {
 
   static FuickPageScope? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<FuickPageScope>();
+  }
+
+  static FuickPageScope? find(BuildContext context) {
+    return context
+        .getElementForInheritedWidgetOfExactType<FuickPageScope>()
+        ?.widget as FuickPageScope?;
   }
 
   @override

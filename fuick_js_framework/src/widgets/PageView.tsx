@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { WidgetProps } from './types';
-import { refsId } from '../utils/ids';
+import { BaseWidget } from './BaseWidget';
 
 export interface PageViewProps extends WidgetProps {
   scrollDirection?: 'horizontal' | 'vertical';
@@ -8,39 +8,20 @@ export interface PageViewProps extends WidgetProps {
   onPageChanged?: (index: number) => void;
 }
 
-export class PageView extends React.Component<PageViewProps> {
-  private _refId = refsId();
-
-  public get refId() {
-    return this.props.refId || this.props.id || this._refId;
-  }
-
+export class PageView extends BaseWidget<PageViewProps> {
   public animateToPage(page: number, duration: number = 300, curve: string = 'easeInOut') {
-    if (typeof (globalThis as any).dartCallNative === 'function') {
-      (globalThis as any).dartCallNative('componentCommand', {
-        refId: this.refId,
-        method: 'animateToPage',
-        args: { page, duration, curve },
-        nodeType: 'PageView'
-      });
-    }
+    this.callNativeCommand('animateToPage', { page, duration, curve });
   }
 
   public jumpToPage(page: number) {
-    if (typeof (globalThis as any).dartCallNative === 'function') {
-      (globalThis as any).dartCallNative('componentCommand', {
-        refId: this.refId,
-        method: 'jumpToPage',
-        args: { page },
-        nodeType: 'PageView'
-      });
-    }
+    this.callNativeCommand('jumpToPage', { page });
   }
 
   render(): ReactNode {
+    const { ref, ...otherProps } = this.props as any;
     return React.createElement('flutter-page-view', {
-      ...this.props,
-      refId: this.refId,
+      ...otherProps,
+      refId: this.scopedRefId,
       isBoundary: true
     });
   }

@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import '../widgets/widget_factory.dart';
 import 'BaseFuickService.dart';
+import 'fuick_command_bus.dart';
 
 class UIService extends BaseFuickService {
   UIService() {
@@ -33,16 +35,16 @@ class UIService extends BaseFuickService {
     });
 
     registerMethod('componentCommand', (args) {
+      debugPrint('[UIService] componentCommand: args=$args');
       final List listArgs = args is List ? args : [args];
       if (listArgs.length == 1 && listArgs[0] is Map) {
         final m = listArgs[0] as Map;
         final refId = m['refId']?.toString();
         final method = m['method']?.toString();
         final commandArgs = m['args'];
-        final nodeType = m['nodeType']?.toString();
 
-        if (refId != null && method != null && nodeType != null) {
-          WidgetFactory().dispatchCommand(nodeType, refId, method, commandArgs);
+        if (refId != null && method != null) {
+          controller?.commandBus.dispatch(refId, method, commandArgs);
           return true;
         }
       }

@@ -13,14 +13,22 @@ const roots = {};
 function dispatchEvent(eventObj, payload) {
     try {
         const pageId = eventObj?.pageId;
-        const nodeId = eventObj?.id;
+        const nodeId = Number(eventObj?.nodeId || eventObj?.id);
         const eventKey = eventObj?.eventKey;
+        console.log(`[Renderer] dispatchEvent pageId=${pageId}, nodeId=${nodeId}, eventKey=${eventKey}`);
         const container = containers[pageId];
         if (container) {
             const fn = container.getCallback(nodeId, eventKey);
             if (typeof fn === 'function') {
+                console.log(`[Renderer] Found callback for nodeId=${nodeId}, eventKey=${eventKey}, executing...`);
                 fn(payload);
             }
+            else {
+                console.warn(`[Renderer] Callback not found for nodeId=${nodeId}, eventKey=${eventKey}`);
+            }
+        }
+        else {
+            console.warn(`[Renderer] Container not found for pageId=${pageId}`);
         }
     }
     catch (e) {
@@ -90,6 +98,13 @@ function createRenderer() {
             const container = containers[pageId];
             if (container) {
                 return container.getItemDSL(refId, index);
+            }
+            return null;
+        },
+        elementToDsl(pageId, element) {
+            const container = containers[pageId];
+            if (container) {
+                return container.elementToDsl(element);
             }
             return null;
         }

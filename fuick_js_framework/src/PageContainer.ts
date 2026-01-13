@@ -9,6 +9,7 @@ export class PageContainer {
   private eventCallbacks: Map<string, Function> = new Map();
   private nodes: Map<number | string, Node> = new Map();
   private nodesByRefId: Map<string, Node> = new Map();
+  private virtualNodeIdCounter: number = 1000000; // Start high for virtual nodes
 
   constructor(pageId: number) {
     this.pageId = pageId;
@@ -251,7 +252,7 @@ export class PageContainer {
     }
   }
 
-  private elementToDsl(element: any): any {
+  public elementToDsl(element: any): any {
     if (!element) return null;
 
     if (typeof element === 'string' || typeof element === 'number') {
@@ -266,8 +267,8 @@ export class PageContainer {
       let type = element.type;
       const originalProps = element.props || {};
 
-      // Handle React.memo and React.forwardRef
-      if (typeof type === 'object' && type.type) {
+      // Handle React.memo and React.forwardRef (can be nested)
+      while (typeof type === 'object' && type !== null && type.type) {
         type = type.type;
       }
 
@@ -275,6 +276,7 @@ export class PageContainer {
         // Handle class components
         if (type.prototype && type.prototype.isReactComponent) {
           const instance = new (type as any)(originalProps);
+          instance.context = { pageId: this.pageId };
 
           // Support refs in elementToDsl (important for itemBuilder)
           if (element.ref) {
@@ -296,12 +298,19 @@ export class PageContainer {
       const children = props.children;
       delete props.children;
 
+      // Ensure we have a nodeId for event mapping
+      const nodeId = (typeof props.id === 'number') ? props.id : ++this.virtualNodeIdCounter;
+      if (!props.id || typeof props.id !== 'number') props.id = nodeId;
+
       if (typeof type === 'string' && type.startsWith('flutter-')) {
         type = type.substring(8)
           .split('-')
           .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1))
           .join('');
       }
+
+      // Process props using the common logic
+      const processedProps = this.processProps(nodeId, props, type);
 
       const dslChildren: any[] = [];
       const childrenToProcess = Array.isArray(children) ? children : (children ? [children] : []);
@@ -317,23 +326,68 @@ export class PageContainer {
         }
       }
 
-      // Handle special props that might be React elements
-      for (const key in props) {
-        if (React.isValidElement(props[key])) {
-          props[key] = this.elementToDsl(props[key]);
-        }
-      }
-
       const result = {
+        id: nodeId,
         type: String(type),
-        props: props,
+        props: processedProps,
         children: dslChildren
       };
+
+      if (props.refId) {
+        const rawRefId = String(props.refId);
+        (result as any).refId = rawRefId.indexOf(':') !== -1 ? rawRefId : `${this.pageId}:${rawRefId}`;
+      }
+
+      if (props.isBoundary) {
+        (result as any).isBoundary = true;
+      }
 
       return result;
     }
 
     return null;
+  }
+
+  /**
+   * Process properties to handle functions (callbacks) and React elements
+   * @param nodeId The ID of the node owning these props
+   * @param props The raw props object
+   * @param nodeType Optional node type for debugging
+   * @returns Processed props ready for DSL
+   */
+  processProps(nodeId: number, props: any, nodeType?: string): any {
+    if (!props) return props;
+
+    const processedProps: any = {};
+    for (const key in props) {
+      if (key === 'children' || key === 'key' || key === 'ref' || key === 'isBoundary') continue;
+
+      const value = props[key];
+      if (typeof value === 'function') {
+        // Register the callback
+        this.registerCallback(nodeId, key, value);
+
+        if (nodeType === 'InkWell' || nodeType === 'GestureDetector') {
+          console.log(`[PageContainer] Registered callback for node ${nodeType}(${nodeId}), key: ${key}`);
+        }
+
+        // Transform to event object for Flutter
+        processedProps[key] = {
+          "id": Number(nodeId), // Use id instead of nodeId for consistency with renderer.ts
+          "nodeId": Number(nodeId),
+          "eventKey": String(key),
+          "pageId": Number(this.pageId),
+          "isFuickEvent": true
+        };
+      } else if (React.isValidElement(value)) {
+        processedProps[key] = this.elementToDsl(value);
+      } else if (key === 'style' && value && typeof value === 'object') {
+        processedProps[key] = { ...value };
+      } else {
+        processedProps[key] = value;
+      }
+    }
+    return processedProps;
   }
 
   clear() {

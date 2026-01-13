@@ -9,6 +9,7 @@ class FuickAction {
       debugPrint('[FuickAction] Error: FuickAppScope not found in context');
       return;
     }
+    debugPrint('[FuickAction] Dispatching event to JS: $eventObj');
     controller.ctx.invoke('FuickUIController', 'dispatchEvent', [
       eventObj,
       value,

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../engine/jscontext_interface.dart';
 import '../handler/js_handler_manager.dart';
+import '../service/fuick_command_bus.dart';
+import '../widgets/widget_factory.dart';
 import 'fuick_page.dart';
 import 'fuick_page_view.dart';
 
@@ -18,6 +20,8 @@ class FuickAppController {
   final Map<int, Function(Map<String, dynamic>)> onPageRender = {};
   final Map<int, Function(List<dynamic>)> onPagePatch = {};
   final NativeServiceBinder nativeServiceBinder = NativeServiceBinder();
+  final FuickCommandBus commandBus = FuickCommandBus();
+  final WidgetFactory widgetFactory = WidgetFactory();
 
   final ValueNotifier<bool> isBundleLoaded = ValueNotifier<bool>(false);
 
@@ -105,6 +109,13 @@ class FuickAppScope extends InheritedWidget {
   static FuickAppController? of(BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<FuickAppScope>()
+        ?.controller;
+  }
+
+  static FuickAppController? find(BuildContext context) {
+    return (context
+            .getElementForInheritedWidgetOfExactType<FuickAppScope>()
+            ?.widget as FuickAppScope?)
         ?.controller;
   }
 

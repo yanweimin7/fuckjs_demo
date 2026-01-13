@@ -14,6 +14,7 @@ import {
     SingleChildScrollView,
     Image,
     GestureDetector,
+    InkWell,
     Expanded,
     Center,
     PageView,
@@ -140,31 +141,7 @@ const ComplexPage = () => {
     const [count, setCount] = React.useState(0);
     const [currentBanner, setCurrentBanner] = React.useState(0);
     const pageViewRef = React.useRef<PageView>(null);
-
-    // 自动刷新测试
-    React.useEffect(() => {
-        const timer = setInterval(() => {
-            setCount(c => c + 1);
-        }, 10000);
-        return () => clearInterval(timer);
-    }, []);
-
-    // Banner 自动轮播逻辑
-    React.useEffect(() => {
-        const timer = setInterval(() => {
-            // 使用函数式更新获取最新的 currentBanner，避免闭包陷阱
-            setCurrentBanner(prev => {
-                const nextBanner = (prev + 1) % 3;
-                console.log(`[Complex] Auto-sliding from ${prev} to ${nextBanner}`);
-
-                if (pageViewRef.current) {
-                    pageViewRef.current.animateToPage(nextBanner);
-                }
-                return nextBanner;
-            });
-        }, 5000);
-        return () => clearInterval(timer);
-    }, []); // 移除 currentBanner 依赖，由 setInterval 内部处理更新
+    const listViewRef = React.useRef<any>(null);
 
     // 生成更大量、更多样化的模拟数据
     const listData = React.useMemo(() => {
@@ -181,6 +158,41 @@ const ComplexPage = () => {
         }));
     }, [count]);
 
+    const handleUpdateFirstItem = React.useCallback(() => {
+        console.log("[Complex] handleUpdateFirstItem click handler called");
+        if (listViewRef.current) {
+            const index = 7; // 第一个 AssetListItem 的索引
+            const item = listData[0];
+            const updatedItem = { ...item, title: "🔥 UPDATED 🔥", price: "88888.88", color: "#EF4444" };
+
+            console.log("[Complex] Executing updateItem at index 7 with data:", updatedItem);
+            listViewRef.current.updateItem(index, (
+                <Padding padding={{ left: 16, right: 16 }}>
+                    <AssetListItem key={0} item={updatedItem} />
+                </Padding>
+            ));
+        } else {
+            console.error("[Complex] listViewRef.current is null! Cannot update item.");
+        }
+    }, [listData]);
+
+    // Banner 自动轮播逻辑
+    React.useEffect(() => {
+        const timer = setInterval(() => {
+            // 使用函数式更新获取最新的 currentBanner，避免闭包陷阱
+            setCurrentBanner(prev => {
+                const nextBanner = (prev + 1) % 3;
+
+
+                if (pageViewRef.current) {
+                    pageViewRef.current.animateToPage(nextBanner);
+                }
+                return nextBanner;
+            });
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []); // 移除 currentBanner 依赖，由 setInterval 内部处理更新
+
     // 预定义各部分组件以提高性能
     const headerSection = React.useMemo(() => (
         <Padding padding={20}>
@@ -189,12 +201,27 @@ const ComplexPage = () => {
                     <Text text="Good Morning," fontSize={14} color="#64748B" />
                     <Text text="Fuick Developer" fontSize={20} fontWeight="bold" color="#1E293B" />
                 </Column>
-                <Container width={40} height={40} decoration={{ color: '#E2E8F0', borderRadius: 20 }} alignment="center">
-                    <Icon name="notifications" size={20} color="#64748B" />
-                </Container>
+                <Row crossAxisAlignment="center">
+                    <InkWell onTap={handleUpdateFirstItem}>
+                        <Container
+                            padding={{ left: 12, right: 12, top: 8, bottom: 8 }}
+                            decoration={{ color: '#6366F1', borderRadius: 12 }}
+                        >
+                            <Row crossAxisAlignment="center">
+                                <Icon name="refresh" size={14} color="#FFFFFF" />
+                                <SizedBox width={6} />
+                                <Text text="Test Update" color="#FFFFFF" fontSize={12} fontWeight="bold" />
+                            </Row>
+                        </Container>
+                    </InkWell>
+                    <SizedBox width={16} />
+                    <Container width={40} height={40} decoration={{ color: '#E2E8F0', borderRadius: 20 }} alignment="center">
+                        <Icon name="notifications" size={20} color="#64748B" />
+                    </Container>
+                </Row>
             </Row>
         </Padding>
-    ), []);
+    ), [handleUpdateFirstItem]);
 
     const bannerSection = React.useMemo(() => (
         <Padding padding={16}>
@@ -202,6 +229,7 @@ const ComplexPage = () => {
                 <PageView
                     ref={pageViewRef}
                     initialPage={0}
+                    refId="banner_page_view"
                 >
                     <BannerItem color="#6366F1" title="ETH 2.0 Staking" subtitle="Earn up to 12% APR on your ETH" />
                     <BannerItem color="#EC4899" title="NFT Marketplace" subtitle="Discover unique digital collectibles" />
@@ -391,7 +419,10 @@ const ComplexPage = () => {
             backgroundColor="#F8FAFC"
         >
             <ListView
+                ref={listViewRef}
+                refId="main_list_view"
                 cacheKey={count}
+                shrinkWrap={false}
                 itemCount={listData.length + 8}
                 itemBuilder={(index: number) => {
                     if (index === 0) return headerSection;

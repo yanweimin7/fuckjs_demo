@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRenderer } from './renderer';
 import * as Router from './router';
+import { PageContext } from './PageContext';
 
 let renderer: any = null;
 
@@ -15,15 +16,20 @@ export function render(pageId: number, path: string, params: any) {
     const r = ensureRenderer();
     console.log(`[JS Performance] render start for ${path}, pageId: ${pageId}`);
     const factory = Router.match(path);
+
+    let app: any;
     if (typeof factory === 'function') {
-        const app = factory(params || {});
-        r.update(app, pageId);
+        app = factory(params || {});
     } else {
-        const app = React.createElement('Column', { padding: 16, mainAxisAlignment: 'center' } as any,
+        app = React.createElement('Column', { padding: 16, mainAxisAlignment: 'center' } as any,
             React.createElement('Text', { text: `Route ${path} not found`, fontSize: 16, color: '#cc0000' } as any),
         );
-        r.update(app, pageId);
     }
+
+    // Wrap with PageContext
+    const wrappedApp = React.createElement(PageContext.Provider, { value: { pageId } }, app);
+    r.update(wrappedApp, pageId);
+
     console.log(`[JS Performance] render total cost for ${path}: ${Date.now() - startTime}ms`);
 }
 
@@ -35,4 +41,9 @@ export function destroy(pageId: number) {
 export function getItemDSL(pageId: number, refId: string, index: number) {
     const r = ensureRenderer();
     return r.getItemDSL(pageId, refId, index);
+}
+
+export function elementToDsl(pageId: number, element: any) {
+    const r = ensureRenderer();
+    return r.elementToDsl(pageId, element);
 }

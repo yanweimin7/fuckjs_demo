@@ -10,40 +10,8 @@ class PageViewParser extends WidgetParser {
   @override
   String get type => 'PageView';
 
-  final Map<String, PageController> _controllers = {};
-
   @override
-  void onCommand(String refId, String method, dynamic args) {
-    final controller = _controllers[refId];
-    if (controller == null) {
-      debugPrint('PageViewParser: controller not found for refId $refId');
-      return;
-    }
-
-    if (!controller.hasClients) {
-      debugPrint('PageViewParser: controller has no clients for refId $refId');
-      return;
-    }
-
-    if (method == 'animateToPage') {
-      final page = (args['page'] as num).toInt();
-      final duration = (args['duration'] as num?)?.toInt() ?? 300;
-      final curveName = args['curve'] as String? ?? 'easeInOut';
-
-      final curve = WidgetUtils.curve(curveName);
-      debugPrint('PageViewParser: animateToPage $page for refId $refId');
-
-      controller.animateToPage(
-        page,
-        duration: Duration(milliseconds: duration),
-        curve: curve,
-      );
-    } else if (method == 'jumpToPage' || method == 'setPageIndex') {
-      final page = (args['page'] ?? args['index'] as num).toInt();
-      debugPrint('PageViewParser: jumpToPage $page for refId $refId');
-      controller.jumpToPage(page);
-    }
-  }
+  void onCommand(String refId, String method, dynamic args) {}
 
   @override
   Widget parse(
@@ -54,6 +22,8 @@ class PageViewParser extends WidgetParser {
   ) {
     final int? initialPage = (props['initialPage'] as num?)?.toInt();
     final String? refId = props['refId']?.toString();
+
+    debugPrint('[PageViewParser] parse: refId=$refId, props=$props');
 
     return WidgetUtils.wrapPadding(
       props,
@@ -66,16 +36,6 @@ class PageViewParser extends WidgetParser {
         onPageChanged: (index) {
           if (props['onPageChanged'] != null) {
             FuickAction.event(context, props['onPageChanged'], value: index);
-          }
-        },
-        onControllerCreated: (controller) {
-          if (refId != null) {
-            _controllers[refId] = controller;
-          }
-        },
-        onDispose: () {
-          if (refId != null) {
-            _controllers.remove(refId);
           }
         },
         children: factory.buildChildren(context, children),

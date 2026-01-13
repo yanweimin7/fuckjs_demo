@@ -4,4 +4,5 @@ export declare function createRenderer(): {
     destroy(pageId: number): void;
     dispatchEvent: typeof dispatchEvent;
     getItemDSL(pageId: number, refId: string, index: number): any;
+    elementToDsl(pageId: number, element: any): any;
 };

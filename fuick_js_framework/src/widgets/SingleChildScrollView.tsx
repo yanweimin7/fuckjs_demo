@@ -1,18 +1,20 @@
 import React, { ReactNode } from 'react';
 import { WidgetProps } from './types';
-import { refsId } from '../utils/ids';
+import { BaseWidget } from './BaseWidget';
 
 export interface SingleChildScrollViewProps extends WidgetProps {
   scrollDirection?: 'horizontal' | 'vertical';
 }
 
-export class SingleChildScrollView extends React.Component<SingleChildScrollViewProps> {
-  private refId = refsId();
+export class SingleChildScrollView extends BaseWidget<SingleChildScrollViewProps> {
+  public animateTo(offset: number, duration: number = 300, curve: string = 'easeInOut') {
+    this.callNativeCommand('animateTo', { offset, duration, curve });
+  }
 
   render(): ReactNode {
     return React.createElement('flutter-single-child-scroll-view', {
       ...this.props,
-      refId: this.props.refId || this.refId,
+      refId: this.scopedRefId,
       isBoundary: true
     });
   }

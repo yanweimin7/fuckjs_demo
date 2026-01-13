@@ -249,6 +249,21 @@ class WidgetUtils {
     return null;
   }
 
+  static ScrollPhysics? scrollPhysics(String? v) {
+    switch (v) {
+      case 'never':
+        return const NeverScrollableScrollPhysics();
+      case 'bouncing':
+        return const BouncingScrollPhysics();
+      case 'clamping':
+        return const ClampingScrollPhysics();
+      case 'always':
+        return const AlwaysScrollableScrollPhysics();
+      default:
+        return null;
+    }
+  }
+
   static Curve curve(String? v) {
     switch (v) {
       case 'linear':

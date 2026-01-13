@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { WidgetProps } from './types';
-import { refsId } from '../utils/ids';
+import { BaseWidget } from './BaseWidget';
+import { elementToDsl } from '../page_render';
 
 export interface GridViewProps extends WidgetProps {
   crossAxisCount: number;
@@ -14,22 +15,18 @@ export interface GridViewProps extends WidgetProps {
   cacheKey?: any;
 }
 
-export class GridView extends React.Component<GridViewProps> {
-  private _refId = refsId();
-
-  public get refId() {
-    return this.props.refId || this.props.id || (this.props as any).key || this._refId;
+export class GridView extends BaseWidget<GridViewProps> {
+  public animateTo(offset: number, duration: number = 300, curve: string = 'easeInOut') {
+    this.callNativeCommand('animateTo', { offset, duration, curve });
   }
 
-  public animateTo(offset: number, duration: number = 300, curve: string = 'easeInOut') {
-    if (typeof (globalThis as any).dartCallNative === 'function') {
-      (globalThis as any).dartCallNative('componentCommand', {
-        refId: this.refId,
-        method: 'animateTo',
-        args: { offset, duration, curve },
-        nodeType: 'GridView'
-      });
+  public updateItem(index: number, dsl: any) {
+    let finalDsl = dsl;
+    if (React.isValidElement(dsl)) {
+      finalDsl = elementToDsl(this.pageId, dsl);
     }
+
+    this.callNativeCommand('updateItem', { index, dsl: finalDsl });
   }
 
   render(): ReactNode {
@@ -37,7 +34,7 @@ export class GridView extends React.Component<GridViewProps> {
     return React.createElement('flutter-grid-view', {
       ...rest,
       hasBuilder: !!this.props.itemBuilder,
-      refId: this.refId,
+      refId: this.scopedRefId,
       isBoundary: true
     }, children);
   }

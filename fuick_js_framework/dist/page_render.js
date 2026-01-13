@@ -40,9 +40,11 @@ exports.ensureRenderer = ensureRenderer;
 exports.render = render;
 exports.destroy = destroy;
 exports.getItemDSL = getItemDSL;
+exports.elementToDsl = elementToDsl;
 const react_1 = __importDefault(require("react"));
 const renderer_1 = require("./renderer");
 const Router = __importStar(require("./router"));
+const PageContext_1 = require("./PageContext");
 let renderer = null;
 function ensureRenderer() {
     if (renderer)
@@ -55,14 +57,16 @@ function render(pageId, path, params) {
     const r = ensureRenderer();
     console.log(`[JS Performance] render start for ${path}, pageId: ${pageId}`);
     const factory = Router.match(path);
+    let app;
     if (typeof factory === 'function') {
-        const app = factory(params || {});
-        r.update(app, pageId);
+        app = factory(params || {});
     }
     else {
-        const app = react_1.default.createElement('Column', { padding: 16, mainAxisAlignment: 'center' }, react_1.default.createElement('Text', { text: `Route ${path} not found`, fontSize: 16, color: '#cc0000' }));
-        r.update(app, pageId);
+        app = react_1.default.createElement('Column', { padding: 16, mainAxisAlignment: 'center' }, react_1.default.createElement('Text', { text: `Route ${path} not found`, fontSize: 16, color: '#cc0000' }));
     }
+    // Wrap with PageContext
+    const wrappedApp = react_1.default.createElement(PageContext_1.PageContext.Provider, { value: { pageId } }, app);
+    r.update(wrappedApp, pageId);
     console.log(`[JS Performance] render total cost for ${path}: ${Date.now() - startTime}ms`);
 }
 function destroy(pageId) {
@@ -72,4 +76,8 @@ function destroy(pageId) {
 function getItemDSL(pageId, refId, index) {
     const r = ensureRenderer();
     return r.getItemDSL(pageId, refId, index);
+}
+function elementToDsl(pageId, element) {
+    const r = ensureRenderer();
+    return r.elementToDsl(pageId, element);
 }

@@ -32,9 +32,7 @@ import 'parsers/page_view_parser.dart';
 import 'parsers/grid_view_parser.dart';
 
 class WidgetFactory {
-  static final WidgetFactory _instance = WidgetFactory._internal();
-  factory WidgetFactory() => _instance;
-  WidgetFactory._internal() {
+  WidgetFactory() {
     _registerDefaultParsers();
   }
 
@@ -94,7 +92,12 @@ class WidgetFactory {
       return const SizedBox.shrink();
     }
     final dsl = Map<String, dynamic>.from(dslOrNode);
-    final type = dsl['type'] as String? ?? 'Text';
+    final typeValue = dsl['type'];
+    if (typeValue is! String) {
+      debugPrint('[WidgetFactory] Error: invalid dsl type: $typeValue');
+      return const SizedBox.shrink();
+    }
+    final String type = typeValue;
     final props = Map<String, dynamic>.from(dsl['props'] as Map? ?? {});
     final children = (dsl['children'] as List?) ?? [];
     return buildInternal(context, type, props, children);

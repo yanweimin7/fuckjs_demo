@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { WidgetProps } from './types';
-import { refsId } from '../utils/ids';
+import { BaseWidget } from './BaseWidget';
 
 export interface TextFieldProps extends WidgetProps {
   hintText?: string;
@@ -9,13 +9,19 @@ export interface TextFieldProps extends WidgetProps {
   onSubmitted?: (value: string) => void;
 }
 
-export class TextField extends React.Component<TextFieldProps> {
-  private refId = refsId();
+export class TextField extends BaseWidget<TextFieldProps> {
+  public setText(text: string) {
+    this.callNativeCommand('setText', { text });
+  }
+
+  public clear() {
+    this.callNativeCommand('clear', {});
+  }
 
   render(): ReactNode {
     return React.createElement('flutter-text-field', {
       ...this.props,
-      refId: this.props.refId || this.refId,
+      refId: this.scopedRefId,
       isBoundary: true
     });
   }

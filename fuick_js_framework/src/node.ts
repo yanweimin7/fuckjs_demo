@@ -4,7 +4,7 @@ export const TEXT_TYPE = 'Text';
 let nextNodeId = 1;
 
 export class Node {
-  id: number | string;
+  id: number;
   type: string;
   props: any;
   children: Node[] = [];
@@ -22,8 +22,16 @@ export class Node {
   }
 
   applyProps(newProps: any) {
-    // If refId changes, we might need to update the container's refId map.
-    // But refId is usually stable for a node.
+    if (this.type.includes('gesture-detector') || this.type.includes('ink-well')) {
+      console.log(`[Node] applyProps for ${this.type} (${this.id}), keys:`, Object.keys(newProps || {}));
+    }
+
+    // Unregister old refId if it exists
+    const oldRefId = this.props?.refId;
+    if (oldRefId) {
+      this.container?.unregisterNode(this);
+    }
+
     this.clearCallbacks();
     // Re-initialize props to ensure deleted props are removed
     this.props = {};
@@ -35,13 +43,17 @@ export class Node {
         const value = newProps[key];
         this.props[key] = value;
         if (typeof value === 'function') {
+          if (this.type.includes('gesture-detector') || this.type.includes('ink-well')) {
+            console.log(`[Node] Saved callback for ${this.type}.${key}`);
+          }
           this.saveCallback(key, value);
         }
       }
     }
 
-    // If we have a container, we should re-register to update refId mapping
+    // Re-register with new refId
     this.container?.registerNode(this);
+    this.container?.markChanged(this);
   }
 
   saveCallback(key: string, fn: Function) {
@@ -74,29 +86,12 @@ export class Node {
         .join('');
     }
 
-    const props: any = {};
-    if (this.props) {
-      // Use for...in for maximum compatibility with all object types
-      for (const key in this.props) {
-        if (key === 'children') continue;
-        if (key === 'key' || key === 'ref' || key === 'isBoundary') continue;
-
-        const value = this.props[key];
-        if (typeof value === 'function') {
-          props[key] = { id: this.id, eventKey: key, pageId: this.container?.pageId };
-        } else if (key === 'style' && value && typeof value === 'object') {
-          props[key] = { ...value };
-        } else {
-          props[key] = value;
-        }
-      }
-    }
+    const props = this.container ? this.container.processProps(this.id, this.props, type) : {};
 
     // Use refId from props if provided
     const refId = this.props?.refId;
 
     // Children are handled separately
-
     const children: any[] = [];
     for (const child of this.children) {
       if (child.type === 'flutter-props') {
@@ -127,14 +122,24 @@ export class Node {
       }
     }
 
-    return {
+    const result: any = {
       id: this.id,
-      ...(refId ? { refId: String(refId) } : {}),
       type: String(type),
-      ...(this.props?.isBoundary ? { isBoundary: true } : {}),
       props: props,
       children: children
     };
+
+    if (refId) {
+      const rawRefId = String(refId);
+      const pageId = this.container?.pageId || 0;
+      result.refId = rawRefId.indexOf(':') !== -1 ? rawRefId : `${pageId}:${rawRefId}`;
+    }
+
+    if (this.props?.isBoundary) {
+      result.isBoundary = true;
+    }
+
+    return result;
   }
 
   destroy() {
