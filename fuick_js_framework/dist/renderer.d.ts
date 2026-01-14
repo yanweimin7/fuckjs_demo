@@ -1,3 +1,4 @@
+import { PageContainer } from './PageContainer';
 export declare function dispatchEvent(eventObj: any, payload: any): void;
 export declare function createRenderer(): {
     update(element: any, pageId: number): void;
@@ -5,4 +6,6 @@ export declare function createRenderer(): {
     dispatchEvent: typeof dispatchEvent;
     getItemDSL(pageId: number, refId: string, index: number): any;
     elementToDsl(pageId: number, element: any): any;
+    notifyLifecycle(pageId: number, type: "visible" | "invisible"): void;
+    getContainer(pageId: number): PageContainer;
 };

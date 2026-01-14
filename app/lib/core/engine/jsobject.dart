@@ -11,7 +11,13 @@ class JSObject {
   final Pointer<Void> _contextHandle;
   final Pointer<QjsResult> _handle;
 
-  JSObject(this._ffi, this._contextHandle, this._handle);
+  JSObject(this._ffi, this._contextHandle, this._handle) {
+    _finalizer.attach(this, _handle, detach: this);
+  }
+
+  static final Finalizer<Pointer<QjsResult>> _finalizer = Finalizer((ptr) {
+    QuickJsFFI.globalInstance?.freeQjsResult(ptr);
+  });
 
   void setProperty(String name, dynamic value) {
     final valRes = ffi.calloc<QjsResult>();
@@ -107,27 +113,24 @@ class JSObject {
         final id = _nextResolverId++;
         out.ref.type = qjsTypePromise;
         out.ref.i64 = id;
-        result
-            .then((value) {
-              pendingResolvers.putIfAbsent(
-                contextHandle.address,
-                () => {},
-              )[id] = value;
-              // 关键：Future 完成后，利用微任务触发 runJobs 以推进 JS Promise 状态
-              Future.microtask(() {
-                QuickJsContext.instances[contextHandle.address]?.runJobs();
-              });
-            })
-            .catchError((e) {
-              pendingRejections.putIfAbsent(
-                contextHandle.address,
-                () => {},
-              )[id] = e
-                  .toString();
-              Future.microtask(() {
-                QuickJsContext.instances[contextHandle.address]?.runJobs();
-              });
-            });
+        result.then((value) {
+          pendingResolvers.putIfAbsent(
+            contextHandle.address,
+            () => {},
+          )[id] = value;
+          // 关键：Future 完成后，利用微任务触发 runJobs 以推进 JS Promise 状态
+          Future.microtask(() {
+            QuickJsContext.instances[contextHandle.address]?.runJobs();
+          });
+        }).catchError((e) {
+          pendingRejections.putIfAbsent(
+            contextHandle.address,
+            () => {},
+          )[id] = e.toString();
+          Future.microtask(() {
+            QuickJsContext.instances[contextHandle.address]?.runJobs();
+          });
+        });
         // 同步返回值
         QuickJsFFI.writeOut(out, result);
       }

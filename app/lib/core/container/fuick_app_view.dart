@@ -163,7 +163,7 @@ class _FuickAppViewState extends State<FuickAppView> {
       },
       child: Navigator(
         key: _appController.navKey,
-        observers: [_observer],
+        observers: [_observer, _appController.routeObserver],
         onGenerateInitialRoutes: (NavigatorState nav, String initialRoute) {
           return [
             CupertinoPageRoute(

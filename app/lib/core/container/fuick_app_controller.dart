@@ -16,6 +16,8 @@ int get nextPageId {
 class FuickAppController {
   final IQuickJsContext ctx;
   final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+  final RouteObserver<ModalRoute<void>> routeObserver =
+      RouteObserver<ModalRoute<void>>();
   final Map<String, Map<String, dynamic>> _routes = {};
   final Map<int, Function(Map<String, dynamic>)> onPageRender = {};
   final Map<int, Function(List<dynamic>)> onPagePatch = {};
@@ -45,6 +47,10 @@ class FuickAppController {
 
   void destroyPage(int pageId) {
     ctx.invoke('FuickUIController', 'destroy', [pageId]);
+  }
+
+  void notifyLifecycle(int pageId, String type) {
+    ctx.invoke('FuickUIController', 'notifyLifecycle', [pageId, type]);
   }
 
   dynamic getItemDSL(int pageId, String refId, int index) {

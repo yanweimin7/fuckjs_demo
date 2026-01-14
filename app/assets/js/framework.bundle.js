@@ -27,9 +27,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     mod
   ));
 
-  // ../js/node_modules/react/cjs/react.production.min.js
+  // node_modules/react/cjs/react.production.min.js
   var require_react_production_min = __commonJS({
-    "../js/node_modules/react/cjs/react.production.min.js"(exports) {
+    "node_modules/react/cjs/react.production.min.js"(exports) {
       "use strict";
       var l = Symbol.for("react.element");
       var n = Symbol.for("react.portal");
@@ -558,9 +558,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/node_modules/scheduler/cjs/scheduler.production.min.js
+  // node_modules/scheduler/cjs/scheduler.production.min.js
   var require_scheduler_production_min = __commonJS({
-    "../js/node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
+    "node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
       "use strict";
       function f(a, b) {
         var c = a.length;
@@ -811,9 +811,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js
+  // node_modules/react-reconciler/cjs/react-reconciler.production.min.js
   var require_react_reconciler_production_min = __commonJS({
-    "../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
+    "node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
@@ -5897,9 +5897,12 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           this.changedNodes = /* @__PURE__ */ new Set();
           this.rendered = false;
           this.eventCallbacks = /* @__PURE__ */ new Map();
+          this.onVisibleCallbacks = /* @__PURE__ */ new Set();
+          this.onInvisibleCallbacks = /* @__PURE__ */ new Set();
           this.nodes = /* @__PURE__ */ new Map();
           this.nodesByRefId = /* @__PURE__ */ new Map();
           this.virtualNodeIdCounter = 1e6;
+          this.isVisible = false;
           this.pageId = pageId;
         }
         registerNode(node) {
@@ -5925,6 +5928,45 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
         }
         getCallback(nodeId, eventKey) {
           return this.eventCallbacks.get(`${nodeId}:${eventKey}`);
+        }
+        registerVisibleCallback(fn) {
+          this.onVisibleCallbacks.add(fn);
+          if (this.isVisible) {
+            try {
+              fn();
+            } catch (e) {
+              console.error(`Error in onVisible callback (immediate) for page ${this.pageId}:`, e);
+            }
+          }
+        }
+        unregisterVisibleCallback(fn) {
+          this.onVisibleCallbacks.delete(fn);
+        }
+        registerInvisibleCallback(fn) {
+          this.onInvisibleCallbacks.add(fn);
+        }
+        unregisterInvisibleCallback(fn) {
+          this.onInvisibleCallbacks.delete(fn);
+        }
+        notifyVisible() {
+          this.isVisible = true;
+          this.onVisibleCallbacks.forEach((fn) => {
+            try {
+              fn();
+            } catch (e) {
+              console.error(`Error in onVisible callback for page ${this.pageId}:`, e);
+            }
+          });
+        }
+        notifyInvisible() {
+          this.isVisible = false;
+          this.onInvisibleCallbacks.forEach((fn) => {
+            try {
+              fn();
+            } catch (e) {
+              console.error(`Error in onInvisible callback for page ${this.pageId}:`, e);
+            }
+          });
         }
         markChanged(node) {
           if (!node)
@@ -6334,11 +6376,25 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             return null;
           },
           elementToDsl(pageId, element) {
-            const container = containers[pageId];
-            if (container) {
-              return container.elementToDsl(element);
+            let container = containers[pageId];
+            if (!container) {
+              container = new PageContainer_1.PageContainer(pageId);
             }
-            return null;
+            return container.elementToDsl(element);
+          },
+          notifyLifecycle(pageId, type) {
+            const container = containers[pageId];
+            console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
+            if (container) {
+              if (type === "visible") {
+                container.notifyVisible();
+              } else if (type === "invisible") {
+                container.notifyInvisible();
+              }
+            }
+          },
+          getContainer(pageId) {
+            return containers[pageId];
           }
         };
       }
@@ -6417,6 +6473,8 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       exports.destroy = destroy;
       exports.getItemDSL = getItemDSL;
       exports.elementToDsl = elementToDsl;
+      exports.notifyLifecycle = notifyLifecycle;
+      exports.getContainer = getContainer;
       var react_1 = __importDefault(require_react_production_min());
       var renderer_1 = require_renderer();
       var Router = __importStar(require_router());
@@ -6454,6 +6512,14 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       function elementToDsl(pageId, element) {
         const r = ensureRenderer();
         return r.elementToDsl(pageId, element);
+      }
+      function notifyLifecycle(pageId, type) {
+        const r = ensureRenderer();
+        r.notifyLifecycle(pageId, type);
+      }
+      function getContainer(pageId) {
+        const r = ensureRenderer();
+        return r.getContainer(pageId);
       }
     }
   });
@@ -7312,6 +7378,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             render: PageRender.render,
             destroy: PageRender.destroy,
             getItemDSL: PageRender.getItemDSL,
+            notifyLifecycle: PageRender.notifyLifecycle,
             dispatchEvent: (eventObj, payload) => {
               const r = PageRender.ensureRenderer();
               r.dispatchEvent(eventObj, payload);
@@ -7374,6 +7441,86 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           notifyMicrotaskEnqueued();
           return originalFinally.call(this, onfinally);
         };
+      }
+    }
+  });
+
+  // ../fuick_js_framework/dist/hooks.js
+  var require_hooks = __commonJS({
+    "../fuick_js_framework/dist/hooks.js"(exports) {
+      "use strict";
+      var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
+        if (k2 === void 0) k2 = k;
+        var desc = Object.getOwnPropertyDescriptor(m, k);
+        if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+          desc = { enumerable: true, get: function() {
+            return m[k];
+          } };
+        }
+        Object.defineProperty(o, k2, desc);
+      } : function(o, m, k, k2) {
+        if (k2 === void 0) k2 = k;
+        o[k2] = m[k];
+      });
+      var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
+        Object.defineProperty(o, "default", { enumerable: true, value: v });
+      } : function(o, v) {
+        o["default"] = v;
+      });
+      var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
+        var ownKeys = function(o) {
+          ownKeys = Object.getOwnPropertyNames || function(o2) {
+            var ar = [];
+            for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+            return ar;
+          };
+          return ownKeys(o);
+        };
+        return function(mod) {
+          if (mod && mod.__esModule) return mod;
+          var result = {};
+          if (mod != null) {
+            for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+          }
+          __setModuleDefault(result, mod);
+          return result;
+        };
+      }();
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.useVisible = useVisible;
+      exports.useInvisible = useInvisible;
+      var react_1 = require_react_production_min();
+      var PageContext_1 = require_PageContext();
+      var PageRender = __importStar(require_page_render());
+      function useVisible(callback) {
+        const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
+        (0, react_1.useEffect)(() => {
+          const container = PageRender.getContainer(pageId);
+          if (container) {
+            container.registerVisibleCallback(callback);
+          }
+          return () => {
+            const container2 = PageRender.getContainer(pageId);
+            if (container2) {
+              container2.unregisterVisibleCallback(callback);
+            }
+          };
+        }, [pageId, callback]);
+      }
+      function useInvisible(callback) {
+        const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
+        (0, react_1.useEffect)(() => {
+          const container = PageRender.getContainer(pageId);
+          if (container) {
+            container.registerInvisibleCallback(callback);
+          }
+          return () => {
+            const container2 = PageRender.getContainer(pageId);
+            if (container2) {
+              container2.unregisterInvisibleCallback(callback);
+            }
+          };
+        }, [pageId, callback]);
       }
     }
   });
@@ -7465,6 +7612,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       exports.Navigator = __importStar(require_navigator());
       __exportStar(require_runtime(), exports);
       __exportStar(require_page_render(), exports);
+      __exportStar(require_hooks(), exports);
       __exportStar(require_ErrorBoundary(), exports);
       __exportStar(require_timer(), exports);
       __exportStar(require_console(), exports);
@@ -7472,7 +7620,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/src/framework_entry.ts
+  // src/framework_entry.ts
   var import_react = __toESM(require_react_production_min());
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;

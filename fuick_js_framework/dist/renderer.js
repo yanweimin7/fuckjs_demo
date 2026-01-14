@@ -102,11 +102,27 @@ function createRenderer() {
             return null;
         },
         elementToDsl(pageId, element) {
-            const container = containers[pageId];
-            if (container) {
-                return container.elementToDsl(element);
+            let container = containers[pageId];
+            if (!container) {
+                // Create a temporary container for preloading or conversion
+                container = new PageContainer_1.PageContainer(pageId);
             }
-            return null;
+            return container.elementToDsl(element);
+        },
+        notifyLifecycle(pageId, type) {
+            const container = containers[pageId];
+            console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
+            if (container) {
+                if (type === 'visible') {
+                    container.notifyVisible();
+                }
+                else if (type === 'invisible') {
+                    container.notifyInvisible();
+                }
+            }
+        },
+        getContainer(pageId) {
+            return containers[pageId];
         }
     };
 }

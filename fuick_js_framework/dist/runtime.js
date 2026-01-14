@@ -46,6 +46,7 @@ function bindGlobals() {
             render: PageRender.render,
             destroy: PageRender.destroy,
             getItemDSL: PageRender.getItemDSL,
+            notifyLifecycle: PageRender.notifyLifecycle,
             dispatchEvent: (eventObj, payload) => {
                 const r = PageRender.ensureRenderer();
                 r.dispatchEvent(eventObj, payload);

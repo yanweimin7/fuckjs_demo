@@ -1,7 +1,15 @@
 import React from 'react';
-import { Column, Container, Text, ListView, Padding, Row, Image, SizedBox, Button, Navigator, BatchedListView } from 'fuick_js_framework';
+import { Column, Container, Text, ListView, Padding, Row, Image, SizedBox, Button, Navigator, useVisible, useInvisible } from 'fuick_js_framework';
 
 export default function HomePage() {
+    useVisible(() => {
+        // HomePage is visible
+    });
+
+    useInvisible(() => {
+        // HomePage is invisible
+    });
+
     const items = [1, 2, 3, 4, 5];
 
     return (

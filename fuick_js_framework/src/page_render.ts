@@ -47,3 +47,13 @@ export function elementToDsl(pageId: number, element: any) {
     const r = ensureRenderer();
     return r.elementToDsl(pageId, element);
 }
+
+export function notifyLifecycle(pageId: number, type: 'visible' | 'invisible') {
+    const r = ensureRenderer();
+    r.notifyLifecycle(pageId, type);
+}
+
+export function getContainer(pageId: number) {
+    const r = ensureRenderer();
+    return r.getContainer(pageId);
+}

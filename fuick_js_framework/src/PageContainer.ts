@@ -7,9 +7,12 @@ export class PageContainer {
   changedNodes: Set<Node> = new Set();
   rendered: boolean = false;
   private eventCallbacks: Map<string, Function> = new Map();
+  private onVisibleCallbacks: Set<Function> = new Set();
+  private onInvisibleCallbacks: Set<Function> = new Set();
   private nodes: Map<number | string, Node> = new Map();
   private nodesByRefId: Map<string, Node> = new Map();
   private virtualNodeIdCounter: number = 1000000; // Start high for virtual nodes
+  private isVisible: boolean = false;
 
   constructor(pageId: number) {
     this.pageId = pageId;
@@ -43,6 +46,51 @@ export class PageContainer {
 
   public getCallback(nodeId: number | string, eventKey: string): Function | undefined {
     return this.eventCallbacks.get(`${nodeId}:${eventKey}`);
+  }
+
+  public registerVisibleCallback(fn: Function) {
+    this.onVisibleCallbacks.add(fn);
+    if (this.isVisible) {
+      try {
+        fn();
+      } catch (e) {
+        console.error(`Error in onVisible callback (immediate) for page ${this.pageId}:`, e);
+      }
+    }
+  }
+
+  public unregisterVisibleCallback(fn: Function) {
+    this.onVisibleCallbacks.delete(fn);
+  }
+
+  public registerInvisibleCallback(fn: Function) {
+    this.onInvisibleCallbacks.add(fn);
+  }
+
+  public unregisterInvisibleCallback(fn: Function) {
+    this.onInvisibleCallbacks.delete(fn);
+  }
+
+  public notifyVisible() {
+    this.isVisible = true;
+    this.onVisibleCallbacks.forEach(fn => {
+      try {
+        fn();
+      } catch (e) {
+        console.error(`Error in onVisible callback for page ${this.pageId}:`, e);
+      }
+    });
+  }
+
+  public notifyInvisible() {
+    this.isVisible = false;
+    this.onInvisibleCallbacks.forEach(fn => {
+      try {
+        fn();
+      } catch (e) {
+        console.error(`Error in onInvisible callback for page ${this.pageId}:`, e);
+      }
+    });
   }
 
   public markChanged(node: Node | null) {

@@ -98,11 +98,26 @@ export function createRenderer() {
       return null;
     },
     elementToDsl(pageId: number, element: any) {
-      const container = containers[pageId];
-      if (container) {
-        return (container as any).elementToDsl(element);
+      let container = containers[pageId];
+      if (!container) {
+        // Create a temporary container for preloading or conversion
+        container = new PageContainer(pageId);
       }
-      return null;
+      return (container as any).elementToDsl(element);
+    },
+    notifyLifecycle(pageId: number, type: 'visible' | 'invisible') {
+      const container = containers[pageId];
+      console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
+      if (container) {
+        if (type === 'visible') {
+          container.notifyVisible();
+        } else if (type === 'invisible') {
+          container.notifyInvisible();
+        }
+      }
+    },
+    getContainer(pageId: number) {
+      return containers[pageId];
     }
   };
 }

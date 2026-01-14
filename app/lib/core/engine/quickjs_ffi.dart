@@ -85,8 +85,11 @@ typedef NativeAsyncTypedCallHandler = Void Function(
  */
 final class QuickJsFFI {
   final DynamicLibrary _lib;
+  static QuickJsFFI? globalInstance;
 
-  QuickJsFFI(this._lib);
+  QuickJsFFI(this._lib) {
+    globalInstance = this;
+  }
 
   /**
    * 加载动态库 (自动处理平台差异)

@@ -41,6 +41,8 @@ exports.render = render;
 exports.destroy = destroy;
 exports.getItemDSL = getItemDSL;
 exports.elementToDsl = elementToDsl;
+exports.notifyLifecycle = notifyLifecycle;
+exports.getContainer = getContainer;
 const react_1 = __importDefault(require("react"));
 const renderer_1 = require("./renderer");
 const Router = __importStar(require("./router"));
@@ -80,4 +82,12 @@ function getItemDSL(pageId, refId, index) {
 function elementToDsl(pageId, element) {
     const r = ensureRenderer();
     return r.elementToDsl(pageId, element);
+}
+function notifyLifecycle(pageId, type) {
+    const r = ensureRenderer();
+    r.notifyLifecycle(pageId, type);
+}
+function getContainer(pageId) {
+    const r = ensureRenderer();
+    return r.getContainer(pageId);
 }

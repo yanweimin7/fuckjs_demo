@@ -16,6 +16,7 @@ class QuickJsContext implements IQuickJsContext {
   final Pointer<Void> _runtimeHandle;
   final Pointer<Void> _handle;
   late final JSObject global;
+  final Map<String, JSObject> _objectCache = {};
 
   FutureOr<dynamic> Function(String method, dynamic args)? _onCallNative;
   FutureOr<dynamic> Function(String method, dynamic args)? _onCallNativeAsync;
@@ -98,8 +99,17 @@ class QuickJsContext implements IQuickJsContext {
     if (objectName == null) {
       return global.invoke(methodName, args);
     }
-    final obj = global.getProperty(objectName);
-    if (obj is JSObject) {
+
+    JSObject? obj = _objectCache[objectName];
+    if (obj == null) {
+      final res = global.getProperty(objectName);
+      if (res is JSObject) {
+        obj = res;
+        _objectCache[objectName] = obj;
+      }
+    }
+
+    if (obj != null) {
       return obj.invoke(methodName, args);
     }
     return null;
