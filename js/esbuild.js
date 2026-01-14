@@ -49,7 +49,7 @@ async function build() {
       global: 'globalThis',
     },
     banner: {
-      js: `var process=process||{env:{NODE_ENV:\"${isProd ? 'production' : 'development'}\"}};`,
+      js: `var process=process||{env:{NODE_ENV:\"${isProd ? 'production' : 'development'}\"}};if(typeof console===\"undefined\"){globalThis.console={log:function(){if(typeof print==='function')print([].slice.call(arguments).join(' '));},error:function(){if(typeof print==='function')print('[ERROR] '+[].slice.call(arguments).join(' '));},warn:function(){if(typeof print==='function')print('[WARN] '+[].slice.call(arguments).join(' '));},debug:function(){if(typeof print==='function')print('[DEBUG] '+[].slice.call(arguments).join(' '));}};}`,
     },
   };
 

@@ -119,14 +119,15 @@ class _FuickAppViewState extends State<FuickAppView> {
               data.lengthInBytes,
             );
             await ctx.evalBinary(bytes);
+            debugPrint('成功加载 QuickJS 字节码 bundle $bundleName');
           } else {
             final bundle = await rootBundle.loadString(
               'assets/js/$bundleName.js',
             );
             await ctx.eval(bundle);
+            debugPrint('成功加载 QuickJS js bundle $bundleName');
           }
         }
-        debugPrint('成功加载 QuickJS 字节码 bundle $bundleName');
       } catch (e) {
         debugPrint('加载字节码 bundle $bundleName 失败，尝试加载文本 bundle: $e');
         if (widget.useIsolate) {

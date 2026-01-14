@@ -1,4 +1,4 @@
-var process=process||{env:{NODE_ENV:"production"}};
+var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefined"){globalThis.console={log:function(){if(typeof print==='function')print([].slice.call(arguments).join(' '));},error:function(){if(typeof print==='function')print('[ERROR] '+[].slice.call(arguments).join(' '));},warn:function(){if(typeof print==='function')print('[WARN] '+[].slice.call(arguments).join(' '));},debug:function(){if(typeof print==='function')print('[DEBUG] '+[].slice.call(arguments).join(' '));}};}
 "use strict";
 (() => {
   var __create = Object.create;
@@ -27,9 +27,9 @@ var process=process||{env:{NODE_ENV:"production"}};
     mod
   ));
 
-  // node_modules/react/cjs/react.production.min.js
+  // ../js/node_modules/react/cjs/react.production.min.js
   var require_react_production_min = __commonJS({
-    "node_modules/react/cjs/react.production.min.js"(exports) {
+    "../js/node_modules/react/cjs/react.production.min.js"(exports) {
       "use strict";
       var l = Symbol.for("react.element");
       var n = Symbol.for("react.portal");
@@ -558,9 +558,9 @@ var process=process||{env:{NODE_ENV:"production"}};
     }
   });
 
-  // node_modules/scheduler/cjs/scheduler.production.min.js
+  // ../js/node_modules/scheduler/cjs/scheduler.production.min.js
   var require_scheduler_production_min = __commonJS({
-    "node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
+    "../js/node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
       "use strict";
       function f(a, b) {
         var c = a.length;
@@ -811,9 +811,9 @@ var process=process||{env:{NODE_ENV:"production"}};
     }
   });
 
-  // node_modules/react-reconciler/cjs/react-reconciler.production.min.js
+  // ../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js
   var require_react_reconciler_production_min = __commonJS({
-    "node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
+    "../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
@@ -6171,12 +6171,19 @@ var process=process||{env:{NODE_ENV:"production"}};
           return null;
         }
         /**
-         * Process properties to handle functions (callbacks) and React elements
-         * @param nodeId The ID of the node owning these props
-         * @param props The raw props object
-         * @param nodeType Optional node type for debugging
-         * @param path Current path in nested objects for event mapping
-         * @returns Processed props ready for DSL
+         * 递归处理组件属性，将 React/JS 特有的属性转换为 Flutter 可识别的 DSL 格式
+         *
+         * 处理逻辑包括：
+         * 1. 识别并转换函数回调为 Flutter 事件对象 (isFuickEvent)
+         * 2. 递归处理嵌套的对象和数组
+         * 3. 过滤掉 React 内部使用的私有属性
+         * 4. 处理嵌套的 React 元素 (Element to DSL)
+         *
+         * @param nodeId 当前属性所属节点的 ID，用于事件回调定位
+         * @param props 原始属性对象
+         * @param nodeType 节点类型 (如 'ListView', 'Text')，用于特殊逻辑处理
+         * @param path 当前处理的属性路径 (如 'decoration.color')，用于生成唯一的事件 key
+         * @returns 处理后的 DSL 属性对象
          */
         processProps(nodeId, props, nodeType, path = "") {
           if (!props || typeof props !== "object")
@@ -6202,10 +6209,15 @@ var process=process||{env:{NODE_ENV:"production"}};
               }
               processedProps[key] = {
                 "id": Number(nodeId),
+                // 节点 ID
                 "nodeId": Number(nodeId),
+                // 节点 ID (兼容性保留)
                 "eventKey": String(fullKey),
+                // 唯一的事件标识符 (包含路径)
                 "pageId": Number(this.pageId),
+                // 页面 ID
                 "isFuickEvent": true
+                // 标识这是一个需要 JS 回调的事件
               };
             } else if (value && typeof value === "object") {
               processedProps[key] = this.processProps(nodeId, value, nodeType, fullKey);
@@ -7460,7 +7472,7 @@ var process=process||{env:{NODE_ENV:"production"}};
     }
   });
 
-  // src/framework_entry.ts
+  // ../js/src/framework_entry.ts
   var import_react = __toESM(require_react_production_min());
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;

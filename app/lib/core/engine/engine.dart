@@ -13,6 +13,7 @@ class EngineInit {
   static initQjs() {
     if (_qjs == null) {
       try {
+        print("init runtime");
         final lib = QuickJsFFI.load();
         _qjs = QuickJsFFI(lib);
         runtime = QuickJsRuntime(_qjs!);

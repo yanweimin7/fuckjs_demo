@@ -8,19 +8,13 @@ import '../service/timer_service.dart';
 import 'engine.dart';
 import 'jscontext.dart';
 
-class IsolateManager {
-  static IsolateManager? instance;
-
+class IsolateHandler {
   final SendPort mainSendPort;
 
   final Map<String, QuickJsContext> contexts = {};
   final Map<String, NativeServiceBinder> binders = {};
 
-  IsolateManager(this.mainSendPort) {
-    if (EngineInit.qjs == null) {
-      EngineInit.initQjs();
-    }
-  }
+  IsolateHandler(this.mainSendPort);
 
   Future<dynamic> _waitForResponse(ReceivePort port) async {
     final result = await port.first;
@@ -35,15 +29,15 @@ class IsolateManager {
     dynamic payload,
   ) async {
     try {
+      if (type == 'initEngine') {
+        await EngineInit.initQjs();
+        return;
+      }
       if (type == 'createContext') {
         if (!contexts.containsKey(contextId)) {
           if (EngineInit.runtime == null) {
-            EngineInit.initQjs();
-          }
-          if (EngineInit.runtime == null) {
             throw Exception("Failed to initialize QuickJS runtime in isolate");
           }
-
           final ctx = EngineInit.runtime!.createContext();
           contexts[contextId] = ctx;
 

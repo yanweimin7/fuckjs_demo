@@ -24,6 +24,7 @@ class IsolateWorker {
     if (_initialized) return _ready.future;
     _initialized = true;
     await _worker.init(_mainHandler, _isolateHandler);
+    sendRequest('', 'initEngine', '');
     _ready.complete();
   }
 
@@ -92,6 +93,8 @@ class IsolateWorker {
     }
   }
 
+  static IsolateHandler? isolateHandler;
+
   /// Child isolate handler
   @pragma('vm:entry-point')
   static FutureOr<void> _isolateHandler(
@@ -99,20 +102,13 @@ class IsolateWorker {
     SendPort mainSendPort,
     SendErrorFunction onSendError,
   ) {
-    IsolateManager? manager = IsolateManager.instance;
-    if (manager == null) {
-      manager = IsolateManager(mainSendPort);
-      IsolateManager.instance = manager;
-    }
-
+    isolateHandler ??= IsolateHandler(mainSendPort);
     if (data is! Map) return null;
-
     final contextId = data['contextId'] as String;
     final type = data['type'];
     final id = data['id'];
     final payload = data['payload'];
-
-    manager.handleMessage(contextId, type, id, payload);
+    isolateHandler!.handleMessage(contextId, type, id, payload);
     return null;
   }
 

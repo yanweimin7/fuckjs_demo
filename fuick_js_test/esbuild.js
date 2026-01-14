@@ -10,6 +10,18 @@ const QJSC_PATH = path.resolve(__dirname, '../../fuickjs_engine/src/main/jni/qui
 const PROJECT_NAME = 'fuick_js_test';
 const isProd = !watch;
 
+// react/reconciler paths (shared from main js node_modules)
+const mainJsDir = path.resolve(__dirname, '../js');
+const reactPath = isProd
+  ? path.join(mainJsDir, 'node_modules/react/cjs/react.production.min.js')
+  : path.join(mainJsDir, 'node_modules/react/cjs/react.development.js');
+const reconcilerPath = isProd
+  ? path.join(mainJsDir, 'node_modules/react-reconciler/cjs/react-reconciler.production.min.js')
+  : path.join(mainJsDir, 'node_modules/react-reconciler/cjs/react-reconciler.development.js');
+const schedulerPath = isProd
+  ? path.join(mainJsDir, 'node_modules/scheduler/cjs/scheduler.production.min.js')
+  : path.join(mainJsDir, 'node_modules/scheduler/cjs/scheduler.development.js');
+
 const globalsPlugin = {
   name: 'globals',
   setup(build) {
@@ -22,8 +34,7 @@ const globalsPlugin = {
   },
 }
 
-esbuild.build({
-  entryPoints: ['src/index.ts'],
+const commonOptions = {
   bundle: true,
   platform: 'neutral',
   format: 'iife',
@@ -35,44 +46,76 @@ esbuild.build({
     '.tsx': 'tsx',
   },
   mainFields: ['module', 'main'],
-  plugins: [globalsPlugin],
   define: {
     'process.env.NODE_ENV': isProd ? '"production"' : '"development"',
     global: 'globalThis',
   },
   banner: {
-    js: `var process=process||{env:{NODE_ENV:\"${isProd ? 'production' : 'development'}\"}};`,
+    js: `var process=process||{env:{NODE_ENV:\"${isProd ? 'production' : 'development'}\"}};if(typeof console===\"undefined\"){globalThis.console={log:function(){if(typeof print==='function')print([].slice.call(arguments).join(' '));},error:function(){if(typeof print==='function')print('[ERROR] '+[].slice.call(arguments).join(' '));},warn:function(){if(typeof print==='function')print('[WARN] '+[].slice.call(arguments).join(' '));},debug:function(){if(typeof print==='function')print('[DEBUG] '+[].slice.call(arguments).join(' '));}};}`,
   },
-  outfile: `dist/${PROJECT_NAME}.js`,
-}).then(result => {
-  const src = path.resolve(__dirname, `dist/${PROJECT_NAME}.js`);
+};
+
+async function runBuild() {
   const destDir = path.resolve(__dirname, '../app/assets/js');
-  const dest = path.join(destDir, `${PROJECT_NAME}.js`);
-  const destBin = path.join(destDir, `${PROJECT_NAME}.qjc`);
-
-  try {
+  if (!fs.existsSync(destDir)) {
     fs.mkdirSync(destDir, { recursive: true });
-    fs.copyFileSync(src, dest);
-    console.log('Copied bundle to', dest);
-
-    // Compile to bytecode
-    if (fs.existsSync(QJSC_PATH)) {
-      console.log('Compiling to QuickJS bytecode...');
-      execSync(`${QJSC_PATH} -b -o ${destBin} ${src}`);
-      console.log('Compiled to', destBin);
-    } else {
-      console.warn('qjsc not found at', QJSC_PATH, ', skipping bytecode compilation.');
-    }
-  } catch (e) {
-    console.error('Build/Copy failed:', e);
-    process.exitCode = 1;
   }
+
+  // 1. Build Framework
+  console.log('Building framework bundle...');
+  await esbuild.build({
+    ...commonOptions,
+    entryPoints: [path.join(mainJsDir, 'src/framework_entry.ts')],
+    outfile: 'dist/framework.bundle.js',
+    alias: {
+      'react': reactPath,
+      'react-reconciler': reconcilerPath,
+      'scheduler': schedulerPath,
+      'fuick_js_framework': path.resolve(__dirname, '../fuick_js_framework/dist/index.js'),
+    },
+  });
+
+  // 2. Build Test Project
+  console.log(`Building ${PROJECT_NAME} bundle...`);
+  await esbuild.build({
+    ...commonOptions,
+    entryPoints: ['src/index.ts'],
+    outfile: `dist/${PROJECT_NAME}.js`,
+    plugins: [globalsPlugin],
+  });
+
+  const bundles = [
+    { name: 'framework.bundle', src: 'dist/framework.bundle.js' },
+    { name: PROJECT_NAME, src: `dist/${PROJECT_NAME}.js` },
+  ];
+
+  for (const b of bundles) {
+    const src = path.resolve(__dirname, b.src);
+    const dest = path.join(destDir, `${b.name}.js`);
+    const destBin = path.join(destDir, `${b.name}.qjc`);
+
+    try {
+      fs.copyFileSync(src, dest);
+      console.log(`Copied ${b.name} to ${dest}`);
+
+      if (fs.existsSync(QJSC_PATH)) {
+        console.log(`Compiling ${b.name} to QuickJS bytecode...`);
+        execSync(`${QJSC_PATH} -b -o ${destBin} ${src}`);
+        console.log(`Compiled to ${destBin}`);
+      }
+    } catch (e) {
+      console.error(`Failed to process ${b.name}:`, e);
+    }
+  }
+
   if (watch) {
     console.log('Watching...');
   } else {
     console.log('Build complete.');
   }
-}).catch(err => {
+}
+
+runBuild().catch(err => {
   console.error(err);
   process.exit(1);
 });
