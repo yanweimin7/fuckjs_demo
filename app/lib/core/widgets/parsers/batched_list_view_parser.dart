@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quickjs/core/service/fuick_command_bus.dart';
 import '../../container/fuick_app_controller.dart';
+import '../../utils/extensions.dart';
 import '../fuick_state_widgets.dart';
 import '../widget_factory.dart';
 import '../widget_utils.dart';
@@ -118,8 +119,8 @@ class _FuickBatchedListViewState extends State<FuickBatchedListView>
 
     if (method == 'animateTo') {
       if (!_controller.hasClients) return;
-      final double offset = (args['offset'] as num).toDouble();
-      final int duration = (args['duration'] as num?)?.toInt() ?? 300;
+      final double offset = asDouble(args['offset']);
+      final int duration = asIntOrNull(args['duration']) ?? 300;
       final String curveStr = args['curve']?.toString() ?? 'easeInOut';
       final curve = WidgetUtils.curve(curveStr);
       _controller.animateTo(
@@ -129,7 +130,7 @@ class _FuickBatchedListViewState extends State<FuickBatchedListView>
       );
     } else if (method == 'jumpTo') {
       if (!_controller.hasClients) return;
-      final double offset = (args['offset'] as num).toDouble();
+      final double offset = asDouble(args['offset']);
       _controller.jumpTo(offset);
     }
   }

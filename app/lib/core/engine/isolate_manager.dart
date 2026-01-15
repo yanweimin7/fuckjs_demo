@@ -41,6 +41,19 @@ class IsolateHandler {
           final ctx = EngineInit.runtime!.createContext();
           contexts[contextId] = ctx;
 
+          // Define helper for async invocation to break call stack
+          // Moved to runtime.ts in JS framework
+          // ctx.eval('''
+          //   globalThis.__invokeAsync = (obj, method, ...args) => {
+          //     return Promise.resolve().then(() => {
+          //       const target = obj || globalThis;
+          //       if (typeof target[method] === 'function') {
+          //         return target[method](...args);
+          //       }
+          //     });
+          //   };
+          // ''');
+
           final binder = NativeServiceBinder();
           binders[contextId] = binder;
           // Only register services that can run in isolate

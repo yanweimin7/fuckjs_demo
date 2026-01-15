@@ -118,6 +118,10 @@ class _JsUiHostState extends State<FuickPageView> with RouteAware {
       nodeManager.applyPatches(patches, nodeManager);
     };
 
+    widget.controller.onPagePatchOps[widget.pageId] = (ops) {
+      nodeManager.applyOps(ops, nodeManager);
+    };
+
     // 监听 bundle 加载状态
     widget.controller.isBundleLoaded.addListener(_checkAndRender);
 

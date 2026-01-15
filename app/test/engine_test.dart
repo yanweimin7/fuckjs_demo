@@ -5,6 +5,7 @@ import 'package:flutter_quickjs/core/engine/quickjs_ffi.dart';
 import 'package:flutter_quickjs/core/engine/jscontext.dart';
 import 'package:flutter_quickjs/core/engine/runtime.dart';
 import 'package:flutter_quickjs/core/engine/jsobject.dart';
+import 'package:flutter_quickjs/core/utils/extensions.dart';
 
 void main() {
   group('QuickJS Engine Tests', () {
@@ -51,7 +52,7 @@ void main() {
     test('Global property definition and invocation', () {
       final ctx = runtime.createContext();
       ctx.global.defineProperty('add', (a, b) {
-        return (a as num).toInt() + (b as num).toInt();
+        return asInt(a) + asInt(b);
       });
       final result = ctx.invoke(null, 'add', [10, 20]);
       expect(result, 30);

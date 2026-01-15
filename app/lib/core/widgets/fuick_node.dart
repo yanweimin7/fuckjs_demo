@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/extensions.dart';
+
 class FuickNode {
   final int id;
   String type;
@@ -101,7 +103,7 @@ class FuickNodeManager {
   }
 
   FuickNode createNode(Map<String, dynamic> dsl, FuickNodeManager manager) {
-    final id = (dsl['id'] as num).toInt();
+    final id = asInt(dsl['id']);
     final type = dsl['type'] as String;
     final isBoundary = dsl['isBoundary'] == true;
     final props = Map<String, dynamic>.from(dsl['props'] as Map? ?? {});
@@ -136,7 +138,7 @@ class FuickNodeManager {
     for (final patch in patches) {
       if (patch is! Map) continue;
       final dsl = Map<String, dynamic>.from(patch);
-      final id = (dsl['id'] as num).toInt();
+      final id = asInt(dsl['id']);
 
       if (_nodes.containsKey(id)) {
         final existingNode = _nodes[id]!;
@@ -147,8 +149,9 @@ class FuickNodeManager {
 
           // Recursively create new children (since children structure might change)
           final List<FuickNode> newChildren = childrenDsl
-              .map((c) =>
-                  createNode(Map<String, dynamic>.from(c as Map), manager))
+              .map(
+                (c) => createNode(Map<String, dynamic>.from(c as Map), manager),
+              )
               .toList();
 
           existingNode.update(props, newChildren, manager);
@@ -162,6 +165,73 @@ class FuickNodeManager {
 
       // Trigger UI refresh for the patched node with NEW node data
       manager.notify(id, newNode);
+    }
+  }
+
+  void applyOps(List<dynamic> ops, FuickNodeManager manager) {
+    int i = 0;
+    while (i < ops.length) {
+      final opCode = asInt(ops[i++]);
+      if (opCode == 1) {
+        // UPDATE: id, props
+        final id = asInt(ops[i++]);
+        final props = ops[i++] as Map;
+        final node = _nodes[id];
+        if (node != null) {
+          final processed = node._processProps(
+            Map<String, dynamic>.from(props),
+            manager,
+          );
+          node.props.addAll(processed);
+          manager.notify(id, node);
+        }
+      } else if (opCode == 2) {
+        // INSERT: parentId, childId, index, childDsl
+        final parentId = asInt(ops[i++]);
+        final childId = asInt(ops[i++]);
+        final index = asInt(ops[i++]);
+        final childDsl = ops[i++];
+
+        final parent = _nodes[parentId];
+        if (parent != null) {
+          // Ensure child is removed from old location/nodes if it existed (handled by explicit REMOVE op usually, but safety check?)
+          // Usually REMOVE op comes before INSERT for moves.
+          // But createNode will overwrite _nodes[childId].
+          final childNode = createNode(
+            Map<String, dynamic>.from(childDsl),
+            manager,
+          );
+
+          if (index >= 0 && index <= parent.children.length) {
+            parent.children.insert(index, childNode);
+          } else {
+            parent.children.add(childNode);
+          }
+          manager.notify(parentId, parent);
+        }
+      } else if (opCode == 3) {
+        // REMOVE: parentId, childId
+        final parentId = asInt(ops[i++]);
+        final childId = asInt(ops[i++]);
+
+        final parent = _nodes[parentId];
+        if (parent != null) {
+          parent.children.removeWhere((c) => c.id == childId);
+          _removeNodeRecursive(childId);
+          manager.notify(parentId, parent);
+        }
+      }
+    }
+  }
+
+  void _removeNodeRecursive(int id) {
+    final node = _nodes[id];
+    if (node != null) {
+      for (final child in node.children) {
+        _removeNodeRecursive(child.id);
+      }
+      _nodes.remove(id);
+      _listeners.remove(id);
     }
   }
 

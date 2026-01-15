@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../container/fuick_action.dart';
+import '../../utils/extensions.dart';
 import '../fuick_state_widgets.dart';
 import '../widget_factory.dart';
 import '../widget_utils.dart';
@@ -20,7 +21,7 @@ class PageViewParser extends WidgetParser {
     dynamic children,
     WidgetFactory factory,
   ) {
-    final int? initialPage = (props['initialPage'] as num?)?.toInt();
+    final int? initialPage = asIntOrNull(props['initialPage']);
     final String? refId = props['refId']?.toString();
 
     return WidgetUtils.wrapPadding(

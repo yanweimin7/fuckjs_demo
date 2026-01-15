@@ -70,7 +70,11 @@ function diffProps(oldProps: any, newProps: any): { payload: any[], hasDslChange
         // 从而避免不必要的 Flutter UI 刷新。
         updatePayload.push(key, newVal);
         hasChanges = true;
-        // hasDslChanges 保持 false
+
+        // Special Case: itemBuilder change implies data source change, must update UI
+        if (key === 'itemBuilder') {
+          hasDslChanges = true;
+        }
       }
       // B2: 涉及 React Element (组件)
       else if (React.isValidElement(oldVal) || React.isValidElement(newVal)) {
@@ -244,7 +248,9 @@ export const createHostConfig = (): any => {
         // the DSL (id, eventKey) remains the same, so no UI patch is needed.
         if (updatePayload.hasDslChanges) {
           const container = instance.container as any;
-          if (typeof container.markChanged === 'function') {
+          if (typeof container.recordUpdate === 'function') {
+            container.recordUpdate(instance, updatePayload.payload);
+          } else if (typeof container.markChanged === 'function') {
             container.markChanged(instance);
           } else {
             container.changedNodes.add(instance);

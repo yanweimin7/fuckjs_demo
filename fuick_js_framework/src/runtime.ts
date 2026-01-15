@@ -61,6 +61,18 @@ function setupPolyfills() {
     };
   }
 
+  // Helper for async invocation to break call stack from Dart
+  (globalThis as any).__invokeAsync = (obj: any, method: string, ...args: any[]) => {
+    return Promise.resolve().then(() => {
+      const target = obj || globalThis;
+      // @ts-ignore
+      if (typeof target[method] === 'function') {
+        // @ts-ignore
+        return target[method](...args);
+      }
+    });
+  };
+
   setupPromiseInterception();
 }
 

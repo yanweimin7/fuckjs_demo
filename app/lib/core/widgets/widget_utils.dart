@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import '../utils/extensions.dart';
 
 class WidgetUtils {
   static Widget wrapPadding(Map<String, dynamic> props, Widget child) {
     final p = props['padding'];
     if (p is num) {
-      return Padding(padding: EdgeInsets.all(p.toDouble()), child: child);
+      return Padding(padding: EdgeInsets.all(asDouble(p)), child: child);
     }
     final ei = edgeInsets(p);
     if (ei != null) {
@@ -121,29 +122,24 @@ class WidgetUtils {
   }
 
   static double? sizeNum(dynamic v) {
-    if (v is num) return v.toDouble();
-    return null;
+    return asDoubleOrNull(v);
   }
 
   static EdgeInsets? edgeInsets(dynamic v) {
-    if (v is num) return EdgeInsets.all(v.toDouble());
+    if (v is num) return EdgeInsets.all(asDouble(v));
     if (v is Map) {
       final m = Map<String, dynamic>.from(v);
       if (m.containsKey('all')) {
-        return EdgeInsets.all((m['all'] as num).toDouble());
+        return EdgeInsets.all(asDouble(m['all']));
       }
-      final double vertical =
-          (m['vertical'] is num) ? (m['vertical'] as num).toDouble() : 0;
-      final double horizontal =
-          (m['horizontal'] is num) ? (m['horizontal'] as num).toDouble() : 0;
+      final double vertical = asDouble(m['vertical']);
+      final double horizontal = asDouble(m['horizontal']);
 
       return EdgeInsets.only(
-        left: (m['left'] is num) ? (m['left'] as num).toDouble() : horizontal,
-        top: (m['top'] is num) ? (m['top'] as num).toDouble() : vertical,
-        right:
-            (m['right'] is num) ? (m['right'] as num).toDouble() : horizontal,
-        bottom:
-            (m['bottom'] is num) ? (m['bottom'] as num).toDouble() : vertical,
+        left: asDoubleOrNull(m['left']) ?? horizontal,
+        top: asDoubleOrNull(m['top']) ?? vertical,
+        right: asDoubleOrNull(m['right']) ?? horizontal,
+        bottom: asDoubleOrNull(m['bottom']) ?? vertical,
       );
     }
     return null;
@@ -236,7 +232,7 @@ class WidgetUtils {
 
   static BorderRadius? getBorderRadius(dynamic br) {
     if (br is num) {
-      return BorderRadius.circular(br.toDouble());
+      return BorderRadius.circular(asDouble(br));
     } else if (br is Map) {
       final m = Map<String, dynamic>.from(br);
       return BorderRadius.only(
@@ -289,19 +285,18 @@ class WidgetUtils {
       final String? type = m['type']?.toString();
       if (type == 'fixedCrossAxisCount' || m['crossAxisCount'] != null) {
         return SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: (m['crossAxisCount'] as num?)?.toInt() ?? 2,
-          mainAxisSpacing: (m['mainAxisSpacing'] as num?)?.toDouble() ?? 0.0,
-          crossAxisSpacing: (m['crossAxisSpacing'] as num?)?.toDouble() ?? 0.0,
-          childAspectRatio: (m['childAspectRatio'] as num?)?.toDouble() ?? 1.0,
+          crossAxisCount: asIntOrNull(m['crossAxisCount']) ?? 2,
+          mainAxisSpacing: asDouble(m['mainAxisSpacing']),
+          crossAxisSpacing: asDouble(m['crossAxisSpacing']),
+          childAspectRatio: asDoubleOrNull(m['childAspectRatio']) ?? 1.0,
         );
       } else if (type == 'maxCrossAxisExtent' ||
           m['maxCrossAxisExtent'] != null) {
         return SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent:
-              (m['maxCrossAxisExtent'] as num?)?.toDouble() ?? 200.0,
-          mainAxisSpacing: (m['mainAxisSpacing'] as num?)?.toDouble() ?? 0.0,
-          crossAxisSpacing: (m['crossAxisSpacing'] as num?)?.toDouble() ?? 0.0,
-          childAspectRatio: (m['childAspectRatio'] as num?)?.toDouble() ?? 1.0,
+          maxCrossAxisExtent: asDoubleOrNull(m['maxCrossAxisExtent']) ?? 200.0,
+          mainAxisSpacing: asDouble(m['mainAxisSpacing']),
+          crossAxisSpacing: asDouble(m['crossAxisSpacing']),
+          childAspectRatio: asDoubleOrNull(m['childAspectRatio']) ?? 1.0,
         );
       }
     }

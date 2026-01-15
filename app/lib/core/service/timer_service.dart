@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/widgets.dart';
+import '../utils/extensions.dart';
 import 'BaseFuickService.dart';
 
 class TimerService extends BaseFuickService {
@@ -10,12 +10,12 @@ class TimerService extends BaseFuickService {
   TimerService() {
     registerMethod('createTimer', (args) {
       final m = args is Map ? args : {};
-      final id = (m['id'] as num).toInt();
+      final id = asInt(m['id']);
 
       // 先尝试取消已存在的同名定时器，防止重复
       timers.remove(id)?.cancel();
 
-      final delay = (m['delay'] as num?)?.toInt() ?? 0;
+      final delay = asIntOrNull(m['delay']) ?? 0;
       final isInterval = (m['isInterval'] ?? false) as bool;
 
       if (isInterval) {
@@ -25,7 +25,8 @@ class TimerService extends BaseFuickService {
             return;
           }
           try {
-            ctx.invoke(null, '__handleTimer', [id]);
+            // Use __invokeAsync to break call stack recursion
+            ctx.invoke(null, '__invokeAsync', [null, '__handleTimer', id]);
           } catch (e) {
             timer.cancel();
             timers.remove(id);
@@ -36,7 +37,8 @@ class TimerService extends BaseFuickService {
           if (isDisposed) return;
           timers.remove(id);
           try {
-            ctx.invoke(null, '__handleTimer', [id]);
+            // Use __invokeAsync to break call stack recursion
+            ctx.invoke(null, '__invokeAsync', [null, '__handleTimer', id]);
           } catch (e) {
             debugPrint('Error calling __handleTimer: $e');
           }
@@ -47,7 +49,7 @@ class TimerService extends BaseFuickService {
 
     registerMethod('deleteTimer', (args) {
       final m = args is Map ? args : {};
-      final id = (m['id'] as num).toInt();
+      final id = asInt(m['id']);
       timers.remove(id)?.cancel();
       return null;
     });

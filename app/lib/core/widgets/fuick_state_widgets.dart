@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../service/fuick_command_bus.dart';
 import 'widget_utils.dart';
+import '../utils/extensions.dart';
 import '../container/fuick_page_view.dart'; // Import for FuickPageScope
 import '../container/fuick_app_controller.dart'; // Import for FuickAppScope
 
@@ -69,8 +70,8 @@ class _FuickPageViewState extends State<FuickPageView>
     if (!mounted || !_controller.hasClients) return;
 
     if (method == 'animateToPage') {
-      final page = (args['page'] as num).toInt();
-      final duration = (args['duration'] as num?)?.toInt() ?? 300;
+      final page = asInt(args['page']);
+      final duration = asIntOrNull(args['duration']) ?? 300;
       final curveName = args['curve'] as String? ?? 'easeInOut';
       final curve = WidgetUtils.curve(curveName);
 
@@ -80,7 +81,7 @@ class _FuickPageViewState extends State<FuickPageView>
         curve: curve,
       );
     } else if (method == 'jumpToPage' || method == 'setPageIndex') {
-      final page = (args['page'] ?? args['index'] as num).toInt();
+      final page = asInt(args['page'] ?? args['index']);
       _controller.jumpToPage(page);
     }
   }
@@ -181,8 +182,8 @@ class _FuickScrollableState extends State<FuickScrollable>
     if (!mounted || !_controller.hasClients) return;
 
     if (method == 'animateTo') {
-      final offset = (args['offset'] as num).toDouble();
-      final duration = (args['duration'] as num?)?.toInt() ?? 300;
+      final offset = asDouble(args['offset']);
+      final duration = asIntOrNull(args['duration']) ?? 300;
       final curveName = args['curve'] as String? ?? 'easeInOut';
       final curve = WidgetUtils.curve(curveName);
 
@@ -192,7 +193,7 @@ class _FuickScrollableState extends State<FuickScrollable>
         curve: curve,
       );
     } else if (method == 'jumpTo') {
-      final offset = (args['offset'] as num).toDouble();
+      final offset = asDouble(args['offset']);
       _controller.jumpTo(offset);
     }
   }

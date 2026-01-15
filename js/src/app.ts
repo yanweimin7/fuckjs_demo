@@ -6,6 +6,7 @@ import ExamplesPage from './pages/examples';
 import ComplexPage from './pages/complex';
 import PartialRefreshPage from './pages/partial_refresh';
 import WalletDemoPage from './pages/wallet_demo';
+import IncrementalListDemo from './pages/incremental_list';
 import { heavyPayload } from './heavy_payload';
 
 export function initApp() {
@@ -18,6 +19,7 @@ export function initApp() {
     Router.register('/complex', (params: any) => React.createElement(ComplexPage, params));
     Router.register('/partial_refresh', (params: any) => React.createElement(PartialRefreshPage, params));
     Router.register('/wallet', () => React.createElement(WalletDemoPage));
+    Router.register('/incremental_list', () => React.createElement(IncrementalListDemo));
 
     heavyPayload();
   } catch (e) {

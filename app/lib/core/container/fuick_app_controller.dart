@@ -21,6 +21,7 @@ class FuickAppController {
   final Map<String, Map<String, dynamic>> _routes = {};
   final Map<int, Function(Map<String, dynamic>)> onPageRender = {};
   final Map<int, Function(List<dynamic>)> onPagePatch = {};
+  final Map<int, Function(List<dynamic>)> onPagePatchOps = {};
   final NativeServiceBinder nativeServiceBinder = NativeServiceBinder();
   final FuickCommandBus commandBus = FuickCommandBus();
   final WidgetFactory widgetFactory = WidgetFactory();
@@ -39,6 +40,10 @@ class FuickAppController {
 
   void patch(int pageId, List<dynamic> patches) {
     onPagePatch[pageId]?.call(patches);
+  }
+
+  void patchOps(int pageId, List<dynamic> ops) {
+    onPagePatchOps[pageId]?.call(ops);
   }
 
   void renderPage(int pageId, String path, Map<String, dynamic> params) {

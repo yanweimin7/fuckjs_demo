@@ -90,6 +90,17 @@ function setupPolyfills() {
             originalQueueMicrotask(fn);
         };
     }
+    // Helper for async invocation to break call stack from Dart
+    globalThis.__invokeAsync = (obj, method, ...args) => {
+        return Promise.resolve().then(() => {
+            const target = obj || globalThis;
+            // @ts-ignore
+            if (typeof target[method] === 'function') {
+                // @ts-ignore
+                return target[method](...args);
+            }
+        });
+    };
     setupPromiseInterception();
 }
 function notifyMicrotaskEnqueued() {

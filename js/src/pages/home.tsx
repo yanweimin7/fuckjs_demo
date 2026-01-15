@@ -48,6 +48,11 @@ export default function HomePage() {
                                 text="钱包"
                                 onTap={() => Navigator.push('/wallet', {})}
                             />
+                            <SizedBox width={10} />
+                            <Button
+                                text="增量列表"
+                                onTap={() => Navigator.push('/incremental_list', {})}
+                            />
                         </ListView>
                     </SizedBox>
                 </Column>

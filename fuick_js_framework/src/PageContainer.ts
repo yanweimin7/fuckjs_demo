@@ -6,6 +6,9 @@ export class PageContainer {
   root: Node | null = null;
   changedNodes: Set<Node> = new Set();
   rendered: boolean = false;
+  incrementalMode: boolean = false;
+  mutationQueue: any[] = [];
+
   private eventCallbacks: Map<string, Function> = new Map();
   private onVisibleCallbacks: Set<Function> = new Set();
   private onInvisibleCallbacks: Set<Function> = new Set();
@@ -93,6 +96,50 @@ export class PageContainer {
     });
   }
 
+  public setIncrementalMode(enabled: boolean) {
+    this.incrementalMode = enabled;
+  }
+
+  public recordUpdate(node: Node, updatePayload: any[]) {
+    if (!this.incrementalMode) {
+      this.markChanged(node);
+      return;
+    }
+
+    const props: any = {};
+    for (let i = 0; i < updatePayload.length; i += 2) {
+      const key = updatePayload[i];
+      const val = updatePayload[i + 1];
+      if (key === 'children') continue;
+      props[key] = val;
+    }
+
+    // Use processProps to handle callbacks and conversions
+    const processed = this.processProps(node.id, props, node.type);
+
+    // OpCode 1: UPDATE (id, props)
+    this.mutationQueue.push(1, node.id, processed);
+  }
+
+  public recordPlacement(parent: Node, child: Node, index: number) {
+    if (!this.incrementalMode) {
+      this.markChanged(parent);
+      return;
+    }
+    const childDsl = child.toDsl();
+    // OpCode 2: INSERT (parentId, childId, index, childDsl)
+    this.mutationQueue.push(2, parent.id, child.id, index, childDsl);
+  }
+
+  public recordRemoval(parent: Node, child: Node) {
+    if (!this.incrementalMode) {
+      this.markChanged(parent);
+      return;
+    }
+    // OpCode 3: REMOVE (parentId, childId)
+    this.mutationQueue.push(3, parent.id, child.id);
+  }
+
   public markChanged(node: Node | null) {
     if (!node) return;
     let current = node;
@@ -121,7 +168,11 @@ export class PageContainer {
       const oldIndex = child.parent.children.indexOf(child);
       if (oldIndex >= 0) {
         child.parent.children.splice(oldIndex, 1);
-        this.markChanged(child.parent);
+        if (this.incrementalMode) {
+          this.recordRemoval(child.parent, child);
+        } else {
+          this.markChanged(child.parent);
+        }
       }
     } else {
       // Even if it doesn't have a parent, it might already be in this parent's children 
@@ -134,7 +185,11 @@ export class PageContainer {
 
     child.parent = parent;
     parent.children.push(child);
-    this.markChanged(parent);
+    if (this.incrementalMode) {
+      this.recordPlacement(parent, child, parent.children.length - 1);
+    } else {
+      this.markChanged(parent);
+    }
   }
 
   insertBefore(parent: Node, child: Node, beforeChild: Node) {
@@ -145,7 +200,18 @@ export class PageContainer {
         child.parent.children.splice(oldIndex, 1);
         // If it's the same parent, we will mark it changed later with the new insertion
         if (child.parent !== parent) {
-          this.markChanged(child.parent);
+          if (this.incrementalMode) {
+            this.recordRemoval(child.parent, child);
+          } else {
+            this.markChanged(child.parent);
+          }
+        } else {
+          // Same parent move. In incremental mode, we still need REMOVE + INSERT?
+          // Or just INSERT (if simplified)?
+          // Usually move = remove + insert.
+          if (this.incrementalMode) {
+            this.recordRemoval(parent, child);
+          }
         }
       }
     } else {
@@ -163,15 +229,26 @@ export class PageContainer {
     } else {
       parent.children.push(child);
     }
-    // ALWAYS mark parent as changed when children order or content changes
-    this.markChanged(parent);
+
+    if (this.incrementalMode) {
+      // If i is -1, it was pushed, index is length-1
+      const newIndex = i >= 0 ? i : parent.children.length - 1;
+      this.recordPlacement(parent, child, newIndex);
+    } else {
+      this.markChanged(parent);
+    }
   }
 
   removeChild(parent: Node, child: Node) {
     const i = parent.children.indexOf(child);
     if (i >= 0) parent.children.splice(i, 1);
     child.destroy();
-    this.markChanged(parent);
+
+    if (this.incrementalMode) {
+      this.recordRemoval(parent, child);
+    } else {
+      this.markChanged(parent);
+    }
   }
 
   appendChildToContainer(child: Node) {
@@ -194,6 +271,29 @@ export class PageContainer {
 
   commit() {
     try {
+      if (this.incrementalMode) {
+        const rootChanged = this.root && this.changedNodes.has(this.root);
+        if ((!this.rendered || rootChanged) && this.root) {
+          const dsl = this.root.toDsl();
+          if (dsl && dsl.type) {
+            dartCallNative('renderUI', {
+              pageId: Number(this.pageId),
+              renderData: dsl
+            });
+            this.rendered = true;
+          }
+        } else if (this.mutationQueue.length > 0) {
+          if (typeof dartCallNative === 'function') {
+            dartCallNative('patchOps', {
+              pageId: Number(this.pageId),
+              ops: this.mutationQueue
+            });
+            this.mutationQueue = [];
+          }
+        }
+        return;
+      }
+
       if (this.changedNodes.size === 0) {
         return;
       }
@@ -293,7 +393,11 @@ export class PageContainer {
     }
   }
 
-  public elementToDsl(element: any): any {
+  public elementToDsl(element: any, depth: number = 0): any {
+    if (depth > 500) {
+      console.error('[PageContainer] Maximum recursion depth exceeded in elementToDsl');
+      return null;
+    }
     if (!element) return null;
 
     if (typeof element === 'string' || typeof element === 'number') {
@@ -301,7 +405,7 @@ export class PageContainer {
     }
 
     if (Array.isArray(element)) {
-      return element.map(e => this.elementToDsl(e)).filter(e => e !== null);
+      return element.map(e => this.elementToDsl(e, depth + 1)).filter(e => e !== null);
     }
 
     if (element.type) {
@@ -328,10 +432,10 @@ export class PageContainer {
             }
           }
 
-          return this.elementToDsl(instance.render());
+          return this.elementToDsl(instance.render(), depth + 1);
         }
         // Handle functional components
-        return this.elementToDsl((type as any)(originalProps));
+        return this.elementToDsl((type as any)(originalProps), depth + 1);
       }
 
       // It's a primitive (string) type
@@ -351,13 +455,13 @@ export class PageContainer {
       }
 
       // Process props using the common logic
-      const processedProps = this.processProps(nodeId, props, type);
+      const processedProps = this.processProps(nodeId, props, type, '', depth + 1);
 
       const dslChildren: any[] = [];
       const childrenToProcess = Array.isArray(children) ? children : (children ? [children] : []);
 
       for (const child of childrenToProcess) {
-        const childDsl = this.elementToDsl(child);
+        const childDsl = this.elementToDsl(child, depth + 1);
         if (childDsl) {
           if (Array.isArray(childDsl)) {
             dslChildren.push(...childDsl);
@@ -404,17 +508,21 @@ export class PageContainer {
    * @param path 当前处理的属性路径 (如 'decoration.color')，用于生成唯一的事件 key
    * @returns 处理后的 DSL 属性对象
    */
-  processProps(nodeId: number, props: any, nodeType?: string, path: string = ''): any {
+  processProps(nodeId: number, props: any, nodeType?: string, path: string = '', depth: number = 0): any {
+    if (depth > 500) {
+      console.error('[PageContainer] Maximum recursion depth exceeded in processProps');
+      return null;
+    }
     // Case 1: 基础类型或空值直接返回
     if (!props || typeof props !== 'object') return props;
 
     // Case 2: 如果属性值是一个 React 元素，将其转换为 DSL 结构
     // 例如：AppBar 的 title 属性传入了一个 <Text> 组件
-    if (React.isValidElement(props)) return this.elementToDsl(props);
+    if (React.isValidElement(props)) return this.elementToDsl(props, depth + 1);
 
     // Case 3: 处理数组，递归转换数组中的每个元素
     if (Array.isArray(props)) {
-      return props.map((item, index) => this.processProps(nodeId, item, nodeType, path ? `${path}[${index}]` : `[${index}]`));
+      return props.map((item, index) => this.processProps(nodeId, item, nodeType, path ? `${path}[${index}]` : `[${index}]`, depth + 1));
     }
 
     const processedProps: any = {};
@@ -450,7 +558,7 @@ export class PageContainer {
       } else if (value && typeof value === 'object') {
         // Case 7: 递归处理嵌套对象
         // 例如：decoration: { color: '#ff0000', border: { ... } }
-        processedProps[key] = this.processProps(nodeId, value, nodeType, fullKey);
+        processedProps[key] = this.processProps(nodeId, value, nodeType, fullKey, depth + 1);
       } else {
         // Case 8: 基础数据类型 (string, number, boolean) 直接赋值
         processedProps[key] = value;
@@ -461,5 +569,6 @@ export class PageContainer {
 
   clear() {
     this.changedNodes.clear();
+    this.mutationQueue = [];
   }
 }

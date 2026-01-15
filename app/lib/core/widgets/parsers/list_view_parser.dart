@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quickjs/core/container/fuick_app_controller.dart';
 import 'package:flutter_quickjs/core/container/fuick_page_view.dart';
 import 'package:flutter_quickjs/core/service/fuick_command_bus.dart';
+import 'package:flutter_quickjs/core/widgets/fuick_node.dart';
 
+import '../../utils/extensions.dart';
 import '../fuick_state_widgets.dart';
 import '../widget_factory.dart';
 import '../widget_utils.dart';
@@ -29,7 +31,7 @@ class ListViewParser extends WidgetParser {
     final dynamic cacheKey = props['cacheKey'];
 
     final bool hasBuilder = props['hasBuilder'] ?? false;
-    final int? itemCount = (props['itemCount'] as num?)?.toInt();
+    final int? itemCount = asIntOrNull(props['itemCount']);
 
     return WidgetUtils.wrapPadding(
       props,
@@ -55,7 +57,7 @@ class ListViewParser extends WidgetParser {
                 if (state != null) {
                   final cachedDsl = state.getCachedDsl(index);
                   if (cachedDsl != null) {
-                    return factory.build(context, cachedDsl);
+                    return _buildItem(context, factory, cachedDsl);
                   }
                 }
 
@@ -72,7 +74,7 @@ class ListViewParser extends WidgetParser {
                     if (state != null) {
                       state.setCachedDsl(index, dsl);
                     }
-                    return factory.build(context, dsl);
+                    return _buildItem(context, factory, dsl);
                   },
                 );
               }
@@ -80,6 +82,17 @@ class ListViewParser extends WidgetParser {
         children: hasBuilder ? null : factory.buildChildren(context, children),
       ),
     );
+  }
+
+  Widget _buildItem(BuildContext context, WidgetFactory factory, dynamic dsl) {
+    final manager = FuickNodeManagerProvider.of(context);
+    if (manager != null && dsl is Map && dsl.containsKey('id')) {
+      // Create/Update node in manager to ensure it receives incremental updates
+      final node = manager.createNode(Map<String, dynamic>.from(dsl), manager);
+      // Force wrap in _FuickNodeWidget to listen for updates
+      return factory.buildFromNode(context, node, forceWrap: true);
+    }
+    return factory.build(context, dsl);
   }
 }
 
@@ -170,8 +183,8 @@ class FuickListViewState extends State<FuickListView>
 
     if (method == 'animateTo') {
       if (!_controller.hasClients) return;
-      final double offset = (args['offset'] as num).toDouble();
-      final int duration = (args['duration'] as num?)?.toInt() ?? 300;
+      final double offset = args['offset'].asDouble;
+      final int duration = args['duration'].asIntOrNull ?? 300;
       final String curveStr = args['curve']?.toString() ?? 'easeInOut';
       final curve = WidgetUtils.curve(curveStr);
       _controller.animateTo(
@@ -181,26 +194,30 @@ class FuickListViewState extends State<FuickListView>
       );
     } else if (method == 'jumpTo') {
       if (!_controller.hasClients) return;
-      final double offset = (args['offset'] as num).toDouble();
+      final double offset = args['offset'].asDouble;
       _controller.jumpTo(offset);
     } else if (method == 'updateItem') {
-      final int? index = (args['index'] as num?)?.toInt();
+      final int? index = args['index'].asIntOrNull;
       final dynamic dsl = args['dsl'];
       if (index != null && dsl != null) {
         setCachedDsl(index, dsl);
         forceUpdate();
       }
-    } else if (method == 'refresh') {
+    } else if (method == 'refresh' || method == 'reloadData') {
       setState(() {
         _dslCache.clear();
       });
+    } else if (method == 'scrollToIndex') {
+      // Implement scroll logic if needed
+      // Note: Scrollable.ensureVisible or similar might be needed
     }
   }
 
   @override
   void didUpdateWidget(FuickListView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.cacheKey != oldWidget.cacheKey) {
+    if (widget.cacheKey != oldWidget.cacheKey ||
+        widget.itemBuilder != oldWidget.itemBuilder) {
       setState(() {
         _dslCache.clear();
       });

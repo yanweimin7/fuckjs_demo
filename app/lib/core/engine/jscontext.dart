@@ -144,6 +144,7 @@ class QuickJsContext implements IQuickJsContext {
         return null;
       }
     }
+    print('wine objname $objectName');
 
     return obj.invoke(methodName, args);
   }

@@ -5613,6 +5613,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             if (typeof oldVal === "function" && typeof newVal === "function") {
               updatePayload.push(key, newVal);
               hasChanges = true;
+              if (key === "itemBuilder") {
+                hasDslChanges = true;
+              }
             } else if (react_1.default.isValidElement(oldVal) || react_1.default.isValidElement(newVal)) {
               updatePayload.push(key, newVal);
               hasChanges = true;
@@ -5761,7 +5764,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             if (updatePayload && instance.container) {
               if (updatePayload.hasDslChanges) {
                 const container = instance.container;
-                if (typeof container.markChanged === "function") {
+                if (typeof container.recordUpdate === "function") {
+                  container.recordUpdate(instance, updatePayload.payload);
+                } else if (typeof container.markChanged === "function") {
                   container.markChanged(instance);
                 } else {
                   container.changedNodes.add(instance);
@@ -5946,6 +5951,8 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           this.root = null;
           this.changedNodes = /* @__PURE__ */ new Set();
           this.rendered = false;
+          this.incrementalMode = false;
+          this.mutationQueue = [];
           this.eventCallbacks = /* @__PURE__ */ new Map();
           this.onVisibleCallbacks = /* @__PURE__ */ new Set();
           this.onInvisibleCallbacks = /* @__PURE__ */ new Set();
@@ -6018,6 +6025,40 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             }
           });
         }
+        setIncrementalMode(enabled) {
+          this.incrementalMode = enabled;
+        }
+        recordUpdate(node, updatePayload) {
+          if (!this.incrementalMode) {
+            this.markChanged(node);
+            return;
+          }
+          const props = {};
+          for (let i = 0; i < updatePayload.length; i += 2) {
+            const key = updatePayload[i];
+            const val = updatePayload[i + 1];
+            if (key === "children")
+              continue;
+            props[key] = val;
+          }
+          const processed = this.processProps(node.id, props, node.type);
+          this.mutationQueue.push(1, node.id, processed);
+        }
+        recordPlacement(parent, child, index) {
+          if (!this.incrementalMode) {
+            this.markChanged(parent);
+            return;
+          }
+          const childDsl = child.toDsl();
+          this.mutationQueue.push(2, parent.id, child.id, index, childDsl);
+        }
+        recordRemoval(parent, child) {
+          if (!this.incrementalMode) {
+            this.markChanged(parent);
+            return;
+          }
+          this.mutationQueue.push(3, parent.id, child.id);
+        }
         markChanged(node) {
           if (!node)
             return;
@@ -6042,7 +6083,11 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             const oldIndex = child.parent.children.indexOf(child);
             if (oldIndex >= 0) {
               child.parent.children.splice(oldIndex, 1);
-              this.markChanged(child.parent);
+              if (this.incrementalMode) {
+                this.recordRemoval(child.parent, child);
+              } else {
+                this.markChanged(child.parent);
+              }
             }
           } else {
             const oldIndex = parent.children.indexOf(child);
@@ -6052,7 +6097,11 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           }
           child.parent = parent;
           parent.children.push(child);
-          this.markChanged(parent);
+          if (this.incrementalMode) {
+            this.recordPlacement(parent, child, parent.children.length - 1);
+          } else {
+            this.markChanged(parent);
+          }
         }
         insertBefore(parent, child, beforeChild) {
           if (child.parent) {
@@ -6060,7 +6109,15 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             if (oldIndex >= 0) {
               child.parent.children.splice(oldIndex, 1);
               if (child.parent !== parent) {
-                this.markChanged(child.parent);
+                if (this.incrementalMode) {
+                  this.recordRemoval(child.parent, child);
+                } else {
+                  this.markChanged(child.parent);
+                }
+              } else {
+                if (this.incrementalMode) {
+                  this.recordRemoval(parent, child);
+                }
               }
             }
           } else {
@@ -6076,14 +6133,23 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           } else {
             parent.children.push(child);
           }
-          this.markChanged(parent);
+          if (this.incrementalMode) {
+            const newIndex = i >= 0 ? i : parent.children.length - 1;
+            this.recordPlacement(parent, child, newIndex);
+          } else {
+            this.markChanged(parent);
+          }
         }
         removeChild(parent, child) {
           const i = parent.children.indexOf(child);
           if (i >= 0)
             parent.children.splice(i, 1);
           child.destroy();
-          this.markChanged(parent);
+          if (this.incrementalMode) {
+            this.recordRemoval(parent, child);
+          } else {
+            this.markChanged(parent);
+          }
         }
         appendChildToContainer(child) {
           this.root = child;
@@ -6101,6 +6167,28 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
         }
         commit() {
           try {
+            if (this.incrementalMode) {
+              const rootChanged2 = this.root && this.changedNodes.has(this.root);
+              if ((!this.rendered || rootChanged2) && this.root) {
+                const dsl = this.root.toDsl();
+                if (dsl && dsl.type) {
+                  dartCallNative("renderUI", {
+                    pageId: Number(this.pageId),
+                    renderData: dsl
+                  });
+                  this.rendered = true;
+                }
+              } else if (this.mutationQueue.length > 0) {
+                if (typeof dartCallNative === "function") {
+                  dartCallNative("patchOps", {
+                    pageId: Number(this.pageId),
+                    ops: this.mutationQueue
+                  });
+                  this.mutationQueue = [];
+                }
+              }
+              return;
+            }
             if (this.changedNodes.size === 0) {
               return;
             }
@@ -6185,14 +6273,18 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             return null;
           }
         }
-        elementToDsl(element) {
+        elementToDsl(element, depth = 0) {
+          if (depth > 500) {
+            console.error("[PageContainer] Maximum recursion depth exceeded in elementToDsl");
+            return null;
+          }
           if (!element)
             return null;
           if (typeof element === "string" || typeof element === "number") {
             return { type: "Text", props: { text: String(element) } };
           }
           if (Array.isArray(element)) {
-            return element.map((e) => this.elementToDsl(e)).filter((e) => e !== null);
+            return element.map((e) => this.elementToDsl(e, depth + 1)).filter((e) => e !== null);
           }
           if (element.type) {
             let type = element.type;
@@ -6211,9 +6303,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
                     element.ref.current = instance;
                   }
                 }
-                return this.elementToDsl(instance.render());
+                return this.elementToDsl(instance.render(), depth + 1);
               }
-              return this.elementToDsl(type(originalProps));
+              return this.elementToDsl(type(originalProps), depth + 1);
             }
             const props = { ...originalProps };
             const children = props.children;
@@ -6224,11 +6316,11 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             if (typeof type === "string" && type.startsWith("flutter-")) {
               type = type.substring(8).split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("");
             }
-            const processedProps = this.processProps(nodeId, props, type);
+            const processedProps = this.processProps(nodeId, props, type, "", depth + 1);
             const dslChildren = [];
             const childrenToProcess = Array.isArray(children) ? children : children ? [children] : [];
             for (const child of childrenToProcess) {
-              const childDsl = this.elementToDsl(child);
+              const childDsl = this.elementToDsl(child, depth + 1);
               if (childDsl) {
                 if (Array.isArray(childDsl)) {
                   dslChildren.push(...childDsl);
@@ -6269,13 +6361,17 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
          * @param path 当前处理的属性路径 (如 'decoration.color')，用于生成唯一的事件 key
          * @returns 处理后的 DSL 属性对象
          */
-        processProps(nodeId, props, nodeType, path = "") {
+        processProps(nodeId, props, nodeType, path = "", depth = 0) {
+          if (depth > 500) {
+            console.error("[PageContainer] Maximum recursion depth exceeded in processProps");
+            return null;
+          }
           if (!props || typeof props !== "object")
             return props;
           if (react_1.default.isValidElement(props))
-            return this.elementToDsl(props);
+            return this.elementToDsl(props, depth + 1);
           if (Array.isArray(props)) {
-            return props.map((item, index) => this.processProps(nodeId, item, nodeType, path ? `${path}[${index}]` : `[${index}]`));
+            return props.map((item, index) => this.processProps(nodeId, item, nodeType, path ? `${path}[${index}]` : `[${index}]`, depth + 1));
           }
           const processedProps = {};
           for (const key in props) {
@@ -6301,7 +6397,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
                 // 标识这是一个需要 JS 回调的事件
               };
             } else if (value && typeof value === "object") {
-              processedProps[key] = this.processProps(nodeId, value, nodeType, fullKey);
+              processedProps[key] = this.processProps(nodeId, value, nodeType, fullKey, depth + 1);
             } else {
               processedProps[key] = value;
             }
@@ -6310,6 +6406,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
         }
         clear() {
           this.changedNodes.clear();
+          this.mutationQueue = [];
         }
       };
       exports.PageContainer = PageContainer;
@@ -7456,6 +7553,14 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             originalQueueMicrotask(fn);
           };
         }
+        globalThis.__invokeAsync = (obj, method, ...args) => {
+          return Promise.resolve().then(() => {
+            const target = obj || globalThis;
+            if (typeof target[method] === "function") {
+              return target[method](...args);
+            }
+          });
+        };
         setupPromiseInterception();
       }
       function notifyMicrotaskEnqueued() {
@@ -7656,6 +7761,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       __exportStar(require_timer(), exports);
       __exportStar(require_console(), exports);
       __exportStar(require_ids(), exports);
+      __exportStar(require_PageContext(), exports);
     }
   });
 
