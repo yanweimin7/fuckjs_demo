@@ -6,51 +6,90 @@ import 'package:flutter/foundation.dart';
 import 'jscontext.dart';
 import 'quickjs_ffi.dart';
 
-class JSObject {
-  final QuickJsFFI _ffi;
-  final Pointer<Void> _contextHandle;
-  final Pointer<QjsResult> _handle;
+class JSObjectToken {
+  final Pointer<QjsResult> handle;
+  final QuickJsContext context;
+  bool isDisposed = false;
+  JSObjectToken(this.handle, this.context);
+}
 
-  JSObject(this._ffi, this._contextHandle, this._handle) {
-    _finalizer.attach(this, _handle, detach: this);
+class JSObject {
+  final QuickJsContext context;
+  final Pointer<QjsResult> _handle;
+  final JSObjectToken _token;
+  bool _disposed = false;
+
+  JSObject(this.context, this._handle)
+    : _token = JSObjectToken(_handle, context) {
+    context.registerObject(_token);
+    // Increase context reference count to ensure it stays alive until this object is finalized
+    context.ffi.contextIncref(context.handle);
+    _finalizer.attach(this, _token, detach: this);
   }
 
-  static final Finalizer<Pointer<QjsResult>> _finalizer = Finalizer((ptr) {
-    QuickJsFFI.globalInstance?.freeQjsResult(ptr);
+  static final Finalizer<JSObjectToken> _finalizer = Finalizer((token) {
+    if (token.isDisposed) return;
+    token.isDisposed = true;
+    token.context.unregisterObject(token);
+
+    // We can safely call freeObject because the context uses ref-counting
+    token.context.ffi.freeObject(token.context.handle, token.handle);
+    token.context.ffi.freeQjsResult(token.handle);
   });
 
+  void dispose() {
+    if (_disposed) return;
+    _disposed = true;
+    // 1. 主动销毁时，移除 Finalizer 监听，防止 GC 时再次触发回调
+    _finalizer.detach(this);
+
+    // 2. 检查 token 是否已被销毁 (可能是由 Context.dispose 触发的)
+    if (_token.isDisposed) return;
+    _token.isDisposed = true;
+    context.unregisterObject(_token);
+
+    // freeObject will decrease context ref count and free JSValue
+    context.ffi.freeObject(context.handle, _handle);
+    context.ffi.freeQjsResult(_handle);
+  }
+
   void setProperty(String name, dynamic value) {
+    if (_disposed || _token.isDisposed) return;
     final valRes = ffi.calloc<QjsResult>();
     QuickJsFFI.writeOut(valRes, value);
-    _ffi.setProperty(_contextHandle, _handle, name, valRes);
-    _ffi.freeQjsResult(valRes);
+    context.ffi.setProperty(context.handle, _handle, name, valRes);
+    context.ffi.freeQjsResult(valRes);
   }
 
   dynamic getProperty(String name) {
-    final res = _ffi.getProperty(_contextHandle, _handle, name);
+    if (_disposed || _token.isDisposed) return null;
+    final res = context.ffi.getProperty(context.handle, _handle, name);
     final dartVal = QuickJsFFI.convertQjsResultToDart(res.ref);
     if (res.ref.type == qjsTypeObject || res.ref.type == qjsTypeFunction) {
       // 如果是对象或函数，返回 JSObject 封装以支持链式操作
-      return JSObject(_ffi, _contextHandle, res);
+      return JSObject(context, res);
     }
-    _ffi.freeQjsResult(res);
+    context.ffi.freeQjsResult(res);
     return dartVal;
   }
 
   ///eval返回一个function的情况下，可以使用它来执行
   dynamic callFunction(List<dynamic> args) {
-    return _ffi.callFunction(_contextHandle, _handle, args);
+    if (_disposed || _token.isDisposed) return null;
+    return context.ffi.callFunction(context.handle, _handle, args);
   }
 
   dynamic invoke(String name, List<dynamic> args) {
-    return _ffi.invokeMethod(_contextHandle, _handle, name, args);
+    if (_disposed || _token.isDisposed) return null;
+    return context.ffi.invokeMethod(context.handle, _handle, name, args);
   }
 
   /**
    * 在 JS 对象上定义一个方法，该方法执行时会回调 Dart 函数
    */
   void defineProperty(String name, Function callback) {
-    final key = "${_contextHandle.address}_$name";
+    if (_disposed || _token.isDisposed) return;
+    final key = "${context.handle.address}_$name";
     if (_callbacks.containsKey(key)) {
       _callbacks[key] = callback;
       return;
@@ -60,12 +99,17 @@ class JSObject {
     final trampoline = Pointer.fromFunction<NativeAsyncTypedCallHandler>(
       _jsNativeCallTrampoline,
     );
-    final fnRes = _ffi.newFunction(_contextHandle, name, trampoline);
-    _ffi.setProperty(_contextHandle, _handle, name, fnRes);
+    final fnRes = context.ffi.newFunction(context.handle, name, trampoline);
+    context.ffi.setProperty(context.handle, _handle, name, fnRes);
 
     // 保存回调以防止被 Dart GC，并用于静态方法查找
     _callbacks[key] = callback;
-    _ffi.freeQjsResult(fnRes);
+
+    // newFunction 返回的 JSValue (fnRes) 引用计数为 1
+    // setProperty 会调用 JS_DupValue，导致引用计数 +1
+    // 因此我们需要释放 fnRes 持有的引用，否则会导致内存泄漏
+    context.ffi.freeValue(context.handle, fnRes);
+    context.ffi.freeQjsResult(fnRes);
   }
 
   /**
@@ -113,24 +157,28 @@ class JSObject {
         final id = _nextResolverId++;
         out.ref.type = qjsTypePromise;
         out.ref.i64 = id;
-        result.then((value) {
-          pendingResolvers.putIfAbsent(
-            contextHandle.address,
-            () => {},
-          )[id] = value;
-          // 关键：Future 完成后，利用微任务触发 runJobs 以推进 JS Promise 状态
-          Future.microtask(() {
-            QuickJsContext.instances[contextHandle.address]?.runJobs();
-          });
-        }).catchError((e) {
-          pendingRejections.putIfAbsent(
-            contextHandle.address,
-            () => {},
-          )[id] = e.toString();
-          Future.microtask(() {
-            QuickJsContext.instances[contextHandle.address]?.runJobs();
-          });
-        });
+        result
+            .then((value) {
+              pendingResolvers.putIfAbsent(
+                contextHandle.address,
+                () => {},
+              )[id] = value;
+              // 关键：Future 完成后，利用微任务触发 runJobs 以推进 JS Promise 状态
+              Future.microtask(() {
+                QuickJsContext.instances[contextHandle.address]?.runJobs();
+              });
+            })
+            .catchError((e) {
+              pendingRejections.putIfAbsent(
+                contextHandle.address,
+                () => {},
+              )[id] = e
+                  .toString();
+              Future.microtask(() {
+                QuickJsContext.instances[contextHandle.address]?.runJobs();
+              });
+            });
+      } else {
         // 同步返回值
         QuickJsFFI.writeOut(out, result);
       }

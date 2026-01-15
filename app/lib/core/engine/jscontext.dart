@@ -16,7 +16,23 @@ class QuickJsContext implements IQuickJsContext {
   final Pointer<Void> _runtimeHandle;
   final Pointer<Void> _handle;
   late final JSObject global;
-  final Map<String, JSObject> _objectCache = {};
+
+  bool _isDisposed = false;
+  bool get isDisposed => _isDisposed;
+
+  QuickJsFFI get ffi => _ffi;
+  Pointer<Void> get handle => _handle;
+
+  // Track active JSObjectTokens to allow batch destruction
+  final Set<JSObjectToken> _activeTokens = {};
+
+  void registerObject(JSObjectToken token) {
+    _activeTokens.add(token);
+  }
+
+  void unregisterObject(JSObjectToken token) {
+    _activeTokens.remove(token);
+  }
 
   FutureOr<dynamic> Function(String method, dynamic args)? _onCallNative;
   FutureOr<dynamic> Function(String method, dynamic args)? _onCallNativeAsync;
@@ -53,11 +69,11 @@ class QuickJsContext implements IQuickJsContext {
   int get handleAddress => _handle.address;
 
   QuickJsContext(this._ffi, this._runtimeHandle)
-      : _handle = _ffi.createContext(_runtimeHandle) {
+    : _handle = _ffi.createContext(_runtimeHandle) {
     _ffi.initDefaultBindings(_handle);
     instances[_handle.address] = this;
     final globalRes = _ffi.getGlobalObject(_handle);
-    global = JSObject(_ffi, _handle, globalRes);
+    global = JSObject(this, globalRes);
   }
 
   @override
@@ -83,36 +99,53 @@ class QuickJsContext implements IQuickJsContext {
     return _ffi.runJobs(_runtimeHandle, _handle);
   }
 
+  // 用于缓存 invoke 中频繁使用的全局对象
+  final Map<String, JSObject> _objectCache = {};
+
   @override
   void dispose() {
+    _isDisposed = true;
+
+    // Clear cache first
+    _objectCache.clear();
+
+    // Batch destroy all tracked objects
+    // Use toList() to create a copy, because dispose() might modify the set via unregisterObject
+    for (final token in _activeTokens.toList()) {
+      if (!token.isDisposed) {
+        token.isDisposed = true;
+        _ffi.freeObject(_handle, token.handle);
+        _ffi.freeQjsResult(token.handle);
+      }
+    }
+    _activeTokens.clear();
+
     instances.remove(_handle.address);
     JSObject.clearContextState(_handle.address);
     _ffi.destroyContext(_handle);
   }
 
   @override
-  dynamic invoke(
-    String? objectName,
-    String methodName,
-    List<dynamic> args,
-  ) {
+  dynamic invoke(String? objectName, String methodName, List<dynamic> args) {
     if (objectName == null) {
       return global.invoke(methodName, args);
     }
 
+    // 优先从缓存获取对象，避免频繁的 FFI 调用和对象创建
     JSObject? obj = _objectCache[objectName];
     if (obj == null) {
       final res = global.getProperty(objectName);
       if (res is JSObject) {
         obj = res;
         _objectCache[objectName] = obj;
+      } else {
+        // 如果获取到的不是对象（可能是 null 或基础类型），则无法调用方法
+        // 注意：如果是基础类型，getProperty 内部已经释放了 JSValue
+        return null;
       }
     }
 
-    if (obj != null) {
-      return obj.invoke(methodName, args);
-    }
-    return null;
+    return obj.invoke(methodName, args);
   }
 
   @override

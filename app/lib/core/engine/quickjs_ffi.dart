@@ -84,6 +84,7 @@ typedef NativeAsyncTypedCallHandler = Void Function(
  * QuickJS FFI 底层绑定类
  */
 final class QuickJsFFI {
+  static QuickJsFFI? globalInstance;
   final DynamicLibrary _lib;
   static QuickJsFFI? globalInstance;
 
@@ -154,6 +155,17 @@ final class QuickJsFFI {
   late final _freeResult = _lib.lookupFunction<
       Void Function(Pointer<QjsResult>),
       void Function(Pointer<QjsResult>)>('qjs_free_result_content');
+
+  late final _freeObject = _lib.lookupFunction<
+      Void Function(Pointer<Void>, Pointer<QjsResult>),
+      void Function(Pointer<Void>, Pointer<QjsResult>)>('qjs_free_object');
+
+  late final _freeValue = _lib.lookupFunction<
+      Void Function(Pointer<Void>, Pointer<QjsResult>),
+      void Function(Pointer<Void>, Pointer<QjsResult>)>('qjs_free_value');
+
+  late final _dupContext = _lib.lookupFunction<Void Function(Pointer<Void>),
+      void Function(Pointer<Void>)>('qjs_dup_context');
 
   late final _getGlobal = _lib.lookupFunction<
       Void Function(Pointer<Void>, Pointer<QjsResult>),
@@ -336,6 +348,9 @@ final class QuickJsFFI {
     }
 
     final res = convertQjsResultToDart(out.ref);
+    if (out.ref.type == qjsTypeObject || out.ref.type == qjsTypeFunction) {
+      _freeValue(ctxHandle, out);
+    }
     _freeResult(out);
     ffi.calloc.free(out);
     return res;
@@ -371,6 +386,9 @@ final class QuickJsFFI {
     }
 
     final res = convertQjsResultToDart(out.ref);
+    if (out.ref.type == qjsTypeObject || out.ref.type == qjsTypeFunction) {
+      _freeValue(ctxHandle, out);
+    }
     _freeResult(out);
     ffi.calloc.free(out);
     return res;
@@ -391,6 +409,9 @@ final class QuickJsFFI {
     }
 
     final res = convertQjsResultToDart(out.ref);
+    if (out.ref.type == qjsTypeObject || out.ref.type == qjsTypeFunction) {
+      _freeValue(ctxHandle, out);
+    }
     _freeResult(out);
     ffi.calloc.free(out);
     return res;
@@ -412,6 +433,9 @@ final class QuickJsFFI {
     }
 
     final res = convertQjsResultToDart(out.ref);
+    if (out.ref.type == qjsTypeObject || out.ref.type == qjsTypeFunction) {
+      _freeValue(ctxHandle, out);
+    }
     _freeResult(out);
     ffi.calloc.free(out);
     return res;
@@ -420,6 +444,18 @@ final class QuickJsFFI {
   void freeQjsResult(Pointer<QjsResult> p) {
     _freeResult(p);
     ffi.calloc.free(p);
+  }
+
+  void freeObject(Pointer<Void> ctxHandle, Pointer<QjsResult> obj) {
+    _freeObject(ctxHandle, obj);
+  }
+
+  void freeValue(Pointer<Void> ctxHandle, Pointer<QjsResult> obj) {
+    _freeValue(ctxHandle, obj);
+  }
+
+  void contextIncref(Pointer<Void> ctxHandle) {
+    _dupContext(ctxHandle);
   }
 
   static bool _useBinaryProtocol = true;
