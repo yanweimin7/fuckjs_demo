@@ -1,3 +1,4 @@
+import React from 'react';
 import { PageContainer } from './PageContainer';
 
 export const TEXT_TYPE = 'Text';
@@ -22,10 +23,6 @@ export class Node {
   }
 
   applyProps(newProps: any) {
-    if (this.type.includes('gesture-detector') || this.type.includes('ink-well')) {
-      console.log(`[Node] applyProps for ${this.type} (${this.id}), keys:`, Object.keys(newProps || {}));
-    }
-
     // Unregister old refId if it exists
     const oldRefId = this.props?.refId;
     if (oldRefId) {
@@ -42,18 +39,44 @@ export class Node {
         if (key === 'children') continue;
         const value = newProps[key];
         this.props[key] = value;
-        if (typeof value === 'function') {
-          if (this.type.includes('gesture-detector') || this.type.includes('ink-well')) {
-            console.log(`[Node] Saved callback for ${this.type}.${key}`);
-          }
-          this.saveCallback(key, value);
-        }
       }
+      // Recursively register callbacks to handle nested props and top-level callbacks
+      this.registerCallbacksRecursive(newProps);
     }
 
     // Re-register with new refId
     this.container?.registerNode(this);
-    this.container?.markChanged(this);
+    // Note: We no longer call markChanged here. 
+    // It is the responsibility of hostConfig.commitUpdate to call markChanged if necessary.
+    // This allows optimizations where we skip UI updates if only function references changed.
+  }
+
+  registerCallbacksRecursive(obj: any, path: string = '') {
+    if (!obj || typeof obj !== 'object') return;
+
+    // Check for React Element using React.isValidElement
+    if (React.isValidElement(obj)) return;
+
+    if (Array.isArray(obj)) {
+      obj.forEach((item, index) => this.registerCallbacksRecursive(item, path ? `${path}[${index}]` : `[${index}]`));
+      return;
+    }
+
+    for (const key in obj) {
+      if (path === '' && (key === 'children' || key === 'key' || key === 'ref' || key === 'isBoundary')) continue;
+
+      // Skip itemBuilder for ListView-like components
+      if (key === 'itemBuilder') continue;
+
+      const value = obj[key];
+      const fullKey = path ? `${path}.${key}` : key;
+
+      if (typeof value === 'function') {
+        this.saveCallback(fullKey, value);
+      } else if (value && typeof value === 'object') {
+        this.registerCallbacksRecursive(value, fullKey);
+      }
+    }
   }
 
   saveCallback(key: string, fn: Function) {

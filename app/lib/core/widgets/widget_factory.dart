@@ -113,25 +113,36 @@ class WidgetFactory {
     if (forceWrap || node.isBoundary) {
       return _FuickNodeWidget(node: node, factory: this);
     }
-    return buildInternal(context, node.type, node.props, node.children);
+    // Pass Key based on node ID to ensure state preservation for non-boundary nodes
+    return buildInternal(context, node.type, node.props, node.children,
+        key: ValueKey(node.id));
   }
 
   Widget buildInternal(
     BuildContext context,
     String type,
     Map<String, dynamic> props,
-    dynamic children,
-  ) {
+    dynamic children, {
+    Key? key,
+  }) {
     // debugPrint('[WidgetFactory] building $type with props: $props');
+    Widget? widget;
     final parser = _parsers[type];
     if (parser != null) {
-      return parser.parse(context, props, children, this);
+      widget = parser.parse(context, props, children, this);
+    } else {
+      // Default to Text parser if not found
+      final textParser = _parsers['Text'];
+      if (textParser != null) {
+        widget = textParser.parse(context, props, children, this);
+      }
     }
 
-    // Default to Text parser if not found
-    final textParser = _parsers['Text'];
-    if (textParser != null) {
-      return textParser.parse(context, props, children, this);
+    if (widget != null) {
+      if (key != null) {
+        return KeyedSubtree(key: key, child: widget);
+      }
+      return widget;
     }
 
     return const SizedBox.shrink();

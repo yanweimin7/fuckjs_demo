@@ -219,49 +219,42 @@ export class PageContainer {
         const patches: any[] = [];
         const processedNodes = new Set<number | string>();
 
-        // Optimization: Only send patches for the top-most changed nodes.
-        const topLevelChangedNodes: Node[] = [];
+        // Optimization: Normalize changed nodes (handle flutter-props)
+        const normalizedChangedNodes = new Set<Node>();
         for (const node of this.changedNodes) {
-          let targetNode = node;
-          if (targetNode.type === 'flutter-props' && targetNode.parent) {
-            targetNode = targetNode.parent;
+          // If a flutter-props node changed, it means its parent (the host component) needs to update
+          // to reflect the new property value in its DSL.
+          if (node.type === 'flutter-props' && node.parent) {
+            normalizedChangedNodes.add(node.parent);
+          } else {
+            normalizedChangedNodes.add(node);
           }
+        }
 
+        // Filter for top-level nodes only (avoid sending redundant child patches)
+        const topLevelNodes = new Set<Node>();
+        for (const node of normalizedChangedNodes) {
           let isRedundant = false;
-          let current = targetNode.parent;
+          let current = node.parent;
           while (current) {
-            if (this.changedNodes.has(current)) {
+            if (normalizedChangedNodes.has(current)) {
               isRedundant = true;
               break;
             }
             current = current.parent;
           }
           if (!isRedundant) {
-            if (!topLevelChangedNodes.includes(targetNode)) {
-              topLevelChangedNodes.push(targetNode);
-            }
+            topLevelNodes.add(node);
           }
         }
 
-        for (const node of topLevelChangedNodes) {
+        for (const node of topLevelNodes) {
           if (processedNodes.has(node.id)) continue;
 
-          let targetNode = node;
-          if (targetNode.type === 'flutter-props') {
-            if (targetNode.parent) {
-              targetNode = targetNode.parent;
-            } else {
-              continue;
-            }
-          }
-
-          if (processedNodes.has(targetNode.id)) continue;
-
-          // Allow root node as patch if it's not rootChanged (shouldn't happen with current logic but for safety)
-          const dsl = targetNode.toDsl();
+          const dsl = node.toDsl();
           if (dsl) {
             patches.push(dsl);
-            processedNodes.add(targetNode.id);
+            processedNodes.add(node.id);
           }
         }
 
@@ -433,11 +426,7 @@ export class PageContainer {
       // Case 5: 列表类组件的 itemBuilder 特殊处理
       // itemBuilder 是按需调用的数据源，不是普通点击事件，不应被转换为 Flutter Event 对象。
       // 它会在 Flutter 侧通过 getItemDSL 接口反向调用 JS 来获取每一项的 DSL。
-      if (key === 'itemBuilder' && (
-        nodeType === 'ListView' ||
-        nodeType === 'BatchedListView' ||
-        nodeType?.includes('list-view')
-      )) {
+      if (key === 'itemBuilder') {
         continue;
       }
 
@@ -449,10 +438,6 @@ export class PageContainer {
         // Case 6: 处理函数回调
         // 将 JS 函数注册到 PageContainer，并返回一个 Flutter 可识别的事件协议对象
         this.registerCallback(nodeId, fullKey, value);
-
-        if (nodeType === 'InkWell' || nodeType === 'GestureDetector') {
-          console.log(`[PageContainer] Registered callback for node ${nodeType}(${nodeId}), key: ${fullKey}`);
-        }
 
         // 构造 Flutter 侧解析的事件描述对象
         processedProps[key] = {

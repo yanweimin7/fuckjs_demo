@@ -77,6 +77,7 @@ typedef FuickNodeListener = void Function(FuickNode node);
 
 class FuickNodeManager {
   final Map<int, Set<FuickNodeListener>> _listeners = {};
+  final Map<int, FuickNode> _nodes = {};
 
   void addListener(int id, FuickNodeListener listener) {
     _listeners.putIfAbsent(id, () => {}).add(listener);
@@ -90,6 +91,7 @@ class FuickNodeManager {
   }
 
   void notify(int id, FuickNode node) {
+    _nodes[id] = node;
     final callbacks = _listeners[id];
     if (callbacks != null) {
       for (final callback in List.from(callbacks)) {
@@ -122,6 +124,9 @@ class FuickNodeManager {
     // 3. Update props and children
     node.update(props, children, manager);
 
+    // 4. Cache node
+    _nodes[id] = node;
+
     return node;
   }
 
@@ -133,6 +138,25 @@ class FuickNodeManager {
       final dsl = Map<String, dynamic>.from(patch);
       final id = (dsl['id'] as num).toInt();
 
+      if (_nodes.containsKey(id)) {
+        final existingNode = _nodes[id]!;
+        // If type matches, update in-place to preserve object reference
+        if (existingNode.type == dsl['type']) {
+          final props = Map<String, dynamic>.from(dsl['props'] as Map? ?? {});
+          final childrenDsl = (dsl['children'] as List?) ?? [];
+
+          // Recursively create new children (since children structure might change)
+          final List<FuickNode> newChildren = childrenDsl
+              .map((c) =>
+                  createNode(Map<String, dynamic>.from(c as Map), manager))
+              .toList();
+
+          existingNode.update(props, newChildren, manager);
+          manager.notify(id, existingNode);
+          continue;
+        }
+      }
+
       // Create new node from patch DSL
       final newNode = createNode(dsl, manager);
 
@@ -143,6 +167,7 @@ class FuickNodeManager {
 
   void clear() {
     _listeners.clear();
+    _nodes.clear();
   }
 }
 

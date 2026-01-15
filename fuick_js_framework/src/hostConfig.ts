@@ -6,9 +6,10 @@ function deepEqual(objA: any, objB: any): boolean {
   if (objA === objB) return true;
   if (!objA || !objB || typeof objA !== 'object' || typeof objB !== 'object') return false;
 
-  // Handle React elements - we already handle them in diffProps, 
-  // but if they end up here, we should treat them as not equal if references differ.
-  if (React.isValidElement(objA) || React.isValidElement(objB)) return objA === objB;
+  // Handle React elements - perform deep comparison
+  if (React.isValidElement(objA) || React.isValidElement(objB)) {
+    return false;
+  }
 
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
@@ -32,53 +33,124 @@ function deepEqual(objA: any, objB: any): boolean {
   return true;
 }
 
-function diffProps(oldProps: any, newProps: any): any[] | null {
+/**
+ * 对比新旧属性，计算出更新 Payload 以及是否影响 DSL 布局。
+ * 
+ * 核心逻辑：
+ * 1. 只有属性值真正发生变化（浅比较或深度比较）时，才会被加入 payload，用于更新 JS 侧的 Node 属性。
+ * 2. 引入 `hasDslChanges` 标记，用于区分“逻辑更新”和“UI更新”：
+ *    - 如果只是回调函数（Function）的引用变化，虽然需要更新 JS 侧的事件注册表，但生成的 DSL（eventKey）是不变的，
+ *      因此不需要通知 Flutter 重绘 UI（hasDslChanges = false）。
+ *    - 如果是基础类型、React Element 或普通对象的实质性结构变化，则必须通知 Flutter 更新 UI（hasDslChanges = true）。
+ */
+function diffProps(oldProps: any, newProps: any): { payload: any[], hasDslChanges: boolean } | null {
   const updatePayload: any[] = [];
   let hasChanges = false;
+  let hasDslChanges = false;
 
-  // Check for deleted or changed props
+  // 1. 遍历旧属性，检查是否有被删除或被修改的属性
   for (const key in oldProps) {
-    if (key === 'children') continue;
+    if (key === 'children') continue; // children 单独处理，不在此处 diff
+
+    // 情况 A: 属性被删除
     if (!(key in newProps)) {
       updatePayload.push(key, null);
       hasChanges = true;
-    } else if (oldProps[key] !== newProps[key]) {
-      // Special check for functions/objects
+      hasDslChanges = true; // 属性删除必然影响 DSL 结构
+    }
+    // 情况 B: 属性值引用发生变化
+    else if (oldProps[key] !== newProps[key]) {
       const oldVal = oldProps[key];
       const newVal = newProps[key];
 
+      // B1: 新旧值都是函数
       if (typeof oldVal === 'function' && typeof newVal === 'function') {
-        // Even if the function reference changed, we might not need a Flutter patch
-        // if the representation is the same. But we need to update JS side callbacks.
+        // 函数引用变化需要更新 JS 侧的回调映射，但对于 DSL 来说，
+        // eventKey (如 "onClick") 依然指向同一个 ID，因此不算作 DSL 变更。
+        // 从而避免不必要的 Flutter UI 刷新。
         updatePayload.push(key, newVal);
         hasChanges = true;
-      } else if (React.isValidElement(oldVal) || React.isValidElement(newVal)) {
-        // If it's a JSX element (React element), we should treat it as changed
-        // as its internal content might have changed.
+        // hasDslChanges 保持 false
+      }
+      // B2: 涉及 React Element (组件)
+      else if (React.isValidElement(oldVal) || React.isValidElement(newVal)) {
+        // 如果属性是 React 组件（如 title={<Text />}），只要引用变了，就直接视为 DSL 变更。
+        // 为了性能，不做昂贵的深度递归比较 (Deep Compare)。
         updatePayload.push(key, newVal);
         hasChanges = true;
-      } else if (oldVal && newVal && typeof oldVal === 'object' && typeof newVal === 'object') {
+        hasDslChanges = true;
+      }
+      // B3: 普通对象或数组
+      else if (oldVal && newVal && typeof oldVal === 'object' && typeof newVal === 'object') {
+        // 先进行标准深度比较，确认内容是否真的变了
         if (!deepEqual(oldVal, newVal)) {
           updatePayload.push(key, newVal);
           hasChanges = true;
+
+          // 如果内容变了，进一步检查是否仅仅是内部的函数引用变了？
+          // isDslEqual 会忽略函数引用的差异。
+          // 如果 isDslEqual 返回 false，说明有非函数的实质性数据变化，需要更新 UI。
+          if (!isDslEqual(oldVal, newVal)) {
+            hasDslChanges = true;
+          }
         }
-      } else {
+      }
+      // B4: 基础数据类型 (String, Number, Boolean 等)
+      else {
         updatePayload.push(key, newVal);
         hasChanges = true;
+        hasDslChanges = true; // 基础类型变化必然影响 UI
       }
     }
   }
 
-  // Check for new props
+  // 2. 遍历新属性，检查是否有新增的属性
   for (const key in newProps) {
     if (key === 'children') continue;
     if (!(key in oldProps)) {
       updatePayload.push(key, newProps[key]);
       hasChanges = true;
+      hasDslChanges = true; // 新增属性必然影响 DSL
     }
   }
 
-  return hasChanges ? updatePayload : null;
+  return hasChanges ? { payload: updatePayload, hasDslChanges } : null;
+}
+
+function isDslEqual(valA: any, valB: any): boolean {
+  if (valA === valB) return true;
+
+  // Treat functions as equal for DSL purposes (eventKey doesn't change if function ref changes)
+  if (typeof valA === 'function' && typeof valB === 'function') return true;
+
+  if (!valA || !valB || typeof valA !== 'object' || typeof valB !== 'object') return false;
+
+  // React Element check
+  if (React.isValidElement(valA) || React.isValidElement(valB)) {
+    return false;
+  }
+
+  // Array check
+  if (Array.isArray(valA) !== Array.isArray(valB)) return false;
+  if (Array.isArray(valA)) {
+    if (valA.length !== valB.length) return false;
+    for (let i = 0; i < valA.length; i++) {
+      if (!isDslEqual(valA[i], valB[i])) return false;
+    }
+    return true;
+  }
+
+  // Object check
+  const keysA = Object.keys(valA);
+  const keysB = Object.keys(valB);
+  if (keysA.length !== keysB.length) return false;
+
+  for (const key of keysA) {
+    if (!Object.prototype.hasOwnProperty.call(valB, key)) return false;
+    if (!isDslEqual(valA[key], valB[key])) return false;
+  }
+
+  return true;
 }
 
 export const createHostConfig = (): any => {
@@ -161,7 +233,7 @@ export const createHostConfig = (): any => {
     updateFiberProps: (instance: Node, type: string, newProps: any) => {
       instance.applyProps(newProps);
     },
-    commitUpdate: (instance: Node, updatePayload: any, type: string, oldProps: any, newProps: any, internalInstanceHandle: any) => {
+    commitUpdate: (instance: Node, updatePayload: { payload: any[], hasDslChanges: boolean }, type: string, oldProps: any, newProps: any, internalInstanceHandle: any) => {
       // Update props on the Node instance
       instance.applyProps(newProps);
 
@@ -170,24 +242,7 @@ export const createHostConfig = (): any => {
         // Optimization: check if there are any changes that affect the DSL.
         // If only function references changed for existing event keys, 
         // the DSL (id, eventKey) remains the same, so no UI patch is needed.
-        let hasDslChanges = false;
-        for (let i = 0; i < updatePayload.length; i += 2) {
-          const key = updatePayload[i];
-          const newVal = updatePayload[i + 1];
-          const oldVal = oldProps[key];
-
-          // DSL changes if:
-          // 1. A prop was added or removed
-          // 2. A non-function prop changed
-          // 3. A prop changed from function to non-function (or vice versa)
-          if (!(key in oldProps) || newVal === null ||
-            typeof oldVal !== 'function' || typeof newVal !== 'function') {
-            hasDslChanges = true;
-            break;
-          }
-        }
-
-        if (hasDslChanges) {
+        if (updatePayload.hasDslChanges) {
           const container = instance.container as any;
           if (typeof container.markChanged === 'function') {
             container.markChanged(instance);

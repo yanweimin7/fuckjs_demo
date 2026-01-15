@@ -27,9 +27,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     mod
   ));
 
-  // node_modules/react/cjs/react.production.min.js
+  // ../js/node_modules/react/cjs/react.production.min.js
   var require_react_production_min = __commonJS({
-    "node_modules/react/cjs/react.production.min.js"(exports) {
+    "../js/node_modules/react/cjs/react.production.min.js"(exports) {
       "use strict";
       var l = Symbol.for("react.element");
       var n = Symbol.for("react.portal");
@@ -558,9 +558,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // node_modules/scheduler/cjs/scheduler.production.min.js
+  // ../js/node_modules/scheduler/cjs/scheduler.production.min.js
   var require_scheduler_production_min = __commonJS({
-    "node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
+    "../js/node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
       "use strict";
       function f(a, b) {
         var c = a.length;
@@ -811,9 +811,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // node_modules/react-reconciler/cjs/react-reconciler.production.min.js
+  // ../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js
   var require_react_reconciler_production_min = __commonJS({
-    "node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
+    "../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
@@ -5575,8 +5575,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           return true;
         if (!objA || !objB || typeof objA !== "object" || typeof objB !== "object")
           return false;
-        if (react_1.default.isValidElement(objA) || react_1.default.isValidElement(objB))
-          return objA === objB;
+        if (react_1.default.isValidElement(objA) || react_1.default.isValidElement(objB)) {
+          return false;
+        }
         const keysA = Object.keys(objA);
         const keysB = Object.keys(objB);
         if (keysA.length !== keysB.length)
@@ -5598,12 +5599,14 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       function diffProps(oldProps, newProps) {
         const updatePayload = [];
         let hasChanges = false;
+        let hasDslChanges = false;
         for (const key in oldProps) {
           if (key === "children")
             continue;
           if (!(key in newProps)) {
             updatePayload.push(key, null);
             hasChanges = true;
+            hasDslChanges = true;
           } else if (oldProps[key] !== newProps[key]) {
             const oldVal = oldProps[key];
             const newVal = newProps[key];
@@ -5613,14 +5616,19 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             } else if (react_1.default.isValidElement(oldVal) || react_1.default.isValidElement(newVal)) {
               updatePayload.push(key, newVal);
               hasChanges = true;
+              hasDslChanges = true;
             } else if (oldVal && newVal && typeof oldVal === "object" && typeof newVal === "object") {
               if (!deepEqual(oldVal, newVal)) {
                 updatePayload.push(key, newVal);
                 hasChanges = true;
+                if (!isDslEqual(oldVal, newVal)) {
+                  hasDslChanges = true;
+                }
               }
             } else {
               updatePayload.push(key, newVal);
               hasChanges = true;
+              hasDslChanges = true;
             }
           }
         }
@@ -5630,9 +5638,43 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           if (!(key in oldProps)) {
             updatePayload.push(key, newProps[key]);
             hasChanges = true;
+            hasDslChanges = true;
           }
         }
-        return hasChanges ? updatePayload : null;
+        return hasChanges ? { payload: updatePayload, hasDslChanges } : null;
+      }
+      function isDslEqual(valA, valB) {
+        if (valA === valB)
+          return true;
+        if (typeof valA === "function" && typeof valB === "function")
+          return true;
+        if (!valA || !valB || typeof valA !== "object" || typeof valB !== "object")
+          return false;
+        if (react_1.default.isValidElement(valA) || react_1.default.isValidElement(valB)) {
+          return false;
+        }
+        if (Array.isArray(valA) !== Array.isArray(valB))
+          return false;
+        if (Array.isArray(valA)) {
+          if (valA.length !== valB.length)
+            return false;
+          for (let i = 0; i < valA.length; i++) {
+            if (!isDslEqual(valA[i], valB[i]))
+              return false;
+          }
+          return true;
+        }
+        const keysA = Object.keys(valA);
+        const keysB = Object.keys(valB);
+        if (keysA.length !== keysB.length)
+          return false;
+        for (const key of keysA) {
+          if (!Object.prototype.hasOwnProperty.call(valB, key))
+            return false;
+          if (!isDslEqual(valA[key], valB[key]))
+            return false;
+        }
+        return true;
       }
       var createHostConfig = () => {
         return {
@@ -5717,17 +5759,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           commitUpdate: (instance, updatePayload, type, oldProps, newProps, internalInstanceHandle) => {
             instance.applyProps(newProps);
             if (updatePayload && instance.container) {
-              let hasDslChanges = false;
-              for (let i = 0; i < updatePayload.length; i += 2) {
-                const key = updatePayload[i];
-                const newVal = updatePayload[i + 1];
-                const oldVal = oldProps[key];
-                if (!(key in oldProps) || newVal === null || typeof oldVal !== "function" || typeof newVal !== "function") {
-                  hasDslChanges = true;
-                  break;
-                }
-              }
-              if (hasDslChanges) {
+              if (updatePayload.hasDslChanges) {
                 const container = instance.container;
                 if (typeof container.markChanged === "function") {
                   container.markChanged(instance);
@@ -5759,8 +5791,12 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
   var require_node = __commonJS({
     "../fuick_js_framework/dist/node.js"(exports) {
       "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Node = exports.TEXT_TYPE = void 0;
+      var react_1 = __importDefault(require_react_production_min());
       exports.TEXT_TYPE = "Text";
       var nextNodeId = 1;
       var Node = class {
@@ -5775,9 +5811,6 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           this.applyProps(props);
         }
         applyProps(newProps) {
-          if (this.type.includes("gesture-detector") || this.type.includes("ink-well")) {
-            console.log(`[Node] applyProps for ${this.type} (${this.id}), keys:`, Object.keys(newProps || {}));
-          }
           const oldRefId = this.props?.refId;
           if (oldRefId) {
             this.container?.unregisterNode(this);
@@ -5791,16 +5824,33 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
                 continue;
               const value = newProps[key];
               this.props[key] = value;
-              if (typeof value === "function") {
-                if (this.type.includes("gesture-detector") || this.type.includes("ink-well")) {
-                  console.log(`[Node] Saved callback for ${this.type}.${key}`);
-                }
-                this.saveCallback(key, value);
-              }
             }
+            this.registerCallbacksRecursive(newProps);
           }
           this.container?.registerNode(this);
-          this.container?.markChanged(this);
+        }
+        registerCallbacksRecursive(obj, path = "") {
+          if (!obj || typeof obj !== "object")
+            return;
+          if (react_1.default.isValidElement(obj))
+            return;
+          if (Array.isArray(obj)) {
+            obj.forEach((item, index) => this.registerCallbacksRecursive(item, path ? `${path}[${index}]` : `[${index}]`));
+            return;
+          }
+          for (const key in obj) {
+            if (path === "" && (key === "children" || key === "key" || key === "ref" || key === "isBoundary"))
+              continue;
+            if (key === "itemBuilder")
+              continue;
+            const value = obj[key];
+            const fullKey = path ? `${path}.${key}` : key;
+            if (typeof value === "function") {
+              this.saveCallback(fullKey, value);
+            } else if (value && typeof value === "object") {
+              this.registerCallbacksRecursive(value, fullKey);
+            }
+          }
         }
         saveCallback(key, fn) {
           this.eventKeys.add(key);
@@ -6072,44 +6122,36 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             } else {
               const patches = [];
               const processedNodes = /* @__PURE__ */ new Set();
-              const topLevelChangedNodes = [];
+              const normalizedChangedNodes = /* @__PURE__ */ new Set();
               for (const node of this.changedNodes) {
-                let targetNode = node;
-                if (targetNode.type === "flutter-props" && targetNode.parent) {
-                  targetNode = targetNode.parent;
+                if (node.type === "flutter-props" && node.parent) {
+                  normalizedChangedNodes.add(node.parent);
+                } else {
+                  normalizedChangedNodes.add(node);
                 }
+              }
+              const topLevelNodes = /* @__PURE__ */ new Set();
+              for (const node of normalizedChangedNodes) {
                 let isRedundant = false;
-                let current = targetNode.parent;
+                let current = node.parent;
                 while (current) {
-                  if (this.changedNodes.has(current)) {
+                  if (normalizedChangedNodes.has(current)) {
                     isRedundant = true;
                     break;
                   }
                   current = current.parent;
                 }
                 if (!isRedundant) {
-                  if (!topLevelChangedNodes.includes(targetNode)) {
-                    topLevelChangedNodes.push(targetNode);
-                  }
+                  topLevelNodes.add(node);
                 }
               }
-              for (const node of topLevelChangedNodes) {
+              for (const node of topLevelNodes) {
                 if (processedNodes.has(node.id))
                   continue;
-                let targetNode = node;
-                if (targetNode.type === "flutter-props") {
-                  if (targetNode.parent) {
-                    targetNode = targetNode.parent;
-                  } else {
-                    continue;
-                  }
-                }
-                if (processedNodes.has(targetNode.id))
-                  continue;
-                const dsl = targetNode.toDsl();
+                const dsl = node.toDsl();
                 if (dsl) {
                   patches.push(dsl);
-                  processedNodes.add(targetNode.id);
+                  processedNodes.add(node.id);
                 }
               }
               if (patches.length > 0) {
@@ -6239,16 +6281,13 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           for (const key in props) {
             if (path === "" && (key === "children" || key === "key" || key === "ref" || key === "isBoundary"))
               continue;
-            if (key === "itemBuilder" && (nodeType === "ListView" || nodeType === "BatchedListView" || nodeType?.includes("list-view"))) {
+            if (key === "itemBuilder") {
               continue;
             }
             const value = props[key];
             const fullKey = path ? `${path}.${key}` : key;
             if (typeof value === "function") {
               this.registerCallback(nodeId, fullKey, value);
-              if (nodeType === "InkWell" || nodeType === "GestureDetector") {
-                console.log(`[PageContainer] Registered callback for node ${nodeType}(${nodeId}), key: ${fullKey}`);
-              }
               processedProps[key] = {
                 "id": Number(nodeId),
                 // 节点 ID
@@ -7620,7 +7659,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // src/framework_entry.ts
+  // ../js/src/framework_entry.ts
   var import_react = __toESM(require_react_production_min());
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;
