@@ -27,9 +27,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     mod
   ));
 
-  // ../js/node_modules/react/cjs/react.production.min.js
+  // node_modules/react/cjs/react.production.min.js
   var require_react_production_min = __commonJS({
-    "../js/node_modules/react/cjs/react.production.min.js"(exports) {
+    "node_modules/react/cjs/react.production.min.js"(exports) {
       "use strict";
       var l = Symbol.for("react.element");
       var n = Symbol.for("react.portal");
@@ -558,9 +558,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/node_modules/scheduler/cjs/scheduler.production.min.js
+  // node_modules/scheduler/cjs/scheduler.production.min.js
   var require_scheduler_production_min = __commonJS({
-    "../js/node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
+    "node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
       "use strict";
       function f(a, b) {
         var c = a.length;
@@ -811,9 +811,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js
+  // node_modules/react-reconciler/cjs/react-reconciler.production.min.js
   var require_react_reconciler_production_min = __commonJS({
-    "../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
+    "node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
@@ -7659,7 +7659,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/src/framework_entry.ts
+  // src/framework_entry.ts
   var import_react = __toESM(require_react_production_min());
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;

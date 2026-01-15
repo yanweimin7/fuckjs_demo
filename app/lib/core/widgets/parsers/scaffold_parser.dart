@@ -19,12 +19,22 @@ class ScaffoldParser extends WidgetParser {
       body = factory.buildFirstChild(context, children);
     }
 
+    Widget? appBarWidget =
+        appBarDsl != null ? factory.build(context, appBarDsl) : null;
+    PreferredSizeWidget? appBar;
+    if (appBarWidget is PreferredSizeWidget) {
+      appBar = appBarWidget;
+    } else if (appBarWidget != null) {
+      appBar = PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: appBarWidget,
+      );
+    }
+
     return Scaffold(
       backgroundColor:
           WidgetUtils.colorFromHex(props['backgroundColor'] as String?),
-      appBar: appBarDsl != null
-          ? factory.build(context, appBarDsl) as PreferredSizeWidget?
-          : null,
+      appBar: appBar,
       body: body,
       floatingActionButton:
           fabDsl != null ? factory.build(context, fabDsl) : null,

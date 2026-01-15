@@ -1,4 +1,4 @@
-É¤/Users/wey/work/flutter_dynamic/fuickjs_pro/fuick_js_test/dist/framework.bundle.jsprocess
+É/Users/wey/work/flutter_dynamic/fuickjs_pro/js/dist/framework.bundle.jsprocess
 print
 slicecall [ERROR] [WARN] [DEBUG] __create__defProp __getOwnPropDesc"__getOwnPropNames__getProtoOf__hasOwnProp__commonJS__copyProps__toESM8require_react_production_minrequire_types&require_PageContextrequire_ids$require_BaseWidgetrequire_Textrequire_Columnrequire_Row"require_Containerrequire_Button"require_TextFieldrequire_Switch require_Expanded@require_scheduler_production_minNrequire_react_reconciler_production_min$require_hostConfigrequire_node*require_PageContainer require_rendererrequire_router&require_page_render require_ListViewrequire_Paddingrequire_Image require_SizedBoxrequire_Centerrequire_Icon require_Flexible.require_GestureDetectorrequire_InkWellrequire_Divider:require_SingleChildScrollViewrequire_Stack$require_Positionedrequire_OpacityBrequire_CircularProgressIndicator require_SafeArea(require_FlutterProps require_Scaffoldrequire_AppBar require_PageView require_GridView.require_BatchedListViewrequire_widgets$require_components"require_navigatorrequire_consolerequire_timerrequire_runtimerequire_hooks*require_ErrorBoundaryrequire_distimport_reactFuickFrameworkcbmod__requireexportstoexceptdesckeyisNodeMode__esModulelnpqrtuvwxyzABCDEFGHIJKLMNOescapePQRSTUVWXa@@iteratorbe
 propscontextrefsupdaterêsetState(...): takes an object of state variables to update or a function which returns an object of state variables.enqueueSetStatesetState$enqueueForceUpdateforceUpdatedckhgfmrefhasOwnPropertychildrendefaultProps$$typeoftypecurrent_ownera2=0==2:$replace.$&//push^Objects are not valid as a React child (found: [object Object]$object with keys {, }’). If you meant to render a collection of children, use an array instead.b2_status_resultpact(...) is not supported in production builds of React.ŠReact.Children.only expected to receive a single React element child.œReact.cloneElement(...): The argument must be a React element, but you passed _currentValue_currentValue2_threadCountProviderConsumer_defaultValue_globalName_contextbindrender_payload
@@ -44,7 +44,7 @@ items2flutter-batched-list-view__exportStarWidgetswidgets_1
 levelnextTimerIdtimerMapsetTimeout2clearTimeout2setIntervalclearInterval
 entryP[Timer] Error in setTimeout(0) callback:timeoutcreateTimerisIntervaldeleteTimerinterval6[Timer] Callback for timer & is not a function:.[Timer] Error in timer  callback:__handleTimerPageRenderConsole
 TimerbindGlobalssetupPolyfills.notifyMicrotaskEnqueued0setupPromiseInterception"FuickUIControlleroldConsole,originalQueueMicrotaskqueueMicrotask__qjs_run_jobs
-ProtooriginalThenoriginalCatchoriginalFinallyonfulfilledonrejectedonfinallyRuntimeuseVisibleuseInvisiblecontainer2ErrorBoundaryhasErrorerrorInfo:[ErrorBoundary] Caught error:Navigatorh../js/node_modules/react/cjs/react.production.min.jsV../fuick_js_framework/dist/widgets/types.jsR../fuick_js_framework/dist/PageContext.jsN../fuick_js_framework/dist/utils/ids.js`../fuick_js_framework/dist/widgets/BaseWidget.jsT../fuick_js_framework/dist/widgets/Text.jsX../fuick_js_framework/dist/widgets/Column.jsR../fuick_js_framework/dist/widgets/Row.js^../fuick_js_framework/dist/widgets/Container.jsX../fuick_js_framework/dist/widgets/Button.js^../fuick_js_framework/dist/widgets/TextField.jsX../fuick_js_framework/dist/widgets/Switch.js\../fuick_js_framework/dist/widgets/Expanded.jsx../js/node_modules/scheduler/cjs/scheduler.production.min.js”../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.jsP../fuick_js_framework/dist/hostConfig.jsD../fuick_js_framework/dist/node.jsV../fuick_js_framework/dist/PageContainer.jsL../fuick_js_framework/dist/renderer.jsH../fuick_js_framework/dist/router.jsR../fuick_js_framework/dist/page_render.js\../fuick_js_framework/dist/widgets/ListView.jsZ../fuick_js_framework/dist/widgets/Padding.jsV../fuick_js_framework/dist/widgets/Image.js\../fuick_js_framework/dist/widgets/SizedBox.jsX../fuick_js_framework/dist/widgets/Center.jsT../fuick_js_framework/dist/widgets/Icon.js\../fuick_js_framework/dist/widgets/Flexible.jsj../fuick_js_framework/dist/widgets/GestureDetector.jsZ../fuick_js_framework/dist/widgets/InkWell.jsZ../fuick_js_framework/dist/widgets/Divider.jsv../fuick_js_framework/dist/widgets/SingleChildScrollView.jsV../fuick_js_framework/dist/widgets/Stack.js`../fuick_js_framework/dist/widgets/Positioned.jsZ../fuick_js_framework/dist/widgets/Opacity.js~../fuick_js_framework/dist/widgets/CircularProgressIndicator.js\../fuick_js_framework/dist/widgets/SafeArea.jsd../fuick_js_framework/dist/widgets/FlutterProps.js\../fuick_js_framework/dist/widgets/Scaffold.jsX../fuick_js_framework/dist/widgets/AppBar.js\../fuick_js_framework/dist/widgets/PageView.js\../fuick_js_framework/dist/widgets/GridView.jsj../fuick_js_framework/dist/widgets/BatchedListView.jsV../fuick_js_framework/dist/widgets/index.jsP../fuick_js_framework/dist/components.jsN../fuick_js_framework/dist/navigator.jsP../fuick_js_framework/dist/ex/console.jsL../fuick_js_framework/dist/ex/timer.jsJ../fuick_js_framework/dist/runtime.jsF../fuick_js_framework/dist/hooks.jsV../fuick_js_framework/dist/ErrorBoundary.jsF../fuick_js_framework/dist/index.js
+ProtooriginalThenoriginalCatchoriginalFinallyonfulfilledonrejectedonfinallyRuntimeuseVisibleuseInvisiblecontainer2ErrorBoundaryhasErrorerrorInfo:[ErrorBoundary] Caught error:Navigator\node_modules/react/cjs/react.production.min.jsV../fuick_js_framework/dist/widgets/types.jsR../fuick_js_framework/dist/PageContext.jsN../fuick_js_framework/dist/utils/ids.js`../fuick_js_framework/dist/widgets/BaseWidget.jsT../fuick_js_framework/dist/widgets/Text.jsX../fuick_js_framework/dist/widgets/Column.jsR../fuick_js_framework/dist/widgets/Row.js^../fuick_js_framework/dist/widgets/Container.jsX../fuick_js_framework/dist/widgets/Button.js^../fuick_js_framework/dist/widgets/TextField.jsX../fuick_js_framework/dist/widgets/Switch.js\../fuick_js_framework/dist/widgets/Expanded.jslnode_modules/scheduler/cjs/scheduler.production.min.jsˆnode_modules/react-reconciler/cjs/react-reconciler.production.min.jsP../fuick_js_framework/dist/hostConfig.jsD../fuick_js_framework/dist/node.jsV../fuick_js_framework/dist/PageContainer.jsL../fuick_js_framework/dist/renderer.jsH../fuick_js_framework/dist/router.jsR../fuick_js_framework/dist/page_render.js\../fuick_js_framework/dist/widgets/ListView.jsZ../fuick_js_framework/dist/widgets/Padding.jsV../fuick_js_framework/dist/widgets/Image.js\../fuick_js_framework/dist/widgets/SizedBox.jsX../fuick_js_framework/dist/widgets/Center.jsT../fuick_js_framework/dist/widgets/Icon.js\../fuick_js_framework/dist/widgets/Flexible.jsj../fuick_js_framework/dist/widgets/GestureDetector.jsZ../fuick_js_framework/dist/widgets/InkWell.jsZ../fuick_js_framework/dist/widgets/Divider.jsv../fuick_js_framework/dist/widgets/SingleChildScrollView.jsV../fuick_js_framework/dist/widgets/Stack.js`../fuick_js_framework/dist/widgets/Positioned.jsZ../fuick_js_framework/dist/widgets/Opacity.js~../fuick_js_framework/dist/widgets/CircularProgressIndicator.js\../fuick_js_framework/dist/widgets/SafeArea.jsd../fuick_js_framework/dist/widgets/FlutterProps.js\../fuick_js_framework/dist/widgets/Scaffold.jsX../fuick_js_framework/dist/widgets/AppBar.js\../fuick_js_framework/dist/widgets/PageView.js\../fuick_js_framework/dist/widgets/GridView.jsj../fuick_js_framework/dist/widgets/BatchedListView.jsV../fuick_js_framework/dist/widgets/index.jsP../fuick_js_framework/dist/components.jsN../fuick_js_framework/dist/navigator.jsP../fuick_js_framework/dist/ex/console.jsL../fuick_js_framework/dist/ex/timer.jsJ../fuick_js_framework/dist/runtime.jsF../fuick_js_framework/dist/hooks.jsV../fuick_js_framework/dist/ErrorBoundary.jsF../fuick_js_framework/dist/index.js
 ReactproductionNODE_ENVenv
 debugÆ      
 ¢   d È C
@@ -363,7 +363,7 @@ M»  
 M¼  ÄÀÀ4ÄMt  Ä!Mš  Ä"Ã!M½  Ã"M¾  ÃM¿  Ä#ÓÃMÀ  ÁNÁ  MÁ  ÁNÂ  MÂ  ÁNÃ  MÃ  ÁNÄ  MÄ  DÅ  ÓÃDÆ  ÓÉDÇ  ÓÃDÈ  ÓÃDÉ  ÓÊDÊ  ÓÃDË  ÓÃ#DÌ  ÓÃ$DÍ  ÓÁDÎ  ÓÁDÏ  ÓÃDĞ  ÓÁDÑ  ÓÁDÒ  ÓÁDÓ  ÓÃDÔ  ÓÁDÕ  ÓÁDÖ  ÓÁ D×  ÓÃ$DØ  ÓÁ!D›  ÓÁ"Dœ  ÓÁ#DÙ  ÓÁ$D  ÓÁ%D  ÓÁ&DŸ  ÓÁ'D   ÓÁ(D¡  ÓÁ)D¢  ÓÁ*D£  ÓÁ+D¤  ÓÁ,D¥  ÓÁ-D¦  ÓÁ.D§  ÓÁ/D¨  ÓÚ  DÛ  )Æ ‰ 45b b b b g g g g g g  X*D    
   4?30 : z¸  >$ + & + + & + + +  $  
  +  
- - - + - -   + - - , - - - - - - - - - - - - õN"../js/node_modules/react/cjs/react.production.min.js"(exports) {
+ - - + - -   + - - , - - - - - - - - - - - - ïN"node_modules/react/cjs/react.production.min.js"(exports) {
       "use strict";
       var l = Symbol.for("react.element");
       var n = Symbol.for("react.portal");
@@ -1249,7 +1249,7 @@ a _	 _
 ¹Ä	Ä	Ä	Ä   8  ˜¯ì9  îÄ   8  ˜¯ì9  îÄF   8  ˜°ì9  îÄF   8  ˜°ìH9  B  °ì89  B  B  °ì#9  B  B  C•  9  B  $ 	ÄÄµÄ»ÄµÄ   Ã˜¯ìÁNT  ÄîCF   8  ˜°ì,9  !  ÅB   ÄÃB!  ÃD"  ÁNT  Äî
 ÁNT  ÄÓ»D#  Ó·D$  ÓºD%  Ó¹D&  ÓD'  Ó¸D(  ÓÁD)  ÓÁD*  ÓÁD+  ÓÁD,  ÓÁD-  ÓÁD.  ÓÁD/  ÓÁD0  ÓÁD1  ÓÁD2  ÓÃD3  ÓÁD4  )Æ³eË >"HJIg&  
  >  )*{ {b/ >>RFÊ  "Š U0]I <
- 	& & & & & & - - - - -  $ , ,  &  0 + Ç8"../js/node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
+ 	& & & & & & - - - - -  $ , ,  &  0 + Á8"node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
       "use strict";
       function f(a, b) {
         var c = a.length;
@@ -11944,8 +11944,8 @@ function $$$reconciler($$$hostConfig) {
           return g;
         };
         return exports2;
-      }ÔÁ D.  )Æ°Ïè
-"../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
+      }ÔÁ D.  )Æ°Éè
+"node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
@@ -21298,7 +21298,7 @@ MA   $ ÓDr  ÉßğÓòÉàğÓòÉáğÓòÓÊâğñDr  É_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ 
 ÃÁUu  ñÄÃÁUv  ñÄÃÁUw  ñÄÃÁUx  ñÄÃÁ	Uy  ñÄÃÁ
 Uz  ñÄÃÁU{  ñÄÃÁU|  ñÄÃÁU}  ñÄÃÁU~  ñÄÃÁU  ñÄÃÁU€  ñÄÃÁU  ñÄÃÁU‚  ñÄÃÁUƒ  ñÄÃÁU„  ñÄÃÁU…  ñÄÃÁU†  ñÄÃÁU‡  ñÄÃÁUˆ  ñÄÃÁU‰  ñÄÃÁUŠ  ñÄ ÃÁU‹  ñÄ!ÃÁUŒ  ñÄ"ÃÁU  ñÄ#ÃÁU  ñÄ$ÃÁU  ñÄ%ÃÁ U  ñÄ&ÃÁ!U‘  ñÄ'ÃÁ"U’  ñÄ(ÃÁ#U“  ñÄ)ÃÁ$U”  ñÄ*ÃÁ%U•  ñÄ+ÃÁ&U–  ñÄ,ÃÁ'U—  ñÄ-ÃÁ(U˜  ñÄ.ÃÁ)U™  ñÄ/ÃÁ*Uš  ñÄ0ÃÁ+U›  ñÄ1ÃÁ,Uœ  ñÄ2ÃÁ-U  ñÄ3ÃÁ.U  ñÄ4ÃÁ/UŸ  ñÄ5ÃÁ0U   ñÄ6ÃÁ1U¡  ñÄ7ÃÁ2U¢  ñÄ8ÃÁ3U£  ñÄ9ÃÁ4U¤  ñÄ:ÃÁ5U¥  ñÄ;ÃÁ6U¦  ñÄ<ÃÃ	ğñÄ=ÃÃ<ğñÄ>9   Ã=B   D§  9   Ã>D*  )Ææ f8J ¢     ^ ( ( ( ( , > ( (  ú šJ) Æ  „	 ø ,
  Ê X ( ( ( ( ( ( ( (  ( 8 (
- ( ($ (! ( & , , @  R N p ¨ ( F œ ò   F x+!9X ˆÊ() => {
+ ( ($ (! ( & , , @  R N p ¨ ( F œ ò   F x+!9X ŞÉ() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -21325,9 +21325,9 @@ Uz  ñÄÃÁU{  ñÄÃÁU|  ñÄÃÁU}  ñÄÃÁU~  ñÄÃÁU  ñÄÃ
     mod
   ));
 
-  // ../js/node_modules/react/cjs/react.production.min.js
+  // node_modules/react/cjs/react.production.min.js
   var require_react_production_min = __commonJS({
-    "../js/node_modules/react/cjs/react.production.min.js"(exports) {
+    "node_modules/react/cjs/react.production.min.js"(exports) {
       "use strict";
       var l = Symbol.for("react.element");
       var n = Symbol.for("react.portal");
@@ -21856,9 +21856,9 @@ Uz  ñÄÃÁU{  ñÄÃÁU|  ñÄÃÁU}  ñÄÃÁU~  ñÄÃÁU  ñÄÃ
     }
   });
 
-  // ../js/node_modules/scheduler/cjs/scheduler.production.min.js
+  // node_modules/scheduler/cjs/scheduler.production.min.js
   var require_scheduler_production_min = __commonJS({
-    "../js/node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
+    "node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
       "use strict";
       function f(a, b) {
         var c = a.length;
@@ -22109,9 +22109,9 @@ Uz  ñÄÃÁU{  ñÄÃÁU|  ñÄÃÁU}  ñÄÃÁU~  ñÄÃÁU  ñÄÃ
     }
   });
 
-  // ../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js
+  // node_modules/react-reconciler/cjs/react-reconciler.production.min.js
   var require_react_reconciler_production_min = __commonJS({
-    "../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
+    "node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
@@ -28957,7 +28957,7 @@ Uz  ñÄÃÁU{  ñÄÃÁU|  ñÄÃÁU}  ñÄÃÁU~  ñÄÃÁU  ñÄÃ
     }
   });
 
-  // ../js/src/framework_entry.ts
+  // src/framework_entry.ts
   var import_react = __toESM(require_react_production_min());
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;
