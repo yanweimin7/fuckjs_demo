@@ -6,6 +6,8 @@ export interface AppBarProps extends BaseProps {
   title?: any;
   leading?: any;
   actions?: any[];
+  flexibleSpace?: any;
+  bottom?: any;
   backgroundColor?: string;
   foregroundColor?: string;
   elevation?: number;
@@ -13,7 +15,7 @@ export interface AppBarProps extends BaseProps {
 
 export class AppBar extends React.Component<AppBarProps> {
   render(): ReactNode {
-    const { title, leading, actions, children, ...otherProps } = this.props;
+    const { title, leading, actions, flexibleSpace, bottom, children, ...otherProps } = this.props;
     return React.createElement(
       'AppBar',
       { ...otherProps, isBoundary: false },
@@ -22,6 +24,8 @@ export class AppBar extends React.Component<AppBarProps> {
       actions && actions.map((action, index) =>
         React.createElement(FlutterProps, { key: `action-${index}`, propsKey: 'actions' }, action)
       ),
+      flexibleSpace && React.createElement(FlutterProps, { propsKey: 'flexibleSpace' }, flexibleSpace),
+      bottom && React.createElement(FlutterProps, { propsKey: 'bottom' }, bottom),
       children
     );
   }

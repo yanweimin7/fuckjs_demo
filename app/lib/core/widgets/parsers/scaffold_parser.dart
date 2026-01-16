@@ -13,6 +13,10 @@ class ScaffoldParser extends WidgetParser {
     final appBarDsl = props['appBar'];
     final bodyDsl = props['body'];
     final fabDsl = props['floatingActionButton'];
+    final drawerDsl = props['drawer'];
+    final endDrawerDsl = props['endDrawer'];
+    final bottomNavigationBarDsl = props['bottomNavigationBar'];
+    final bottomSheetDsl = props['bottomSheet'];
 
     Widget? body = bodyDsl != null ? factory.build(context, bodyDsl) : null;
     if (body == null && children != null) {
@@ -38,6 +42,15 @@ class ScaffoldParser extends WidgetParser {
       body: body,
       floatingActionButton:
           fabDsl != null ? factory.build(context, fabDsl) : null,
+      drawer: drawerDsl != null ? factory.build(context, drawerDsl) : null,
+      endDrawer:
+          endDrawerDsl != null ? factory.build(context, endDrawerDsl) : null,
+      bottomNavigationBar: bottomNavigationBarDsl != null
+          ? factory.build(context, bottomNavigationBarDsl)
+          : null,
+      bottomSheet: bottomSheetDsl != null
+          ? factory.build(context, bottomSheetDsl)
+          : null,
     );
   }
 }

@@ -12,21 +12,24 @@ import {
     Scaffold,
     AppBar,
     BatchedListView,
+    ListTile,
+    BottomNavigationBar,
+    BottomNavigationBarItem,
 } from 'fuick_js_framework';
 
 const AssetListItem = React.memo(({ item }: { item: any }) => {
     return (
         <Padding padding={{ bottom: 16 }}>
             <Container
-                padding={16}
                 decoration={{
                     color: '#FFFFFF',
                     borderRadius: 24,
                     boxShadow: { color: 'rgba(0,0,0,0.04)', blurRadius: 20, offset: { dx: 0, dy: 8 } }
                 }}
             >
-                <Row mainAxisAlignment="spaceBetween" crossAxisAlignment="center">
-                    <Row crossAxisAlignment="center">
+                <ListTile
+                    contentPadding={{ left: 16, right: 16, top: 8, bottom: 8 }}
+                    leading={
                         <Container width={56} height={56} decoration={{ color: '#F8FAFC', borderRadius: 28 }} alignment="center">
                             <Image
                                 url={`https://i.pravatar.cc/150?u=${item.id}`}
@@ -35,10 +38,12 @@ const AssetListItem = React.memo(({ item }: { item: any }) => {
                                 borderRadius={20}
                             />
                         </Container>
-                        <SizedBox width={16} />
-                        <Column crossAxisAlignment="start">
-                            <Text text={item.title} fontSize={18} fontWeight="bold" color="#1E293B" />
-                            <SizedBox height={4} />
+                    }
+                    title={
+                        <Text text={item.title} fontSize={18} fontWeight="bold" color="#1E293B" />
+                    }
+                    subtitle={
+                        <Container margin={{ top: 4 }}>
                             <Row crossAxisAlignment="center">
                                 <Container
                                     padding={{ left: 6, right: 6, top: 2, bottom: 2 }}
@@ -49,27 +54,29 @@ const AssetListItem = React.memo(({ item }: { item: any }) => {
                                 <SizedBox width={8} />
                                 <Text text={`Vol: ${item.volume}`} fontSize={12} color="#64748B" />
                             </Row>
+                        </Container>
+                    }
+                    trailing={
+                        <Column crossAxisAlignment="end" mainAxisAlignment="center">
+                            <Text text={`$${item.price}`} fontSize={18} fontWeight="bold" color="#1E293B" />
+                            <SizedBox height={6} />
+                            <Row crossAxisAlignment="center" mainAxisSize="min">
+                                <Icon
+                                    name={Number(item.change) >= 0 ? 'trending_up' : 'trending_down'}
+                                    size={14}
+                                    color={Number(item.change) >= 0 ? '#10B981' : '#EF4444'}
+                                />
+                                <SizedBox width={4} />
+                                <Text
+                                    text={`${Math.abs(Number(item.change))}%`}
+                                    fontSize={13}
+                                    fontWeight="bold"
+                                    color={Number(item.change) >= 0 ? '#10B981' : '#EF4444'}
+                                />
+                            </Row>
                         </Column>
-                    </Row>
-                    <Column crossAxisAlignment="end">
-                        <Text text={`$${item.price}`} fontSize={18} fontWeight="bold" color="#1E293B" />
-                        <SizedBox height={6} />
-                        <Row crossAxisAlignment="center">
-                            <Icon
-                                name={Number(item.change) >= 0 ? 'trending_up' : 'trending_down'}
-                                size={14}
-                                color={Number(item.change) >= 0 ? '#10B981' : '#EF4444'}
-                            />
-                            <SizedBox width={4} />
-                            <Text
-                                text={`${Math.abs(Number(item.change))}%`}
-                                fontSize={13}
-                                fontWeight="bold"
-                                color={Number(item.change) >= 0 ? '#10B981' : '#EF4444'}
-                            />
-                        </Row>
-                    </Column>
-                </Row>
+                    }
+                />
             </Container>
         </Padding>
     );
@@ -93,6 +100,18 @@ const WalletDemoPage = () => {
         <Scaffold
             appBar={<AppBar title="Wallet Demo (Batched)" backgroundColor="#FFFFFF" foregroundColor="#1E293B" elevation={0} />}
             backgroundColor="#F8FAFC"
+            bottomNavigationBar={
+                <BottomNavigationBar
+                    currentIndex={0}
+                    selectedItemColor="#6366F1"
+                    unselectedItemColor="#94A3B8"
+                    items={[
+                        <BottomNavigationBarItem icon={<Icon name="account_balance_wallet" />} label="Wallet" />,
+                        <BottomNavigationBarItem icon={<Icon name="swap_horiz" />} label="Swap" />,
+                        <BottomNavigationBarItem icon={<Icon name="settings" />} label="Settings" />,
+                    ]}
+                />
+            }
         >
             <Column crossAxisAlignment="stretch">
                 <Padding padding={16}>

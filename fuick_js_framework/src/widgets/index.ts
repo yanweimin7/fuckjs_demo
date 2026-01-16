@@ -30,3 +30,5 @@ export * from './FlutterProps';
 export * from './PageView';
 export * from './GridView';
 export * from './BatchedListView';
+export * from './ListTile';
+export * from './BottomNavigationBar';

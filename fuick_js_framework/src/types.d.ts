@@ -54,6 +54,11 @@ declare global {
       'flutter-safe-area': import('./widgets/SafeArea').SafeAreaProps;
       'flutter-scaffold': import('./widgets/Scaffold').ScaffoldProps;
       'flutter-app-bar': import('./widgets/AppBar').AppBarProps;
+      'Scaffold': import('./widgets/Scaffold').ScaffoldProps;
+      'AppBar': import('./widgets/AppBar').AppBarProps;
+      'ListTile': import('./widgets/ListTile').ListTileProps;
+      'BottomNavigationBar': import('./widgets/BottomNavigationBar').BottomNavigationBarProps;
+      'BottomNavigationBarItem': import('./widgets/BottomNavigationBar').BottomNavigationBarItemProps;
       'FlutterProps': { propsKey: string; children?: any };
       'flutter-props': { propsKey: string; children?: any };
       'flutter-batched-list-view': any;

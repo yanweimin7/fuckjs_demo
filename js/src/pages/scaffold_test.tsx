@@ -5,15 +5,13 @@ export default function ScaffoldTest() {
   return (
     <Scaffold
       backgroundColor="#F5F5F5"
-    >
-      <FlutterProps propsKey="appBar">
+      appBar={
         <AppBar 
           title={<Text text="Scaffold Test" color="#FFFFFF" fontSize={20} />}
           backgroundColor="#2196F3"
         />
-      </FlutterProps>
-      
-      <FlutterProps propsKey="body">
+      }
+      body={
         <Center>
           <Column crossAxisAlignment="center">
             <Container 
@@ -26,11 +24,11 @@ export default function ScaffoldTest() {
               <Text text="Hello Scaffold" fontSize={24} color="#2196F3" />
             </Container>
             <Container padding={20}>
-               <Text text="This page uses Scaffold with AppBar and body via FlutterProps." textAlign="center" />
+               <Text text="This page uses Scaffold with AppBar and body props." textAlign="center" />
             </Container>
           </Column>
         </Center>
-      </FlutterProps>
-    </Scaffold>
+      }
+    />
   );
 }

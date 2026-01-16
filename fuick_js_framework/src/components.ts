@@ -27,4 +27,7 @@ export const SafeArea = Widgets.SafeArea;
 export const Scaffold = Widgets.Scaffold;
 export const AppBar = Widgets.AppBar;
 export const FlutterProps = Widgets.FlutterProps;
+export const ListTile = Widgets.ListTile;
+export const BottomNavigationBar = Widgets.BottomNavigationBar;
+export const BottomNavigationBarItem = Widgets.BottomNavigationBarItem;
 export { PageView, GridView, BatchedListView } from './widgets';

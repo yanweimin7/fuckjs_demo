@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BatchedListView = exports.GridView = exports.PageView = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
+exports.BatchedListView = exports.GridView = exports.PageView = exports.BottomNavigationBarItem = exports.BottomNavigationBar = exports.ListTile = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
 const Widgets = __importStar(require("./widgets"));
 exports.Column = Widgets.Column;
 exports.Container = Widgets.Container;
@@ -62,6 +62,9 @@ exports.SafeArea = Widgets.SafeArea;
 exports.Scaffold = Widgets.Scaffold;
 exports.AppBar = Widgets.AppBar;
 exports.FlutterProps = Widgets.FlutterProps;
+exports.ListTile = Widgets.ListTile;
+exports.BottomNavigationBar = Widgets.BottomNavigationBar;
+exports.BottomNavigationBarItem = Widgets.BottomNavigationBarItem;
 var widgets_1 = require("./widgets");
 Object.defineProperty(exports, "PageView", { enumerable: true, get: function () { return widgets_1.PageView; } });
 Object.defineProperty(exports, "GridView", { enumerable: true, get: function () { return widgets_1.GridView; } });

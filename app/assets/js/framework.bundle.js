@@ -27,9 +27,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     mod
   ));
 
-  // ../js/node_modules/react/cjs/react.production.min.js
+  // node_modules/react/cjs/react.production.min.js
   var require_react_production_min = __commonJS({
-    "../js/node_modules/react/cjs/react.production.min.js"(exports) {
+    "node_modules/react/cjs/react.production.min.js"(exports) {
       "use strict";
       var l = Symbol.for("react.element");
       var n = Symbol.for("react.portal");
@@ -558,9 +558,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/node_modules/scheduler/cjs/scheduler.production.min.js
+  // node_modules/scheduler/cjs/scheduler.production.min.js
   var require_scheduler_production_min = __commonJS({
-    "../js/node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
+    "node_modules/scheduler/cjs/scheduler.production.min.js"(exports) {
       "use strict";
       function f(a, b) {
         var c = a.length;
@@ -811,9 +811,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js
+  // node_modules/react-reconciler/cjs/react-reconciler.production.min.js
   var require_react_reconciler_production_min = __commonJS({
-    "../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
+    "node_modules/react-reconciler/cjs/react-reconciler.production.min.js"(exports, module) {
       module.exports = function $$$reconciler($$$hostConfig) {
         var exports2 = {};
         "use strict";
@@ -7041,8 +7041,8 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var FlutterProps_1 = require_FlutterProps();
       var Scaffold = class extends react_1.default.Component {
         render() {
-          const { appBar, body, floatingActionButton, children, ...otherProps } = this.props;
-          return react_1.default.createElement("Scaffold", { ...otherProps }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), children);
+          const { appBar, body, floatingActionButton, drawer, endDrawer, bottomNavigationBar, bottomSheet, children, ...otherProps } = this.props;
+          return react_1.default.createElement("Scaffold", { ...otherProps }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), drawer && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "drawer" }, drawer), endDrawer && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "endDrawer" }, endDrawer), bottomNavigationBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottomNavigationBar" }, bottomNavigationBar), bottomSheet && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottomSheet" }, bottomSheet), children);
         }
       };
       exports.Scaffold = Scaffold;
@@ -7063,8 +7063,8 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var FlutterProps_1 = require_FlutterProps();
       var AppBar = class extends react_1.default.Component {
         render() {
-          const { title, leading, actions, children, ...otherProps } = this.props;
-          return react_1.default.createElement("AppBar", { ...otherProps, isBoundary: false }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), children);
+          const { title, leading, actions, flexibleSpace, bottom, children, ...otherProps } = this.props;
+          return react_1.default.createElement("AppBar", { ...otherProps, isBoundary: false }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), flexibleSpace && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "flexibleSpace" }, flexibleSpace), bottom && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottom" }, bottom), children);
         }
       };
       exports.AppBar = AppBar;
@@ -7177,6 +7177,57 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
+  // ../fuick_js_framework/dist/widgets/ListTile.js
+  var require_ListTile = __commonJS({
+    "../fuick_js_framework/dist/widgets/ListTile.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.ListTile = void 0;
+      var react_1 = __importDefault(require_react_production_min());
+      var FlutterProps_1 = require_FlutterProps();
+      var ListTile = class extends react_1.default.Component {
+        render() {
+          const { leading, title, subtitle, trailing, children, ...otherProps } = this.props;
+          return react_1.default.createElement("ListTile", { ...otherProps }, leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), subtitle && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "subtitle" }, subtitle), trailing && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "trailing" }, trailing), children);
+        }
+      };
+      exports.ListTile = ListTile;
+      exports.default = ListTile;
+    }
+  });
+
+  // ../fuick_js_framework/dist/widgets/BottomNavigationBar.js
+  var require_BottomNavigationBar = __commonJS({
+    "../fuick_js_framework/dist/widgets/BottomNavigationBar.js"(exports) {
+      "use strict";
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.BottomNavigationBar = exports.BottomNavigationBarItem = void 0;
+      var react_1 = __importDefault(require_react_production_min());
+      var FlutterProps_1 = require_FlutterProps();
+      var BottomNavigationBarItem = class extends react_1.default.Component {
+        render() {
+          const { icon, activeIcon, ...otherProps } = this.props;
+          return react_1.default.createElement("BottomNavigationBarItem", { ...otherProps }, icon && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "icon" }, icon), activeIcon && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "activeIcon" }, activeIcon));
+        }
+      };
+      exports.BottomNavigationBarItem = BottomNavigationBarItem;
+      var BottomNavigationBar = class extends react_1.default.Component {
+        render() {
+          const { items, children, ...otherProps } = this.props;
+          return react_1.default.createElement("BottomNavigationBar", { ...otherProps }, items && items.map((item, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `item-${index}`, propsKey: "items" }, item)), children);
+        }
+      };
+      exports.BottomNavigationBar = BottomNavigationBar;
+      exports.default = BottomNavigationBar;
+    }
+  });
+
   // ../fuick_js_framework/dist/widgets/index.js
   var require_widgets = __commonJS({
     "../fuick_js_framework/dist/widgets/index.js"(exports) {
@@ -7230,6 +7281,8 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       __exportStar(require_PageView(), exports);
       __exportStar(require_GridView(), exports);
       __exportStar(require_BatchedListView(), exports);
+      __exportStar(require_ListTile(), exports);
+      __exportStar(require_BottomNavigationBar(), exports);
     }
   });
 
@@ -7275,7 +7328,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
         };
       }();
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.BatchedListView = exports.GridView = exports.PageView = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
+      exports.BatchedListView = exports.GridView = exports.PageView = exports.BottomNavigationBarItem = exports.BottomNavigationBar = exports.ListTile = exports.FlutterProps = exports.AppBar = exports.Scaffold = exports.SafeArea = exports.CircularProgressIndicator = exports.Opacity = exports.Positioned = exports.Stack = exports.SingleChildScrollView = exports.Divider = exports.InkWell = exports.GestureDetector = exports.Flexible = exports.Expanded = exports.Switch = exports.TextField = exports.Icon = exports.Center = exports.Button = exports.SizedBox = exports.Image = exports.Row = exports.Padding = exports.ListView = exports.Text = exports.Container = exports.Column = void 0;
       var Widgets = __importStar(require_widgets());
       exports.Column = Widgets.Column;
       exports.Container = Widgets.Container;
@@ -7304,6 +7357,9 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       exports.Scaffold = Widgets.Scaffold;
       exports.AppBar = Widgets.AppBar;
       exports.FlutterProps = Widgets.FlutterProps;
+      exports.ListTile = Widgets.ListTile;
+      exports.BottomNavigationBar = Widgets.BottomNavigationBar;
+      exports.BottomNavigationBarItem = Widgets.BottomNavigationBarItem;
       var widgets_1 = require_widgets();
       Object.defineProperty(exports, "PageView", { enumerable: true, get: function() {
         return widgets_1.PageView;
@@ -7704,7 +7760,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
     }
   });
 
-  // ../js/src/framework_entry.ts
+  // src/framework_entry.ts
   var import_react = __toESM(require_react_production_min());
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;
