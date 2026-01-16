@@ -9,7 +9,7 @@ export interface DividerProps extends WidgetProps {
 
 export class Divider extends React.Component<DividerProps> {
   render(): ReactNode {
-    return React.createElement('flutter-divider', { ...this.props, isBoundary: false });
+    return React.createElement('Divider', { ...this.props, isBoundary: false });
   }
 }
 

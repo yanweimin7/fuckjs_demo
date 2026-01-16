@@ -16,7 +16,7 @@ export interface ImageProps extends WidgetProps {
 
 export class Image extends React.Component<ImageProps> {
   render(): ReactNode {
-    return React.createElement('flutter-image', { ...this.props, isBoundary: false });
+    return React.createElement('Image', { ...this.props, isBoundary: false });
   }
 }
 

@@ -6,7 +6,7 @@ export interface SafeAreaProps extends BaseProps {
 
 export class SafeArea extends React.Component<SafeAreaProps> {
   render(): ReactNode {
-    return React.createElement('flutter-safe-area', { ...this.props, isBoundary: false });
+    return React.createElement('SafeArea', { ...this.props, isBoundary: false });
   }
 }
 

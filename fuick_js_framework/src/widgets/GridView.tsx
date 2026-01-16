@@ -36,7 +36,7 @@ export class GridView extends BaseWidget<GridViewProps> {
   render(): ReactNode {
     const { children, ...rest } = this.props;
 
-    return React.createElement('flutter-grid-view', {
+    return React.createElement('GridView', {
       ...rest,
       hasBuilder: !!this.props.itemBuilder,
       refId: this.scopedRefId,

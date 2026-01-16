@@ -12,7 +12,7 @@ export interface PositionedProps extends BaseProps {
 
 export class Positioned extends React.Component<PositionedProps> {
   render(): ReactNode {
-    return React.createElement('flutter-positioned', { ...this.props, isBoundary: false });
+    return React.createElement('Positioned', { ...this.props, isBoundary: false });
   }
 }
 

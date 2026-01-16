@@ -21,7 +21,7 @@ export interface ContainerProps extends WidgetProps {
 
 export class Container extends React.Component<ContainerProps> {
   render(): ReactNode {
-    return React.createElement('flutter-container', { ...this.props });
+    return React.createElement('Container', { ...this.props });
   }
 }
 

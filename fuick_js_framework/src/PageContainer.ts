@@ -324,7 +324,7 @@ export class PageContainer {
         for (const node of this.changedNodes) {
           // If a flutter-props node changed, it means its parent (the host component) needs to update
           // to reflect the new property value in its DSL.
-          if (node.type === 'flutter-props' && node.parent) {
+          if ((node.type === 'FlutterProps' || node.type === 'flutter-props') && node.parent) {
             normalizedChangedNodes.add(node.parent);
           } else {
             normalizedChangedNodes.add(node);

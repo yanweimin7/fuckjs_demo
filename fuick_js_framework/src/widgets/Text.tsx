@@ -13,7 +13,7 @@ export interface TextProps extends WidgetProps {
 
 export class Text extends React.Component<TextProps> {
   render(): ReactNode {
-    return React.createElement('flutter-text', { ...this.props, isBoundary: false });
+    return React.createElement('Text', { ...this.props, isBoundary: false });
   }
 }
 

@@ -12,7 +12,7 @@ export class SingleChildScrollView extends BaseWidget<SingleChildScrollViewProps
   }
 
   render(): ReactNode {
-    return React.createElement('flutter-single-child-scroll-view', {
+    return React.createElement('SingleChildScrollView', {
       ...this.props,
       refId: this.scopedRefId,
       isBoundary: true

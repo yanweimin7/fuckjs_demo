@@ -9,7 +9,7 @@ export interface IconProps extends WidgetProps {
 
 export class Icon extends React.Component<IconProps> {
   render(): ReactNode {
-    return React.createElement('flutter-icon', { ...this.props, isBoundary: false });
+    return React.createElement('Icon', { ...this.props, isBoundary: false });
   }
 }
 

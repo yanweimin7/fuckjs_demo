@@ -18,12 +18,14 @@ export class PageView extends BaseWidget<PageViewProps> {
   }
 
   render(): ReactNode {
-    const { ref, ...otherProps } = this.props as any;
-    return React.createElement('flutter-page-view', {
+    const { children, ...rest } = this.props;
+    const { ref, ...otherProps } = rest as any;
+
+    return React.createElement('PageView', {
       ...otherProps,
       refId: this.scopedRefId,
       isBoundary: true
-    });
+    }, children);
   }
 }
 

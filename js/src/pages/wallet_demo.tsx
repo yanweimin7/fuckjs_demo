@@ -131,8 +131,8 @@ const WalletDemoPage = () => {
                         orientation="horizontal"
                         shrinkWrap={false}
                         padding={{ left: 16, right: 16 }}
-                        itemCount={5}
-                        itemBuilder={(index: number) => (
+                    >
+                        {['send', 'payments', 'qr_code_scanner', 'account_balance_wallet', 'history'].map((iconName, index) => (
                             <Padding key={index} padding={{ right: 16 }}>
                                 <Column crossAxisAlignment="center">
                                     <Container
@@ -141,14 +141,14 @@ const WalletDemoPage = () => {
                                         decoration={{ color: '#6366F115', borderRadius: 16 }}
                                         alignment="center"
                                     >
-                                        <Icon name={['send', 'payments', 'qr_code_scanner', 'account_balance_wallet', 'history'][index]} size={24} color="#6366F1" />
+                                        <Icon name={iconName} size={24} color="#6366F1" />
                                     </Container>
                                     <SizedBox height={8} />
                                     <Text text={['Send', 'Receive', 'Scan', 'Buy', 'History'][index]} fontSize={12} color="#64748B" fontWeight="bold" />
                                 </Column>
                             </Padding>
-                        )}
-                    />
+                        ))}
+                    </BatchedListView>
                 </Container>
 
                 <Padding padding={{ left: 16, right: 16, top: 16, bottom: 8 }}>
@@ -159,11 +159,11 @@ const WalletDemoPage = () => {
                     <BatchedListView
                         orientation="vertical"
                         padding={{ left: 16, right: 16, top: 8, bottom: 16 }}
-                        itemCount={listData.length}
-                        itemBuilder={(index: number) => (
-                            <AssetListItem key={index} item={listData[index]} />
-                        )}
-                    />
+                    >
+                        {listData.map((item, index) => (
+                            <AssetListItem key={index} item={item} />
+                        ))}
+                    </BatchedListView>
                 </Expanded>
             </Column>
         </Scaffold>

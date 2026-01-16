@@ -25,19 +25,18 @@ class BatchedListViewParser extends WidgetParser {
     WidgetFactory factory,
   ) {
     final String? refId = props['refId']?.toString();
-    final List<dynamic> items = props['items'] as List<dynamic>? ?? [];
+    final List<Widget> widgets = factory.buildChildren(context, children);
     final axis = WidgetUtils.axis(
         props['scrollDirection'] as String? ?? props['orientation'] as String?);
     final shrinkWrap = props['shrinkWrap'] ?? true;
 
     Widget listView = FuickBatchedListView(
       refId: refId,
-      items: items,
+      children: widgets,
       shrinkWrap: shrinkWrap,
       physics: WidgetUtils.scrollPhysics(props['physics'] as String?),
       padding: WidgetUtils.edgeInsets(props['padding']),
       scrollDirection: axis,
-      factory: factory,
     );
 
     // If it's a horizontal ListView with shrinkWrap inside a Column (unbounded height),
@@ -53,24 +52,22 @@ class BatchedListViewParser extends WidgetParser {
 
 class FuickBatchedListView extends StatefulWidget {
   final String? refId;
-  final List<dynamic> items;
+  final List<Widget> children;
   final bool shrinkWrap;
   final ScrollPhysics? physics;
   final EdgeInsetsGeometry? padding;
   final Axis scrollDirection;
-  final WidgetFactory factory;
   final ControllerCallback<ScrollController>? onControllerCreated;
   final ControllerCallback<ScrollController>? onDispose;
 
   const FuickBatchedListView({
     super.key,
     this.refId,
-    required this.items,
+    required this.children,
     this.shrinkWrap = false,
     this.physics,
     this.padding,
     this.scrollDirection = Axis.vertical,
-    required this.factory,
     this.onControllerCreated,
     this.onDispose,
   });
@@ -150,16 +147,13 @@ class _FuickBatchedListViewState extends State<FuickBatchedListView>
     // Fix: When shrinkWrap is true and scrollDirection is horizontal,
     // we need to ensure the parent provides bounded height.
     // If shrinkWrap is true, ListView will try to take as much space as it needs in the cross axis.
-    return ListView.builder(
+    return ListView(
       controller: _controller,
-      itemCount: widget.items.length,
       shrinkWrap: widget.shrinkWrap,
       physics: widget.physics,
       padding: widget.padding,
       scrollDirection: widget.scrollDirection,
-      itemBuilder: (context, index) {
-        return widget.factory.build(context, widget.items[index]);
-      },
+      children: widget.children,
     );
   }
 }

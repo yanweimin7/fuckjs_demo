@@ -37,7 +37,7 @@ export class ListView extends BaseWidget<ListViewProps> {
   render(): ReactNode {
     const { children, ...rest } = this.props;
 
-    return React.createElement('flutter-list-view', {
+    return React.createElement('ListView', {
       ...rest,
       hasBuilder: !!this.props.itemBuilder,
       refId: this.scopedRefId,

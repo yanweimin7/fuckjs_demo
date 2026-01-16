@@ -54,7 +54,9 @@ declare global {
       'flutter-safe-area': import('./widgets/SafeArea').SafeAreaProps;
       'flutter-scaffold': import('./widgets/Scaffold').ScaffoldProps;
       'flutter-app-bar': import('./widgets/AppBar').AppBarProps;
+      'FlutterProps': { propsKey: string; children?: any };
       'flutter-props': { propsKey: string; children?: any };
+      'flutter-batched-list-view': any;
       [elemName: string]: any;
     }
   }

@@ -9,7 +9,7 @@ export interface RowProps extends WidgetProps {
 
 export class Row extends React.Component<RowProps> {
   render(): ReactNode {
-    return React.createElement('flutter-row', { ...this.props });
+    return React.createElement('Row', { ...this.props });
   }
 }
 

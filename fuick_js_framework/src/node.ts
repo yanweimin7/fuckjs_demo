@@ -117,7 +117,7 @@ export class Node {
     // Children are handled separately
     const children: any[] = [];
     for (const child of this.children) {
-      if (child.type === 'flutter-props') {
+      if (child.type === 'FlutterProps' || child.type === 'flutter-props') {
         const propsKey = child.props?.propsKey;
         if (propsKey) {
           const propChildren = child.children

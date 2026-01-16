@@ -7,7 +7,7 @@ export interface InkWellProps extends WidgetProps {
 
 export class InkWell extends React.Component<InkWellProps> {
   render(): ReactNode {
-    return React.createElement('flutter-ink-well', { ...this.props });
+    return React.createElement('InkWell', { ...this.props });
   }
 }
 

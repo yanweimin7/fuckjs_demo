@@ -397,7 +397,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Text = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-text", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("Text", { ...this.props, isBoundary: false });
         }
       };
       exports.Text = Text;
@@ -417,7 +417,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Column = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-column", { ...this.props });
+          return react_1.default.createElement("Column", { ...this.props });
         }
       };
       exports.Column = Column;
@@ -437,7 +437,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Row = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-row", { ...this.props });
+          return react_1.default.createElement("Row", { ...this.props });
         }
       };
       exports.Row = Row;
@@ -457,7 +457,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Container = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-container", { ...this.props });
+          return react_1.default.createElement("Container", { ...this.props });
         }
       };
       exports.Container = Container;
@@ -477,7 +477,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Button = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-button", {
+          return react_1.default.createElement("Button", {
             ...this.props
           });
         }
@@ -506,7 +506,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           this.callNativeCommand("clear", {});
         }
         render() {
-          return react_1.default.createElement("flutter-text-field", {
+          return react_1.default.createElement("TextField", {
             ...this.props,
             refId: this.scopedRefId,
             isBoundary: true
@@ -530,7 +530,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Switch = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-switch", { ...this.props });
+          return react_1.default.createElement("Switch", { ...this.props });
         }
       };
       exports.Switch = Switch;
@@ -550,7 +550,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Expanded = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-expanded", { ...this.props });
+          return react_1.default.createElement("Expanded", { ...this.props });
         }
       };
       exports.Expanded = Expanded;
@@ -5883,7 +5883,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           const refId = this.props?.refId;
           const children = [];
           for (const child of this.children) {
-            if (child.type === "flutter-props") {
+            if (child.type === "FlutterProps" || child.type === "flutter-props") {
               const propsKey = child.props?.propsKey;
               if (propsKey) {
                 const propChildren = child.children.map((c) => c.toDsl()).filter((c) => c !== null);
@@ -6212,7 +6212,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
               const processedNodes = /* @__PURE__ */ new Set();
               const normalizedChangedNodes = /* @__PURE__ */ new Set();
               for (const node of this.changedNodes) {
-                if (node.type === "flutter-props" && node.parent) {
+                if ((node.type === "FlutterProps" || node.type === "flutter-props") && node.parent) {
                   normalizedChangedNodes.add(node.parent);
                 } else {
                   normalizedChangedNodes.add(node);
@@ -6688,7 +6688,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
         }
         render() {
           const { children, ...rest } = this.props;
-          return react_1.default.createElement("flutter-list-view", {
+          return react_1.default.createElement("ListView", {
             ...rest,
             hasBuilder: !!this.props.itemBuilder,
             refId: this.scopedRefId,
@@ -6713,7 +6713,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Padding = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-padding", { ...this.props });
+          return react_1.default.createElement("Padding", { ...this.props });
         }
       };
       exports.Padding = Padding;
@@ -6733,7 +6733,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Image = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-image", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("Image", { ...this.props, isBoundary: false });
         }
       };
       exports.Image = Image;
@@ -6753,7 +6753,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var SizedBox = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-sized-box", { ...this.props });
+          return react_1.default.createElement("SizedBox", { ...this.props });
         }
       };
       exports.SizedBox = SizedBox;
@@ -6773,7 +6773,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Center = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-center", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("Center", { ...this.props, isBoundary: false });
         }
       };
       exports.Center = Center;
@@ -6793,7 +6793,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Icon = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-icon", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("Icon", { ...this.props, isBoundary: false });
         }
       };
       exports.Icon = Icon;
@@ -6813,7 +6813,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Flexible = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-flexible", { ...this.props });
+          return react_1.default.createElement("Flexible", { ...this.props });
         }
       };
       exports.Flexible = Flexible;
@@ -6833,7 +6833,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var GestureDetector = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-gesture-detector", { ...this.props });
+          return react_1.default.createElement("GestureDetector", { ...this.props });
         }
       };
       exports.GestureDetector = GestureDetector;
@@ -6853,7 +6853,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var InkWell = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-ink-well", { ...this.props });
+          return react_1.default.createElement("InkWell", { ...this.props });
         }
       };
       exports.InkWell = InkWell;
@@ -6873,7 +6873,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Divider = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-divider", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("Divider", { ...this.props, isBoundary: false });
         }
       };
       exports.Divider = Divider;
@@ -6897,7 +6897,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           this.callNativeCommand("animateTo", { offset, duration, curve });
         }
         render() {
-          return react_1.default.createElement("flutter-single-child-scroll-view", {
+          return react_1.default.createElement("SingleChildScrollView", {
             ...this.props,
             refId: this.scopedRefId,
             isBoundary: true
@@ -6921,7 +6921,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Stack = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-stack", { ...this.props });
+          return react_1.default.createElement("Stack", { ...this.props });
         }
       };
       exports.Stack = Stack;
@@ -6941,7 +6941,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Positioned = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-positioned", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("Positioned", { ...this.props, isBoundary: false });
         }
       };
       exports.Positioned = Positioned;
@@ -6961,7 +6961,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var Opacity = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-opacity", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("Opacity", { ...this.props, isBoundary: false });
         }
       };
       exports.Opacity = Opacity;
@@ -6981,7 +6981,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var CircularProgressIndicator = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-circular-progress-indicator", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("CircularProgressIndicator", { ...this.props, isBoundary: false });
         }
       };
       exports.CircularProgressIndicator = CircularProgressIndicator;
@@ -7001,7 +7001,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var SafeArea = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-safe-area", { ...this.props, isBoundary: false });
+          return react_1.default.createElement("SafeArea", { ...this.props, isBoundary: false });
         }
       };
       exports.SafeArea = SafeArea;
@@ -7021,7 +7021,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var react_1 = __importDefault(require_react_production_min());
       var FlutterProps = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("flutter-props", { propsKey: this.props.propsKey }, this.props.children);
+          return react_1.default.createElement("FlutterProps", { propsKey: this.props.propsKey }, this.props.children);
         }
       };
       exports.FlutterProps = FlutterProps;
@@ -7042,7 +7042,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var Scaffold = class extends react_1.default.Component {
         render() {
           const { appBar, body, floatingActionButton, children, ...otherProps } = this.props;
-          return react_1.default.createElement("flutter-scaffold", { ...otherProps }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), children);
+          return react_1.default.createElement("Scaffold", { ...otherProps }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), children);
         }
       };
       exports.Scaffold = Scaffold;
@@ -7064,7 +7064,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       var AppBar = class extends react_1.default.Component {
         render() {
           const { title, leading, actions, children, ...otherProps } = this.props;
-          return react_1.default.createElement("flutter-app-bar", { ...otherProps, isBoundary: false }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), children);
+          return react_1.default.createElement("AppBar", { ...otherProps, isBoundary: false }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), children);
         }
       };
       exports.AppBar = AppBar;
@@ -7091,12 +7091,13 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           this.callNativeCommand("jumpToPage", { page });
         }
         render() {
-          const { ref, ...otherProps } = this.props;
-          return react_1.default.createElement("flutter-page-view", {
+          const { children, ...rest } = this.props;
+          const { ref, ...otherProps } = rest;
+          return react_1.default.createElement("PageView", {
             ...otherProps,
             refId: this.scopedRefId,
             isBoundary: true
-          });
+          }, children);
         }
       };
       exports.PageView = PageView;
@@ -7132,7 +7133,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
         }
         render() {
           const { children, ...rest } = this.props;
-          return react_1.default.createElement("flutter-grid-view", {
+          return react_1.default.createElement("GridView", {
             ...rest,
             hasBuilder: !!this.props.itemBuilder,
             refId: this.scopedRefId,
@@ -7156,7 +7157,6 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       exports.BatchedListView = void 0;
       var react_1 = __importDefault(require_react_production_min());
       var BaseWidget_1 = require_BaseWidget();
-      var page_render_1 = require_page_render();
       var BatchedListView = class extends BaseWidget_1.BaseWidget {
         animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
@@ -7165,15 +7165,8 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           this.callNativeCommand("jumpTo", { offset });
         }
         render() {
-          const { itemCount, itemBuilder, children, ...rest } = this.props;
-          const items = [];
-          for (let i = 0; i < itemCount; i++) {
-            const element = itemBuilder(i);
-            items.push((0, page_render_1.elementToDsl)(this.pageId, element));
-          }
-          return react_1.default.createElement("flutter-batched-list-view", {
-            ...rest,
-            items,
+          return react_1.default.createElement("BatchedListView", {
+            ...this.props,
             refId: this.scopedRefId,
             isBoundary: true
           });

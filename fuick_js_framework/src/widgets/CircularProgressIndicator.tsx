@@ -8,7 +8,7 @@ export interface CircularProgressIndicatorProps extends WidgetProps {
 
 export class CircularProgressIndicator extends React.Component<CircularProgressIndicatorProps> {
   render(): ReactNode {
-    return React.createElement('flutter-circular-progress-indicator', { ...this.props, isBoundary: false });
+    return React.createElement('CircularProgressIndicator', { ...this.props, isBoundary: false });
   }
 }
 

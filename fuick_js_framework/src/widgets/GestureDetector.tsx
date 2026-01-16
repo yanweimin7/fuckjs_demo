@@ -7,7 +7,7 @@ export interface GestureDetectorProps extends WidgetProps {
 
 export class GestureDetector extends React.Component<GestureDetectorProps> {
   render(): ReactNode {
-    return React.createElement('flutter-gesture-detector', { ...this.props });
+    return React.createElement('GestureDetector', { ...this.props });
   }
 }
 

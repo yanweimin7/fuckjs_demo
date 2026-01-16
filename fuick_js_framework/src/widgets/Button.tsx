@@ -8,7 +8,7 @@ export interface ButtonProps extends WidgetProps {
 
 export class Button extends React.Component<ButtonProps> {
   render(): ReactNode {
-    return React.createElement('flutter-button', {
+    return React.createElement('Button', {
       ...this.props
     });
   }

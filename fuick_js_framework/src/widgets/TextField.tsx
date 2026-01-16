@@ -19,7 +19,7 @@ export class TextField extends BaseWidget<TextFieldProps> {
   }
 
   render(): ReactNode {
-    return React.createElement('flutter-text-field', {
+    return React.createElement('TextField', {
       ...this.props,
       refId: this.scopedRefId,
       isBoundary: true

@@ -3,7 +3,7 @@ import { WidgetProps } from './types';
 
 export class Center extends React.Component<WidgetProps> {
   render(): ReactNode {
-    return React.createElement('flutter-center', { ...this.props, isBoundary: false });
+    return React.createElement('Center', { ...this.props, isBoundary: false });
   }
 }
 

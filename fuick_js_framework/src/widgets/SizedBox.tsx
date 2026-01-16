@@ -8,7 +8,7 @@ export interface SizedBoxProps extends WidgetProps {
 
 export class SizedBox extends React.Component<SizedBoxProps> {
   render(): ReactNode {
-    return React.createElement('flutter-sized-box', { ...this.props });
+    return React.createElement('SizedBox', { ...this.props });
   }
 }
 

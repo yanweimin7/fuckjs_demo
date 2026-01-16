@@ -15,7 +15,7 @@ export class AppBar extends React.Component<AppBarProps> {
   render(): ReactNode {
     const { title, leading, actions, children, ...otherProps } = this.props;
     return React.createElement(
-      'flutter-app-bar',
+      'AppBar',
       { ...otherProps, isBoundary: false },
       title && React.createElement(FlutterProps, { propsKey: 'title' }, title),
       leading && React.createElement(FlutterProps, { propsKey: 'leading' }, leading),

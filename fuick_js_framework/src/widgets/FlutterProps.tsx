@@ -19,6 +19,6 @@ export interface FlutterPropsProps {
 export class FlutterProps extends React.Component<FlutterPropsProps> {
   render(): ReactNode {
     // The renderer will handle this special component type
-    return React.createElement('flutter-props', { propsKey: this.props.propsKey }, this.props.children);
+    return React.createElement('FlutterProps', { propsKey: this.props.propsKey }, this.props.children);
   }
 }

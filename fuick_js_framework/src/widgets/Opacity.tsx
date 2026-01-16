@@ -7,7 +7,7 @@ export interface OpacityProps extends BaseProps {
 
 export class Opacity extends React.Component<OpacityProps> {
   render(): ReactNode {
-    return React.createElement('flutter-opacity', { ...this.props, isBoundary: false });
+    return React.createElement('Opacity', { ...this.props, isBoundary: false });
   }
 }
 

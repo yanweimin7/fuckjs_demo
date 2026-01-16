@@ -8,7 +8,7 @@ export interface SwitchProps extends WidgetProps {
 
 export class Switch extends React.Component<SwitchProps> {
   render(): ReactNode {
-    return React.createElement('flutter-switch', { ...this.props });
+    return React.createElement('Switch', { ...this.props });
   }
 }
 
