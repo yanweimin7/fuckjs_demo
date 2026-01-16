@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../service/fuick_command_bus.dart';
-import 'widget_utils.dart';
-import '../utils/extensions.dart';
-import '../container/fuick_page_view.dart'; // Import for FuickPageScope
+
 import '../container/fuick_app_controller.dart'; // Import for FuickAppScope
+import '../service/fuick_command_bus.dart';
+import '../utils/extensions.dart';
+import 'widget_utils.dart';
 
 typedef ControllerCallback<T> = void Function(T controller);
 
@@ -42,6 +42,8 @@ class _FuickPageViewState extends State<FuickPageView>
   @override
   void initState() {
     super.initState();
+    print(
+        '[FuickPageView] initState refId=${widget.refId} initialPage=${widget.initialPage}');
     _controller = PageController(initialPage: widget.initialPage);
     widget.onControllerCreated?.call(_controller);
   }
@@ -66,7 +68,7 @@ class _FuickPageViewState extends State<FuickPageView>
     }
   }
 
-  void _onCommand(String method, dynamic args) {
+  void _onCommand(String method, dynamic args) async {
     if (!mounted || !_controller.hasClients) return;
 
     if (method == 'animateToPage') {
@@ -74,12 +76,14 @@ class _FuickPageViewState extends State<FuickPageView>
       final duration = asIntOrNull(args['duration']) ?? 300;
       final curveName = args['curve'] as String? ?? 'easeInOut';
       final curve = WidgetUtils.curve(curveName);
+      print('wine animateTo ${page}');
 
-      _controller.animateToPage(
+      await _controller.animateToPage(
         page,
         duration: Duration(milliseconds: duration),
         curve: curve,
       );
+      print('wine animateTo 222 ${page}');
     } else if (method == 'jumpToPage' || method == 'setPageIndex') {
       final page = asInt(args['page'] ?? args['index']);
       _controller.jumpToPage(page);
@@ -104,6 +108,7 @@ class _FuickPageViewState extends State<FuickPageView>
 
   @override
   void dispose() {
+    print('[FuickPageView] dispose refId=${widget.refId}');
     _unregisterCommandListener(widget.refId);
     widget.onDispose?.call(_controller);
     _controller.dispose();

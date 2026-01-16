@@ -13,6 +13,8 @@ import {
   Positioned,
   Divider,
   PageView,
+  useVisible,
+  useInvisible,
 } from 'fuick_js_framework';
 
 const ASSETS = [

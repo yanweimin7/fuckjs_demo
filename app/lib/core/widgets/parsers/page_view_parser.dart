@@ -27,6 +27,7 @@ class PageViewParser extends WidgetParser {
     return WidgetUtils.wrapPadding(
       props,
       FuickPageView(
+        key: refId != null ? ValueKey(refId) : null,
         refId: refId,
         initialPage: initialPage ?? 0,
         scrollDirection: props['scrollDirection'] == 'vertical'

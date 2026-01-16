@@ -42,8 +42,10 @@ class ListViewParser extends WidgetParser {
         shrinkWrap: props['shrinkWrap'] ?? true,
         physics: WidgetUtils.scrollPhysics(props['physics'] as String?),
         padding: WidgetUtils.edgeInsets(props['padding']),
-        scrollDirection: WidgetUtils.axis(props['scrollDirection'] as String? ??
-            props['orientation'] as String?),
+        scrollDirection: WidgetUtils.axis(
+          props['scrollDirection'] as String? ??
+              props['orientation'] as String?,
+        ),
         itemBuilder: hasBuilder
             ? (context, index) {
                 if (refId == null) return Container();
@@ -54,14 +56,12 @@ class ListViewParser extends WidgetParser {
 
                 // Check local cache first
                 final state = FuickListView.of(context);
+                dynamic dslOrFuture;
                 if (state != null) {
-                  final cachedDsl = state.getCachedDsl(index);
-                  if (cachedDsl != null) {
-                    return _buildItem(context, factory, cachedDsl);
-                  }
+                  dslOrFuture = state.getCachedDsl(index);
                 }
 
-                final dslOrFuture = appScope.getItemDSL(
+                dslOrFuture ??= appScope.getItemDSL(
                   pageScope.pageId,
                   refId,
                   index,
@@ -197,7 +197,7 @@ class FuickListViewState extends State<FuickListView>
       final double offset = args['offset'].asDouble;
       _controller.jumpTo(offset);
     } else if (method == 'updateItem') {
-      final int? index = args['index'].asIntOrNull;
+      final int? index = asInt(args['index']);
       final dynamic dsl = args['dsl'];
       if (index != null && dsl != null) {
         setCachedDsl(index, dsl);
@@ -217,7 +217,7 @@ class FuickListViewState extends State<FuickListView>
   void didUpdateWidget(FuickListView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.cacheKey != oldWidget.cacheKey ||
-        widget.itemBuilder != oldWidget.itemBuilder) {
+        widget.itemCount != oldWidget.itemCount) {
       setState(() {
         _dslCache.clear();
       });

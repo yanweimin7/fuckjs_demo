@@ -49,15 +49,14 @@ class GridViewParser extends WidgetParser {
 
           // Check local cache first
           final state = FuickGridView.of(context);
+          dynamic dslOrFuture;
           if (state != null) {
-            final cachedDsl = state.getCachedDsl(index);
-            if (cachedDsl != null) {
-              return _buildItem(context, factory, cachedDsl);
-            }
+            dslOrFuture = state.getCachedDsl(index);
           }
 
-          final dslOrFuture =
-              appScope.getItemDSL(pageScope.pageId, refId, index);
+          if (dslOrFuture == null) {
+            dslOrFuture = appScope.getItemDSL(pageScope.pageId, refId, index);
+          }
 
           return FuickItemDSLBuilder(
             dslOrFuture: dslOrFuture,
@@ -209,7 +208,7 @@ class FuickGridViewState extends State<FuickGridView>
   void didUpdateWidget(FuickGridView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.cacheKey != oldWidget.cacheKey ||
-        widget.itemBuilder != oldWidget.itemBuilder) {
+        widget.itemCount != oldWidget.itemCount) {
       setState(() {
         _dslCache.clear();
       });

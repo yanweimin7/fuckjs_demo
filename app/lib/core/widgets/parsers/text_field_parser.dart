@@ -28,6 +28,7 @@ class TextFieldParser extends WidgetParser {
     return WidgetUtils.wrapPadding(
       props,
       FuickTextField(
+        key: refId != null ? ValueKey(refId) : null,
         refId: refId,
         text: text,
         hintText: hint,

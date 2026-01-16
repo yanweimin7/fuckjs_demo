@@ -14,8 +14,16 @@ class _FuickMultiTabPageState extends State<FuickMultiTabPage> {
 
   // 使用 PageStorageKey 保持各 Tab 状态
   final List<Widget> _tabs = [
-    const FuickAppView(key: PageStorageKey('tab_1'), appName: 'bundle'),
-    const FuickAppView(key: PageStorageKey('tab_2'), appName: 'fuick_js_test'),
+    const FuickAppView(
+      key: PageStorageKey('tab_1'),
+      useIsolate: true,
+      appName: 'bundle',
+    ),
+    const FuickAppView(
+      key: PageStorageKey('tab_2'),
+      useIsolate: false,
+      appName: 'bundle',
+    ),
     const FuickAppView(key: PageStorageKey('tab_3'), appName: 'fuick_js_test'),
   ];
 

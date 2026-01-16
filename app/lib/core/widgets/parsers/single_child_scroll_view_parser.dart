@@ -24,6 +24,7 @@ class SingleChildScrollViewParser extends WidgetParser {
     return WidgetUtils.wrapPadding(
       props,
       FuickScrollable(
+        key: refId != null ? ValueKey(refId) : null,
         refId: refId,
         builder: (context, controller) {
           return SingleChildScrollView(
