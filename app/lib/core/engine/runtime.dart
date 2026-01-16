@@ -15,24 +15,24 @@ class QuickJsRuntime {
   bool _isJobPending = false;
 
   QuickJsRuntime(this._ffi) : _handle = _ffi.createRuntime() {
-    // Increase stack size to 1MB to prevent stack overflow in deep component trees
-    _ffi.setMaxStackSize(_handle, 1024 * 1024);
+    _ffi.setMaxStackSize(_handle, 0);
     _initEnqueueJob();
   }
 
   void _initEnqueueJob() {
     _onEnqueueJobCallback =
-        NativeCallable<Void Function(Pointer<Void>)>.listener(
-            (Pointer<Void> rt) {
-      if (_isJobPending) return;
-      _isJobPending = true;
+        NativeCallable<Void Function(Pointer<Void>)>.listener((
+          Pointer<Void> rt,
+        ) {
+          if (_isJobPending) return;
+          _isJobPending = true;
 
-      // Use microtask instead of Future() for faster Promise resolution
-      scheduleMicrotask(() {
-        _isJobPending = false;
-        executePendingJobs();
-      });
-    });
+          // Use microtask instead of Future() for faster Promise resolution
+          scheduleMicrotask(() {
+            _isJobPending = false;
+            executePendingJobs();
+          });
+        });
     _ffi.setOnEnqueueJob(_handle, _onEnqueueJobCallback!.nativeFunction);
   }
 

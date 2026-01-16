@@ -5834,26 +5834,35 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           }
           this.container?.registerNode(this);
         }
-        registerCallbacksRecursive(obj, path = "") {
-          if (!obj || typeof obj !== "object")
-            return;
-          if (react_1.default.isValidElement(obj))
-            return;
-          if (Array.isArray(obj)) {
-            obj.forEach((item, index) => this.registerCallbacksRecursive(item, path ? `${path}[${index}]` : `[${index}]`));
-            return;
-          }
-          for (const key in obj) {
-            if (path === "" && (key === "children" || key === "key" || key === "ref" || key === "isBoundary"))
+        registerCallbacksRecursive(obj, initialPath = "") {
+          const stack = [{ obj, path: initialPath }];
+          while (stack.length > 0) {
+            const { obj: currentObj, path: currentPath } = stack.pop();
+            if (!currentObj || typeof currentObj !== "object")
               continue;
-            if (key === "itemBuilder")
+            if (react_1.default.isValidElement(currentObj))
               continue;
-            const value = obj[key];
-            const fullKey = path ? `${path}.${key}` : key;
-            if (typeof value === "function") {
-              this.saveCallback(fullKey, value);
-            } else if (value && typeof value === "object") {
-              this.registerCallbacksRecursive(value, fullKey);
+            if (Array.isArray(currentObj)) {
+              for (let i = currentObj.length - 1; i >= 0; i--) {
+                stack.push({
+                  obj: currentObj[i],
+                  path: currentPath ? `${currentPath}[${i}]` : `[${i}]`
+                });
+              }
+              continue;
+            }
+            for (const key in currentObj) {
+              if (currentPath === "" && (key === "children" || key === "key" || key === "ref" || key === "isBoundary"))
+                continue;
+              if (key === "itemBuilder")
+                continue;
+              const value = currentObj[key];
+              const fullKey = currentPath ? `${currentPath}.${key}` : key;
+              if (typeof value === "function") {
+                this.saveCallback(fullKey, value);
+              } else if (value && typeof value === "object") {
+                stack.push({ obj: value, path: fullKey });
+              }
             }
           }
         }
@@ -5924,10 +5933,15 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           return result;
         }
         destroy() {
-          this.clearCallbacks();
-          this.container?.unregisterNode(this);
-          for (const child of this.children) {
-            child.destroy();
+          const stack = [this];
+          while (stack.length > 0) {
+            const node = stack.pop();
+            node.clearCallbacks();
+            node.container?.unregisterNode(node);
+            for (let i = node.children.length - 1; i >= 0; i--) {
+              stack.push(node.children[i]);
+            }
+            node.children = [];
           }
         }
       };
