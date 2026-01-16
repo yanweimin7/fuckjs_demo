@@ -3,8 +3,8 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:flutter/foundation.dart';
 
 import 'jsobject.dart';
 
@@ -86,7 +86,6 @@ typedef NativeAsyncTypedCallHandler = Void Function(
 final class QuickJsFFI {
   static QuickJsFFI? globalInstance;
   final DynamicLibrary _lib;
-  static QuickJsFFI? globalInstance;
 
   QuickJsFFI(this._lib) {
     globalInstance = this;
@@ -149,8 +148,13 @@ final class QuickJsFFI {
         Int32,
         Pointer<QjsResult>,
       ),
-      void Function(Pointer<Void>, Pointer<Void>, int, int,
-          Pointer<QjsResult>)>('qjs_evaluate_value_out');
+      void Function(
+        Pointer<Void>,
+        Pointer<Void>,
+        int,
+        int,
+        Pointer<QjsResult>,
+      )>('qjs_evaluate_value_out');
 
   late final _freeResult = _lib.lookupFunction<
       Void Function(Pointer<QjsResult>),
@@ -171,6 +175,18 @@ final class QuickJsFFI {
       Void Function(Pointer<Void>, Pointer<QjsResult>),
       void Function(
           Pointer<Void>, Pointer<QjsResult>)>('qjs_get_global_object');
+
+  late final _setOnEnqueueJob = _lib.lookupFunction<
+          Void Function(Pointer<Void>,
+              Pointer<NativeFunction<Void Function(Pointer<Void>)>>),
+          void Function(Pointer<Void>,
+              Pointer<NativeFunction<Void Function(Pointer<Void>)>>)>(
+      'qjs_set_on_enqueue_job');
+
+  void setOnEnqueueJob(Pointer<Void> rt,
+      Pointer<NativeFunction<Void Function(Pointer<Void>)>> func) {
+    _setOnEnqueueJob(rt, func);
+  }
 
   late final _setProperty = _lib.lookupFunction<
       Void Function(
@@ -262,7 +278,8 @@ final class QuickJsFFI {
 
   late final _setUseBinaryProtocol =
       _lib.lookupFunction<Void Function(Int32), void Function(int)>(
-          'qjs_set_use_binary_protocol');
+    'qjs_set_use_binary_protocol',
+  );
 
   late final _initDefaultBindings = _lib.lookupFunction<
       Void Function(Pointer<Void>),
@@ -571,49 +588,62 @@ final class QuickJsFFI {
    * 1. 将 Dart 完成的异步 Future 结果同步回 JS Promise。
    * 2. 执行 QuickJS 内部的任务队列 (微任务、Promise 链等)。
    */
+  static final Set<int> _busyRuntimes = {};
+
   int runJobs(Pointer<Void> rtHandle, Pointer<Void> ctxHandle) {
-    int totalExecuted = 0;
-    bool hasMore;
-    do {
-      hasMore = false;
+    // Prevent recursion: if this runtime is already running jobs, skip
+    if (_busyRuntimes.contains(rtHandle.address)) {
+      return 0;
+    }
+    _busyRuntimes.add(rtHandle.address);
+    try {
+      int totalExecuted = 0;
+      bool hasMore;
+      do {
+        hasMore = false;
 
-      // 1. 处理挂起的异步 Promise (Resolvers)
-      final ctxAddr = ctxHandle.address;
-      final resolvers = JSObject.pendingResolvers[ctxAddr];
-      if (resolvers != null && resolvers.isNotEmpty) {
-        final ids = resolvers.keys.toList();
-        for (final id in ids) {
-          final val = resolvers.remove(id);
-          final out = ffi.calloc<QjsResult>();
-          QuickJsFFI.writeOut(out, val);
-          _asyncResolve(ctxHandle, id, out);
-          freeQjsResult(out);
+        // 1. 处理挂起的异步 Promise (Resolvers)
+        final ctxAddr = ctxHandle.address;
+        if (ctxAddr != 0) {
+          final resolvers = JSObject.pendingResolvers[ctxAddr];
+          if (resolvers != null && resolvers.isNotEmpty) {
+            final ids = resolvers.keys.toList();
+            for (final id in ids) {
+              final val = resolvers.remove(id);
+              final out = ffi.calloc<QjsResult>();
+              QuickJsFFI.writeOut(out, val);
+              _asyncResolve(ctxHandle, id, out);
+              freeQjsResult(out);
+              hasMore = true;
+            }
+          }
+
+          // 2. 处理挂起的异步 Promise (Rejections)
+          final rejections = JSObject.pendingRejections[ctxAddr];
+          if (rejections != null && rejections.isNotEmpty) {
+            final ids = rejections.keys.toList();
+            for (final id in ids) {
+              final reason = rejections.remove(id) ?? 'Unknown error';
+              final cstr = reason.toNativeUtf8();
+              _asyncReject(ctxHandle, id, cstr);
+              ffi.malloc.free(cstr);
+              hasMore = true;
+            }
+          }
+        }
+
+        // 3. 执行 QuickJS 自身的任务队列
+        if (_runJobs(rtHandle) > 0) {
           hasMore = true;
         }
-      }
 
-      // 2. 处理挂起的异步 Promise (Rejections)
-      final rejections = JSObject.pendingRejections[ctxAddr];
-      if (rejections != null && rejections.isNotEmpty) {
-        final ids = rejections.keys.toList();
-        for (final id in ids) {
-          final reason = rejections.remove(id) ?? 'Unknown error';
-          final cstr = reason.toNativeUtf8();
-          _asyncReject(ctxHandle, id, cstr);
-          ffi.malloc.free(cstr);
-          hasMore = true;
-        }
-      }
+        if (hasMore) totalExecuted++;
+      } while (hasMore);
 
-      // 3. 执行 QuickJS 自身的任务队列
-      if (_runJobs(rtHandle) > 0) {
-        hasMore = true;
-      }
-
-      if (hasMore) totalExecuted++;
-    } while (hasMore);
-
-    return totalExecuted;
+      return totalExecuted;
+    } finally {
+      _busyRuntimes.remove(rtHandle.address);
+    }
   }
 }
 

@@ -77,19 +77,6 @@ function setupPolyfills() {
             now: () => Date.now()
         };
     }
-    // queueMicrotask
-    if (typeof globalThis.queueMicrotask !== 'function') {
-        globalThis.queueMicrotask = function (fn) {
-            Promise.resolve().then(fn);
-        };
-    }
-    else {
-        const originalQueueMicrotask = globalThis.queueMicrotask;
-        globalThis.queueMicrotask = function (fn) {
-            notifyMicrotaskEnqueued();
-            originalQueueMicrotask(fn);
-        };
-    }
     // Helper for async invocation to break call stack from Dart
     globalThis.__invokeAsync = (obj, method, ...args) => {
         return Promise.resolve().then(() => {
@@ -100,34 +87,5 @@ function setupPolyfills() {
                 return target[method](...args);
             }
         });
-    };
-    setupPromiseInterception();
-}
-function notifyMicrotaskEnqueued() {
-    // @ts-ignore
-    if (typeof globalThis.__qjs_run_jobs === 'function') {
-        // @ts-ignore
-        globalThis.__qjs_run_jobs();
-    }
-}
-function setupPromiseInterception() {
-    const Proto = Promise.prototype;
-    const originalThen = Proto.then;
-    const originalCatch = Proto.catch;
-    const originalFinally = Proto.finally;
-    // @ts-ignore
-    Proto.then = function (onfulfilled, onrejected) {
-        notifyMicrotaskEnqueued();
-        return originalThen.call(this, onfulfilled, onrejected);
-    };
-    // @ts-ignore
-    Proto.catch = function (onrejected) {
-        notifyMicrotaskEnqueued();
-        return originalCatch.call(this, onrejected);
-    };
-    // @ts-ignore
-    Proto.finally = function (onfinally) {
-        notifyMicrotaskEnqueued();
-        return originalFinally.call(this, onfinally);
     };
 }

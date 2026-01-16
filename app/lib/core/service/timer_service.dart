@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+
 import '../utils/extensions.dart';
 import 'BaseFuickService.dart';
 
@@ -19,26 +20,28 @@ class TimerService extends BaseFuickService {
       final isInterval = (m['isInterval'] ?? false) as bool;
 
       if (isInterval) {
-        timers[id] = Timer.periodic(Duration(milliseconds: delay), (timer) {
+        timers[id] = Timer.periodic(Duration(milliseconds: delay), (
+          timer,
+        ) async {
           if (isDisposed) {
             timer.cancel();
             return;
           }
           try {
-            // Use __invokeAsync to break call stack recursion
-            ctx.invoke(null, '__invokeAsync', [null, '__handleTimer', id]);
+            // Use __invokeAsync to break stack depth
+            ctx.invoke(null, '__handleTimer', [id]);
           } catch (e) {
             timer.cancel();
             timers.remove(id);
           }
         });
       } else {
-        timers[id] = Timer(Duration(milliseconds: delay), () {
+        timers[id] = Timer(Duration(milliseconds: delay), () async {
           if (isDisposed) return;
           timers.remove(id);
           try {
-            // Use __invokeAsync to break call stack recursion
-            ctx.invoke(null, '__invokeAsync', [null, '__handleTimer', id]);
+            // Use __invokeAsync to break stack depth
+            ctx.invoke(null, '__handleTimer', [id]);
           } catch (e) {
             debugPrint('Error calling __handleTimer: $e');
           }

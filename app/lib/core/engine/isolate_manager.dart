@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:isolate';
 import 'dart:typed_data';
 
@@ -13,8 +14,20 @@ class IsolateHandler {
 
   final Map<String, QuickJsContext> contexts = {};
   final Map<String, NativeServiceBinder> binders = {};
+  NativeCallable<Void Function(Pointer<Void>)>? _onEnqueueJobCallback;
 
   IsolateHandler(this.mainSendPort);
+
+  void _handleEnqueueJob(Pointer<Void> rt) {
+    // Schedule microtask to break the call stack and allow the current JS execution to complete
+    // before running pending jobs. This is crucial for async operations (like Promises)
+    // to actually run asynchronously.
+    Future((){
+EngineInit.runtime?.executePendingJobs();
+    });
+      
+    
+  }
 
   Future<dynamic> _waitForResponse(ReceivePort port) async {
     final result = await port.first;
@@ -31,6 +44,13 @@ class IsolateHandler {
     try {
       if (type == 'initEngine') {
         await EngineInit.initQjs();
+        if (EngineInit.runtime != null) {
+          _onEnqueueJobCallback =
+              NativeCallable<Void Function(Pointer<Void>)>.listener(
+                  _handleEnqueueJob);
+          EngineInit.runtime!
+              .setOnEnqueueJob(_onEnqueueJobCallback!.nativeFunction);
+        }
         return;
       }
       if (type == 'createContext') {
@@ -116,10 +136,8 @@ class IsolateHandler {
       dynamic result;
       if (type == 'eval') {
         result = await ctx!.eval(payload as String);
-        await ctx.runJobs();
       } else if (type == 'evalBinary') {
         result = await ctx!.evalBinary(payload as Uint8List);
-        await ctx.runJobs();
       } else if (type == 'runJobs') {
         result = await ctx!.runJobs();
       } else if (type == 'invoke') {
@@ -127,7 +145,6 @@ class IsolateHandler {
         final methodName = payload['methodName'] as String;
         final args = payload['args'] as List;
         result = await ctx!.invoke(objectName, methodName, args);
-        await ctx.runJobs();
       } else if (type == 'disposeContext') {
         if (ctx != null) {
           contexts.remove(contextId);

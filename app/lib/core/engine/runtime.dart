@@ -23,6 +23,14 @@ class QuickJsRuntime {
     return QuickJsContext(_ffi, _handle);
   }
 
+  void setOnEnqueueJob(Pointer<NativeFunction<Void Function(Pointer<Void>)>> func) {
+    _ffi.setOnEnqueueJob(_handle, func);
+  }
+
+  void executePendingJobs() {
+    _ffi.runJobs(_handle, nullptr);
+  }
+
   void dispose() {
     debugPrint('dispose js context');
     _ffi.destroyRuntime(_handle);

@@ -113,6 +113,7 @@ class IsolateWorker {
   }
 
   void dispose() {
+    isolateHandler = null;
     _worker.dispose();
   }
 }

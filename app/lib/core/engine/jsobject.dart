@@ -2,9 +2,9 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:flutter/foundation.dart';
+import 'package:flutter_quickjs/core/engine/quickjs_ffi.dart';
 
 import 'jscontext.dart';
-import 'quickjs_ffi.dart';
 
 class JSObjectToken {
   final Pointer<QjsResult> handle;
@@ -20,7 +20,7 @@ class JSObject {
   bool _disposed = false;
 
   JSObject(this.context, this._handle)
-    : _token = JSObjectToken(_handle, context) {
+      : _token = JSObjectToken(_handle, context) {
     context.registerObject(_token);
     // Increase context reference count to ensure it stays alive until this object is finalized
     context.ffi.contextIncref(context.handle);
@@ -157,27 +157,24 @@ class JSObject {
         final id = _nextResolverId++;
         out.ref.type = qjsTypePromise;
         out.ref.i64 = id;
-        result
-            .then((value) {
-              pendingResolvers.putIfAbsent(
-                contextHandle.address,
-                () => {},
-              )[id] = value;
-              // 关键：Future 完成后，利用微任务触发 runJobs 以推进 JS Promise 状态
-              Future.microtask(() {
-                QuickJsContext.instances[contextHandle.address]?.runJobs();
-              });
-            })
-            .catchError((e) {
-              pendingRejections.putIfAbsent(
-                contextHandle.address,
-                () => {},
-              )[id] = e
-                  .toString();
-              Future.microtask(() {
-                QuickJsContext.instances[contextHandle.address]?.runJobs();
-              });
-            });
+        result.then((value) {
+          pendingResolvers.putIfAbsent(
+            contextHandle.address,
+            () => {},
+          )[id] = value;
+          // 关键：Future 完成后，利用微任务触发 runJobs 以推进 JS Promise 状态
+          Future.microtask(() {
+            QuickJsContext.instances[contextHandle.address]?.runJobs();
+          });
+        }).catchError((e) {
+          pendingRejections.putIfAbsent(
+            contextHandle.address,
+            () => {},
+          )[id] = e.toString();
+          Future.microtask(() {
+            QuickJsContext.instances[contextHandle.address]?.runJobs();
+          });
+        });
       } else {
         // 同步返回值
         QuickJsFFI.writeOut(out, result);

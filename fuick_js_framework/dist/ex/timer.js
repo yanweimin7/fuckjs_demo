@@ -10,21 +10,6 @@ function setTimeout(fn, ms) {
     const id = nextTimerId++;
     timerMap.set(id, { fn, type: 'timeout' });
     const delay = ms || 0;
-    if (delay === 0) {
-        Promise.resolve().then(() => {
-            const entry = timerMap.get(id);
-            if (entry) {
-                timerMap.delete(id);
-                try {
-                    fn();
-                }
-                catch (e) {
-                    console.error(`[Timer] Error in setTimeout(0) callback:`, e);
-                }
-            }
-        });
-        return id;
-    }
     if (typeof dartCallNative === 'function') {
         dartCallNative('createTimer', { id, delay, isInterval: false });
     }
@@ -54,23 +39,23 @@ function clearInterval(id) {
     }
 }
 globalThis.__handleTimer = (id) => {
+    // console.log('wine __handleTimer', id);
     const entry = timerMap.get(id);
     if (entry) {
         if (entry.type === 'timeout') {
             timerMap.delete(id);
         }
-        Promise.resolve().then(() => {
-            try {
-                if (typeof entry.fn === 'function') {
-                    entry.fn();
-                }
-                else {
-                    console.error(`[Timer] Callback for timer ${id} is not a function:`, entry.fn);
-                }
+        try {
+            if (typeof entry.fn === 'function') {
+                console.log('[Timer] executing callback for', id);
+                entry.fn();
             }
-            catch (e) {
-                console.error(`[Timer] Error in timer ${id} callback:`, e);
+            else {
+                console.error(`[Timer] Callback for timer ${id} is not a function:`, entry.fn);
             }
-        });
+        }
+        catch (e) {
+            console.error(`[Timer] Error in timer ${id} callback:`, e);
+        }
     }
 };
