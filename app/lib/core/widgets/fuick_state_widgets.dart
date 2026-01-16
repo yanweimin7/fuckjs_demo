@@ -76,14 +76,11 @@ class _FuickPageViewState extends State<FuickPageView>
       final duration = asIntOrNull(args['duration']) ?? 300;
       final curveName = args['curve'] as String? ?? 'easeInOut';
       final curve = WidgetUtils.curve(curveName);
-      print('wine animateTo ${page}');
-
       await _controller.animateToPage(
         page,
         duration: Duration(milliseconds: duration),
         curve: curve,
       );
-      print('wine animateTo 222 ${page}');
     } else if (method == 'jumpToPage' || method == 'setPageIndex') {
       final page = asInt(args['page'] ?? args['index']);
       _controller.jumpToPage(page);

@@ -1,4 +1,4 @@
-Î¤/Users/wey/work/flutter_dynamic/fuickjs_pro/fuick_js_test/dist/framework.bundle.jsprocess
+Æ¤/Users/wey/work/flutter_dynamic/fuickjs_pro/fuick_js_test/dist/framework.bundle.jsprocess
 print
 slicecall [ERROR] [WARN] [DEBUG] __create__defProp __getOwnPropDesc"__getOwnPropNames__getProtoOf__hasOwnProp__commonJS__copyProps__toESM8require_react_production_minrequire_types&require_PageContextrequire_ids$require_BaseWidgetrequire_Textrequire_Columnrequire_Row"require_Containerrequire_Button"require_TextFieldrequire_Switch require_Expanded@require_scheduler_production_minNrequire_react_reconciler_production_min$require_hostConfigrequire_node*require_PageContainer require_rendererrequire_router&require_page_render require_ListViewrequire_Paddingrequire_Image require_SizedBoxrequire_Centerrequire_Icon require_Flexible.require_GestureDetectorrequire_InkWellrequire_Divider:require_SingleChildScrollViewrequire_Stack$require_Positionedrequire_OpacityBrequire_CircularProgressIndicator require_SafeArea(require_FlutterProps require_Scaffoldrequire_AppBar require_PageView require_GridView.require_BatchedListViewrequire_widgets$require_components"require_navigatorrequire_consolerequire_timerrequire_runtimerequire_hooks*require_ErrorBoundaryrequire_distimport_reactFuickFrameworkcbmod__requireexportstoexceptdesckeyisNodeMode__esModulelnpqrtuvwxyzABCDEFGHIJKLMNOescapePQRSTUVWXa@@iteratorbe
 propscontextrefsupdaterêsetState(...): takes an object of state variables to update or a function which returns an object of state variables.enqueueSetStatesetState$enqueueForceUpdateforceUpdatedckhgfmrefhasOwnPropertychildrendefaultProps$$typeoftypecurrent_ownera2=0==2:$replace.$&//push^Objects are not valid as a React child (found: [object Object]$object with keys {, }’). If you meant to render a collection of children, use an array instead.b2_status_resultpact(...) is not supported in production builds of React.ŠReact.Children.only expected to receive a single React element child.œReact.cloneElement(...): The argument must be a React element, but you passed _currentValue_currentValue2_threadCountProviderConsumer_defaultValue_globalName_contextbindrender_payload
@@ -35,7 +35,7 @@ keysBvalAvalBoldPropsnewPropsupdatePayloadhasChangeshasDslChanges
 toDslstartsWithflutter-substring-processPropsflutter-propsfilterTEXT_TYPEnode_1PageContainerrenderedincrementalModemutationQueueeventCallbacks$onVisibleCallbacks(onInvisibleCallbacks
 nodesnodesByRefId(virtualNodeIdCounterisVisiblenodenodeIdeventKeybError in onVisible callback (immediate) for page JError in onVisible callback for page NError in onInvisible callback for page enabledvalprocessedchildDsloldIndexrecordRemovalrecordPlacementnewIndexrootChanged2dslrootChangedpatchesprocessedNodes,normalizedChangedNodestopLevelNodesisRedundantrenderUIrenderDatapatchOpsopspatchUIZ[PageContainer] Error during commit for page getNodeByRefIdelementToDsl^[PageContainer] Error in itemBuilder for refId  at index 
 depthoriginalPropsprocessedPropsdslChildren"childrenToProcess€[PageContainer] Maximum recursion depth exceeded in elementToDsl€[PageContainer] Maximum recursion depth exceeded in processPropsisFuickEvent.registerVisibleCallback2unregisterVisibleCallback2registerInvisibleCallback6unregisterInvisibleCallbacknotifyVisiblenotifyInvisible$setIncrementalModegetItemDSL$react_reconciler_1hostConfig_1PageContainer_1containers
-rootsdispatchEventcreateRenderereventObj@[Renderer] dispatchEvent pageId=, nodeId=, eventKey=J[Renderer] Found callback for nodeId=, executing...warnR[Renderer] Callback not found for nodeId=T[Renderer] Container not found for pageId=D[Renderer] Error in dispatchEvent:reconcilerensureRootperformUpdatemsgworking>[Renderer] Error updating page performDestroy [Renderer] Page . unmounted successfullyB[Renderer] Error destroying page D[Renderer] notifyLifecycle pageId=, type=(, container exists: invisibleupdatenotifyLifecyclegetContainerroutesregister componentFactoryRouter__createBinding$__setModuleDefault__importStarrenderer_1rendererensureRendereroo2ar&getOwnPropertyNamesparamsfactoryappwrappedAppD[JS Performance] render start for , pageId: paddingcenter"mainAxisAlignmentRoute  not foundfontSize#cc0000
+rootsdispatchEventcreateRenderereventObjwarnR[Renderer] Callback not found for nodeId=, eventKey=T[Renderer] Container not found for pageId=D[Renderer] Error in dispatchEvent:reconcilerensureRootperformUpdatemsgworking>[Renderer] Error updating page performDestroy [Renderer] Page . unmounted successfullyB[Renderer] Error destroying page invisibleupdatenotifyLifecyclegetContainerroutesregister componentFactoryRouter__createBinding$__setModuleDefault__importStarrenderer_1rendererensureRendereroo2ar&getOwnPropertyNamesparamsfactoryappwrappedAppD[JS Performance] render start for , pageId: paddingcenter"mainAxisAlignmentRoute  not foundfontSize#cc0000
 colorN[JS Performance] render total cost for : mspage_render_1ListViewoffsetduration
 curveeaseInOutanimateTojumpTofinalDslupdateItemrefreshrest"flutter-list-viewhasBuilderPaddingflutter-padding
 Imageflutter-imageSizedBox"flutter-sized-boxCenterflutter-centerIconflutter-iconFlexible flutter-flexibleGestureDetector0flutter-gesture-detectorInkWell flutter-ink-wellDividerflutter-divider*SingleChildScrollView@flutter-single-child-scroll-view
@@ -43,7 +43,7 @@ Stackflutter-stackPositioned$flutter-positionedOpacityflutter-opacity2
 titleleadingactionsaction-flutter-app-barPageViewpageanimateToPagejumpToPage"flutter-page-viewGridView"flutter-grid-viewBatchedListViewitemCount
 items2flutter-batched-list-view__exportStarWidgetswidgets_1
 levelnextTimerIdtimerMapsetTimeout2clearTimeout2setIntervalclearIntervaltimeoutcreateTimerisIntervaldeleteTimerinterval
-entry<[Timer] executing callback for6[Timer] Callback for timer & is not a function:.[Timer] Error in timer  callback:__handleTimerPageRenderConsole
+entry6[Timer] Callback for timer & is not a function:.[Timer] Error in timer  callback:__handleTimerPageRenderConsole
 TimerbindGlobalssetupPolyfills"FuickUIControlleroldConsole__invokeAsyncRuntimeuseVisibleuseInvisiblecontainer2ErrorBoundaryhasErrorerrorInfo:[ErrorBoundary] Caught error:Navigatorh../js/node_modules/react/cjs/react.production.min.jsV../fuick_js_framework/dist/widgets/types.jsR../fuick_js_framework/dist/PageContext.jsN../fuick_js_framework/dist/utils/ids.js`../fuick_js_framework/dist/widgets/BaseWidget.jsT../fuick_js_framework/dist/widgets/Text.jsX../fuick_js_framework/dist/widgets/Column.jsR../fuick_js_framework/dist/widgets/Row.js^../fuick_js_framework/dist/widgets/Container.jsX../fuick_js_framework/dist/widgets/Button.js^../fuick_js_framework/dist/widgets/TextField.jsX../fuick_js_framework/dist/widgets/Switch.js\../fuick_js_framework/dist/widgets/Expanded.jsx../js/node_modules/scheduler/cjs/scheduler.production.min.js”../js/node_modules/react-reconciler/cjs/react-reconciler.production.min.jsP../fuick_js_framework/dist/hostConfig.jsD../fuick_js_framework/dist/node.jsV../fuick_js_framework/dist/PageContainer.jsL../fuick_js_framework/dist/renderer.jsH../fuick_js_framework/dist/router.jsR../fuick_js_framework/dist/page_render.js\../fuick_js_framework/dist/widgets/ListView.jsZ../fuick_js_framework/dist/widgets/Padding.jsV../fuick_js_framework/dist/widgets/Image.js\../fuick_js_framework/dist/widgets/SizedBox.jsX../fuick_js_framework/dist/widgets/Center.jsT../fuick_js_framework/dist/widgets/Icon.js\../fuick_js_framework/dist/widgets/Flexible.jsj../fuick_js_framework/dist/widgets/GestureDetector.jsZ../fuick_js_framework/dist/widgets/InkWell.jsZ../fuick_js_framework/dist/widgets/Divider.jsv../fuick_js_framework/dist/widgets/SingleChildScrollView.jsV../fuick_js_framework/dist/widgets/Stack.js`../fuick_js_framework/dist/widgets/Positioned.jsZ../fuick_js_framework/dist/widgets/Opacity.js~../fuick_js_framework/dist/widgets/CircularProgressIndicator.js\../fuick_js_framework/dist/widgets/SafeArea.jsd../fuick_js_framework/dist/widgets/FlutterProps.js\../fuick_js_framework/dist/widgets/Scaffold.jsX../fuick_js_framework/dist/widgets/AppBar.js\../fuick_js_framework/dist/widgets/PageView.js\../fuick_js_framework/dist/widgets/GridView.jsj../fuick_js_framework/dist/widgets/BatchedListView.jsV../fuick_js_framework/dist/widgets/index.jsP../fuick_js_framework/dist/components.jsN../fuick_js_framework/dist/navigator.jsP../fuick_js_framework/dist/ex/console.jsL../fuick_js_framework/dist/ex/timer.jsJ../fuick_js_framework/dist/runtime.jsF../fuick_js_framework/dist/hooks.jsV../fuick_js_framework/dist/ErrorBoundary.jsF../fuick_js_framework/dist/index.js
 ReactproductionNODE_ENVenv
 debugÆ      
@@ -19037,18 +19037,15 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
     Ø  ÓìÓB4  ìÓ(ÓM   (Æ”2C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       }C
- 
- Å¤    ¾ 0¸0º0´0ô0º	 œm%  b b b b  Ó±ìîBß  Ë9—   Ó±ìîBœ  íÓ±ìîBë  ñÌÓ±ìîB  Í9  C  Ó  C]   c  Ô  c Õ  c $ $ ßc  HÎc ìxb c C}  c c $ Äc ÷ì49  C  Ö  C]   c Õ  c ×  $ $ c ÔñîG9  CØ  Ù  C]   c Õ  c $ $ î9  CØ  Ú  C]   c  $ $ )Äm   9  C  Û  Ã$ )0ÆŸ2 ¾4ù+4 :6I4¨4›4–4êfunction dispatchEvent(eventObj, payload) {
+  ì¤    ¾ 0¸0º0´0ô0º	 œmÌ   b b b b  Ó±ìîBß  Ë9—   Ó±ìîBœ  íÓ±ìîBë  ñÌÓ±ìîB  Íßc  HÎc ìMb c C}  c c $ Äc ÷ì	c ÔñîG9  CÓ  Ô  C]   c Õ  c $ $ î9  CÓ  Ö  C]   c  $ $ )Äm   9  C  ×  Ã$ )0ÆŸ2¾4 GI4›4–4function dispatchEvent(eventObj, payload) {
         try {
           const pageId = eventObj?.pageId;
           const nodeId = Number(eventObj?.nodeId || eventObj?.id);
           const eventKey = eventObj?.eventKey;
-          console.log(`[Renderer] dispatchEvent pageId=${pageId}, nodeId=${nodeId}, eventKey=${eventKey}`);
           const container = containers[pageId];
           if (container) {
             const fn = container.getCallback(nodeId, eventKey);
             if (typeof fn === "function") {
-              console.log(`[Renderer] Found callback for nodeId=${nodeId}, eventKey=${eventKey}, executing...`);
               fn(payload);
             } else {
               console.warn(`[Renderer] Callback not found for nodeId=${nodeId}, eventKey=${eventKey}`);
@@ -19060,8 +19057,8 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
           console.error(`[Renderer] Error in dispatchEvent:`, e);
         }
       }C
-¢  Q¸ pº  @šœ–˜ C
-º U¾  ´ 0°0  š ¸ œ b b  ßÓHìßÓH(àB  Ó! Ëf C'  c  ¶	$ ÌâÓ±írc  rJßÓ±írc rJc (Æ·2	P0g$5O] Üfunction ensureRoot(pageId) {
+¢  Q° p²  @šœ–˜ C
+² U¾  ´ 0°0  š ° œ b b  ßÓHìßÓH(àB  Ó! Ëf C'  c  ¶	$ ÌâÓ±írc  rJßÓ±írc rJc (Æµ2	P0g$5O] Üfunction ensureRoot(pageId) {
           if (roots[pageId])
             return roots[pageId];
           const container = new PageContainer_1.PageContainer(pageId);
@@ -19069,8 +19066,8 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
           containers[pageId] = container;
           roots[pageId] = root;
           return root;
-        }B Î @¾ @° p¼p¸ ºB   ”º ¾0¸ Î ° ¼¾B        )ÆÅ2A () => {
-                }327m   f  CC  àf Á $ )Ëmw   b ÇB3   í	9˜   ÇñÌc C  À$ íc C  à  $ ì9   C  f ¾$ î%9  C  á  C]   _ z  $ Ç$ )0ÆÃ2##*6¾
+        }B Î @¾ @° p´p° ²B   ”º ¶0° Î ° ´¾B        )ÆÃ2A () => {
+                }327m   f  CC  àf Á $ )Ëmw   b ÇB3   í	9˜   ÇñÌc C  À$ íc C  Ü  $ ì9   C  f ¾$ î%9  C  İ  C]   _ z  $ Ç$ )0ÆÁ2##*6¾
 :/W.594,;+4ã() => {
               try {
                 reconciler.updateContainer(element, root, null, () => {
@@ -19083,7 +19080,7 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
                   console.error(`[Renderer] Error updating page ${pageId}:`, e);
                 }
               }
-            }b b  àÔñËÁ NŞ  Ìc ğ)ÆÁ2&4 /öupdate(element, pageId) {
+            }b b  àÔñËÁ NÚ  Ìc ğ)Æ¿2&4 /öupdate(element, pageId) {
             const root = ensureRoot(pageId);
             const performUpdate = () => {
               try {
@@ -19099,9 +19096,9 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
               }
             };
             performUpdate();
-          }B  ¾ @° pÄp¸   œ B   ¦º ¾0¾ ¸ °  œ ÄB     ! ¾ 9  C  ã  C]   ßä  $ $ )Æ×2@U4p() => {
+          }B  ¾ @° p¼p°   œ B   ¦º ¶0¾ ° °  œ ¼B     ! ¾ 9  C  ß  C]   ßà  $ $ )ÆÕ2@U4p() => {
                     console.log(`[Renderer] Page ${pageId} unmounted successfully`);
-                  }327m#   f CC  f Á $ âß™_ ß™)Ëm   b ÇB3   í	9˜   ÇñÌc C  À$ íc C  à  $ ì9   C  f ¾$ î-9  C  å  C]   ßz  $ Ç$ âß™_ ß™)0ÆÕ2&%*6<5 ¤@:/W.594,;+4{ ş() => {
+                  }327m#   f CC  f Á $ âß™_ ß™)Ëm   b ÇB3   í	9˜   ÇñÌc C  À$ íc C  Ü  $ ì9   C  f ¾$ î-9  C  á  C]   ßz  $ Ç$ âß™_ ß™)0ÆÓ2&%*6<5 ¤@:/W.594,;+4{ ş() => {
                 try {
                   reconciler.updateContainer(null, root, null, () => {
                     console.log(`[Renderer] Page ${pageId} unmounted successfully`);
@@ -19118,7 +19115,7 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
                     delete containers[pageId];
                   }
                 }
-              }b  àÓHËc  ìb Á Nâ  Ìc ği )ÆÒ2 *°destroy(pageId) {
+              }b  àÓHËc  ìb Á NŞ  Ìc ği )ÆĞ2 *°destroy(pageId) {
             const root = roots[pageId];
             if (root) {
               const performDestroy = () => {
@@ -19141,21 +19138,20 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
               };
               performDestroy();
             }
-          }B  ¾  Ô  °  ´ 0œ b  ßÓHËc  ìc  CÊ  ÔÕ% (Æë2i@İgetItemDSL(pageId, refId, index) {
+          }B  ¾  Ô  °  ´ 0œ b  ßÓHËc  ìc  CÊ  ÔÕ% (Æé2i@İgetItemDSL(pageId, refId, index) {
             const container = containers[pageId];
             if (container) {
               return container.getItemDSL(refId, index);
             }
             return null;
-          }B  )¾  Î  ´  œ š b  ßÓHËc  —ìàB  Ó! d  c  C¸  Ô% Æò2F(|€elementToDsl(pageId, element) {
+          }B  )¾  Î  ´  œ š b  ßÓHËc  —ìàB  Ó! d  c  C¸  Ô% Æğ2F(|€elementToDsl(pageId, element) {
             let container = containers[pageId];
             if (!container) {
               container = new PageContainer_1.PageContainer(pageId);
             }
             return container.elementToDsl(element);
-          }B 	 d¾  æ  ´ 0œ b  ßÓHË9  C  æ  C]   Óç  Ôè  c  ——$ $ c  ì,Ôv  ¯ìc  CÇ  $  )Ôé  ¯ìc  CÈ  $  )Æù2'4Ì+*!+#*ÁnotifyLifecycle(pageId, type) {
+          }B  8¾  æ  ´ 0œ b  ßÓHËc  ì,Ôv  ¯ìc  CÇ  $  )Ôâ  ¯ìc  CÈ  $  )Æ÷2F"+*!+#*ÉnotifyLifecycle(pageId, type) {
             const container = containers[pageId];
-            console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
             if (container) {
               if (type === "visible") {
                 container.notifyVisible();
@@ -19163,9 +19159,9 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
                 container.notifyInvisible();
               }
             }
-          }B   ¾  œ ßÓH(Æ„3 IgetContainer(pageId) {
+          }B   ¾  œ ßÓH(Æ3 IgetContainer(pageId) {
             return containers[pageId];
-          }Á Ìb  âB   _ BG  ğñËÁUê  ÁUX  _ MĞ  ÁUÊ  ÁU¸  ÁUë  ÁUì  (Æµ2?X*4ófunction createRenderer() {
+          }Á Ìb  âB   _ BG  ğñËÁUã  ÁUX  _ MĞ  ÁUÊ  ÁU¸  ÁUä  ÁUå  (Æ³2?X*4ûfunction createRenderer() {
         const reconciler = (0, react_reconciler_1.default)((0, hostConfig_1.createHostConfig)());
         function ensureRoot(pageId) {
           if (roots[pageId])
@@ -19235,7 +19231,6 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
           },
           notifyLifecycle(pageId, type) {
             const container = containers[pageId];
-            console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
             if (container) {
               if (type === "visible") {
                 container.notifyVisible();
@@ -19249,7 +19244,7 @@ UÅ   ÁUÆ   ÁUÇ   ÁUÈ   ÁUÉ   ÁUc   ÁU§   ÁU¦   ÁUd   ÁUÌ   Á
           }
         };
       }ÁÄÁÄÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓÃDĞ  ÓÃDÑ  ÇßğñÌàğÍáğÎÄÄ)Æ’2+  4,X++ 0R+å%"../fuick_js_framework/dist/renderer.js"(exports) {
+MA   $ ÓÃDĞ  ÓÃDÑ  ÇßğñÌàğÍáğÎÄÄ)Æ’2+  4,X++ 0R+#"../fuick_js_framework/dist/renderer.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19267,12 +19262,10 @@ MA   $ ÓÃDĞ  ÓÃDÑ  ÇßğñÌàğÍáğÎÄÄ)Æ’2+  4,X++ 0R+å%"../fuick_j
           const pageId = eventObj?.pageId;
           const nodeId = Number(eventObj?.nodeId || eventObj?.id);
           const eventKey = eventObj?.eventKey;
-          console.log(`[Renderer] dispatchEvent pageId=${pageId}, nodeId=${nodeId}, eventKey=${eventKey}`);
           const container = containers[pageId];
           if (container) {
             const fn = container.getCallback(nodeId, eventKey);
             if (typeof fn === "function") {
-              console.log(`[Renderer] Found callback for nodeId=${nodeId}, eventKey=${eventKey}, executing...`);
               fn(payload);
             } else {
               console.warn(`[Renderer] Callback not found for nodeId=${nodeId}, eventKey=${eventKey}`);
@@ -19354,7 +19347,6 @@ MA   $ ÓÃDĞ  ÓÃDÑ  ÇßğñÌàğÍáğÎÄÄ)Æ’2+  4,X++ 0R+å%"../fuick_j
           },
           notifyLifecycle(pageId, type) {
             const container = containers[pageId];
-            console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
             if (container) {
               if (type === "visible") {
                 container.notifyVisible();
@@ -19368,14 +19360,14 @@ MA   $ ÓÃDĞ  ÓÃDÑ  ÇßğñÌàğÍáğÎÄÄ)Æ’2+  4,X++ 0R+å%"../fuick_j
           }
         };
       }
-    }B  LÜ  Ú  @Ü  Š  C
-Ü  è  Ş  Ú ßÓ±írÔrJ)Æ•3\function register(path, componentFactory) {
+    }B  LÜ  Ì  @Î  Š  C
+Î  è  Ğ  Ì ßÓ±írÔrJ)Æ’3\function register(path, componentFactory) {
         routes[path] = componentFactory;
       }C
-Š  è  Ú ßÓH(Æ˜3 ;function match(path) {
+Š  è  Ì ßÓH(Æ•3 ;function match(path) {
         return routes[path];
       }Á ÌÁÍ9”   Cf   Ó4  
-MA   $ ÓDğ  ÓÈDî  ÓÉD  ËÓÈMî  ÉM  Dğ  )Æ3"4,X+& &  	 í"../fuick_js_framework/dist/router.js"(exports) {
+MA   $ ÓDé  ÓÈDç  ÓÉD  ËÓÈMç  ÉM  Dé  )Æ‹3"4,X+& &  	 í"../fuick_js_framework/dist/router.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Router = void 0;
@@ -19392,14 +19384,14 @@ MA   $ ÓDğ  ÓÈDî  ÓÉD  ËÓÈMî  ÉM  Dğ  )Æ3"4,X+& &  	 í"../fu
         register,
         match
       };
-    }B ğÜ  â  @ä @æ  ¸  º @è @à @Ì @ê @ì 	@¬ 
- °  ”  ğ  Ö  Ø  ê	îC
-  dî  Ú @Ò @ê  â   C
-      ÚÒßàH(Æª3+ 1function() {
+    }B ğÜ  Ô  @Ö @Ø  ¸  º @Ú @Ò @Ì @Ü @Ş 	@¬ 
+ °  ”  ğ  È  Ê  ê	îC
+  dà  Ú @Ò @ê  â   C
+      ÚÒßàH(Æ§3+ 1function() {
             return m[k];
           }ÖôìÕÚ9”   Cg   ÔÕ$ Ï—í$B   Ç¬ì
 ÔB4  —îÇB?   íÇB>   ì
-M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æ¦3T?0S') 4,îfunction(o, m, k, k2) {
+M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æ£3T?0S') 4,îfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -19409,24 +19401,24 @@ M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æ¦3T?0S') 4,îfunction(o, m, k, k2)
         }
         Object.defineProperty(o, k2, desc);
       }C
-    î  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æ¯3%Xfunction(o, m, k, k2) {
+    à  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æ¬3%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-    !î  ø  9”   Cf   Ó   
-M@   ÔMA   $ )Æ³3Z¡4,efunction(o, v) {
+    !à  ø  9”   Cf   Ó   
+M@   ÔMA   $ )Æ°3Z¡4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    î  ø  Ó   ±írÔrJ)Æµ32function(o, v) {
+    à  ø  Ó   ±írÔrJ)Æ²32function(o, v) {
         o["default"] = v;
       }C
-   Ğ  @â äC
-  î  Ğ C
-   <ğ  ò   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Æº33•*%¬function(o2) {
+   Ğ  @Ô ÖC
+  à  Ğ C
+   <â  ä   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Æ·33•*%¬function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9”   Bú  íÁ çÓ# Æ¹3 
+          }9”   Bó  íÁ çÓ# Æ¶3 
 ”function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -19435,7 +19427,7 @@ M@   ÔMA   $ )Æ³3Z¡4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >Ø  „   Ò  ¬  Ğ â  ä ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(ÆÁ3U "*8* ;½&Ïfunction(mod) {
+  >Ø  „   Ò  ¬  Ğ Ô  Ö ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æ¾3U "*8* ;½&Ïfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -19443,7 +19435,7 @@ M@   ÔMA   $ )Æ³3Z¡4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }Á Nh   ËÁ(Æ¸3M  function() {
+        }Á Nh   ËÁ(Æµ3M  function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -19462,17 +19454,16 @@ M@   ÔMA   $ )Æ³3Z¡4,efunction(o, v) {
           return result;
         };
       }C
-    Ø  ÓìÓB4  ìÓ(ÓM   (ÆË3C Xfunction(mod) {
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÈ3C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       }C
-ì     êèßìß(àBÑ  ğç(ÆÛ3 4¢function ensureRenderer() {
+Ş     ÜÚßìß(àBÑ  ğç(ÆØ3 4¢function ensureRenderer() {
         if (renderer)
           return renderer;
         renderer = (0, renderer_1.createRenderer)();
         return renderer;
       }C
-¬ ¿¾  è  ö  œ 0ò0ø0ú ü0ì	àºÌb b b b b  9   Cä  $  ËßğÌ9  C  ÿ  C]   Ô   Ó$ $ àC  Ô$ ÍÎc ÷ìc Õíñd îháB   CĞ  ù  ¾M    M  áB   CĞ  ö    C]   Ô  $ M  ¾M    M  $ $ d áB   CĞ  âBŞ  B  ÓMß  MA   c $ Äc Cê  c Ó$ 9  C  	  C]   Ô
-  9   Cä  $  c  Ÿ  $ $ )Æá3'€24™*6)J9,¬¬ Ey£a*+4„xÑfunction render(pageId, path, params) {
+¬ ¿¾  è  è  œ 0ò0ê0ì î0Ş	ÒºÌb b b b b  9   Cä  $  ËßğÌ9  C  ø  C]   Ôù  Ó$ $ àC  Ô$ ÍÎc ÷ìc Õíñd îháB   CĞ  ù  ¾Mú  û  Mü  áB   CĞ  ö  ı  C]   Ôş  $ M  ¾Mÿ     M  $ $ d áB   CĞ  âBŞ  B  ÓMß  MA   c $ Äc Cã  c Ó$ 9  C    C]   Ô  9   Cä  $  c  Ÿ  $ $ )ÆŞ3'€24™*6)J9,¬¬ Ey£a*+4„xÑfunction render(pageId, path, params) {
         const startTime = Date.now();
         const r = ensureRenderer();
         console.log(`[JS Performance] render start for ${path}, pageId: ${pageId}`);
@@ -19487,30 +19478,30 @@ M@   ÔMA   $ )Æ³3Z¡4,efunction(o, v) {
         r.update(wrappedApp, pageId);
         console.log(`[JS Performance] render total cost for ${path}: ${Date.now() - startTime}ms`);
       }C
-° ¾  ò 0ì	b  ßğËc  CX  Ó$ )Æğ3*afunction destroy(pageId) {
+° ¾  ò 0Ş	b  ßğËc  CX  Ó$ )Æí3*afunction destroy(pageId) {
         const r = ensureRenderer();
         r.destroy(pageId);
       }C
-” ¾  Ô  °  ò 0ì	b  ßğËc  CÊ  ÓÔÕ% Æô35Šfunction getItemDSL(pageId, refId, index) {
+” ¾  Ô  °  ò 0Ş	b  ßğËc  CÊ  ÓÔÕ% Æñ35Šfunction getItemDSL(pageId, refId, index) {
         const r = ensureRenderer();
         return r.getItemDSL(pageId, refId, index);
       }C
-ğ ¾  Î  ò 0ì	b  ßğËc  C¸  ÓÔ% Æø35„function elementToDsl(pageId, element) {
+ğ ¾  Î  ò 0Ş	b  ßğËc  C¸  ÓÔ% Æõ35„function elementToDsl(pageId, element) {
         const r = ensureRenderer();
         return r.elementToDsl(pageId, element);
       }C
-Ö ¾  æ  ò 0ì	b  ßğËc  Cë  ÓÔ$ )Æü3*$}function notifyLifecycle(pageId, type) {
+È ¾  æ  ò 0Ş	b  ßğËc  Cä  ÓÔ$ )Æù3*$}function notifyLifecycle(pageId, type) {
         const r = ensureRenderer();
         r.notifyLifecycle(pageId, type);
       }C
-Ø ¾  ò 0ì	b  ßğËc  Cì  Ó% Æ€45rfunction getContainer(pageId) {
+Ê ¾  ò 0Ş	b  ßğËc  Cå  Ó% Æı35rfunction getContainer(pageId) {
         const r = ensureRenderer();
         return r.getContainer(pageId);
       }ÁÄ	ÁÄ
 ÁÄÁ	ÄÁ
-ÄÁÄÁÄÓìÓBñ  í9”   BW  ìÁ îÁËÓìÓBò  í9”   BW  ìÁîÁÌÓìÓBó  íÁğÍÓìÓBÜ  íÁÎ9”   Cf   Ó4  
-MA   $ ÓÃ	Dö  ÓÃ
-D–  ÓÃDX  ÓÃDÊ  ÓÃD¸  ÓÃDë  ÓÃDì  ÊßğñÄàğÄÉáğñÄâğÄÄ)Æ¤3" UJ   4,X++ + + + + + 0<!!Ä"../fuick_js_framework/dist/page_render.js"(exports) {
+ÄÁÄÁÄÓìÓBê  í9”   BW  ìÁ îÁËÓìÓBë  í9”   BW  ìÁîÁÌÓìÓBì  íÁğÍÓìÓBÜ  íÁÎ9”   Cf   Ó4  
+MA   $ ÓÃ	Dï  ÓÃ
+D–  ÓÃDX  ÓÃDÊ  ÓÃD¸  ÓÃDä  ÓÃDå  ÊßğñÄàğÄÉáğñÄâğÄÄ)Æ¡3" UJ   4,X++ + + + + + 0<!!Ä"../fuick_js_framework/dist/page_render.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -19606,16 +19597,17 @@ D–  ÓÃDX  ÓÃDÊ  ÓÃD¸  ÓÃDë  ÓÃDì  ÊßğñÄàğÄÉáğñÄâğÄÄ)Æ¤3" UJ
         const r = ensureRenderer();
         return r.getContainer(pageId);
       }
-    }B ’Ü  ¸   º @‚  ˜ @š  î pê	ò’C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ‹4C Xfunction(mod) {
+    }B ’Ü  ¸   º @‚  Š @Œ  î pê	ò’C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æˆ4C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }@   Gœ       œÿÿÿÿ      Îb b b  ÓËÔôì¿,ÜÌÕôì  İÍÊCô    ÓM  ÔM  ÕM  $ )Æ”4	¼ 
+      }@   G    ’  ÿÿÿÿ  ’   Îb b b  ÓËÔôì¿,ÜÌÕôì
+  İÍÊCô    ÓM  ÔM  ÕM	  $ )Æ‘4	¼ 
 animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
-        }B   œ    ËÇCô    ÓM  $ )Æ—4	 
+        }B       ËÇCô    ÓM  $ )Æ”4	 
 RjumpTo(offset) {
           this.callNativeCommand("jumpTo", { offset });
-        }B  I°  Ô  ¨    º˜Ìb  ÔËßB   CÔ  Ô$ ìàB¸  ÈBß  Ôòd  ÈCô    ÓMX   c  Mª  $ )Æš4	
+        }B  I°  Ô  š    ºŠÌb  ÔËßB   CÔ  Ô$ ìàB¸  ÈBß  Ôòd  ÈCô    ÓMX   c  Mª  $ )Æ—4	
 ^J!A VEY 
 •updateItem(index, dsl) {
           let finalDsl = dsl;
@@ -19623,12 +19615,12 @@ RjumpTo(offset) {
             finalDsl = (0, page_render_1.elementToDsl)(this.pageId, dsl);
           }
           this.callNativeCommand("updateItem", { index, dsl: finalDsl });
-        }B       ËÇCô    $ )Æ¡4	 
+        }B       ËÇCô    $ )Æ4	 
 Brefresh() {
           this.callNativeCommand("refresh");
-        }B    oà 0®0  ºÍb b  ôíqMp  Cp  ËTDÌî
-ÉB^  îáßB   CĞ    c TÉB^  BU  ——M  ÉBó  Mê  
-Mø  c  % Æ¤4	 82¯render() {
+        }B    oà 0 0  ºÍb b  ôíqMp  Cp  ËTDÌî
+ÉB^  îáßB   CĞ    c TÉB^  BU  ——M  ÉBó  Mê  
+Mø  c  % Æ¡4	 82¯render() {
           const { children, ...rest } = this.props;
           return react_1.default.createElement("flutter-list-view", {
             ...rest,
@@ -19636,7 +19628,7 @@ Mø  c  % Æ¤4	 82¯render() {
             refId: this.scopedRefId,
             isBoundary: true
           }, children);
-        }Ä      îb  ,e  f  ìc  $  c  (Æ­4 Âclass extends BaseWidget_1.BaseWidget {
+        }Ä      îb  ,e  f  ìc  $  c  (Æª4 Âclass extends BaseWidget_1.BaseWidget {
         animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
         }
@@ -19663,7 +19655,7 @@ Mø  c  % Æ¤4	 82¯render() {
           }, children);
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD  ÇßğñÌàğÍáğÎÉBè  b ÀW  ÁU   ÁU   ÁU   ÁU   ÁU–   Äi ÄÓÃD  ÓÃD   )Æ‰4  4,X++< D8'+ š"../fuick_js_framework/dist/widgets/ListView.js"(exports) {
+MA   $ ÓD  ÇßğñÌàğÍáğÎÉBè  b ÀW  ÁU   ÁU   ÁU   ÁU   ÁU–   Äi ÄÓÃD  ÓÃD   )Æ†4  4,X++< D8'+ š"../fuick_js_framework/dist/widgets/ListView.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19702,17 +19694,17 @@ MA   $ ÓD  ÇßğñÌàğÍáğÎÉBè  b ÀW  ÁU   ÁU   ÁU   ÁU   ÁU–
       };
       exports.ListView = ListView;
       exports.default = ListView;
-    }B lÜ  ¸   º @´  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ·4C Xfunction(mod) {
+    }B lÜ  ¸   º @¦  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ´4C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    !  ºËßB   CĞ    ÇB^  T% Æ¾4	D2jrender() {
+      }B    !  ºËßB   CĞ    ÇB^  T% Æ»4	D2jrender() {
           return react_1.default.createElement("flutter-padding", { ...this.props });
-        }Ä      îb  ,e  f  ìc  $  c  (ÆÁ4 ¤class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ¾4 ¤class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-padding", { ...this.props });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æµ4  4,X++< (;& –"../fuick_js_framework/dist/widgets/Padding.js"(exports) {
+MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æ²4  4,X++< (;& –"../fuick_js_framework/dist/widgets/Padding.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19727,17 +19719,17 @@ MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æµ4
       };
       exports.Padding = Padding;
       exports.default = Padding;
-    }B lÜ  ¸   º @¸  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (ÆË4C Xfunction(mod) {
+    }B lÜ  ¸   º @ª  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÈ4C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    '  ºËßB   CĞ    ÇB^  T	Mø  % ÆÒ4	D2{render() {
+      }B    '  ºËßB   CĞ    ÇB^  T	Mø  % ÆÏ4	D2{render() {
           return react_1.default.createElement("flutter-image", { ...this.props, isBoundary: false });
-        }Ä      îb  ,e  f  ìc  $  c  (ÆÕ4 µclass extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (ÆÒ4 µclass extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-image", { ...this.props, isBoundary: false });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )ÆÉ4  4,X++< (;& ›"../fuick_js_framework/dist/widgets/Image.js"(exports) {
+MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )ÆÆ4  4,X++< (;& ›"../fuick_js_framework/dist/widgets/Image.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19752,17 +19744,17 @@ MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )ÆÉ4
       };
       exports.Image = Image;
       exports.default = Image;
-    }B lÜ  ¸   º @¼  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æß4C Xfunction(mod) {
+    }B lÜ  ¸   º @®  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÜ4C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    !  ºËßB   CĞ    ÇB^  T% Ææ4	D2lrender() {
+      }B    !  ºËßB   CĞ    ÇB^  T% Æã4	D2lrender() {
           return react_1.default.createElement("flutter-sized-box", { ...this.props });
-        }Ä      îb  ,e  f  ìc  $  c  (Æé4 ¦class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Ææ4 ¦class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-sized-box", { ...this.props });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æİ4  4,X++< (;& "../fuick_js_framework/dist/widgets/SizedBox.js"(exports) {
+MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )ÆÚ4  4,X++< (;& "../fuick_js_framework/dist/widgets/SizedBox.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19777,17 +19769,17 @@ MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æİ4
       };
       exports.SizedBox = SizedBox;
       exports.default = SizedBox;
-    }B lÜ  ¸   º @À  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æó4C Xfunction(mod) {
+    }B lÜ  ¸   º @²  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æğ4C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    '  ºËßB   CĞ  !  ÇB^  T	Mø  % Æú4	D2|render() {
+      }B    '  ºËßB   CĞ    ÇB^  T	Mø  % Æ÷4	D2|render() {
           return react_1.default.createElement("flutter-center", { ...this.props, isBoundary: false });
-        }Ä      îb  ,e  f  ìc  $  c  (Æı4 ¶class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æú4 ¶class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-center", { ...this.props, isBoundary: false });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD   ÇßğñĞB   BÆ  b ÀW   ÁU–   Îi ÍÓÉD   ÓÉD   )Æñ4  4,X++< (;& ¢"../fuick_js_framework/dist/widgets/Center.js"(exports) {
+MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æî4  4,X++< (;& ¢"../fuick_js_framework/dist/widgets/Center.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19802,17 +19794,17 @@ MA   $ ÓD   ÇßğñĞB   BÆ  b ÀW   ÁU–   Îi ÍÓÉD   ÓÉD   )Æñ4
       };
       exports.Center = Center;
       exports.default = Center;
-    }B lÜ  ¸   º @Ä  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ‡5C Xfunction(mod) {
+    }B lÜ  ¸   º @¶  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ„5C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    '  ºËßB   CĞ  #  ÇB^  T	Mø  % Æ5	D2zrender() {
+      }B    '  ºËßB   CĞ    ÇB^  T	Mø  % Æ‹5	D2zrender() {
           return react_1.default.createElement("flutter-icon", { ...this.props, isBoundary: false });
-        }Ä      îb  ,e  f  ìc  $  c  (Æ‘5 ´class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ5 ´class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-icon", { ...this.props, isBoundary: false });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD"  ÇßğñĞB   BÆ  b ÀW"  ÁU–   Îi ÍÓÉD"  ÓÉD   )Æ…5  4,X++< (;& ”"../fuick_js_framework/dist/widgets/Icon.js"(exports) {
+MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æ‚5  4,X++< (;& ”"../fuick_js_framework/dist/widgets/Icon.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19827,17 +19819,17 @@ MA   $ ÓD"  ÇßğñĞB   BÆ  b ÀW"  ÁU–   Îi ÍÓÉD"  ÓÉD   )Æ…5
       };
       exports.Icon = Icon;
       exports.default = Icon;
-    }B lÜ  ¸   º @È  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ›5C Xfunction(mod) {
+    }B lÜ  ¸   º @º  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ˜5C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    !  ºËßB   CĞ  %  ÇB^  T% Æ¢5	D2krender() {
+      }B    !  ºËßB   CĞ    ÇB^  T% ÆŸ5	D2krender() {
           return react_1.default.createElement("flutter-flexible", { ...this.props });
-        }Ä      îb  ,e  f  ìc  $  c  (Æ¥5 ¥class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ¢5 ¥class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-flexible", { ...this.props });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD$  ÇßğñĞB   BÆ  b ÀW$  ÁU–   Îi ÍÓÉD$  ÓÉD   )Æ™5  4,X++< (;& "../fuick_js_framework/dist/widgets/Flexible.js"(exports) {
+MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æ–5  4,X++< (;& "../fuick_js_framework/dist/widgets/Flexible.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19852,17 +19844,17 @@ MA   $ ÓD$  ÇßğñĞB   BÆ  b ÀW$  ÁU–   Îi ÍÓÉD$  ÓÉD   )Æ™5
       };
       exports.Flexible = Flexible;
       exports.default = Flexible;
-    }B lÜ  ¸   º @Ì  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ¯5C Xfunction(mod) {
+    }B lÜ  ¸   º @¾  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ¬5C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    !  ºËßB   CĞ  '  ÇB^  T% Æ¶5	D2srender() {
+      }B    !  ºËßB   CĞ     ÇB^  T% Æ³5	D2srender() {
           return react_1.default.createElement("flutter-gesture-detector", { ...this.props });
-        }Ä      îb  ,e  f  ìc  $  c  (Æ¹5 ­class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ¶5 ­class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-gesture-detector", { ...this.props });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD&  ÇßğñĞB   BÆ  b ÀW&  ÁU–   Îi ÍÓÉD&  ÓÉD   )Æ­5  4,X++< (;& Ï"../fuick_js_framework/dist/widgets/GestureDetector.js"(exports) {
+MA   $ ÓD  ÇßğñĞB   BÆ  b ÀW  ÁU–   Îi ÍÓÉD  ÓÉD   )Æª5  4,X++< (;& Ï"../fuick_js_framework/dist/widgets/GestureDetector.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19877,17 +19869,17 @@ MA   $ ÓD&  ÇßğñĞB   BÆ  b ÀW&  ÁU–   Îi ÍÓÉD&  ÓÉD   )Æ­5
       };
       exports.GestureDetector = GestureDetector;
       exports.default = GestureDetector;
-    }B lÜ  ¸   º @Ğ  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÃ5C Xfunction(mod) {
+    }B lÜ  ¸   º @Â  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÀ5C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    !  ºËßB   CĞ  )  ÇB^  T% ÆÊ5	D2krender() {
+      }B    !  ºËßB   CĞ  "  ÇB^  T% ÆÇ5	D2krender() {
           return react_1.default.createElement("flutter-ink-well", { ...this.props });
-        }Ä      îb  ,e  f  ìc  $  c  (ÆÍ5 ¥class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (ÆÊ5 ¥class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-ink-well", { ...this.props });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD(  ÇßğñĞB   BÆ  b ÀW(  ÁU–   Îi ÍÓÉD(  ÓÉD   )ÆÁ5  4,X++< (;& —"../fuick_js_framework/dist/widgets/InkWell.js"(exports) {
+MA   $ ÓD!  ÇßğñĞB   BÆ  b ÀW!  ÁU–   Îi ÍÓÉD!  ÓÉD   )Æ¾5  4,X++< (;& —"../fuick_js_framework/dist/widgets/InkWell.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19902,17 +19894,17 @@ MA   $ ÓD(  ÇßğñĞB   BÆ  b ÀW(  ÁU–   Îi ÍÓÉD(  ÓÉD   )ÆÁ5
       };
       exports.InkWell = InkWell;
       exports.default = InkWell;
-    }B lÜ  ¸   º @Ô  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ×5C Xfunction(mod) {
+    }B lÜ  ¸   º @Æ  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÔ5C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    '  ºËßB   CĞ  +  ÇB^  T	Mø  % ÆŞ5	D2}render() {
+      }B    '  ºËßB   CĞ  $  ÇB^  T	Mø  % ÆÛ5	D2}render() {
           return react_1.default.createElement("flutter-divider", { ...this.props, isBoundary: false });
-        }Ä      îb  ,e  f  ìc  $  c  (Æá5 ·class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (ÆŞ5 ·class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-divider", { ...this.props, isBoundary: false });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD*  ÇßğñĞB   BÆ  b ÀW*  ÁU–   Îi ÍÓÉD*  ÓÉD   )ÆÕ5  4,X++< (;& ©"../fuick_js_framework/dist/widgets/Divider.js"(exports) {
+MA   $ ÓD#  ÇßğñĞB   BÆ  b ÀW#  ÁU–   Îi ÍÓÉD#  ÓÉD   )ÆÒ5  4,X++< (;& ©"../fuick_js_framework/dist/widgets/Divider.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19927,20 +19919,21 @@ MA   $ ÓD*  ÇßğñĞB   BÆ  b ÀW*  ÁU–   Îi ÍÓÉD*  ÓÉD   )ÆÕ5
       };
       exports.Divider = Divider;
       exports.default = Divider;
-    }B sÜ  ¸   º @‚  Ø  î pê	òC
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æë5C Xfunction(mod) {
+    }B sÜ  ¸   º @‚  Ê  î pê	òC
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æè5C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }@   Gœ       œÿÿÿÿ      Îb b b  ÓËÔôì¿,ÜÌÕôì  İÍÊCô    ÓM  ÔM  ÕM  $ )Æó5	¼ 
+      }@   G    ’  ÿÿÿÿ  ’   Îb b b  ÓËÔôì¿,ÜÌÕôì
+  İÍÊCô    ÓM  ÔM  ÕM	  $ )Æğ5	¼ 
 animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
-        }B    2  ºËßB   CĞ  -  ÇB^  TÇBó  Mê  
-Mø  % Æö5	D2Ôrender() {
+        }B    2  ºËßB   CĞ  &  ÇB^  TÇBó  Mê  
+Mø  % Æó5	D2Ôrender() {
           return react_1.default.createElement("flutter-single-child-scroll-view", {
             ...this.props,
             refId: this.scopedRefId,
             isBoundary: true
           });
-        }Ä      îb  ,e  f  ìc  $  c  (Æı5 £class extends BaseWidget_1.BaseWidget {
+        }Ä      îb  ,e  f  ìc  $  c  (Æú5 £class extends BaseWidget_1.BaseWidget {
         animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
         }
@@ -19952,7 +19945,7 @@ Mø  % Æö5	D2Ôrender() {
           });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD,  ÇßğñÌàğÑBè  b ÀW,  ÁU   ÁU–   Äi ÎÓÊD,  ÓÊD   )Æé5  4,X++< *%& ˜"../fuick_js_framework/dist/widgets/SingleChildScrollView.js"(exports) {
+MA   $ ÓD%  ÇßğñÌàğÑBè  b ÀW%  ÁU   ÁU–   Äi ÎÓÊD%  ÓÊD   )Ææ5  4,X++< *%& ˜"../fuick_js_framework/dist/widgets/SingleChildScrollView.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -19975,17 +19968,17 @@ MA   $ ÓD,  ÇßğñÌàğÑBè  b ÀW,  ÁU   ÁU–   Äi ÎÓÊD,  ÓÊD   )Æ
       };
       exports.SingleChildScrollView = SingleChildScrollView;
       exports.default = SingleChildScrollView;
-    }B lÜ  ¸   º @Ü  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ‡6C Xfunction(mod) {
+    }B lÜ  ¸   º @Î  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ„6C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    !  ºËßB   CĞ  /  ÇB^  T% Æ6	D2hrender() {
+      }B    !  ºËßB   CĞ  (  ÇB^  T% Æ‹6	D2hrender() {
           return react_1.default.createElement("flutter-stack", { ...this.props });
-        }Ä      îb  ,e  f  ìc  $  c  (Æ‘6 ¢class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ6 ¢class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-stack", { ...this.props });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD.  ÇßğñĞB   BÆ  b ÀW.  ÁU–   Îi ÍÓÉD.  ÓÉD   )Æ…6  4,X++< (;& ˆ"../fuick_js_framework/dist/widgets/Stack.js"(exports) {
+MA   $ ÓD'  ÇßğñĞB   BÆ  b ÀW'  ÁU–   Îi ÍÓÉD'  ÓÉD   )Æ‚6  4,X++< (;& ˆ"../fuick_js_framework/dist/widgets/Stack.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20000,17 +19993,17 @@ MA   $ ÓD.  ÇßğñĞB   BÆ  b ÀW.  ÁU–   Îi ÍÓÉD.  ÓÉD   )Æ…6
       };
       exports.Stack = Stack;
       exports.default = Stack;
-    }B lÜ  ¸   º @à  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ›6C Xfunction(mod) {
+    }B lÜ  ¸   º @Ò  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ˜6C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    '  ºËßB   CĞ  1  ÇB^  T	Mø  % Æ¢6	D2€render() {
+      }B    '  ºËßB   CĞ  *  ÇB^  T	Mø  % ÆŸ6	D2€render() {
           return react_1.default.createElement("flutter-positioned", { ...this.props, isBoundary: false });
-        }Ä      îb  ,e  f  ìc  $  c  (Æ¥6 ºclass extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ¢6 ºclass extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-positioned", { ...this.props, isBoundary: false });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD0  ÇßğñĞB   BÆ  b ÀW0  ÁU–   Îi ÍÓÉD0  ÓÉD   )Æ™6  4,X++< (;& ¾"../fuick_js_framework/dist/widgets/Positioned.js"(exports) {
+MA   $ ÓD)  ÇßğñĞB   BÆ  b ÀW)  ÁU–   Îi ÍÓÉD)  ÓÉD   )Æ–6  4,X++< (;& ¾"../fuick_js_framework/dist/widgets/Positioned.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20025,17 +20018,17 @@ MA   $ ÓD0  ÇßğñĞB   BÆ  b ÀW0  ÁU–   Îi ÍÓÉD0  ÓÉD   )Æ™6
       };
       exports.Positioned = Positioned;
       exports.default = Positioned;
-    }B lÜ  ¸   º @ä  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ¯6C Xfunction(mod) {
+    }B lÜ  ¸   º @Ö  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ¬6C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    '  ºËßB   CĞ  3  ÇB^  T	Mø  % Æ¶6	D2}render() {
+      }B    '  ºËßB   CĞ  ,  ÇB^  T	Mø  % Æ³6	D2}render() {
           return react_1.default.createElement("flutter-opacity", { ...this.props, isBoundary: false });
-        }Ä      îb  ,e  f  ìc  $  c  (Æ¹6 ·class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ¶6 ·class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-opacity", { ...this.props, isBoundary: false });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD2  ÇßğñĞB   BÆ  b ÀW2  ÁU–   Îi ÍÓÉD2  ÓÉD   )Æ­6  4,X++< (;& ©"../fuick_js_framework/dist/widgets/Opacity.js"(exports) {
+MA   $ ÓD+  ÇßğñĞB   BÆ  b ÀW+  ÁU–   Îi ÍÓÉD+  ÓÉD   )Æª6  4,X++< (;& ©"../fuick_js_framework/dist/widgets/Opacity.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20050,17 +20043,17 @@ MA   $ ÓD2  ÇßğñĞB   BÆ  b ÀW2  ÁU–   Îi ÍÓÉD2  ÓÉD   )Æ­6
       };
       exports.Opacity = Opacity;
       exports.default = Opacity;
-    }B lÜ  ¸   º @è  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÃ6C Xfunction(mod) {
+    }B lÜ  ¸   º @Ú  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÀ6C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    '  ºËßB   CĞ  5  ÇB^  T	Mø  % ÆÊ6	D2‘render() {
+      }B    '  ºËßB   CĞ  .  ÇB^  T	Mø  % ÆÇ6	D2‘render() {
           return react_1.default.createElement("flutter-circular-progress-indicator", { ...this.props, isBoundary: false });
-        }Ä      îb  ,e  f  ìc  $  c  (ÆÍ6 Ëclass extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (ÆÊ6 Ëclass extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-circular-progress-indicator", { ...this.props, isBoundary: false });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD4  ÇßğñĞB   BÆ  b ÀW4  ÁU–   Îi ÍÓÉD4  ÓÉD   )ÆÁ6  4,X++< (;& ©"../fuick_js_framework/dist/widgets/CircularProgressIndicator.js"(exports) {
+MA   $ ÓD-  ÇßğñĞB   BÆ  b ÀW-  ÁU–   Îi ÍÓÉD-  ÓÉD   )Æ¾6  4,X++< (;& ©"../fuick_js_framework/dist/widgets/CircularProgressIndicator.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20075,17 +20068,17 @@ MA   $ ÓD4  ÇßğñĞB   BÆ  b ÀW4  ÁU–   Îi ÍÓÉD4  ÓÉD   )ÆÁ6
       };
       exports.CircularProgressIndicator = CircularProgressIndicator;
       exports.default = CircularProgressIndicator;
-    }B lÜ  ¸   º @ì  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ×6C Xfunction(mod) {
+    }B lÜ  ¸   º @Ş  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÔ6C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    '  ºËßB   CĞ  7  ÇB^  T	Mø  % ÆŞ6	D2render() {
+      }B    '  ºËßB   CĞ  0  ÇB^  T	Mø  % ÆÛ6	D2render() {
           return react_1.default.createElement("flutter-safe-area", { ...this.props, isBoundary: false });
-        }Ä      îb  ,e  f  ìc  $  c  (Æá6 ¹class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (ÆŞ6 ¹class extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-safe-area", { ...this.props, isBoundary: false });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD6  ÇßğñĞB   BÆ  b ÀW6  ÁU–   Îi ÍÓÉD6  ÓÉD   )ÆÕ6  4,X++< (;& ±"../fuick_js_framework/dist/widgets/SafeArea.js"(exports) {
+MA   $ ÓD/  ÇßğñĞB   BÆ  b ÀW/  ÁU–   Îi ÍÓÉD/  ÓÉD   )ÆÒ6  4,X++< (;& ±"../fuick_js_framework/dist/widgets/SafeArea.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20100,17 +20093,17 @@ MA   $ ÓD6  ÇßğñĞB   BÆ  b ÀW6  ÁU–   Îi ÍÓÉD6  ÓÉD   )ÆÕ6
       };
       exports.SafeArea = SafeArea;
       exports.default = SafeArea;
-    }B eÜ  ¸   º @ğ  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æë6C Xfunction(mod) {
+    }B eÜ  ¸   º @â  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æè6C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    1  ºËßB   CĞ  Œ  ÇB^  B~  M~  ÇB^  Bp  % Æò6	D2render() {
+      }B    1  ºËßB   CĞ  Œ  ÇB^  B~  M~  ÇB^  Bp  % Æï6	D2render() {
           return react_1.default.createElement("flutter-props", { propsKey: this.props.propsKey }, this.props.children);
-        }Ä      îb  ,e  f  ìc  $  c  (Æõ6 Çclass extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æò6 Çclass extends react_1.default.Component {
         render() {
           return react_1.default.createElement("flutter-props", { propsKey: this.props.propsKey }, this.props.children);
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD8  ÇßğñĞB   BÆ  b ÀW8  ÁU–   Îi ÍÓÉD8  )Æé6  4,X++< (;±"../fuick_js_framework/dist/widgets/FlutterProps.js"(exports) {
+MA   $ ÓD1  ÇßğñĞB   BÆ  b ÀW1  ÁU–   Îi ÍÓÉD1  )Ææ6  4,X++< (;±"../fuick_js_framework/dist/widgets/FlutterProps.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20124,19 +20117,19 @@ MA   $ ÓD8  ÇßğñĞB   BÆ  b ÀW8  ÁU–   Îi ÍÓÉD8  )Æé6  4,X
         }
       };
       exports.FlutterProps = FlutterProps;
-    }B qÜ  ¸   º @ò @ô  î pê	´.C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æş6C Xfunction(mod) {
+    }B qÜ  ¸   º @ä @æ  î pê	´.C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æû6C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }B    ıö 0ø0ú0à0ü0  ºòÄb b b b b  ôíCqM;  C;  ËM<  C<  ÌM=  C=  ÍMp  Cp  ÎTDÄîÃB^  îµßB   CĞ  ?  c Tc  ì$ßB   CĞ  àB8  ;  M~  c  $ c ì$ßB   CĞ  àB8  <  M~  c $ c ì$ßB   CĞ  àB8  =  M~  c $ c % Æ†7	 n2¢ºÏÈÏà©render() {
+      }B    ıè 0ê0ì0à0î0  ºäÄb b b b b  ôíCqM4  C4  ËM5  C5  ÌM6  C6  ÍMp  Cp  ÎTDÄîÃB^  îµßB   CĞ  8  c Tc  ì$ßB   CĞ  àB1  4  M~  c  $ c ì$ßB   CĞ  àB1  5  M~  c $ c ì$ßB   CĞ  àB1  6  M~  c $ c % Æƒ7	 n2¢ºÏÈÏà©render() {
           const { appBar, body, floatingActionButton, children, ...otherProps } = this.props;
           return react_1.default.createElement("flutter-scaffold", { ...otherProps }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), children);
-        }Ä      îb  ,e  f  ìc  $  c  (ÆŠ7 ãclass extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ‡7 ãclass extends react_1.default.Component {
         render() {
           const { appBar, body, floatingActionButton, children, ...otherProps } = this.props;
           return react_1.default.createElement("flutter-scaffold", { ...otherProps }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), body && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "body" }, body), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), children);
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD:  ÇßğñÌàğÍÈB   BÆ  b ÀW:  ÁU–   Äi ÎÓÊD:  ÓÊD   )Æü6  4,X++< ()& 	"../fuick_js_framework/dist/widgets/Scaffold.js"(exports) {
+MA   $ ÓD3  ÇßğñÌàğÍÈB   BÆ  b ÀW3  ÁU–   Äi ÎÓÊD3  ÓÊD   )Æù6  4,X++< ()& 	"../fuick_js_framework/dist/widgets/Scaffold.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20153,20 +20146,20 @@ MA   $ ÓD:  ÇßğñÌàğÍÈB   BÆ  b ÀW:  ÁU–   Äi ÎÓÊD:  ÓÊD   )Æü
       };
       exports.Scaffold = Scaffold;
       exports.default = Scaffold;
-    }B qÜ  ¸   º @ò @€  î pê	´.C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æ”7C Xfunction(mod) {
+    }B qÜ  ¸   º @ä @ò  î pê	´.C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ‘7C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       }B   
-î‚ 0„0†0à0ü0  ºòB   3  °  º  ò ßB   CĞ  àB8  D  C]   Ô$ M2  C  M~  Ó% Æ7È9j†(action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)Äb b b b b  ôíCqMA  CA  ËMB  CB  ÌMC  CC  ÍMp  Cp  ÎTDÄîÃB^  îµßB   CĞ  E  c T	Mø  c  ì$ßB   CĞ  àB8  A  M~  c  $ c ì$ßB   CĞ  àB8  B  M~  c $ c ìc CÀ  Á $ c % Æœ7	 n2ÀÜÏÊÀ¦Ærender() {
+îô 0ö0ø0à0î0  ºäB   3  °  º  ä ßB   CĞ  àB1  =  C]   Ô$ M2  <  M~  Ó% Æ›7È9j†(action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)Äb b b b b  ôíCqM:  C:  ËM;  C;  ÌM<  C<  ÍMp  Cp  ÎTDÄîÃB^  îµßB   CĞ  >  c T	Mø  c  ì$ßB   CĞ  àB1  :  M~  c  $ c ì$ßB   CĞ  àB1  ;  M~  c $ c ìc CÀ  Á $ c % Æ™7	 n2ÀÜÏÊÀ¦Ærender() {
           const { title, leading, actions, children, ...otherProps } = this.props;
           return react_1.default.createElement("flutter-app-bar", { ...otherProps, isBoundary: false }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), children);
-        }Ä      îb  ,e  f  ìc  $  c  (Æ 7 €class extends react_1.default.Component {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ7 €class extends react_1.default.Component {
         render() {
           const { title, leading, actions, children, ...otherProps } = this.props;
           return react_1.default.createElement("flutter-app-bar", { ...otherProps, isBoundary: false }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), children);
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓD@  ÇßğñÌàğÍÈB   BÆ  b ÀW@  ÁU–   Äi ÎÓÊD@  ÓÊD   )Æ’7  4,X++< ()& Ÿ	"../fuick_js_framework/dist/widgets/AppBar.js"(exports) {
+MA   $ ÓD9  ÇßğñÌàğÍÈB   BÆ  b ÀW9  ÁU–   Äi ÎÓÊD9  ÓÊD   )Æ7  4,X++< ()& Ÿ	"../fuick_js_framework/dist/widgets/AppBar.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20183,25 +20176,26 @@ MA   $ ÓD@  ÇßğñÌàğÍÈB   BÆ  b ÀW@  ÁU–   Äi ÎÓÊD@  ÓÊD   )Æ’
       };
       exports.AppBar = AppBar;
       exports.default = AppBar;
-    }B {Ü  ¸   º @‚  Œ  î pê	òC
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æª7C Xfunction(mod) {
+    }B {Ü  ¸   º @‚  ş  î pê	òC
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æ§7C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }@   G       ÿÿÿÿ      Îb b b  ÓËÔôì¿,ÜÌÕôì  İÍÊCô  H  ÓMG  ÔM  ÕM  $ )Æ²7	¼ 
+      }@   G€    ’  €ÿÿÿÿ  ’   Îb b b  ÓËÔôì¿,ÜÌÕôì
+  İÍÊCô  A  ÓM@  ÔM  ÕM	  $ )Æ¯7	¼ 
 ’animateToPage(page, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateToPage", { page, duration, curve });
-        }B       ËÇCô  I  ÓMG  $ )Æµ7	 
+        }B   €    ËÇCô  B  ÓM@  $ )Æ²7	 
 VjumpToPage(page) {
           this.callNativeCommand("jumpToPage", { page });
-        }B    ZÜ 0ü0  ºÍb b  ôíqMn  Cn  ËTDÌî
-ÉB^  îáßB   CĞ  J  c TÉBó  Mê  
-Mø  % Æ¸7	 82úrender() {
+        }B    ZÜ 0î0  ºÍb b  ôíqMn  Cn  ËTDÌî
+ÉB^  îáßB   CĞ  C  c TÉBó  Mê  
+Mø  % Æµ7	 82úrender() {
           const { ref, ...otherProps } = this.props;
           return react_1.default.createElement("flutter-page-view", {
             ...otherProps,
             refId: this.scopedRefId,
             isBoundary: true
           });
-        }Ä      îb  ,e  f  ìc  $  c  (ÆÀ7 ¬class extends BaseWidget_1.BaseWidget {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ½7 ¬class extends BaseWidget_1.BaseWidget {
         animateToPage(page, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateToPage", { page, duration, curve });
         }
@@ -20217,7 +20211,7 @@ Mø  % Æ¸7	 82úrender() {
           });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓDF  ÇßğñÌàğÑBè  b ÀWF  ÁUH   ÁUI   ÁU–   Äi ÎÓÊDF  ÓÊD   )Æ¨7  4,X++< 2"%& Ó"../fuick_js_framework/dist/widgets/PageView.js"(exports) {
+MA   $ ÓD?  ÇßğñÌàğÑBè  b ÀW?  ÁUA   ÁUB   ÁU–   Äi ÎÓÊD?  ÓÊD   )Æ¥7  4,X++< 2"%& Ó"../fuick_js_framework/dist/widgets/PageView.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20244,13 +20238,14 @@ MA   $ ÓDF  ÇßğñÌàğÑBè  b ÀWF  ÁUH   ÁUI   ÁU–   Äi ÎÓÊDF  Ó
       };
       exports.PageView = PageView;
       exports.default = PageView;
-    }B ŠÜ  ¸   º @‚  ˜ @–  î pê	ò’C
-    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÊ7C Xfunction(mod) {
+    }B ŠÜ  ¸   º @‚  Š @ˆ  î pê	ò’C
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÇ7C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }@   Gœ       œÿÿÿÿ      Îb b b  ÓËÔôì¿,ÜÌÕôì  İÍÊCô    ÓM  ÔM  ÕM  $ )ÆÓ7	¼ 
+      }@   G    ’  ÿÿÿÿ  ’   Îb b b  ÓËÔôì¿,ÜÌÕôì
+  İÍÊCô    ÓM  ÔM  ÕM	  $ )ÆĞ7	¼ 
 animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
-        }B  I°  Ô  ¨    º˜Ìb  ÔËßB   CÔ  Ô$ ìàB¸  ÈBß  Ôòd  ÈCô    ÓMX   c  Mª  $ )ÆÖ7	
+        }B  I°  Ô  š    ºŠÌb  ÔËßB   CÔ  Ô$ ìàB¸  ÈBß  Ôòd  ÈCô    ÓMX   c  Mª  $ )ÆÓ7	
 ^J!A VEY 
 •updateItem(index, dsl) {
           let finalDsl = dsl;
@@ -20258,12 +20253,12 @@ MA   $ ÓDF  ÇßğñÌàğÑBè  b ÀWF  ÁUH   ÁUI   ÁU–   Äi ÎÓÊDF  Ó
             finalDsl = (0, page_render_1.elementToDsl)(this.pageId, dsl);
           }
           this.callNativeCommand("updateItem", { index, dsl: finalDsl });
-        }B       ËÇCô    $ )Æİ7	 
+        }B       ËÇCô    $ )ÆÚ7	 
 Brefresh() {
           this.callNativeCommand("refresh");
-        }B    oà 0®0  ºÍb b  ôíqMp  Cp  ËTDÌî
-ÉB^  îáßB   CĞ  L  c TÉB^  BU  ——M  ÉBó  Mê  
-Mø  c  % Æà7	 82¯render() {
+        }B    oà 0 0  ºÍb b  ôíqMp  Cp  ËTDÌî
+ÉB^  îáßB   CĞ  E  c TÉB^  BU  ——M  ÉBó  Mê  
+Mø  c  % Æİ7	 82¯render() {
           const { children, ...rest } = this.props;
           return react_1.default.createElement("flutter-grid-view", {
             ...rest,
@@ -20271,7 +20266,7 @@ Mø  c  % Æà7	 82¯render() {
             refId: this.scopedRefId,
             isBoundary: true
           }, children);
-        }Ä      îb  ,e  f  ìc  $  c  (Æé7 çclass extends BaseWidget_1.BaseWidget {
+        }Ä      îb  ,e  f  ìc  $  c  (Ææ7 çclass extends BaseWidget_1.BaseWidget {
         animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
         }
@@ -20295,7 +20290,7 @@ Mø  c  % Æà7	 82¯render() {
           }, children);
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓDK  ÇßğñÌàğÍáğÎÉBè  b ÀWK  ÁU   ÁU   ÁU   ÁU–   Äi ÄÓÃDK  ÓÃD   )ÆÈ7  4,X++< <2'+ ¿"../fuick_js_framework/dist/widgets/GridView.js"(exports) {
+MA   $ ÓDD  ÇßğñÌàğÍáğÎÉBè  b ÀWD  ÁU   ÁU   ÁU   ÁU–   Äi ÄÓÃDD  ÓÃD   )ÆÅ7  4,X++< <2'+ ¿"../fuick_js_framework/dist/widgets/GridView.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20331,17 +20326,18 @@ MA   $ ÓDK  ÇßğñÌàğÍáğÎÉBè  b ÀWK  ÁU   ÁU   ÁU   ÁU–   Ä
       };
       exports.GridView = GridView;
       exports.default = GridView;
-    }B ‚Ü  ¸   º @‚  ˜ @š  î pê	ò’C
-    Ø  ÓìÓB4  ìÓ(ÓM   (Æó7C Xfunction(mod) {
+    }B ‚Ü  ¸   º @‚  Š @Œ  î pê	ò’C
+    Ø  ÓìÓB4  ìÓ(ÓM   (Æğ7C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }@   Gœ       œÿÿÿÿ      Îb b b  ÓËÔôì¿,ÜÌÕôì  İÍÊCô    ÓM  ÔM  ÕM  $ )Æü7	¼ 
+      }@   G    ’  ÿÿÿÿ  ’   Îb b b  ÓËÔôì¿,ÜÌÕôì
+  İÍÊCô    ÓM  ÔM  ÕM	  $ )Æù7	¼ 
 animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
-        }B   œ    ËÇCô    ÓM  $ )Æÿ7	 
+        }B       ËÇCô    ÓM  $ )Æü7	 
 RjumpTo(offset) {
           this.callNativeCommand("jumpTo", { offset });
-        }B    Ñœ 0ª0à0®00¬ Î0  ˜ºÄb b b b b  ôí4qMN  CN  ËMU  CU  ÌMp  Cp  ÍTDÎîÃB^  îÄ&  Äb ¶Äc c  §ì4b c c ñÄc C€  ßB¸  ÃBß  c ò$ c ’d îÅàB   CĞ  P  c Tc MO  ÃBó  Mê  
-Mø  % Æ‚8	 b,?!7* J¸+ùrender() {
+        }B    Ñ 0ª0à0 00¬ Î0  ŠºÄb b b b b  ôí4qMG  CG  ËMU  CU  ÌMp  Cp  ÍTDÎîÃB^  îÄ&  Äb ¶Äc c  §ì4b c c ñÄc C€  ßB¸  ÃBß  c ò$ c ’d îÅàB   CĞ  I  c Tc MH  ÃBó  Mê  
+Mø  % Æÿ7	 b,?!7* J¸+ùrender() {
           const { itemCount, itemBuilder, children, ...rest } = this.props;
           const items = [];
           for (let i = 0; i < itemCount; i++) {
@@ -20354,7 +20350,7 @@ Mø  % Æ‚8	 b,?!7* J¸+ùrender() {
             refId: this.scopedRefId,
             isBoundary: true
           });
-        }Ä      îb  ,e  f  ìc  $  c  (Æ8 £class extends BaseWidget_1.BaseWidget {
+        }Ä      îb  ,e  f  ìc  $  c  (Æ8 £class extends BaseWidget_1.BaseWidget {
         animateTo(offset, duration = 300, curve = "easeInOut") {
           this.callNativeCommand("animateTo", { offset, duration, curve });
         }
@@ -20376,7 +20372,7 @@ Mø  % Æ‚8	 b,?!7* J¸+ùrender() {
           });
         }
       }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓDM  ÇßğñÌàğÍáğÎÉBè  b ÀWM  ÁU   ÁU   ÁU–   Äi ÄÓÃDM  ÓÃD   )Æñ7  4,X++< 4.'+ ¥"../fuick_js_framework/dist/widgets/BatchedListView.js"(exports) {
+MA   $ ÓDF  ÇßğñÌàğÍáğÎÉBè  b ÀWF  ÁU   ÁU   ÁU–   Äi ÄÓÃDF  ÓÃD   )Æî7  4,X++< 4.'+ ¥"../fuick_js_framework/dist/widgets/BatchedListView.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -20410,14 +20406,14 @@ MA   $ ÓDM  ÇßğñÌàğÍáğÎÉBè  b ÀWM  ÁU   ÁU   ÁU–   Äi ÄÓÃ
       };
       exports.BatchedListView = BatchedListView;
       exports.default = BatchedListView;
-    }B  ÇÜ  â  @¢  ì
+    }B  ÇÜ  Ô  @”  ì
 òôöøúüş€‚”–˜ š!œ"# $¢%¤&¦'¨(ª)¬*®+°,²-¶/¸0´.º1¼2¾3C
-  dî  Ú @Ò @ê  â   C
-      ÚÒßàH(Æ8+ 1function() {
+  dà  Ú @Ò @ê  â   C
+      ÚÒßàH(Æ›8+ 1function() {
             return m[k];
           }ÖôìÕÚ9”   Cg   ÔÕ$ Ï—í$B   Ç¬ì
 ÔB4  —îÇB?   íÇB>   ì
-M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æš8T?0S') 4,îfunction(o, m, k, k2) {
+M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æ—8T?0S') 4,îfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -20427,15 +20423,15 @@ M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æš8T?0S') 4,îfunction(o, m, k, k2)
         }
         Object.defineProperty(o, k2, desc);
       }C
-    î  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æ£8%Xfunction(o, m, k, k2) {
+    à  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æ 8%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-  5Ú  ğ  î   â Ó~î-ËÇ   °ì#9”   B<   Bo  Cç   ÔÇ$ —ìßÔÓÇóìÒ)Æ§8=!1f* ¤function(m, exports2) {
+  5Ú  ğ  î   Ô Ó~î-ËÇ   °ì#9”   B<   Bo  Cç   ÔÇ$ —ìßÔÓÇóìÒ)Æ¤8=!1f* ¤function(m, exports2) {
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
-      }ÓìÓBñ  í9”   BW  ìÁ îÁËÓìÓBQ  íÁÌ9”   Cf   Ó4  
+      }ÓìÓBê  í9”   BW  ìÁ îÁËÓìÓBJ  íÁÌ9”   Cf   Ó4  
 MA   $ ÈßğÓòÈàğÓòÈáğÓòÈâğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_	 ğÓòÈ_
- ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓò)Æ˜8ˆ 4" 4,X+&&&&&&&&&&&&&&&&&&&&&&&&&&&Ê"../fuick_js_framework/dist/widgets/index.js"(exports) {
+ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓò)Æ•8ˆ 4" 4,X+&&&&&&&&&&&&&&&&&&&&&&&&&&&Ê"../fuick_js_framework/dist/widgets/index.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -20486,13 +20482,13 @@ MA   $ ÈßğÓòÈàğÓòÈáğÓòÈâğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_ ğÓòÈ_	 ğÓò
       __exportStar(require_PageView(), exports);
       __exportStar(require_GridView(), exports);
       __exportStar(require_BatchedListView(), exports);
-    }B  †Ü  â  @ä @æ  ¤  ¦ @À4C
-  dî  Ú @Ò @ê  â   C
-      ÚÒßàH(ÆÖ8+ 1function() {
+    }B  †Ü  Ô  @Ö @Ø  –  ˜ @À4C
+  dà  Ú @Ò @ê  â   C
+      ÚÒßàH(ÆÓ8+ 1function() {
             return m[k];
           }ÖôìÕÚ9”   Cg   ÔÕ$ Ï—í$B   Ç¬ì
 ÔB4  —îÇB?   íÇB>   ì
-M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )ÆÒ8T?0S') 4,îfunction(o, m, k, k2) {
+M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )ÆÏ8T?0S') 4,îfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -20502,24 +20498,24 @@ M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )ÆÒ8T?0S') 4,îfunction(o, m, k, k2)
         }
         Object.defineProperty(o, k2, desc);
       }C
-    î  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)ÆÛ8%Xfunction(o, m, k, k2) {
+    à  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)ÆØ8%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-    !î  ø  9”   Cf   Ó   
-M@   ÔMA   $ )Æß8Z¡4,efunction(o, v) {
+    !à  ø  9”   Cf   Ó   
+M@   ÔMA   $ )ÆÜ8Z¡4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    î  ø  Ó   ±írÔrJ)Æá82function(o, v) {
+    à  ø  Ó   ±írÔrJ)ÆŞ82function(o, v) {
         o["default"] = v;
       }C
-   Ğ  @â äC
-  î  Ğ C
-   <ğ  ò   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Ææ83•*%¬function(o2) {
+   Ğ  @Ô ÖC
+  à  Ğ C
+   <â  ä   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Æã83•*%¬function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9”   Bú  íÁ çÓ# Æå8 
+          }9”   Bó  íÁ çÓ# Æâ8 
 ”function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -20528,7 +20524,7 @@ M@   ÔMA   $ )Æß8Z¡4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >Ø  „   Ò  ¬  Ğ â  ä ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æí8U "*8* ;½&Ïfunction(mod) {
+  >Ø  „   Ò  ¬  Ğ Ô  Ö ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æê8U "*8* ;½&Ïfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -20536,7 +20532,7 @@ M@   ÔMA   $ )Æß8Z¡4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }Á Nh   ËÁ(Æä8M  function() {
+        }Á Nh   ËÁ(Æá8M  function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -20555,19 +20551,19 @@ M@   ÔMA   $ )Æß8Z¡4,efunction(o, v) {
           return result;
         };
       }C
-      ¦ßBF  (Æ–9K 7function() {
+      ˜ßB?  (Æ“9K 7function() {
         return widgets_1.PageView;
       }C
-      ¦ßBK  (Æ™9K 7function() {
+      ˜ßBD  (Æ–9K 7function() {
         return widgets_1.GridView;
       }C
-      ¦ßBM  (Æœ9R >function() {
+      ˜ßBF  (Æ™9R >function() {
         return widgets_1.BatchedListView;
-      }ÓìÓBñ  í9”   BW  ìÁ îÁËÓìÓBò  í9”   BW  ìÁîÁÌÓìÓBó  íÁğÍ9”   Cf   Ó4  
-MA   $ ÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓDù  Dı  Dö  D  D  Dû  D  D  Dÿ  D   D"  D  D  D	  D$  D&  D(  D*  D,  D.  D0  D2  D4  D6  D:  D@  D8  DF  DK  DM  ÉßğñÎÓÊBù  Dù  ÓÊBı  Dı  ÓÊBö  Dö  ÓÊB  D  ÓÊB  D  ÓÊBû  Dû  ÓÊB  D  ÓÊB  D  ÓÊBÿ  Dÿ  ÓÊB   D   ÓÊB"  D"  ÓÊB  D  ÓÊB  D  ÓÊB	  D	  ÓÊB$  D$  ÓÊB&  D&  ÓÊB(  D(  ÓÊB*  D*  ÓÊB,  D,  ÓÊB.  D.  ÓÊB0  D0  ÓÊB2  D2  ÓÊB4  D4  ÓÊB6  D6  ÓÊB:  D:  ÓÊB@  D@  ÓÊB8  D8  ßğÄ9”   Cf   ÓF  
-M@   ÁNB   MB   $ 9”   Cf   ÓK  
-M@   ÁNB   MB   $ 9”   Cf   ÓM  
-M@   ÁNB   MB   $ )ÆĞ8U UJ  4,X+ Ó65? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? D 4,–+4,–+4,“"../fuick_js_framework/dist/components.js"(exports) {
+      }ÓìÓBê  í9”   BW  ìÁ îÁËÓìÓBë  í9”   BW  ìÁîÁÌÓìÓBì  íÁğÍ9”   Cf   Ó4  
+MA   $ ÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓDù  Dı  Dö  D  D  Dû  D  D  Dÿ  D  D  D  D  D	  D  D  D!  D#  D%  D'  D)  D+  D-  D/  D3  D9  D1  D?  DD  DF  ÉßğñÎÓÊBù  Dù  ÓÊBı  Dı  ÓÊBö  Dö  ÓÊB  D  ÓÊB  D  ÓÊBû  Dû  ÓÊB  D  ÓÊB  D  ÓÊBÿ  Dÿ  ÓÊB  D  ÓÊB  D  ÓÊB  D  ÓÊB  D  ÓÊB	  D	  ÓÊB  D  ÓÊB  D  ÓÊB!  D!  ÓÊB#  D#  ÓÊB%  D%  ÓÊB'  D'  ÓÊB)  D)  ÓÊB+  D+  ÓÊB-  D-  ÓÊB/  D/  ÓÊB3  D3  ÓÊB9  D9  ÓÊB1  D1  ßğÄ9”   Cf   Ó?  
+M@   ÁNB   MB   $ 9”   Cf   ÓD  
+M@   ÁNB   MB   $ 9”   Cf   ÓF  
+M@   ÁNB   MB   $ )ÆÍ8U UJ  4,X+ Ó65? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? D 4,–+4,–+4,“"../fuick_js_framework/dist/components.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -20647,17 +20643,17 @@ M@   ÁNB   MB   $ )ÆĞ8U UJ  4,X+ Ó65? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 
         return widgets_1.BatchedListView;
       } });
     }B  0Ü  €   –  C
-€   "è  ö  8ñ  ÷ì9ñ  €  ÓMt  ÔMû  ò)Æ©9@7—function push(path, params) {
+€   "è  è  8ñ  ÷ì9ñ  €  ÓMt  ÔMô  ò)Æ¦9@7—function push(path, params) {
         if (typeof dartCallNative === "function") {
           dartCallNative("push", { path, params });
         }
       }C
-–      8ñ  ÷ì9ñ    ò)Æ®9@7{function pop() {
+–      8ñ  ÷ì9ñ    ò)Æ«9@7{function pop() {
         if (typeof dartCallNative === "function") {
           dartCallNative("pop", {});
         }
       }Á ËÁÌ9”   Cf   Ó4  
-MA   $ ÓÇD€  ÓÈD  )Æ¤9"4,X+& ç"../fuick_js_framework/dist/navigator.js"(exports) {
+MA   $ ÓÇD€  ÓÈD  )Æ¡9"4,X+& ç"../fuick_js_framework/dist/navigator.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.push = push;
@@ -20672,9 +20668,9 @@ MA   $ ÓÇD€  ÓÈD  )Æ¤9"4,X+& ç"../fuick_js_framework/dist/navigator.js
           dartCallNative("pop", {});
         }
       }
-    }B  :Ü  ¨   °  ¨  A
+    }B  :Ü  ¨   ¦  ¨  A
 ¨  gŞ  f 0B
-    	´  9˜   Ó# Æ¿9$(a) => String(a)  ×b  ÓCÀ  Á $ C\   è   $ Ë8ñ  ÷ì!9ñ      MT  c  M3   ò)9   Bå   ÷ì9   Cå   c  $ )Æ¾9D.4,I7ÕJI4"½function log(...args) {
+    	´  9˜   Ó# Æ¼9$(a) => String(a)  ×b  ÓCÀ  Á $ C\   è   $ Ë8ñ  ÷ì!9ñ      MM  c  M3   ò)9   Bå   ÷ì9   Cå   c  $ )Æ»9D.4,I7ÕJI4"½function log(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "log", message });
@@ -20682,8 +20678,8 @@ MA   $ ÓÇD€  ÓÈD  )Æ¤9"4,X+& ç"../fuick_js_framework/dist/navigator.js
           globalThis.print(message);
         }
       }A
-°  mŞ  f 0B
-    	´  9˜   Ó# ÆÇ9$(a) => String(a)  ×b  ÓCÀ  Á $ C\   è   $ Ë8ñ  ÷ì!9ñ    Ø  MT  c  M3   ò)9   Bå   ÷ì9   Cå   ê   c  $ )ÆÆ9D.4,I7ÕJI4$Ëfunction warn(...args) {
+¦  mŞ  f 0B
+    	´  9˜   Ó# ÆÄ9$(a) => String(a)  ×b  ÓCÀ  Á $ C\   è   $ Ë8ñ  ÷ì!9ñ    Ó  MM  c  M3   ò)9   Bå   ÷ì9   Cå   ê   c  $ )ÆÃ9D.4,I7ÕJI4$Ëfunction warn(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "warn", message });
@@ -20692,7 +20688,7 @@ MA   $ ÓÇD€  ÓÈD  )Æ¤9"4,X+& ç"../fuick_js_framework/dist/navigator.js
         }
       }A
 ¨  mŞ  f 0B
-    	´  9˜   Ó# ÆÏ9$(a) => String(a)  ×b  ÓCÀ  Á $ C\   è   $ Ë8ñ  ÷ì!9ñ      MT  c  M3   ò)9   Bå   ÷ì9   Cå   é   c  $ )ÆÎ9D.4,I7ÕJI4&Îfunction error(...args) {
+    	´  9˜   Ó# ÆÌ9$(a) => String(a)  ×b  ÓCÀ  Á $ C\   è   $ Ë8ñ  ÷ì!9ñ      MM  c  M3   ò)9   Bå   ÷ì9   Cå   é   c  $ )ÆË9D.4,I7ÕJI4&Îfunction error(...args) {
         const message = args.map((a) => String(a)).join(" ");
         if (typeof dartCallNative === "function") {
           dartCallNative("console", { level: "error", message });
@@ -20700,7 +20696,7 @@ MA   $ ÓÇD€  ÓÈD  )Æ¤9"4,X+& ç"../fuick_js_framework/dist/navigator.js
           globalThis.print("[ERROR] " + message);
         }
       }Á ËÁÌÁÍ9”   Cf   Ó4  
-MA   $ ÓÇD  ÓÈDØ  ÓÉD  )Æ¸9
+MA   $ ÓÇD  ÓÈDÓ  ÓÉD  )Æµ9
 14,X+& & Ğ	"../fuick_js_framework/dist/ex/console.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
@@ -20731,8 +20727,8 @@ MA   $ ÓÇD  ÓÈDØ  ÓÉD  )Æ¸9
           globalThis.print("[ERROR] " + message);
         }
       }
-    }B  `Ü  ª  @¬ @®  °  ²  ´  C
-® cô  –  Ö 0®0ª ¬b b  ß’ãËàCC   c  ÓMz  [  Ms  $ Ôí¶Ì8ñ  ÷ì&9ñ  \  c  Më  c M  	M]  òîÓğc  (Æä9
+    }B  `Ü  œ  @ @   ¢  ¤  ¦  C
+  cô  ˆ  Ö 0®0œ b b  ß’ãËàCC   c  ÓMz  T  Ms  $ Ôí¶Ì8ñ  ÷ì&9ñ  U  c  Më  c M  	MV  òîÓğc  (Æá9
 6 ¸"7½ ×function setTimeout2(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "timeout" });
@@ -20744,14 +20740,14 @@ MA   $ ÓÇD  ÓÈDØ  ÓÉD  )Æ¸9
         }
         return id;
       }C
-°  'Ö  ¬ßC	   Ó$ 8ñ  ÷ì9ñ  ^  ÓMë  ò)Æï9  57°function clearTimeout2(id) {
+¢  'Ö  ßC	   Ó$ 8ñ  ÷ì9ñ  W  ÓMë  ò)Æì9  57°function clearTimeout2(id) {
         timerMap.delete(id);
         if (typeof dartCallNative === "function") {
           dartCallNative("deleteTimer", { id });
         }
       }C
-² Wô  –  Ö 0ª ¬b  ß’ãËàCC   c  ÓMz  _  Ms  $ 8ñ  ÷ì'9ñ  \  c  Më  Ôí¶M  
-M]  òc  (Æõ9' ”"7 function setInterval(fn, ms) {
+¤ Wô  ˆ  Ö 0œ b  ß’ãËàCC   c  ÓMz  X  Ms  $ 8ñ  ÷ì'9ñ  U  c  Më  Ôí¶M  
+MV  òc  (Æò9' ”"7 function setInterval(fn, ms) {
         const id = nextTimerId++;
         timerMap.set(id, { fn, type: "interval" });
         if (typeof dartCallNative === "function") {
@@ -20759,13 +20755,13 @@ M]  òc  (Æõ9' ”"7 function setInterval(fn, ms) {
         }
         return id;
       }C
-´  'Ö  ¬ßC	   Ó$ 8ñ  ÷ì9ñ  ^  ÓMë  ò)Æı9  57°function clearInterval(id) {
+¦  'Ö  ßC	   Ó$ 8ñ  ÷ì9ñ  W  ÓMë  ò)Æú9  57°function clearInterval(id) {
         timerMap.delete(id);
         if (typeof dartCallNative === "function") {
           dartCallNative("deleteTimer", { id });
         }
-      }B  ºÖ  À 0º
-¬b  ßCB   Ó$ Ëc  j§   c  Bs  [  ¯ìßC	   Ó$ m\   c  Bz  ÷ì#9  C  a  Ó$ c  Cz  $  î*9  C  b  C]   Óc  $ c  Bz  $ )Ìm(   9  C  d  C]   Óe  $ È$ )0)Æƒ:"0m+!  _+45*"4È4¹(id) => {
+      }B  ¦Ö  ² 0º
+b  ßCB   Ó$ Ëc  j“   c  Bs  T  ¯ìßC	   Ó$ mH   c  Bz  ÷ìc  Cz  $  î*9  C  Z  C]   Ó[  $ c  Bz  $ )Ìm(   9  C  \  C]   Ó]  $ È$ )0)Æ€:"0m+!  _+*"4È4ø(id) => {
         const entry = timerMap.get(id);
         if (entry) {
           if (entry.type === "timeout") {
@@ -20773,7 +20769,6 @@ M]  òc  (Æõ9' ”"7 function setInterval(fn, ms) {
           }
           try {
             if (typeof entry.fn === "function") {
-              console.log("[Timer] executing callback for", id);
               entry.fn();
             } else {
               console.error(`[Timer] Callback for timer ${id} is not a function:`, entry.fn);
@@ -20783,8 +20778,8 @@ M]  òc  (Æõ9' ”"7 function setInterval(fn, ms) {
           }
         }
       }Á ÍÁÎÁÄÁÄ9”   Cf   Ó4  
-MA   $ ÓÉD  ÓÊD  ÓÃDY  ÓÃDZ  ·Ë9µ   !  Ì9   ÁDf  )ÆÛ9J4,X+& & + 6F 
-@EÖ"../fuick_js_framework/dist/ex/timer.js"(exports) {
+MA   $ ÓÉD  ÓÊD  ÓÃDR  ÓÃDS  ·Ë9µ   !  Ì9   ÁD^  )ÆØ9J4,X+& & + 6F 
+@E•"../fuick_js_framework/dist/ex/timer.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.setTimeout = setTimeout2;
@@ -20832,7 +20827,6 @@ MA   $ ÓÉD  ÓÊD  ÓÃDY  ÓÃDZ  ·Ë9µ   !  Ì9   ÁDf  )ÆÛ9J4,X+& & 
           }
           try {
             if (typeof entry.fn === "function") {
-              console.log("[Timer] executing callback for", id);
               entry.fn();
             } else {
               console.error(`[Timer] Callback for timer ${id} is not a function:`, entry.fn);
@@ -20842,13 +20836,13 @@ MA   $ ÓÉD  ÓÊD  ÓÃDY  ÓÃDZ  ·Ë9µ   !  Ì9   ÁDf  )ÆÛ9J4,X+& & 
           }
         }
       };
-    }B ©	Ü  â  @ä @æ  Î @Ğ @Ò @Ô  Ö @’Æ7È8C
-  dî  Ú @Ò @ê  â   C
-      ÚÒßàH(Æ :+ 1function() {
+    }B ©	Ü  Ô  @Ö @Ø  ¾ @À @Â @Ä  Æ @’Æ7È8C
+  dà  Ú @Ò @ê  â   C
+      ÚÒßàH(Æœ:+ 1function() {
             return m[k];
           }ÖôìÕÚ9”   Cg   ÔÕ$ Ï—í$B   Ç¬ì
 ÔB4  —îÇB?   íÇB>   ì
-M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æœ:T?0S') 4,îfunction(o, m, k, k2) {
+M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æ˜:T?0S') 4,îfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -20858,24 +20852,24 @@ M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æœ:T?0S') 4,îfunction(o, m, k, k2)
         }
         Object.defineProperty(o, k2, desc);
       }C
-    î  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æ¥:%Xfunction(o, m, k, k2) {
+    à  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æ¡:%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-    !î  ø  9”   Cf   Ó   
-M@   ÔMA   $ )Æ©:Z¡4,efunction(o, v) {
+    !à  ø  9”   Cf   Ó   
+M@   ÔMA   $ )Æ¥:Z¡4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    î  ø  Ó   ±írÔrJ)Æ«:2function(o, v) {
+    à  ø  Ó   ±írÔrJ)Æ§:2function(o, v) {
         o["default"] = v;
       }C
-   Ğ  @â äC
-  î  Ğ C
-   <ğ  ò   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Æ°:3•*%¬function(o2) {
+   Ğ  @Ô ÖC
+  à  Ğ C
+   <â  ä   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Æ¬:3•*%¬function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9”   Bú  íÁ çÓ# Æ¯: 
+          }9”   Bó  íÁ çÓ# Æ«: 
 ”function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -20884,7 +20878,7 @@ M@   ÔMA   $ )Æ©:Z¡4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >Ø  „   Ò  ¬  Ğ â  ä ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æ·:U "*8* ;½&Ïfunction(mod) {
+  >Ø  „   Ò  ¬  Ğ Ô  Ö ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æ³:U "*8* ;½&Ïfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -20892,7 +20886,7 @@ M@   ÔMA   $ )Æ©:Z¡4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }Á Nh   ËÁ(Æ®:M  function() {
+        }Á Nh   ËÁ(Æª:M  function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -20911,11 +20905,11 @@ M@   ÔMA   $ )Æ©:Z¡4,efunction(o, v) {
           return result;
         };
       }C
-Ô   U ÎÖB
-  ¤    ò 0Î  b  ßCö  $  Ëc  CĞ  ÓÔ$ )ÆÏ:0)* (eventObj, payload) => {
+Ä   U ¾ÆB
+  ¤    ò 0¾  b  ßCï  $  Ëc  CĞ  ÓÔ$ )ÆË:0)* (eventObj, payload) => {
               const r = PageRender.ensureRenderer();
               r.dispatchEvent(eventObj, payload);
-            }àğ9”   C·  9   ßB–  M–  ßBX  MX  ßBÊ  MÊ  ßBë  Më  Á NĞ  MĞ  Ml  $ )ÆÇ: 4öfunction bindGlobals() {
+            }àğ9”   C·  9   ßB–  M–  ßBX  MX  ßBÊ  MÊ  ßBä  Mä  Á NĞ  MĞ  Md  $ )ÆÃ: 4öfunction bindGlobals() {
         setupPolyfills();
         Object.assign(globalThis, {
           FuickUIController: {
@@ -20930,22 +20924,22 @@ M@   ÔMA   $ )Æ©:Z¡4,efunction(o, v) {
           }
         });
       }C
-Ö  ¸Ú 0ĞÒB
-       9   Cä  %  Æç:4() => Date.now()@
+Æ  ¸Ê 0ÀÂB
+       9   Cä  %  Æã:4() => Date.now()@
    æ @Ü @Ş @B
-    (® 0æ ÜŞb  ßí9   Ëc  àH÷ìc  àI&  ¶áS'  ()Æë:$c+µ() => {
+    (® 0æ ÜŞb  ßí9   Ëc  àH÷ìc  àI&  ¶áS'  ()Æç:$c+µ() => {
             const target = obj || globalThis;
             if (typeof target[method] === "function") {
               return target[method](...args);
             }
-          } Ù9Ä   C‚   $  C   Á % Æê:$I*…(obj, method, ...args) => {
+          } Ù9Ä   C‚   $  C   Á % Ææ:$I*…(obj, method, ...args) => {
           return Promise.resolve().then(() => {
             const target = obj || globalThis;
             if (typeof target[method] === "function") {
               return target[method](...args);
             }
           });
-        }b  9   B  íË9   c  TßB  M  ßBØ  MØ  ßB  M  D  9   àB  D  9   àB  D  9   àBY  DY  9   àBZ  DZ  9   B  —ì9   Á Nä  Mä  D  9   ÁDn  )ÆÙ:c 4 S S S • ÷function setupPolyfills() {
+        }b  9   B  íË9   c  TßB  M  ßBÓ  MÓ  ßB  M  D  9   àB  D  9   àB  D  9   àBR  DR  9   àBS  DS  9   B  —ì9   Á Nä  Mä  D  9   ÁDf  )ÆÕ:c 4 S S S • ÷function setupPolyfills() {
         const oldConsole = globalThis.console || {};
         globalThis.console = {
           ...oldConsole,
@@ -20970,8 +20964,8 @@ M@   ÔMA   $ )Æ©:Z¡4,efunction(o, v) {
             }
           });
         };
-      }ÁÄÁÄÓìÓBñ  í9”   BW  ìÁ îÁËÓìÓBò  í9”   BW  ìÁîÁÌÓìÓBó  íÁğÍ9”   Cf   Ó4  
-MA   $ ÓDo  ÓÃDj  ÉßğñÎÉàğñÄÉáğñÄÓÃMj  Do  )Æš:+ UJ  4,X+& 0<!  1³"../fuick_js_framework/dist/runtime.js"(exports) {
+      }ÁÄÁÄÓìÓBê  í9”   BW  ìÁ îÁËÓìÓBë  í9”   BW  ìÁîÁÌÓìÓBì  íÁğÍ9”   Cf   Ó4  
+MA   $ ÓDg  ÓÃDb  ÉßğñÎÉàğñÄÉáğñÄÓÃMb  Dg  )Æ–:+ UJ  4,X+& 0<!  1³"../fuick_js_framework/dist/runtime.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -21060,13 +21054,13 @@ MA   $ ÓDo  ÓÃDj  ÉßğñÎÉàğñÄÉáğñÄÓÃMj  Do  )Æš:+ UJ  4,X+& 0<
           });
         };
       }
-    }B ˜	Ü  â  @ä @æ  º @Ì @Î @à  â  ê	î’C
-  dî  Ú @Ò @ê  â   C
-      ÚÒßàH(Æş:+ 1function() {
+    }B ˜	Ü  Ô  @Ö @Ø  º @Ì @¾ @Ğ  Ò  ê	î’C
+  dà  Ú @Ò @ê  â   C
+      ÚÒßàH(Æú:+ 1function() {
             return m[k];
           }ÖôìÕÚ9”   Cg   ÔÕ$ Ï—í$B   Ç¬ì
 ÔB4  —îÇB?   íÇB>   ì
-M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æú:T?0S') 4,îfunction(o, m, k, k2) {
+M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æö:T?0S') 4,îfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -21076,24 +21070,24 @@ M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æú:T?0S') 4,îfunction(o, m, k, k2)
         }
         Object.defineProperty(o, k2, desc);
       }C
-    î  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æƒ;%Xfunction(o, m, k, k2) {
+    à  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æÿ:%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-    !î  ø  9”   Cf   Ó   
-M@   ÔMA   $ )Æ‡;Z¡4,efunction(o, v) {
+    !à  ø  9”   Cf   Ó   
+M@   ÔMA   $ )Æƒ;Z¡4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    î  ø  Ó   ±írÔrJ)Æ‰;2function(o, v) {
+    à  ø  Ó   ±írÔrJ)Æ…;2function(o, v) {
         o["default"] = v;
       }C
-   Ğ  @â äC
-  î  Ğ C
-   <ğ  ò   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Æ;3•*%¬function(o2) {
+   Ğ  @Ô ÖC
+  à  Ğ C
+   <â  ä   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(ÆŠ;3•*%¬function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9”   Bú  íÁ çÓ# Æ; 
+          }9”   Bó  íÁ çÓ# Æ‰; 
 ”function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -21102,7 +21096,7 @@ M@   ÔMA   $ )Æ‡;Z¡4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >Ø  „   Ò  ¬  Ğ â  ä ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æ•;U "*8* ;½&Ïfunction(mod) {
+  >Ø  „   Ò  ¬  Ğ Ô  Ö ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æ‘;U "*8* ;½&Ïfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -21110,7 +21104,7 @@ M@   ÔMA   $ )Æ‡;Z¡4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }Á Nh   ËÁ(ÆŒ;M  function() {
+        }Á Nh   ËÁ(Æˆ;M  function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -21129,14 +21123,14 @@ M@   ÔMA   $ )Æ‡;Z¡4,efunction(o, v) {
           return result;
         };
       }C
-à3š @¾ pÎºÌB
-   %´ 0Î  ¾ š B
-    #ä 0Î  ¾šb  ßCì  f $ Ëc  ìc  CÄ  á$ )Æ¬;0L@Q*J½() => {
+Ğ3š @¾ p¾ºÌB
+   %´ 0¾  ¾ š B
+    #Ô 0¾  ¾šb  ßCå  f $ Ëc  ìc  CÄ  á$ )Æ¨;0L@Q*J½() => {
             const container2 = PageRender.getContainer(pageId);
             if (container2) {
               container2.unregisterVisibleCallback(callback);
             }
-          }b  ßCì  f $ Ëc  ìc  CÃ  á$ Á (Æ§;0@@O*Dş() => {
+          }b  ßCå  f $ Ëc  ìc  CÃ  á$ Á (Æ£;0@@O*Dş() => {
           const container = PageRender.getContainer(pageId);
           if (container) {
             container.registerVisibleCallback(callback);
@@ -21147,7 +21141,7 @@ M@   ÔMA   $ )Æ‡;Z¡4,efunction(o, v) {
               container2.unregisterVisibleCallback(callback);
             }
           };
-        }b  ôíqCß  ËîàBœ  áBŞ  ñîçàB  Á c  Ó& ò)Æ¥;€Z0U ªfunction useVisible(callback) {
+        }b  ôíqCß  ËîàBœ  áBŞ  ñîçàB  Á c  Ó& ò)Æ¡;€Z0U ªfunction useVisible(callback) {
         const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
         (0, react_1.useEffect)(() => {
           const container = PageRender.getContainer(pageId);
@@ -21162,14 +21156,14 @@ M@   ÔMA   $ )Æ‡;Z¡4,efunction(o, v) {
           };
         }, [pageId, callback]);
       }C
-â3š @¾ pÎºÌB
-   %´ 0Î  ¾ š B
-    #ä 0Î  ¾šb  ßCì  f $ Ëc  ìc  CÆ  á$ )Æ»;0L@Q*N¿() => {
+Ò3š @¾ p¾ºÌB
+   %´ 0¾  ¾ š B
+    #Ô 0¾  ¾šb  ßCå  f $ Ëc  ìc  CÆ  á$ )Æ·;0L@Q*N¿() => {
             const container2 = PageRender.getContainer(pageId);
             if (container2) {
               container2.unregisterInvisibleCallback(callback);
             }
-          }b  ßCì  f $ Ëc  ìc  CÅ  á$ Á (Æ¶;0@@O*H‚() => {
+          }b  ßCå  f $ Ëc  ìc  CÅ  á$ Á (Æ²;0@@O*H‚() => {
           const container = PageRender.getContainer(pageId);
           if (container) {
             container.registerInvisibleCallback(callback);
@@ -21180,7 +21174,7 @@ M@   ÔMA   $ )Æ‡;Z¡4,efunction(o, v) {
               container2.unregisterInvisibleCallback(callback);
             }
           };
-        }b  ôíqCß  ËîàBœ  áBŞ  ñîçàB  Á c  Ó& ò)Æ´;€Z0U °function useInvisible(callback) {
+        }b  ôíqCß  ËîàBœ  áBŞ  ñîçàB  Á c  Ó& ò)Æ°;€Z0U °function useInvisible(callback) {
         const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
         (0, react_1.useEffect)(() => {
           const container = PageRender.getContainer(pageId);
@@ -21194,8 +21188,8 @@ M@   ÔMA   $ )Æ‡;Z¡4,efunction(o, v) {
             }
           };
         }, [pageId, callback]);
-      }ÁÄÁÄÓìÓBñ  í9”   BW  ìÁ îÁËÓìÓBò  í9”   BW  ìÁîÁÌÓìÓBó  íÁğÍ9”   Cf   Ó4  
-MA   $ ÓÃDp  ÓÃDq  ßğÎàğÄÉáğñÄ)Æø:+ UJ  4,X++ 0ï"../fuick_js_framework/dist/hooks.js"(exports) {
+      }ÁÄÁÄÓìÓBê  í9”   BW  ìÁ îÁËÓìÓBë  í9”   BW  ìÁîÁÌÓìÓBì  íÁğÍ9”   Cf   Ó4  
+MA   $ ÓÃDh  ÓÃDi  ßğÎàğÄÉáğñÄ)Æô:+ UJ  4,X++ 0ï"../fuick_js_framework/dist/hooks.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -21270,10 +21264,10 @@ MA   $ ÓÃDp  ÓÃDq  ßğÎàğÄÉáğñÄ)Æø:+ UJ  4,X++ 0ï"../fuick_js_
           };
         }, [pageId, callback]);
       }
-    }B wÜ  ¸   º  æ  î pê	C
-    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÊ;C Xfunction(mod) {
+    }B wÜ  ¸   º  Ö  î pê	C
+    Ø  ÓìÓB4  ìÓ(ÓM   (ÆÆ;C Xfunction(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
-      }Æ  =¼  æ  ä    îËÌb +Ç5ÈÓ! e f  ìc $  c 	Mt  M  D]  c (ÆÑ;	5… ¿class extends react_1.default.Component {
+      }Æ  =¼  æ  ä    îËÌb +Ç5ÈÓ! e f  ìc $  c 	Ml  M  D]  c (ÆÍ;	5… ¿class extends react_1.default.Component {
         constructor(props) {
           super(props);
           this.state = { hasError: false, error: null };
@@ -21294,11 +21288,11 @@ MA   $ ÓÃDp  ÓÃDq  ßğÎàğÄÉáğñÄ)Æø:+ UJ  4,X++ 0ï"../fuick_js_
           return this.props.children;
         }
       }B    ¨  
-Mt  ÓM  (ÆÕ; WgetDerivedStateFromError(error) {
+Ml  ÓM  (ÆÑ; WgetDerivedStateFromError(error) {
           return { hasError: true, error };
-        }B    ¨  ê  9  C  v  ÓÔ$ )ÆØ;	4{componentDidCatch(error, errorInfo) {
+        }B    ¨  Ú  9  C  n  ÓÔ$ )ÆÔ;	4{componentDidCatch(error, errorInfo) {
           console.error("[ErrorBoundary] Caught error:", error, errorInfo);
-        }B     S  ËÇB]  Bt  ì9ÇB^  Bt  ÷ìÇB^  Ct  ÇB]  B  % ÇB^  Bt  í(ÇB^  Bp  (ÆÛ;	†NI¢render() {
+        }B     S  ËÇB]  Bl  ì9ÇB^  Bt  ÷ìÇB^  Ct  ÇB]  B  % ÇB^  Bt  í(ÇB^  Bp  (Æ×;	†NI¢render() {
           if (this.state.hasError) {
             if (typeof this.props.fallback === "function") {
               return this.props.fallback(this.state.error);
@@ -21307,7 +21301,7 @@ Mt  ÓM  (ÆÕ; WgetDerivedStateFromError(error) {
           }
           return this.props.children;
         }ÓìÓBÜ  íÁ Ë9”   Cf   Ó4  
-MA   $ ÓDs  ÇßğñĞB   BÆ  b ÀWs  ÁUj   ÁUh   ÁU–   Îi ÍÓÉDs  )ÆÈ;  4,X++< :,;¦	"../fuick_js_framework/dist/ErrorBoundary.js"(exports) {
+MA   $ ÓDk  ÇßğñĞB   BÆ  b ÀWk  ÁUj   ÁUh   ÁU–   Îi ÍÓÉDk  )ÆÄ;  4,X++< :,;¦	"../fuick_js_framework/dist/ErrorBoundary.js"(exports) {
       "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
@@ -21337,13 +21331,13 @@ MA   $ ÓDs  ÇßğñĞB   BÆ  b ÀWs  ÁUj   ÁUh   ÁU–   Îi ÍÓÉDs
         }
       };
       exports.ErrorBoundary = ErrorBoundary;
-    }B çÜ  â  @ä @¢  æ  Â5Ä6Ê9’Ì:Î;È8Æ7ğîC
-  dî  Ú @Ò @ê  â   C
-      ÚÒßàH(Æñ;+ 1function() {
+    }B çÜ  Ô  @Ö @”  Ø  Â5Ä6Ê9’Ì:Î;È8Æ7ğîC
+  dà  Ú @Ò @ê  â   C
+      ÚÒßàH(Æí;+ 1function() {
             return m[k];
           }ÖôìÕÚ9”   Cg   ÔÕ$ Ï—í$B   Ç¬ì
 ÔB4  —îÇB?   íÇB>   ì
-M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æí;T?0S') 4,îfunction(o, m, k, k2) {
+M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æé;T?0S') 4,îfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         var desc = Object.getOwnPropertyDescriptor(m, k);
         if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -21353,27 +21347,27 @@ M@   Á NB   MB   Ë9”   Cf   ÓÖÇ$ )Æí;T?0S') 4,îfunction(o, m, k, k2)
         }
         Object.defineProperty(o, k2, desc);
       }C
-    î  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æö;%Xfunction(o, m, k, k2) {
+    à  Ú  Ò  ê  ÖôìÕÚÓÖ±írÔÕHrJ)Æò;%Xfunction(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
         o[k2] = m[k];
       }C
-    !î  ø  9”   Cf   Ó   
-M@   ÔMA   $ )Æú;Z¡4,efunction(o, v) {
+    !à  ø  9”   Cf   Ó   
+M@   ÔMA   $ )Æö;Z¡4,efunction(o, v) {
         Object.defineProperty(o, "default", { enumerable: true, value: v });
       }C
-    î  ø  Ó   ±írÔrJ)Æü;2function(o, v) {
+    à  ø  Ó   ±írÔrJ)Æø;2function(o, v) {
         o["default"] = v;
       }C
-  5Ú  ğ  î   â Ó~î-ËÇ   °ì#9”   B<   Bo  Cç   ÔÇ$ —ìßÔÓÇóìÒ)Æÿ;=!1f* ¤function(m, exports2) {
+  5Ú  ğ  î   Ô Ó~î-ËÇ   °ì#9”   B<   Bo  Cç   ÔÇ$ —ìßÔÓÇóìÒ)Æû;=!1f* ¤function(m, exports2) {
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       }C
-   Ğ  @â äC
-  î  Ğ C
-   <ğ  ò   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Æ„<3•*%¬function(o2) {
+   Ğ  @Ô ÖC
+  à  Ğ C
+   <â  ä   Ò  &  ËÓ~î.Ì9”   B<   Bo  Cç   ÓÈ$ ìÇÇë±írÈrJìÑÇ(Æ€<3•*%¬function(o2) {
             var ar = [];
             for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
             return ar;
-          }9”   Bú  íÁ çÓ# Æƒ< 
+          }9”   Bó  íÁ çÓ# Æÿ; 
 ”function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -21382,7 +21376,7 @@ M@   ÔMA   $ )Æú;Z¡4,efunction(o, v) {
           };
           return ownKeys(o);
         }C
-  >Ø  „   Ò  ¬  Ğ â  ä ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æ‹<U "*8* ;½&Ïfunction(mod) {
+  >Ø  „   Ò  ¬  Ğ Ô  Ö ÓìÓB4  ìÓ(ËÓ®ì$ßÓñÌ¶ÍÉÈë§ìÈÉH   °ì	àÇÓÈÉHó”îäáÇÓòÇ(Æ‡<U "*8* ;½&Ïfunction(mod) {
           if (mod && mod.__esModule) return mod;
           var result = {};
           if (mod != null) {
@@ -21390,7 +21384,7 @@ M@   ÔMA   $ )Æú;Z¡4,efunction(o, v) {
           }
           __setModuleDefault(result, mod);
           return result;
-        }Á Nh   ËÁ(Æ‚<M  function() {
+        }Á Nh   ËÁ(Æş;M  function() {
         var ownKeys = function(o) {
           ownKeys = Object.getOwnPropertyNames || function(o2) {
             var ar = [];
@@ -21408,9 +21402,9 @@ M@   ÔMA   $ )Æú;Z¡4,efunction(o, v) {
           __setModuleDefault(result, mod);
           return result;
         };
-      }ÓìÓBñ  í9”   BW  ìÁ îÁËÓìÓBò  í9”   BW  ìÁîÁÌÓìÓBQ  íÁÍÓìÓBó  íÁğÎ9”   Cf   Ó4  
-MA   $ ÓDw  ÉßğÓòÉàğÓòÉáğÓòÓÊâğñDw  É_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_	 ğÓòÉ_
- ğÓòÉ_ ğÓò)Æë;< gP  4,X+& B+A&&&&&&&î"../fuick_js_framework/dist/index.js"(exports) {
+      }ÓìÓBê  í9”   BW  ìÁ îÁËÓìÓBë  í9”   BW  ìÁîÁÌÓìÓBJ  íÁÍÓìÓBì  íÁğÎ9”   Cf   Ó4  
+MA   $ ÓDo  ÉßğÓòÉàğÓòÉáğÓòÓÊâğñDo  É_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_	 ğÓòÉ_
+ ğÓòÉ_ ğÓò)Æç;< gP  4,X+& B+A&&&&&&&î"../fuick_js_framework/dist/index.js"(exports) {
       "use strict";
       var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
         if (k2 === void 0) k2 = k;
@@ -21466,11 +21460,11 @@ MA   $ ÓDw  ÉßğÓòÉàğÓòÉáğÓòÓÊâğñDw  É_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ ğÓòÉ_ 
       __exportStar(require_console(), exports);
       __exportStar(require_ids(), exports);
       __exportStar(require_PageContext(), exports);
-    }9”   BW  Ë9”   Bf   Ì9”   Bg   Í9”   Bú  Î9”   B`   Ä9”   B<   Bo  ÄÁ Nò   ÄÁNó   ÄÁNô   ÄÃÁUx  ñÄ	ÃÁUy  ñÄ
-ÃÁUz  ñÄÃÁU{  ñÄÃÁU|  ñÄÃÁU}  ñÄÃÁ	U~  ñÄÃÁ
-U  ñÄÃÁU€  ñÄÃÁU  ñÄÃÁU‚  ñÄÃÁUƒ  ñÄÃÁU„  ñÄÃÁU…  ñÄÃÁU†  ñÄÃÁU‡  ñÄÃÁUˆ  ñÄÃÁU‰  ñÄÃÁUŠ  ñÄÃÁU‹  ñÄÃÁUŒ  ñÄÃÁU  ñÄÃÁU  ñÄÃÁU  ñÄ ÃÁU  ñÄ!ÃÁU‘  ñÄ"ÃÁU’  ñÄ#ÃÁU“  ñÄ$ÃÁU”  ñÄ%ÃÁ U•  ñÄ&ÃÁ!U–  ñÄ'ÃÁ"U—  ñÄ(ÃÁ#U˜  ñÄ)ÃÁ$U™  ñÄ*ÃÁ%Uš  ñÄ+ÃÁ&U›  ñÄ,ÃÁ'Uœ  ñÄ-ÃÁ(U  ñÄ.ÃÁ)U  ñÄ/ÃÁ*UŸ  ñÄ0ÃÁ+U   ñÄ1ÃÁ,U¡  ñÄ2ÃÁ-U¢  ñÄ3ÃÁ.U£  ñÄ4ÃÁ/U¤  ñÄ5ÃÁ0U¥  ñÄ6ÃÁ1U¦  ñÄ7ÃÁ2U§  ñÄ8ÃÁ3U¨  ñÄ9ÃÁ4U©  ñÄ:ÃÁ5Uª  ñÄ;ÃÁ6U«  ñÄ<ÃÃ	ğñÄ=ÃÃ<ğñÄ>9   Ã=B   D¬  9   Ã>D*  )Æå f8J ¢     ^ ( ( ( ( , > ( (  ú šJ) Ğ  ¼	 ø ,
+    }9”   BW  Ë9”   Bf   Ì9”   Bg   Í9”   Bó  Î9”   B`   Ä9”   B<   Bo  ÄÁ Nò   ÄÁNó   ÄÁNô   ÄÃÁUp  ñÄ	ÃÁUq  ñÄ
+ÃÁUr  ñÄÃÁUs  ñÄÃÁUt  ñÄÃÁUu  ñÄÃÁ	Uv  ñÄÃÁ
+Uw  ñÄÃÁUx  ñÄÃÁUy  ñÄÃÁUz  ñÄÃÁU{  ñÄÃÁU|  ñÄÃÁU}  ñÄÃÁU~  ñÄÃÁU  ñÄÃÁU€  ñÄÃÁU  ñÄÃÁU‚  ñÄÃÁUƒ  ñÄÃÁU„  ñÄÃÁU…  ñÄÃÁU†  ñÄÃÁU‡  ñÄ ÃÁUˆ  ñÄ!ÃÁU‰  ñÄ"ÃÁUŠ  ñÄ#ÃÁU‹  ñÄ$ÃÁUŒ  ñÄ%ÃÁ U  ñÄ&ÃÁ!U  ñÄ'ÃÁ"U  ñÄ(ÃÁ#U  ñÄ)ÃÁ$U‘  ñÄ*ÃÁ%U’  ñÄ+ÃÁ&U“  ñÄ,ÃÁ'U”  ñÄ-ÃÁ(U•  ñÄ.ÃÁ)U–  ñÄ/ÃÁ*U—  ñÄ0ÃÁ+U˜  ñÄ1ÃÁ,U™  ñÄ2ÃÁ-Uš  ñÄ3ÃÁ.U›  ñÄ4ÃÁ/Uœ  ñÄ5ÃÁ0U  ñÄ6ÃÁ1U  ñÄ7ÃÁ2UŸ  ñÄ8ÃÁ3U   ñÄ9ÃÁ4U¡  ñÄ:ÃÁ5U¢  ñÄ;ÃÁ6U£  ñÄ<ÃÃ	ğñÄ=ÃÃ<ğñÄ>9   Ã=B   D¤  9   Ã>D*  )Æå f8J ¢     ^ ( ( ( ( , > ( (  ú šJ) Ğ  ¼	 ò ,
  Ê X ( ( ( ( ( ( ( (  ( 8 (
- ( ($ (! ( & , , @  R N p ¨ ( F ~ ¼   F z+!9X ÏÜ() => {
+ ( ($ (! ( & , , @  R N p ¨ ( F | ¼   F z+!9X ¹Ù() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -27903,12 +27897,10 @@ U  ñÄÃÁU€  ñÄÃÁU  ñÄÃÁU‚  ñÄÃÁUƒ  ñÄÃÁU„  ñÄÃ
           const pageId = eventObj?.pageId;
           const nodeId = Number(eventObj?.nodeId || eventObj?.id);
           const eventKey = eventObj?.eventKey;
-          console.log(`[Renderer] dispatchEvent pageId=${pageId}, nodeId=${nodeId}, eventKey=${eventKey}`);
           const container = containers[pageId];
           if (container) {
             const fn = container.getCallback(nodeId, eventKey);
             if (typeof fn === "function") {
-              console.log(`[Renderer] Found callback for nodeId=${nodeId}, eventKey=${eventKey}, executing...`);
               fn(payload);
             } else {
               console.warn(`[Renderer] Callback not found for nodeId=${nodeId}, eventKey=${eventKey}`);
@@ -27990,7 +27982,6 @@ U  ñÄÃÁU€  ñÄÃÁU  ñÄÃÁU‚  ñÄÃÁUƒ  ñÄÃÁU„  ñÄÃ
           },
           notifyLifecycle(pageId, type) {
             const container = containers[pageId];
-            console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
             if (container) {
               if (type === "visible") {
                 container.notifyVisible();
@@ -28902,7 +28893,6 @@ U  ñÄÃÁU€  ñÄÃÁU  ñÄÃÁU‚  ñÄÃÁUƒ  ñÄÃÁU„  ñÄÃ
           }
           try {
             if (typeof entry.fn === "function") {
-              console.log("[Timer] executing callback for", id);
               entry.fn();
             } else {
               console.error(`[Timer] Callback for timer ${id} is not a function:`, entry.fn);
@@ -29190,4 +29180,4 @@ U  ñÄÃÁU€  ñÄÃÁU  ñÄÃÁU‚  ñÄÃÁUƒ  ñÄÃÁU„  ñÄÃ
   var FuickFramework = __toESM(require_dist());
   globalThis.React = import_react.default;
   globalThis.FuickFramework = FuickFramework;
-}ì)ßí­  M®  M¯  ã8  öì<9   Á N  M  ÁN  M  ÁNØ  MØ  ÁN°  M°  D  Áğ/Æ¢x. ;¥ Ğx  
+}ì)ßí¥  M¦  M§  ã8  öì<9   Á N  M  ÁN  M  ÁNÓ  MÓ  ÁN¨  M¨  D  Áğ/Æ¢x. ;¥ Èx  

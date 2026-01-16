@@ -47,7 +47,6 @@ globalThis.__handleTimer = (id) => {
         }
         try {
             if (typeof entry.fn === 'function') {
-                console.log('[Timer] executing callback for', id);
                 entry.fn();
             }
             else {

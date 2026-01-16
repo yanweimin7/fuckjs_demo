@@ -48,7 +48,7 @@ export function clearInterval(id: number) {
         }
         try {
             if (typeof entry.fn === 'function') {
-                console.log('[Timer] executing callback for', id);
+
                 entry.fn();
             } else {
                 console.error(`[Timer] Callback for timer ${id} is not a function:`, entry.fn);

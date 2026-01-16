@@ -6433,12 +6433,10 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           const pageId = eventObj?.pageId;
           const nodeId = Number(eventObj?.nodeId || eventObj?.id);
           const eventKey = eventObj?.eventKey;
-          console.log(`[Renderer] dispatchEvent pageId=${pageId}, nodeId=${nodeId}, eventKey=${eventKey}`);
           const container = containers[pageId];
           if (container) {
             const fn = container.getCallback(nodeId, eventKey);
             if (typeof fn === "function") {
-              console.log(`[Renderer] Found callback for nodeId=${nodeId}, eventKey=${eventKey}, executing...`);
               fn(payload);
             } else {
               console.warn(`[Renderer] Callback not found for nodeId=${nodeId}, eventKey=${eventKey}`);
@@ -6520,7 +6518,6 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           },
           notifyLifecycle(pageId, type) {
             const container = containers[pageId];
-            console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
             if (container) {
               if (type === "visible") {
                 container.notifyVisible();
@@ -7432,7 +7429,6 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           }
           try {
             if (typeof entry.fn === "function") {
-              console.log("[Timer] executing callback for", id);
               entry.fn();
             } else {
               console.error(`[Timer] Callback for timer ${id} is not a function:`, entry.fn);

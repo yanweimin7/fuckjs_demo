@@ -15,12 +15,10 @@ function dispatchEvent(eventObj, payload) {
         const pageId = eventObj?.pageId;
         const nodeId = Number(eventObj?.nodeId || eventObj?.id);
         const eventKey = eventObj?.eventKey;
-        console.log(`[Renderer] dispatchEvent pageId=${pageId}, nodeId=${nodeId}, eventKey=${eventKey}`);
         const container = containers[pageId];
         if (container) {
             const fn = container.getCallback(nodeId, eventKey);
             if (typeof fn === 'function') {
-                console.log(`[Renderer] Found callback for nodeId=${nodeId}, eventKey=${eventKey}, executing...`);
                 fn(payload);
             }
             else {
@@ -111,7 +109,6 @@ function createRenderer() {
         },
         notifyLifecycle(pageId, type) {
             const container = containers[pageId];
-            console.log(`[Renderer] notifyLifecycle pageId=${pageId}, type=${type}, container exists: ${!!container}`);
             if (container) {
                 if (type === 'visible') {
                     container.notifyVisible();
