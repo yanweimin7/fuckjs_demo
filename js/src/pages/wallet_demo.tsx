@@ -11,7 +11,7 @@ import {
     Expanded,
     Scaffold,
     AppBar,
-    BatchedListView,
+    ListView,
     ListTile,
     BottomNavigationBar,
     BottomNavigationBarItem,
@@ -146,7 +146,7 @@ const WalletDemoPage = () => {
                 </Padding>
 
                 <Container height={100}>
-                    <BatchedListView
+                    <ListView
                         orientation="horizontal"
                         shrinkWrap={false}
                         padding={{ left: 16, right: 16 }}
@@ -167,7 +167,7 @@ const WalletDemoPage = () => {
                                 </Column>
                             </Padding>
                         ))}
-                    </BatchedListView>
+                    </ListView>
                 </Container>
 
                 <Padding padding={{ left: 16, right: 16, top: 16, bottom: 8 }}>
@@ -175,14 +175,15 @@ const WalletDemoPage = () => {
                 </Padding>
 
                 <Expanded>
-                    <BatchedListView
+                    <ListView
                         orientation="vertical"
                         padding={{ left: 16, right: 16, top: 8, bottom: 16 }}
-                    >
-                        {listData.map((item, index) => (
-                            <AssetListItem key={index} item={item} />
-                        ))}
-                    </BatchedListView>
+                        itemCount={listData.length}
+                        itemBuilder={(index: number) => {
+                            const item = listData[index];
+                            return <AssetListItem key={index} item={item} />;
+                        }}
+                    />
                 </Expanded>
             </Column>
         </Scaffold>

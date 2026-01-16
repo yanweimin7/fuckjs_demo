@@ -6166,17 +6166,21 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
           this.markChanged(node);
         }
         commit() {
+          const commitStart = Date.now();
           try {
             if (this.incrementalMode) {
               const rootChanged2 = this.root && this.changedNodes.has(this.root);
               if ((!this.rendered || rootChanged2) && this.root) {
+                const dslStart = Date.now();
                 const dsl = this.root.toDsl();
+                const dslEnd = Date.now();
                 if (dsl && dsl.type) {
                   dartCallNative("renderUI", {
                     pageId: Number(this.pageId),
                     renderData: dsl
                   });
                   this.rendered = true;
+                  console.log(`[JS Performance] commit(full) page=${this.pageId} total=${Date.now() - commitStart}ms (dsl=${dslEnd - dslStart}ms)`);
                 }
               } else if (this.mutationQueue.length > 0) {
                 if (typeof dartCallNative === "function") {
@@ -6185,6 +6189,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
                     ops: this.mutationQueue
                   });
                   this.mutationQueue = [];
+                  console.log(`[JS Performance] commit(patchOps) page=${this.pageId} total=${Date.now() - commitStart}ms`);
                 }
               }
               return;
@@ -6199,13 +6204,16 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
               return;
             const rootChanged = this.root && this.changedNodes.has(this.root);
             if (!this.rendered || rootChanged) {
+              const dslStart = Date.now();
               const dsl = this.root?.toDsl();
+              const dslEnd = Date.now();
               if (dsl && dsl.type) {
                 dartCallNative("renderUI", {
                   pageId: Number(this.pageId),
                   renderData: dsl
                 });
                 this.rendered = true;
+                console.log(`[JS Performance] commit(full) page=${this.pageId} total=${Date.now() - commitStart}ms (dsl=${dslEnd - dslStart}ms)`);
               }
             } else {
               const patches = [];
@@ -6233,6 +6241,7 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
                   topLevelNodes.add(node);
                 }
               }
+              const dslStart = Date.now();
               for (const node of topLevelNodes) {
                 if (processedNodes.has(node.id))
                   continue;
@@ -6242,11 +6251,13 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
                   processedNodes.add(node.id);
                 }
               }
+              const dslEnd = Date.now();
               if (patches.length > 0) {
                 dartCallNative("patchUI", {
                   pageId: Number(this.pageId),
                   patches
                 });
+                console.log(`[JS Performance] commit(patchUI) page=${this.pageId} nodes=${topLevelNodes.size} total=${Date.now() - commitStart}ms (dsl=${dslEnd - dslStart}ms)`);
               }
             }
           } catch (e) {
@@ -6323,9 +6334,11 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
               const childDsl = this.elementToDsl(child, depth + 1);
               if (childDsl) {
                 if (Array.isArray(childDsl)) {
-                  dslChildren.push(...childDsl);
+                  for (const item of childDsl) {
+                    this.processDslChild(processedProps, dslChildren, item);
+                  }
                 } else {
-                  dslChildren.push(childDsl);
+                  this.processDslChild(processedProps, dslChildren, childDsl);
                 }
               }
             }
@@ -6345,6 +6358,28 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
             return result;
           }
           return null;
+        }
+        processDslChild(processedProps, dslChildren, childDsl) {
+          if (childDsl.type === "FlutterProps" || childDsl.type === "flutter-props") {
+            const propsKey = childDsl.props?.propsKey;
+            if (propsKey) {
+              const propChildren = childDsl.children || [];
+              if (propChildren.length > 0) {
+                const newValue = propChildren.length === 1 ? propChildren[0] : propChildren;
+                if (processedProps[propsKey]) {
+                  if (Array.isArray(processedProps[propsKey])) {
+                    processedProps[propsKey].push(newValue);
+                  } else {
+                    processedProps[propsKey] = [processedProps[propsKey], newValue];
+                  }
+                } else {
+                  processedProps[propsKey] = newValue;
+                }
+              }
+            }
+          } else {
+            dslChildren.push(childDsl);
+          }
         }
         /**
          * 递归处理组件属性，将 React/JS 特有的属性转换为 Flutter 可识别的 DSL 格式

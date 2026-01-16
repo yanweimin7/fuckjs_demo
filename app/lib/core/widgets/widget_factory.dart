@@ -31,6 +31,8 @@ import 'parsers/safe_area_parser.dart';
 import 'parsers/page_view_parser.dart';
 import 'parsers/grid_view_parser.dart';
 import 'parsers/batched_list_view_parser.dart';
+import 'parsers/list_tile_parser.dart';
+import 'parsers/bottom_navigation_bar_parser.dart';
 
 class WidgetFactory {
   WidgetFactory() {
@@ -69,6 +71,8 @@ class WidgetFactory {
     register(PageViewParser());
     register(GridViewParser());
     register(BatchedListViewParser());
+    register(ListTileParser());
+    register(BottomNavigationBarParser());
   }
 
   void register(WidgetParser parser) {
