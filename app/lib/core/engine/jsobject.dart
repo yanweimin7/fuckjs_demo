@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart' as ffi;
@@ -81,7 +82,12 @@ class JSObject {
 
   dynamic invoke(String name, List<dynamic> args) {
     if (_disposed || _token.isDisposed) return null;
-    return context.ffi.invokeMethod(context.handle, _handle, name, args);
+    // print("[JS Invocation] Entering invoke: $name with ${args.length} args");
+    try {
+      return context.ffi.invokeMethod(context.handle, _handle, name, args);
+    } finally {
+      // print("[JS Invocation] Leaving invoke: $name");
+    }
   }
 
   /**

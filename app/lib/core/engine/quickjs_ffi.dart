@@ -134,6 +134,10 @@ final class QuickJsFFI {
   late final _destroy = _lib.lookupFunction<Void Function(Pointer<Void>),
       void Function(Pointer<Void>)>('qjs_destroy_runtime');
 
+  late final _setMaxStackSize = _lib.lookupFunction<
+      Void Function(Pointer<Void>, Size),
+      void Function(Pointer<Void>, int)>('qjs_set_max_stack_size');
+
   late final _createContext = _lib.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)>('qjs_create_context');
@@ -289,6 +293,8 @@ final class QuickJsFFI {
 
   Pointer<Void> createRuntime() => _create();
   void destroyRuntime(Pointer<Void> h) => _destroy(h);
+  void setMaxStackSize(Pointer<Void> h, int stackSize) =>
+      _setMaxStackSize(h, stackSize);
 
   Pointer<Void> createContext(Pointer<Void> rtHandle) =>
       _createContext(rtHandle);

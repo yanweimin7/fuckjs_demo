@@ -122,6 +122,7 @@ class QuickJsContext implements IQuickJsContext {
 
     instances.remove(_handle.address);
     JSObject.clearContextState(_handle.address);
+    print('js context dispose');
     _ffi.destroyContext(_handle);
   }
 
