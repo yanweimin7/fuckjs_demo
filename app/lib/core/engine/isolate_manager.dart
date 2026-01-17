@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:isolate';
 import 'dart:typed_data';
 
@@ -35,27 +34,9 @@ class IsolateHandler {
   ) async {
     runZonedGuarded(
       () async {
-        _activeMessageCount++;
-        if (_activeMessageCount > _maxNestingLevel) {
-          _maxNestingLevel = _activeMessageCount;
-        }
-
-        if (_activeMessageCount > 1) {
-          print(
-            "[Isolate Monitor] Parallel message detected! Count: $_activeMessageCount, Type: $type, Max Nesting: $_maxNestingLevel",
-          );
-        } else {
-          print("[Isolate Monitor] Processing message: $type, id: $id");
-        }
-
-        // Ensure we always yield the stack before processing a message.
-        // This prevents stack accumulation when messages are sent in a tight loop.
-        await Future.microtask(() {});
-
         try {
-          if (type == 'initEngine') {
-            await EngineInit.initQjs();
-            return;
+          if (EngineInit.qjs == null) {
+            EngineInit.initQjs();
           }
           if (type == 'createContext') {
             if (!contexts.containsKey(contextId)) {
@@ -66,20 +47,6 @@ class IsolateHandler {
               }
               final ctx = EngineInit.runtime!.createContext();
               contexts[contextId] = ctx;
-
-              // Define helper for async invocation to break call stack
-              // Moved to runtime.ts in JS framework
-              // ctx.eval('''
-              //   globalThis.__invokeAsync = (obj, method, ...args) => {
-              //     return Promise.resolve().then(() => {
-              //       const target = obj || globalThis;
-              //       if (typeof target[method] === 'function') {
-              //         return target[method](...args);
-              //       }
-              //     });
-              //   };
-              // ''');
-
               final binder = NativeServiceBinder();
               binders[contextId] = binder;
               // Only register services that can run in isolate

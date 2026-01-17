@@ -24,7 +24,6 @@ class IsolateWorker {
     if (_initialized) return _ready.future;
     _initialized = true;
     await _worker.init(_mainHandler, _isolateHandler);
-    sendRequest('', 'initEngine', '');
     _ready.complete();
   }
 
