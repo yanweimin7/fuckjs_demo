@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fuickjs_core/core/engine/engine.dart';
 
-import 'core/container/fuick_app_page.dart';
-import 'core/container/fuick_multi_tab_page.dart';
-import 'core/engine/engine.dart';
+import 'fuick_app_page.dart';
+import 'fuick_multi_tab_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,15 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/demo');
-            },
-            icon: const Icon(Icons.code),
-            tooltip: '打开 QuickJS 测试页',
-          ),
-        ],
+        actions: [],
       ),
       body: Column(
         children: [
@@ -74,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               );
             },
-            child: Text('打开小程序'),
+            child: Text('打开示例'),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -87,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               );
             },
-            child: const Text('打开多 Tab 示例 (多 Context)'),
+            child: const Text('打开多 Tab 示例'),
           ),
         ],
       ),

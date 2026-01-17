@@ -1,11 +1,11 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_quickjs/core/engine/quickjs_ffi.dart';
-import 'package:flutter_quickjs/core/engine/jscontext.dart';
-import 'package:flutter_quickjs/core/engine/runtime.dart';
-import 'package:flutter_quickjs/core/engine/jsobject.dart';
-import 'package:flutter_quickjs/core/utils/extensions.dart';
+import 'package:fuickjs_core/core/engine/quickjs_ffi.dart';
+import 'package:fuickjs_core/core/engine/jscontext.dart';
+import 'package:fuickjs_core/core/engine/runtime.dart';
+import 'package:fuickjs_core/core/engine/jsobject.dart';
+import 'package:fuickjs_core/core/utils/extensions.dart';
 
 void main() {
   group('QuickJS Engine Tests', () {

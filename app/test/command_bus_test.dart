@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_quickjs/core/service/fuick_command_bus.dart';
+import 'package:fuickjs_core/core/service/fuick_command_bus.dart';
 
 void main() {
   group('FuickCommandBus Isolation Tests', () {

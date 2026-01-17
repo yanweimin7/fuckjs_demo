@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  fuickjs_core: #^0.0.1
+    path: ../../fuickjs_core
   ffi: ^2.1.0
   easy_isolate: ^1.0.1
   cupertino_icons: ^1.0.8
