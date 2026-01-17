@@ -1,6 +1,7 @@
 #ifndef QUICKJS_FFI_PUBLIC_H
 #define QUICKJS_FFI_PUBLIC_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 typedef struct QjsResult {
@@ -20,6 +21,7 @@ typedef void (*DartNativeFunction)(void *handle, const char *method,
 
 void *qjs_create_runtime(void);
 void qjs_destroy_runtime(void *handle);
+void qjs_set_max_stack_size(void *handle, size_t stack_size);
 
 void qjs_get_global_object(void *handle, QjsResult *out);
 void qjs_set_property(void *handle, QjsResult *obj_res, const char *prop,
