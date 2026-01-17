@@ -16,23 +16,24 @@ class QuickJsRuntime {
 
   QuickJsRuntime(this._ffi) : _handle = _ffi.createRuntime() {
     _ffi.setMaxStackSize(_handle, 0);
+    _ffi.setEnableIterativeFallback(false);
     _initEnqueueJob();
   }
 
   void _initEnqueueJob() {
     _onEnqueueJobCallback =
         NativeCallable<Void Function(Pointer<Void>)>.listener((
-      Pointer<Void> rt,
-    ) {
-      if (_isJobPending) return;
-      _isJobPending = true;
+          Pointer<Void> rt,
+        ) {
+          if (_isJobPending) return;
+          _isJobPending = true;
 
-      // Use microtask instead of Future() for faster Promise resolution
-      scheduleMicrotask(() {
-        _isJobPending = false;
-        executePendingJobs();
-      });
-    });
+          // Use microtask instead of Future() for faster Promise resolution
+          scheduleMicrotask(() {
+            _isJobPending = false;
+            executePendingJobs();
+          });
+        });
     _ffi.setOnEnqueueJob(_handle, _onEnqueueJobCallback!.nativeFunction);
   }
 
