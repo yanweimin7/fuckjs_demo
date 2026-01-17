@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../utils/extensions.dart';
 import '../widget_factory.dart';
 import '../widget_utils.dart';
@@ -9,8 +10,12 @@ class IconParser extends WidgetParser {
   String get type => 'Icon';
 
   @override
-  Widget parse(BuildContext context, Map<String, dynamic> props,
-      dynamic children, WidgetFactory factory) {
+  Widget parse(
+    BuildContext context,
+    Map<String, dynamic> props,
+    dynamic children,
+    WidgetFactory factory,
+  ) {
     final cp = asIntOrNull(props['codePoint']);
     final name = props['name']?.toString();
     final color = WidgetUtils.colorFromHex(props['color'] as String?);
@@ -18,7 +23,8 @@ class IconParser extends WidgetParser {
 
     IconData data;
     if (cp != null) {
-      data = IconData(cp, fontFamily: 'MaterialIcons');
+      data = Icons.circle;
+      // data = IconData(cp, fontFamily: 'MaterialIcons');
     } else if (name != null) {
       data = WidgetUtils.iconData(name);
     } else {

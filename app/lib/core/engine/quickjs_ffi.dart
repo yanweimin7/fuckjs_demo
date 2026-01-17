@@ -285,6 +285,11 @@ final class QuickJsFFI {
     'qjs_set_use_binary_protocol',
   );
 
+  late final _setEnableIterativeFallback =
+      _lib.lookupFunction<Void Function(Int32), void Function(int)>(
+    'qjs_set_enable_iterative_fallback',
+  );
+
   late final _initDefaultBindings = _lib.lookupFunction<
       Void Function(Pointer<Void>),
       void Function(Pointer<Void>)>('qjs_init_default_bindings');
@@ -486,6 +491,10 @@ final class QuickJsFFI {
   void setUseBinaryProtocol(bool use) {
     _useBinaryProtocol = use;
     _setUseBinaryProtocol(use ? 1 : 0);
+  }
+
+  void setEnableIterativeFallback(bool enable) {
+    _setEnableIterativeFallback(enable ? 1 : 0);
   }
 
   /**
