@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.2
+  sdk: ^3.6.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,11 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  fuickjs_flutter:
+    path: ../fuickjs_flutter
   ffi: ^2.1.0
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  easy_isolate: ^1.0.1
   cupertino_icons: ^1.0.8
+  cached_network_image: ^3.4.1
+  web_socket_channel: ^3.0.1
+  go_router: ^16.1.0
 
 dev_dependencies:
   flutter_test:
@@ -58,11 +61,14 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/js/fuick_js_test.js
+    - assets/js/fuick_js_test.qjc
+    - assets/js/test.js
+    - assets/js/test.qjc
     - assets/js/bundle.js
-
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+    - assets/js/bundle.qjc
+    - assets/js/framework.bundle.js
+    - assets/js/framework.bundle.qjc
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

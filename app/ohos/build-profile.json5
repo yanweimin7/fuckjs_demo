@@ -1,0 +1,52 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/wey/.ohos/config/default_ohos_-TfymCjNnd2bCqJJZvwVPqMHQfS2t-H7bBmmFzXVSVY=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001BDE1B1B43824CE0D07F61C692E520276591B2F2E39B3C0BF3B90B8B11B1A53F7C1ACD27CC96A704",
+          "profile": "/Users/wey/.ohos/config/default_ohos_-TfymCjNnd2bCqJJZvwVPqMHQfS2t-H7bBmmFzXVSVY=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/wey/.ohos/config/default_ohos_-TfymCjNnd2bCqJJZvwVPqMHQfS2t-H7bBmmFzXVSVY=.p12",
+          "storePassword": "0000001BAFDFD0B5D6EBF013DB884EA3364CF6BD65394A30198D0506B6CFA7D729D81DDC468614A138DBC4"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "runtimeOS": "HarmonyOS",
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "profile"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}

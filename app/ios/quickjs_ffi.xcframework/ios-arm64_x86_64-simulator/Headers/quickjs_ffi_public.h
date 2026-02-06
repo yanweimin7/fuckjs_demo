@@ -1,6 +1,7 @@
 #ifndef QUICKJS_FFI_PUBLIC_H
 #define QUICKJS_FFI_PUBLIC_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 typedef struct QjsResult {
@@ -14,18 +15,33 @@ typedef struct QjsResult {
   int32_t data_len;
 } QjsResult;
 
-void *qjs_create_runtime(void);
-void *qjs_create_context(void *runtime_handle);
-void qjs_destroy_runtime(void *handle);
-void qjs_destroy_context(void *handle);
-char *qjs_evaluate_script(void *handle, const char *js_code);
-void qjs_free_string(char *s);
+typedef void (*DartNativeFunction)(void *handle, const char *method,
+                                   QjsResult *args, int32_t argc,
+                                   QjsResult *out);
 
-void qjs_register_call_native(void *handle, void *cb);
-void qjs_register_call_async_start(void *handle, void *cb);
-void qjs_register_call_async_typed(void *handle, void *cb);
+void *qjs_create_runtime(void);
+void qjs_destroy_runtime(void *handle);
+void qjs_set_max_stack_size(void *handle, size_t stack_size);
+
+void qjs_get_global_object(void *handle, QjsResult *out);
+void qjs_set_property(void *handle, QjsResult *obj_res, const char *prop,
+                      QjsResult *val_res);
+void qjs_get_property(void *handle, QjsResult *obj_res, const char *prop,
+                      QjsResult *out);
+void qjs_new_function(void *handle, const char *name, DartNativeFunction cb,
+                      QjsResult *out);
+void qjs_call_function(void *handle, QjsResult *obj_res, QjsResult *args,
+                       int32_t argc, QjsResult *out);
+void qjs_invoke_method(void *handle, QjsResult *obj_res, const char *name,
+                       QjsResult *args, int32_t argc, QjsResult *out);
+void qjs_evaluate_value_out(void *handle, const char *code, int32_t len,
+                            int32_t is_bytecode, QjsResult *out);
+int32_t qjs_run_jobs(void *handle);
 
 void qjs_async_resolve_typed(void *handle, int id, QjsResult *result);
 void qjs_async_reject(void *handle, int id, const char *reason);
+
+void qjs_free_result_content(QjsResult *res);
+void qjs_set_use_binary_protocol(int use);
 
 #endif
