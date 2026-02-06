@@ -19,7 +19,7 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.19",
     "echarts": "^6.0.0",
-    "fuickjs": "file:../fuickjs",
+    "fuickjs": "file:../../fuickjs_framework/fuickjs",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.22",
     "moment": "^2.30.1",

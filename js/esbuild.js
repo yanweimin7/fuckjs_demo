@@ -68,7 +68,7 @@ async function build() {
       'react': path.resolve(__dirname, reactPath),
       'react-reconciler': path.resolve(__dirname, reconcilerPath),
       'scheduler': path.resolve(__dirname, schedulerPath),
-      'fuickjs': path.resolve(__dirname, '../fuickjs/dist/index.js'),
+      'fuickjs': path.resolve(__dirname, '../../fuickjs_framework/fuickjs/dist/index.js'),
     },
   });
 

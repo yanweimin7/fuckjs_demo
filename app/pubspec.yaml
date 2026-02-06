@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   fuickjs_flutter:
-    path: ../fuickjs_flutter
+    path: ../../fuickjs_framework/fuickjs_flutter
   ffi: ^2.1.0
   easy_isolate: ^1.0.1
   cupertino_icons: ^1.0.8

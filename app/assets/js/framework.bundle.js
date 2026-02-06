@@ -298,17 +298,17 @@ var require_react_production_min = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/types.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/types.js
 var require_types = __commonJS({
-  "../fuickjs/dist/widgets/types.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
   }
 });
 
-// ../fuickjs/dist/PageContext.js
+// ../../fuickjs_framework/fuickjs/dist/PageContext.js
 var require_PageContext = __commonJS({
-  "../fuickjs/dist/PageContext.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/PageContext.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -320,9 +320,9 @@ var require_PageContext = __commonJS({
   }
 });
 
-// ../fuickjs/dist/utils/ids.js
+// ../../fuickjs_framework/fuickjs/dist/utils/ids.js
 var require_ids = __commonJS({
-  "../fuickjs/dist/utils/ids.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/utils/ids.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.refsId = refsId;
@@ -336,9 +336,9 @@ var require_ids = __commonJS({
   }
 });
 
-// ../fuickjs/dist/services/UIService.js
+// ../../fuickjs_framework/fuickjs/dist/services/UIService.js
 var require_UIService = __commonJS({
-  "../fuickjs/dist/services/UIService.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/services/UIService.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UIService = void 0;
@@ -369,9 +369,9 @@ var require_UIService = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/BaseWidget.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/BaseWidget.js
 var require_BaseWidget = __commonJS({
-  "../fuickjs/dist/widgets/BaseWidget.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/BaseWidget.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -5411,9 +5411,9 @@ var require_react_reconciler_production_min = __commonJS({
   }
 });
 
-// ../fuickjs/dist/hostConfig.js
+// ../../fuickjs_framework/fuickjs/dist/hostConfig.js
 var require_hostConfig = __commonJS({
-  "../fuickjs/dist/hostConfig.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/hostConfig.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -5676,9 +5676,9 @@ var require_hostConfig = __commonJS({
   }
 });
 
-// ../fuickjs/dist/node.js
+// ../../fuickjs_framework/fuickjs/dist/node.js
 var require_node = __commonJS({
-  "../fuickjs/dist/node.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/node.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -5831,9 +5831,9 @@ var require_node = __commonJS({
   }
 });
 
-// ../fuickjs/dist/strategies/IncrementalStrategy.js
+// ../../fuickjs_framework/fuickjs/dist/strategies/IncrementalStrategy.js
 var require_IncrementalStrategy = __commonJS({
-  "../fuickjs/dist/strategies/IncrementalStrategy.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/strategies/IncrementalStrategy.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.IncrementalStrategy = void 0;
@@ -6000,9 +6000,9 @@ var require_IncrementalStrategy = __commonJS({
   }
 });
 
-// ../fuickjs/dist/strategies/DiffStrategy.js
+// ../../fuickjs_framework/fuickjs/dist/strategies/DiffStrategy.js
 var require_DiffStrategy = __commonJS({
-  "../fuickjs/dist/strategies/DiffStrategy.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/strategies/DiffStrategy.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiffStrategy = void 0;
@@ -6100,9 +6100,9 @@ var require_DiffStrategy = __commonJS({
   }
 });
 
-// ../fuickjs/dist/PageContainer.js
+// ../../fuickjs_framework/fuickjs/dist/PageContainer.js
 var require_PageContainer = __commonJS({
-  "../fuickjs/dist/PageContainer.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/PageContainer.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -6370,7 +6370,6 @@ var require_PageContainer = __commonJS({
             }
             if (typeof type === "function") {
               if (type.prototype && type.prototype.isReactComponent) {
-                console.log(`[PageContainer] Manual instantiation via elementToDsl for: ${type.name || "Unknown"}`);
                 const instance = new type(originalProps);
                 instance.context = { pageId: this.pageId };
                 if (elAny.ref) {
@@ -6527,9 +6526,9 @@ var require_PageContainer = __commonJS({
   }
 });
 
-// ../fuickjs/dist/ErrorHandler.js
+// ../../fuickjs_framework/fuickjs/dist/ErrorHandler.js
 var require_ErrorHandler = __commonJS({
-  "../fuickjs/dist/ErrorHandler.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/ErrorHandler.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ErrorHandler = void 0;
@@ -6560,9 +6559,9 @@ var require_ErrorHandler = __commonJS({
   }
 });
 
-// ../fuickjs/dist/renderer.js
+// ../../fuickjs_framework/fuickjs/dist/renderer.js
 var require_renderer = __commonJS({
-  "../fuickjs/dist/renderer.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/renderer.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -6689,9 +6688,9 @@ var require_renderer = __commonJS({
   }
 });
 
-// ../fuickjs/dist/router.js
+// ../../fuickjs_framework/fuickjs/dist/router.js
 var require_router = __commonJS({
-  "../fuickjs/dist/router.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/router.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Router = void 0;
@@ -6711,9 +6710,9 @@ var require_router = __commonJS({
   }
 });
 
-// ../fuickjs/dist/ErrorBoundary.js
+// ../../fuickjs_framework/fuickjs/dist/ErrorBoundary.js
 var require_ErrorBoundary = __commonJS({
-  "../fuickjs/dist/ErrorBoundary.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/ErrorBoundary.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -6748,9 +6747,9 @@ var require_ErrorBoundary = __commonJS({
   }
 });
 
-// ../fuickjs/dist/page_render.js
+// ../../fuickjs_framework/fuickjs/dist/page_render.js
 var require_page_render = __commonJS({
-  "../fuickjs/dist/page_render.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/page_render.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -6875,9 +6874,9 @@ var require_page_render = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/ScrollableBaseWidget.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/ScrollableBaseWidget.js
 var require_ScrollableBaseWidget = __commonJS({
-  "../fuickjs/dist/widgets/ScrollableBaseWidget.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/ScrollableBaseWidget.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -6913,9 +6912,9 @@ var require_ScrollableBaseWidget = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Text.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Text.js
 var require_Text = __commonJS({
-  "../fuickjs/dist/widgets/Text.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Text.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -6933,9 +6932,9 @@ var require_Text = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Column.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Column.js
 var require_Column = __commonJS({
-  "../fuickjs/dist/widgets/Column.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Column.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -6953,9 +6952,9 @@ var require_Column = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Row.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Row.js
 var require_Row = __commonJS({
-  "../fuickjs/dist/widgets/Row.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Row.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -6973,9 +6972,9 @@ var require_Row = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Container.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Container.js
 var require_Container = __commonJS({
-  "../fuickjs/dist/widgets/Container.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Container.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -6993,9 +6992,9 @@ var require_Container = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Button.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Button.js
 var require_Button = __commonJS({
-  "../fuickjs/dist/widgets/Button.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Button.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7015,9 +7014,9 @@ var require_Button = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/TextField.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/TextField.js
 var require_TextField = __commonJS({
-  "../fuickjs/dist/widgets/TextField.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/TextField.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7058,9 +7057,9 @@ var require_TextField = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Switch.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Switch.js
 var require_Switch = __commonJS({
-  "../fuickjs/dist/widgets/Switch.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Switch.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7078,9 +7077,9 @@ var require_Switch = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Expanded.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Expanded.js
 var require_Expanded = __commonJS({
-  "../fuickjs/dist/widgets/Expanded.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Expanded.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7098,9 +7097,9 @@ var require_Expanded = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/ListView.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/ListView.js
 var require_ListView = __commonJS({
-  "../fuickjs/dist/widgets/ListView.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/ListView.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7131,9 +7130,9 @@ var require_ListView = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Padding.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Padding.js
 var require_Padding = __commonJS({
-  "../fuickjs/dist/widgets/Padding.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Padding.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7151,9 +7150,9 @@ var require_Padding = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Image.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Image.js
 var require_Image = __commonJS({
-  "../fuickjs/dist/widgets/Image.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Image.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7171,9 +7170,9 @@ var require_Image = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SizedBox.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SizedBox.js
 var require_SizedBox = __commonJS({
-  "../fuickjs/dist/widgets/SizedBox.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SizedBox.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7191,9 +7190,9 @@ var require_SizedBox = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Center.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Center.js
 var require_Center = __commonJS({
-  "../fuickjs/dist/widgets/Center.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Center.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7211,9 +7210,9 @@ var require_Center = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Icon.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Icon.js
 var require_Icon = __commonJS({
-  "../fuickjs/dist/widgets/Icon.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Icon.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7231,9 +7230,9 @@ var require_Icon = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Flexible.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Flexible.js
 var require_Flexible = __commonJS({
-  "../fuickjs/dist/widgets/Flexible.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Flexible.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7251,9 +7250,9 @@ var require_Flexible = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/GestureDetector.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/GestureDetector.js
 var require_GestureDetector = __commonJS({
-  "../fuickjs/dist/widgets/GestureDetector.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/GestureDetector.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7271,9 +7270,9 @@ var require_GestureDetector = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/InkWell.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/InkWell.js
 var require_InkWell = __commonJS({
-  "../fuickjs/dist/widgets/InkWell.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/InkWell.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7291,9 +7290,9 @@ var require_InkWell = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Divider.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Divider.js
 var require_Divider = __commonJS({
-  "../fuickjs/dist/widgets/Divider.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Divider.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7311,9 +7310,9 @@ var require_Divider = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SingleChildScrollView.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SingleChildScrollView.js
 var require_SingleChildScrollView = __commonJS({
-  "../fuickjs/dist/widgets/SingleChildScrollView.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SingleChildScrollView.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7339,9 +7338,9 @@ var require_SingleChildScrollView = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Stack.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Stack.js
 var require_Stack = __commonJS({
-  "../fuickjs/dist/widgets/Stack.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Stack.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7359,9 +7358,9 @@ var require_Stack = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Positioned.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Positioned.js
 var require_Positioned = __commonJS({
-  "../fuickjs/dist/widgets/Positioned.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Positioned.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7379,9 +7378,9 @@ var require_Positioned = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Opacity.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Opacity.js
 var require_Opacity = __commonJS({
-  "../fuickjs/dist/widgets/Opacity.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Opacity.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7399,9 +7398,9 @@ var require_Opacity = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/CircularProgressIndicator.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/CircularProgressIndicator.js
 var require_CircularProgressIndicator = __commonJS({
-  "../fuickjs/dist/widgets/CircularProgressIndicator.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/CircularProgressIndicator.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7419,9 +7418,9 @@ var require_CircularProgressIndicator = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SafeArea.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SafeArea.js
 var require_SafeArea = __commonJS({
-  "../fuickjs/dist/widgets/SafeArea.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SafeArea.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7439,9 +7438,9 @@ var require_SafeArea = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/FlutterProps.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/FlutterProps.js
 var require_FlutterProps = __commonJS({
-  "../fuickjs/dist/widgets/FlutterProps.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/FlutterProps.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7458,9 +7457,9 @@ var require_FlutterProps = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Scaffold.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Scaffold.js
 var require_Scaffold = __commonJS({
-  "../fuickjs/dist/widgets/Scaffold.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Scaffold.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7483,9 +7482,9 @@ var require_Scaffold = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AppBar.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AppBar.js
 var require_AppBar = __commonJS({
-  "../fuickjs/dist/widgets/AppBar.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AppBar.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7505,9 +7504,9 @@ var require_AppBar = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/PageView.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/PageView.js
 var require_PageView = __commonJS({
-  "../fuickjs/dist/widgets/PageView.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/PageView.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7537,9 +7536,9 @@ var require_PageView = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/GridView.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/GridView.js
 var require_GridView = __commonJS({
-  "../fuickjs/dist/widgets/GridView.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/GridView.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7567,9 +7566,9 @@ var require_GridView = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/ListTile.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/ListTile.js
 var require_ListTile = __commonJS({
-  "../fuickjs/dist/widgets/ListTile.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/ListTile.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7589,9 +7588,9 @@ var require_ListTile = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/BottomNavigationBar.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/BottomNavigationBar.js
 var require_BottomNavigationBar = __commonJS({
-  "../fuickjs/dist/widgets/BottomNavigationBar.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/BottomNavigationBar.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7618,9 +7617,9 @@ var require_BottomNavigationBar = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/CustomScrollView.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/CustomScrollView.js
 var require_CustomScrollView = __commonJS({
-  "../fuickjs/dist/widgets/CustomScrollView.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/CustomScrollView.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7642,9 +7641,9 @@ var require_CustomScrollView = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SliverList.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SliverList.js
 var require_SliverList = __commonJS({
-  "../fuickjs/dist/widgets/SliverList.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SliverList.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7669,9 +7668,9 @@ var require_SliverList = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SliverGrid.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SliverGrid.js
 var require_SliverGrid = __commonJS({
-  "../fuickjs/dist/widgets/SliverGrid.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SliverGrid.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7696,9 +7695,9 @@ var require_SliverGrid = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SliverToBoxAdapter.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SliverToBoxAdapter.js
 var require_SliverToBoxAdapter = __commonJS({
-  "../fuickjs/dist/widgets/SliverToBoxAdapter.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SliverToBoxAdapter.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7721,9 +7720,9 @@ var require_SliverToBoxAdapter = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SliverAppBar.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SliverAppBar.js
 var require_SliverAppBar = __commonJS({
-  "../fuickjs/dist/widgets/SliverAppBar.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SliverAppBar.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7750,9 +7749,9 @@ var require_SliverAppBar = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SliverPersistentHeader.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SliverPersistentHeader.js
 var require_SliverPersistentHeader = __commonJS({
-  "../fuickjs/dist/widgets/SliverPersistentHeader.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SliverPersistentHeader.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7774,9 +7773,9 @@ var require_SliverPersistentHeader = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Tabs.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Tabs.js
 var require_Tabs = __commonJS({
-  "../fuickjs/dist/widgets/Tabs.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Tabs.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7813,9 +7812,9 @@ var require_Tabs = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/KeepAlive.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/KeepAlive.js
 var require_KeepAlive = __commonJS({
-  "../fuickjs/dist/widgets/KeepAlive.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/KeepAlive.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7833,9 +7832,9 @@ var require_KeepAlive = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Wrap.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Wrap.js
 var require_Wrap = __commonJS({
-  "../fuickjs/dist/widgets/Wrap.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Wrap.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7853,9 +7852,9 @@ var require_Wrap = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Card.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Card.js
 var require_Card = __commonJS({
-  "../fuickjs/dist/widgets/Card.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Card.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7875,9 +7874,9 @@ var require_Card = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Checkbox.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Checkbox.js
 var require_Checkbox = __commonJS({
-  "../fuickjs/dist/widgets/Checkbox.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Checkbox.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7895,9 +7894,9 @@ var require_Checkbox = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/IntrinsicWidth.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/IntrinsicWidth.js
 var require_IntrinsicWidth = __commonJS({
-  "../fuickjs/dist/widgets/IntrinsicWidth.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/IntrinsicWidth.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7915,9 +7914,9 @@ var require_IntrinsicWidth = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/IntrinsicHeight.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/IntrinsicHeight.js
 var require_IntrinsicHeight = __commonJS({
-  "../fuickjs/dist/widgets/IntrinsicHeight.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/IntrinsicHeight.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7935,9 +7934,9 @@ var require_IntrinsicHeight = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AnimatedContainer.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AnimatedContainer.js
 var require_AnimatedContainer = __commonJS({
-  "../fuickjs/dist/widgets/AnimatedContainer.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AnimatedContainer.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7955,9 +7954,9 @@ var require_AnimatedContainer = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AnimatedOpacity.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AnimatedOpacity.js
 var require_AnimatedOpacity = __commonJS({
-  "../fuickjs/dist/widgets/AnimatedOpacity.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AnimatedOpacity.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7975,9 +7974,9 @@ var require_AnimatedOpacity = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AnimatedAlign.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AnimatedAlign.js
 var require_AnimatedAlign = __commonJS({
-  "../fuickjs/dist/widgets/AnimatedAlign.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AnimatedAlign.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -7995,9 +7994,9 @@ var require_AnimatedAlign = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AnimatedPositioned.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AnimatedPositioned.js
 var require_AnimatedPositioned = __commonJS({
-  "../fuickjs/dist/widgets/AnimatedPositioned.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AnimatedPositioned.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8015,9 +8014,9 @@ var require_AnimatedPositioned = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AnimatedPadding.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AnimatedPadding.js
 var require_AnimatedPadding = __commonJS({
-  "../fuickjs/dist/widgets/AnimatedPadding.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AnimatedPadding.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8035,9 +8034,9 @@ var require_AnimatedPadding = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AnimatedScale.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AnimatedScale.js
 var require_AnimatedScale = __commonJS({
-  "../fuickjs/dist/widgets/AnimatedScale.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AnimatedScale.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8055,9 +8054,9 @@ var require_AnimatedScale = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AnimatedRotation.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AnimatedRotation.js
 var require_AnimatedRotation = __commonJS({
-  "../fuickjs/dist/widgets/AnimatedRotation.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AnimatedRotation.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8075,9 +8074,9 @@ var require_AnimatedRotation = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AnimatedSlide.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AnimatedSlide.js
 var require_AnimatedSlide = __commonJS({
-  "../fuickjs/dist/widgets/AnimatedSlide.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AnimatedSlide.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8095,9 +8094,9 @@ var require_AnimatedSlide = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/AlertDialog.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/AlertDialog.js
 var require_AlertDialog = __commonJS({
-  "../fuickjs/dist/widgets/AlertDialog.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/AlertDialog.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8115,9 +8114,9 @@ var require_AlertDialog = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/RotationTransition.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/RotationTransition.js
 var require_RotationTransition = __commonJS({
-  "../fuickjs/dist/widgets/RotationTransition.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/RotationTransition.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8135,9 +8134,9 @@ var require_RotationTransition = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/ScaleTransition.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/ScaleTransition.js
 var require_ScaleTransition = __commonJS({
-  "../fuickjs/dist/widgets/ScaleTransition.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/ScaleTransition.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8155,9 +8154,9 @@ var require_ScaleTransition = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/SlideTransition.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/SlideTransition.js
 var require_SlideTransition = __commonJS({
-  "../fuickjs/dist/widgets/SlideTransition.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/SlideTransition.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8175,9 +8174,9 @@ var require_SlideTransition = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/ConstrainedBox.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/ConstrainedBox.js
 var require_ConstrainedBox = __commonJS({
-  "../fuickjs/dist/widgets/ConstrainedBox.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/ConstrainedBox.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8195,9 +8194,9 @@ var require_ConstrainedBox = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/FittedBox.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/FittedBox.js
 var require_FittedBox = __commonJS({
-  "../fuickjs/dist/widgets/FittedBox.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/FittedBox.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8215,9 +8214,9 @@ var require_FittedBox = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/Visibility.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/Visibility.js
 var require_Visibility = __commonJS({
-  "../fuickjs/dist/widgets/Visibility.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/Visibility.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8234,9 +8233,9 @@ var require_Visibility = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/CustomPaint.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/CustomPaint.js
 var require_CustomPaint = __commonJS({
-  "../fuickjs/dist/widgets/CustomPaint.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/CustomPaint.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8371,9 +8370,9 @@ var require_CustomPaint = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/VideoPlayer.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/VideoPlayer.js
 var require_VideoPlayer = __commonJS({
-  "../fuickjs/dist/widgets/VideoPlayer.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/VideoPlayer.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8418,9 +8417,9 @@ var require_VideoPlayer = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/VisibilityDetector.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/VisibilityDetector.js
 var require_VisibilityDetector = __commonJS({
-  "../fuickjs/dist/widgets/VisibilityDetector.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/VisibilityDetector.js"(exports) {
     "use strict";
     var __importDefault = exports && exports.__importDefault || function(mod) {
       return mod && mod.__esModule ? mod : { "default": mod };
@@ -8444,9 +8443,9 @@ var require_VisibilityDetector = __commonJS({
   }
 });
 
-// ../fuickjs/dist/widgets/index.js
+// ../../fuickjs_framework/fuickjs/dist/widgets/index.js
 var require_widgets = __commonJS({
-  "../fuickjs/dist/widgets/index.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/widgets/index.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -8533,9 +8532,9 @@ var require_widgets = __commonJS({
   }
 });
 
-// ../fuickjs/dist/components.js
+// ../../fuickjs_framework/fuickjs/dist/components.js
 var require_components = __commonJS({
-  "../fuickjs/dist/components.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/components.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -8558,9 +8557,9 @@ var require_components = __commonJS({
   }
 });
 
-// ../fuickjs/dist/services/ConsoleService.js
+// ../../fuickjs_framework/fuickjs/dist/services/ConsoleService.js
 var require_ConsoleService = __commonJS({
-  "../fuickjs/dist/services/ConsoleService.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/services/ConsoleService.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ConsoleService = void 0;
@@ -8582,9 +8581,9 @@ var require_ConsoleService = __commonJS({
   }
 });
 
-// ../fuickjs/dist/ex/console.js
+// ../../fuickjs_framework/fuickjs/dist/ex/console.js
 var require_console = __commonJS({
-  "../fuickjs/dist/ex/console.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/ex/console.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.log = log;
@@ -8627,9 +8626,9 @@ var require_console = __commonJS({
   }
 });
 
-// ../fuickjs/dist/services/TimerService.js
+// ../../fuickjs_framework/fuickjs/dist/services/TimerService.js
 var require_TimerService = __commonJS({
-  "../fuickjs/dist/services/TimerService.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/services/TimerService.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.TimerService = void 0;
@@ -8645,9 +8644,9 @@ var require_TimerService = __commonJS({
   }
 });
 
-// ../fuickjs/dist/ex/timer.js
+// ../../fuickjs_framework/fuickjs/dist/ex/timer.js
 var require_timer = __commonJS({
-  "../fuickjs/dist/ex/timer.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/ex/timer.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.setTimeout = setTimeout2;
@@ -8709,9 +8708,9 @@ var require_timer = __commonJS({
   }
 });
 
-// ../fuickjs/dist/services/NetworkService.js
+// ../../fuickjs_framework/fuickjs/dist/services/NetworkService.js
 var require_NetworkService = __commonJS({
-  "../fuickjs/dist/services/NetworkService.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/services/NetworkService.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NetworkService = void 0;
@@ -8732,9 +8731,9 @@ var require_NetworkService = __commonJS({
   }
 });
 
-// ../fuickjs/dist/ex/fetch.js
+// ../../fuickjs_framework/fuickjs/dist/ex/fetch.js
 var require_fetch = __commonJS({
-  "../fuickjs/dist/ex/fetch.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/ex/fetch.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.fetch = fetch;
@@ -8755,9 +8754,9 @@ var require_fetch = __commonJS({
   }
 });
 
-// ../fuickjs/dist/runtime.js
+// ../../fuickjs_framework/fuickjs/dist/runtime.js
 var require_runtime = __commonJS({
-  "../fuickjs/dist/runtime.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/runtime.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -8835,6 +8834,19 @@ var require_runtime = __commonJS({
       globalThis.setInterval = Timer.setInterval;
       globalThis.clearInterval = Timer.clearInterval;
       globalThis.fetch = fetch_1.fetch;
+      const originalDartCallNative = globalThis.dartCallNative;
+      const originalDartCallNativeAsync = globalThis.dartCallNativeAsync;
+      if (typeof originalDartCallNative === "function") {
+        globalThis.dartCallNative = (method, args) => {
+          const res = originalDartCallNative(method, args);
+          if (res === "___FJS_METHOD_NOT_FOUND___") {
+            if (typeof originalDartCallNativeAsync === "function") {
+              return originalDartCallNativeAsync(method, args);
+            }
+          }
+          return res;
+        };
+      }
       if (!globalThis.performance) {
         globalThis.performance = {
           now: () => Date.now()
@@ -8870,9 +8882,9 @@ var require_runtime = __commonJS({
   }
 });
 
-// ../fuickjs/dist/services/NavigatorService.js
+// ../../fuickjs_framework/fuickjs/dist/services/NavigatorService.js
 var require_NavigatorService = __commonJS({
-  "../fuickjs/dist/services/NavigatorService.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/services/NavigatorService.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NavigatorService = void 0;
@@ -8888,9 +8900,9 @@ var require_NavigatorService = __commonJS({
   }
 });
 
-// ../fuickjs/dist/hooks.js
+// ../../fuickjs_framework/fuickjs/dist/hooks.js
 var require_hooks = __commonJS({
-  "../fuickjs/dist/hooks.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/hooks.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -8982,9 +8994,9 @@ var require_hooks = __commonJS({
   }
 });
 
-// ../fuickjs/dist/Fuick.js
+// ../../fuickjs_framework/fuickjs/dist/Fuick.js
 var require_Fuick = __commonJS({
-  "../fuickjs/dist/Fuick.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/Fuick.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Fuick = void 0;
@@ -9012,9 +9024,9 @@ var require_Fuick = __commonJS({
   }
 });
 
-// ../fuickjs/dist/services/NativeEventService.js
+// ../../fuickjs_framework/fuickjs/dist/services/NativeEventService.js
 var require_NativeEventService = __commonJS({
-  "../fuickjs/dist/services/NativeEventService.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/services/NativeEventService.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NativeEventService = void 0;
@@ -9027,9 +9039,9 @@ var require_NativeEventService = __commonJS({
   }
 });
 
-// ../fuickjs/dist/NativeEvent.js
+// ../../fuickjs_framework/fuickjs/dist/NativeEvent.js
 var require_NativeEvent = __commonJS({
-  "../fuickjs/dist/NativeEvent.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/NativeEvent.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NativeEvent = void 0;
@@ -9108,9 +9120,9 @@ var require_NativeEvent = __commonJS({
   }
 });
 
-// ../fuickjs/dist/index.js
+// ../../fuickjs_framework/fuickjs/dist/index.js
 var require_dist = __commonJS({
-  "../fuickjs/dist/index.js"(exports) {
+  "../../fuickjs_framework/fuickjs/dist/index.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
