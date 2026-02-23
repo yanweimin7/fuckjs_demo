@@ -54,6 +54,8 @@ const demoCategories = [
       { name: "CustomPaint", path: "/demo/custompaint" },
       { name: "Progress", path: "/demo/progress" },
       { name: "VideoPlayer", path: "/demo/video_player" },
+      { name: "Overlay", path: "/demo/overlay" },
+      { name: "Material", path: "/demo/material" },
     ],
   },
   {
@@ -85,9 +87,6 @@ const demoCategories = [
       { name: "Transition", path: "/demo/transition" },
       { name: "Error", path: "/demo/error" },
       { name: "Refresh", path: "/demo/refresh_indicator" },
-      { name: "ClassDSL", path: "/demo/class_component_dsl" },
-      { name: "PropClass", path: "/demo/prop_class_component" },
-      { name: "DirectProp", path: "/demo/direct_prop_demo" },
     ],
   },
 ];

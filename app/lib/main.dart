@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (BuildContext context) {
                     return DevFuickAppPage(routeObserver: routeObserver);
                   },
-                  settings: RouteSettings(name: DebugRouteName),
+                  settings: RouteSettings(name: debugRouteName),
                 ),
               );
             },

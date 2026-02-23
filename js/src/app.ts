@@ -56,6 +56,8 @@ import ClipRRectDemo from "./demos/ClipRRectDemo";
 import RefreshIndicatorDemo from "./demos/RefreshIndicatorDemo";
 import RichTextDemo from "./demos/RichTextDemo";
 import TransformDemo from "./demos/TransformDemo";
+import OverlayDemo from "./demos/OverlayDemo";
+import MaterialDemo from "./demos/MaterialDemo";
 
 // Custom Global Error UI
 const CustomErrorUI = (error: Error) =>
@@ -199,6 +201,10 @@ export function initApp() {
     Router.register("/demo/transform", (args) =>
       React.createElement(TransformDemo, args as any),
     );
+    Router.register("/demo/overlay", () => React.createElement(OverlayDemo));
+    Router.register("/demo/material", () => React.createElement(MaterialDemo));
+
+    console.log("App Initialized");
   } catch (e) {
     console.error("initApp error:", e);
   }

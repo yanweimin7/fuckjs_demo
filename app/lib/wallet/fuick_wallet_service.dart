@@ -1,7 +1,7 @@
 import 'package:bip32/bip32.dart' as bip32;
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:flutter/foundation.dart';
-import 'package:fuickjs_flutter/core/service/BaseFuickService.dart';
+import 'package:fuickjs_flutter/core/service/base_fuick_service.dart';
 import 'package:hex/hex.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';

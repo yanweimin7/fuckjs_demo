@@ -103,7 +103,7 @@ var require_react_production_min = __commonJS({
     function O(a) {
       return "object" === typeof a && null !== a && a.$$typeof === l;
     }
-    function escape(a) {
+    function escape2(a) {
       var b = { "=": "=0", ":": "=2" };
       return "$" + a.replace(/[=:]/g, function(a2) {
         return b[a2];
@@ -111,7 +111,7 @@ var require_react_production_min = __commonJS({
     }
     var P = /\/+/g;
     function Q(a, b) {
-      return "object" === typeof a && null !== a && null != a.key ? escape("" + a.key) : b.toString(36);
+      return "object" === typeof a && null !== a && null != a.key ? escape2("" + a.key) : b.toString(36);
     }
     function R(a, b, e, d, c) {
       var k = typeof a;
@@ -295,6 +295,65 @@ var require_react_production_min = __commonJS({
       return U.current.useTransition();
     };
     exports.version = "18.3.1";
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/polyfills.js
+var require_polyfills = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/polyfills.js"() {
+    "use strict";
+    if (typeof TextEncoder === "undefined") {
+      class TextEncoderPolyfill {
+        encode(str) {
+          const arr = [];
+          for (let i = 0; i < str.length; i++) {
+            let code = str.charCodeAt(i);
+            if (code < 128) {
+              arr.push(code);
+            } else if (code < 2048) {
+              arr.push(192 | code >> 6);
+              arr.push(128 | code & 63);
+            } else if (code < 55296 || code >= 57344) {
+              arr.push(224 | code >> 12);
+              arr.push(128 | code >> 6 & 63);
+              arr.push(128 | code & 63);
+            } else {
+              i++;
+              code = 65536 + ((code & 1023) << 10 | str.charCodeAt(i) & 1023);
+              arr.push(240 | code >> 18);
+              arr.push(128 | code >> 12 & 63);
+              arr.push(128 | code >> 6 & 63);
+              arr.push(128 | code & 63);
+            }
+          }
+          return new Uint8Array(arr);
+        }
+      }
+      globalThis.TextEncoder = TextEncoderPolyfill;
+    }
+    if (typeof TextDecoder === "undefined") {
+      class TextDecoderPolyfill {
+        decode(arr) {
+          let str = "";
+          for (let i = 0; i < arr.length; i++) {
+            str += String.fromCharCode(arr[i]);
+          }
+          try {
+            return decodeURIComponent(escape(str));
+          } catch (e) {
+            return str;
+          }
+        }
+      }
+      globalThis.TextDecoder = TextDecoderPolyfill;
+    }
+    if (typeof globalThis.process === "undefined") {
+      globalThis.process = {
+        env: { NODE_ENV: "production" },
+        version: "v16.0.0",
+        nextTick: (cb) => setTimeout(cb, 0)
+      };
+    }
   }
 });
 
@@ -5854,9 +5913,18 @@ var require_IncrementalStrategy = __commonJS({
         }
         const processed = this.container.processProps(node.id, props, node.type);
         this.mutationQueue.push({ type: 1, id: node.id, props: processed });
+        const flutterProps = this.getFlutterPropsAncestor(node);
+        if (flutterProps) {
+          this.recordHostUpdateFromFlutterProps(flutterProps);
+        }
         this.enqueueBoundaryRefresh(node);
       }
       recordInsert(parent, child, index) {
+        const flutterProps = this.getFlutterPropsAncestor(parent);
+        if (flutterProps) {
+          this.recordHostUpdateFromFlutterProps(flutterProps);
+          return;
+        }
         if (child.type === "FlutterProps" || child.type === "flutter-props") {
           this.recordHostUpdateFromFlutterProps(child);
           return;
@@ -5876,6 +5944,11 @@ var require_IncrementalStrategy = __commonJS({
         this.enqueueBoundaryRefresh(parent);
       }
       recordRemoval(parent, child) {
+        const flutterProps = this.getFlutterPropsAncestor(parent);
+        if (flutterProps) {
+          this.recordHostUpdateFromFlutterProps(flutterProps);
+          return;
+        }
         if (child.type === "FlutterProps" || child.type === "flutter-props") {
           this.recordHostUpdateFromFlutterProps(child);
           return;
@@ -5886,6 +5959,17 @@ var require_IncrementalStrategy = __commonJS({
         }
         this.mutationQueue.push({ type: 3, parentId: parent.id, childId: child.id });
         this.enqueueBoundaryRefresh(parent);
+      }
+      ///如果是属性节点，要找到最近的非props节点，比如 appbar的title属性，要找到appbar节点
+      getFlutterPropsAncestor(node) {
+        let current = node;
+        while (current) {
+          if (current.type === "FlutterProps" || current.type === "flutter-props") {
+            return current;
+          }
+          current = current.parent || null;
+        }
+        return null;
       }
       clear() {
         this.mutationQueue = [];
@@ -5902,7 +5986,13 @@ var require_IncrementalStrategy = __commonJS({
             const key = String(op.id);
             const prevIndex = lastUpdateIndexById.get(key);
             if (prevIndex !== void 0) {
-              optimizedOps[prevIndex] = null;
+              const prevOp = optimizedOps[prevIndex];
+              if (prevOp && prevOp.type === 1) {
+                const prevProps = prevOp.props || {};
+                const nextProps = op.props || {};
+                prevOp.props = { ...prevProps, ...nextProps };
+                continue;
+              }
             }
             lastUpdateIndexById.set(key, optimizedOps.length);
             optimizedOps.push(op);
@@ -5941,6 +6031,50 @@ var require_IncrementalStrategy = __commonJS({
           this.mutationQueue.push({ type: 1, id: boundary.id, props: {} });
         }
       }
+      /**
+         * 在 fuickjs 的架构中， 依次（递归）触发刷新 是确保 DSL 数据一致性 和 Flutter 组件状态同步 的核心机制。以下是为什么要这么做的深度解析：
+      
+      ### 1. 维护 DSL 的层级一致性
+      在 Flutter 侧，像 AppBar 这样的组件并不是作为 Scaffold 的子节点（Children）存在的，而是作为 Scaffold 的一个 属性（Property） 。
+      
+      当你在 JS 层嵌套组件时，结构如下：
+      
+      - Scaffold (Host A)
+        - FlutterProps (key: 'appBar')
+          - AppBar (Host B)
+            - FlutterProps (key: 'title')
+              - Text (Node C)
+      如果不递归更新：
+      
+      1. 当 Text (Node C) 变化时，如果只更新 AppBar (Host B) 的 title 属性。
+      2. Scaffold (Host A) 里的 props['appBar'] 仍然保存着 AppBar 的 旧版本 DSL 。
+      3. 一旦 Scaffold 触发任何重绘（比如背景色变了），它会重新解析自己的 props 。此时它拿到旧的 appBar DSL 并传给 Flutter，Flutter 会根据旧 DSL 还原 AppBar ，导致你之前的 title 更新被 覆盖（回滚） 。
+      递归更新的作用： 通过递归调用 recordHostUpdateFromFlutterProps ，我们确保了：
+      
+      - AppBar 的 title 属性更新了。
+      - Scaffold 的 appBar 属性也同步更新为包含新标题的 AppBar DSL。
+      - 整个路径上的所有祖先节点都持有最新的数据镜像。
+      ### 2. 触发正确的重绘边界 (Boundary)
+      Flutter 端的 FuickNode 只有在被标记为 isBoundary 时才会有对应的 StatefulWidget 和 setState 能力。
+      
+      - 很多时候，内部的小组件（如 Text ）并不是 Boundary。
+      - 真正持有刷新能力的是外层的 AppBar 或 Scaffold （它们在 AppBar.tsx 和 Scaffold.tsx 中都被标记了 isBoundary: true ）。
+      依次触发刷新 确保了更新信号能从最底层的变更点，一直传递到最近的那个 有能力执行刷新的祖先节点 。
+      
+      ### 3. 解决 Flutter 属性节点的特殊性
+      在 Flutter 中， appBar 属性通常要求是一个 PreferredSizeWidget 。在 scaffold_parser.dart 中可以看到，它是通过 factory.build 实时构建的。
+      
+      如果祖先节点（Scaffold）不知道其属性内部发生了变化，它就不会重新调用 build 来生成新的 appBar 实例，导致 UI 停留在旧状态。
+      
+      ### 总结
+      依次触发刷新是为了：
+      
+      1. 防丢失 ：防止父组件重绘时用旧 DSL 覆盖子组件的新状态。
+      2. 通信号 ：确保更新信号能触达到最近的 Boundary 节点。
+      3. 准同步 ：保证 Flutter 侧属性注入（Property Injection）逻辑能获取到最新的组件快照。
+         * @param flutterPropsNode
+         * @returns
+         */
       recordHostUpdateFromFlutterProps(flutterPropsNode) {
         const host = flutterPropsNode.parent;
         if (!host)
@@ -5993,7 +6127,16 @@ var require_IncrementalStrategy = __commonJS({
           id: host.id,
           props: { [propsKey]: finalValue }
         });
-        this.enqueueBoundaryRefresh(host);
+        if (host.parent) {
+          const parentFlutterProps = this.getFlutterPropsAncestor(host.parent);
+          if (parentFlutterProps) {
+            this.recordHostUpdateFromFlutterProps(parentFlutterProps);
+          } else {
+            this.enqueueBoundaryRefresh(host);
+          }
+        } else {
+          this.enqueueBoundaryRefresh(host);
+        }
       }
     };
     exports.IncrementalStrategy = IncrementalStrategy;
@@ -6312,8 +6455,16 @@ var require_PageContainer = __commonJS({
         child.destroy();
       }
       commitTextUpdate(node, text) {
-        node.props.text = String(text);
-        this.markChanged(node);
+        const oldText = node.props.text;
+        const newText = String(text);
+        if (oldText === newText)
+          return;
+        node.props.text = newText;
+        if (this.incrementalMode) {
+          this.recordUpdate(node, ["text", newText]);
+        } else {
+          this.markChanged(node);
+        }
       }
       commit() {
         try {
@@ -6614,15 +6765,22 @@ var require_renderer = __commonJS({
       return {
         update(element, pageId) {
           const root = ensureRoot(pageId);
+          let retryCount = 0;
+          const maxRetries = 100;
           const performUpdate = () => {
             try {
               reconciler.updateContainer(element, root, null, () => {
               });
+              retryCount = 0;
             } catch (e) {
               const msg = e.message || String(e);
-              if (msg.includes("327") || msg.includes("working")) {
+              if ((msg.includes("327") || msg.includes("working")) && retryCount < maxRetries) {
+                retryCount++;
                 globalThis.setTimeout(performUpdate, 16);
               } else {
+                if (retryCount >= maxRetries) {
+                  console.error(`[Renderer] Max retries exceeded for page ${pageId}`);
+                }
                 console.error(`[Renderer] Error updating page ${pageId}:`, e);
                 ErrorHandler_1.ErrorHandler.notify(e, "render", { pageId });
               }
@@ -6633,6 +6791,8 @@ var require_renderer = __commonJS({
         destroy(pageId) {
           const root = roots[pageId];
           if (root) {
+            let retryCount = 0;
+            const maxRetries = 100;
             const performDestroy = () => {
               try {
                 reconciler.updateContainer(null, root, null, () => {
@@ -6642,9 +6802,13 @@ var require_renderer = __commonJS({
                 delete containers[pageId];
               } catch (e) {
                 const msg = e.message || String(e);
-                if (msg.includes("327") || msg.includes("working")) {
+                if ((msg.includes("327") || msg.includes("working")) && retryCount < maxRetries) {
+                  retryCount++;
                   globalThis.setTimeout(performDestroy, 16);
                 } else {
+                  if (retryCount >= maxRetries) {
+                    console.error(`[Renderer] Max retries exceeded for destroying page ${pageId}`);
+                  }
                   console.error(`[Renderer] Error destroying page ${pageId}:`, e);
                   ErrorHandler_1.ErrorHandler.notify(e, "render", { pageId });
                   delete roots[pageId];
@@ -7731,17 +7895,14 @@ var require_SliverAppBar = __commonJS({
     exports.SliverAppBar = void 0;
     var react_1 = __importDefault(require_react_production_min());
     var BaseWidget_1 = require_BaseWidget();
+    var FlutterProps_1 = require_FlutterProps();
     var SliverAppBar = class extends BaseWidget_1.BaseWidget {
       render() {
         const { children, title, leading, actions, bottom, ...rest } = this.props;
         return react_1.default.createElement("SliverAppBar", {
           ...rest,
-          isBoundary: true,
-          title,
-          leading,
-          actions,
-          bottom
-        }, children);
+          isBoundary: true
+        }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), bottom && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottom" }, bottom), children);
       }
     };
     exports.SliverAppBar = SliverAppBar;
@@ -8104,9 +8265,11 @@ var require_AlertDialog = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AlertDialog = void 0;
     var react_1 = __importDefault(require_react_production_min());
+    var FlutterProps_1 = require_FlutterProps();
     var AlertDialog = class extends react_1.default.Component {
       render() {
-        return react_1.default.createElement("AlertDialog", { ...this.props });
+        const { title, content, actions, ...otherProps } = this.props;
+        return react_1.default.createElement("AlertDialog", { ...otherProps }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), content && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "content" }, content), actions && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "actions" }, actions));
       }
     };
     exports.AlertDialog = AlertDialog;
@@ -8211,6 +8374,26 @@ var require_FittedBox = __commonJS({
     };
     exports.FittedBox = FittedBox;
     exports.default = FittedBox;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/widgets/RepaintBoundary.js
+var require_RepaintBoundary = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/widgets/RepaintBoundary.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.RepaintBoundary = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var RepaintBoundary = class extends react_1.default.Component {
+      render() {
+        return react_1.default.createElement("RepaintBoundary", { ...this.props, isBoundary: true });
+      }
+    };
+    exports.RepaintBoundary = RepaintBoundary;
+    exports.default = RepaintBoundary;
   }
 });
 
@@ -8443,6 +8626,152 @@ var require_VisibilityDetector = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/services/ComponentStore.js
+var require_ComponentStore = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/ComponentStore.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ComponentStore = class _ComponentStore {
+      constructor() {
+        this.components = /* @__PURE__ */ new Map();
+        this.counter = 0;
+      }
+      static getInstance() {
+        if (!_ComponentStore.instance) {
+          _ComponentStore.instance = new _ComponentStore();
+        }
+        return _ComponentStore.instance;
+      }
+      register(component) {
+        const id = `cmp_${Date.now()}_${this.counter++}`;
+        this.components.set(id, component);
+        return id;
+      }
+      get(id) {
+        return this.components.get(id);
+      }
+      remove(id) {
+        this.components.delete(id);
+      }
+    };
+    exports.default = ComponentStore;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/widgets/GenericPage.js
+var require_GenericPage = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/widgets/GenericPage.js"(exports) {
+    "use strict";
+    var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
+      if (k2 === void 0) k2 = k;
+      var desc = Object.getOwnPropertyDescriptor(m, k);
+      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() {
+          return m[k];
+        } };
+      }
+      Object.defineProperty(o, k2, desc);
+    } : function(o, m, k, k2) {
+      if (k2 === void 0) k2 = k;
+      o[k2] = m[k];
+    });
+    var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: true, value: v });
+    } : function(o, v) {
+      o["default"] = v;
+    });
+    var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
+      var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function(o2) {
+          var ar = [];
+          for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+          return ar;
+        };
+        return ownKeys(o);
+      };
+      return function(mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) {
+          for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        }
+        __setModuleDefault(result, mod);
+        return result;
+      };
+    }();
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.GenericPage = GenericPage;
+    var react_1 = __importStar(require_react_production_min());
+    var ComponentStore_1 = __importDefault(require_ComponentStore());
+    var Container_1 = require_Container();
+    var Text_1 = require_Text();
+    function GenericPage(props) {
+      const { componentId } = props;
+      const component = ComponentStore_1.default.getInstance().get(componentId);
+      (0, react_1.useEffect)(() => {
+        return () => {
+          if (componentId) {
+            ComponentStore_1.default.getInstance().remove(componentId);
+          }
+        };
+      }, [componentId]);
+      if (!component) {
+        return react_1.default.createElement(
+          Container_1.Container,
+          { alignment: "center" },
+          react_1.default.createElement(Text_1.Text, { text: "Content not found" })
+        );
+      }
+      return react_1.default.createElement(react_1.default.Fragment, null, component);
+    }
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/widgets/PointerListener.js
+var require_PointerListener = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/widgets/PointerListener.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PointerListener = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var PointerListener = class extends react_1.default.Component {
+      render() {
+        return react_1.default.createElement("PointerListener", { ...this.props, isBoundary: false });
+      }
+    };
+    exports.PointerListener = PointerListener;
+    exports.default = PointerListener;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/widgets/Material.js
+var require_Material = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/widgets/Material.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Material = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var BaseWidget_1 = require_BaseWidget();
+    var Material = class extends BaseWidget_1.BaseWidget {
+      render() {
+        const { child, children, ...rest } = this.props;
+        const content = child || children;
+        return react_1.default.createElement("Material", { ...rest }, content);
+      }
+    };
+    exports.Material = Material;
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/widgets/index.js
 var require_widgets = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/widgets/index.js"(exports) {
@@ -8525,10 +8854,14 @@ var require_widgets = __commonJS({
     __exportStar(require_SlideTransition(), exports);
     __exportStar(require_ConstrainedBox(), exports);
     __exportStar(require_FittedBox(), exports);
+    __exportStar(require_RepaintBoundary(), exports);
     __exportStar(require_Visibility(), exports);
     __exportStar(require_CustomPaint(), exports);
     __exportStar(require_VideoPlayer(), exports);
     __exportStar(require_VisibilityDetector(), exports);
+    __exportStar(require_GenericPage(), exports);
+    __exportStar(require_PointerListener(), exports);
+    __exportStar(require_Material(), exports);
   }
 });
 
@@ -8590,8 +8923,21 @@ var require_console = __commonJS({
     exports.warn = warn;
     exports.error = error;
     var ConsoleService_1 = require_ConsoleService();
+    function formatArg(arg) {
+      if (arg instanceof Error) {
+        const stack = arg.stack || "";
+        const msg = arg.message || String(arg);
+        const name = arg.name || "Error";
+        if (stack.indexOf(msg) !== -1) {
+          return stack;
+        }
+        return `${name}: ${msg}
+${stack}`;
+      }
+      return String(arg);
+    }
     function log(...args) {
-      const message = args.map((a) => String(a)).join(" ");
+      const message = args.map(formatArg).join(" ");
       try {
         ConsoleService_1.ConsoleService.log(message);
       } catch {
@@ -8602,7 +8948,7 @@ var require_console = __commonJS({
       }
     }
     function warn(...args) {
-      const message = args.map((a) => String(a)).join(" ");
+      const message = args.map(formatArg).join(" ");
       try {
         ConsoleService_1.ConsoleService.warn(message);
       } catch {
@@ -8613,7 +8959,7 @@ var require_console = __commonJS({
       }
     }
     function error(...args) {
-      const message = args.map((a) => String(a)).join(" ");
+      const message = args.map(formatArg).join(" ");
       try {
         ConsoleService_1.ConsoleService.error(message);
       } catch {
@@ -8659,8 +9005,19 @@ var require_timer = __commonJS({
     var timerMap = /* @__PURE__ */ new Map();
     function setTimeout2(fn, ms) {
       const id = nextTimerId++;
-      timerMap.set(id, { fn, type: "timeout" });
       const delay = ms || 0;
+      if (delay === 0) {
+        Promise.resolve().then(() => {
+          try {
+            fn();
+          } catch (e) {
+            console.error(`[Timer] Error in microtask timeout callback:`, e);
+            ErrorHandler_1.ErrorHandler.notify(e, "timer", { id });
+          }
+        });
+        return id;
+      }
+      timerMap.set(id, { fn, type: "timeout" });
       try {
         TimerService_1.TimerService.createTimer(id, delay, false);
       } catch {
@@ -8834,19 +9191,6 @@ var require_runtime = __commonJS({
       globalThis.setInterval = Timer.setInterval;
       globalThis.clearInterval = Timer.clearInterval;
       globalThis.fetch = fetch_1.fetch;
-      const originalDartCallNative = globalThis.dartCallNative;
-      const originalDartCallNativeAsync = globalThis.dartCallNativeAsync;
-      if (typeof originalDartCallNative === "function") {
-        globalThis.dartCallNative = (method, args) => {
-          const res = originalDartCallNative(method, args);
-          if (res === "___FJS_METHOD_NOT_FOUND___") {
-            if (typeof originalDartCallNativeAsync === "function") {
-              return originalDartCallNativeAsync(method, args);
-            }
-          }
-          return res;
-        };
-      }
       if (!globalThis.performance) {
         globalThis.performance = {
           now: () => Date.now()
@@ -8886,11 +9230,47 @@ var require_runtime = __commonJS({
 var require_NavigatorService = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/services/NavigatorService.js"(exports) {
     "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NavigatorService = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var ComponentStore_1 = __importDefault(require_ComponentStore());
     var NavigatorService = class {
       static push(path, params, pageId, rootNavigator) {
         return dartCallNative("Navigator.push", { path, params, pageId, rootNavigator });
+      }
+      static pushReplace(path, params, pageId, rootNavigator) {
+        return dartCallNative("Navigator.pushReplace", { path, params, pageId, rootNavigator });
+      }
+      static showModal(path, params, options, pageId, rootNavigator) {
+        const finalParams = {
+          ...params || {},
+          presentation: "bottomSheet",
+          minHeight: options?.minHeight,
+          maxHeight: options?.maxHeight
+        };
+        return this.push(path, finalParams, pageId, rootNavigator);
+      }
+      static showDialog(pathOrComponent, params, pageId, rootNavigator) {
+        if (react_1.default.isValidElement(pathOrComponent) || typeof pathOrComponent !== "string") {
+          return this.showComponentDialog("/_generic_dialog", pathOrComponent, params, pageId, rootNavigator);
+        }
+        const finalParams = {
+          ...params || {},
+          presentation: "dialog"
+        };
+        return this.push(pathOrComponent, finalParams, pageId, rootNavigator);
+      }
+      static showComponentDialog(path, component, params, pageId, rootNavigator) {
+        const id = ComponentStore_1.default.getInstance().register(component);
+        const finalParams = {
+          ...params || {},
+          componentId: id,
+          presentation: "dialog"
+        };
+        return this.push(path, finalParams, pageId, rootNavigator);
       }
       static pop(pageId, rootNavigator, result) {
         dartCallNative("Navigator.pop", { pageId, rootNavigator, result });
@@ -8958,7 +9338,13 @@ var require_hooks = __commonJS({
       const pageId = usePageId();
       return {
         push: (path, params, rootNavigator) => NavigatorService_1.NavigatorService.push(path, params, pageId, rootNavigator),
-        pop: (rootNavigator, result) => NavigatorService_1.NavigatorService.pop(pageId, rootNavigator, result)
+        pushReplace: (path, params, rootNavigator) => NavigatorService_1.NavigatorService.pushReplace(path, params, pageId, rootNavigator),
+        showModal: (path, params, options, rootNavigator) => NavigatorService_1.NavigatorService.showModal(path, params, options, pageId, rootNavigator),
+        showDialog: (pathOrComponent, params, rootNavigator) => NavigatorService_1.NavigatorService.showDialog(pathOrComponent, params, pageId, rootNavigator),
+        showComponentDialog: (path, component, params, rootNavigator) => NavigatorService_1.NavigatorService.showComponentDialog(path, component, params, pageId, rootNavigator),
+        pop: (result) => {
+          return NavigatorService_1.NavigatorService.pop(pageId, false, result);
+        }
       };
     }
     function useVisible(callback) {
@@ -9120,6 +9506,169 @@ var require_NativeEvent = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/services/ClipboardService.js
+var require_ClipboardService = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/ClipboardService.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ClipboardService = void 0;
+    var ClipboardService = class {
+      static setData(text) {
+        return dartCallNativeAsync("Clipboard.setData", { text });
+      }
+      static getData() {
+        return dartCallNativeAsync("Clipboard.getData", {});
+      }
+    };
+    exports.ClipboardService = ClipboardService;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/services/FileSystemService.js
+var require_FileSystemService = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/FileSystemService.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.fs = void 0;
+    exports.fs = {
+      readFile: async (path, options) => {
+        return await dartCallNativeAsync("FileSystem.readFile", {
+          path,
+          encoding: options?.encoding
+        });
+      },
+      writeFile: async (path, data, options) => {
+        await dartCallNativeAsync("FileSystem.writeFile", {
+          path,
+          data,
+          encoding: options?.encoding
+        });
+      },
+      unlink: async (path) => {
+        await dartCallNativeAsync("FileSystem.unlink", { path });
+      },
+      mkdir: async (path, options) => {
+        await dartCallNativeAsync("FileSystem.mkdir", {
+          path,
+          recursive: options?.recursive
+        });
+      },
+      rmdir: async (path, options) => {
+        await dartCallNativeAsync("FileSystem.rmdir", {
+          path,
+          recursive: options?.recursive
+        });
+      },
+      readdir: async (path) => {
+        return await dartCallNativeAsync("FileSystem.readdir", {
+          path
+        });
+      },
+      stat: async (path) => {
+        const raw = await dartCallNativeAsync("FileSystem.stat", {
+          path
+        });
+        if (!raw)
+          throw new Error(`File not found: ${path}`);
+        return {
+          ...raw,
+          isFile: () => raw.isFile,
+          isDirectory: () => raw.isDirectory
+        };
+      },
+      exists: async (path) => {
+        return await dartCallNativeAsync("FileSystem.exists", {
+          path
+        });
+      },
+      rename: async (oldPath, newPath) => {
+        await dartCallNativeAsync("FileSystem.rename", { oldPath, newPath });
+      },
+      copyFile: async (src, dest) => {
+        await dartCallNativeAsync("FileSystem.copyFile", { src, dest });
+      },
+      getDirectories: async () => {
+        return await dartCallNativeAsync("FileSystem.getDirectories", {});
+      }
+    };
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/services/LocalStorage.js
+var require_LocalStorage = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/LocalStorage.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.LocalStorage = void 0;
+    var LocalStorage = class {
+      static getItem(key) {
+        return dartCallNativeAsync("LocalStorage.getItem", [key]);
+      }
+      static setItem(key, value) {
+        return dartCallNativeAsync("LocalStorage.setItem", [key, value]);
+      }
+      static removeItem(key) {
+        return dartCallNativeAsync("LocalStorage.removeItem", [key]);
+      }
+      static clear() {
+        return dartCallNativeAsync("LocalStorage.clear", []);
+      }
+    };
+    exports.LocalStorage = LocalStorage;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/services/DeviceInfo.js
+var require_DeviceInfo = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/DeviceInfo.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DeviceInfo = void 0;
+    var DeviceInfo = class {
+      static getDeviceInfo() {
+        return dartCallNativeAsync("DeviceInfo.getDeviceInfo", []);
+      }
+    };
+    exports.DeviceInfo = DeviceInfo;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/services/Toast.js
+var require_Toast = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/Toast.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Toast = void 0;
+    var Toast = class {
+      static show(message, duration) {
+        return dartCallNativeAsync("Toast.show", [message, duration]);
+      }
+    };
+    exports.Toast = Toast;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/services/OverlayService.js
+var require_OverlayService = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/OverlayService.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Overlay = void 0;
+    var page_render_1 = require_page_render();
+    var Overlay = class {
+      static show(key, element, pageId) {
+        const targetPageId = pageId ?? -1;
+        const dsl = (0, page_render_1.elementToDsl)(targetPageId, element);
+        dartCallNative("Overlay.show", { key, dsl, pageId: targetPageId });
+      }
+      static hide(key) {
+        dartCallNative("Overlay.hide", key);
+      }
+    };
+    exports.Overlay = Overlay;
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/index.js
 var require_dist = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/index.js"(exports) {
@@ -9141,6 +9690,8 @@ var require_dist = __commonJS({
       for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
     };
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Overlay = exports.Toast = exports.DeviceInfo = exports.LocalStorage = void 0;
+    require_polyfills();
     __exportStar(require_components(), exports);
     __exportStar(require_renderer(), exports);
     __exportStar(require_router(), exports);
@@ -9156,6 +9707,24 @@ var require_dist = __commonJS({
     __exportStar(require_PageContext(), exports);
     __exportStar(require_Fuick(), exports);
     __exportStar(require_NativeEvent(), exports);
+    __exportStar(require_ClipboardService(), exports);
+    __exportStar(require_FileSystemService(), exports);
+    var LocalStorage_1 = require_LocalStorage();
+    Object.defineProperty(exports, "LocalStorage", { enumerable: true, get: function() {
+      return LocalStorage_1.LocalStorage;
+    } });
+    var DeviceInfo_1 = require_DeviceInfo();
+    Object.defineProperty(exports, "DeviceInfo", { enumerable: true, get: function() {
+      return DeviceInfo_1.DeviceInfo;
+    } });
+    var Toast_1 = require_Toast();
+    Object.defineProperty(exports, "Toast", { enumerable: true, get: function() {
+      return Toast_1.Toast;
+    } });
+    var OverlayService_1 = require_OverlayService();
+    Object.defineProperty(exports, "Overlay", { enumerable: true, get: function() {
+      return OverlayService_1.Overlay;
+    } });
   }
 });
 
