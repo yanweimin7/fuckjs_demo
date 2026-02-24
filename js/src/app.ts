@@ -28,6 +28,7 @@ import OpacityDemo from "./demos/OpacityDemo";
 import ProgressDemo from "./demos/ProgressDemo";
 import PageViewDemo from "./demos/PageViewDemo";
 import BottomNavDemo from "./demos/BottomNavDemo";
+import FlexDemo from "./demos/FlexDemo";
 import FlexibleDemo from "./demos/FlexibleDemo";
 import GestureDetectorDemo from "./demos/GestureDetectorDemo";
 import SafeAreaDemo from "./demos/SafeAreaDemo";
@@ -150,6 +151,7 @@ export function initApp() {
     Router.register("/demo/bottomnav", () =>
       React.createElement(BottomNavDemo),
     );
+    Router.register("/demo/flex", () => React.createElement(FlexDemo));
     Router.register("/demo/flexible", () => React.createElement(FlexibleDemo));
     Router.register("/demo/gesturedetector", () =>
       React.createElement(GestureDetectorDemo),

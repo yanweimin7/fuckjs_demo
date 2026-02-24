@@ -5751,6 +5751,9 @@ var require_node = __commonJS({
       constructor(type, props, container) {
         this.children = [];
         this.eventKeys = /* @__PURE__ */ new Set();
+        this._dslCache = null;
+        this._dslCacheDirty = true;
+        this._childrenDslCacheDirty = true;
         this.id = props && typeof props.id === "number" ? props.id : nextNodeId++;
         this.type = type;
         this.props = {};
@@ -5776,6 +5779,29 @@ var require_node = __commonJS({
           this.registerCallbacksRecursive(newProps);
         }
         this.container?.registerNode(this);
+        this._dslCacheDirty = true;
+        this._invalidateParentDslCache();
+      }
+      /**
+       * 递归向上通知父节点 DSL 缓存失效
+       */
+      _invalidateParentDslCache() {
+        let current = this.parent;
+        while (current) {
+          if (!current._childrenDslCacheDirty) {
+            current._childrenDslCacheDirty = true;
+            current = current.parent;
+          } else {
+            break;
+          }
+        }
+      }
+      /**
+       * 标记当前节点 DSL 缓存失效（供外部调用）
+       */
+      invalidateDslCache() {
+        this._dslCacheDirty = true;
+        this._invalidateParentDslCache();
       }
       registerCallbacksRecursive(obj, initialPath = "") {
         const stack = [{ obj, path: initialPath }];
@@ -5815,10 +5841,8 @@ var require_node = __commonJS({
         this.container?.registerCallback(this.id, key, fn);
       }
       clearCallbacks() {
-        if (this.container) {
-          for (const key of this.eventKeys) {
-            this.container.unregisterCallback(this.id, key);
-          }
+        if (this.container && this.eventKeys.size > 0) {
+          this.container.clearNodeCallbacks(this.id);
         }
         this.eventKeys.clear();
       }
@@ -5826,6 +5850,9 @@ var require_node = __commonJS({
         return this.container?.getCallback(this.id, key);
       }
       toDsl() {
+        if (!this._dslCacheDirty && !this._childrenDslCacheDirty && this._dslCache !== null) {
+          return this._dslCache;
+        }
         const type = this.type;
         if (!type)
           return null;
@@ -5871,6 +5898,9 @@ var require_node = __commonJS({
         if (this.props?.isBoundary) {
           result.isBoundary = true;
         }
+        this._dslCache = result;
+        this._dslCacheDirty = false;
+        this._childrenDslCacheDirty = false;
         return result;
       }
       destroy() {
@@ -5879,6 +5909,9 @@ var require_node = __commonJS({
           const node = stack.pop();
           node.clearCallbacks();
           node.container?.unregisterNode(node);
+          node._dslCache = null;
+          node._dslCacheDirty = true;
+          node._childrenDslCacheDirty = true;
           for (let i = node.children.length - 1; i >= 0; i--) {
             stack.push(node.children[i]);
           }
@@ -6287,13 +6320,30 @@ var require_PageContainer = __commonJS({
         return this.nodesByRefId.get(refId);
       }
       registerCallback(nodeId, eventKey, fn) {
-        this.eventCallbacks.set(`${nodeId}:${eventKey}`, fn);
+        let nodeCallbacks = this.eventCallbacks.get(nodeId);
+        if (!nodeCallbacks) {
+          nodeCallbacks = /* @__PURE__ */ new Map();
+          this.eventCallbacks.set(nodeId, nodeCallbacks);
+        }
+        nodeCallbacks.set(eventKey, fn);
       }
       unregisterCallback(nodeId, eventKey) {
-        this.eventCallbacks.delete(`${nodeId}:${eventKey}`);
+        const nodeCallbacks = this.eventCallbacks.get(nodeId);
+        if (nodeCallbacks) {
+          nodeCallbacks.delete(eventKey);
+          if (nodeCallbacks.size === 0) {
+            this.eventCallbacks.delete(nodeId);
+          }
+        }
       }
       getCallback(nodeId, eventKey) {
-        return this.eventCallbacks.get(`${nodeId}:${eventKey}`);
+        return this.eventCallbacks.get(nodeId)?.get(eventKey);
+      }
+      /**
+       * 清除指定节点的所有回调（用于节点销毁时）
+       */
+      clearNodeCallbacks(nodeId) {
+        this.eventCallbacks.delete(nodeId);
       }
       registerVisibleCallback(fn) {
         this.onVisibleCallbacks.add(fn);
@@ -6447,6 +6497,7 @@ var require_PageContainer = __commonJS({
       appendChildToContainer(child) {
         this.root = child;
         this.markChanged(child);
+        this.diffStrategy.rendered = false;
       }
       removeChildFromContainer(child) {
         if (this.root === child) {
@@ -6684,14 +6735,24 @@ var require_ErrorHandler = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ErrorHandler = void 0;
     var currentHandler = null;
+    var globalListeners = [];
     var isNotifying = false;
     function notify(error, source, detail) {
-      if (!currentHandler || isNotifying) {
+      if (isNotifying) {
         return;
       }
       try {
         isNotifying = true;
-        currentHandler(error, source, detail);
+        if (currentHandler) {
+          currentHandler(error, source, detail);
+        }
+        globalListeners.forEach((listener) => {
+          try {
+            listener(error, source, detail);
+          } catch (e) {
+            console.error("[ErrorHandler] Global listener error:", e);
+          }
+        });
       } catch (handlerError) {
         try {
           console.error("[ErrorHandler] Handler error:", handlerError);
@@ -6704,6 +6765,15 @@ var require_ErrorHandler = __commonJS({
     exports.ErrorHandler = {
       set(handler) {
         currentHandler = handler || null;
+      },
+      addListener(listener) {
+        globalListeners.push(listener);
+        return () => {
+          const index = globalListeners.indexOf(listener);
+          if (index > -1) {
+            globalListeners.splice(index, 1);
+          }
+        };
       },
       notify
     };
@@ -7391,6 +7461,25 @@ var require_Icon = __commonJS({
     };
     exports.Icon = Icon;
     exports.default = Icon;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/widgets/Flex.js
+var require_Flex = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/widgets/Flex.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Flex = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var Flex = class extends react_1.default.Component {
+      render() {
+        return react_1.default.createElement("Flex", { ...this.props });
+      }
+    };
+    exports.Flex = Flex;
   }
 });
 
@@ -8810,6 +8899,7 @@ var require_widgets = __commonJS({
     __exportStar(require_SizedBox(), exports);
     __exportStar(require_Center(), exports);
     __exportStar(require_Icon(), exports);
+    __exportStar(require_Flex(), exports);
     __exportStar(require_Flexible(), exports);
     __exportStar(require_GestureDetector(), exports);
     __exportStar(require_InkWell(), exports);
@@ -8999,6 +9089,7 @@ var require_timer = __commonJS({
     exports.clearTimeout = clearTimeout2;
     exports.setInterval = setInterval;
     exports.clearInterval = clearInterval;
+    exports.handleTimer = handleTimer;
     var TimerService_1 = require_TimerService();
     var ErrorHandler_1 = require_ErrorHandler();
     var nextTimerId = 1;
@@ -9044,7 +9135,7 @@ var require_timer = __commonJS({
       timerMap.delete(id);
       TimerService_1.TimerService.deleteTimer(id);
     }
-    globalThis.__handleTimer = (id) => {
+    function handleTimer(id) {
       const entry = timerMap.get(id);
       if (entry) {
         if (entry.type === "timeout") {
@@ -9061,7 +9152,7 @@ var require_timer = __commonJS({
           ErrorHandler_1.ErrorHandler.notify(e, "timer", { id });
         }
       }
-    };
+    }
   }
 });
 
@@ -9104,9 +9195,6 @@ var require_fetch = __commonJS({
         text: async () => result.body,
         json: async () => JSON.parse(result.body)
       };
-    }
-    if (typeof globalThis !== "undefined") {
-      globalThis.fetch = fetch;
     }
   }
 });
@@ -9163,7 +9251,7 @@ var require_runtime = __commonJS({
     function bindGlobals() {
       setupPolyfills();
       Object.assign(globalThis, {
-        FuickAppController: {
+        fuickjs: {
           render: PageRender.render,
           destroy: PageRender.destroy,
           getItemDSL: PageRender.getItemDSL,
@@ -9171,7 +9259,8 @@ var require_runtime = __commonJS({
           dispatchEvent: (eventObj, payload) => {
             const r = PageRender.ensureRenderer();
             r.dispatchEvent(eventObj, payload);
-          }
+          },
+          handleTimer: Timer.handleTimer
         }
       });
     }

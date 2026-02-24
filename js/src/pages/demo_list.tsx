@@ -19,6 +19,7 @@ const demoCategories = [
     title: "Layout & Containers",
     items: [
       { name: "Container", path: "/demo/container" },
+      { name: "Flex", path: "/demo/flex" },
       { name: "Column", path: "/demo/column" },
       { name: "Row", path: "/demo/row" },
       { name: "Stack", path: "/demo/stack" },
