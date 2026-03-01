@@ -42,6 +42,8 @@ const demoCategories = [
       { name: "InkWell", path: "/demo/inkwell" },
       { name: "Gesture", path: "/demo/gesturedetector" },
       { name: "Dialog", path: "/demo/dialog" },
+      { name: "DialogService", path: "/demo/dialog_service" },
+      { name: "BrowserAPI", path: "/demo/browser_api" },
     ],
   },
   {
@@ -76,6 +78,7 @@ const demoCategories = [
       { name: "Scaffold", path: "/demo/scaffold" },
       { name: "BottomNav", path: "/demo/bottomnav" },
       { name: "Tabs", path: "/demo/tabs" },
+      { name: "PopScope", path: "/demo/popscope" },
     ],
   },
   {

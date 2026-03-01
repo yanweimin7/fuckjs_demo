@@ -11,6 +11,7 @@ import {
   SizedBox,
   SingleChildScrollView,
   ErrorHandler,
+  ErrorBoundary,
 } from "fuickjs";
 
 export default function ErrorDemoPage() {

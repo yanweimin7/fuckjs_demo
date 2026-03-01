@@ -37,6 +37,9 @@ class _FuickAppPageState extends State<FuickAppPage> {
       appName: widget.appName,
       initialRoute: widget.path,
       initialParams: widget.params,
+      onRootPush: (path, params) async {
+        return await context.push(path, extra: params);
+      },
     );
   }
 }

@@ -6796,22 +6796,36 @@ var require_renderer = __commonJS({
     var ErrorHandler_1 = require_ErrorHandler();
     var containers = {};
     var roots = {};
+    var recentlyDestroyed = /* @__PURE__ */ new Set();
     function dispatchEvent(eventObj, payload) {
       try {
         const evt = eventObj;
         const pageId = evt?.pageId;
         const nodeId = Number(evt?.nodeId || evt?.id);
         const eventKey = evt?.eventKey;
-        const container = containers[pageId];
+        let container = containers[pageId];
+        if (!container) {
+          for (const id in containers) {
+            const c = containers[id];
+            if (c.getCallback(nodeId, eventKey)) {
+              container = c;
+              break;
+            }
+          }
+        }
         if (container) {
           const fn = container.getCallback(nodeId, eventKey);
           if (typeof fn === "function") {
             fn(payload);
           } else {
-            console.warn(`[Renderer] Callback not found for nodeId=${nodeId}, eventKey=${eventKey}`);
+            console.warn(`[Renderer] Callback not found for nodeId=${nodeId}, eventKey=${eventKey} in pageId=${container.pageId}`);
           }
         } else {
-          console.warn(`[Renderer] Container not found for pageId=${pageId}`);
+          if (recentlyDestroyed.has(pageId)) {
+            console.log(`[Renderer] Ignoring event for recently destroyed pageId=${pageId}`);
+          } else {
+            console.warn(`[Renderer] Container not found for pageId=${pageId}. Available: ${Object.keys(containers).join(",")}`);
+          }
         }
       } catch (e) {
         console.error(`[Renderer] Error in dispatchEvent:`, e);
@@ -6826,9 +6840,12 @@ var require_renderer = __commonJS({
       function ensureRoot(pageId) {
         if (roots[pageId])
           return roots[pageId];
-        const container = new PageContainer_1.PageContainer(pageId);
+        let container = containers[pageId];
+        if (!container) {
+          container = new PageContainer_1.PageContainer(pageId);
+          containers[pageId] = container;
+        }
         const root = reconciler.createContainer(container, 1, null, false, null, "", handleRecoverableError, null);
-        containers[pageId] = container;
         roots[pageId] = root;
         return root;
       }
@@ -6870,6 +6887,10 @@ var require_renderer = __commonJS({
                 });
                 delete roots[pageId];
                 delete containers[pageId];
+                recentlyDestroyed.add(pageId);
+                globalThis.setTimeout(() => {
+                  recentlyDestroyed.delete(pageId);
+                }, 5e3);
               } catch (e) {
                 const msg = e.message || String(e);
                 if ((msg.includes("327") || msg.includes("working")) && retryCount < maxRetries) {
@@ -6887,6 +6908,10 @@ var require_renderer = __commonJS({
               }
             };
             performDestroy();
+          } else {
+            if (containers[pageId]) {
+              delete containers[pageId];
+            }
           }
         },
         dispatchEvent,
@@ -6901,6 +6926,7 @@ var require_renderer = __commonJS({
           let container = containers[pageId];
           if (!container) {
             container = new PageContainer_1.PageContainer(pageId);
+            containers[pageId] = container;
           }
           return container.elementToDsl(element);
         },
@@ -8861,6 +8887,26 @@ var require_Material = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/widgets/PopScope.js
+var require_PopScope = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/widgets/PopScope.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PopScope = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var PopScope = class extends react_1.default.Component {
+      render() {
+        return react_1.default.createElement("PopScope", { ...this.props });
+      }
+    };
+    exports.PopScope = PopScope;
+    exports.default = PopScope;
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/widgets/index.js
 var require_widgets = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/widgets/index.js"(exports) {
@@ -8952,6 +8998,7 @@ var require_widgets = __commonJS({
     __exportStar(require_GenericPage(), exports);
     __exportStar(require_PointerListener(), exports);
     __exportStar(require_Material(), exports);
+    __exportStar(require_PopScope(), exports);
   }
 });
 
@@ -9012,6 +9059,10 @@ var require_console = __commonJS({
     exports.log = log;
     exports.warn = warn;
     exports.error = error;
+    exports.info = info;
+    exports.debug = debug;
+    exports.trace = trace;
+    exports.clear = clear;
     var ConsoleService_1 = require_ConsoleService();
     function formatArg(arg) {
       if (arg instanceof Error) {
@@ -9058,6 +9109,19 @@ ${stack}`;
           globalObj.print("[ERROR] " + message);
         }
       }
+    }
+    function info(...args) {
+      log(...args);
+    }
+    function debug(...args) {
+      log(...args);
+    }
+    function trace() {
+      const err = new Error();
+      log("Console Trace:", err.stack);
+    }
+    function clear() {
+      log("[Console] clear called");
     }
   }
 });
@@ -9163,7 +9227,7 @@ var require_NetworkService = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NetworkService = void 0;
     var NetworkService = class {
-      static async fetch(url, method, headers, body) {
+      static async fetch(url, method, headers, body, requestId) {
         if (typeof dartCallNativeAsync !== "function") {
           throw new Error("dartCallNativeAsync is not available.");
         }
@@ -9171,8 +9235,12 @@ var require_NetworkService = __commonJS({
           url,
           method,
           headers,
-          body
+          body,
+          requestId
         });
+      }
+      static cancel(requestId) {
+        dartCallNative("Network.cancel", { requestId });
       }
     };
     exports.NetworkService = NetworkService;
@@ -9187,7 +9255,32 @@ var require_fetch = __commonJS({
     exports.fetch = fetch;
     var NetworkService_1 = require_NetworkService();
     async function fetch(url, options = {}) {
-      const result = await NetworkService_1.NetworkService.fetch(url, options.method || "GET", options.headers || {}, options.body);
+      const { signal } = options;
+      if (signal?.aborted) {
+        throw signal.reason || new Error("AbortError");
+      }
+      const requestId = Math.random().toString(36).substring(2);
+      const fetchPromise = NetworkService_1.NetworkService.fetch(url, options.method || "GET", options.headers || {}, options.body, requestId);
+      if (!signal) {
+        const result = await fetchPromise;
+        return createResponse(result);
+      }
+      return new Promise((resolve, reject) => {
+        const abortHandler = () => {
+          NetworkService_1.NetworkService.cancel(requestId);
+          reject(signal.reason || new Error("AbortError"));
+        };
+        signal.addEventListener("abort", abortHandler);
+        fetchPromise.then((result) => {
+          signal.removeEventListener("abort", abortHandler);
+          resolve(createResponse(result));
+        }).catch((err) => {
+          signal.removeEventListener("abort", abortHandler);
+          reject(err);
+        });
+      });
+    }
+    function createResponse(result) {
       return {
         status: result.status,
         ok: result.status >= 200 && result.status < 300,
@@ -9196,6 +9289,551 @@ var require_fetch = __commonJS({
         json: async () => JSON.parse(result.body)
       };
     }
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/ex/base64.js
+var require_base64 = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/base64.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.btoa = btoa;
+    exports.atob = atob;
+    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    function btoa(input) {
+      const str = encodeURIComponent(input).replace(/%([0-9A-F]{2})/g, (_match, p1) => {
+        return String.fromCharCode(parseInt(p1, 16));
+      });
+      let output = "";
+      for (let block = 0, charCode, i = 0, map = chars; str.charAt(i | 0) || (map = "=", i % 1); output += map.charAt(63 & block >> 8 - i % 1 * 8)) {
+        charCode = str.charCodeAt(i += 3 / 4);
+        if (charCode > 255) {
+          throw new Error("'btoa' failed: The string to be encoded contains characters outside of the Latin1 range.");
+        }
+        block = block << 8 | charCode;
+      }
+      return output;
+    }
+    function atob(input) {
+      const str = String(input).replace(/[=]+$/, "");
+      if (str.length % 4 === 1) {
+        throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
+      }
+      let binary = "";
+      for (let bc = 0, bs = 0, buffer, i = 0; buffer = str.charAt(i++); ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer, bc++ % 4) ? binary += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
+        buffer = chars.indexOf(buffer);
+      }
+      try {
+        return decodeURIComponent(Array.prototype.map.call(binary, (c) => {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(""));
+      } catch (e) {
+        return binary;
+      }
+    }
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/ex/url.js
+var require_url = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/url.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.URL = exports.URLSearchParams = void 0;
+    var URLSearchParams = class _URLSearchParams {
+      constructor(init) {
+        this.params = /* @__PURE__ */ new Map();
+        if (!init)
+          return;
+        if (typeof init === "string") {
+          if (init.startsWith("?"))
+            init = init.slice(1);
+          const pairs = init.split("&");
+          for (const pair of pairs) {
+            const [key, value] = pair.split("=").map(decodeURIComponent);
+            this.append(key, value || "");
+          }
+        } else if (init instanceof _URLSearchParams) {
+          init.forEach((value, key) => this.append(key, value));
+        } else if (Array.isArray(init)) {
+          for (const [key, value] of init) {
+            this.append(key, value);
+          }
+        } else {
+          for (const key in init) {
+            this.append(key, init[key]);
+          }
+        }
+      }
+      append(name, value) {
+        const values = this.params.get(name) || [];
+        values.push(String(value));
+        this.params.set(name, values);
+      }
+      delete(name) {
+        this.params.delete(name);
+      }
+      get(name) {
+        const values = this.params.get(name);
+        return values ? values[0] : null;
+      }
+      getAll(name) {
+        return this.params.get(name) || [];
+      }
+      has(name) {
+        return this.params.has(name);
+      }
+      set(name, value) {
+        this.params.set(name, [String(value)]);
+      }
+      sort() {
+        const keys = Array.from(this.params.keys()).sort();
+        const newParams = /* @__PURE__ */ new Map();
+        for (const key of keys) {
+          newParams.set(key, this.params.get(key));
+        }
+        this.params = newParams;
+      }
+      forEach(callback) {
+        this.params.forEach((values, name) => {
+          values.forEach((value) => callback(value, name, this));
+        });
+      }
+      toString() {
+        const pairs = [];
+        this.params.forEach((values, name) => {
+          values.forEach((value) => {
+            pairs.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
+          });
+        });
+        return pairs.join("&");
+      }
+      [Symbol.iterator]() {
+        const entries = [];
+        this.forEach((value, name) => entries.push([name, value]));
+        return entries[Symbol.iterator]();
+      }
+    };
+    exports.URLSearchParams = URLSearchParams;
+    var URL = class _URL {
+      constructor(url, base) {
+        this.protocol = "";
+        this.hostname = "";
+        this.port = "";
+        this.pathname = "/";
+        this.search = "";
+        this.hash = "";
+        this.username = "";
+        this.password = "";
+        let absoluteUrl = url;
+        if (base) {
+          const baseUrl = base instanceof _URL ? base.href : new _URL(base).href;
+          if (!url.includes("://")) {
+            if (url.startsWith("/")) {
+              const origin = baseUrl.split("/").slice(0, 3).join("/");
+              absoluteUrl = origin + url;
+            } else {
+              const baseParts = baseUrl.split("/");
+              baseParts.pop();
+              absoluteUrl = baseParts.join("/") + "/" + url;
+            }
+          }
+        }
+        const regex = /^(?:([a-z0-9+.-]+):)?(?:\/\/)?(?:([^@:/]+)(?::([^@/]+))?@)?([^:/]+)?(?::([0-9]+))?([^?#]*)(\?[^#]*)?(#.*)?$/i;
+        const match = absoluteUrl.match(regex);
+        if (match) {
+          this.protocol = match[1] ? match[1] + ":" : "";
+          this.username = match[2] || "";
+          this.password = match[3] || "";
+          this.hostname = match[4] || "";
+          this.port = match[5] || "";
+          this.pathname = match[6] || "/";
+          this.search = match[7] || "";
+          this.hash = match[8] || "";
+        }
+        this.searchParams = new URLSearchParams(this.search);
+      }
+      get href() {
+        let res = this.protocol + "//";
+        if (this.username) {
+          res += this.username;
+          if (this.password)
+            res += ":" + this.password;
+          res += "@";
+        }
+        res += this.hostname;
+        if (this.port)
+          res += ":" + this.port;
+        res += this.pathname;
+        const searchStr = this.searchParams.toString();
+        if (searchStr)
+          res += "?" + searchStr;
+        res += this.hash;
+        return res;
+      }
+      set href(value) {
+        const newUrl = new _URL(value);
+        Object.assign(this, newUrl);
+      }
+      get origin() {
+        return `${this.protocol}//${this.hostname}${this.port ? ":" + this.port : ""}`;
+      }
+      get host() {
+        return this.hostname + (this.port ? ":" + this.port : "");
+      }
+      set host(value) {
+        const [hostname, port] = value.split(":");
+        this.hostname = hostname;
+        this.port = port || "";
+      }
+      toString() {
+        return this.href;
+      }
+      toJSON() {
+        return this.href;
+      }
+    };
+    exports.URL = URL;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/ex/events.js
+var require_events = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/events.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.EventTarget = exports.CustomEvent = exports.Event = void 0;
+    var Event = class {
+      constructor(type, options = {}) {
+        this.defaultPrevented = false;
+        this.type = type;
+        this.cancelable = options.cancelable || false;
+        this.timeStamp = Date.now();
+      }
+      preventDefault() {
+        if (this.cancelable) {
+          this.defaultPrevented = true;
+        }
+      }
+    };
+    exports.Event = Event;
+    var CustomEvent = class extends Event {
+      constructor(type, options = {}) {
+        super(type, options);
+        this.detail = options.detail;
+      }
+    };
+    exports.CustomEvent = CustomEvent;
+    var EventTarget = class {
+      constructor() {
+        this.listeners = /* @__PURE__ */ new Map();
+      }
+      addEventListener(type, listener) {
+        let typeListeners = this.listeners.get(type);
+        if (!typeListeners) {
+          typeListeners = /* @__PURE__ */ new Set();
+          this.listeners.set(type, typeListeners);
+        }
+        typeListeners.add(listener);
+      }
+      removeEventListener(type, listener) {
+        const typeListeners = this.listeners.get(type);
+        if (typeListeners) {
+          typeListeners.delete(listener);
+        }
+      }
+      dispatchEvent(event) {
+        const typeListeners = this.listeners.get(event.type);
+        if (typeListeners) {
+          for (const listener of typeListeners) {
+            try {
+              listener(event);
+            } catch (e) {
+              console.error(`Error in event listener for ${event.type}:`, e);
+            }
+          }
+        }
+        return !event.defaultPrevented;
+      }
+    };
+    exports.EventTarget = EventTarget;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/ex/abort.js
+var require_abort = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/abort.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AbortController = exports.AbortSignal = void 0;
+    var events_1 = require_events();
+    var AbortSignal = class _AbortSignal extends events_1.EventTarget {
+      constructor() {
+        super();
+        this.aborted = false;
+        this.onabort = null;
+      }
+      static abort(reason) {
+        const signal = new _AbortSignal();
+        signal.aborted = true;
+        signal.reason = reason;
+        return signal;
+      }
+      static timeout(milliseconds) {
+        const signal = new _AbortSignal();
+        setTimeout(() => {
+          const event = new events_1.Event("abort");
+          signal.aborted = true;
+          signal.reason = new Error("TimeoutError");
+          if (signal.onabort)
+            signal.onabort(event);
+          signal.dispatchEvent(event);
+        }, milliseconds);
+        return signal;
+      }
+    };
+    exports.AbortSignal = AbortSignal;
+    var AbortController = class {
+      constructor() {
+        this.signal = new AbortSignal();
+      }
+      abort(reason) {
+        if (this.signal.aborted)
+          return;
+        this.signal.aborted = true;
+        this.signal.reason = reason || new Error("AbortError");
+        const event = new events_1.Event("abort");
+        if (this.signal.onabort)
+          this.signal.onabort(event);
+        this.signal.dispatchEvent(event);
+      }
+    };
+    exports.AbortController = AbortController;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/ex/xhr.js
+var require_xhr = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/xhr.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.XMLHttpRequest = void 0;
+    var events_1 = require_events();
+    var NetworkService_1 = require_NetworkService();
+    var XMLHttpRequest = class _XMLHttpRequest extends events_1.EventTarget {
+      constructor() {
+        super();
+        this.readyState = _XMLHttpRequest.UNSENT;
+        this.status = 0;
+        this.statusText = "";
+        this.responseText = "";
+        this.response = null;
+        this.responseType = "";
+        this.timeout = 0;
+        this.withCredentials = false;
+        this._method = "";
+        this._url = "";
+        this._async = true;
+        this._requestHeaders = {};
+        this._requestId = null;
+        this._aborted = false;
+        this.onreadystatechange = null;
+        this.onload = null;
+        this.onerror = null;
+        this.onabort = null;
+        this.ontimeout = null;
+        this.onloadstart = null;
+        this.onloadend = null;
+        this.onprogress = null;
+      }
+      open(method, url, async = true) {
+        this._method = method.toUpperCase();
+        this._url = url;
+        this._async = async;
+        this._requestHeaders = {};
+        this._aborted = false;
+        this._changeReadyState(_XMLHttpRequest.OPENED);
+      }
+      setRequestHeader(header, value) {
+        if (this.readyState !== _XMLHttpRequest.OPENED) {
+          throw new Error(`DOMException: Failed to execute "setRequestHeader" on "XMLHttpRequest": The object's state must be OPENED.`);
+        }
+        this._requestHeaders[header] = value;
+      }
+      send(body) {
+        if (this.readyState !== _XMLHttpRequest.OPENED) {
+          throw new Error(`DOMException: Failed to execute "send" on "XMLHttpRequest": The object's state must be OPENED.`);
+        }
+        this._requestId = Math.random().toString(36).substring(2);
+        this._aborted = false;
+        this._dispatchEvent("loadstart");
+        const doRequest = async () => {
+          try {
+            const result = await NetworkService_1.NetworkService.fetch(this._url, this._method, this._requestHeaders, typeof body === "string" ? body : JSON.stringify(body), this._requestId);
+            if (this._aborted)
+              return;
+            this.status = result.status;
+            this.statusText = result.status >= 200 && result.status < 300 ? "OK" : "Error";
+            this._changeReadyState(_XMLHttpRequest.HEADERS_RECEIVED);
+            this._changeReadyState(_XMLHttpRequest.LOADING);
+            this.responseText = result.body;
+            this._parseResponse();
+            this._changeReadyState(_XMLHttpRequest.DONE);
+            this._dispatchEvent("load");
+            this._dispatchEvent("loadend");
+          } catch (e) {
+            if (this._aborted)
+              return;
+            this._dispatchEvent("error");
+            this._dispatchEvent("loadend");
+          }
+        };
+        if (this._async) {
+          doRequest();
+        } else {
+          console.warn("[XMLHttpRequest] Synchronous request is not supported in this environment, falling back to async.");
+          doRequest();
+        }
+      }
+      abort() {
+        if (this._requestId && !this._aborted) {
+          this._aborted = true;
+          NetworkService_1.NetworkService.cancel(this._requestId);
+          this._changeReadyState(_XMLHttpRequest.DONE);
+          this._dispatchEvent("abort");
+          this._dispatchEvent("loadend");
+        }
+      }
+      getAllResponseHeaders() {
+        return "";
+      }
+      getResponseHeader(header) {
+        return null;
+      }
+      _changeReadyState(state) {
+        this.readyState = state;
+        if (this.onreadystatechange) {
+          this.onreadystatechange();
+        }
+        this.dispatchEvent(new events_1.Event("readystatechange"));
+      }
+      _dispatchEvent(type) {
+        const handler = this[`on${type}`];
+        if (typeof handler === "function") {
+          handler();
+        }
+        this.dispatchEvent(new events_1.Event(type));
+      }
+      _parseResponse() {
+        if (this.responseType === "json") {
+          try {
+            this.response = JSON.parse(this.responseText);
+          } catch {
+            this.response = null;
+          }
+        } else if (this.responseType === "text" || this.responseType === "") {
+          this.response = this.responseText;
+        } else {
+          this.response = this.responseText;
+        }
+      }
+    };
+    exports.XMLHttpRequest = XMLHttpRequest;
+    XMLHttpRequest.UNSENT = 0;
+    XMLHttpRequest.OPENED = 1;
+    XMLHttpRequest.HEADERS_RECEIVED = 2;
+    XMLHttpRequest.LOADING = 3;
+    XMLHttpRequest.DONE = 4;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/ex/performance.js
+var require_performance = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/performance.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.performance = void 0;
+    var startTime = Date.now();
+    exports.performance = {
+      now: () => Date.now() - startTime,
+      timeOrigin: startTime
+    };
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/services/LocalStorage.js
+var require_LocalStorage = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/LocalStorage.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.LocalStorage = void 0;
+    var LocalStorage = class {
+      static getItem(key) {
+        return dartCallNativeAsync("LocalStorage.getItem", [key]);
+      }
+      static setItem(key, value) {
+        return dartCallNativeAsync("LocalStorage.setItem", [key, value]);
+      }
+      static removeItem(key) {
+        return dartCallNativeAsync("LocalStorage.removeItem", [key]);
+      }
+      static clear() {
+        return dartCallNativeAsync("LocalStorage.clear", []);
+      }
+    };
+    exports.LocalStorage = LocalStorage;
+  }
+});
+
+// ../../fuickjs_framework/fuickjs/dist/ex/storage.js
+var require_storage = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/storage.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.sessionStorage = exports.localStorage = exports.Storage = void 0;
+    var LocalStorage_1 = require_LocalStorage();
+    var Storage = class {
+      constructor(type) {
+        this.data = /* @__PURE__ */ new Map();
+        this.type = type;
+        if (type === "local") {
+        }
+      }
+      getItem(key) {
+        return this.data.get(String(key)) || null;
+      }
+      setItem(key, value) {
+        const sKey = String(key);
+        const sValue = String(value);
+        this.data.set(sKey, sValue);
+        if (this.type === "local") {
+          LocalStorage_1.LocalStorage.setItem(sKey, sValue);
+        }
+      }
+      removeItem(key) {
+        const sKey = String(key);
+        this.data.delete(sKey);
+        if (this.type === "local") {
+          LocalStorage_1.LocalStorage.removeItem(sKey);
+        }
+      }
+      clear() {
+        this.data.clear();
+        if (this.type === "local") {
+          LocalStorage_1.LocalStorage.clear();
+        }
+      }
+      get length() {
+        return this.data.size;
+      }
+      key(index) {
+        const keys = Array.from(this.data.keys());
+        return keys[index] || null;
+      }
+    };
+    exports.Storage = Storage;
+    exports.localStorage = new Storage("local");
+    exports.sessionStorage = new Storage("session");
   }
 });
 
@@ -9248,9 +9886,18 @@ var require_runtime = __commonJS({
     var Timer = __importStar(require_timer());
     var fetch_1 = require_fetch();
     var ErrorHandler_1 = require_ErrorHandler();
+    var base64_1 = require_base64();
+    var url_1 = require_url();
+    var events_1 = require_events();
+    var abort_1 = require_abort();
+    var xhr_1 = require_xhr();
+    var performance_1 = require_performance();
+    var storage_1 = require_storage();
     function bindGlobals() {
       setupPolyfills();
       Object.assign(globalThis, {
+        window: globalThis,
+        self: globalThis,
         fuickjs: {
           render: PageRender.render,
           destroy: PageRender.destroy,
@@ -9273,18 +9920,40 @@ var require_runtime = __commonJS({
         ...oldConsole,
         log: Console.log,
         warn: Console.warn,
-        error: Console.error
+        error: Console.error,
+        info: Console.info,
+        debug: Console.debug,
+        trace: Console.trace,
+        clear: Console.clear
       };
       globalThis.setTimeout = Timer.setTimeout;
       globalThis.clearTimeout = Timer.clearTimeout;
       globalThis.setInterval = Timer.setInterval;
       globalThis.clearInterval = Timer.clearInterval;
       globalThis.fetch = fetch_1.fetch;
+      globalThis.atob = base64_1.atob;
+      globalThis.btoa = base64_1.btoa;
+      globalThis.URL = url_1.URL;
+      globalThis.URLSearchParams = url_1.URLSearchParams;
+      globalThis.Event = events_1.Event;
+      globalThis.CustomEvent = events_1.CustomEvent;
+      globalThis.EventTarget = events_1.EventTarget;
+      globalThis.AbortController = abort_1.AbortController;
+      globalThis.AbortSignal = abort_1.AbortSignal;
+      globalThis.XMLHttpRequest = xhr_1.XMLHttpRequest;
       if (!globalThis.performance) {
-        globalThis.performance = {
-          now: () => Date.now()
-        };
+        globalThis.performance = performance_1.performance;
       }
+      Object.defineProperty(globalThis, "localStorage", {
+        value: storage_1.localStorage,
+        writable: false,
+        configurable: false
+      });
+      Object.defineProperty(globalThis, "sessionStorage", {
+        value: storage_1.sessionStorage,
+        writable: false,
+        configurable: false
+      });
       const globalAny = globalThis;
       const handleError = (error, source, detail) => {
         ErrorHandler_1.ErrorHandler.notify(error, source, detail);
@@ -9369,6 +10038,41 @@ var require_NavigatorService = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/services/DialogService.js
+var require_DialogService = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/services/DialogService.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Dialog = void 0;
+    var page_render_1 = require_page_render();
+    var Dialog = class {
+      /**
+       * Shows a dialog with custom DSL content.
+       * @param content The ReactNode to show in the dialog.
+       * @param options Dialog options.
+       */
+      static async show(content, options = {}) {
+        const targetPageId = options.pageId ?? -1;
+        const dsl = (0, page_render_1.elementToDsl)(targetPageId, content);
+        return await dartCallNativeAsync("Dialog.show", {
+          dsl,
+          pageId: targetPageId,
+          barrierDismissible: options.barrierDismissible ?? true,
+          barrierColor: options.barrierColor
+        });
+      }
+      /**
+       * Dismisses the current dialog.
+       * @param result Optional result to return from the dialog.
+       */
+      static dismiss(result) {
+        dartCallNative("Dialog.dismiss", result);
+      }
+    };
+    exports.Dialog = Dialog;
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/hooks.js
 var require_hooks = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/hooks.js"(exports) {
@@ -9413,12 +10117,14 @@ var require_hooks = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.usePageId = usePageId;
     exports.useNavigator = useNavigator;
+    exports.useDialog = useDialog;
     exports.useVisible = useVisible;
     exports.useInvisible = useInvisible;
     var react_1 = require_react_production_min();
     var PageContext_1 = require_PageContext();
     var PageRender = __importStar(require_page_render());
     var NavigatorService_1 = require_NavigatorService();
+    var DialogService_1 = require_DialogService();
     function usePageId() {
       const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
       return pageId;
@@ -9434,6 +10140,13 @@ var require_hooks = __commonJS({
         pop: (result) => {
           return NavigatorService_1.NavigatorService.pop(pageId, false, result);
         }
+      };
+    }
+    function useDialog() {
+      const pageId = usePageId();
+      return {
+        show: (content, options) => DialogService_1.Dialog.show(content, { ...options, pageId }),
+        dismiss: (result) => DialogService_1.Dialog.dismiss(result)
       };
     }
     function useVisible(callback) {
@@ -9683,30 +10396,6 @@ var require_FileSystemService = __commonJS({
   }
 });
 
-// ../../fuickjs_framework/fuickjs/dist/services/LocalStorage.js
-var require_LocalStorage = __commonJS({
-  "../../fuickjs_framework/fuickjs/dist/services/LocalStorage.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.LocalStorage = void 0;
-    var LocalStorage = class {
-      static getItem(key) {
-        return dartCallNativeAsync("LocalStorage.getItem", [key]);
-      }
-      static setItem(key, value) {
-        return dartCallNativeAsync("LocalStorage.setItem", [key, value]);
-      }
-      static removeItem(key) {
-        return dartCallNativeAsync("LocalStorage.removeItem", [key]);
-      }
-      static clear() {
-        return dartCallNativeAsync("LocalStorage.clear", []);
-      }
-    };
-    exports.LocalStorage = LocalStorage;
-  }
-});
-
 // ../../fuickjs_framework/fuickjs/dist/services/DeviceInfo.js
 var require_DeviceInfo = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/services/DeviceInfo.js"(exports) {
@@ -9779,7 +10468,7 @@ var require_dist = __commonJS({
       for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Overlay = exports.Toast = exports.DeviceInfo = exports.LocalStorage = void 0;
+    exports.Dialog = exports.Overlay = exports.Toast = exports.DeviceInfo = exports.LocalStorage = void 0;
     require_polyfills();
     __exportStar(require_components(), exports);
     __exportStar(require_renderer(), exports);
@@ -9813,6 +10502,10 @@ var require_dist = __commonJS({
     var OverlayService_1 = require_OverlayService();
     Object.defineProperty(exports, "Overlay", { enumerable: true, get: function() {
       return OverlayService_1.Overlay;
+    } });
+    var DialogService_1 = require_DialogService();
+    Object.defineProperty(exports, "Dialog", { enumerable: true, get: function() {
+      return DialogService_1.Dialog;
     } });
   }
 });

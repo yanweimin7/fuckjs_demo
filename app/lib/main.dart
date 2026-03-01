@@ -20,21 +20,6 @@ void main() async {
   // 预热 Isolate 引擎，减少第一次打开小程序的延迟
   EngineInit.initIsolate();
 
-  // 配置 FuickConfig
-  FuickConfig.onRootPush = (path, params) async {
-    return await rootNavigatorKey.currentContext?.push(path, extra: params);
-  };
-  FuickConfig.onRootPop = () {
-    if (rootNavigatorKey.currentContext?.canPop() == true) {
-      rootNavigatorKey.currentContext?.pop();
-    }
-  };
-  FuickConfig.onRootPopWithResult = (result) {
-    if (rootNavigatorKey.currentContext?.canPop() == true) {
-      rootNavigatorKey.currentContext?.pop(result);
-    }
-  };
-
   runApp(const MyApp());
 }
 

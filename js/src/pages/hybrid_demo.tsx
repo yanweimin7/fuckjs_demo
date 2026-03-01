@@ -41,7 +41,7 @@ export default function HybridDemoPage(props: any) {
             text="返回上一个页面，并带有参数"
             onTap={() => {
               // Pop current page and return a value
-              navigator.pop(false, {
+              navigator.pop({
                 message: "我是js页面返回的参数",
                 timestamp: Date.now(),
               });

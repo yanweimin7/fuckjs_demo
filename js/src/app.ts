@@ -59,6 +59,9 @@ import RichTextDemo from "./demos/RichTextDemo";
 import TransformDemo from "./demos/TransformDemo";
 import OverlayDemo from "./demos/OverlayDemo";
 import MaterialDemo from "./demos/MaterialDemo";
+import PopScopeDemo from "./demos/PopScopeDemo";
+import DialogServiceDemo from "./demos/DialogServiceDemo";
+import BrowserApiDemo from "./demos/BrowserApiDemo";
 
 // Custom Global Error UI
 const CustomErrorUI = (error: Error) =>
@@ -148,6 +151,9 @@ export function initApp() {
     Router.register("/demo/opacity", () => React.createElement(OpacityDemo));
     Router.register("/demo/progress", () => React.createElement(ProgressDemo));
     Router.register("/demo/pageview", () => React.createElement(PageViewDemo));
+    Router.register("/demo/popscope", () => React.createElement(PopScopeDemo));
+    Router.register("/demo/dialog_service", () => React.createElement(DialogServiceDemo));
+    Router.register("/demo/browser_api", () => React.createElement(BrowserApiDemo));
     Router.register("/demo/bottomnav", () =>
       React.createElement(BottomNavDemo),
     );
