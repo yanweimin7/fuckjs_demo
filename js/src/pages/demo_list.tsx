@@ -44,6 +44,7 @@ const demoCategories = [
       { name: "Dialog", path: "/demo/dialog" },
       { name: "DialogService", path: "/demo/dialog_service" },
       { name: "BrowserAPI", path: "/demo/browser_api" },
+      { name: "WebSocket", path: "/demo/websocket" },
     ],
   },
   {
