@@ -5640,6 +5640,7 @@ var require_hostConfig = __commonJS({
         appendInitialChild: (parent, child) => {
           child.parent = parent;
           parent.children.push(child);
+          parent.invalidateDslCache();
           if (parent.container) {
             parent.container.markChanged(parent);
           }
@@ -5782,14 +5783,18 @@ var require_node = __commonJS({
         this._dslCacheDirty = true;
         this._invalidateParentDslCache();
       }
+      _isTransparent() {
+        return this.type === "FlutterProps" || this.type === "flutter-props";
+      }
       /**
        * 递归向上通知父节点 DSL 缓存失效
        */
       _invalidateParentDslCache() {
         let current = this.parent;
         while (current) {
-          if (!current._childrenDslCacheDirty) {
-            current._childrenDslCacheDirty = true;
+          const wasDirty = current._childrenDslCacheDirty;
+          current._childrenDslCacheDirty = true;
+          if (!wasDirty || current._isTransparent()) {
             current = current.parent;
           } else {
             break;
@@ -5850,7 +5855,8 @@ var require_node = __commonJS({
         return this.container?.getCallback(this.id, key);
       }
       toDsl() {
-        if (!this._dslCacheDirty && !this._childrenDslCacheDirty && this._dslCache !== null) {
+        const dslCacheEnabled = this.container ? this.container.dslCacheEnabled : true;
+        if (dslCacheEnabled && !this._dslCacheDirty && !this._childrenDslCacheDirty && this._dslCache !== null) {
           return this._dslCache;
         }
         const type = this.type;
@@ -6293,6 +6299,7 @@ var require_PageContainer = __commonJS({
       constructor(pageId) {
         this.root = null;
         this.incrementalMode = true;
+        this.dslCacheEnabled = true;
         this.eventCallbacks = /* @__PURE__ */ new Map();
         this.onVisibleCallbacks = /* @__PURE__ */ new Set();
         this.onInvisibleCallbacks = /* @__PURE__ */ new Set();
@@ -6387,6 +6394,9 @@ var require_PageContainer = __commonJS({
       setIncrementalMode(enabled) {
         this.incrementalMode = enabled;
       }
+      setDslCacheEnabled(enabled) {
+        this.dslCacheEnabled = enabled;
+      }
       recordUpdate(node, updatePayload) {
         if (this.incrementalMode) {
           this.incrementalStrategy.recordUpdate(node, updatePayload);
@@ -6426,6 +6436,7 @@ var require_PageContainer = __commonJS({
           const oldIndex = child.parent.children.indexOf(child);
           if (oldIndex >= 0) {
             child.parent.children.splice(oldIndex, 1);
+            child.parent.invalidateDslCache();
             if (this.incrementalMode) {
               this.recordRemoval(child.parent, child);
             } else {
@@ -6440,6 +6451,7 @@ var require_PageContainer = __commonJS({
         }
         child.parent = parent;
         parent.children.push(child);
+        parent.invalidateDslCache();
         if (this.incrementalMode) {
           this.recordInsert(parent, child, parent.children.length - 1);
         } else {
@@ -6451,6 +6463,7 @@ var require_PageContainer = __commonJS({
           const oldIndex = child.parent.children.indexOf(child);
           if (oldIndex >= 0) {
             child.parent.children.splice(oldIndex, 1);
+            child.parent.invalidateDslCache();
             if (child.parent !== parent) {
               if (this.incrementalMode) {
                 this.recordRemoval(child.parent, child);
@@ -6476,6 +6489,7 @@ var require_PageContainer = __commonJS({
         } else {
           parent.children.push(child);
         }
+        parent.invalidateDslCache();
         if (this.incrementalMode) {
           const newIndex = i >= 0 ? i : parent.children.length - 1;
           this.recordInsert(parent, child, newIndex);
@@ -6487,6 +6501,7 @@ var require_PageContainer = __commonJS({
         const i = parent.children.indexOf(child);
         if (i >= 0)
           parent.children.splice(i, 1);
+        parent.invalidateDslCache();
         child.destroy();
         if (this.incrementalMode) {
           this.recordRemoval(parent, child);
@@ -6511,6 +6526,7 @@ var require_PageContainer = __commonJS({
         if (oldText === newText)
           return;
         node.props.text = newText;
+        node.invalidateDslCache();
         if (this.incrementalMode) {
           this.recordUpdate(node, ["text", newText]);
         } else {
@@ -9297,10 +9313,10 @@ var require_base64 = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/ex/base64.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.btoa = btoa;
-    exports.atob = atob;
+    exports.btoa = btoa2;
+    exports.atob = atob2;
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-    function btoa(input) {
+    function btoa2(input) {
       const str = encodeURIComponent(input).replace(/%([0-9A-F]{2})/g, (_match, p1) => {
         return String.fromCharCode(parseInt(p1, 16));
       });
@@ -9314,7 +9330,7 @@ var require_base64 = __commonJS({
       }
       return output;
     }
-    function atob(input) {
+    function atob2(input) {
       const str = String(input).replace(/[=]+$/, "");
       if (str.length % 4 === 1) {
         throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
@@ -9837,6 +9853,238 @@ var require_storage = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/ex/websocket.js
+var require_websocket = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/websocket.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.WebSocket = exports.MessageEvent = exports.CloseEvent = void 0;
+    exports.base64ToArrayBuffer = base64ToArrayBuffer;
+    var events_1 = require_events();
+    var CloseEvent = class extends events_1.Event {
+      constructor(type, options = {}) {
+        super(type);
+        this.code = options.code ?? 1e3;
+        this.reason = options.reason ?? "";
+        this.wasClean = options.wasClean ?? false;
+      }
+    };
+    exports.CloseEvent = CloseEvent;
+    var MessageEvent = class extends events_1.Event {
+      constructor(type, options = {}) {
+        super(type);
+        this.data = options.data ?? "";
+        this.origin = options.origin ?? "";
+        this.lastEventId = options.lastEventId ?? "";
+      }
+    };
+    exports.MessageEvent = MessageEvent;
+    var socketIdCounter = 0;
+    var WebSocket = class extends events_1.EventTarget {
+      constructor(url, protocols) {
+        super();
+        this._readyState = 0;
+        this._bufferedAmount = 0;
+        this._extensions = "";
+        this._protocol = "";
+        this.onopen = null;
+        this.onmessage = null;
+        this.onerror = null;
+        this.onclose = null;
+        this._socketId = `ws_${++socketIdCounter}_${Date.now()}`;
+        this._url = url;
+        this._protocols = protocols ?? [];
+        this._initConnection();
+      }
+      // Getters
+      get url() {
+        return this._url;
+      }
+      get readyState() {
+        return this._readyState;
+      }
+      get bufferedAmount() {
+        return this._bufferedAmount;
+      }
+      get extensions() {
+        return this._extensions;
+      }
+      get protocol() {
+        return this._protocol;
+      }
+      get CONNECTING() {
+        return 0;
+      }
+      get OPEN() {
+        return 1;
+      }
+      get CLOSING() {
+        return 2;
+      }
+      get CLOSED() {
+        return 3;
+      }
+      // Static constants
+      static get CONNECTING() {
+        return 0;
+      }
+      static get OPEN() {
+        return 1;
+      }
+      static get CLOSING() {
+        return 2;
+      }
+      static get CLOSED() {
+        return 3;
+      }
+      async _initConnection() {
+        try {
+          if (typeof dartCallNativeAsync !== "function") {
+            throw new Error("dartCallNativeAsync is not available.");
+          }
+          globalThis[`_ws_${this._socketId}`] = this;
+          const result = await dartCallNativeAsync("WebSocket.connect", {
+            socketId: this._socketId,
+            url: this._url,
+            protocols: Array.isArray(this._protocols) ? this._protocols : [this._protocols]
+          });
+          if (result.success) {
+            this._readyState = 1;
+            this._protocol = result.protocol ?? "";
+            this._extensions = result.extensions ?? "";
+            const openEvent = new events_1.Event("open");
+            this.dispatchEvent(openEvent);
+            if (this.onopen) {
+              this.onopen(openEvent);
+            }
+          } else {
+            this._readyState = 3;
+            const errorEvent = new events_1.Event("error");
+            this.dispatchEvent(errorEvent);
+            if (this.onerror) {
+              this.onerror(errorEvent);
+            }
+            const closeEvent = new CloseEvent("close", {
+              code: 1006,
+              reason: result.error ?? "Connection failed",
+              wasClean: false
+            });
+            this.dispatchEvent(closeEvent);
+            if (this.onclose) {
+              this.onclose(closeEvent);
+            }
+          }
+        } catch (error) {
+          this._readyState = 3;
+          const errorEvent = new events_1.Event("error");
+          this.dispatchEvent(errorEvent);
+          if (this.onerror) {
+            this.onerror(errorEvent);
+          }
+          const closeEvent = new CloseEvent("close", {
+            code: 1006,
+            reason: error instanceof Error ? error.message : "Connection failed",
+            wasClean: false
+          });
+          this.dispatchEvent(closeEvent);
+          if (this.onclose) {
+            this.onclose(closeEvent);
+          }
+        }
+      }
+      // Called by native when a message is received
+      _handleMessage(data) {
+        if (this._readyState !== 1) {
+          return;
+        }
+        const messageEvent = new MessageEvent("message", { data });
+        this.dispatchEvent(messageEvent);
+        if (this.onmessage) {
+          this.onmessage(messageEvent);
+        }
+      }
+      // Called by native when the connection is closed
+      _handleClose(code, reason, wasClean) {
+        this._readyState = 3;
+        const closeEvent = new CloseEvent("close", { code, reason, wasClean });
+        this.dispatchEvent(closeEvent);
+        if (this.onclose) {
+          this.onclose(closeEvent);
+        }
+        delete globalThis[`_ws_${this._socketId}`];
+      }
+      // Called by native when an error occurs
+      _handleError() {
+        const errorEvent = new events_1.Event("error");
+        this.dispatchEvent(errorEvent);
+        if (this.onerror) {
+          this.onerror(errorEvent);
+        }
+      }
+      send(data) {
+        if (this._readyState === 0) {
+          throw new Error("WebSocket is not open: readyState 0 (CONNECTING)");
+        }
+        if (this._readyState !== 1) {
+          return;
+        }
+        let messageData;
+        if (typeof data === "string") {
+          messageData = data;
+        } else if (data instanceof ArrayBuffer) {
+          messageData = arrayBufferToBase64(data);
+        } else if (ArrayBuffer.isView(data)) {
+          const buffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
+          messageData = arrayBufferToBase64(buffer);
+        } else {
+          messageData = String(data);
+        }
+        this._bufferedAmount += messageData.length;
+        dartCallNative("WebSocket.send", {
+          socketId: this._socketId,
+          data: messageData,
+          isBinary: typeof data !== "string"
+        });
+        this._bufferedAmount -= messageData.length;
+      }
+      close(code, reason) {
+        if (this._readyState === 2 || this._readyState === 3) {
+          return;
+        }
+        this._readyState = 2;
+        dartCallNative("WebSocket.close", {
+          socketId: this._socketId,
+          code: code ?? 1e3,
+          reason: reason ?? ""
+        });
+      }
+      addEventListener(type, listener) {
+        super.addEventListener(type, listener);
+      }
+      removeEventListener(type, listener) {
+        super.removeEventListener(type, listener);
+      }
+    };
+    exports.WebSocket = WebSocket;
+    function arrayBufferToBase64(buffer) {
+      const bytes = new Uint8Array(buffer);
+      let binary = "";
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+    function base64ToArrayBuffer(base64) {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/runtime.js
 var require_runtime = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/runtime.js"(exports) {
@@ -9893,6 +10141,7 @@ var require_runtime = __commonJS({
     var xhr_1 = require_xhr();
     var performance_1 = require_performance();
     var storage_1 = require_storage();
+    var websocket_1 = require_websocket();
     function bindGlobals() {
       setupPolyfills();
       Object.assign(globalThis, {
@@ -9941,6 +10190,8 @@ var require_runtime = __commonJS({
       globalThis.AbortController = abort_1.AbortController;
       globalThis.AbortSignal = abort_1.AbortSignal;
       globalThis.XMLHttpRequest = xhr_1.XMLHttpRequest;
+      globalThis.WebSocket = websocket_1.WebSocket;
+      globalThis.base64ToArrayBuffer = websocket_1.base64ToArrayBuffer;
       if (!globalThis.performance) {
         globalThis.performance = performance_1.performance;
       }
@@ -10120,6 +10371,7 @@ var require_hooks = __commonJS({
     exports.useDialog = useDialog;
     exports.useVisible = useVisible;
     exports.useInvisible = useInvisible;
+    exports.usePageConfig = usePageConfig;
     var react_1 = require_react_production_min();
     var PageContext_1 = require_PageContext();
     var PageRender = __importStar(require_page_render());
@@ -10178,6 +10430,20 @@ var require_hooks = __commonJS({
           }
         };
       }, [pageId, callback]);
+    }
+    function usePageConfig(config) {
+      const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
+      (0, react_1.useEffect)(() => {
+        const container = PageRender.getContainer(pageId);
+        if (container) {
+          if (config.incrementalMode !== void 0) {
+            container.setIncrementalMode(config.incrementalMode);
+          }
+          if (config.dslCacheEnabled !== void 0) {
+            container.setDslCacheEnabled(config.dslCacheEnabled);
+          }
+        }
+      }, [pageId, config.incrementalMode, config.dslCacheEnabled]);
     }
   }
 });
@@ -10468,7 +10734,7 @@ var require_dist = __commonJS({
       for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Dialog = exports.Overlay = exports.Toast = exports.DeviceInfo = exports.LocalStorage = void 0;
+    exports.MessageEvent = exports.CloseEvent = exports.WebSocket = exports.Dialog = exports.Overlay = exports.Toast = exports.DeviceInfo = exports.LocalStorage = void 0;
     require_polyfills();
     __exportStar(require_components(), exports);
     __exportStar(require_renderer(), exports);
@@ -10506,6 +10772,16 @@ var require_dist = __commonJS({
     var DialogService_1 = require_DialogService();
     Object.defineProperty(exports, "Dialog", { enumerable: true, get: function() {
       return DialogService_1.Dialog;
+    } });
+    var websocket_1 = require_websocket();
+    Object.defineProperty(exports, "WebSocket", { enumerable: true, get: function() {
+      return websocket_1.WebSocket;
+    } });
+    Object.defineProperty(exports, "CloseEvent", { enumerable: true, get: function() {
+      return websocket_1.CloseEvent;
+    } });
+    Object.defineProperty(exports, "MessageEvent", { enumerable: true, get: function() {
+      return websocket_1.MessageEvent;
     } });
   }
 });
