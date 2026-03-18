@@ -9,6 +9,7 @@ import 'debug_page.dart';
 import 'fuick_app_page.dart';
 import 'fuick_multi_tab_page.dart';
 import 'fuick_multi_view_demo.dart';
+
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 
@@ -54,6 +55,12 @@ class MyApp extends StatelessWidget {
             },
           ),
         ],
+      ),
+    ],
+  );
+
+  // This widget is the root of your application.
+  @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'QuickJS FFI Demo',
@@ -144,3 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {},
         tooltip: '渲染 JS UI',
         child: const Icon(Icons.play_arrow_outlined),
+      ),
+    );
+  }
+}
