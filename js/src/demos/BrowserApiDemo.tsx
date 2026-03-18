@@ -102,6 +102,60 @@ export default function BrowserApiDemo() {
     xhr.send();
   };
 
+  // 8. Fetch GET Test
+  const testFetchGet = async () => {
+    addLog('Fetch GET: Starting request...');
+    try {
+      const response = await fetch('https://httpbin.org/get?foo=bar');
+      const data = await response.json();
+      addLog(`Fetch GET: Status ${response.status}, args: ${JSON.stringify(data.args)}`);
+    } catch (e: any) {
+      addLog(`Fetch GET Error: ${e.message}`);
+    }
+  };
+
+  // 9. Fetch POST Test
+  const testFetchPost = async () => {
+    addLog('Fetch POST: Starting request...');
+    try {
+      const response = await fetch('https://httpbin.org/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Custom-Header': 'test-value',
+        },
+        body: JSON.stringify({ name: 'fuickjs', version: '1.0' }),
+      });
+      const data = await response.json();
+      addLog(`Fetch POST: Status ${response.status}, headers: ${JSON.stringify(data.headers)}`);
+    } catch (e: any) {
+      addLog(`Fetch POST Error: ${e.message}`);
+    }
+  };
+
+  // 10. Fetch Binary Test (EVM RPC)
+  const testFetchRPC = async () => {
+    addLog('Fetch RPC: Querying ETH balance via JSON-RPC...');
+    try {
+      const response = await fetch('https://eth.llamarpc.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          method: 'eth_blockNumber',
+          params: [],
+          id: 1,
+        }),
+      });
+      const data = await response.json();
+      addLog(`Fetch RPC: Status ${response.status}, blockNumber: ${data.result}`);
+    } catch (e: any) {
+      addLog(`Fetch RPC Error: ${e.message}`);
+    }
+  };
+
   return (
     <Scaffold appBar={<AppBar title="Browser API Demo" />}>
       <Column>
@@ -138,7 +192,10 @@ export default function BrowserApiDemo() {
               <Section title="Networking">
                 <Column crossAxisAlignment="stretch">
                   <Button text="Fetch + Abort" onTap={testFetchAbort} margin={{ bottom: 10 }} />
-                  <Button text="XMLHttpRequest (AJAX)" onTap={testXHR} />
+                  <Button text="XMLHttpRequest (AJAX)" onTap={testXHR} margin={{ bottom: 10 }} />
+                  <Button text="Fetch GET" onTap={testFetchGet} margin={{ bottom: 10 }} />
+                  <Button text="Fetch POST" onTap={testFetchPost} margin={{ bottom: 10 }} />
+                  <Button text="Fetch JSON-RPC" onTap={testFetchRPC} />
                 </Column>
               </Section>
               

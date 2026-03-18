@@ -6865,18 +6865,27 @@ var require_renderer = __commonJS({
         roots[pageId] = root;
         return root;
       }
+      const renderedPages = /* @__PURE__ */ new Set();
       return {
         update(element, pageId) {
           const root = ensureRoot(pageId);
+          const isFirstRender = !renderedPages.has(pageId);
           let retryCount = 0;
           const maxRetries = 100;
           const performUpdate = () => {
             try {
-              reconciler.updateContainer(element, root, null, () => {
-              });
+              if (isFirstRender) {
+                reconciler.flushSync(() => {
+                  reconciler.updateContainer(element, root, null, null);
+                });
+                renderedPages.add(pageId);
+              } else {
+                reconciler.updateContainer(element, root, null, null);
+              }
               retryCount = 0;
             } catch (e) {
               const msg = e.message || String(e);
+              console.error(`[Renderer] Error in updateContainer for page ${pageId}:`, msg);
               if ((msg.includes("327") || msg.includes("working")) && retryCount < maxRetries) {
                 retryCount++;
                 globalThis.setTimeout(performUpdate, 16);
@@ -6898,9 +6907,7 @@ var require_renderer = __commonJS({
             const maxRetries = 100;
             const performDestroy = () => {
               try {
-                reconciler.updateContainer(null, root, null, () => {
-                  console.log(`[Renderer] Page ${pageId} unmounted successfully`);
-                });
+                reconciler.updateContainer(null, root, null, null);
                 delete roots[pageId];
                 delete containers[pageId];
                 recentlyDestroyed.add(pageId);
@@ -9263,6 +9270,61 @@ var require_NetworkService = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/ex/headers.js
+var require_headers = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/ex/headers.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Headers = void 0;
+    var Headers = class {
+      constructor(init) {
+        this.headers = /* @__PURE__ */ new Map();
+        if (init) {
+          if (Array.isArray(init)) {
+            init.forEach(([key, value]) => {
+              this.headers.set(key.toLowerCase(), value);
+            });
+          } else {
+            Object.entries(init).forEach(([key, value]) => {
+              this.headers.set(key.toLowerCase(), value);
+            });
+          }
+        }
+      }
+      get(name) {
+        return this.headers.get(name.toLowerCase()) ?? null;
+      }
+      set(name, value) {
+        this.headers.set(name.toLowerCase(), value);
+      }
+      has(name) {
+        return this.headers.has(name.toLowerCase());
+      }
+      delete(name) {
+        return this.headers.delete(name.toLowerCase());
+      }
+      forEach(callback) {
+        this.headers.forEach((value, key) => {
+          callback(value, key);
+        });
+      }
+      entries() {
+        return this.headers.entries();
+      }
+      keys() {
+        return this.headers.keys();
+      }
+      values() {
+        return this.headers.values();
+      }
+      [Symbol.iterator]() {
+        return this.headers.entries();
+      }
+    };
+    exports.Headers = Headers;
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/ex/fetch.js
 var require_fetch = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/ex/fetch.js"(exports) {
@@ -9270,13 +9332,54 @@ var require_fetch = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.fetch = fetch;
     var NetworkService_1 = require_NetworkService();
+    var headers_1 = require_headers();
+    function headersToObject(headers) {
+      if (!headers)
+        return {};
+      if (headers instanceof headers_1.Headers) {
+        const obj = {};
+        headers.forEach((value, key) => {
+          obj[key] = value;
+        });
+        return obj;
+      }
+      if (typeof headers === "object") {
+        return headers;
+      }
+      return {};
+    }
+    function bodyToString(body) {
+      if (!body)
+        return "";
+      if (typeof body === "string")
+        return body;
+      if (body instanceof ArrayBuffer) {
+        const bytes = new Uint8Array(body);
+        let result = "";
+        for (let i = 0; i < bytes.length; i++) {
+          result += String.fromCharCode(bytes[i]);
+        }
+        return result;
+      }
+      if (ArrayBuffer.isView(body)) {
+        const bytes = new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
+        let result = "";
+        for (let i = 0; i < bytes.length; i++) {
+          result += String.fromCharCode(bytes[i]);
+        }
+        return result;
+      }
+      return String(body);
+    }
     async function fetch(url, options = {}) {
       const { signal } = options;
       if (signal?.aborted) {
         throw signal.reason || new Error("AbortError");
       }
       const requestId = Math.random().toString(36).substring(2);
-      const fetchPromise = NetworkService_1.NetworkService.fetch(url, options.method || "GET", options.headers || {}, options.body, requestId);
+      const headers = headersToObject(options.headers);
+      const body = bodyToString(options.body);
+      const fetchPromise = NetworkService_1.NetworkService.fetch(url, options.method ?? "GET", headers, body, requestId);
       if (!signal) {
         const result = await fetchPromise;
         return createResponse(result);
@@ -9297,12 +9400,38 @@ var require_fetch = __commonJS({
       });
     }
     function createResponse(result) {
+      const textEncoder = new TextEncoder();
+      let bodyText;
+      if (typeof result.body === "string") {
+        bodyText = result.body;
+      } else if (result.body instanceof ArrayBuffer) {
+        const decoder = new TextDecoder();
+        bodyText = decoder.decode(result.body);
+      } else if (result.body) {
+        bodyText = JSON.stringify(result.body);
+      } else {
+        bodyText = "";
+      }
+      const encoded = textEncoder.encode(bodyText);
+      const headersObj = result.headers || {};
+      const headersInstance = new headers_1.Headers();
+      Object.entries(headersObj).forEach(([key, value]) => {
+        headersInstance.set(key, value);
+      });
       return {
         status: result.status,
         ok: result.status >= 200 && result.status < 300,
-        headers: result.headers,
-        text: async () => result.body,
-        json: async () => JSON.parse(result.body)
+        headers: headersInstance,
+        text: async () => bodyText,
+        json: async () => {
+          try {
+            return JSON.parse(bodyText);
+          } catch (e) {
+            console.error("[fetch] JSON parse error:", e, "bodyText:", bodyText);
+            throw e;
+          }
+        },
+        arrayBuffer: async () => encoded.buffer
       };
     }
   }
@@ -10142,6 +10271,7 @@ var require_runtime = __commonJS({
     var performance_1 = require_performance();
     var storage_1 = require_storage();
     var websocket_1 = require_websocket();
+    var headers_1 = require_headers();
     function bindGlobals() {
       setupPolyfills();
       Object.assign(globalThis, {
@@ -10189,6 +10319,7 @@ var require_runtime = __commonJS({
       globalThis.EventTarget = events_1.EventTarget;
       globalThis.AbortController = abort_1.AbortController;
       globalThis.AbortSignal = abort_1.AbortSignal;
+      globalThis.Headers = headers_1.Headers;
       globalThis.XMLHttpRequest = xhr_1.XMLHttpRequest;
       globalThis.WebSocket = websocket_1.WebSocket;
       globalThis.base64ToArrayBuffer = websocket_1.base64ToArrayBuffer;
