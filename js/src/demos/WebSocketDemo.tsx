@@ -70,7 +70,7 @@ export default function WebSocketDemo() {
         addLog(
           `Closed - Code: ${event.code}, Reason: ${
             event.reason || "No reason"
-          }, Clean: ${event.wasClean}`
+          }, Clean: ${event.wasClean}`,
         );
         wsRef.current = null;
       };

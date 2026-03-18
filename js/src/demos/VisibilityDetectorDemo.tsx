@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Scaffold,
   AppBar,
@@ -7,7 +7,7 @@ import {
   Container,
   VisibilityDetector,
   ListView,
-} from 'fuickjs';
+} from "fuickjs";
 
 export default function VisibilityDetectorDemo() {
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
@@ -29,7 +29,9 @@ export default function VisibilityDetectorDemo() {
       <Column>
         <Container padding={16} color="#E3F2FD">
           <Text
-            text={`Visible Items: ${Array.from(visibleItems).sort((a, b) => a - b).join(', ')}`}
+            text={`Visible Items: ${Array.from(visibleItems)
+              .sort((a, b) => a - b)
+              .join(", ")}`}
             fontSize={16}
           />
         </Container>
@@ -46,13 +48,13 @@ export default function VisibilityDetectorDemo() {
               <Container
                 margin={{ all: 10 }}
                 padding={20}
-                color={visibleItems.has(index) ? '#81C784' : '#E0E0E0'}
+                color={visibleItems.has(index) ? "#81C784" : "#E0E0E0"}
                 alignment="center"
               >
                 <Text
-                  text={`Item ${index} (${visibleItems.has(index) ? 'Visible' : 'Hidden'})`}
+                  text={`Item ${index} (${visibleItems.has(index) ? "Visible" : "Hidden"})`}
                   fontSize={18}
-                  color={visibleItems.has(index) ? 'white' : 'black'}
+                  color={visibleItems.has(index) ? "white" : "black"}
                 />
               </Container>
             </VisibilityDetector>
