@@ -1,50 +1,50 @@
-import React, { useContext } from "react";
+import React, { useState } from 'react';
 import {
   Scaffold,
   AppBar,
-  Column,
-  Button,
-  Container,
   Text,
+  Column,
+  Container,
+  Button,
   Center,
-  GestureDetector,
-  Stack,
-  Positioned,
-  OverlayService,
-  PageContext,
-  Material
-} from "fuickjs";
+  Overlay,
+} from 'fuickjs';
 
 export default function OverlayDemo() {
-  const { pageId } = useContext(PageContext);
+  const [showSimple, setShowSimple] = useState(false);
+  const [showFull, setShowFull] = useState(false);
 
-  const showSimpleOverlay = () => {
-    OverlayService.show(
-      "simple_overlay",
-      
-      <Center>
-        <Material>
-        <Container
-          color="#AA000000"
-          padding={20}
-          borderRadius={8}
-        >
-          <Text text="This is a simple overlay" color="white" />
-          <Button
-            text="Close"
-            onTap={() => OverlayService.hide("simple_overlay")}
-          />
-        </Container>
-        </Material>
-      </Center>,
-      pageId
-    );
-  };
+  return (
+    <Scaffold appBar={<AppBar title="Overlay Demo" />}>
+      <Column padding={16} crossAxisAlignment="center">
+        <Button
+          text={showSimple ? 'Hide Simple Overlay' : 'Show Simple Overlay'}
+          onTap={() => setShowSimple(!showSimple)}
+          margin={{ bottom: 10 }}
+        />
+        <Button
+          text={showFull ? 'Hide Full Overlay' : 'Show Full Overlay'}
+          onTap={() => setShowFull(!showFull)}
+        />
+      </Column>
 
-  const showFullScreenOverlay = () => {
-    OverlayService.show(
-      "fullscreen_overlay",
-      <GestureDetector onTap={() => OverlayService.hide("fullscreen_overlay")}>
+      <Overlay visible={showSimple} overlayKey="simple">
+        <Center>
+          <Container
+            color="#AA000000"
+            padding={20}
+            borderRadius={8}
+          >
+            <Text text="Simple Overlay" color="white" />
+            <Button
+              text="Close"
+              onTap={() => setShowSimple(false)}
+            />
+          </Container>
+        </Center>
+      </Overlay>
+
+      <Overlay visible={showFull} overlayKey="fullscreen">
         <Container color="#88000000">
           <Center>
             <Container
@@ -59,26 +59,15 @@ export default function OverlayDemo() {
                   fontWeight="bold"
                   margin={{ bottom: 20 }}
                 />
-                <Text text="Tap anywhere to close" color="grey" />
+                <Button
+                  text="Close"
+                  onTap={() => setShowFull(false)}
+                />
               </Column>
             </Container>
           </Center>
         </Container>
-      </GestureDetector>,
-      pageId
-    );
-  };
-
-  return (
-    <Scaffold appBar={<AppBar title="Overlay Demo" />}>
-      <Column>
-        <Container padding={20}>
-          <Button text="Show Simple Overlay" onTap={showSimpleOverlay} />
-        </Container>
-        <Container padding={20}>
-          <Button text="Show Full Screen Overlay" onTap={showFullScreenOverlay} />
-        </Container>
-      </Column>
+      </Overlay>
     </Scaffold>
   );
 }

@@ -1,0 +1,1 @@
+../../../../fuickjs_community/connectivity/flutter/connectivity_service.dart

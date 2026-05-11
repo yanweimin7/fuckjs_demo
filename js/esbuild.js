@@ -28,7 +28,7 @@ async function build() {
     platform: "neutral",
     format: "esm",
     target: "es2020",
-    minify: false,
+    minify: true,
     sourcemap: !isProd,
     loader: {
       ".ts": "ts",
@@ -59,11 +59,26 @@ async function build() {
       react: path.resolve(__dirname, reactPath),
       "react-reconciler": path.resolve(__dirname, reconcilerPath),
       scheduler: path.resolve(__dirname, schedulerPath),
-      fuickjs: path.resolve(__dirname, "../../fuickjs_framework/fuickjs/dist/index.js"),
-      "@tarojs/components-fuickjs": path.resolve(__dirname, "../../taro-fuickjs/packages/components-fuickjs/dist/index.js"),
-      "@tarojs/taro-fuickjs": path.resolve(__dirname, "../../taro-fuickjs/packages/taro-fuickjs/dist/index.js"),
-      "taro-css-to-fuickjs/runtime": path.resolve(__dirname, "../../taro-fuickjs/packages/taro-css-to-fuickjs/dist/runtime.js"),
-      "taro-css-to-fuickjs": path.resolve(__dirname, "../../taro-fuickjs/packages/taro-css-to-fuickjs/dist/index.js"),
+      fuickjs: path.resolve(
+        __dirname,
+        "../../fuickjs_framework/fuickjs/dist/index.js",
+      ),
+      "@tarojs/components-fuickjs": path.resolve(
+        __dirname,
+        "../../taro-fuickjs/packages/components-fuickjs/dist/index.js",
+      ),
+      "@tarojs/taro-fuickjs": path.resolve(
+        __dirname,
+        "../../taro-fuickjs/packages/taro-fuickjs/dist/index.js",
+      ),
+      "taro-css-to-fuickjs/runtime": path.resolve(
+        __dirname,
+        "../../taro-fuickjs/packages/taro-css-to-fuickjs/dist/runtime.js",
+      ),
+      "taro-css-to-fuickjs": path.resolve(
+        __dirname,
+        "../../taro-fuickjs/packages/taro-css-to-fuickjs/dist/index.js",
+      ),
     },
   };
 

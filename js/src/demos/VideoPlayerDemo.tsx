@@ -5,11 +5,11 @@ import {
   Column,
   Text,
   Container,
-  VideoPlayer,
   Button,
   Row,
   SingleChildScrollView,
 } from "fuickjs";
+import { VideoPlayer } from "@fuickjs-community/video_player";
 
 export default function VideoPlayerDemo() {
   const playerRef = useRef<VideoPlayer>(null);

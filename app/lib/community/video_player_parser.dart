@@ -1,0 +1,1 @@
+../../../../fuickjs_community/video_player/flutter/video_player_parser.dart

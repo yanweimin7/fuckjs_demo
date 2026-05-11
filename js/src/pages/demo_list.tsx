@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  GridView,
   Text,
   Scaffold,
   AppBar,
@@ -10,6 +9,7 @@ import {
   Column,
   ListView,
   Padding,
+  Wrap,
 } from "fuickjs";
 import { useGlobalValue } from "../store/global";
 
@@ -45,9 +45,6 @@ const demoCategories = [
       { name: "InkWell", path: "/demo/inkwell" },
       { name: "Gesture", path: "/demo/gesturedetector" },
       { name: "Dialog", path: "/demo/dialog" },
-      { name: "DialogService", path: "/demo/dialog_service" },
-      { name: "BrowserAPI", path: "/demo/browser_api" },
-      { name: "WebSocket", path: "/demo/websocket" },
     ],
   },
   {
@@ -60,8 +57,6 @@ const demoCategories = [
       { name: "Transform", path: "/demo/transform" },
       { name: "CustomPaint", path: "/demo/custompaint" },
       { name: "Progress", path: "/demo/progress" },
-      { name: "VideoPlayer", path: "/demo/video_player" },
-      { name: "Overlay", path: "/demo/overlay" },
       { name: "Material", path: "/demo/material" },
       { name: "Backdrop", path: "/demo/backdrop_filter" },
     ],
@@ -75,6 +70,7 @@ const demoCategories = [
       { name: "Sliver", path: "/demo/sliver" },
       { name: "Header", path: "/demo/sliverpersistentheader" },
       { name: "ReactList", path: "/demo/react_managed_list" },
+      { name: "StaticList", path: "/demo/static_list" },
       { name: "NestedScroll", path: "/demo/nested_scroll_view" },
     ],
   },
@@ -94,13 +90,30 @@ const demoCategories = [
     items: [
       { name: "FlutterProps", path: "/demo/flutter_props" },
       { name: "Visibility", path: "/demo/visibility" },
-      { name: "VisDetector", path: "/demo/visibility_detector" },
       { name: "Animated", path: "/demo/animated" },
       { name: "Transition", path: "/demo/transition" },
       { name: "Error", path: "/demo/error" },
       { name: "Refresh", path: "/demo/refresh_indicator" },
       { name: "Switcher", path: "/demo/animated_switcher" },
       { name: "CrossFade", path: "/demo/animated_cross_fade" },
+      { name: "Overlay", path: "/demo/overlay" },
+    ],
+  },
+  {
+    title: "Community Packages",
+    items: [
+      { name: "Haptics", path: "/demo/haptics" },
+      { name: "Launcher", path: "/demo/launcher" },
+      { name: "Share", path: "/demo/share" },
+      { name: "BrowserAPI", path: "/demo/browser_api" },
+      { name: "WebSocket", path: "/demo/websocket" },
+      { name: "AppInfo", path: "/demo/app_info" },
+      { name: "Permissions", path: "/demo/permissions" },
+      { name: "Media", path: "/demo/media" },
+      { name: "Connectivity", path: "/demo/connectivity" },
+      { name: "VideoPlayer", path: "/demo/video_player" },
+      { name: "VisDetector", path: "/demo/visibility_detector" },
+      { name: "WebView", path: "/demo/web_view" },
     ],
   },
 ];
@@ -146,19 +159,18 @@ export default function DemoListPage() {
                 color="#333333"
               />
             </Padding>
-            <GridView
-              shrinkWrap={true}
-              physics="never"
-              crossAxisCount={4}
-              mainAxisSpacing={10}
-              crossAxisSpacing={10}
-              childAspectRatio={1.2}
-              itemCount={category.items.length}
-              itemBuilder={(index) => (
+            <Wrap
+              spacing={10}
+              runSpacing={10}
+            >
+              {category.items.map((item) => (
                 <InkWell
-                  onTap={() => navigator.push(category.items[index].path, {})}
+                  key={item.path}
+                  onTap={() => navigator.push(item.path, {})}
                 >
                   <Container
+                    width={72}
+                    height={60}
                     color="white"
                     alignment="center"
                     padding={4}
@@ -173,7 +185,7 @@ export default function DemoListPage() {
                     }}
                   >
                     <Text
-                      text={category.items[index].name}
+                      text={item.name}
                       textAlign="center"
                       fontSize={12}
                       maxLines={2}
@@ -181,8 +193,8 @@ export default function DemoListPage() {
                     />
                   </Container>
                 </InkWell>
-              )}
-            />
+              ))}
+            </Wrap>
           </Column>
         ))}
 

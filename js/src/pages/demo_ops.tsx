@@ -51,11 +51,12 @@ export const DemoOpsPage = () => {
           card: "#FFFFFF",
           text: "#212121",
           sub: "#757575",
-          border: "#E0E0E0",
+          border: "#BDBDBD",
           accent: "#1976D2",
         };
   const itemPadding = compact ? 8 : 14;
 
+  console.log("wine compat ", compact);
   const addItem = () => {
     const newId = Date.now();
     const newItems = [
@@ -338,7 +339,6 @@ export const DemoOpsPage = () => {
               {items.map((item) => (
                 <Container
                   key={item.id}
-                  id={item.id}
                   padding={{ all: itemPadding }}
                   margin={{ bottom: compact ? 8 : 12 }}
                   decoration={{

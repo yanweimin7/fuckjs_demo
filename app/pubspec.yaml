@@ -1,8 +1,8 @@
-name: flutter_quickjs
-description: "A new Flutter project."
+name: wujie
+description: "无界 — FuickJS bundle shell app."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -38,6 +38,21 @@ dependencies:
   cached_network_image: ^3.4.1
   web_socket_channel: ^3.0.1
   go_router: ^16.1.0
+  # community packages
+  image_picker: ^1.1.0
+  package_info_plus: ^8.0.0
+  share_plus: ^12.0.2
+  url_launcher: ^6.2.0
+  permission_handler: ^11.0.0
+  connectivity_plus: ^6.0.0
+  video_player: ^2.9.0
+  visibility_detector: ^0.4.0+2
+  flutter_inappwebview: ^6.1.5
+  flutter_secure_storage: ^9.2.2
+  shared_preferences: ^2.3.3
+  local_auth: ^2.3.0
+  encrypt: ^5.0.3
+  pointycastle: ^3.9.1
 
 dev_dependencies:
   flutter_test:
@@ -55,14 +70,12 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/js/bundle.js
-    - assets/js/taro-demo.js
+    - assets/js/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,0 +1,1 @@
+../../../../fuickjs_community/app_info/flutter/app_info_service.dart

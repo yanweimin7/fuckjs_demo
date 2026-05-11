@@ -8,6 +8,7 @@ import {
   Button,
   Container,
   SingleChildScrollView,
+  Expanded,
   Padding,
   Divider,
 } from "fuickjs";
@@ -146,6 +147,76 @@ export default function BrowserApiDemo() {
     }
   };
 
+  // --- New APIs ---
+
+  // structuredClone
+  const testStructuredClone = () => {
+    const original = {
+      name: "FuickJS",
+      nested: { version: 1, tags: ["a", "b"] },
+      date: new Date(2024, 0, 1),
+      map: new Map([["k", 42]]),
+      set: new Set([1, 2, 3]),
+      buf: new Uint8Array([0x01, 0x02, 0x03]),
+    };
+    const copy = structuredClone(original);
+    copy.nested.version = 99;
+    copy.nested.tags.push("c");
+    (copy.buf as Uint8Array)[0] = 0xff;
+    addLog(`structuredClone: original.nested.version=${original.nested.version} (should be 1)`);
+    addLog(`structuredClone: copy.nested.version=${copy.nested.version} (should be 99)`);
+    addLog(`structuredClone: original.nested.tags=${JSON.stringify(original.nested.tags)} (len 2)`);
+    addLog(`structuredClone: original.buf[0]=${original.buf[0]} (should be 1, not 255)`);
+    addLog(`structuredClone: date=${copy.date.toISOString().slice(0, 10)}`);
+    addLog(`structuredClone: map.k=${copy.map.get("k")}, set.size=${copy.set.size}`);
+  };
+
+  // crypto.randomUUID
+  const testRandomUUID = () => {
+    const ids = Array.from({ length: 3 }, () => crypto.randomUUID());
+    ids.forEach((id) => addLog(`randomUUID: ${id}`));
+    const valid = ids.every((id) =>
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(id),
+    );
+    addLog(`randomUUID format valid: ${valid}`);
+  };
+
+  // console.time / timeEnd / table / group
+  const testConsoleMethods = () => {
+    console.time("myTimer");
+    let x = 0;
+    for (let i = 0; i < 500000; i++) x += i;
+    console.timeEnd("myTimer");
+
+    console.group("GroupA");
+    console.log("inside group");
+    console.groupEnd();
+
+    console.table([
+      { name: "Alice", age: 30 },
+      { name: "Bob", age: 25 },
+    ]);
+
+    console.table({ a: 1, b: 2 });
+    addLog("console.time/timeEnd/table/group — check native logs");
+  };
+
+  // Blob
+  const testBlob = async () => {
+    const b = new Blob(['{"hello":"world"}'], { type: "application/json" });
+    addLog(`Blob size: ${b.size}, type: ${b.type}`);
+    const text = await b.text();
+    addLog(`Blob.text(): ${text}`);
+    const buf = await b.arrayBuffer();
+    addLog(`Blob.arrayBuffer() byteLength: ${buf.byteLength}`);
+    const slice = b.slice(1, 8);
+    addLog(`Blob.slice(1,8) text: ${await slice.text()}`);
+
+    // Blob + fetch (Content-Type 透传)
+    const multipart = new Blob(["part1", "part2", new Uint8Array([0x20, 0x21])]);
+    addLog(`Concat Blob size: ${multipart.size} (should be 12)`);
+  };
+
   // 10. Fetch Binary Test (EVM RPC)
   const testFetchRPC = async () => {
     addLog("Fetch RPC: Querying ETH balance via JSON-RPC...");
@@ -186,8 +257,9 @@ export default function BrowserApiDemo() {
 
         <Divider />
 
-        <SingleChildScrollView>
-          <Padding padding={16}>
+        <Expanded>
+          <SingleChildScrollView>
+            <Padding padding={16}>
             <Column>
               <Section title="Basic Utils">
                 <Row mainAxisAlignment="spaceAround">
@@ -256,10 +328,22 @@ export default function BrowserApiDemo() {
                     }}
                   />
                 </Row>
+                <Row mainAxisAlignment="spaceAround" margin={{ top: 10 }}>
+                  <Button text="time/table/group" onTap={testConsoleMethods} />
+                </Row>
+              </Section>
+
+              <Section title="New APIs">
+                <Row mainAxisAlignment="spaceAround">
+                  <Button text="structuredClone" onTap={testStructuredClone} />
+                  <Button text="randomUUID" onTap={testRandomUUID} />
+                  <Button text="Blob" onTap={testBlob} />
+                </Row>
               </Section>
             </Column>
-          </Padding>
-        </SingleChildScrollView>
+            </Padding>
+          </SingleChildScrollView>
+        </Expanded>
       </Column>
     </Scaffold>
   );

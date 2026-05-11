@@ -1,199 +1,281 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:fuickjs_flutter/core/container/dev_fuick_app_page.dart';
-import 'package:fuickjs_flutter/core/engine/engine.dart';
-import 'package:fuickjs_flutter/core/engine/fuick_app_context_manager.dart';
-import 'package:fuickjs_flutter/core/fuick_config.dart';
-import 'package:go_router/go_router.dart';
+import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fuickjs_flutter/core/container/fuick_app_controller.dart'
+    as fuick;
+import 'package:fuickjs_flutter/core/container/fuick_navigation_delegate.dart';
+import 'package:fuickjs_flutter/core/engine/engine.dart';
+import 'package:fuickjs_flutter/core/logger.dart';
+import 'package:fuickjs_flutter/core/service/native_services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'community/app_info_service.dart';
+import 'community/connectivity_service.dart';
+import 'community/haptics_service.dart';
+import 'community/launcher_service.dart';
+import 'community/media_service.dart';
+import 'community/permissions_service.dart';
+import 'community/share_service.dart';
+import 'community/video_player_parser.dart';
+import 'community/visibility_detector_parser.dart';
+import 'community/web_view_parser.dart';
 import 'debug_page.dart';
 import 'fuick_app_page.dart';
-import 'fuick_multi_tab_page.dart';
-import 'fuick_multi_view_demo.dart';
-
-final RouteObserver<ModalRoute<void>> routeObserver =
-    RouteObserver<ModalRoute<void>>();
+import 'service/fuick_storage_service.dart';
+import 'service/local_auth_service.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+
+class BundleConfig {
+  final String name;
+  final String label;
+  final String initialRoute;
+
+  const BundleConfig({
+    required this.name,
+    required this.label,
+    required this.initialRoute,
+  });
+
+  factory BundleConfig.fromJson(Map<String, dynamic> json) => BundleConfig(
+        name: json['name'] as String,
+        label: json['label'] as String? ?? json['name'] as String,
+        initialRoute: json['initialRoute'] as String? ?? '/',
+      );
+}
+
+Future<List<BundleConfig>> loadBundleConfigs() async {
+  final raw = await rootBundle.loadString('assets/js/bundles.json');
+  final list = jsonDecode(raw) as List<dynamic>;
+  return list
+      .map((e) => BundleConfig.fromJson(e as Map<String, dynamic>))
+      .toList();
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 预热：engine init + bundle 加载 + 首页预渲染，与 UI 启动并行
-  FuickAppContextManager().prewarm('bundle', pages: [
-    PrewarmPageConfig('/'),
-  ]);
-  FuickAppContextManager().prewarm('taro-demo', pages: [
-    PrewarmPageConfig('/'),
-  ]);
+  FuickNavigationDelegate.onRootPush = (path, params) async {
+    final ctx = rootNavigatorKey.currentContext;
+    if (ctx != null) {
+      return await ctx.push(path, extra: params);
+    }
+    return null;
+  };
 
-  runApp(const MyApp());
+  NativeServiceManager().registerService(() => HapticsService());
+  NativeServiceManager().registerService(() => LauncherService());
+  NativeServiceManager().registerService(() => ShareService());
+  NativeServiceManager().registerService(() => AppInfoService());
+  NativeServiceManager().registerService(() => PermissionsService());
+  NativeServiceManager().registerService(() => MediaService());
+  NativeServiceManager().registerService(() => ConnectivityService());
+
+  NativeServiceManager().registerService(() => FuickStorageService());
+  NativeServiceManager().registerService(() => LocalAuthService());
+
+  fuick.widgetFactory.register(VideoPlayerParser());
+  fuick.widgetFactory.register(VisibilityDetectorParser());
+  fuick.widgetFactory.register(WebViewParser());
+
+  EngineInit.preload();
+
+  final bundles = await loadBundleConfigs();
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    logger.e('===== FLUTTER ERROR =====');
+    logger.e('Exception: ${details.exception}');
+    logger.e('Stack: ${details.stack}');
+    logger.e('Library: ${details.library}');
+    logger.e('Context: ${details.context}');
+    for (final entry in details.informationCollector?.call() ?? []) {
+      logger.e('Info: $entry');
+    }
+    debugPrint('===== FLUTTER ERROR =====', wrapWidth: 800);
+    debugPrint('Exception: ${details.exception}', wrapWidth: 800);
+    debugPrint('Stack: ${details.stack}', wrapWidth: 800);
+    debugPrint('Library: ${details.library}', wrapWidth: 800);
+    debugPrint('Context: ${details.context}', wrapWidth: 800);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    debugPrint('===== UNCAUGHT ERROR =====');
+    debugPrint('Error: $error');
+    debugPrint('Stack: $stack');
+    return true;
+  };
+
+  runApp(MyApp(bundles: bundles));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final List<BundleConfig> bundles;
 
-  static final GoRouter _router = GoRouter(
-    navigatorKey: rootNavigatorKey,
-    observers: [routeObserver],
-    routes: <RouteBase>[
-      GoRoute(
-        path: '/',
-        builder: (BuildContext context, GoRouterState state) {
-          return const MyHomePage(title: 'QuickJS FFI 示例');
-        },
+  const MyApp({super.key, required this.bundles});
+
+  GoRouter _buildRouter() => GoRouter(
+        navigatorKey: rootNavigatorKey,
         routes: <RouteBase>[
           GoRoute(
-            path: 'fuick_app',
-            builder: (BuildContext context, GoRouterState state) {
-              final map = state.extra as Map;
-              return FuickAppPage(
-                appName: map['appName'],
-                path: map['path'] ?? '/',
-                params: map['params'] ?? {},
-              );
-            },
-          ),
-          GoRoute(
-            path: 'natie_demo_page',
-            builder: (BuildContext context, GoRouterState state) {
-              final params = state.extra as Map<String, dynamic>?;
-              return DebugPage(params: params);
-            },
+            path: '/',
+            builder: (context, state) => MyHomePage(bundles: bundles),
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'fuick_app',
+                builder: (context, state) {
+                  final map = state.extra as Map;
+                  return FuickAppPage(
+                    appName: map['appName'] as String,
+                    path: map['path'] as String? ?? '/',
+                    params:
+                        (map['params'] as Map?)?.cast<String, dynamic>() ?? {},
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'natie_demo_page',
+                builder: (context, state) {
+                  final params = state.extra as Map<String, dynamic>?;
+                  return DebugPage(params: params);
+                },
+              ),
+            ],
           ),
         ],
-      ),
-    ],
-  );
+      );
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'QuickJS FFI Demo',
+      title: '无界',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        scaffoldBackgroundColor: Colors.white,
       ),
-      routerConfig: _router,
+      routerConfig: _buildRouter(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  final List<BundleConfig> bundles;
 
-  final String title;
+  const MyHomePage({super.key, required this.bundles});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _prewarmed = true;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void _destroyAll() {
-    FuickAppContextManager().destroyContext('bundle');
-    FuickAppContextManager().destroyContext('taro-demo');
-    setState(() => _prewarmed = false);
-  }
-
-  void _prewarmAll() {
-    FuickAppContextManager().prewarm('bundle', pages: [PrewarmPageConfig('/')]);
-    FuickAppContextManager().prewarm('taro-demo', pages: [PrewarmPageConfig('/')]);
-    setState(() => _prewarmed = true);
-  }
-
-  // 测试脚本已迁移到独立页面 demo_test.dart
+  bool _warmedUp = false;
 
   @override
   Widget build(BuildContext context) {
+    if (!_warmedUp) {
+      _warmedUp = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          fuick.widgetFactory.warmup(context);
+        }
+      });
+    }
+
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-        actions: [],
+        backgroundColor: Colors.white,
+        elevation: 1,
+        title: const Text(
+          '无界',
+          style: TextStyle(
+            color: Color(0xFF1A1A2E),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              context.push('/fuick_app',
-                  extra: {'appName': 'bundle', 'path': '/'});
-            },
-            child: Text('打开示例'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              context.push('/fuick_app',
-                  extra: {'appName': 'taro-demo', 'path': '/'});
-            },
-            child: const Text('打开 Taro Demo'),
-          ),
-          const SizedBox(height: 20),
-          _prewarmed
-              ? ElevatedButton(
-                  onPressed: _destroyAll,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text('卸载预热（冷启动对比）',
-                      style: TextStyle(color: Colors.white)),
-                )
-              : ElevatedButton(
-                  onPressed: _prewarmAll,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  child: const Text('重新预热',
-                      style: TextStyle(color: Colors.white)),
-                ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                CupertinoPageRoute(
-                  builder: (BuildContext context) {
-                    return DevFuickAppPage(routeObserver: routeObserver);
-                  },
-                  settings: RouteSettings(name: debugRouteName),
-                ),
-              );
-            },
-            child: Text('打开调试页面'),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                CupertinoPageRoute(
-                  builder: (BuildContext context) {
-                    return const FuickMultiTabPage();
-                  },
-                ),
-              );
-            },
-            child: const Text('打开多 Tab 示例'),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                CupertinoPageRoute(
-                  builder: (BuildContext context) {
-                    return const FuickMultiViewDemo();
-                  },
-                ),
-              );
-            },
-            child: const Text('打开 Multi-View 示例 (同屏3页面)'),
-          ),
-        ],
+      body: GridView.builder(
+        padding: const EdgeInsets.all(16),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.9,
+        ),
+        itemCount: widget.bundles.length,
+        itemBuilder: (context, index) {
+          final b = widget.bundles[index];
+          return _GridCell(
+            label: b.label,
+            onTap: () => context.push('/fuick_app', extra: {
+              'appName': b.name,
+              'path': b.initialRoute,
+            }),
+          );
+        },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: '渲染 JS UI',
-        child: const Icon(Icons.play_arrow_outlined),
+    );
+  }
+}
+
+class _GridCell extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _GridCell({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEEF0FF),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.widgets_outlined,
+                size: 26,
+                color: Color(0xFF5C6BC0),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  color: Color(0xFF1A1A2E),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

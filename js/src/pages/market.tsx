@@ -98,7 +98,7 @@ const CATEGORIES = [
   { name: "港美股", icon: "language", color: "#2196F3" },
   { name: "自选", icon: "star", color: "#FFC107" },
   { name: "新股", icon: "fiber_new", color: "#FF4081" },
-  { name: "涨幅榜", icon: "trending_up", color: "#4CAF50" },
+  { name: "涨幅榜", icon: "trending_up", color: "#010101ff" },
   { name: "ETF", icon: "pie_chart", color: "#9C27B0" },
   { name: "模拟盘", icon: "games", color: "#795548" },
   { name: "更多", icon: "apps", color: "#607D8B" },
@@ -198,8 +198,17 @@ export default function MarketPage() {
     setMarketData((prev) => ({ ...prev, stocks: filteredStocks }));
   }, [filteredStocks]);
 
+  // Mount / Unmount tracking
+  useEffect(() => {
+    console.log('[MarketPage] Component MOUNTED');
+    return () => {
+      console.log('[MarketPage] Component UNMOUNTING — all useEffect cleanups will run');
+    };
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(() => {
+      console.log('[MarketPage] setInterval tick fired');
       setMarketData((prev) => {
         const nextStocks = prev.stocks.map((s) => ({
           ...s,
@@ -228,7 +237,11 @@ export default function MarketPage() {
         };
       });
     }, 3000);
-    return () => clearInterval(timer);
+    console.log(`[MarketPage] setInterval created, timerId=${timer}`);
+    return () => {
+      console.log(`[MarketPage] useEffect cleanup — clearing interval timerId=${timer}`);
+      clearInterval(timer);
+    };
   }, []);
 
   // 使用 useCallback 包装 itemBuilder，避免每次 render 都生成新函数

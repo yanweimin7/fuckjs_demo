@@ -13,16 +13,42 @@ import {
   ErrorHandler,
 } from "fuickjs";
 
+// ---- 深层调用链，方便 sourcemap 还原演示 ------------------------------------
+
+function parseUserData(raw: unknown) {
+  const data = raw as Record<string, unknown>;
+  // 故意访问不存在的嵌套属性，触发 TypeError
+  const score = (data.profile as Record<string, unknown>).score as number;
+  return score * 100;
+}
+
+function processOrder(order: unknown) {
+  const result = parseUserData(order);
+  return { total: result };
+}
+
+function handleCheckout(cartData: unknown) {
+  return processOrder(cartData);
+}
+
+// ---- Page ------------------------------------------------------------------
+
 export default function ErrorDemoPage() {
   const [errorLog, setErrorLog] = useState<string[]>([]);
   const [triggerRenderError, setTriggerRenderError] = useState(false);
 
   useEffect(() => {
     ErrorHandler.set((error: unknown, source: string) => {
-      const message = `[${source}] ${
-        (error as Error)?.message || String(error)
-      }`;
+      const err = error as Error;
+      const message = `[${source}] ${err?.message || String(error)}`;
       setErrorLog((prev) => [...prev, message].slice(-8));
+
+      // 打印完整 stack 到控制台（在 Flutter 日志里可见）
+      const stack = err?.stack || String(error);
+      console.error('=== JS ERROR STACK (for sourcemap resolution) ===');
+      console.error(`source: ${source}`);
+      console.error(stack);
+      console.error('=================================================');
     });
     return () => {
       ErrorHandler.set(null);
@@ -80,6 +106,15 @@ export default function ErrorDemoPage() {
                     }
                   />
                 </Row>
+                <SizedBox height={12} />
+                <Button
+                  text="深层调用链错误（sourcemap 演示）"
+                  onTap={() => {
+                    // handleCheckout → processOrder → parseUserData → 崩溃
+                    // stack 会包含 3 层调用，还原后可看到每层源码位置
+                    handleCheckout({ name: 'test' });
+                  }}
+                />
                 <SizedBox height={12} />
                 <Column>
                   {errorLog.length === 0 && (

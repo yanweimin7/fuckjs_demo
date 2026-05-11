@@ -1,0 +1,1 @@
+../../../../fuickjs_community/haptics/flutter/haptics_service.dart

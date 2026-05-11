@@ -60,7 +60,6 @@ import TransformDemo from "./demos/TransformDemo";
 import OverlayDemo from "./demos/OverlayDemo";
 import MaterialDemo from "./demos/MaterialDemo";
 import PopScopeDemo from "./demos/PopScopeDemo";
-import DialogServiceDemo from "./demos/DialogServiceDemo";
 import BrowserApiDemo from "./demos/BrowserApiDemo";
 import WebSocketDemo from "./demos/WebSocketDemo";
 
@@ -74,6 +73,18 @@ import BackdropFilterDemo from "./demos/BackdropFilterDemo";
 import AnimatedSwitcherDemo from "./demos/AnimatedSwitcherDemo";
 import AnimatedCrossFadeDemo from "./demos/AnimatedCrossFadeDemo";
 import NestedScrollViewDemo from "./demos/NestedScrollViewDemo";
+import ReactManagedListDemo from "./demos/ReactManagedListDemo";
+import StaticListDemo from "./demos/StaticListDemo";
+
+// Community packages
+import WebViewDemo from "./demos/WebViewDemo";
+import HapticsDemo from "./demos/HapticsDemo";
+import LauncherDemo from "./demos/LauncherDemo";
+import ShareDemo from "./demos/ShareDemo";
+import AppInfoDemo from "./demos/AppInfoDemo";
+import PermissionsDemo from "./demos/PermissionsDemo";
+import MediaDemo from "./demos/MediaDemo";
+import ConnectivityDemo from "./demos/ConnectivityDemo";
 
 // Custom Global Error UI
 const CustomErrorUI = (error: Error) =>
@@ -122,6 +133,7 @@ const CustomErrorUI = (error: Error) =>
 
 export function initApp() {
   try {
+    Runtime.configure({ prewarm: true, prewarmMs: 50 });
     Runtime.bindGlobals();
 
     // Set global error fallback during initialization
@@ -164,9 +176,6 @@ export function initApp() {
     Router.register("/demo/progress", () => React.createElement(ProgressDemo));
     Router.register("/demo/pageview", () => React.createElement(PageViewDemo));
     Router.register("/demo/popscope", () => React.createElement(PopScopeDemo));
-    Router.register("/demo/dialog_service", () =>
-      React.createElement(DialogServiceDemo),
-    );
     Router.register("/demo/browser_api", () =>
       React.createElement(BrowserApiDemo),
     );
@@ -241,9 +250,7 @@ export function initApp() {
     Router.register("/demo/fractionally_sized_box", () =>
       React.createElement(FractionallySizedBoxDemo),
     );
-    Router.register("/demo/drawer", () =>
-      React.createElement(DrawerDemo),
-    );
+    Router.register("/demo/drawer", () => React.createElement(DrawerDemo));
     Router.register("/demo/backdrop_filter", () =>
       React.createElement(BackdropFilterDemo),
     );
@@ -256,8 +263,28 @@ export function initApp() {
     Router.register("/demo/nested_scroll_view", () =>
       React.createElement(NestedScrollViewDemo),
     );
+    Router.register("/demo/react_managed_list", () =>
+      React.createElement(ReactManagedListDemo),
+    );
+    Router.register("/demo/static_list", () =>
+      React.createElement(StaticListDemo),
+    );
 
-
+    // Community packages
+    Router.register("/demo/haptics", () => React.createElement(HapticsDemo));
+    Router.register("/demo/launcher", () => React.createElement(LauncherDemo));
+    Router.register("/demo/share", () => React.createElement(ShareDemo));
+    Router.register("/demo/app_info", () => React.createElement(AppInfoDemo));
+    Router.register("/demo/permissions", () =>
+      React.createElement(PermissionsDemo),
+    );
+    Router.register("/demo/media", () => React.createElement(MediaDemo));
+    Router.register("/demo/connectivity", () =>
+      React.createElement(ConnectivityDemo),
+    );
+    Router.register("/demo/web_view", (args) =>
+      React.createElement(WebViewDemo, args as any),
+    );
 
     console.log("App Initialized");
   } catch (e) {

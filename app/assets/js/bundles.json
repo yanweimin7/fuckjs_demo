@@ -1,0 +1,22 @@
+[
+  {
+    "name": "bundle",
+    "label": "示例",
+    "initialRoute": "/"
+  },
+  {
+    "name": "taro-demo",
+    "label": "Taro Demo",
+    "initialRoute": "/"
+  },
+  {
+    "name": "dart-demo",
+    "label": "Dart Demo",
+    "initialRoute": "/"
+  },
+  {
+    "name": "wallet_bundle",
+    "label": "Fuick Wallet",
+    "initialRoute": "/"
+  }
+]

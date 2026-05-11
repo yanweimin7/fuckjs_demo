@@ -1,0 +1,1 @@
+../../../../fuickjs_community/permissions/flutter/permissions_service.dart

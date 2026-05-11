@@ -5,9 +5,9 @@ import {
   Column,
   Text,
   Container,
-  VisibilityDetector,
   ListView,
 } from "fuickjs";
+import { VisibilityDetector } from "@fuickjs-community/visibility_detector";
 
 export default function VisibilityDetectorDemo() {
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
