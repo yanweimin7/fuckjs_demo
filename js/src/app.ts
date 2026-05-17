@@ -75,6 +75,7 @@ import AnimatedCrossFadeDemo from "./demos/AnimatedCrossFadeDemo";
 import NestedScrollViewDemo from "./demos/NestedScrollViewDemo";
 import ReactManagedListDemo from "./demos/ReactManagedListDemo";
 import StaticListDemo from "./demos/StaticListDemo";
+import PerformanceDemo from "./demos/PerformanceDemo";
 
 // Community packages
 import WebViewDemo from "./demos/WebViewDemo";
@@ -133,7 +134,7 @@ const CustomErrorUI = (error: Error) =>
 
 export function initApp() {
   try {
-    Runtime.configure({ prewarm: true, prewarmMs: 50 });
+    Runtime.configure({ prewarm: false, prewarmMs: 50 });
     Runtime.bindGlobals();
 
     // Set global error fallback during initialization
@@ -268,6 +269,9 @@ export function initApp() {
     );
     Router.register("/demo/static_list", () =>
       React.createElement(StaticListDemo),
+    );
+    Router.register("/demo/performance", () =>
+      React.createElement(PerformanceDemo),
     );
 
     // Community packages

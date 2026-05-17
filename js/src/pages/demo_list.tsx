@@ -72,6 +72,7 @@ const demoCategories = [
       { name: "ReactList", path: "/demo/react_managed_list" },
       { name: "StaticList", path: "/demo/static_list" },
       { name: "NestedScroll", path: "/demo/nested_scroll_view" },
+      { name: "PerfTest", path: "/demo/performance" },
     ],
   },
   {
@@ -159,10 +160,7 @@ export default function DemoListPage() {
                 color="#333333"
               />
             </Padding>
-            <Wrap
-              spacing={10}
-              runSpacing={10}
-            >
+            <Wrap spacing={10} runSpacing={10}>
               {category.items.map((item) => (
                 <InkWell
                   key={item.path}
