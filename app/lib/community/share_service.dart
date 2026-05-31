@@ -1,1 +1,1 @@
-../../../../fuickjs_community/share/flutter/share_service.dart
+/Users/wey/work/flutter_dynamic/fuickjs_community/share/flutter/share_service.dart

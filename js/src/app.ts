@@ -86,6 +86,7 @@ import AppInfoDemo from "./demos/AppInfoDemo";
 import PermissionsDemo from "./demos/PermissionsDemo";
 import MediaDemo from "./demos/MediaDemo";
 import ConnectivityDemo from "./demos/ConnectivityDemo";
+import SoundServiceDemo from "./demos/SoundServiceDemo";
 
 // Custom Global Error UI
 const CustomErrorUI = (error: Error) =>
@@ -289,6 +290,7 @@ export function initApp() {
     Router.register("/demo/web_view", (args) =>
       React.createElement(WebViewDemo, args as any),
     );
+    Router.register("/demo/sound", () => React.createElement(SoundServiceDemo));
 
     console.log("App Initialized");
   } catch (e) {

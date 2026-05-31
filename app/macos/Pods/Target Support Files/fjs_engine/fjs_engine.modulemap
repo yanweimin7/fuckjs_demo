@@ -1,0 +1,6 @@
+framework module fjs_engine {
+  umbrella header "fjs_engine-umbrella.h"
+
+  export *
+  module * { export * }
+}

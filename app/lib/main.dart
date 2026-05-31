@@ -23,6 +23,7 @@ import 'community/share_service.dart';
 import 'community/video_player_parser.dart';
 import 'community/visibility_detector_parser.dart';
 import 'community/web_view_parser.dart';
+import 'compile_test_page.dart';
 import 'debug_page.dart';
 import 'fuick_app_page.dart';
 import 'service/fuick_storage_service.dart';
@@ -81,6 +82,10 @@ void main() async {
   fuick.widgetFactory.register(VideoPlayerParser());
   fuick.widgetFactory.register(VisibilityDetectorParser());
   fuick.widgetFactory.register(WebViewParser());
+
+  // 强制 iOS 也使用 QuickJS 引擎（默认走 JSC 回退）。JSC 不支持字节码与
+  // ES Module，字节码编译 / 模块加载等能力需要 QuickJS 引擎。
+  EngineInit.useJscOnIos = false;
 
   EngineInit.preload();
 
@@ -143,6 +148,10 @@ class MyApp extends StatelessWidget {
                   return DebugPage(params: params);
                 },
               ),
+              GoRoute(
+                path: 'compile_test',
+                builder: (context, state) => const CompileTestPage(),
+              ),
             ],
           ),
         ],
@@ -196,6 +205,13 @@ class _MyHomePageState extends State<MyHomePage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            tooltip: '字节码编译测试',
+            icon: const Icon(Icons.memory, color: Color(0xFF5C6BC0)),
+            onPressed: () => context.push('/compile_test'),
+          ),
+        ],
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(16),

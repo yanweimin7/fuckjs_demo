@@ -4,6 +4,7 @@ import {
   AppBar,
   CustomPaint,
   CustomPainter,
+  Path,
   Center,
   Text,
   Column,
@@ -89,6 +90,41 @@ export default function CustomPaintDemo() {
     painter.repaint();
   };
 
+  const addStarPath = () => {
+    const path = new Path();
+    const cx = Math.random() * 200 + 50;
+    const cy = Math.random() * 200 + 50;
+    const outerR = 25;
+    const innerR = 12;
+    // Draw a 5-point star using Path
+    path.moveTo(cx, cy - outerR);
+    for (let i = 0; i < 5; i++) {
+      const outerAngle = (Math.PI / 2) + (i * 2 * Math.PI / 5);
+      const innerAngle = outerAngle + Math.PI / 5;
+      path.lineTo(cx + outerR * Math.cos(outerAngle), cy - outerR * Math.sin(outerAngle));
+      path.lineTo(cx + innerR * Math.cos(innerAngle), cy - innerR * Math.sin(innerAngle));
+    }
+    path.close();
+
+    painter.drawPath(path, { color: '#FFD700', style: 'fill' });
+    painter.repaint();
+  };
+
+  const addBezierPath = () => {
+    const path = new Path();
+    const startX = Math.random() * 50 + 20;
+    const startY = Math.random() * 50 + 150;
+    path.moveTo(startX, startY);
+    path.cubicTo(
+      startX + 50, startY - 80,
+      startX + 150, startY + 80,
+      startX + 200, startY,
+    );
+
+    painter.drawPath(path, { color: '#FF4444', style: 'stroke', strokeWidth: 3 });
+    painter.repaint();
+  };
+
   return (
     <Scaffold
       appBar={
@@ -120,6 +156,8 @@ export default function CustomPaintDemo() {
           <Row mainAxisAlignment="spaceEvenly">
             <Button text="Add Circle" onTap={addRandomCircle} />
             <Button text="Add Rect" onTap={addRotatedRect} />
+            <Button text="Add Star" onTap={addStarPath} />
+            <Button text="Add Bezier" onTap={addBezierPath} />
             <Button text="Clear" onTap={clearCanvas} />
           </Row>
 

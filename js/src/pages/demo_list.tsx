@@ -112,6 +112,7 @@ const demoCategories = [
       { name: "Permissions", path: "/demo/permissions" },
       { name: "Media", path: "/demo/media" },
       { name: "Connectivity", path: "/demo/connectivity" },
+      { name: "Sound", path: "/demo/sound" },
       { name: "VideoPlayer", path: "/demo/video_player" },
       { name: "VisDetector", path: "/demo/visibility_detector" },
       { name: "WebView", path: "/demo/web_view" },

@@ -1,1 +1,1 @@
-../../../../fuickjs_community/visibility_detector/flutter/visibility_detector_parser.dart
+/Users/wey/work/flutter_dynamic/fuickjs_community/visibility_detector/flutter/visibility_detector_parser.dart

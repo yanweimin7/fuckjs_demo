@@ -314,6 +314,48 @@ var require_global = __commonJS({
   }
 });
 
+// ../fjs/fuickjs_framework/fuickjs/dist/polyfill/crypto-random.js
+var require_crypto_random = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/polyfill/crypto-random.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var global_1 = __importDefault(require_global());
+    if (!global_1.default.crypto) {
+      global_1.default.crypto = {};
+    }
+    if (!global_1.default.crypto?.getRandomValues) {
+      global_1.default.crypto.getRandomValues = function(array) {
+        const bytes = new Uint8Array(array.byteLength);
+        for (let i = 0; i < bytes.length; i++) {
+          bytes[i] = Math.floor(Math.random() * 256);
+        }
+        if (array instanceof Uint8Array) {
+          array.set(bytes);
+          return array;
+        }
+        const view = new Uint8Array(array.buffer, array.byteOffset, array.byteLength);
+        view.set(bytes);
+        return array;
+      };
+    }
+    if (!global_1.default.crypto?.randomUUID) {
+      global_1.default.crypto.randomUUID = function randomUUID() {
+        const bytes = new Uint8Array(16);
+        global_1.default.crypto.getRandomValues(bytes);
+        bytes[6] = bytes[6] & 15 | 64;
+        bytes[8] = bytes[8] & 63 | 128;
+        const hex = [];
+        for (let i = 0; i < 16; i++)
+          hex.push(bytes[i].toString(16).padStart(2, "0"));
+        return hex.slice(0, 4).join("") + "-" + hex.slice(4, 6).join("") + "-" + hex.slice(6, 8).join("") + "-" + hex.slice(8, 10).join("") + "-" + hex.slice(10, 16).join("");
+      };
+    }
+  }
+});
+
 // ../fjs/fuickjs_framework/fuickjs/dist/polyfill/process.js
 var require_process = __commonJS({
   "../fjs/fuickjs_framework/fuickjs/dist/polyfill/process.js"(exports) {
@@ -8708,24 +8750,6 @@ var require_crypto = __commonJS({
       }
       return bytes;
     }
-    if (!global_1.default.crypto) {
-      global_1.default.crypto = {};
-    }
-    if (!global_1.default.crypto?.getRandomValues) {
-      global_1.default.crypto.getRandomValues = function(array) {
-        const bytes = new Uint8Array(array.byteLength);
-        for (let i = 0; i < bytes.length; i++) {
-          bytes[i] = Math.floor(Math.random() * 256);
-        }
-        if (array instanceof Uint8Array) {
-          array.set(bytes);
-          return array;
-        }
-        const view = new Uint8Array(array.buffer, array.byteOffset, array.byteLength);
-        view.set(bytes);
-        return array;
-      };
-    }
     if (!global_1.default.crypto?.subtle) {
       global_1.default.crypto.subtle = {
         async digest(algorithm, data) {
@@ -8930,6 +8954,75 @@ var require_text = __commonJS({
   }
 });
 
+// ../fjs/fuickjs_framework/fuickjs/dist/polyfill/structured-clone.js
+var require_structured_clone = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/polyfill/structured-clone.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var global_1 = __importDefault(require_global());
+    function clone(value, seen) {
+      if (value === null || typeof value !== "object")
+        return value;
+      if (seen.has(value))
+        return seen.get(value);
+      if (value instanceof Date) {
+        return new Date(value.getTime());
+      }
+      if (value instanceof RegExp) {
+        return new RegExp(value.source, value.flags);
+      }
+      if (value instanceof ArrayBuffer) {
+        const copy2 = value.slice(0);
+        seen.set(value, copy2);
+        return copy2;
+      }
+      if (ArrayBuffer.isView(value)) {
+        const src = value;
+        const bufCopy = src.buffer.slice(src.byteOffset, src.byteOffset + src.byteLength);
+        const Ctor = value.constructor;
+        const copy2 = new Ctor(bufCopy);
+        seen.set(value, copy2);
+        return copy2;
+      }
+      if (value instanceof Map) {
+        const copy2 = /* @__PURE__ */ new Map();
+        seen.set(value, copy2);
+        for (const [k, v] of value)
+          copy2.set(clone(k, seen), clone(v, seen));
+        return copy2;
+      }
+      if (value instanceof Set) {
+        const copy2 = /* @__PURE__ */ new Set();
+        seen.set(value, copy2);
+        for (const v of value)
+          copy2.add(clone(v, seen));
+        return copy2;
+      }
+      if (Array.isArray(value)) {
+        const copy2 = [];
+        seen.set(value, copy2);
+        for (let i = 0; i < value.length; i++)
+          copy2[i] = clone(value[i], seen);
+        return copy2;
+      }
+      const copy = Object.create(Object.getPrototypeOf(value));
+      seen.set(value, copy);
+      for (const key of Object.keys(value)) {
+        copy[key] = clone(value[key], seen);
+      }
+      return copy;
+    }
+    if (typeof global_1.default.structuredClone === "undefined") {
+      global_1.default.structuredClone = function structuredClone(value) {
+        return clone(value, /* @__PURE__ */ new Map());
+      };
+    }
+  }
+});
+
 // ../fjs/fuickjs_framework/fuickjs/dist/services/ConsoleService.js
 var require_ConsoleService = __commonJS({
   "../fjs/fuickjs_framework/fuickjs/dist/services/ConsoleService.js"(exports) {
@@ -8966,6 +9059,13 @@ var require_console = __commonJS({
     exports.debug = debug;
     exports.trace = trace;
     exports.clear = clear;
+    exports.time = time;
+    exports.timeLog = timeLog;
+    exports.timeEnd = timeEnd;
+    exports.group = group;
+    exports.groupCollapsed = groupCollapsed;
+    exports.groupEnd = groupEnd;
+    exports.table = table;
     var ConsoleService_1 = require_ConsoleService();
     function formatArg(arg) {
       if (arg instanceof Error) {
@@ -9034,6 +9134,105 @@ ${stack}`;
     }
     function clear() {
       log("[Console] clear called");
+    }
+    var _timers = /* @__PURE__ */ new Map();
+    function time(label = "default") {
+      _timers.set(String(label), Date.now());
+    }
+    function timeLog(label = "default", ...args) {
+      const start = _timers.get(String(label));
+      if (start === void 0) {
+        warn(`Timer '${label}' does not exist`);
+        return;
+      }
+      log(`${label}: ${Date.now() - start}ms`, ...args);
+    }
+    function timeEnd(label = "default") {
+      const start = _timers.get(String(label));
+      if (start === void 0) {
+        warn(`Timer '${label}' does not exist`);
+        return;
+      }
+      _timers.delete(String(label));
+      log(`${label}: ${Date.now() - start}ms`);
+    }
+    var _groupIndent = 0;
+    function group(...args) {
+      if (args.length > 0)
+        log(...args);
+      _groupIndent++;
+    }
+    function groupCollapsed(...args) {
+      group(...args);
+    }
+    function groupEnd() {
+      if (_groupIndent > 0)
+        _groupIndent--;
+    }
+    function table(data, columns) {
+      if (data == null || typeof data !== "object") {
+        log(data);
+        return;
+      }
+      const isArray = Array.isArray(data);
+      const rows = isArray ? data.map((v, i) => [String(i), v]) : Object.entries(data);
+      if (rows.length === 0) {
+        log(isArray ? "[]" : "{}");
+        return;
+      }
+      let cols;
+      if (columns && columns.length > 0) {
+        cols = columns.slice();
+      } else {
+        const keySet = /* @__PURE__ */ new Set();
+        let hasScalar = false;
+        for (const [, value] of rows) {
+          if (value !== null && typeof value === "object") {
+            for (const k of Object.keys(value))
+              keySet.add(k);
+          } else {
+            hasScalar = true;
+          }
+        }
+        cols = Array.from(keySet);
+        if (hasScalar || cols.length === 0)
+          cols.unshift("Values");
+      }
+      const indexHeader = isArray ? "(index)" : "(key)";
+      const headers = [indexHeader, ...cols];
+      const formatCell = (v) => {
+        if (v === void 0)
+          return "";
+        if (v === null)
+          return "null";
+        if (typeof v === "object") {
+          try {
+            return JSON.stringify(v);
+          } catch {
+            return String(v);
+          }
+        }
+        return String(v);
+      };
+      const tableRows = rows.map(([key, value]) => {
+        const row = [String(key)];
+        for (const col of cols) {
+          if (col === "Values") {
+            row.push(value !== null && typeof value === "object" ? "" : formatCell(value));
+          } else if (value !== null && typeof value === "object") {
+            row.push(formatCell(value[col]));
+          } else {
+            row.push("");
+          }
+        }
+        return row;
+      });
+      const widths = headers.map((h, i) => Math.max(h.length, ...tableRows.map((r) => r[i].length)));
+      const pad = (s, w) => s + " ".repeat(Math.max(0, w - s.length));
+      const sep = "+" + widths.map((w) => "-".repeat(w + 2)).join("+") + "+";
+      const fmtRow = (r) => "| " + r.map((c, i) => pad(c, widths[i])).join(" | ") + " |";
+      const lines = [sep, fmtRow(headers), sep, ...tableRows.map(fmtRow), sep];
+      log(lines.join("\n"));
     }
   }
 });
@@ -9132,14 +9331,19 @@ var require_timer = __commonJS({
           } catch (e) {
             console.error(`[Timer] Error in microtask timeout callback:`, e);
             ErrorHandler_1.ErrorHandler.notify(e, "timer", { id });
+          } finally {
+            timerMap.delete(id);
           }
         });
+        timerMap.set(id, { fn, type: "timeout", native: false });
         return id;
       }
-      timerMap.set(id, { fn, type: "timeout" });
+      timerMap.set(id, { fn, type: "timeout", native: true });
       try {
         TimerService_1.TimerService.createTimer(id, delay, false);
-      } catch {
+      } catch (e) {
+        console.warn(`[Timer] setTimeout(${id}) native createTimer failed, running callback immediately. Error:`, e);
+        timerMap.delete(id);
         try {
           fn();
         } catch (innerE) {
@@ -9150,18 +9354,40 @@ var require_timer = __commonJS({
       return id;
     }
     function clearTimeout2(id) {
+      if (id == null || id === void 0)
+        return;
+      const entry = timerMap.get(id);
       timerMap.delete(id);
-      TimerService_1.TimerService.deleteTimer(id);
+      if (entry?.native !== false) {
+        try {
+          TimerService_1.TimerService.deleteTimer(id);
+        } catch (e) {
+          console.warn(`[Timer] clearTimeout(${id}) native deleteTimer failed:`, e);
+        }
+      }
     }
     function setInterval2(fn, ms) {
       const id = nextTimerId++;
-      timerMap.set(id, { fn, type: "interval" });
-      TimerService_1.TimerService.createTimer(id, ms || 0, true);
+      timerMap.set(id, { fn, type: "interval", native: true });
+      try {
+        TimerService_1.TimerService.createTimer(id, ms || 0, true);
+      } catch (e) {
+        console.warn(`[Timer] setInterval(${id}) native createTimer failed:`, e);
+      }
       return id;
     }
     function clearInterval2(id) {
+      if (id == null || id === void 0)
+        return;
+      const entry = timerMap.get(id);
       timerMap.delete(id);
-      TimerService_1.TimerService.deleteTimer(id);
+      if (entry?.native !== false) {
+        try {
+          TimerService_1.TimerService.deleteTimer(id);
+        } catch (e) {
+          console.warn(`[Timer] clearInterval(${id}) native deleteTimer failed:`, e);
+        }
+      }
     }
     function handleTimer(id) {
       const entry = timerMap.get(id);
@@ -9179,6 +9405,8 @@ var require_timer = __commonJS({
           console.error(`[Timer] Error in timer ${id} callback:`, e);
           ErrorHandler_1.ErrorHandler.notify(e, "timer", { id });
         }
+      } else {
+        console.warn(`[Timer] handleTimer(${id}) not found in timerMap. activeTimers=${timerMap.size}`);
       }
     }
   }
@@ -9366,6 +9594,18 @@ var require_fetch = __commonJS({
     }
     function createResponse(result) {
       const textEncoder = new TextEncoder();
+      if (!result) {
+        return {
+          status: 0,
+          ok: false,
+          headers: new headers_1.Headers(),
+          text: async () => "",
+          json: async () => {
+            throw new Error("Empty response");
+          },
+          arrayBuffer: async () => new ArrayBuffer(0)
+        };
+      }
       let bodyText;
       if (typeof result.body === "string") {
         bodyText = result.body;
@@ -9877,12 +10117,38 @@ var require_LocalStorageService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.LocalStorageService = void 0;
+    var pendingWrites = null;
+    function flushWrites() {
+      const batch = pendingWrites;
+      pendingWrites = null;
+      if (!batch || batch.length === 0)
+        return;
+      const seenKeys = /* @__PURE__ */ new Map();
+      for (const item of batch) {
+        seenKeys.set(item.key, item);
+      }
+      const entries = Array.from(seenKeys.values()).map((w) => [w.key, w.value]);
+      dartCallNativeAsync("LocalStorage.setBatch", [entries]).then((ok) => {
+        const result = ok === true || ok === void 0;
+        for (const item of batch)
+          item.resolve(result);
+      }).catch((err) => {
+        for (const item of batch)
+          item.reject(err);
+      });
+    }
     var LocalStorageService = class {
       static getItem(key) {
         return dartCallNativeAsync("LocalStorage.getItem", [key]);
       }
       static setItem(key, value) {
-        return dartCallNativeAsync("LocalStorage.setItem", [key, value]);
+        return new Promise((resolve, reject) => {
+          if (pendingWrites === null) {
+            pendingWrites = [];
+            Promise.resolve().then(flushWrites);
+          }
+          pendingWrites.push({ key, value, resolve, reject });
+        });
       }
       static removeItem(key) {
         return dartCallNativeAsync("LocalStorage.removeItem", [key]);
@@ -10031,17 +10297,28 @@ var require_websocket = __commonJS({
       static get CLOSED() {
         return 3;
       }
+      /** Remove the globalThis reference so this instance can be GC'd */
+      _cleanupGlobalRef() {
+        const key = `_ws_${this._socketId}`;
+        const existed = globalThis[key] !== void 0;
+        delete globalThis[key];
+        console.log(`[WebSocket] _cleanupGlobalRef() socketId=${this._socketId}, key=${key}, existed=${existed}`);
+      }
       async _initConnection() {
+        console.log(`[WebSocket] _initConnection() socketId=${this._socketId}, url=${this._url}`);
         try {
           if (typeof dartCallNativeAsync !== "function") {
             throw new Error("dartCallNativeAsync is not available.");
           }
-          globalThis[`_ws_${this._socketId}`] = this;
+          const globalKey = `_ws_${this._socketId}`;
+          globalThis[globalKey] = this;
+          console.log(`[WebSocket] Registered on globalThis: ${globalKey}`);
           const result = await dartCallNativeAsync("WebSocket.connect", {
             socketId: this._socketId,
             url: this._url,
             protocols: Array.isArray(this._protocols) ? this._protocols : [this._protocols]
           });
+          console.log(`[WebSocket] connect result for socketId=${this._socketId}: success=${result.success}, error=${result.error}`);
           if (result.success) {
             this._readyState = 1;
             this._protocol = result.protocol ?? "";
@@ -10053,6 +10330,7 @@ var require_websocket = __commonJS({
             }
           } else {
             this._readyState = 3;
+            console.warn(`[WebSocket] Connection failed for socketId=${this._socketId}: ${result.error}`);
             const errorEvent = new events_1.Event("error");
             this.dispatchEvent(errorEvent);
             if (this.onerror) {
@@ -10067,9 +10345,11 @@ var require_websocket = __commonJS({
             if (this.onclose) {
               this.onclose(closeEvent);
             }
+            this._cleanupGlobalRef();
           }
         } catch (error) {
           this._readyState = 3;
+          console.error(`[WebSocket] Exception in _initConnection for socketId=${this._socketId}:`, error);
           const errorEvent = new events_1.Event("error");
           this.dispatchEvent(errorEvent);
           if (this.onerror) {
@@ -10084,6 +10364,7 @@ var require_websocket = __commonJS({
           if (this.onclose) {
             this.onclose(closeEvent);
           }
+          this._cleanupGlobalRef();
         }
       }
       // Called by native when a message is received
@@ -10099,16 +10380,18 @@ var require_websocket = __commonJS({
       }
       // Called by native when the connection is closed
       _handleClose(code, reason, wasClean) {
+        console.log(`[WebSocket] _handleClose() socketId=${this._socketId}, code=${code}, reason=${reason}, wasClean=${wasClean}`);
         this._readyState = 3;
         const closeEvent = new CloseEvent("close", { code, reason, wasClean });
         this.dispatchEvent(closeEvent);
         if (this.onclose) {
           this.onclose(closeEvent);
         }
-        delete globalThis[`_ws_${this._socketId}`];
+        this._cleanupGlobalRef();
       }
       // Called by native when an error occurs
       _handleError() {
+        console.warn(`[WebSocket] _handleError() socketId=${this._socketId}, readyState=${this._readyState}`);
         const errorEvent = new events_1.Event("error");
         this.dispatchEvent(errorEvent);
         if (this.onerror) {
@@ -10120,6 +10403,7 @@ var require_websocket = __commonJS({
           throw new Error("WebSocket is not open: readyState 0 (CONNECTING)");
         }
         if (this._readyState !== 1) {
+          console.warn(`[WebSocket] send() called on non-OPEN socket socketId=${this._socketId}, state=${this._readyState}`);
           return;
         }
         let messageData;
@@ -10143,8 +10427,10 @@ var require_websocket = __commonJS({
       }
       close(code, reason) {
         if (this._readyState === 2 || this._readyState === 3) {
+          console.log(`[WebSocket] close() called but already closing/closed socketId=${this._socketId}, state=${this._readyState}`);
           return;
         }
+        console.log(`[WebSocket] close() socketId=${this._socketId}, code=${code ?? 1e3}`);
         this._readyState = 2;
         dartCallNative("WebSocket.close", {
           socketId: this._socketId,
@@ -10176,6 +10462,107 @@ var require_websocket = __commonJS({
       }
       return bytes.buffer;
     }
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/ex/blob.js
+var require_blob = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/ex/blob.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Blob = void 0;
+    var Blob = class _Blob {
+      constructor(parts = [], options = {}) {
+        this.type = (options.type ?? "").toLowerCase();
+        this._buffer = _Blob._concat(parts);
+      }
+      get size() {
+        return this._buffer.byteLength;
+      }
+      slice(start, end, contentType) {
+        const len = this._buffer.byteLength;
+        let s = start ?? 0;
+        let e = end ?? len;
+        if (s < 0)
+          s = Math.max(len + s, 0);
+        if (e < 0)
+          e = Math.max(len + e, 0);
+        s = Math.min(s, len);
+        e = Math.min(e, len);
+        const sliced = this._buffer.slice(s, e);
+        const b = new _Blob([], { type: contentType ?? this.type });
+        b._buffer = sliced;
+        return b;
+      }
+      async arrayBuffer() {
+        return this._buffer.buffer.slice(this._buffer.byteOffset, this._buffer.byteOffset + this._buffer.byteLength);
+      }
+      async text() {
+        const bytes = this._buffer;
+        let str = "";
+        for (let i = 0; i < bytes.length; i++)
+          str += String.fromCharCode(bytes[i]);
+        try {
+          return decodeURIComponent(escape(str));
+        } catch {
+          return str;
+        }
+      }
+      stream() {
+        throw new Error("Blob.stream() is not supported in this environment");
+      }
+      toString() {
+        return "[object Blob]";
+      }
+      // 供内部和 File 子类访问原始字节
+      _bytes() {
+        return this._buffer;
+      }
+      static _concat(parts) {
+        const buffers = parts.map((part) => {
+          if (typeof part === "string") {
+            return _Blob._encodeUtf8(part);
+          }
+          if (part instanceof _Blob) {
+            return part._buffer;
+          }
+          if (part instanceof ArrayBuffer) {
+            return new Uint8Array(part);
+          }
+          if (ArrayBuffer.isView(part)) {
+            return new Uint8Array(part.buffer, part.byteOffset, part.byteLength);
+          }
+          return new Uint8Array(0);
+        });
+        const totalLen = buffers.reduce((n, b) => n + b.byteLength, 0);
+        const result = new Uint8Array(totalLen);
+        let offset = 0;
+        for (const buf of buffers) {
+          result.set(buf, offset);
+          offset += buf.byteLength;
+        }
+        return result;
+      }
+      static _encodeUtf8(str) {
+        const arr = [];
+        for (let i = 0; i < str.length; i++) {
+          let code = str.charCodeAt(i);
+          if (code < 128) {
+            arr.push(code);
+          } else if (code < 2048) {
+            arr.push(192 | code >> 6, 128 | code & 63);
+          } else if (code < 55296 || code >= 57344) {
+            arr.push(224 | code >> 12, 128 | code >> 6 & 63, 128 | code & 63);
+          } else {
+            i++;
+            code = 65536 + ((code & 1023) << 10 | str.charCodeAt(i) & 1023);
+            arr.push(240 | code >> 18, 128 | code >> 12 & 63, 128 | code >> 6 & 63, 128 | code & 63);
+          }
+        }
+        return new Uint8Array(arr);
+      }
+    };
+    exports.Blob = Blob;
   }
 });
 
@@ -10234,6 +10621,7 @@ var require_globals = __commonJS({
     var storage_1 = require_storage();
     var websocket_1 = require_websocket();
     var headers_1 = require_headers();
+    var blob_1 = require_blob();
     var ErrorHandler_1 = require_ErrorHandler();
     var globalAny = globalThis;
     function setupGlobals() {
@@ -10255,6 +10643,7 @@ var require_globals = __commonJS({
       globalThis.Headers = headers_1.Headers;
       globalThis.XMLHttpRequest = xhr_1.XMLHttpRequest;
       globalThis.WebSocket = websocket_1.WebSocket;
+      globalThis.Blob = blob_1.Blob;
       globalAny.base64ToArrayBuffer = websocket_1.base64ToArrayBuffer;
       if (typeof globalAny.queueMicrotask === "undefined") {
         globalAny.queueMicrotask = function queueMicrotask2(callback) {
@@ -10302,17 +10691,48 @@ var require_globals = __commonJS({
   }
 });
 
+// ../fjs/fuickjs_framework/fuickjs/dist/polyfill/native-async-timeout.js
+var require_native_async_timeout = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/polyfill/native-async-timeout.js"() {
+    "use strict";
+    var globalAny = globalThis;
+    var DEFAULT_TIMEOUT_MS = 3e4;
+    var originalDartCallNativeAsync = globalAny.dartCallNativeAsync;
+    if (typeof originalDartCallNativeAsync === "function") {
+      globalAny.dartCallNativeAsync = function dartCallNativeAsyncWithTimeout(method, args, timeoutMs = DEFAULT_TIMEOUT_MS) {
+        const promise = originalDartCallNativeAsync.call(globalAny, method, args);
+        if (!(timeoutMs > 0) || !promise || typeof promise.then !== "function") {
+          return promise;
+        }
+        let timer;
+        const timeoutPromise = new Promise((_, reject) => {
+          timer = setTimeout(() => {
+            reject(new Error(`dartCallNativeAsync("${method}") timed out after ${timeoutMs}ms`));
+          }, timeoutMs);
+        });
+        return Promise.race([promise, timeoutPromise]).finally(() => {
+          if (timer != null)
+            clearTimeout(timer);
+        });
+      };
+    }
+  }
+});
+
 // ../fjs/fuickjs_framework/fuickjs/dist/polyfill/index.js
 var require_polyfill = __commonJS({
   "../fjs/fuickjs_framework/fuickjs/dist/polyfill/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    require_crypto_random();
     require_process();
     require_buffer2();
     require_crypto();
     require_text();
+    require_structured_clone();
     var globals_1 = require_globals();
     (0, globals_1.setupGlobals)();
+    require_native_async_timeout();
   }
 });
 
@@ -15318,6 +15738,29 @@ var require_react_reconciler_production_min = __commonJS({
   }
 });
 
+// ../fjs/fuickjs_framework/fuickjs/dist/utils/log.js
+var require_log = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/utils/log.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.setDebug = setDebug;
+    exports.isDebug = isDebug;
+    exports.perfLog = perfLog;
+    var _debug = false;
+    function setDebug(enabled) {
+      _debug = enabled;
+    }
+    function isDebug() {
+      return _debug;
+    }
+    function perfLog(message) {
+      if (_debug) {
+        console.log(message);
+      }
+    }
+  }
+});
+
 // ../fjs/fuickjs_framework/fuickjs/dist/core/hostConfig.js
 var require_hostConfig = __commonJS({
   "../fjs/fuickjs_framework/fuickjs/dist/core/hostConfig.js"(exports) {
@@ -15328,6 +15771,7 @@ var require_hostConfig = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.createHostConfig = void 0;
     var react_1 = __importDefault(require_react_production_min());
+    var log_1 = require_log();
     function deepEqual(objA, objB) {
       if (objA === objB)
         return true;
@@ -15554,7 +15998,7 @@ var require_hostConfig = __commonJS({
             const container = instance.container;
             if (instance === container.root) {
               const changedKeys = updatePayload.payload ? updatePayload.payload.filter((_, i) => i % 2 === 0) : [];
-              console.log(`[HostConfig] markChanged ROOT node=${instance.id} type=${instance.type} due to DSL changes in props:`, changedKeys);
+              (0, log_1.perfLog)(`[HostConfig] markChanged ROOT node=${instance.id} type=${instance.type} due to DSL changes in props: ${changedKeys.join(",")}`);
             }
             if (typeof container.recordUpdate === "function") {
               container.recordUpdate(instance, updatePayload.payload);
@@ -15595,7 +16039,6 @@ var require_node = __commonJS({
     exports.Node = exports.TEXT_TYPE = void 0;
     var react_1 = __importDefault(require_react_production_min());
     exports.TEXT_TYPE = "Text";
-    var nextNodeId = 1;
     var Node = class {
       constructor(type, props, container) {
         this.children = [];
@@ -15603,7 +16046,7 @@ var require_node = __commonJS({
         this._dslCache = null;
         this._dslCacheDirty = true;
         this._childrenDslCacheDirty = true;
-        this.id = props && typeof props.id === "number" ? props.id : nextNodeId++;
+        this.id = container ? ++container.nextNodeId : 1;
         this.type = type;
         this.props = {};
         this.container = container;
@@ -15625,7 +16068,9 @@ var require_node = __commonJS({
             const value = newProps[key];
             this.props[key] = value;
           }
-          this.registerCallbacksRecursive(newProps);
+          if (!this.container?.isFirstRender) {
+            this.registerCallbacksRecursive(newProps);
+          }
         }
         this.container?.registerNode(this);
         this._dslCacheDirty = true;
@@ -15770,6 +16215,8 @@ var require_node = __commonJS({
             stack.push(node.children[i]);
           }
           node.children = [];
+          node.parent = void 0;
+          node.container = void 0;
         }
       }
     };
@@ -15783,7 +16230,7 @@ var require_UIService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UIService = void 0;
-    var UIService = class {
+    var UIService = class _UIService {
       static renderUI(pageId, renderData) {
         dartCallNative("UI.renderUI", { pageId, renderData });
       }
@@ -15802,11 +16249,19 @@ var require_UIService = __commonJS({
           nodeType
         });
       }
+      static getRegisteredWidgets() {
+        return dartCallNative("UI.getRegisteredWidgets", []);
+      }
       static isWidgetRegistered(type) {
-        return dartCallNative("UI.isWidgetRegistered", [type]);
+        if (_UIService._registeredWidgets === null) {
+          const list = _UIService.getRegisteredWidgets();
+          _UIService._registeredWidgets = new Set(list);
+        }
+        return _UIService._registeredWidgets.has(type);
       }
     };
     exports.UIService = UIService;
+    UIService._registeredWidgets = null;
   }
 });
 
@@ -15932,8 +16387,10 @@ var require_IncrementalStrategy = __commonJS({
             }
           }
         }
+        const sendStart = Date.now();
         UIService_1.UIService.patchOps(Number(pageId), flattenedOps);
-        console.log(`[JS Performance] commit(patchOps) page=${pageId} `);
+        const sendEnd = Date.now();
+        console.log(`[Perf] page=${pageId} commit(patchOps) total=${sendEnd - commitStart}ms (sendToFlutter=${sendEnd - sendStart}ms, ops=${flattenedOps.length})`);
         this.mutationQueue = [];
       }
       getBoundaryNode(node) {
@@ -16070,6 +16527,7 @@ var require_DiffStrategy = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiffStrategy = void 0;
     var UIService_1 = require_UIService();
+    var log_1 = require_log();
     var DiffStrategy = class {
       constructor(container) {
         this.changedNodes = /* @__PURE__ */ new Set();
@@ -16085,33 +16543,32 @@ var require_DiffStrategy = __commonJS({
         }
         this.changedNodes.add(current);
         if (current === this.container.root) {
-          console.log(`[JS Performance] Root node (id=${current.id}, type=${current.type}) marked as changed!`);
+          (0, log_1.perfLog)(`[JS Performance] Root node (id=${current.id}, type=${current.type}) marked as changed!`);
         }
       }
       clear() {
         this.changedNodes.clear();
       }
       commit() {
-        if (this.changedNodes.size === 0) {
+        if (!this.container.root) {
           return;
         }
-        if (!this.container.root) {
+        if (this.changedNodes.size === 0 && this.rendered) {
           return;
         }
         const commitStart = Date.now();
         const pageId = this.container.pageId;
         const rootChanged = this.container.root && this.changedNodes.has(this.container.root);
-        if (rootChanged) {
-          console.log(`[JS Performance] rootChanged is true for page ${pageId}. Root node:`, this.container.root?.type, this.container.root?.id);
-        }
         if (!this.rendered || rootChanged) {
           const dslStart = Date.now();
           const dsl = this.container.root?.toDsl();
           const dslEnd = Date.now();
           if (dsl && dsl.type) {
+            const sendStart = Date.now();
             UIService_1.UIService.renderUI(Number(pageId), dsl);
+            const sendEnd = Date.now();
             this.rendered = true;
-            console.log(`[JS Performance] commit(full) page=${pageId} total=${Date.now() - commitStart}ms (dsl=${dslEnd - dslStart}ms)`);
+            console.log(`[Perf] page=${pageId} commit(full) total=${sendEnd - commitStart}ms (toDsl=${dslEnd - dslStart}ms, sendToFlutter=${sendEnd - sendStart}ms)`);
           }
         } else {
           const patches = [];
@@ -16151,15 +16608,158 @@ var require_DiffStrategy = __commonJS({
           }
           const dslEnd = Date.now();
           if (patches.length > 0) {
+            const sendStart = Date.now();
             UIService_1.UIService.patchUI(Number(pageId), patches);
+            const sendEnd = Date.now();
             const changedNodeTypes = Array.from(topLevelNodes).map((n) => n.type).join(", ");
-            console.log(`[JS Performance] commit(patchUI) page=${pageId} nodes=${topLevelNodes.size} types=[${changedNodeTypes}] total=${Date.now() - commitStart}ms (dsl=${dslEnd - dslStart}ms)`);
+            console.log(`[Perf] page=${pageId} commit(patchUI) nodes=${topLevelNodes.size} types=[${changedNodeTypes}] total=${sendEnd - commitStart}ms (toDsl=${dslEnd - dslStart}ms, sendToFlutter=${sendEnd - sendStart}ms)`);
           }
         }
         this.clear();
       }
     };
     exports.DiffStrategy = DiffStrategy;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/services/NativeEventService.js
+var require_NativeEventService = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/services/NativeEventService.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.NativeEventService = void 0;
+    var NativeEventService = class {
+      static emit(event, data) {
+        dartCallNative("NativeEvent.emit", [event, data]);
+      }
+    };
+    exports.NativeEventService = NativeEventService;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/runtime/Fuick.js
+var require_Fuick = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/runtime/Fuick.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Fuick = void 0;
+    exports.Fuick = {
+      /**
+       * Expose a JS object to Flutter.
+       * The object will be attached to globalThis with the given name,
+       * allowing Flutter to invoke its methods using `ctx.invoke(name, method, args)`.
+       *
+       * @param name The name to expose the object as
+       * @param obj The object instance
+       */
+      expose(name, obj) {
+        if (!name) {
+          console.error("[Fuick] Expose name cannot be empty");
+          return;
+        }
+        const globalObj = globalThis;
+        if (globalObj[name]) {
+          console.warn(`[Fuick] Overwriting existing global object: ${name}`);
+        }
+        globalObj[name] = obj;
+      }
+    };
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/runtime/NativeEvent.js
+var require_NativeEvent = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/runtime/NativeEvent.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.NativeEvent = void 0;
+    var NativeEventService_1 = require_NativeEventService();
+    var Fuick_1 = require_Fuick();
+    var NativeEventImpl = class {
+      constructor() {
+        this.listeners = /* @__PURE__ */ new Map();
+      }
+      /**
+       * 监听事件
+       * @param event 事件名称
+       * @param callback 回调函数
+       * @param pageId 可选页面 ID。传入后该监听器会随 PageContainer.dispose 自动清理，
+       *               避免页面销毁后回调里仍持有已释放的闭包导致内存泄漏。
+       * @returns 取消监听的函数
+       */
+      on(event, callback, pageId) {
+        if (!this.listeners.has(event)) {
+          this.listeners.set(event, []);
+        }
+        this.listeners.get(event).push({ callback, pageId });
+        return () => this.off(event, callback);
+      }
+      /**
+       * 移除事件监听
+       * @param event 事件名称
+       * @param callback 回调函数
+       */
+      off(event, callback) {
+        const callbacks = this.listeners.get(event);
+        if (callbacks) {
+          const index = callbacks.findIndex((entry) => entry.callback === callback);
+          if (index > -1) {
+            callbacks.splice(index, 1);
+          }
+          if (callbacks.length === 0) {
+            this.listeners.delete(event);
+          }
+        }
+      }
+      /**
+       * 移除某页面注册的所有监听器（PageContainer.dispose 时调用）
+       */
+      offAllForPage(pageId) {
+        for (const [event, entries] of this.listeners) {
+          const remaining = entries.filter((entry) => entry.pageId !== pageId);
+          if (remaining.length === 0) {
+            this.listeners.delete(event);
+          } else if (remaining.length !== entries.length) {
+            this.listeners.set(event, remaining);
+          }
+        }
+      }
+      /**
+       * 发送事件（同时发送给 JS 内部监听器和 Native）
+       * @param event 事件名称
+       * @param data 事件数据
+       */
+      emit(event, data) {
+        NativeEventService_1.NativeEventService.emit(event, data);
+        this.dispatchLocal(event, data);
+      }
+      /**
+       * 仅触发本地监听器（不发送给 Native）
+       * 主要供 Native 调用 receive 时使用
+       */
+      dispatchLocal(event, data) {
+        const callbacks = this.listeners.get(event);
+        if (callbacks) {
+          [...callbacks].forEach((entry) => {
+            try {
+              entry.callback(data);
+            } catch (e) {
+              console.error(`[NativeEvent] Error in listener for event "${event}":`, e);
+            }
+          });
+        }
+      }
+      /**
+       * 接收来自 Native 的事件
+       * @param event 事件名称
+       * @param data 事件数据
+       */
+      receive(event, data) {
+        this.dispatchLocal(event, data);
+      }
+    };
+    exports.NativeEvent = new NativeEventImpl();
+    Fuick_1.Fuick.expose("NativeEvent", exports.NativeEvent);
   }
 });
 
@@ -16176,7 +16776,20 @@ var require_PageContainer = __commonJS({
     var node_1 = require_node();
     var IncrementalStrategy_1 = require_IncrementalStrategy();
     var DiffStrategy_1 = require_DiffStrategy();
-    var PageContainer = class {
+    var NativeEvent_1 = require_NativeEvent();
+    var PageContainer = class _PageContainer {
+      get nextNodeId() {
+        return this._nextNodeId;
+      }
+      set nextNodeId(val) {
+        this._nextNodeId = val;
+      }
+      get elementToDslNextNodeId() {
+        return this._elementToDslNextNodeId;
+      }
+      set elementToDslNextNodeId(val) {
+        this._elementToDslNextNodeId = val;
+      }
       constructor(pageId) {
         this.root = null;
         this.incrementalMode = true;
@@ -16186,8 +16799,10 @@ var require_PageContainer = __commonJS({
         this.onInvisibleCallbacks = /* @__PURE__ */ new Set();
         this.nodes = /* @__PURE__ */ new Map();
         this.nodesByRefId = /* @__PURE__ */ new Map();
-        this.virtualNodeIdCounter = 1e6;
+        this._nextNodeId = 0;
+        this._elementToDslNextNodeId = 1e8;
         this.isVisible = false;
+        this.isFirstRender = true;
         this.pageId = pageId;
         this.incrementalStrategy = new IncrementalStrategy_1.IncrementalStrategy(this);
         this.diffStrategy = new DiffStrategy_1.DiffStrategy(this);
@@ -16300,6 +16915,11 @@ var require_PageContainer = __commonJS({
         }
       }
       markChanged(node) {
+        if (this.isFirstRender) {
+          if (node)
+            this.diffStrategy.changedNodes.add(node);
+          return;
+        }
         this.diffStrategy.markChanged(node);
       }
       createInstance(type, props) {
@@ -16415,6 +17035,7 @@ var require_PageContainer = __commonJS({
         }
       }
       commit() {
+        const commitStart = Date.now();
         try {
           if (!this.diffStrategy.rendered) {
             this.diffStrategy.commit();
@@ -16423,11 +17044,15 @@ var require_PageContainer = __commonJS({
           } else {
             this.diffStrategy.commit();
           }
+          if (this.diffStrategy.rendered && this.isFirstRender) {
+            this.isFirstRender = false;
+          }
         } catch (e) {
           console.error(`[PageContainer] Error during commit for page ${this.pageId}:`, e);
         } finally {
           this.clear();
         }
+        console.log(`[Perf] page=${this.pageId} commit=${Date.now() - commitStart}ms`);
       }
       getItemDSL(refId, index) {
         const node = this.getNodeByRefId(refId);
@@ -16447,9 +17072,22 @@ var require_PageContainer = __commonJS({
           return null;
         }
       }
-      elementToDsl(element, depth = 0) {
+      elementToDsl(element, depth = 0, visited) {
         if (!element)
           return null;
+        if (depth > _PageContainer.MAX_ELEMENT_DEPTH) {
+          console.warn(`[PageContainer] elementToDsl depth exceeded ${_PageContainer.MAX_ELEMENT_DEPTH} on page ${this.pageId}; truncating`);
+          return null;
+        }
+        if (typeof element === "object" && element !== null) {
+          if (!visited)
+            visited = /* @__PURE__ */ new WeakSet();
+          if (visited.has(element)) {
+            console.warn(`[PageContainer] elementToDsl detected cycle on page ${this.pageId}; truncating`);
+            return null;
+          }
+          visited.add(element);
+        }
         let currentElement = element;
         while (true) {
           if (!currentElement)
@@ -16458,7 +17096,7 @@ var require_PageContainer = __commonJS({
             return { type: "Text", props: { text: String(currentElement) } };
           }
           if (Array.isArray(currentElement)) {
-            return currentElement.map((e) => this.elementToDsl(e, depth + 1)).filter((e) => e !== null);
+            return currentElement.map((e) => this.elementToDsl(e, depth + 1, visited)).filter((e) => e !== null);
           }
           const elAny = currentElement;
           if (elAny.type) {
@@ -16485,14 +17123,12 @@ var require_PageContainer = __commonJS({
               continue;
             }
             const { children, ...props } = originalProps;
-            const nodeId = typeof props.id === "number" ? props.id : ++this.virtualNodeIdCounter;
-            if (!props.id || typeof props.id !== "number")
-              props.id = nodeId;
-            const processedProps = this.processProps(nodeId, props, String(type), [], depth + 1);
+            const nodeId = ++this.elementToDslNextNodeId;
+            const processedProps = this.processProps(nodeId, props, String(type), [], depth + 1, visited);
             const dslChildren = [];
             const childrenToProcess = Array.isArray(children) ? children : children ? [children] : [];
             for (const child of childrenToProcess) {
-              const childDsl = this.elementToDsl(child, depth + 1);
+              const childDsl = this.elementToDsl(child, depth + 1, visited);
               if (childDsl) {
                 if (Array.isArray(childDsl)) {
                   for (const item of childDsl) {
@@ -16559,15 +17195,22 @@ var require_PageContainer = __commonJS({
        * @param path 当前处理的属性路径 (如 'decoration.color')，用于生成唯一的事件 key
        * @returns 处理后的 DSL 属性对象
        */
-      processProps(nodeId, props, nodeType, path = [], depth = 0) {
+      processProps(nodeId, props, nodeType, path = [], depth = 0, visited) {
         if (!props || typeof props !== "object")
           return props;
+        if (!visited)
+          visited = /* @__PURE__ */ new WeakSet();
+        if (visited.has(props)) {
+          console.warn(`[PageContainer] processProps detected cycle on page ${this.pageId} (path=${path.join(".")}); truncating`);
+          return null;
+        }
+        visited.add(props);
         if (react_1.default.isValidElement(props))
-          return this.elementToDsl(props, depth + 1);
+          return this.elementToDsl(props, depth + 1, visited);
         if (Array.isArray(props)) {
           return props.map((item, index) => {
             const newPath = [...path, index];
-            return this.processProps(nodeId, item, nodeType, newPath, depth + 1);
+            return this.processProps(nodeId, item, nodeType, newPath, depth + 1, visited);
           });
         }
         const processedProps = {};
@@ -16596,7 +17239,7 @@ var require_PageContainer = __commonJS({
             };
           } else if (value && typeof value === "object") {
             const newPath = [...path, key];
-            processedProps[key] = this.processProps(nodeId, value, nodeType, newPath, depth + 1);
+            processedProps[key] = this.processProps(nodeId, value, nodeType, newPath, depth + 1, visited);
           } else {
             processedProps[key] = value;
           }
@@ -16620,8 +17263,248 @@ var require_PageContainer = __commonJS({
         this.diffStrategy.clear();
         this.incrementalStrategy.clear();
       }
+      /**
+       * 页面销毁时调用：清空所有内部集合，断开 strategy 反向引用与生命周期回调闭包，
+       * 配合 Node.destroy() 让整棵节点树进入可 GC 状态。
+       */
+      dispose() {
+        if (this.root) {
+          try {
+            this.root.destroy();
+          } catch (e) {
+            console.error(`[PageContainer] Error destroying root for page ${this.pageId}:`, e);
+          }
+          this.root = null;
+        }
+        this.eventCallbacks.clear();
+        this.onVisibleCallbacks.clear();
+        this.onInvisibleCallbacks.clear();
+        this.nodes.clear();
+        this.nodesByRefId.clear();
+        try {
+          NativeEvent_1.NativeEvent.offAllForPage(this.pageId);
+        } catch (e) {
+          console.error(`[PageContainer] Error clearing NativeEvent listeners for page ${this.pageId}:`, e);
+        }
+        this.clear();
+      }
     };
     exports.PageContainer = PageContainer;
+    PageContainer.MAX_ELEMENT_DEPTH = 512;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/core/ItemContainer.js
+var require_ItemContainer = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/core/ItemContainer.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ItemContainer = void 0;
+    var PageContainer_1 = require_PageContainer();
+    var ItemContainer = class extends PageContainer_1.PageContainer {
+      constructor(pageId, mainContainer) {
+        super(pageId);
+        this.initialRenderDone = false;
+        this.mainContainer = mainContainer;
+      }
+      /**
+       * 标记初始渲染完成。
+       * 由 ListItemManager.getItemDSL() 在 flushSync 后调用。
+       * 之后的 commit() 调用将发送增量补丁到 Flutter。
+       */
+      markInitialRenderDone() {
+        this.initialRenderDone = true;
+        this.diffStrategy.rendered = true;
+      }
+      /**
+       * 重写：初始渲染为空操作（DSL 由 toDsl() 手动提取），
+       * 后续状态变更发送增量补丁到 Flutter。
+       *
+       * 原理：列表项的 Node ID 已注册在 Flutter 侧同一个 FuickNodeManager 中，
+       * 所以 patchOps 的 UPDATE/INSERT/DELETE 操作可以被正确找到并应用。
+       */
+      commit() {
+        if (!this.initialRenderDone) {
+          this.clear();
+          return;
+        }
+        try {
+          if (this.incrementalMode) {
+            this.incrementalStrategy.commit();
+          } else {
+            this.diffStrategy.commit();
+          }
+        } catch (e) {
+          console.error(`[ItemContainer] Error during commit for page ${this.pageId}:`, e);
+        } finally {
+          this.clear();
+        }
+      }
+      /**
+       * 重写：将事件回调注册到主 PageContainer。
+       * 这样 Flutter 侧通过 dispatchEvent 派发事件时，能在主 container 中找到回调。
+       */
+      registerCallback(nodeId, eventKey, fn) {
+        this.mainContainer.registerCallback(nodeId, eventKey, fn);
+      }
+      /**
+       * 重写：从主 PageContainer 注销回调。
+       */
+      unregisterCallback(nodeId, eventKey) {
+        this.mainContainer.unregisterCallback(nodeId, eventKey);
+      }
+      /**
+       * 重写：清理节点回调时，也要清理主 container 中的。
+       */
+      clearNodeCallbacks(nodeId) {
+        this.mainContainer.clearNodeCallbacks(nodeId);
+      }
+      /**
+       * 重写：从主 container 获取回调。
+       */
+      getCallback(nodeId, eventKey) {
+        return this.mainContainer.getCallback(nodeId, eventKey);
+      }
+      /**
+       * 重写：共享主 container 的 nextNodeId，避免 nodeId 冲突。
+       * elementToDsl 路径中自增的 nodeId 会走这里。
+       */
+      get nextNodeId() {
+        return this.mainContainer.nextNodeId;
+      }
+      set nextNodeId(val) {
+        this.mainContainer.nextNodeId = val;
+      }
+      get elementToDslNextNodeId() {
+        return this.mainContainer.elementToDslNextNodeId;
+      }
+      set elementToDslNextNodeId(val) {
+        this.mainContainer.elementToDslNextNodeId = val;
+      }
+      /**
+       * 从已提交的 Node 树提取 DSL。
+       * 在 flushSync + updateContainer 之后调用，此时 root 已是最新提交的 Node。
+       */
+      toDsl() {
+        if (!this.root)
+          return null;
+        const dsl = this.root.toDsl();
+        return dsl;
+      }
+    };
+    exports.ItemContainer = ItemContainer;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/core/ListItemManager.js
+var require_ListItemManager = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/core/ListItemManager.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ListItemManager = void 0;
+    var ItemContainer_1 = require_ItemContainer();
+    var ErrorHandler_1 = require_ErrorHandler();
+    var ListItemManager = class {
+      constructor(reconciler, handleRecoverableError) {
+        this.items = /* @__PURE__ */ new Map();
+        this.reconciler = reconciler;
+        this.handleRecoverableError = handleRecoverableError;
+      }
+      itemKey(pageId, refId, index) {
+        return `${pageId}:${refId}:${index}`;
+      }
+      /**
+       * 渲染列表项并通过 reconciler sub-root，返回 DSL。
+       * 如果 sub-root 不存在则创建，存在则更新。
+       */
+      getItemDSL(pageId, refId, index, itemBuilder, mainContainer) {
+        const key = this.itemKey(pageId, refId, index);
+        let entry = this.items.get(key);
+        const element = itemBuilder(index);
+        if (!entry) {
+          const container = new ItemContainer_1.ItemContainer(pageId, mainContainer);
+          const root = this.reconciler.createContainer(
+            container,
+            1,
+            // tag: ConcurrentRoot
+            null,
+            false,
+            null,
+            "",
+            this.handleRecoverableError,
+            null
+          );
+          entry = { container, root };
+          this.items.set(key, entry);
+          console.log(`[ListItemManager] Created sub-root for key=${key}`);
+        }
+        try {
+          this.reconciler.flushSync(() => {
+            this.reconciler.updateContainer(element, entry.root, null, null);
+          });
+          entry.container.markInitialRenderDone();
+          const dsl = entry.container.toDsl();
+          return dsl;
+        } catch (e) {
+          console.error(`[ListItemManager] Error rendering item key=${key}:`, e);
+          ErrorHandler_1.ErrorHandler.notify(e, "render", { pageId, refId, index });
+          console.warn(`[ListItemManager] Falling back to elementToDsl for key=${key}`);
+          return mainContainer.elementToDsl(element);
+        }
+      }
+      /**
+       * 销毁指定列表项的 sub-root，触发 useEffect cleanup。
+       * 应在 Flutter 侧列表项 widget 被回收时调用。
+       */
+      disposeItem(pageId, refId, index) {
+        const key = this.itemKey(pageId, refId, index);
+        const entry = this.items.get(key);
+        if (!entry) {
+          return;
+        }
+        console.log(`[ListItemManager] Disposing item key=${key}`);
+        try {
+          this.reconciler.updateContainer(null, entry.root, null, null);
+        } catch (e) {
+          console.error(`[ListItemManager] Error disposing item key=${key}:`, e);
+        }
+        this.items.delete(key);
+      }
+      /**
+       * 销毁指定页面所有列表项的 sub-root。
+       * 在页面 destroy 时调用。
+       */
+      disposePageItems(pageId) {
+        const prefix = `${pageId}:`;
+        const keysToDispose = [];
+        for (const key of this.items.keys()) {
+          if (key.startsWith(prefix)) {
+            keysToDispose.push(key);
+          }
+        }
+        if (keysToDispose.length > 0) {
+          console.log(`[ListItemManager] Disposing ${keysToDispose.length} items for pageId=${pageId}`);
+          for (const key of keysToDispose) {
+            const entry = this.items.get(key);
+            if (entry) {
+              try {
+                this.reconciler.updateContainer(null, entry.root, null, null);
+              } catch (e) {
+                console.error(`[ListItemManager] Error disposing item key=${key}:`, e);
+              }
+            }
+            this.items.delete(key);
+          }
+        }
+      }
+      /**
+       * 获取当前活跃的 sub-root 数量（调试用）。
+       */
+      get size() {
+        return this.items.size;
+      }
+    };
+    exports.ListItemManager = ListItemManager;
   }
 });
 
@@ -16639,24 +17522,18 @@ var require_renderer = __commonJS({
     var hostConfig_1 = require_hostConfig();
     var PageContainer_1 = require_PageContainer();
     var ErrorHandler_1 = require_ErrorHandler();
+    var ListItemManager_1 = require_ListItemManager();
+    var log_1 = require_log();
     var containers = {};
     var roots = {};
+    var destroyingPages = /* @__PURE__ */ new Set();
     function dispatchEvent(eventObj, payload) {
       try {
         const evt = eventObj;
         const pageId = evt?.pageId;
         const nodeId = Number(evt?.nodeId || evt?.id);
         const eventKey = evt?.eventKey;
-        let container = containers[pageId];
-        if (!container) {
-          for (const id in containers) {
-            const c = containers[id];
-            if (c.getCallback(nodeId, eventKey)) {
-              container = c;
-              break;
-            }
-          }
-        }
+        const container = containers[pageId];
         if (container) {
           const fn = container.getCallback(nodeId, eventKey);
           if (typeof fn === "function") {
@@ -16680,6 +17557,7 @@ var require_renderer = __commonJS({
       const handleRecoverableError = (error, errorInfo) => {
         ErrorHandler_1.ErrorHandler.notify(error, "render", errorInfo);
       };
+      const listItemManager = new ListItemManager_1.ListItemManager(reconciler, handleRecoverableError);
       function ensureRoot(pageId) {
         if (roots[pageId])
           return roots[pageId];
@@ -16695,11 +17573,17 @@ var require_renderer = __commonJS({
       const renderedPages = /* @__PURE__ */ new Set();
       return {
         update(element, pageId) {
+          if (destroyingPages.has(pageId)) {
+            console.warn(`[Renderer] update() ignored: pageId=${pageId} is destroying.`);
+            return;
+          }
           const root = ensureRoot(pageId);
           const isFirstRender = !renderedPages.has(pageId);
+          (0, log_1.perfLog)(`[Renderer] update() called for pageId=${pageId}, isFirstRender=${isFirstRender}, roots=${Object.keys(roots).join(",")}`);
           let retryCount = 0;
           const maxRetries = 100;
           const performUpdate = () => {
+            const updateStart = Date.now();
             try {
               if (isFirstRender) {
                 reconciler.flushSync(() => {
@@ -16709,13 +17593,19 @@ var require_renderer = __commonJS({
               } else {
                 reconciler.updateContainer(element, root, null, null);
               }
+              const updateEnd = Date.now();
+              console.log(`[Perf] page=${pageId} reconciler.updateContainer=${updateEnd - updateStart}ms (firstRender=${isFirstRender})`);
+              (0, log_1.perfLog)(`[Renderer] update() succeeded for pageId=${pageId}, retries=${retryCount}`);
               retryCount = 0;
             } catch (e) {
               const msg = e.message || String(e);
               console.error(`[Renderer] Error in updateContainer for page ${pageId}:`, msg);
               if (isRenderInProgressError(msg) && retryCount < maxRetries) {
                 retryCount++;
-                globalThis.setTimeout(performUpdate, 16);
+                if (retryCount <= 3 || retryCount % 10 === 0) {
+                  console.warn(`[Renderer] Retrying update for pageId=${pageId}, retry #${retryCount}`);
+                }
+                Promise.resolve().then(performUpdate);
               } else {
                 if (retryCount >= maxRetries) {
                   console.error(`[Renderer] Max retries exceeded for page ${pageId}`);
@@ -16730,43 +17620,84 @@ var require_renderer = __commonJS({
         destroy(pageId) {
           const root = roots[pageId];
           if (root) {
+            destroyingPages.add(pageId);
             let retryCount = 0;
             const maxRetries = 100;
+            const finalize = () => {
+              containers[pageId]?.dispose();
+              delete roots[pageId];
+              delete containers[pageId];
+              renderedPages.delete(pageId);
+              destroyingPages.delete(pageId);
+            };
             const performDestroy = () => {
               try {
                 reconciler.updateContainer(null, root, null, null);
-                delete roots[pageId];
-                delete containers[pageId];
+                (0, log_1.perfLog)(`[Renderer] destroy() succeeded for pageId=${pageId}, retries=${retryCount}`);
+                finalize();
               } catch (e) {
                 const msg = e.message || String(e);
                 if (isRenderInProgressError(msg) && retryCount < maxRetries) {
                   retryCount++;
-                  globalThis.setTimeout(performDestroy, 16);
+                  if (retryCount <= 3 || retryCount % 10 === 0) {
+                    console.warn(`[Renderer] Retrying destroy for pageId=${pageId}, retry #${retryCount}`);
+                  }
+                  Promise.resolve().then(performDestroy);
                 } else {
                   if (retryCount >= maxRetries) {
                     console.error(`[Renderer] Max retries exceeded for destroying page ${pageId}`);
                   }
                   console.error(`[Renderer] Error destroying page ${pageId}:`, e);
                   ErrorHandler_1.ErrorHandler.notify(e, "render", { pageId });
-                  delete roots[pageId];
-                  delete containers[pageId];
+                  try {
+                    console.warn(`[Renderer] Best-effort unmount for pageId=${pageId} after fatal error`);
+                    reconciler.updateContainer(null, root, null, null);
+                  } catch (_e) {
+                    console.error(`[Renderer] Best-effort unmount also failed for pageId=${pageId}`);
+                  }
+                  finalize();
                 }
               }
             };
             performDestroy();
+            listItemManager.disposePageItems(pageId);
           } else {
             if (containers[pageId]) {
+              console.warn(`[Renderer] destroy() pageId=${pageId} has no root but has orphaned container, cleaning up.`);
+              containers[pageId]?.dispose();
               delete containers[pageId];
+              renderedPages.delete(pageId);
+            } else {
+              console.warn(`[Renderer] destroy() pageId=${pageId} has no root and no container, nothing to destroy.`);
             }
           }
         },
         dispatchEvent,
         getItemDSL(pageId, refId, index) {
           const container = containers[pageId];
-          if (container) {
-            return container.getItemDSL(refId, index);
+          if (!container)
+            return null;
+          const node = container.getNodeByRefId(refId);
+          if (!node)
+            return null;
+          const itemBuilder = node.props?.itemBuilder;
+          if (typeof itemBuilder !== "function")
+            return null;
+          const stateful = node.props?.stateful === true;
+          if (stateful) {
+            return listItemManager.getItemDSL(pageId, refId, index, itemBuilder, container);
+          } else {
+            try {
+              const element = itemBuilder(index);
+              return container.elementToDsl(element);
+            } catch (e) {
+              console.error(`[Renderer] Error in stateless getItemDSL for refId ${refId} at index ${index}:`, e);
+              return null;
+            }
           }
-          return null;
+        },
+        disposeItem(pageId, refId, index) {
+          listItemManager.disposeItem(pageId, refId, index);
         },
         elementToDsl(pageId, element) {
           let container = containers[pageId];
@@ -16794,24 +17725,183 @@ var require_renderer = __commonJS({
   }
 });
 
+// ../fjs/fuickjs_framework/fuickjs/dist/store/ComponentStore.js
+var require_ComponentStore = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/store/ComponentStore.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ComponentStore = class _ComponentStore {
+      constructor() {
+        this.components = /* @__PURE__ */ new Map();
+        this.counter = 0;
+      }
+      static getInstance() {
+        if (!_ComponentStore.instance) {
+          _ComponentStore.instance = new _ComponentStore();
+        }
+        return _ComponentStore.instance;
+      }
+      register(component) {
+        const id = `cmp_${Date.now()}_${this.counter++}`;
+        this.components.set(id, component);
+        return id;
+      }
+      get(id) {
+        return this.components.get(id);
+      }
+      remove(id) {
+        this.components.delete(id);
+      }
+    };
+    exports.default = ComponentStore;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/widgets/Container.js
+var require_Container = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/widgets/Container.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Container = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var Container6 = class extends react_1.default.Component {
+      render() {
+        return react_1.default.createElement("Container", { ...this.props });
+      }
+    };
+    exports.Container = Container6;
+    exports.default = Container6;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/widgets/Text.js
+var require_Text = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/widgets/Text.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Text = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var Text6 = class extends react_1.default.Component {
+      render() {
+        return react_1.default.createElement("Text", { ...this.props, isBoundary: false });
+      }
+    };
+    exports.Text = Text6;
+    exports.default = Text6;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/widgets/GenericPage.js
+var require_GenericPage = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/widgets/GenericPage.js"(exports) {
+    "use strict";
+    var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
+      if (k2 === void 0) k2 = k;
+      var desc = Object.getOwnPropertyDescriptor(m, k);
+      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() {
+          return m[k];
+        } };
+      }
+      Object.defineProperty(o, k2, desc);
+    } : function(o, m, k, k2) {
+      if (k2 === void 0) k2 = k;
+      o[k2] = m[k];
+    });
+    var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: true, value: v });
+    } : function(o, v) {
+      o["default"] = v;
+    });
+    var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
+      var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function(o2) {
+          var ar = [];
+          for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+          return ar;
+        };
+        return ownKeys(o);
+      };
+      return function(mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) {
+          for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        }
+        __setModuleDefault(result, mod);
+        return result;
+      };
+    }();
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.GenericPage = GenericPage;
+    var react_1 = __importStar(require_react_production_min());
+    var ComponentStore_1 = __importDefault(require_ComponentStore());
+    var Container_1 = require_Container();
+    var Text_1 = require_Text();
+    function GenericPage(props) {
+      const { componentId, presentation } = props;
+      const component = ComponentStore_1.default.getInstance().get(componentId);
+      (0, react_1.useEffect)(() => {
+        return () => {
+          if (componentId) {
+            ComponentStore_1.default.getInstance().remove(componentId);
+          }
+        };
+      }, [componentId]);
+      if (!component) {
+        return react_1.default.createElement(
+          Container_1.Container,
+          { alignment: "center" },
+          react_1.default.createElement(Text_1.Text, { text: "Content not found" })
+        );
+      }
+      return react_1.default.createElement(react_1.default.Fragment, null, component);
+    }
+  }
+});
+
 // ../fjs/fuickjs_framework/fuickjs/dist/router/router.js
 var require_router = __commonJS({
   "../fjs/fuickjs_framework/fuickjs/dist/router/router.js"(exports) {
     "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Router = void 0;
     exports.register = register;
     exports.match = match;
+    exports.getConfig = getConfig;
+    var react_1 = __importDefault(require_react_production_min());
+    var GenericPage_1 = require_GenericPage();
     var routes = {};
-    function register(path, componentFactory) {
+    var routeConfigs = {};
+    routes["/_generic_dialog"] = (args) => react_1.default.createElement(GenericPage_1.GenericPage, args);
+    function register(path, componentFactory, config) {
       routes[path] = componentFactory;
+      if (config) {
+        routeConfigs[path] = config;
+      }
     }
     function match(path) {
       return routes[path];
     }
+    function getConfig(path) {
+      return routeConfigs[path];
+    }
     exports.Router = {
       register,
-      match
+      match,
+      getConfig
     };
   }
 });
@@ -16917,6 +18007,7 @@ var require_page_render = __commonJS({
     exports.render = render;
     exports.destroy = destroy;
     exports.getItemDSL = getItemDSL;
+    exports.disposeItem = disposeItem;
     exports.elementToDsl = elementToDsl;
     exports.notifyLifecycle = notifyLifecycle;
     exports.getContainer = getContainer;
@@ -16927,6 +18018,7 @@ var require_page_render = __commonJS({
     var ErrorBoundary_1 = require_ErrorBoundary();
     var renderer = null;
     var globalErrorFallback = null;
+    var renderState = {};
     function setGlobalErrorFallback2(fallback) {
       globalErrorFallback = fallback;
     }
@@ -16936,17 +18028,19 @@ var require_page_render = __commonJS({
       renderer = (0, renderer_1.createRenderer)();
       return renderer;
     }
-    function render(pageId, path, params) {
-      const startTime = Date.now();
+    function doRender(pageId, path, params) {
+      const t0 = Date.now();
       const r = ensureRenderer();
-      console.log(`[JS Performance] render start for ${path}, pageId: ${pageId}`);
+      const t1 = Date.now();
       const factory = Router2.match(path);
+      const t2 = Date.now();
       let app;
       if (typeof factory === "function") {
         app = factory(params || {});
       } else {
         app = react_1.default.createElement("Column", { padding: 16, mainAxisAlignment: "center" }, react_1.default.createElement("Text", { text: `Route ${path} not found`, fontSize: 16, color: "#cc0000" }));
       }
+      const t3 = Date.now();
       const fallbackUI = globalErrorFallback || ((error) => react_1.default.createElement("Column", {
         mainAxisAlignment: "center",
         crossAxisAlignment: "center",
@@ -16968,16 +18062,43 @@ var require_page_render = __commonJS({
       const wrappedApp = react_1.default.createElement(PageContext_1.PageContext.Provider, { value: { pageId } }, react_1.default.createElement(ErrorBoundary_1.ErrorBoundary, {
         fallback: fallbackUI
       }, app));
+      const t4 = Date.now();
       r.update(wrappedApp, pageId);
-      console.log(`[JS Performance] render total cost for ${path}: ${Date.now() - startTime}ms`);
+      const t5 = Date.now();
+      console.log(`[Perf] page=${pageId} path=${path} total=${t5 - t0}ms | ensureRenderer=${t1 - t0}ms | router.match=${t2 - t1}ms | createElement=${t3 - t2}ms | wrapContext=${t4 - t3}ms | reconciler.update=${t5 - t4}ms`);
+    }
+    function render(pageId, path, params) {
+      const state = renderState[pageId];
+      if (state && state.rendering) {
+        state.pending = { path, params };
+        console.warn(`[page_render] coalescing render for pageId=${pageId}, path=${path}`);
+        return;
+      }
+      renderState[pageId] = { rendering: true };
+      try {
+        doRender(pageId, path, params);
+      } finally {
+        const next = renderState[pageId]?.pending;
+        if (next) {
+          renderState[pageId] = { rendering: false };
+          Promise.resolve().then(() => render(pageId, next.path, next.params));
+        } else {
+          delete renderState[pageId];
+        }
+      }
     }
     function destroy(pageId) {
       const r = ensureRenderer();
+      delete renderState[pageId];
       r.destroy(pageId);
     }
     function getItemDSL(pageId, refId, index) {
       const r = ensureRenderer();
       return r.getItemDSL(pageId, refId, index);
+    }
+    function disposeItem(pageId, refId, index) {
+      const r = ensureRenderer();
+      r.disposeItem(pageId, refId, index);
     }
     function elementToDsl(pageId, element) {
       const r = ensureRenderer();
@@ -17066,7 +18187,7 @@ var require_BaseWidget = __commonJS({
         this._internalRefId = (0, ids_1.refsId)();
       }
       get rawRefId() {
-        return this.props.refId || this.props.id?.toString() || this.props.key?.toString() || this._internalRefId;
+        return this.props.refId || this.props.key?.toString() || this._internalRefId;
       }
       get pageId() {
         return this.context?.pageId || 0;
@@ -17125,26 +18246,6 @@ var require_ScrollableBaseWidget = __commonJS({
   }
 });
 
-// ../fjs/fuickjs_framework/fuickjs/dist/widgets/Text.js
-var require_Text = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/widgets/Text.js"(exports) {
-    "use strict";
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Text = void 0;
-    var react_1 = __importDefault(require_react_production_min());
-    var Text5 = class extends react_1.default.Component {
-      render() {
-        return react_1.default.createElement("Text", { ...this.props, isBoundary: false });
-      }
-    };
-    exports.Text = Text5;
-    exports.default = Text5;
-  }
-});
-
 // ../fjs/fuickjs_framework/fuickjs/dist/widgets/Column.js
 var require_Column = __commonJS({
   "../fjs/fuickjs_framework/fuickjs/dist/widgets/Column.js"(exports) {
@@ -17155,13 +18256,13 @@ var require_Column = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Column = void 0;
     var react_1 = __importDefault(require_react_production_min());
-    var Column5 = class extends react_1.default.Component {
+    var Column6 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Column", { ...this.props });
       }
     };
-    exports.Column = Column5;
-    exports.default = Column5;
+    exports.Column = Column6;
+    exports.default = Column6;
   }
 });
 
@@ -17182,26 +18283,6 @@ var require_Row = __commonJS({
     };
     exports.Row = Row3;
     exports.default = Row3;
-  }
-});
-
-// ../fjs/fuickjs_framework/fuickjs/dist/widgets/Container.js
-var require_Container = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/widgets/Container.js"(exports) {
-    "use strict";
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Container = void 0;
-    var react_1 = __importDefault(require_react_production_min());
-    var Container5 = class extends react_1.default.Component {
-      render() {
-        return react_1.default.createElement("Container", { ...this.props });
-      }
-    };
-    exports.Container = Container5;
-    exports.default = Container5;
   }
 });
 
@@ -17333,6 +18414,7 @@ var require_ListView = __commonJS({
         return react_1.default.createElement("ListView", {
           ...rest,
           hasBuilder: !!this.props.itemBuilder,
+          stateful: this.props.stateful === true,
           refId: this.scopedRefId,
           isBoundary: true
         }, children);
@@ -17393,13 +18475,13 @@ var require_SizedBox = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SizedBox = void 0;
     var react_1 = __importDefault(require_react_production_min());
-    var SizedBox4 = class extends react_1.default.Component {
+    var SizedBox5 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("SizedBox", { ...this.props });
       }
     };
-    exports.SizedBox = SizedBox4;
-    exports.default = SizedBox4;
+    exports.SizedBox = SizedBox5;
+    exports.default = SizedBox5;
   }
 });
 
@@ -17413,13 +18495,13 @@ var require_Center = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Center = void 0;
     var react_1 = __importDefault(require_react_production_min());
-    var Center4 = class extends react_1.default.Component {
+    var Center5 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Center", { ...this.props, isBoundary: false });
       }
     };
-    exports.Center = Center4;
-    exports.default = Center4;
+    exports.Center = Center5;
+    exports.default = Center5;
   }
 });
 
@@ -17502,35 +18584,94 @@ var require_GestureDetector = __commonJS({
   }
 });
 
-// ../fjs/fuickjs_framework/fuickjs/dist/store/ComponentStore.js
-var require_ComponentStore = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/store/ComponentStore.js"(exports) {
+// ../fjs/fuickjs_framework/fuickjs/dist/runtime/runtime.js
+var require_runtime = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/runtime/runtime.js"(exports) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ComponentStore = class _ComponentStore {
-      constructor() {
-        this.components = /* @__PURE__ */ new Map();
-        this.counter = 0;
+    var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
+      if (k2 === void 0) k2 = k;
+      var desc = Object.getOwnPropertyDescriptor(m, k);
+      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() {
+          return m[k];
+        } };
       }
-      static getInstance() {
-        if (!_ComponentStore.instance) {
-          _ComponentStore.instance = new _ComponentStore();
+      Object.defineProperty(o, k2, desc);
+    } : function(o, m, k, k2) {
+      if (k2 === void 0) k2 = k;
+      o[k2] = m[k];
+    });
+    var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: true, value: v });
+    } : function(o, v) {
+      o["default"] = v;
+    });
+    var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
+      var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function(o2) {
+          var ar = [];
+          for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+          return ar;
+        };
+        return ownKeys(o);
+      };
+      return function(mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) {
+          for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
         }
-        return _ComponentStore.instance;
-      }
-      register(component) {
-        const id = `cmp_${Date.now()}_${this.counter++}`;
-        this.components.set(id, component);
-        return id;
-      }
-      get(id) {
-        return this.components.get(id);
-      }
-      remove(id) {
-        this.components.delete(id);
-      }
+        __setModuleDefault(result, mod);
+        return result;
+      };
+    }();
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Runtime = void 0;
+    exports.configure = configure;
+    exports.getRuntimeConfig = getRuntimeConfig;
+    exports.bindGlobals = bindGlobals;
+    var PageRender = __importStar(require_page_render());
+    var Timer = __importStar(require_timer());
+    var log_1 = require_log();
+    require_polyfill();
+    var _config = {
+      prewarm: false,
+      prewarmMs: 50
     };
-    exports.default = ComponentStore;
+    function configure(options) {
+      _config = { ..._config, ...options };
+      if (options.debug !== void 0) {
+        (0, log_1.setDebug)(options.debug);
+      }
+    }
+    function getRuntimeConfig() {
+      return _config;
+    }
+    function bindGlobals() {
+      Object.assign(globalThis, {
+        window: globalThis,
+        self: globalThis,
+        fuickjs: {
+          render: PageRender.render,
+          destroy: PageRender.destroy,
+          getItemDSL: PageRender.getItemDSL,
+          disposeItem: PageRender.disposeItem,
+          notifyLifecycle: PageRender.notifyLifecycle,
+          dispatchEvent: (eventObj, payload) => {
+            const r = PageRender.ensureRenderer();
+            r.dispatchEvent(eventObj, payload);
+          },
+          handleTimer: Timer.handleTimer,
+          configure,
+          getConfig: getRuntimeConfig
+        }
+      });
+    }
+    exports.Runtime = {
+      bindGlobals,
+      configure,
+      getConfig: getRuntimeConfig
+    };
   }
 });
 
@@ -17543,107 +18684,67 @@ var require_NavigatorService = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NavigatorService = void 0;
-    var react_1 = __importDefault(require_react_production_min());
     var ComponentStore_1 = __importDefault(require_ComponentStore());
+    var router_1 = require_router();
+    var runtime_1 = require_runtime();
     var NavigatorService3 = class _NavigatorService {
       static async push(path, params, pageId, rootNavigator, prewarmMs) {
-        if (prewarmMs != null && prewarmMs > 0) {
-          await _NavigatorService.prewarmAndWait(path, params, pageId, prewarmMs);
+        const routeConfig = (0, router_1.getConfig)(path);
+        const runtimeConfig = (0, runtime_1.getRuntimeConfig)();
+        let effectivePrewarmMs = prewarmMs ?? routeConfig?.prewarmMs;
+        if (!runtimeConfig.prewarm) {
+          effectivePrewarmMs = void 0;
+        } else {
+          if (!effectivePrewarmMs) {
+            effectivePrewarmMs = runtimeConfig.prewarmMs;
+          }
         }
-        return dartCallNative("Navigator.push", { path, params, pageId, rootNavigator });
+        return dartCallNativeAsync("Navigator.push", {
+          path,
+          params,
+          pageId,
+          rootNavigator,
+          prewarmMs: effectivePrewarmMs
+        });
       }
       static pushReplace(path, params, pageId, rootNavigator) {
         return dartCallNative("Navigator.pushReplace", { path, params, pageId, rootNavigator });
       }
-      static showModal(path, params, options, pageId, rootNavigator) {
-        const finalParams = {
-          ...params || {},
-          presentation: "bottomSheet",
-          minHeight: options?.minHeight,
-          maxHeight: options?.maxHeight
-        };
-        return this.push(path, finalParams, pageId, rootNavigator);
-      }
-      static showDialog(pathOrComponent, params, pageId, rootNavigator) {
-        if (react_1.default.isValidElement(pathOrComponent) || typeof pathOrComponent !== "string") {
-          return this.showComponentDialog("/_generic_dialog", pathOrComponent, params, pageId, rootNavigator);
-        }
-        const finalParams = {
-          ...params || {},
-          presentation: "dialog"
-        };
-        return this.push(pathOrComponent, finalParams, pageId, rootNavigator);
-      }
-      static showComponentDialog(path, component, params, pageId, rootNavigator) {
+      static showDialog(component, params, pageId, rootNavigator) {
         const id = ComponentStore_1.default.getInstance().register(component);
         const finalParams = {
           ...params || {},
           componentId: id,
           presentation: "dialog"
         };
-        return this.push(path, finalParams, pageId, rootNavigator);
+        return _NavigatorService.push("/_generic_dialog", finalParams, pageId, rootNavigator);
+      }
+      static showBottomSheet(component, options, pageId, rootNavigator) {
+        const id = ComponentStore_1.default.getInstance().register(component);
+        const finalParams = {
+          componentId: id,
+          presentation: "bottomSheet",
+          minHeight: options?.minHeight,
+          maxHeight: options?.maxHeight,
+          backgroundColor: options?.backgroundColor
+        };
+        return _NavigatorService.push("/_generic_dialog", finalParams, pageId, rootNavigator);
       }
       static pop(pageId, rootNavigator, result) {
         dartCallNative("Navigator.pop", { pageId, rootNavigator, result });
       }
-      /** 预热目标页面，fire & forget，不阻塞（用于 onTapDown） */
       static prewarm(path, params, pageId, prewarmMs = 50) {
         _NavigatorService.prewarmAndWait(path, params, pageId, prewarmMs).catch(() => {
         });
       }
-      /** 预热目标页面并等待结果（用于 push 内部） */
       static prewarmAndWait(path, params, pageId, prewarmMs = 50) {
         return dartCallNativeAsync("Navigator.prewarm", { path, params, pageId, prewarmMs });
       }
-      /** 取消预热，清理缓存（用于 onTapCancel） */
       static cancelPrewarm(path) {
         dartCallNative("Navigator.cancelPrewarm", { path });
       }
     };
     exports.NavigatorService = NavigatorService3;
-  }
-});
-
-// ../fjs/fuickjs_framework/fuickjs/dist/services/DialogService.js
-var require_DialogService = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/services/DialogService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.DialogService = void 0;
-    var page_render_1 = require_page_render();
-    var DialogService = class {
-      /**
-       * Shows a dialog with custom DSL content.
-       * @param content The ReactNode to show in the dialog.
-       * @param options Dialog options.
-       */
-      static async show(content, options = {}) {
-        const targetPageId = options.pageId ?? -1;
-        const dsl = (0, page_render_1.elementToDsl)(targetPageId, content);
-        return await dartCallNativeAsync("Dialog.show", {
-          dsl,
-          pageId: targetPageId,
-          barrierDismissible: options.barrierDismissible ?? true,
-          barrierColor: options.barrierColor
-        });
-      }
-      /**
-       * Dismisses the current dialog.
-       * @param result Optional result to return from the dialog.
-       */
-      static dismiss(result) {
-        dartCallNative("Dialog.dismiss", result);
-      }
-      /** 显示系统风格的确认框 */
-      static async showModal(options) {
-        return dartCallNativeAsync("Dialog.showModal", options);
-      }
-      /** 显示底部动作菜单，返回选中项索引，取消返回 -1 */
-      static async showActionSheet(options) {
-        return dartCallNativeAsync("Dialog.showActionSheet", options);
-      }
-    };
-    exports.DialogService = DialogService;
   }
 });
 
@@ -17690,38 +18791,30 @@ var require_hooks = __commonJS({
     }();
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.usePageId = usePageId;
-    exports.useNavigator = useNavigator;
-    exports.useDialog = useDialog;
+    exports.useNavigator = useNavigator2;
     exports.useVisible = useVisible;
     exports.useInvisible = useInvisible;
     exports.usePageConfig = usePageConfig;
+    exports.useRouteTransitionComplete = useRouteTransitionComplete;
     var react_1 = require_react_production_min();
     var PageContext_1 = require_PageContext();
     var PageRender = __importStar(require_page_render());
     var NavigatorService_1 = require_NavigatorService();
-    var DialogService_1 = require_DialogService();
+    var NativeEvent_1 = require_NativeEvent();
     function usePageId() {
       const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
       return pageId;
     }
-    function useNavigator() {
+    function useNavigator2() {
       const pageId = usePageId();
       return {
         push: (path, params, rootNavigator, prewarmMs) => NavigatorService_1.NavigatorService.push(path, params, pageId, rootNavigator, prewarmMs),
         pushReplace: (path, params, rootNavigator) => NavigatorService_1.NavigatorService.pushReplace(path, params, pageId, rootNavigator),
-        showModal: (path, params, options, rootNavigator) => NavigatorService_1.NavigatorService.showModal(path, params, options, pageId, rootNavigator),
-        showDialog: (pathOrComponent, params, rootNavigator) => NavigatorService_1.NavigatorService.showDialog(pathOrComponent, params, pageId, rootNavigator),
-        showComponentDialog: (path, component, params, rootNavigator) => NavigatorService_1.NavigatorService.showComponentDialog(path, component, params, pageId, rootNavigator),
+        showBottomSheet: (component, options, rootNavigator) => NavigatorService_1.NavigatorService.showBottomSheet(component, options, pageId, rootNavigator),
+        showDialog: (component, params, rootNavigator) => NavigatorService_1.NavigatorService.showDialog(component, params, pageId, rootNavigator),
         pop: (result) => {
           return NavigatorService_1.NavigatorService.pop(pageId, false, result);
         }
-      };
-    }
-    function useDialog() {
-      const pageId = usePageId();
-      return {
-        show: (content, options) => DialogService_1.DialogService.show(content, { ...options, pageId }),
-        dismiss: (result) => DialogService_1.DialogService.dismiss(result)
       };
     }
     function useVisible(callback) {
@@ -17767,6 +18860,20 @@ var require_hooks = __commonJS({
           }
         }
       }, [pageId, config.incrementalMode, config.dslCacheEnabled]);
+    }
+    function useRouteTransitionComplete(callback) {
+      const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
+      (0, react_1.useEffect)(() => {
+        const handler = (data) => {
+          if (data && typeof data === "object" && "pageId" in data) {
+            callback(data);
+          }
+        };
+        NativeEvent_1.NativeEvent.on("routeTransitionComplete", handler);
+        return () => {
+          NativeEvent_1.NativeEvent.off("routeTransitionComplete", handler);
+        };
+      }, [pageId, callback]);
     }
   }
 });
@@ -17935,13 +19042,13 @@ var require_Stack = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Stack = void 0;
     var react_1 = __importDefault(require_react_production_min());
-    var Stack3 = class extends react_1.default.Component {
+    var Stack4 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Stack", { ...this.props });
       }
     };
-    exports.Stack = Stack3;
-    exports.default = Stack3;
+    exports.Stack = Stack4;
+    exports.default = Stack4;
   }
 });
 
@@ -17955,13 +19062,13 @@ var require_Positioned = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Positioned = void 0;
     var react_1 = __importDefault(require_react_production_min());
-    var Positioned3 = class extends react_1.default.Component {
+    var Positioned4 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Positioned", { ...this.props, isBoundary: false });
       }
     };
-    exports.Positioned = Positioned3;
-    exports.default = Positioned3;
+    exports.Positioned = Positioned4;
+    exports.default = Positioned4;
   }
 });
 
@@ -18002,6 +19109,28 @@ var require_CircularProgressIndicator = __commonJS({
     };
     exports.CircularProgressIndicator = CircularProgressIndicator;
     exports.default = CircularProgressIndicator;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/widgets/LazyView.js
+var require_LazyView = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/widgets/LazyView.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.LazyView = LazyView;
+    var react_1 = __importDefault(require_react_production_min());
+    var index_1 = require_dist();
+    function LazyView({ load, fallback, builder }) {
+      const isLoaded = load;
+      if (!isLoaded) {
+        return fallback || react_1.default.createElement(index_1.SizedBox, { width: 0, height: 0 });
+      }
+      return builder();
+    }
+    exports.default = LazyView;
   }
 });
 
@@ -18548,13 +19677,13 @@ var require_AnimatedOpacity = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedOpacity = void 0;
     var react_1 = __importDefault(require_react_production_min());
-    var AnimatedOpacity2 = class extends react_1.default.Component {
+    var AnimatedOpacity4 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedOpacity", { ...this.props });
       }
     };
-    exports.AnimatedOpacity = AnimatedOpacity2;
-    exports.default = AnimatedOpacity2;
+    exports.AnimatedOpacity = AnimatedOpacity4;
+    exports.default = AnimatedOpacity4;
   }
 });
 
@@ -18628,13 +19757,13 @@ var require_AnimatedScale = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedScale = void 0;
     var react_1 = __importDefault(require_react_production_min());
-    var AnimatedScale2 = class extends react_1.default.Component {
+    var AnimatedScale4 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedScale", { ...this.props });
       }
     };
-    exports.AnimatedScale = AnimatedScale2;
-    exports.default = AnimatedScale2;
+    exports.AnimatedScale = AnimatedScale4;
+    exports.default = AnimatedScale4;
   }
 });
 
@@ -18697,6 +19826,28 @@ var require_AlertDialog = __commonJS({
     };
     exports.AlertDialog = AlertDialog;
     exports.default = AlertDialog;
+  }
+});
+
+// ../fjs/fuickjs_framework/fuickjs/dist/widgets/Dialog.js
+var require_Dialog = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/widgets/Dialog.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Dialog = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var BaseWidget_1 = require_BaseWidget();
+    var Dialog = class extends BaseWidget_1.BaseWidget {
+      render() {
+        const { child, children, ...rest } = this.props;
+        const content = child || children;
+        return react_1.default.createElement("Dialog", { ...rest }, content);
+      }
+    };
+    exports.Dialog = Dialog;
   }
 });
 
@@ -18847,11 +19998,47 @@ var require_CustomPaint = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.CustomPaint = exports.CustomPainter = void 0;
+    exports.CustomPaint = exports.CustomPainter = exports.Path = void 0;
     var react_1 = __importDefault(require_react_production_min());
     var BaseWidget_1 = require_BaseWidget();
     var controllerIdCounter = 1;
-    var CustomPainter3 = class {
+    var Path = class {
+      constructor() {
+        this.operations = [];
+      }
+      moveTo(x, y) {
+        this.operations.push({ type: "moveTo", x, y });
+      }
+      lineTo(x, y) {
+        this.operations.push({ type: "lineTo", x, y });
+      }
+      quadraticBezierTo(x1, y1, x2, y2) {
+        this.operations.push({ type: "quadraticBezierTo", x1, y1, x2, y2 });
+      }
+      cubicTo(x1, y1, x2, y2, x3, y3) {
+        this.operations.push({ type: "cubicTo", x1, y1, x2, y2, x3, y3 });
+      }
+      arcTo(rect, startAngle, sweepAngle, forceMoveTo) {
+        this.operations.push({ type: "arcTo", rect, startAngle, sweepAngle, forceMoveTo: forceMoveTo ?? true });
+      }
+      addRect(rect) {
+        this.operations.push({ type: "addRect", rect });
+      }
+      addOval(rect) {
+        this.operations.push({ type: "addOval", rect });
+      }
+      addRRect(rrect) {
+        this.operations.push({ type: "addRRect", rrect });
+      }
+      close() {
+        this.operations.push({ type: "close" });
+      }
+      serialize() {
+        return { operations: this.operations };
+      }
+    };
+    exports.Path = Path;
+    var CustomPainter4 = class {
       constructor(paintCallback) {
         this.commands = [];
         this.scopedRefId = null;
@@ -18903,6 +20090,9 @@ var require_CustomPaint = __commonJS({
       drawRRect(rrect, paint) {
         this.commands.push({ type: "drawRRect", rrect, paint });
       }
+      drawPath(path, paint) {
+        this.commands.push({ type: "drawPath", path: path.serialize(), paint });
+      }
       serialize() {
         return this.commands;
       }
@@ -18925,8 +20115,8 @@ var require_CustomPaint = __commonJS({
         this.commands = [];
       }
     };
-    exports.CustomPainter = CustomPainter3;
-    var CustomPaint3 = class extends BaseWidget_1.BaseWidget {
+    exports.CustomPainter = CustomPainter4;
+    var CustomPaint4 = class extends BaseWidget_1.BaseWidget {
       constructor(props) {
         super(props);
         this.state = { ...this.state, repaintTick: 0 };
@@ -18972,152 +20162,7 @@ var require_CustomPaint = __commonJS({
         }, child);
       }
     };
-    exports.CustomPaint = CustomPaint3;
-  }
-});
-
-// ../fjs/fuickjs_framework/fuickjs/dist/widgets/VideoPlayer.js
-var require_VideoPlayer = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/widgets/VideoPlayer.js"(exports) {
-    "use strict";
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.VideoPlayer = void 0;
-    var react_1 = __importDefault(require_react_production_min());
-    var BaseWidget_1 = require_BaseWidget();
-    var VideoPlayer = class extends BaseWidget_1.BaseWidget {
-      get widgetType() {
-        return "VideoPlayer";
-      }
-      play() {
-        this.callNativeCommand("play");
-      }
-      pause() {
-        this.callNativeCommand("pause");
-      }
-      stop() {
-        this.callNativeCommand("stop");
-      }
-      seekTo(position) {
-        this.callNativeCommand("seekTo", { position });
-      }
-      setVolume(volume) {
-        this.callNativeCommand("setVolume", { volume });
-      }
-      setLooping(looping) {
-        this.callNativeCommand("setLooping", { looping });
-      }
-      setPlaybackSpeed(speed) {
-        this.callNativeCommand("setPlaybackSpeed", { speed });
-      }
-      render() {
-        return react_1.default.createElement("VideoPlayer", {
-          ...this.props,
-          refId: this.scopedRefId
-        });
-      }
-    };
-    exports.VideoPlayer = VideoPlayer;
-  }
-});
-
-// ../fjs/fuickjs_framework/fuickjs/dist/widgets/VisibilityDetector.js
-var require_VisibilityDetector = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/widgets/VisibilityDetector.js"(exports) {
-    "use strict";
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.VisibilityDetector = void 0;
-    var react_1 = __importDefault(require_react_production_min());
-    var BaseWidget_1 = require_BaseWidget();
-    var VisibilityDetector = class extends BaseWidget_1.BaseWidget {
-      get widgetType() {
-        return "VisibilityDetector";
-      }
-      render() {
-        return react_1.default.createElement("VisibilityDetector", {
-          ...this.props,
-          refId: this.scopedRefId
-        }, this.props.children);
-      }
-    };
-    exports.VisibilityDetector = VisibilityDetector;
-  }
-});
-
-// ../fjs/fuickjs_framework/fuickjs/dist/widgets/GenericPage.js
-var require_GenericPage = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/widgets/GenericPage.js"(exports) {
-    "use strict";
-    var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
-      if (k2 === void 0) k2 = k;
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() {
-          return m[k];
-        } };
-      }
-      Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
-      if (k2 === void 0) k2 = k;
-      o[k2] = m[k];
-    });
-    var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
-      Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
-      o["default"] = v;
-    });
-    var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
-      var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function(o2) {
-          var ar = [];
-          for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
-          return ar;
-        };
-        return ownKeys(o);
-      };
-      return function(mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) {
-          for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        }
-        __setModuleDefault(result, mod);
-        return result;
-      };
-    }();
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.GenericPage = GenericPage;
-    var react_1 = __importStar(require_react_production_min());
-    var ComponentStore_1 = __importDefault(require_ComponentStore());
-    var Container_1 = require_Container();
-    var Text_1 = require_Text();
-    function GenericPage(props) {
-      const { componentId } = props;
-      const component = ComponentStore_1.default.getInstance().get(componentId);
-      (0, react_1.useEffect)(() => {
-        return () => {
-          if (componentId) {
-            ComponentStore_1.default.getInstance().remove(componentId);
-          }
-        };
-      }, [componentId]);
-      if (!component) {
-        return react_1.default.createElement(
-          Container_1.Container,
-          { alignment: "center" },
-          react_1.default.createElement(Text_1.Text, { text: "Content not found" })
-        );
-      }
-      return react_1.default.createElement(react_1.default.Fragment, null, component);
-    }
+    exports.CustomPaint = CustomPaint4;
   }
 });
 
@@ -19443,6 +20488,29 @@ var require_NestedScrollView = __commonJS({
   }
 });
 
+// ../fjs/fuickjs_framework/fuickjs/dist/widgets/Overlay.js
+var require_Overlay = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/widgets/Overlay.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Overlay = void 0;
+    var react_1 = __importDefault(require_react_production_min());
+    var Overlay = class extends react_1.default.Component {
+      render() {
+        return react_1.default.createElement("Overlay", {
+          visible: this.props.visible,
+          overlayKey: this.props.overlayKey,
+          isBoundary: true
+        }, this.props.children);
+      }
+    };
+    exports.Overlay = Overlay;
+  }
+});
+
 // ../fjs/fuickjs_framework/fuickjs/dist/widgets/index.js
 var require_widgets = __commonJS({
   "../fjs/fuickjs_framework/fuickjs/dist/widgets/index.js"(exports) {
@@ -19492,6 +20560,7 @@ var require_widgets = __commonJS({
     __exportStar(require_Positioned(), exports);
     __exportStar(require_Opacity(), exports);
     __exportStar(require_CircularProgressIndicator(), exports);
+    __exportStar(require_LazyView(), exports);
     __exportStar(require_SafeArea(), exports);
     __exportStar(require_Scaffold(), exports);
     __exportStar(require_AppBar(), exports);
@@ -19522,6 +20591,7 @@ var require_widgets = __commonJS({
     __exportStar(require_AnimatedRotation(), exports);
     __exportStar(require_AnimatedSlide(), exports);
     __exportStar(require_AlertDialog(), exports);
+    __exportStar(require_Dialog(), exports);
     __exportStar(require_RotationTransition(), exports);
     __exportStar(require_ScaleTransition(), exports);
     __exportStar(require_SlideTransition(), exports);
@@ -19530,8 +20600,6 @@ var require_widgets = __commonJS({
     __exportStar(require_RepaintBoundary(), exports);
     __exportStar(require_Visibility(), exports);
     __exportStar(require_CustomPaint(), exports);
-    __exportStar(require_VideoPlayer(), exports);
-    __exportStar(require_VisibilityDetector(), exports);
     __exportStar(require_GenericPage(), exports);
     __exportStar(require_PointerListener(), exports);
     __exportStar(require_Material(), exports);
@@ -19549,6 +20617,7 @@ var require_widgets = __commonJS({
     __exportStar(require_AnimatedSwitcher(), exports);
     __exportStar(require_AnimatedCrossFade(), exports);
     __exportStar(require_NestedScrollView(), exports);
+    __exportStar(require_Overlay(), exports);
   }
 });
 
@@ -19602,202 +20671,6 @@ var require_hooks2 = __commonJS({
   }
 });
 
-// ../fjs/fuickjs_framework/fuickjs/dist/runtime/runtime.js
-var require_runtime = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/runtime/runtime.js"(exports) {
-    "use strict";
-    var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
-      if (k2 === void 0) k2 = k;
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() {
-          return m[k];
-        } };
-      }
-      Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
-      if (k2 === void 0) k2 = k;
-      o[k2] = m[k];
-    });
-    var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
-      Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
-      o["default"] = v;
-    });
-    var __importStar = exports && exports.__importStar || /* @__PURE__ */ function() {
-      var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function(o2) {
-          var ar = [];
-          for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
-          return ar;
-        };
-        return ownKeys(o);
-      };
-      return function(mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) {
-          for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        }
-        __setModuleDefault(result, mod);
-        return result;
-      };
-    }();
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Runtime = void 0;
-    exports.bindGlobals = bindGlobals;
-    var PageRender = __importStar(require_page_render());
-    var Timer = __importStar(require_timer());
-    require_polyfill();
-    function bindGlobals() {
-      Object.assign(globalThis, {
-        window: globalThis,
-        self: globalThis,
-        fuickjs: {
-          render: PageRender.render,
-          destroy: PageRender.destroy,
-          getItemDSL: PageRender.getItemDSL,
-          notifyLifecycle: PageRender.notifyLifecycle,
-          dispatchEvent: (eventObj, payload) => {
-            const r = PageRender.ensureRenderer();
-            r.dispatchEvent(eventObj, payload);
-          },
-          handleTimer: Timer.handleTimer
-        }
-      });
-    }
-    exports.Runtime = {
-      bindGlobals
-    };
-  }
-});
-
-// ../fjs/fuickjs_framework/fuickjs/dist/runtime/Fuick.js
-var require_Fuick = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/runtime/Fuick.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Fuick = void 0;
-    exports.Fuick = {
-      /**
-       * Expose a JS object to Flutter.
-       * The object will be attached to globalThis with the given name,
-       * allowing Flutter to invoke its methods using `ctx.invoke(name, method, args)`.
-       *
-       * @param name The name to expose the object as
-       * @param obj The object instance
-       */
-      expose(name, obj) {
-        if (!name) {
-          console.error("[Fuick] Expose name cannot be empty");
-          return;
-        }
-        const globalObj = globalThis;
-        if (globalObj[name]) {
-          console.warn(`[Fuick] Overwriting existing global object: ${name}`);
-        }
-        globalObj[name] = obj;
-      }
-    };
-  }
-});
-
-// ../fjs/fuickjs_framework/fuickjs/dist/services/NativeEventService.js
-var require_NativeEventService = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/services/NativeEventService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.NativeEventService = void 0;
-    var NativeEventService = class {
-      static emit(event, data) {
-        dartCallNative("NativeEvent.emit", [event, data]);
-      }
-    };
-    exports.NativeEventService = NativeEventService;
-  }
-});
-
-// ../fjs/fuickjs_framework/fuickjs/dist/runtime/NativeEvent.js
-var require_NativeEvent = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/runtime/NativeEvent.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.NativeEvent = void 0;
-    var NativeEventService_1 = require_NativeEventService();
-    var Fuick_1 = require_Fuick();
-    var NativeEventImpl = class {
-      constructor() {
-        this.listeners = /* @__PURE__ */ new Map();
-      }
-      /**
-       * 监听事件
-       * @param event 事件名称
-       * @param callback 回调函数
-       * @returns 取消监听的函数
-       */
-      on(event, callback) {
-        if (!this.listeners.has(event)) {
-          this.listeners.set(event, []);
-        }
-        this.listeners.get(event).push(callback);
-        return () => this.off(event, callback);
-      }
-      /**
-       * 移除事件监听
-       * @param event 事件名称
-       * @param callback 回调函数
-       */
-      off(event, callback) {
-        const callbacks = this.listeners.get(event);
-        if (callbacks) {
-          const index = callbacks.indexOf(callback);
-          if (index > -1) {
-            callbacks.splice(index, 1);
-          }
-          if (callbacks.length === 0) {
-            this.listeners.delete(event);
-          }
-        }
-      }
-      /**
-       * 发送事件（同时发送给 JS 内部监听器和 Native）
-       * @param event 事件名称
-       * @param data 事件数据
-       */
-      emit(event, data) {
-        NativeEventService_1.NativeEventService.emit(event, data);
-        this.dispatchLocal(event, data);
-      }
-      /**
-       * 仅触发本地监听器（不发送给 Native）
-       * 主要供 Native 调用 receive 时使用
-       */
-      dispatchLocal(event, data) {
-        const callbacks = this.listeners.get(event);
-        if (callbacks) {
-          [...callbacks].forEach((callback) => {
-            try {
-              callback(data);
-            } catch (e) {
-              console.error(`[NativeEvent] Error in listener for event "${event}":`, e);
-            }
-          });
-        }
-      }
-      /**
-       * 接收来自 Native 的事件
-       * @param event 事件名称
-       * @param data 事件数据
-       */
-      receive(event, data) {
-        this.dispatchLocal(event, data);
-      }
-    };
-    exports.NativeEvent = new NativeEventImpl();
-    Fuick_1.Fuick.expose("NativeEvent", exports.NativeEvent);
-  }
-});
-
 // ../fjs/fuickjs_framework/fuickjs/dist/runtime/index.js
 var require_runtime2 = __commonJS({
   "../fjs/fuickjs_framework/fuickjs/dist/runtime/index.js"(exports) {
@@ -19843,28 +20716,30 @@ var require_ToastService = __commonJS({
   }
 });
 
-// ../fjs/fuickjs_framework/fuickjs/dist/services/OverlayService.js
-var require_OverlayService = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/services/OverlayService.js"(exports) {
+// ../fjs/fuickjs_framework/fuickjs/dist/services/DialogService.js
+var require_DialogService = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/services/DialogService.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.OverlayService = void 0;
-    var page_render_1 = require_page_render();
-    var OverlayService = class {
-      static show(key, element, pageId) {
-        const targetPageId = pageId ?? -1;
-        const dsl = (0, page_render_1.elementToDsl)(targetPageId, element);
-        dartCallNative("Overlay.show", { key, dsl, pageId: targetPageId });
+    exports.DialogService = void 0;
+    var DialogService = class {
+      /**
+       * Dismisses the current dialog.
+       * @param result Optional result to return from the dialog.
+       */
+      static dismiss(result) {
+        dartCallNative("Dialog.dismiss", result);
       }
-      static hide(key) {
-        dartCallNative("Overlay.hide", key);
+      /** 显示系统风格的确认框 */
+      static async showModal(options) {
+        return dartCallNativeAsync("Dialog.showModal", options);
       }
-      /** 显示 loading 遮罩（不需要 DSL） */
-      static showLoading(key, message) {
-        dartCallNative("Overlay.show", { key, type: "loading", message: message ?? "" });
+      /** 显示底部动作菜单，返回选中项索引，取消返回 -1 */
+      static async showActionSheet(options) {
+        return dartCallNativeAsync("Dialog.showActionSheet", options);
       }
     };
-    exports.OverlayService = OverlayService;
+    exports.DialogService = DialogService;
   }
 });
 
@@ -20057,32 +20932,18 @@ var require_FileSystemService = __commonJS({
   }
 });
 
-// ../fjs/fuickjs_framework/fuickjs/dist/services/MediaService.js
-var require_MediaService = __commonJS({
-  "../fjs/fuickjs_framework/fuickjs/dist/services/MediaService.js"(exports) {
+// ../fjs/fuickjs_framework/fuickjs/dist/services/SoundService.js
+var require_SoundService = __commonJS({
+  "../fjs/fuickjs_framework/fuickjs/dist/services/SoundService.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.MediaService = void 0;
-    var MediaService = class {
-      static async chooseImage(count, sourceType) {
-        return await dartCallNativeAsync("Media.chooseImage", {
-          count: count ?? 1,
-          sourceType: sourceType ?? ["album", "camera"]
-        });
-      }
-      static async chooseVideo(sourceType) {
-        return await dartCallNativeAsync("Media.chooseVideo", {
-          sourceType: sourceType ?? ["album", "camera"]
-        });
-      }
-      static async previewImage(urls, current) {
-        await dartCallNativeAsync("Media.previewImage", {
-          urls,
-          current: current ?? 0
-        });
+    exports.SoundService = void 0;
+    var SoundService = class {
+      static play(type) {
+        dartCallNative("Sound.play", { type: type ?? "move" });
       }
     };
-    exports.MediaService = MediaService;
+    exports.SoundService = SoundService;
   }
 });
 
@@ -20107,7 +20968,7 @@ var require_services = __commonJS({
       for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.MediaService = exports.UIService = exports.NavigatorService = exports.NetworkService = exports.DeviceInfoService = exports.LocalStorageService = exports.PickerService = exports.OverlayService = exports.DialogService = exports.ToastService = void 0;
+    exports.SoundService = exports.UIService = exports.NavigatorService = exports.NetworkService = exports.DeviceInfoService = exports.LocalStorageService = exports.PickerService = exports.DialogService = exports.ToastService = void 0;
     var ToastService_1 = require_ToastService();
     Object.defineProperty(exports, "ToastService", { enumerable: true, get: function() {
       return ToastService_1.ToastService;
@@ -20115,10 +20976,6 @@ var require_services = __commonJS({
     var DialogService_1 = require_DialogService();
     Object.defineProperty(exports, "DialogService", { enumerable: true, get: function() {
       return DialogService_1.DialogService;
-    } });
-    var OverlayService_1 = require_OverlayService();
-    Object.defineProperty(exports, "OverlayService", { enumerable: true, get: function() {
-      return OverlayService_1.OverlayService;
     } });
     var PickerService_1 = require_PickerService();
     Object.defineProperty(exports, "PickerService", { enumerable: true, get: function() {
@@ -20146,9 +21003,9 @@ var require_services = __commonJS({
     Object.defineProperty(exports, "UIService", { enumerable: true, get: function() {
       return UIService_1.UIService;
     } });
-    var MediaService_1 = require_MediaService();
-    Object.defineProperty(exports, "MediaService", { enumerable: true, get: function() {
-      return MediaService_1.MediaService;
+    var SoundService_1 = require_SoundService();
+    Object.defineProperty(exports, "SoundService", { enumerable: true, get: function() {
+      return SoundService_1.SoundService;
     } });
   }
 });
@@ -20226,8 +21083,8 @@ var require_dist = __commonJS({
 });
 
 // src/index.ts
-var import_react4 = __toESM(require_react_production_min());
-var import_fuickjs4 = __toESM(require_dist());
+var import_react5 = __toESM(require_react_production_min());
+var import_fuickjs5 = __toESM(require_dist());
 
 // src/pages/HomePage.tsx
 var import_react = __toESM(require_react_production_min());
@@ -20237,6 +21094,7 @@ var AI_LEVELS = [1, 2, 3, 4, 5];
 function HomePage() {
   const [tab, setTab] = (0, import_react.useState)("main");
   const [aiLevel, setAiLevel] = (0, import_react.useState)(3);
+  const [playerColor, setPlayerColor] = (0, import_react.useState)("red");
   const [lanAction, setLanAction] = (0, import_react.useState)("host");
   const [lanInputIp, setLanInputIp] = (0, import_react.useState)("");
   const [screenWidth, setScreenWidth] = (0, import_react.useState)(0);
@@ -20271,7 +21129,7 @@ function HomePage() {
       label: "\u53CC\u4EBA\u5BF9\u6218",
       subtitle: "\u4E0E\u597D\u53CB\u540C\u5C4F\u5BF9\u5F08",
       color: "#4A6FA5",
-      onTap: () => startGame({ mode: "pvp" })
+      onTap: () => startGame({ mode: "pvp", variant: "standard" })
     }
   ), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 16 }), /* @__PURE__ */ import_react.default.createElement(
     ModeButton,
@@ -20280,6 +21138,22 @@ function HomePage() {
       subtitle: "\u4E0E\u5C40\u57DF\u7F51\u5185\u597D\u53CB\u5BF9\u5F08",
       color: "#2E7D32",
       onTap: () => setTab("lan")
+    }
+  ), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 16 }), /* @__PURE__ */ import_react.default.createElement(
+    ModeButton,
+    {
+      label: "\u7FFB\u7FFB\u68CB",
+      subtitle: "\u6697\u68CB\u7FFB\u9762\uFF0C\u4EE5\u5927\u5403\u5C0F",
+      color: "#6A1B9A",
+      onTap: () => setTab("flip")
+    }
+  ), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 16 }), /* @__PURE__ */ import_react.default.createElement(
+    ModeButton,
+    {
+      label: "\u63ED\u68CB",
+      subtitle: "\u6697\u5B50\u6309\u4F4D\u8D70\uFF0C\u7FFB\u9762\u663E\u771F\u8EAB",
+      color: "#00695C",
+      onTap: () => setTab("reveal")
     }
   ));
   const PvcMenu = /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Column, { mainAxisAlignment: "start", crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react.default.createElement(BackHeader, { title: "\u4EBA\u673A\u5BF9\u6218", onBack: () => setTab("main") }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { padding: { horizontal: 0 } }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u9009\u62E9 AI \u96BE\u5EA6", fontSize: 16, color: "#666" })), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 12 }), AI_LEVELS.map((level) => {
@@ -20305,12 +21179,122 @@ function HomePage() {
         }
       ), selected && /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u2713", fontSize: 16, color: "#8B4513", fontWeight: "bold" }))
     ));
+  }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { padding: { horizontal: 0 } }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u9009\u62E9\u6267\u5B50", fontSize: 16, color: "#666" })), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 12 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Row, { mainAxisAlignment: "spaceEvenly", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.GestureDetector, { onTap: () => setPlayerColor("red") }, /* @__PURE__ */ import_react.default.createElement(
+    import_fuickjs.Container,
+    {
+      width: 72,
+      height: 72,
+      decoration: {
+        color: playerColor === "red" ? "#F5EEE5" : "#FFFFFF",
+        borderRadius: 12,
+        border: { color: playerColor === "red" ? "#DC143C" : "#DDD", width: playerColor === "red" ? 2 : 1 }
+      }
+    },
+    /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { width: 36, height: 36, decoration: { color: "#DC143C", borderRadius: 18, border: { color: "#8B0000", width: 1 } } }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Center, null, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u5E05", fontSize: 16, color: "#FFF", fontWeight: "bold" }))), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 4 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u6267\u7EA2", fontSize: 11, color: playerColor === "red" ? "#DC143C" : "#888" }))
+  )), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.GestureDetector, { onTap: () => setPlayerColor("black") }, /* @__PURE__ */ import_react.default.createElement(
+    import_fuickjs.Container,
+    {
+      width: 72,
+      height: 72,
+      decoration: {
+        color: playerColor === "black" ? "#F5EEE5" : "#FFFFFF",
+        borderRadius: 12,
+        border: { color: playerColor === "black" ? "#1A1A1A" : "#DDD", width: playerColor === "black" ? 2 : 1 }
+      }
+    },
+    /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { width: 36, height: 36, decoration: { color: "#1A1A1A", borderRadius: 18, border: { color: "#000", width: 1 } } }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Center, null, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u5C06", fontSize: 16, color: "#FFF", fontWeight: "bold" }))), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 4 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u6267\u9ED1", fontSize: 11, color: playerColor === "black" ? "#1A1A1A" : "#888" }))
+  ))), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(
+    import_fuickjs.Button,
+    {
+      text: "\u5F00\u59CB\u6E38\u620F",
+      onTap: () => startGame({ mode: "pvc", variant: "standard", aiLevel, playerColor }),
+      backgroundColor: "#8B4513",
+      textColor: "#FFF",
+      borderRadius: 10,
+      paddingV: 16
+    }
+  ));
+  const FlipMenu = /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Column, { mainAxisAlignment: "start", crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react.default.createElement(BackHeader, { title: "\u7FFB\u7FFB\u68CB", onBack: () => setTab("main") }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { padding: { horizontal: 0 }, margin: { bottom: 16 } }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u6240\u6709\u68CB\u5B50\u6697\u9762\u671D\u4E0B\u968F\u673A\u6446\u653E\uFF0C\u7FFB\u68CB\u5B9A\u8272\uFF0C\u5927\u5403\u5C0F\uFF0C\u5175\u5403\u5C06", fontSize: 14, color: "#666" })), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 8 }), /* @__PURE__ */ import_react.default.createElement(
+    ModeButton,
+    {
+      label: "\u53CC\u4EBA\u5BF9\u6218",
+      subtitle: "\u540C\u5C4F\u7FFB\u68CB\u5BF9\u5F08",
+      color: "#6A1B9A",
+      onTap: () => startGame({ mode: "pvp", variant: "flip" })
+    }
+  ), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 16 }), /* @__PURE__ */ import_react.default.createElement(
+    ModeButton,
+    {
+      label: "\u4EBA\u673A\u5BF9\u6218",
+      subtitle: "\u4E0E AI \u7FFB\u68CB\u5BF9\u5F08",
+      color: "#8E24AA",
+      onTap: () => setTab("flipPvc")
+    }
+  ));
+  const FlipPvcMenu = /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Column, { mainAxisAlignment: "start", crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react.default.createElement(BackHeader, { title: "\u7FFB\u7FFB\u68CB \xB7 \u4EBA\u673A", onBack: () => setTab("flip") }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { padding: { horizontal: 0 } }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u9009\u62E9 AI \u96BE\u5EA6", fontSize: 16, color: "#666" })), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 12 }), AI_LEVELS.map((level) => {
+    const selected = aiLevel === level;
+    return /* @__PURE__ */ import_react.default.createElement(import_fuickjs.GestureDetector, { key: level, onTap: () => setAiLevel(level) }, /* @__PURE__ */ import_react.default.createElement(
+      import_fuickjs.Container,
+      {
+        margin: { bottom: 8 },
+        padding: { horizontal: 20, vertical: 16 },
+        decoration: {
+          color: selected ? "#F3E5F5" : "#FFFFFF",
+          borderRadius: 10,
+          border: { color: selected ? "#6A1B9A" : "#DDD", width: selected ? 2 : 1 }
+        }
+      },
+      /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: AI_LEVEL_LABEL[level], fontSize: 16, color: selected ? "#6A1B9A" : "#333", fontWeight: selected ? "bold" : "normal" }), selected && /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u2713", fontSize: 16, color: "#6A1B9A", fontWeight: "bold" }))
+    ));
   }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(
     import_fuickjs.Button,
     {
       text: "\u5F00\u59CB\u6E38\u620F",
-      onTap: () => startGame({ mode: "pvc", aiLevel }),
-      backgroundColor: "#8B4513",
+      onTap: () => startGame({ mode: "pvc", variant: "flip", aiLevel }),
+      backgroundColor: "#6A1B9A",
+      textColor: "#FFF",
+      borderRadius: 10,
+      paddingV: 16
+    }
+  ));
+  const RevealMenu = /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Column, { mainAxisAlignment: "start", crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react.default.createElement(BackHeader, { title: "\u63ED\u68CB", onBack: () => setTab("main") }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { padding: { horizontal: 0 }, margin: { bottom: 16 } }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u68CB\u5B50\u6697\u9762\u671D\u4E0B\uFF0C\u6697\u5B50\u6309\u4F4D\u7F6E\u8D70\u6CD5\u79FB\u52A8\uFF0C\u8D70\u540E\u7FFB\u5F00\u663E\u771F\u8EAB", fontSize: 14, color: "#666" })), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 8 }), /* @__PURE__ */ import_react.default.createElement(
+    ModeButton,
+    {
+      label: "\u53CC\u4EBA\u5BF9\u6218",
+      subtitle: "\u540C\u5C4F\u63ED\u68CB\u5BF9\u5F08",
+      color: "#00695C",
+      onTap: () => startGame({ mode: "pvp", variant: "reveal" })
+    }
+  ), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 16 }), /* @__PURE__ */ import_react.default.createElement(
+    ModeButton,
+    {
+      label: "\u4EBA\u673A\u5BF9\u6218",
+      subtitle: "\u4E0E AI \u63ED\u68CB\u5BF9\u5F08",
+      color: "#00897B",
+      onTap: () => setTab("revealPvc")
+    }
+  ));
+  const RevealPvcMenu = /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Column, { mainAxisAlignment: "start", crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react.default.createElement(BackHeader, { title: "\u63ED\u68CB \xB7 \u4EBA\u673A", onBack: () => setTab("reveal") }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { padding: { horizontal: 0 } }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u9009\u62E9 AI \u96BE\u5EA6", fontSize: 16, color: "#666" })), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 12 }), AI_LEVELS.map((level) => {
+    const selected = aiLevel === level;
+    return /* @__PURE__ */ import_react.default.createElement(import_fuickjs.GestureDetector, { key: level, onTap: () => setAiLevel(level) }, /* @__PURE__ */ import_react.default.createElement(
+      import_fuickjs.Container,
+      {
+        margin: { bottom: 8 },
+        padding: { horizontal: 20, vertical: 16 },
+        decoration: {
+          color: selected ? "#E0F2F1" : "#FFFFFF",
+          borderRadius: 10,
+          border: { color: selected ? "#00695C" : "#DDD", width: selected ? 2 : 1 }
+        }
+      },
+      /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: AI_LEVEL_LABEL[level], fontSize: 16, color: selected ? "#00695C" : "#333", fontWeight: selected ? "bold" : "normal" }), selected && /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Text, { text: "\u2713", fontSize: 16, color: "#00695C", fontWeight: "bold" }))
+    ));
+  }), /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SizedBox, { height: 24 }), /* @__PURE__ */ import_react.default.createElement(
+    import_fuickjs.Button,
+    {
+      text: "\u5F00\u59CB\u6E38\u620F",
+      onTap: () => startGame({ mode: "pvc", variant: "reveal", aiLevel }),
+      backgroundColor: "#00695C",
       textColor: "#FFF",
       borderRadius: 10,
       paddingV: 16
@@ -20347,7 +21331,7 @@ function HomePage() {
         keyboardType: "url",
         textInputAction: "go",
         onSubmitted: (v) => {
-          if (v.trim()) startGame({ mode: "lan", lanAction: "join", lanIp: v.trim() });
+          if (v.trim()) startGame({ mode: "lan", variant: "standard", lanAction: "join", lanIp: v.trim() });
         }
       }
     )))
@@ -20357,7 +21341,7 @@ function HomePage() {
       text: lanAction === "host" ? "\u521B\u5EFA\u5E76\u7B49\u5F85" : "\u8FDE\u63A5",
       onTap: () => {
         if (lanAction === "join" && !lanInputIp.trim()) return;
-        startGame({ mode: "lan", lanAction, lanIp: lanInputIp.trim() });
+        startGame({ mode: "lan", variant: "standard", lanAction, lanIp: lanInputIp.trim() });
       },
       backgroundColor: "#2E7D32",
       textColor: "#FFF",
@@ -20377,7 +21361,7 @@ function HomePage() {
       ),
       backgroundColor: "#F0E6D3"
     },
-    /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SafeArea, null, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { padding: { horizontal: 24, vertical: 32 } }, tab === "main" && MainMenu, tab === "pvc" && PvcMenu, tab === "lan" && LanMenu))
+    /* @__PURE__ */ import_react.default.createElement(import_fuickjs.SafeArea, null, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { padding: { horizontal: 24, vertical: 32 } }, tab === "main" && MainMenu, tab === "pvc" && PvcMenu, tab === "lan" && LanMenu, tab === "flip" && FlipMenu, tab === "flipPvc" && FlipPvcMenu, tab === "reveal" && RevealMenu, tab === "revealPvc" && RevealPvcMenu))
   );
 }
 function BackHeader({ title, onBack }) {
@@ -20395,13 +21379,15 @@ function ModeButton({ label, subtitle, color, onTap }) {
 }
 
 // src/pages/GamePage.tsx
-var import_react3 = __toESM(require_react_production_min());
-var import_fuickjs3 = __toESM(require_dist());
+var import_react4 = __toESM(require_react_production_min());
+var import_fuickjs4 = __toESM(require_dist());
+var import_hooks = __toESM(require_hooks2());
 
 // src/components/VictoryOverlay.tsx
 var import_react2 = __toESM(require_react_production_min());
 var import_fuickjs2 = __toESM(require_dist());
-function VictoryOverlay({ winner, width, height, onRestart }) {
+function VictoryOverlay({ winner, isDraw = false, playerColor, endReason, width, height, onRestart }) {
+  const isLoser = !isDraw && playerColor != null && playerColor !== winner;
   const bgPainterRef = (0, import_react2.useRef)(null);
   if (!bgPainterRef.current) {
     bgPainterRef.current = new import_fuickjs2.CustomPainter();
@@ -20448,7 +21434,7 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
       const cy = height * 0.44;
       p.drawRect(
         { left: 0, top: 0, width, height },
-        { color: "#0A0A0A", style: "fill" }
+        { color: "rgba(10,10,10,0.72)", style: "fill" }
       );
       const brushW = width * 1.08 * progress;
       const brushH = height * 0.3;
@@ -20465,7 +21451,7 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
         const alpha = 0.5 + edgeFactor * 0.15;
         p.drawOval(
           { left: ex - ew / 2, top: ey - eh / 2, width: ew, height: eh },
-          { color: `rgba(160,0,0,${alpha.toFixed(2)})`, style: "fill" }
+          { color: `rgba(180,0,0,${alpha.toFixed(2)})`, style: "fill" }
         );
       }
       const midSteps = Math.max(1, Math.floor(brushW / 10));
@@ -20479,7 +21465,7 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
         const alpha = 0.55 + edgeFactor * 0.25;
         p.drawOval(
           { left: ex - ew / 2, top: ey - eh / 2, width: ew, height: eh },
-          { color: `rgba(220,10,10,${alpha.toFixed(2)})`, style: "fill" }
+          { color: `rgba(235,15,15,${alpha.toFixed(2)})`, style: "fill" }
         );
       }
       const hlSteps = Math.max(1, Math.floor(brushW * 0.6 / 8));
@@ -20531,8 +21517,9 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
       clearTimeout(t3);
     };
   }, []);
-  const winnerLabel = winner === "red" ? "\u7EA2\u65B9" : "\u9ED1\u65B9";
-  const winnerColor = winner === "red" ? "#FF5555" : "#CCCCCC";
+  const bigText = isDraw ? "\u548C\u68CB" : isLoser ? "\u5931\u8D25" : "\u83B7\u80DC";
+  const winnerLabel = isDraw ? "\u548C\u68CB" : winner === "red" ? "\u7EA2\u65B9" : "\u9ED1\u65B9";
+  const winnerColor = isDraw ? "#C8A000" : isLoser ? "#888888" : winner === "red" ? "#FF5555" : "#CCCCCC";
   const textW = Math.min(width * 0.72, 260);
   const textH = 140;
   return /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Material, { type: "transparency" }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { width, height }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Stack, null, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react2.default.createElement(
@@ -20544,7 +21531,7 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
   )), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { width, height }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Center, null, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Column, { crossAxisAlignment: "center", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.AnimatedScale, { scale: textScale, duration: 480, curve: "elasticOut" }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.AnimatedOpacity, { opacity: textOpacity, duration: 180 }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { width: textW, height: textH }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Stack, null, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Positioned, { left: -2, top: -2 }, /* @__PURE__ */ import_react2.default.createElement(
     import_fuickjs2.Text,
     {
-      text: "\u7372\u52DD",
+      text: bigText,
       fontSize: 108,
       fontWeight: "bold",
       color: "rgba(200,160,0,0.7)"
@@ -20552,7 +21539,7 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
   )), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Positioned, { left: 2, top: 2 }, /* @__PURE__ */ import_react2.default.createElement(
     import_fuickjs2.Text,
     {
-      text: "\u7372\u52DD",
+      text: bigText,
       fontSize: 108,
       fontWeight: "bold",
       color: "rgba(200,160,0,0.5)"
@@ -20560,7 +21547,7 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
   )), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react2.default.createElement(
     import_fuickjs2.Text,
     {
-      text: "\u7372\u52DD",
+      text: bigText,
       fontSize: 108,
       fontWeight: "bold",
       color: "#111111"
@@ -20568,10 +21555,17 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
   )))))), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { height: 20 }), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.AnimatedOpacity, { opacity: textOpacity, duration: 500 }, /* @__PURE__ */ import_react2.default.createElement(
     import_fuickjs2.Text,
     {
-      text: `${winnerLabel}\u83B7\u80DC`,
+      text: isDraw ? "\u53CC\u65B9\u5E73\u5C40" : `${winnerLabel}\u83B7\u80DC`,
       fontSize: 22,
       fontWeight: "bold",
       color: winnerColor
+    }
+  )), endReason && /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.AnimatedOpacity, { opacity: textOpacity, duration: 500 }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { height: 6 }), /* @__PURE__ */ import_react2.default.createElement(
+    import_fuickjs2.Text,
+    {
+      text: endReason,
+      fontSize: 14,
+      color: "rgba(200,160,0,0.8)"
     }
   )), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { height: 36 }), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.AnimatedOpacity, { opacity: btnVisible ? 1 : 0, duration: 400 }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.GestureDetector, { onTap: onRestart }, /* @__PURE__ */ import_react2.default.createElement(
     import_fuickjs2.Container,
@@ -20587,46 +21581,54 @@ function VictoryOverlay({ winner, width, height, onRestart }) {
   ))))))))));
 }
 
-// src/game/initialBoard.ts
-function createInitialPieces() {
-  const pieces = [];
-  let id = 0;
-  const addPiece = (type, color, row, col) => {
-    pieces.push({ id: `${type}_${color}_${id++}`, type, color, row, col });
-  };
-  addPiece("rook", "black", 0, 0);
-  addPiece("horse", "black", 0, 1);
-  addPiece("elephant", "black", 0, 2);
-  addPiece("advisor", "black", 0, 3);
-  addPiece("king", "black", 0, 4);
-  addPiece("advisor", "black", 0, 5);
-  addPiece("elephant", "black", 0, 6);
-  addPiece("horse", "black", 0, 7);
-  addPiece("rook", "black", 0, 8);
-  addPiece("cannon", "black", 2, 1);
-  addPiece("cannon", "black", 2, 7);
-  addPiece("pawn", "black", 3, 0);
-  addPiece("pawn", "black", 3, 2);
-  addPiece("pawn", "black", 3, 4);
-  addPiece("pawn", "black", 3, 6);
-  addPiece("pawn", "black", 3, 8);
-  addPiece("pawn", "red", 6, 0);
-  addPiece("pawn", "red", 6, 2);
-  addPiece("pawn", "red", 6, 4);
-  addPiece("pawn", "red", 6, 6);
-  addPiece("pawn", "red", 6, 8);
-  addPiece("cannon", "red", 7, 1);
-  addPiece("cannon", "red", 7, 7);
-  addPiece("rook", "red", 9, 0);
-  addPiece("horse", "red", 9, 1);
-  addPiece("elephant", "red", 9, 2);
-  addPiece("advisor", "red", 9, 3);
-  addPiece("king", "red", 9, 4);
-  addPiece("advisor", "red", 9, 5);
-  addPiece("elephant", "red", 9, 6);
-  addPiece("horse", "red", 9, 7);
-  addPiece("rook", "red", 9, 8);
-  return pieces;
+// src/components/CaptureEffect.tsx
+var import_react3 = __toESM(require_react_production_min());
+var import_fuickjs3 = __toESM(require_dist());
+function CaptureEffect({ x, y, cellSize, capturedName, onDone }) {
+  const [scale, setScale] = (0, import_react3.useState)(0.3);
+  const [opacity, setOpacity] = (0, import_react3.useState)(1);
+  const painterRef = (0, import_react3.useRef)(null);
+  if (!painterRef.current) painterRef.current = new import_fuickjs3.CustomPainter();
+  const size = cellSize * 2.4;
+  const fontSize = Math.floor(cellSize * 0.7);
+  const subFontSize = Math.floor(cellSize * 0.28);
+  (0, import_react3.useEffect)(() => {
+    const t1 = setTimeout(() => setScale(1.2), 60);
+    const t2 = setTimeout(() => setScale(1), 220);
+    const t3 = setTimeout(() => setOpacity(0), 500);
+    const drawFrame = () => {
+      const p = painterRef.current;
+      p.clear();
+      const r = cellSize * 0.6;
+      p.drawCircle(
+        { dx: size / 2, dy: size / 2 },
+        r,
+        { color: "rgba(220,20,20,0.55)", style: "fill" }
+      );
+      p.drawCircle(
+        { dx: size / 2, dy: size / 2 },
+        r * 0.55,
+        { color: "rgba(255,80,80,0.7)", style: "fill" }
+      );
+      p.drawCircle(
+        { dx: size / 2, dy: size / 2 },
+        r * 1.3,
+        { color: "rgba(200,0,0,0.18)", style: "fill" }
+      );
+      p.repaint();
+    };
+    drawFrame();
+    const timerId = setInterval(drawFrame, 16);
+    const t4 = setTimeout(onDone, 900);
+    return () => {
+      clearInterval(timerId);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+    };
+  }, []);
+  return /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { left: x - size / 2, top: y - size / 2 }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SizedBox, { width: size, height: size }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Stack, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.AnimatedOpacity, { opacity, duration: 300 }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.CustomPaint, { painter: painterRef.current, size: { width: size, height: size } }))), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.AnimatedScale, { scale, duration: 200, curve: "easeOut" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.AnimatedOpacity, { opacity, duration: 300 }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SizedBox, { width: size, height: size }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Column, { crossAxisAlignment: "center", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u5403", fontSize, color: "#FFFFFF", fontWeight: "bold" }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SizedBox, { height: 2 }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: capturedName, fontSize: subFontSize, color: "rgba(255,255,255,0.8)", fontWeight: "bold" }))))))))));
 }
 
 // src/game/rules.ts
@@ -20849,186 +21851,2232 @@ function getPieceName(type, color) {
   };
   return names[type][color === "red" ? 0 : 1];
 }
+function getPieceDisplayName(piece) {
+  if (!piece.faceUp) return "?";
+  return getPieceName(piece.type, piece.color);
+}
 
 // src/game/ai.ts
-var PIECE_VALUE = {
-  king: 1e4,
-  rook: 600,
-  cannon: 300,
-  horse: 270,
-  elephant: 120,
-  advisor: 120,
-  pawn: 30
+var TYPE_IDX = {
+  king: 1,
+  advisor: 2,
+  elephant: 3,
+  horse: 4,
+  rook: 5,
+  cannon: 6,
+  pawn: 7
 };
+var IDX_TYPE = ["", "king", "advisor", "elephant", "horse", "rook", "cannon", "pawn"];
+function encode(color, type) {
+  return (color === "red" ? 0 : 7) + TYPE_IDX[type];
+}
+function codeColor(code) {
+  return code <= 7 ? "red" : "black";
+}
+function codeType(code) {
+  return IDX_TYPE[code <= 7 ? code : code - 7];
+}
+function piecesToBoard(pieces) {
+  const b = new Uint8Array(90);
+  for (const p of pieces) b[p.row * 9 + p.col] = encode(p.color, p.type);
+  return b;
+}
+var PIECE_VALUE_ARR = [0, 1e4, 200, 200, 400, 900, 450, 50];
 var POS_KING = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 1, 1, 0, 0, 0],
-  [0, 0, 0, 2, 2, 2, 0, 0, 0],
-  [0, 0, 0, 1, 1, 1, 0, 0, 0]
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  3,
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  2,
+  4,
+  2,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  3,
+  1,
+  0,
+  0,
+  0
 ];
 var POS_ADVISOR = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 3, 0, 0, 0, 0],
-  [0, 0, 0, 3, 0, 3, 0, 0, 0],
-  [0, 0, 0, 0, 3, 0, 0, 0, 0]
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  6,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  0,
+  4,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  6,
+  0,
+  0,
+  0,
+  0
 ];
 var POS_ELEPHANT = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 3, 0, 0, 0, 0, 0, 3, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [3, 0, 0, 0, 3, 0, 0, 0, 3],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 3, 0, 0, 0, 0, 0, 3, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [3, 0, 0, 0, 3, 0, 0, 0, 3],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0]
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  0,
+  0,
+  0,
+  6,
+  0,
+  0,
+  0,
+  4,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  0,
+  0,
+  0,
+  6,
+  0,
+  0,
+  0,
+  4,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0
 ];
 var POS_HORSE = [
-  [0, 2, 4, 4, 4, 4, 4, 2, 0],
-  [2, 4, 6, 10, 8, 10, 6, 4, 2],
-  [4, 6, 10, 12, 10, 12, 10, 6, 4],
-  [4, 8, 12, 14, 14, 14, 12, 8, 4],
-  [4, 10, 12, 14, 14, 14, 12, 10, 4],
-  [4, 8, 12, 14, 14, 14, 12, 8, 4],
-  [4, 6, 10, 12, 10, 12, 10, 6, 4],
-  [2, 4, 6, 10, 8, 10, 6, 4, 2],
-  [0, 2, 8, 6, 6, 6, 8, 2, 0],
-  [0, 0, 2, 4, 2, 4, 2, 0, 0]
+  0,
+  4,
+  8,
+  8,
+  8,
+  8,
+  8,
+  4,
+  0,
+  4,
+  8,
+  12,
+  16,
+  14,
+  16,
+  12,
+  8,
+  4,
+  8,
+  12,
+  16,
+  20,
+  18,
+  20,
+  16,
+  12,
+  8,
+  8,
+  14,
+  20,
+  24,
+  24,
+  24,
+  20,
+  14,
+  8,
+  8,
+  16,
+  20,
+  26,
+  26,
+  26,
+  20,
+  16,
+  8,
+  8,
+  14,
+  20,
+  24,
+  24,
+  24,
+  20,
+  14,
+  8,
+  8,
+  12,
+  16,
+  20,
+  18,
+  20,
+  16,
+  12,
+  8,
+  4,
+  8,
+  12,
+  16,
+  14,
+  16,
+  12,
+  8,
+  4,
+  0,
+  4,
+  10,
+  8,
+  8,
+  8,
+  10,
+  4,
+  0,
+  0,
+  0,
+  4,
+  6,
+  4,
+  6,
+  4,
+  0,
+  0
 ];
 var POS_ROOK = [
-  [10, 10, 10, 15, 15, 15, 10, 10, 10],
-  [10, 15, 15, 20, 20, 20, 15, 15, 10],
-  [8, 8, 10, 15, 15, 15, 10, 8, 8],
-  [8, 10, 10, 15, 15, 15, 10, 10, 8],
-  [8, 8, 10, 15, 15, 15, 10, 8, 8],
-  [8, 10, 10, 15, 15, 15, 10, 10, 8],
-  [8, 8, 10, 15, 15, 15, 10, 8, 8],
-  [6, 6, 8, 12, 12, 12, 8, 6, 6],
-  [4, 4, 6, 10, 10, 10, 6, 4, 4],
-  [6, 6, 8, 10, 10, 10, 8, 6, 6]
+  14,
+  14,
+  14,
+  20,
+  20,
+  20,
+  14,
+  14,
+  14,
+  14,
+  20,
+  20,
+  28,
+  28,
+  28,
+  20,
+  20,
+  14,
+  12,
+  12,
+  14,
+  20,
+  20,
+  20,
+  14,
+  12,
+  12,
+  12,
+  14,
+  14,
+  20,
+  20,
+  20,
+  14,
+  14,
+  12,
+  12,
+  12,
+  14,
+  20,
+  20,
+  20,
+  14,
+  12,
+  12,
+  12,
+  14,
+  14,
+  20,
+  20,
+  20,
+  14,
+  14,
+  12,
+  12,
+  12,
+  14,
+  20,
+  20,
+  20,
+  14,
+  12,
+  12,
+  8,
+  8,
+  12,
+  16,
+  16,
+  16,
+  12,
+  8,
+  8,
+  6,
+  6,
+  8,
+  14,
+  14,
+  14,
+  8,
+  6,
+  6,
+  8,
+  8,
+  12,
+  14,
+  14,
+  14,
+  12,
+  8,
+  8
 ];
 var POS_CANNON = [
-  [6, 4, 0, 0, 0, 0, 0, 4, 6],
-  [4, 6, 4, 0, 0, 0, 4, 6, 4],
-  [2, 4, 4, 0, 0, 0, 4, 4, 2],
-  [0, 0, 0, 4, 8, 4, 0, 0, 0],
-  [0, 0, 0, 2, 6, 2, 0, 0, 0],
-  [0, 2, 4, 4, 6, 4, 4, 2, 0],
-  [0, 0, 4, 6, 8, 6, 4, 0, 0],
-  [4, 4, 8, 10, 10, 10, 8, 4, 4],
-  [2, 2, 4, 6, 6, 6, 4, 2, 2],
-  [0, 0, 2, 6, 6, 6, 2, 0, 0]
+  6,
+  4,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  6,
+  4,
+  8,
+  4,
+  0,
+  0,
+  0,
+  4,
+  8,
+  4,
+  2,
+  4,
+  4,
+  0,
+  0,
+  0,
+  4,
+  4,
+  2,
+  0,
+  0,
+  0,
+  6,
+  12,
+  6,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  4,
+  8,
+  4,
+  0,
+  0,
+  0,
+  0,
+  4,
+  6,
+  6,
+  10,
+  6,
+  6,
+  4,
+  0,
+  0,
+  0,
+  6,
+  10,
+  12,
+  10,
+  6,
+  0,
+  0,
+  6,
+  6,
+  12,
+  14,
+  14,
+  14,
+  12,
+  6,
+  6,
+  4,
+  4,
+  6,
+  10,
+  10,
+  10,
+  6,
+  4,
+  4,
+  0,
+  0,
+  4,
+  8,
+  8,
+  8,
+  4,
+  0,
+  0
 ];
 var POS_PAWN = [
-  [0, 0, 0, 4, 4, 4, 0, 0, 0],
-  [0, 0, 0, 4, 4, 4, 0, 0, 0],
-  [0, 0, 0, 4, 4, 4, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [6, 0, 6, 0, 0, 0, 6, 0, 6],
-  [18, 24, 24, 32, 36, 32, 24, 24, 18],
-  [20, 30, 28, 36, 40, 36, 28, 30, 20],
-  [18, 28, 32, 44, 48, 44, 32, 28, 18],
-  [14, 24, 30, 40, 44, 40, 30, 24, 14],
-  [10, 18, 22, 30, 34, 30, 22, 18, 10]
+  0,
+  0,
+  0,
+  6,
+  6,
+  6,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  6,
+  6,
+  6,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  6,
+  6,
+  6,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  10,
+  0,
+  10,
+  0,
+  0,
+  0,
+  10,
+  0,
+  10,
+  24,
+  30,
+  30,
+  42,
+  48,
+  42,
+  30,
+  30,
+  24,
+  28,
+  36,
+  36,
+  48,
+  56,
+  48,
+  36,
+  36,
+  28,
+  24,
+  34,
+  40,
+  56,
+  60,
+  56,
+  40,
+  34,
+  24,
+  18,
+  30,
+  38,
+  52,
+  56,
+  52,
+  38,
+  30,
+  18,
+  12,
+  20,
+  26,
+  40,
+  44,
+  40,
+  26,
+  20,
+  12
 ];
-var POS_TABLE = {
-  king: POS_KING,
-  advisor: POS_ADVISOR,
-  elephant: POS_ELEPHANT,
-  horse: POS_HORSE,
-  rook: POS_ROOK,
-  cannon: POS_CANNON,
-  pawn: POS_PAWN
-};
-function getPositionBonus(piece) {
-  const table = POS_TABLE[piece.type];
-  const row = piece.color === "black" ? piece.row : 9 - piece.row;
-  const col = piece.col;
-  return table[row]?.[col] ?? 0;
+var POS_TABLE = [[], POS_KING, POS_ADVISOR, POS_ELEPHANT, POS_HORSE, POS_ROOK, POS_CANNON, POS_PAWN];
+var POS_TABLE_RED = POS_TABLE.map((t) => {
+  if (!t.length) return t;
+  const m = new Array(90);
+  for (let r = 0; r < 10; r++)
+    for (let c = 0; c < 9; c++)
+      m[r * 9 + c] = t[(9 - r) * 9 + c];
+  return m;
+});
+var DIRS4 = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+function boardGet(b, r, c) {
+  return r >= 0 && r <= 9 && c >= 0 && c <= 8 ? b[r * 9 + c] : 0;
 }
-function evaluate(pieces, aiColor) {
-  let score = 0;
-  for (const p of pieces) {
-    const val = PIECE_VALUE[p.type] + getPositionBonus(p);
-    score += p.color === aiColor ? val : -val;
+function genPieceMoves(b, idx, code, out, outLen) {
+  const color = codeColor(code);
+  const type = codeType(code);
+  const row = idx / 9 | 0;
+  const col = idx % 9;
+  const isRed = color === "red";
+  function pushTo(nr, nc) {
+    const tc = boardGet(b, nr, nc);
+    if (tc !== 0 && codeColor(tc) === color) return -1;
+    const slot = out[outLen++];
+    slot.fromIdx = idx;
+    slot.toIdx = nr * 9 + nc;
+    slot.captured = tc;
+    return tc !== 0 ? 1 : 0;
   }
+  switch (type) {
+    case "king": {
+      for (const [dr, dc] of DIRS4) {
+        const nr = row + dr, nc = col + dc;
+        const rowOk = isRed ? nr >= 7 && nr <= 9 : nr >= 0 && nr <= 2;
+        if (rowOk && nc >= 3 && nc <= 5) pushTo(nr, nc);
+      }
+      break;
+    }
+    case "advisor": {
+      for (const [dr, dc] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) {
+        const nr = row + dr, nc = col + dc;
+        const rowOk = isRed ? nr >= 7 && nr <= 9 : nr >= 0 && nr <= 2;
+        if (rowOk && nc >= 3 && nc <= 5) pushTo(nr, nc);
+      }
+      break;
+    }
+    case "elephant": {
+      for (const [dr, dc, er, ec] of [[2, 2, 1, 1], [2, -2, 1, -1], [-2, 2, -1, 1], [-2, -2, -1, -1]]) {
+        const nr = row + dr, nc = col + dc;
+        if (nr < 0 || nr > 9 || nc < 0 || nc > 8) continue;
+        if (isRed ? nr < 5 : nr > 4) continue;
+        if (b[(row + er) * 9 + (col + ec)]) continue;
+        pushTo(nr, nc);
+      }
+      break;
+    }
+    case "horse": {
+      for (const [dr, dc, er, ec] of [
+        [-2, -1, -1, 0],
+        [-2, 1, -1, 0],
+        [2, -1, 1, 0],
+        [2, 1, 1, 0],
+        [-1, -2, 0, -1],
+        [-1, 2, 0, 1],
+        [1, -2, 0, -1],
+        [1, 2, 0, 1]
+      ]) {
+        const nr = row + dr, nc = col + dc;
+        if (nr < 0 || nr > 9 || nc < 0 || nc > 8) continue;
+        const er2 = row + er, ec2 = col + ec;
+        if (b[er2 * 9 + ec2]) continue;
+        pushTo(nr, nc);
+      }
+      break;
+    }
+    case "rook": {
+      for (const [dr, dc] of DIRS4) {
+        let nr = row + dr, nc = col + dc;
+        while (nr >= 0 && nr <= 9 && nc >= 0 && nc <= 8) {
+          if (pushTo(nr, nc) !== 0) break;
+          nr += dr;
+          nc += dc;
+        }
+      }
+      break;
+    }
+    case "cannon": {
+      for (const [dr, dc] of DIRS4) {
+        let nr = row + dr, nc = col + dc;
+        let jumped = false;
+        while (nr >= 0 && nr <= 9 && nc >= 0 && nc <= 8) {
+          const tc = b[nr * 9 + nc];
+          if (!jumped) {
+            if (tc) {
+              jumped = true;
+            } else {
+              const s = out[outLen++];
+              s.fromIdx = idx;
+              s.toIdx = nr * 9 + nc;
+              s.captured = 0;
+            }
+          } else {
+            if (tc) {
+              if (codeColor(tc) !== color) {
+                const s = out[outLen++];
+                s.fromIdx = idx;
+                s.toIdx = nr * 9 + nc;
+                s.captured = tc;
+              }
+              break;
+            }
+          }
+          nr += dr;
+          nc += dc;
+        }
+      }
+      break;
+    }
+    case "pawn": {
+      const fwd = isRed ? -1 : 1;
+      const nr = row + fwd, nc = col;
+      if (nr >= 0 && nr <= 9) pushTo(nr, nc);
+      const crossed = isRed ? row < 5 : row > 4;
+      if (crossed) {
+        for (const dc of [-1, 1]) {
+          const nc2 = col + dc;
+          if (nc2 >= 0 && nc2 <= 8) pushTo(row, nc2);
+        }
+      }
+      break;
+    }
+  }
+  return outLen;
+}
+function boardInCheck(b, color) {
+  const kingCode = encode(color, "king");
+  let kingIdx = -1;
+  for (let i = 0; i < 90; i++) if (b[i] === kingCode) {
+    kingIdx = i;
+    break;
+  }
+  if (kingIdx < 0) return true;
+  const oppColor = color === "red" ? "black" : "red";
+  const tmpMoves = CHECK_BUF;
+  for (let i = 0; i < 90; i++) {
+    const c = b[i];
+    if (!c || codeColor(c) !== oppColor) continue;
+    let len = genPieceMoves(b, i, c, tmpMoves, 0);
+    for (let j = 0; j < len; j++) if (tmpMoves[j].toIdx === kingIdx) return true;
+  }
+  const kingRow = kingIdx / 9 | 0, kingCol = kingIdx % 9;
+  const oppKingCode = encode(oppColor, "king");
+  for (let i = 0; i < 90; i++) {
+    if (b[i] !== oppKingCode) continue;
+    const okCol = i % 9;
+    if (okCol !== kingCol) break;
+    const okRow = i / 9 | 0;
+    const minR = Math.min(kingRow, okRow), maxR = Math.max(kingRow, okRow);
+    let blocked = false;
+    for (let r = minR + 1; r < maxR; r++) if (b[r * 9 + kingCol]) {
+      blocked = true;
+      break;
+    }
+    if (!blocked) return true;
+    break;
+  }
+  return false;
+}
+function evaluate(b, sideIsRed) {
+  let score = 0;
+  let sideAdv = 0, sideEle = 0, oppAdv = 0, oppEle = 0;
+  let sideRookCount = 0, oppRookCount = 0;
+  let sideMobility = 0, oppMobility = 0;
+  let sideRookCol = -1, oppRookCol = -1;
+  let sideKingRow = -1, sideKingCol = -1, oppKingRow = -1, oppKingCol = -1;
+  const oppIsRed = !sideIsRed;
+  const oppColor = oppIsRed ? "red" : "black";
+  const attacked = new Uint8Array(90);
+  let oppAttackLen = 0;
+  for (let i = 0; i < 90; i++) {
+    const c = b[i];
+    if (!c || c <= 7 !== oppIsRed) continue;
+    oppAttackLen = genPieceMoves(b, i, c, ATTACK_BUF, oppAttackLen);
+  }
+  for (let j = 0; j < oppAttackLen; j++) {
+    attacked[ATTACK_BUF[j].toIdx] = 1;
+  }
+  const ownColor = sideIsRed ? "red" : "black";
+  const defended = new Uint8Array(90);
+  let ownAttackLen = 0;
+  for (let i = 0; i < 90; i++) {
+    const c = b[i];
+    if (!c || c <= 7 !== sideIsRed) continue;
+    ownAttackLen = genPieceMoves(b, i, c, ATTACK_BUF2, ownAttackLen);
+  }
+  for (let j = 0; j < ownAttackLen; j++) {
+    defended[ATTACK_BUF2[j].toIdx] = 1;
+  }
+  for (let i = 0; i < 90; i++) {
+    const code = b[i];
+    if (!code) continue;
+    const ti = code <= 7 ? code : code - 7;
+    const isPieceRed = code <= 7;
+    const posBonus = (isPieceRed ? POS_TABLE_RED[ti] : POS_TABLE[ti])[i];
+    const val = PIECE_VALUE_ARR[ti] + posBonus;
+    const isOwn = isPieceRed === sideIsRed;
+    score += isOwn ? val : -val;
+    if (ti === 1) {
+      const row = i / 9 | 0, col = i % 9;
+      if (isOwn) {
+        sideKingRow = row;
+        sideKingCol = col;
+      } else {
+        oppKingRow = row;
+        oppKingCol = col;
+      }
+    }
+    if (ti === 2) {
+      if (isOwn) sideAdv++;
+      else oppAdv++;
+    } else if (ti === 3) {
+      if (isOwn) sideEle++;
+      else oppEle++;
+    }
+    if (ti === 5) {
+      if (isOwn) {
+        sideRookCount++;
+        sideRookCol = i % 9;
+      } else {
+        oppRookCount++;
+        oppRookCol = i % 9;
+      }
+    }
+    if (ti >= 4 && ti <= 6) {
+      const mob = genPieceMoves(b, i, code, EVAL_BUF, 0);
+      if (isOwn) sideMobility += mob;
+      else oppMobility += mob;
+    }
+    if (isOwn && attacked[i] && !defended[i] && ti >= 4) {
+      score -= PIECE_VALUE_ARR[ti] * 0.8;
+    }
+    if (!isOwn && defended[i] && !attacked[i] && ti >= 4) {
+      score += PIECE_VALUE_ARR[ti] * 0.8;
+    }
+  }
+  score += (sideAdv + sideEle - oppAdv - oppEle) * 25;
+  score += (sideMobility - oppMobility) * 4;
+  if (sideRookCount > 0 && oppKingCol >= 0 && sideRookCol === oppKingCol) score += 30;
+  if (oppRookCount > 0 && sideKingCol >= 0 && oppRookCol === sideKingCol) score -= 30;
+  if (sideRookCount === 2) score += 80;
+  if (oppRookCount === 2) score -= 80;
   return score;
 }
-function sortMoves(moves, pieces) {
-  return moves.slice().sort((a, b) => {
-    const capA = getPieceAt(pieces, a.to.row, a.to.col);
-    const capB = getPieceAt(pieces, b.to.row, b.to.col);
-    const valA = capA ? PIECE_VALUE[capA.type] : 0;
-    const valB = capB ? PIECE_VALUE[capB.type] : 0;
-    return valB - valA;
-  });
+var ZT = (() => {
+  let s = 2654435769;
+  const rng = () => {
+    s = (Math.imul(s ^ s >>> 16, 73244475) | 0) >>> 0;
+    s = (Math.imul(s ^ s >>> 16, 73244475) | 0) >>> 0;
+    return s;
+  };
+  return Array.from({ length: 15 }, () => Array.from({ length: 90 }, () => [rng(), rng()]));
+})();
+function computeHashB(b) {
+  let hi = 0, lo = 0;
+  for (let i = 0; i < 90; i++) {
+    const c = b[i];
+    if (!c) continue;
+    hi = (hi ^ ZT[c][i][0]) >>> 0;
+    lo = (lo ^ ZT[c][i][1]) >>> 0;
+  }
+  return [hi, lo];
 }
-function getAllMoves(pieces, color) {
+var TT_SIZE = 1 << 20;
+var TT_MASK = TT_SIZE - 1;
+var tt_hi = new Int32Array(TT_SIZE);
+var tt_lo = new Int32Array(TT_SIZE);
+var tt_depth = new Int8Array(TT_SIZE);
+var tt_score = new Int32Array(TT_SIZE);
+var tt_flag = new Uint8Array(TT_SIZE);
+var tt_valid = new Uint8Array(TT_SIZE);
+function ttGet(hi, lo, depth, alpha, beta) {
+  const idx = (hi ^ lo) & TT_MASK;
+  if (!tt_valid[idx] || tt_hi[idx] !== hi || tt_lo[idx] !== lo || tt_depth[idx] < depth) return null;
+  const score = tt_score[idx];
+  const flag = tt_flag[idx];
+  if (flag === 0 /* EXACT */) return score;
+  if (flag === 1 /* LOWER */ && score >= beta) return score;
+  if (flag === 2 /* UPPER */ && score <= alpha) return score;
+  return null;
+}
+function ttSet(hi, lo, depth, score, flag) {
+  const idx = (hi ^ lo) & TT_MASK;
+  if (tt_valid[idx] && tt_depth[idx] > depth) return;
+  tt_hi[idx] = hi;
+  tt_lo[idx] = lo;
+  tt_depth[idx] = depth;
+  tt_score[idx] = score;
+  tt_flag[idx] = flag;
+  tt_valid[idx] = 1;
+}
+function clearTranspositionTable() {
+  tt_valid.fill(0);
+}
+var openingBook = /* @__PURE__ */ new Map();
+function buildOpeningBook() {
+  const b0 = new Uint8Array(90);
+  b0[81] = 5;
+  b0[82] = 4;
+  b0[83] = 3;
+  b0[84] = 2;
+  b0[85] = 1;
+  b0[86] = 2;
+  b0[87] = 3;
+  b0[88] = 4;
+  b0[89] = 5;
+  b0[64] = 6;
+  b0[70] = 6;
+  b0[54] = 7;
+  b0[56] = 7;
+  b0[58] = 7;
+  b0[60] = 7;
+  b0[62] = 7;
+  b0[0] = 12;
+  b0[1] = 11;
+  b0[2] = 10;
+  b0[3] = 9;
+  b0[4] = 8;
+  b0[5] = 9;
+  b0[6] = 10;
+  b0[7] = 11;
+  b0[8] = 12;
+  b0[19] = 13;
+  b0[25] = 13;
+  b0[27] = 14;
+  b0[29] = 14;
+  b0[31] = 14;
+  b0[33] = 14;
+  b0[35] = 14;
+  const lines = [
+    // 中炮对屏风马
+    [[70, 67], [7, 24], [88, 69], [1, 20]],
+    [[70, 67], [7, 24], [88, 69], [1, 20], [89, 88]],
+    [[70, 67], [7, 24], [88, 69], [1, 20], [81, 82]],
+    [[70, 67], [1, 20], [88, 69], [7, 24]],
+    [[70, 67], [1, 20], [88, 69], [7, 24], [89, 88]],
+    // 中炮对顺手炮
+    [[70, 67], [25, 22], [88, 69], [1, 20]],
+    [[70, 67], [25, 22], [88, 69], [7, 24]],
+    // 中炮对列炮
+    [[70, 67], [19, 22], [88, 69], [7, 24]],
+    [[70, 67], [19, 22], [88, 69], [1, 20]],
+    // 中炮对反宫马
+    [[70, 67], [7, 24], [88, 69], [1, 20]],
+    [[70, 67], [7, 24], [82, 65], [1, 20]],
+    // 起马局
+    [[88, 69], [7, 24], [70, 67], [1, 20]],
+    [[88, 69], [7, 24], [70, 67], [1, 20], [82, 65]],
+    [[88, 69], [1, 20], [70, 67], [7, 24]],
+    [[88, 69], [25, 22], [70, 67], [7, 24]],
+    // 左马局
+    [[82, 65], [1, 20], [70, 67], [7, 24]],
+    [[82, 65], [7, 24], [70, 67], [1, 20]],
+    // 仙人指路
+    [[60, 51], [33, 42], [70, 67], [7, 24]],
+    [[60, 51], [33, 42], [70, 67], [1, 20]],
+    [[60, 51], [7, 24], [88, 69], [1, 20]],
+    [[60, 51], [1, 20], [88, 69], [7, 24]],
+    // 飞相局
+    [[83, 63], [7, 24], [88, 69], [1, 20]],
+    [[83, 63], [1, 20], [88, 69], [7, 24]],
+    [[87, 67], [7, 24], [88, 69], [1, 20]],
+    // 左中炮
+    [[64, 67], [1, 20], [82, 65], [7, 24]],
+    [[64, 67], [7, 24], [82, 65], [1, 20]],
+    // 过宫炮
+    [[70, 63], [7, 24], [88, 69], [1, 20]],
+    // 士角炮
+    [[70, 66], [7, 24], [88, 69], [1, 20]]
+  ];
+  for (const line of lines) {
+    const b = new Uint8Array(b0);
+    for (let i = 0; i < line.length; i++) {
+      const [fromIdx, toIdx] = line[i];
+      const [hi, lo] = computeHashB(b);
+      const key = (hi ^ lo) >>> 0;
+      const existing = openingBook.get(key);
+      if (!existing) {
+        openingBook.set(key, [[fromIdx, toIdx]]);
+      } else {
+        if (!existing.some((e) => e[0] === fromIdx && e[1] === toIdx)) {
+          existing.push([fromIdx, toIdx]);
+        }
+      }
+      b[toIdx] = b[fromIdx];
+      b[fromIdx] = 0;
+    }
+  }
+}
+buildOpeningBook();
+var MAX_PLY = 64;
+var SIDE_HASH_HI = 1515870810;
+var SIDE_HASH_LO = 2779096485;
+var killers = Array.from({ length: MAX_PLY }, () => [[-1, -1], [-1, -1]]);
+var historyTable = new Int32Array(90 * 90);
+function clearSearchState() {
+  for (let i = 0; i < MAX_PLY; i++) {
+    killers[i][0] = [-1, -1];
+    killers[i][1] = [-1, -1];
+  }
+  historyTable.fill(0);
+}
+function isKiller(ply, fromIdx, toIdx) {
+  const k = killers[ply];
+  return k[0][0] === fromIdx && k[0][1] === toIdx || k[1][0] === fromIdx && k[1][1] === toIdx;
+}
+function storeKiller(ply, fromIdx, toIdx) {
+  if (ply >= MAX_PLY) return;
+  const k = killers[ply];
+  if (k[0][0] !== fromIdx || k[0][1] !== toIdx) {
+    k[1][0] = k[0][0];
+    k[1][1] = k[0][1];
+    k[0][0] = fromIdx;
+    k[0][1] = toIdx;
+  }
+}
+var MOVE_BUF = new Array(256).fill(null).map(() => ({ fromIdx: 0, toIdx: 0, captured: 0 }));
+var CHECK_BUF = new Array(128).fill(null).map(() => ({ fromIdx: 0, toIdx: 0, captured: 0 }));
+var EVAL_BUF = new Array(32).fill(null).map(() => ({ fromIdx: 0, toIdx: 0, captured: 0 }));
+var ATTACK_BUF = new Array(128).fill(null).map(() => ({ fromIdx: 0, toIdx: 0, captured: 0 }));
+var ATTACK_BUF2 = new Array(128).fill(null).map(() => ({ fromIdx: 0, toIdx: 0, captured: 0 }));
+function moveScore(b, m, ply) {
+  if (m.captured) {
+    const seeVal = see(b, m.toIdx, b[m.fromIdx]);
+    if (seeVal >= 0) return 1e5 + seeVal * 10;
+    return -1e3 + seeVal;
+  }
+  if (ply < MAX_PLY && isKiller(ply, m.fromIdx, m.toIdx)) return 5e4;
+  return historyTable[m.fromIdx * 90 + m.toIdx];
+}
+function see(b, toIdx, attackerCode) {
+  const targetVal = PIECE_VALUE_ARR[b[toIdx] <= 7 ? b[toIdx] : b[toIdx] - 7];
+  const attackers = [];
+  const defenders = [];
+  attackers.push({ code: attackerCode, idx: -1 });
+  const toRow = toIdx / 9 | 0, toCol = toIdx % 9;
+  for (let i = 0; i < 90; i++) {
+    if (i === toIdx) continue;
+    const c = b[i];
+    if (!c) continue;
+    const ti = c <= 7 ? c : c - 7;
+    if (ti < 1) continue;
+    const row = i / 9 | 0, col = i % 9;
+    const isAttackerRed = c <= 7;
+    const attackerIsRed = attackerCode <= 7;
+    const sameColor = isAttackerRed === attackerIsRed;
+    const moves = genPieceMoves(b, i, c, SEE_BUF, 0);
+    let canReach = false;
+    for (let j = 0; j < moves; j++) {
+      if (SEE_BUF[j].toIdx === toIdx) {
+        canReach = true;
+        break;
+      }
+    }
+    if (!canReach) continue;
+    if (sameColor) {
+      defenders.push({ code: c, idx: i });
+    } else {
+      attackers.push({ code: c, idx: i });
+    }
+  }
+  const pieceVal = (e) => PIECE_VALUE_ARR[e.code <= 7 ? e.code : e.code - 7];
+  attackers.sort((a, b2) => pieceVal(a) - pieceVal(b2));
+  defenders.sort((a, b2) => pieceVal(a) - pieceVal(b2));
+  let gain = targetVal;
+  let aIdx = 1;
+  let dIdx = 0;
+  while (dIdx < defenders.length) {
+    const defVal = pieceVal(defenders[dIdx]);
+    gain -= defVal;
+    if (gain < 0) break;
+    dIdx++;
+    if (aIdx < attackers.length) {
+      const attVal = pieceVal(attackers[aIdx]);
+      gain += attVal;
+      aIdx++;
+    } else {
+      break;
+    }
+  }
+  return gain;
+}
+var SEE_BUF = new Array(128).fill(null).map(() => ({ fromIdx: 0, toIdx: 0, captured: 0 }));
+function getMovesSorted(b, color, ply) {
+  const isRed = color === "red";
+  let len = 0;
+  for (let i = 0; i < 90; i++) {
+    const c = b[i];
+    if (!c) continue;
+    if (c <= 7 !== isRed) continue;
+    len = genPieceMoves(b, i, c, MOVE_BUF, len);
+  }
+  const legal = [];
+  for (let i = 0; i < len; i++) {
+    const m = MOVE_BUF[i];
+    const prev = b[m.toIdx];
+    b[m.toIdx] = b[m.fromIdx];
+    b[m.fromIdx] = 0;
+    const inCheck = boardInCheck(b, color);
+    b[m.fromIdx] = b[m.toIdx];
+    b[m.toIdx] = prev;
+    if (!inCheck) legal.push({ ...m });
+  }
+  legal.sort((a, b2) => moveScore(b, b2, ply) - moveScore(b, a, ply));
+  return legal;
+}
+function quiesce(b, alpha, beta, isRed, qPly) {
+  const standPat = evaluate(b, isRed);
+  if (standPat >= beta) return beta;
+  if (standPat > alpha) alpha = standPat;
+  if (qPly <= 0) return alpha;
+  const color = isRed ? "red" : "black";
+  let len = 0;
+  for (let i = 0; i < 90; i++) {
+    const c = b[i];
+    if (!c || c <= 7 !== isRed) continue;
+    len = genPieceMoves(b, i, c, MOVE_BUF, len);
+  }
+  const captures = [];
+  for (let i = 0; i < len; i++) {
+    const m = MOVE_BUF[i];
+    if (!m.captured) continue;
+    const capVal = PIECE_VALUE_ARR[m.captured <= 7 ? m.captured : m.captured - 7];
+    if (standPat + capVal + 200 < alpha) continue;
+    const seeVal = see(b, m.toIdx, b[m.fromIdx]);
+    if (seeVal < 0) continue;
+    const prev = b[m.toIdx];
+    b[m.toIdx] = b[m.fromIdx];
+    b[m.fromIdx] = 0;
+    const inCheck = boardInCheck(b, color);
+    b[m.fromIdx] = b[m.toIdx];
+    b[m.toIdx] = prev;
+    if (!inCheck) captures.push({ ...m });
+  }
+  captures.sort((a, b2) => {
+    const va = PIECE_VALUE_ARR[a.captured <= 7 ? a.captured : a.captured - 7];
+    const vb = PIECE_VALUE_ARR[b2.captured <= 7 ? b2.captured : b2.captured - 7];
+    return vb - va;
+  });
+  for (const m of captures) {
+    const prev = b[m.toIdx];
+    b[m.toIdx] = b[m.fromIdx];
+    b[m.fromIdx] = 0;
+    const score = -quiesce(b, -beta, -alpha, !isRed, qPly - 1);
+    b[m.fromIdx] = b[m.toIdx];
+    b[m.toIdx] = prev;
+    if (score > alpha) alpha = score;
+    if (alpha >= beta) return beta;
+  }
+  return alpha;
+}
+var MATE = 5e4;
+function negamax(b, hi, lo, depth, alpha, beta, isRed, ply, inNull) {
+  const origAlpha = alpha;
+  const cached = ttGet(hi, lo, depth, alpha, beta);
+  if (cached !== null) return cached;
+  const color = isRed ? "red" : "black";
+  const inCheck = boardInCheck(b, color);
+  if (inCheck && depth <= 0) depth = 1;
+  if (depth <= 0) {
+    return quiesce(b, alpha, beta, isRed, 10);
+  }
+  if (!inCheck && depth <= 3 && ply > 0) {
+    const staticEval = evaluate(b, isRed);
+    const margin = depth * 220;
+    if (staticEval - margin >= beta) return staticEval;
+  }
+  if (!inNull && !inCheck && depth >= 3 && ply > 0) {
+    let hasMajor = false;
+    for (let i = 0; i < 90; i++) {
+      const c = b[i];
+      if (!c || c <= 7 !== isRed) continue;
+      const ti = c <= 7 ? c : c - 7;
+      if (ti >= 4) {
+        hasMajor = true;
+        break;
+      }
+    }
+    if (hasMajor) {
+      const R = depth >= 6 ? 3 : 2;
+      const nmHi = (hi ^ SIDE_HASH_HI) >>> 0;
+      const nmLo = (lo ^ SIDE_HASH_LO) >>> 0;
+      const nmScore = -negamax(b, nmHi, nmLo, depth - 1 - R, -beta, -beta + 1, !isRed, ply + 1, true);
+      if (nmScore >= beta) return nmScore;
+    }
+  }
+  const moves = getMovesSorted(b, color, ply);
+  if (moves.length === 0) return -(MATE - ply);
+  let best = -Infinity;
+  const oppColor = isRed ? "black" : "red";
+  const staticEvalForFutility = depth <= 2 && !inCheck ? evaluate(b, isRed) : 0;
+  for (let i = 0; i < moves.length; i++) {
+    const m = moves[i];
+    const prev = b[m.toIdx];
+    b[m.toIdx] = b[m.fromIdx];
+    b[m.fromIdx] = 0;
+    const [nh, nl] = [
+      (hi ^ ZT[b[m.toIdx]][m.fromIdx][0] ^ ZT[b[m.toIdx]][m.toIdx][0] ^ (prev ? ZT[prev][m.toIdx][0] : 0)) >>> 0,
+      (lo ^ ZT[b[m.toIdx]][m.fromIdx][1] ^ ZT[b[m.toIdx]][m.toIdx][1] ^ (prev ? ZT[prev][m.toIdx][1] : 0)) >>> 0
+    ];
+    const givesCheck = boardInCheck(b, oppColor);
+    let ext = givesCheck ? 1 : 0;
+    if (depth <= 2 && !inCheck && !givesCheck && !m.captured && i > 0) {
+      const margin = depth * 200;
+      if (staticEvalForFutility + margin <= alpha) {
+        b[m.fromIdx] = b[m.toIdx];
+        b[m.toIdx] = prev;
+        continue;
+      }
+    }
+    let reduction = 0;
+    if (i >= 4 && !m.captured && !givesCheck && !inCheck && depth >= 3) {
+      reduction = 1;
+      if (i >= 10) reduction = 2;
+      if (i >= 20) reduction = 3;
+      if (reduction >= depth - 1 + ext) reduction = Math.max(0, depth - 2 + ext);
+    }
+    const fullDepth = depth - 1 + ext;
+    const redDepth = fullDepth - reduction;
+    let score;
+    if (i === 0) {
+      score = -negamax(b, nh, nl, redDepth, -beta, -alpha, !isRed, ply + 1, false);
+      if (reduction > 0 && score > alpha) {
+        score = -negamax(b, nh, nl, fullDepth, -beta, -alpha, !isRed, ply + 1, false);
+      }
+    } else {
+      score = -negamax(b, nh, nl, redDepth, -alpha - 1, -alpha, !isRed, ply + 1, false);
+      if (score > alpha && score < beta) {
+        if (reduction > 0) {
+          score = -negamax(b, nh, nl, fullDepth, -alpha - 1, -alpha, !isRed, ply + 1, false);
+        }
+        if (score > alpha && score < beta) {
+          score = -negamax(b, nh, nl, fullDepth, -beta, -alpha, !isRed, ply + 1, false);
+        }
+      }
+    }
+    b[m.fromIdx] = b[m.toIdx];
+    b[m.toIdx] = prev;
+    if (score > best) best = score;
+    if (score > alpha) alpha = score;
+    if (alpha >= beta) {
+      if (!m.captured) {
+        storeKiller(ply, m.fromIdx, m.toIdx);
+        const hIdx = m.fromIdx * 90 + m.toIdx;
+        historyTable[hIdx] += depth * depth;
+        if (historyTable[hIdx] > 1e6) historyTable[hIdx] = 1e6;
+      }
+      break;
+    }
+  }
+  const flag = best <= origAlpha ? 2 /* UPPER */ : best >= beta ? 1 /* LOWER */ : 0 /* EXACT */;
+  ttSet(hi, lo, depth, best, flag);
+  return best;
+}
+function evaluatePosition(pieces, color) {
+  const b = piecesToBoard(pieces);
+  return evaluate(b, color === "red");
+}
+function getBestMove(pieces, aiColor, depth = 3) {
+  const b = piecesToBoard(pieces);
+  const aiIsRed = aiColor === "red";
+  let pieceCount = 0;
+  for (let i = 0; i < 90; i++) if (b[i]) pieceCount++;
+  if (pieceCount >= 26) {
+    const [hi, lo] = computeHashB(b);
+    const key = (hi ^ lo) >>> 0;
+    const entries = openingBook.get(key);
+    if (entries && entries.length > 0) {
+      for (let tries = 0; tries < entries.length; tries++) {
+        const pickIdx = Math.random() * entries.length | 0;
+        const [fromIdx, toIdx] = entries[pickIdx];
+        const fromRow2 = fromIdx / 9 | 0, fromCol2 = fromIdx % 9;
+        const toRow2 = toIdx / 9 | 0, toCol2 = toIdx % 9;
+        const piece2 = pieces.find((p) => p.row === fromRow2 && p.col === fromCol2);
+        if (piece2 && piece2.color === aiColor) {
+          const validMoves = getValidMoves(piece2, pieces);
+          if (validMoves.some((m) => m.row === toRow2 && m.col === toCol2)) {
+            return { piece: piece2, to: { row: toRow2, col: toCol2 } };
+          }
+        }
+      }
+    }
+  }
+  const [rootHi, rootLo] = computeHashB(b);
+  clearSearchState();
+  const boardSnapshot = new Uint8Array(b);
+  const moves = getMovesSorted(b, aiColor, 0);
+  if (moves.length === 0) return null;
+  const rootScores = [];
+  let bestMove = null;
+  let bestScore = -Infinity;
+  const startDepth = depth > 4 ? 1 : depth;
+  for (let d = startDepth; d <= depth; d++) {
+    let boardOk = true;
+    for (let i = 0; i < 90; i++) {
+      if (b[i] !== boardSnapshot[i]) {
+        boardOk = false;
+        break;
+      }
+    }
+    if (!boardOk) {
+      b.set(boardSnapshot);
+    }
+    let curBest = null;
+    let curScore = -Infinity;
+    const curScores = [];
+    let aspAlpha = -Infinity, aspBeta = Infinity;
+    if (d >= 4 && bestScore > -MATE) {
+      aspAlpha = bestScore - 50;
+      aspBeta = bestScore + 50;
+    }
+    for (let tryIdx = 0; tryIdx < 3; tryIdx++) {
+      curBest = null;
+      curScore = -Infinity;
+      curScores.length = 0;
+      for (const m of moves) {
+        const prev = b[m.toIdx];
+        b[m.toIdx] = b[m.fromIdx];
+        b[m.fromIdx] = 0;
+        const [nh, nl] = [
+          (rootHi ^ ZT[b[m.toIdx]][m.fromIdx][0] ^ ZT[b[m.toIdx]][m.toIdx][0] ^ (prev ? ZT[prev][m.toIdx][0] : 0)) >>> 0,
+          (rootLo ^ ZT[b[m.toIdx]][m.fromIdx][1] ^ ZT[b[m.toIdx]][m.toIdx][1] ^ (prev ? ZT[prev][m.toIdx][1] : 0)) >>> 0
+        ];
+        let score;
+        try {
+          score = -negamax(b, nh, nl, d - 1, -aspBeta, -Math.max(aspAlpha, curScore), !aiIsRed, 1, false);
+        } catch {
+          score = -Infinity;
+        }
+        b[m.fromIdx] = b[m.toIdx];
+        b[m.toIdx] = prev;
+        curScores.push({ move: m, score });
+        if (score > curScore) {
+          curScore = score;
+          curBest = m;
+        }
+        if (curScore >= aspBeta) break;
+      }
+      if (d < 4 || bestScore <= -MATE) break;
+      if (curScore > aspAlpha && curScore < aspBeta) break;
+      if (curScore <= aspAlpha) {
+        aspAlpha = -Infinity;
+        aspBeta = curScore + 200;
+      } else if (curScore >= aspBeta) {
+        aspAlpha = curScore - 200;
+        aspBeta = Infinity;
+      }
+    }
+    if (curBest) {
+      bestMove = curBest;
+      bestScore = curScore;
+    }
+    if (d === depth) {
+      rootScores.push(...curScores);
+    }
+    if (bestMove && d < depth) {
+      const idx = moves.indexOf(bestMove);
+      if (idx > 0) {
+        const tmp = moves[0];
+        moves[0] = moves[idx];
+        moves[idx] = tmp;
+      }
+    }
+  }
+  for (let i = 0; i < 90; i++) {
+    if (b[i] !== boardSnapshot[i]) {
+      b.set(boardSnapshot);
+      break;
+    }
+  }
+  if (!bestMove) {
+    const captureMove = moves.find((m) => m.captured);
+    bestMove = captureMove || moves[0];
+  }
+  const randThreshold = depth <= 2 ? 15 : depth <= 3 ? 5 : 0;
+  const candidates = rootScores.filter((e) => e.score >= bestScore - randThreshold);
+  if (candidates.length > 1) {
+    const pick = candidates[Math.random() * candidates.length | 0];
+    bestMove = pick.move;
+  }
+  const fromRow = bestMove.fromIdx / 9 | 0;
+  const fromCol = bestMove.fromIdx % 9;
+  const toRow = bestMove.toIdx / 9 | 0;
+  const toCol = bestMove.toIdx % 9;
+  const piece = pieces.find((p) => p.row === fromRow && p.col === fromCol);
+  if (!piece) return null;
+  return { piece, to: { row: toRow, col: toCol } };
+}
+
+// src/game/initialBoard.ts
+function createInitialPieces() {
+  const pieces = [];
+  let id = 0;
+  const addPiece = (type, color, row, col) => {
+    pieces.push({ id: `${type}_${color}_${id++}`, type, color, row, col, faceUp: true });
+  };
+  addPiece("rook", "black", 0, 0);
+  addPiece("horse", "black", 0, 1);
+  addPiece("elephant", "black", 0, 2);
+  addPiece("advisor", "black", 0, 3);
+  addPiece("king", "black", 0, 4);
+  addPiece("advisor", "black", 0, 5);
+  addPiece("elephant", "black", 0, 6);
+  addPiece("horse", "black", 0, 7);
+  addPiece("rook", "black", 0, 8);
+  addPiece("cannon", "black", 2, 1);
+  addPiece("cannon", "black", 2, 7);
+  addPiece("pawn", "black", 3, 0);
+  addPiece("pawn", "black", 3, 2);
+  addPiece("pawn", "black", 3, 4);
+  addPiece("pawn", "black", 3, 6);
+  addPiece("pawn", "black", 3, 8);
+  addPiece("pawn", "red", 6, 0);
+  addPiece("pawn", "red", 6, 2);
+  addPiece("pawn", "red", 6, 4);
+  addPiece("pawn", "red", 6, 6);
+  addPiece("pawn", "red", 6, 8);
+  addPiece("cannon", "red", 7, 1);
+  addPiece("cannon", "red", 7, 7);
+  addPiece("rook", "red", 9, 0);
+  addPiece("horse", "red", 9, 1);
+  addPiece("elephant", "red", 9, 2);
+  addPiece("advisor", "red", 9, 3);
+  addPiece("king", "red", 9, 4);
+  addPiece("advisor", "red", 9, 5);
+  addPiece("elephant", "red", 9, 6);
+  addPiece("horse", "red", 9, 7);
+  addPiece("rook", "red", 9, 8);
+  return pieces;
+}
+
+// src/game/flipBoard.ts
+function createFlipInitialPieces() {
+  const allPieces = [];
+  const types = [
+    "king",
+    "advisor",
+    "advisor",
+    "elephant",
+    "elephant",
+    "horse",
+    "horse",
+    "rook",
+    "rook",
+    "cannon",
+    "cannon",
+    "pawn",
+    "pawn",
+    "pawn",
+    "pawn",
+    "pawn"
+  ];
+  for (const color of ["red", "black"]) {
+    for (const type of types) {
+      allPieces.push({ type, color });
+    }
+  }
+  for (let i = allPieces.length - 1; i > 0; i--) {
+    const j = Math.random() * (i + 1) | 0;
+    [allPieces[i], allPieces[j]] = [allPieces[j], allPieces[i]];
+  }
+  const pieces = [];
+  for (let i = 0; i < 32; i++) {
+    const row = i / 8 | 0;
+    const col = i % 8;
+    pieces.push({
+      id: `flip_${i}`,
+      type: allPieces[i].type,
+      color: allPieces[i].color,
+      row,
+      col,
+      faceUp: false
+    });
+  }
+  return pieces;
+}
+
+// src/game/flipRules.ts
+var FLIP_ROWS = 4;
+var FLIP_COLS = 8;
+var FLIP_RANK = {
+  king: 7,
+  advisor: 6,
+  elephant: 5,
+  rook: 4,
+  horse: 3,
+  cannon: 2,
+  pawn: 1
+};
+var FLIP_INITIAL_SCORE = 60;
+var FLIP_SCORE_COST = {
+  king: 30,
+  advisor: 10,
+  elephant: 5,
+  rook: 5,
+  horse: 5,
+  cannon: 5,
+  pawn: 2
+};
+function getFlipScoreCost(type) {
+  return FLIP_SCORE_COST[type];
+}
+var FLIP_VALUE = {
+  king: 100,
+  advisor: 80,
+  elephant: 65,
+  rook: 50,
+  horse: 40,
+  cannon: 30,
+  pawn: 20
+};
+function getFlipValue(type) {
+  return FLIP_VALUE[type];
+}
+function inFlipBoard(row, col) {
+  return row >= 0 && row < FLIP_ROWS && col >= 0 && col < FLIP_COLS;
+}
+function getPieceAt3(pieces, row, col) {
+  return pieces.find((p) => p.row === row && p.col === col) || null;
+}
+function getStepMoves(piece, pieces) {
   const moves = [];
-  for (const p of pieces) {
-    if (p.color !== color) continue;
-    for (const to of getValidMoves(p, pieces)) {
-      moves.push({ piece: p, to });
+  const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+  for (const [dr, dc] of dirs) {
+    const nr = piece.row + dr, nc = piece.col + dc;
+    if (!inFlipBoard(nr, nc)) continue;
+    const target = getPieceAt3(pieces, nr, nc);
+    if (!target) {
+      moves.push({ row: nr, col: nc });
+    } else if (target.faceUp && target.color !== piece.color) {
+      if (canCapture(piece, target)) {
+        moves.push({ row: nr, col: nc });
+      }
     }
   }
   return moves;
 }
-function applyMove(pieces, move) {
-  return pieces.filter((p) => !(p.row === move.to.row && p.col === move.to.col)).map((p) => p.id === move.piece.id ? { ...p, row: move.to.row, col: move.to.col } : p);
-}
-function minimax(pieces, depth, alpha, beta, isMaximizing, aiColor) {
-  if (depth === 0) return evaluate(pieces, aiColor);
-  const color = isMaximizing ? aiColor : aiColor === "black" ? "red" : "black";
-  const moves = sortMoves(getAllMoves(pieces, color), pieces);
-  if (moves.length === 0) {
-    return isMaximizing ? -(5e4 + depth) : 5e4 + depth;
+function getCannonCaptures(piece, pieces) {
+  const captures = [];
+  const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+  for (const [dr, dc] of dirs) {
+    let jumped = false;
+    let nr = piece.row + dr, nc = piece.col + dc;
+    while (inFlipBoard(nr, nc)) {
+      const target = getPieceAt3(pieces, nr, nc);
+      if (!jumped) {
+        if (target) jumped = true;
+      } else {
+        if (target) {
+          if (!target.faceUp) {
+            captures.push({ row: nr, col: nc });
+          } else if (target.color !== piece.color) {
+            captures.push({ row: nr, col: nc });
+          }
+          break;
+        }
+      }
+      nr += dr;
+      nc += dc;
+    }
   }
-  if (isMaximizing) {
-    let maxScore = -Infinity;
-    for (const move of moves) {
-      const score = minimax(applyMove(pieces, move), depth - 1, alpha, beta, false, aiColor);
-      if (score > maxScore) maxScore = score;
+  return captures;
+}
+function canCapture(attacker, defender) {
+  const aRank = FLIP_RANK[attacker.type];
+  const dRank = FLIP_RANK[defender.type];
+  if (aRank === 1 && dRank === 7) return true;
+  if (aRank === 7 && dRank === 1) return false;
+  return aRank >= dRank;
+}
+function getCannonStepMoves(piece, pieces) {
+  const moves = [];
+  const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+  for (const [dr, dc] of dirs) {
+    const nr = piece.row + dr, nc = piece.col + dc;
+    if (!inFlipBoard(nr, nc)) continue;
+    const target = getPieceAt3(pieces, nr, nc);
+    if (!target) {
+      moves.push({ row: nr, col: nc });
+    } else if (!target.faceUp) {
+      moves.push({ row: nr, col: nc });
+    } else if (target.color !== piece.color && canCapture(piece, target)) {
+      moves.push({ row: nr, col: nc });
+    }
+  }
+  return moves;
+}
+function getFlipValidMoves(piece, pieces) {
+  if (!piece.faceUp) return [];
+  if (piece.type === "cannon") {
+    const stepMoves = getCannonStepMoves(piece, pieces);
+    const cannonCaptures = getCannonCaptures(piece, pieces);
+    const allMoves = [...stepMoves];
+    for (const m of cannonCaptures) {
+      if (!allMoves.some((s) => s.row === m.row && s.col === m.col)) {
+        allMoves.push(m);
+      }
+    }
+    return allMoves;
+  }
+  return getStepMoves(piece, pieces);
+}
+function canFlip(pieces) {
+  return pieces.some((p) => !p.faceUp);
+}
+function hasLegalAction(pieces, color) {
+  if (canFlip(pieces)) return true;
+  for (const p of pieces) {
+    if (p.color === color && p.faceUp && getFlipValidMoves(p, pieces).length > 0) return true;
+  }
+  return false;
+}
+function getFlipGameStatus(pieces, colorAssigned, currentTurn, flipScore) {
+  if (!colorAssigned) return "playing";
+  if (flipScore) {
+    if (flipScore.red <= 0) return "black_win";
+    if (flipScore.black <= 0) return "red_win";
+  }
+  const redAlive = pieces.some((p) => p.color === "red");
+  const blackAlive = pieces.some((p) => p.color === "black");
+  if (!redAlive) return "black_win";
+  if (!blackAlive) return "red_win";
+  if (!hasLegalAction(pieces, currentTurn)) {
+    return currentTurn === "red" ? "black_win" : "red_win";
+  }
+  return "playing";
+}
+function getFlipPieceName(type, color) {
+  const names = {
+    king: ["\u5E05", "\u5C06"],
+    advisor: ["\u4ED5", "\u58EB"],
+    elephant: ["\u76F8", "\u8C61"],
+    horse: ["\u9A6C", "\u9A6C"],
+    rook: ["\u8F66", "\u8F66"],
+    cannon: ["\u70AE", "\u7832"],
+    pawn: ["\u5175", "\u5352"]
+  };
+  return names[type][color === "red" ? 0 : 1];
+}
+
+// src/game/flipAi.ts
+function evaluateFlip(pieces, aiColor) {
+  let score = 0;
+  const avgValue = 45;
+  for (const p of pieces) {
+    if (!p.faceUp) {
+      continue;
+    }
+    const val = getFlipValue(p.type);
+    const centerBonus = (1.5 - Math.abs(p.col - 3.5) / 3.5 - Math.abs(p.row - 1.5) / 1.5) * 3;
+    const total = val + centerBonus;
+    score += p.color === aiColor ? total : -total;
+  }
+  return score;
+}
+function simulateFlip(pieces, row, col) {
+  return pieces.map((p) => p.row === row && p.col === col ? { ...p, faceUp: true } : p);
+}
+function simulateMove(pieces, piece, to) {
+  return pieces.filter((p) => !(p.row === to.row && p.col === to.col)).map((p) => p.id === piece.id ? { ...p, row: to.row, col: to.col } : p);
+}
+function enumerateActions(pieces, color, colorAssigned) {
+  const actions = [];
+  if (canFlip(pieces)) {
+    for (const p of pieces) {
+      if (!p.faceUp) {
+        actions.push({ type: "flip", row: p.row, col: p.col });
+      }
+    }
+  }
+  if (colorAssigned) {
+    for (const p of pieces) {
+      if (p.color === color && p.faceUp) {
+        const moves = getFlipValidMoves(p, pieces);
+        for (const m of moves) {
+          actions.push({ type: "move", piece: p, to: m });
+        }
+      }
+    }
+  }
+  return actions;
+}
+function minimaxFlip(pieces, color, aiColor, depth, alpha, beta, colorAssigned) {
+  if (depth <= 0) return evaluateFlip(pieces, aiColor);
+  const actions = enumerateActions(pieces, color, colorAssigned);
+  if (actions.length === 0) {
+    return color === aiColor ? -500 : 500;
+  }
+  const isMax = color === aiColor;
+  let best = isMax ? -Infinity : Infinity;
+  for (const action of actions) {
+    let newPieces;
+    if (action.type === "flip") {
+      newPieces = simulateFlip(pieces, action.row, action.col);
+    } else {
+      newPieces = simulateMove(pieces, action.piece, action.to);
+    }
+    const oppColor = color === "red" ? "black" : "red";
+    const score = minimaxFlip(newPieces, oppColor, aiColor, depth - 1, alpha, beta, colorAssigned || true);
+    if (isMax) {
+      if (score > best) best = score;
       if (score > alpha) alpha = score;
-      if (beta <= alpha) break;
-    }
-    return maxScore;
-  } else {
-    let minScore = Infinity;
-    for (const move of moves) {
-      const score = minimax(applyMove(pieces, move), depth - 1, alpha, beta, true, aiColor);
-      if (score < minScore) minScore = score;
+    } else {
+      if (score < best) best = score;
       if (score < beta) beta = score;
+    }
+    if (beta <= alpha) break;
+  }
+  return best;
+}
+function getFlipBestAction(pieces, aiColor, depth, colorAssigned) {
+  const actions = enumerateActions(pieces, aiColor, colorAssigned);
+  if (actions.length === 0) return null;
+  const scored = [];
+  for (const action of actions) {
+    let newPieces;
+    if (action.type === "flip") {
+      newPieces = simulateFlip(pieces, action.row, action.col);
+    } else {
+      newPieces = simulateMove(pieces, action.piece, action.to);
+    }
+    const oppColor = aiColor === "red" ? "black" : "red";
+    const score = minimaxFlip(newPieces, oppColor, aiColor, depth - 1, -Infinity, Infinity, colorAssigned || true);
+    scored.push({ action, score });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  const bestScore = scored[0].score;
+  const threshold = depth <= 1 ? 30 : 15;
+  const candidates = scored.filter((s) => s.score >= bestScore - threshold);
+  return candidates[Math.random() * candidates.length | 0].action;
+}
+
+// src/game/revealBoard.ts
+function createRevealInitialPieces() {
+  const pieces = [];
+  let id = 0;
+  pieces.push({ id: `reveal_king_black_${id++}`, type: "king", color: "black", row: 0, col: 4, faceUp: true });
+  pieces.push({ id: `reveal_king_red_${id++}`, type: "king", color: "red", row: 9, col: 4, faceUp: true });
+  const nonKingPieces = [
+    // 黑方
+    { type: "rook", color: "black" },
+    { type: "horse", color: "black" },
+    { type: "elephant", color: "black" },
+    { type: "advisor", color: "black" },
+    { type: "advisor", color: "black" },
+    { type: "elephant", color: "black" },
+    { type: "horse", color: "black" },
+    { type: "rook", color: "black" },
+    { type: "cannon", color: "black" },
+    { type: "cannon", color: "black" },
+    { type: "pawn", color: "black" },
+    { type: "pawn", color: "black" },
+    { type: "pawn", color: "black" },
+    { type: "pawn", color: "black" },
+    { type: "pawn", color: "black" },
+    // 红方
+    { type: "pawn", color: "red" },
+    { type: "pawn", color: "red" },
+    { type: "pawn", color: "red" },
+    { type: "pawn", color: "red" },
+    { type: "pawn", color: "red" },
+    { type: "cannon", color: "red" },
+    { type: "cannon", color: "red" },
+    { type: "rook", color: "red" },
+    { type: "horse", color: "red" },
+    { type: "elephant", color: "red" },
+    { type: "advisor", color: "red" },
+    { type: "advisor", color: "red" },
+    { type: "elephant", color: "red" },
+    { type: "horse", color: "red" },
+    { type: "rook", color: "red" }
+  ];
+  const positions = [
+    // 黑方
+    { row: 0, col: 0 },
+    { row: 0, col: 1 },
+    { row: 0, col: 2 },
+    { row: 0, col: 3 },
+    { row: 0, col: 5 },
+    { row: 0, col: 6 },
+    { row: 0, col: 7 },
+    { row: 0, col: 8 },
+    { row: 2, col: 1 },
+    { row: 2, col: 7 },
+    { row: 3, col: 0 },
+    { row: 3, col: 2 },
+    { row: 3, col: 4 },
+    { row: 3, col: 6 },
+    { row: 3, col: 8 },
+    // 红方
+    { row: 6, col: 0 },
+    { row: 6, col: 2 },
+    { row: 6, col: 4 },
+    { row: 6, col: 6 },
+    { row: 6, col: 8 },
+    { row: 7, col: 1 },
+    { row: 7, col: 7 },
+    { row: 9, col: 0 },
+    { row: 9, col: 1 },
+    { row: 9, col: 2 },
+    { row: 9, col: 3 },
+    { row: 9, col: 5 },
+    { row: 9, col: 6 },
+    { row: 9, col: 7 },
+    { row: 9, col: 8 }
+  ];
+  for (let i = positions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [positions[i], positions[j]] = [positions[j], positions[i]];
+  }
+  for (let i = 0; i < nonKingPieces.length; i++) {
+    const { type, color } = nonKingPieces[i];
+    const { row, col } = positions[i];
+    pieces.push({ id: `reveal_${type}_${color}_${id++}`, type, color, row, col, faceUp: false });
+  }
+  return pieces;
+}
+
+// src/game/revealRules.ts
+function inBoard2(row, col) {
+  return row >= 0 && row <= 9 && col >= 0 && col <= 8;
+}
+function getRevealRawMoves(piece, pieces) {
+  const { type, color, row, col } = piece;
+  if (type === "elephant") {
+    const moves = [];
+    const steps = [
+      [2, 2, 1, 1],
+      [2, -2, 1, -1],
+      [-2, 2, -1, 1],
+      [-2, -2, -1, -1]
+    ];
+    for (const [dr, dc, er, ec] of steps) {
+      const nr = row + dr, nc = col + dc;
+      if (!inBoard2(nr, nc)) continue;
+      if (getPieceAt(pieces, row + er, col + ec)) continue;
+      const target = getPieceAt(pieces, nr, nc);
+      if (!target || target.color !== color) {
+        moves.push({ row: nr, col: nc });
+      }
+    }
+    return moves;
+  }
+  if (type === "advisor") {
+    const moves = [];
+    const dirs = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+    for (const [dr, dc] of dirs) {
+      const nr = row + dr, nc = col + dc;
+      if (!inBoard2(nr, nc)) continue;
+      const target = getPieceAt(pieces, nr, nc);
+      if (!target || target.color !== color) {
+        moves.push({ row: nr, col: nc });
+      }
+    }
+    return moves;
+  }
+  return getRawMoves(piece, pieces);
+}
+var POSITION_TYPE = {};
+(function initPositionType() {
+  const blackBack = ["rook", "horse", "elephant", "advisor", "king", "advisor", "elephant", "horse", "rook"];
+  for (let c = 0; c < 9; c++) POSITION_TYPE[0 * 9 + c] = blackBack[c];
+  POSITION_TYPE[2 * 9 + 1] = "cannon";
+  POSITION_TYPE[2 * 9 + 7] = "cannon";
+  for (const c of [0, 2, 4, 6, 8]) POSITION_TYPE[3 * 9 + c] = "pawn";
+  for (const c of [0, 2, 4, 6, 8]) POSITION_TYPE[6 * 9 + c] = "pawn";
+  POSITION_TYPE[7 * 9 + 1] = "cannon";
+  POSITION_TYPE[7 * 9 + 7] = "cannon";
+  const redBack = ["rook", "horse", "elephant", "advisor", "king", "advisor", "elephant", "horse", "rook"];
+  for (let c = 0; c < 9; c++) POSITION_TYPE[9 * 9 + c] = redBack[c];
+})();
+function getPositionType(row, col) {
+  return POSITION_TYPE[row * 9 + col] || null;
+}
+function getPieceAt5(pieces, row, col) {
+  return pieces.find((p) => p.row === row && p.col === col) || null;
+}
+function getRevealValidMoves(piece, pieces) {
+  if (piece.faceUp) {
+    const rawMoves2 = getRevealRawMoves(piece, pieces);
+    return rawMoves2.filter((move) => {
+      const newPieces = pieces.filter((p) => !(p.row === move.row && p.col === move.col)).map((p) => p === piece ? { ...p, row: move.row, col: move.col } : p);
+      return !isInRevealCheck(newPieces, piece.color);
+    });
+  }
+  const posType = getPositionType(piece.row, piece.col);
+  if (!posType) return [];
+  const virtualPiece = { ...piece, type: posType, faceUp: true };
+  const rawMoves = getRevealRawMoves(virtualPiece, pieces);
+  const validMoves = [];
+  const myColor = piece.color;
+  for (const m of rawMoves) {
+    const newPieces = pieces.filter((p) => !(p.row === m.row && p.col === m.col)).map((p) => p.id === piece.id ? { ...p, row: m.row, col: m.col, faceUp: true } : p);
+    if (!isInRevealCheck(newPieces, myColor)) {
+      validMoves.push(m);
+    }
+  }
+  return validMoves;
+}
+function isPawnAdjacentToKing(pieces, kingColor) {
+  const king = pieces.find((p) => p.type === "king" && p.color === kingColor && p.faceUp);
+  if (!king) return true;
+  const oppColor = kingColor === "red" ? "black" : "red";
+  const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+  for (const [dr, dc] of dirs) {
+    const p = getPieceAt5(pieces, king.row + dr, king.col + dc);
+    if (p && p.faceUp && p.type === "pawn" && p.color === oppColor) return true;
+  }
+  return false;
+}
+function isInRevealCheck(pieces, color) {
+  const king = pieces.find((p) => p.type === "king" && p.color === color && p.faceUp);
+  if (!king) return true;
+  const oppColor = color === "red" ? "black" : "red";
+  if (isPawnAdjacentToKing(pieces, color)) return true;
+  for (const p of pieces) {
+    if (p.color !== oppColor || !p.faceUp) continue;
+    const moves = getRevealRawMoves(p, pieces);
+    if (moves.some((m) => m.row === king.row && m.col === king.col)) return true;
+  }
+  const oppKing = pieces.find((p) => p.type === "king" && p.color === oppColor && p.faceUp);
+  if (oppKing && oppKing.col === king.col) {
+    const minR = Math.min(king.row, oppKing.row);
+    const maxR = Math.max(king.row, oppKing.row);
+    let blocked = false;
+    for (let r = minR + 1; r < maxR; r++) {
+      if (getPieceAt5(pieces, r, king.col)) {
+        blocked = true;
+        break;
+      }
+    }
+    if (!blocked) return true;
+  }
+  return false;
+}
+function isRevealCheckmate(pieces, color) {
+  if (!isInRevealCheck(pieces, color)) return false;
+  for (const p of pieces) {
+    if (p.color !== color) continue;
+    if (getRevealValidMoves(p, pieces).length > 0) return false;
+  }
+  return true;
+}
+function getRevealGameStatus(pieces, currentTurn) {
+  const redKing = pieces.find((p) => p.type === "king" && p.color === "red");
+  const blackKing = pieces.find((p) => p.type === "king" && p.color === "black");
+  if (!redKing) return "black_win";
+  if (!blackKing) return "red_win";
+  if (isPawnAdjacentToKing(pieces, "red")) return "black_win";
+  if (isPawnAdjacentToKing(pieces, "black")) return "red_win";
+  if (isRevealCheckmate(pieces, currentTurn)) {
+    return currentTurn === "red" ? "black_win" : "red_win";
+  }
+  for (const p of pieces) {
+    if (p.color === currentTurn && getRevealValidMoves(p, pieces).length > 0) return "playing";
+  }
+  return currentTurn === "red" ? "black_win" : "red_win";
+}
+
+// src/game/revealAi.ts
+var AVG_PIECE_VALUE = (1e4 + 120 + 120 + 270 + 600 + 300 + 30) / 7;
+function evaluateReveal(pieces, aiColor) {
+  let score = 0;
+  const aiIsRed = aiColor === "red";
+  for (const p of pieces) {
+    if (p.faceUp) {
+      const stdVal = getStdPieceValue(p.type);
+      score += p.color === aiColor ? stdVal : -stdVal;
+    } else {
+      if (p.color === aiColor) {
+        const val = getStdPieceValue(p.type);
+        score += val * 0.8;
+      } else {
+        score -= AVG_PIECE_VALUE * 0.7;
+      }
+    }
+  }
+  return score;
+}
+function getStdPieceValue(type) {
+  const vals = {
+    king: 1e4,
+    advisor: 120,
+    elephant: 120,
+    horse: 270,
+    rook: 600,
+    cannon: 300,
+    pawn: 30
+  };
+  return vals[type] || 0;
+}
+function simulateMove2(pieces, piece, to) {
+  return pieces.filter((p) => !(p.row === to.row && p.col === to.col)).map((p) => p.id === piece.id ? { ...p, row: to.row, col: to.col, faceUp: true } : p);
+}
+function minimaxReveal(pieces, color, aiColor, depth, alpha, beta) {
+  if (depth <= 0) return evaluateReveal(pieces, aiColor);
+  const isMax = color === aiColor;
+  let best = isMax ? -Infinity : Infinity;
+  let hasMove = false;
+  for (const p of pieces) {
+    if (p.color !== color) continue;
+    const moves = getRevealValidMoves(p, pieces);
+    for (const m of moves) {
+      hasMove = true;
+      const newPieces = simulateMove2(pieces, p, m);
+      const oppColor = color === "red" ? "black" : "red";
+      const score = minimaxReveal(newPieces, oppColor, aiColor, depth - 1, alpha, beta);
+      if (isMax) {
+        if (score > best) best = score;
+        if (score > alpha) alpha = score;
+      } else {
+        if (score < best) best = score;
+        if (score < beta) beta = score;
+      }
       if (beta <= alpha) break;
     }
-    return minScore;
+    if (beta <= alpha) break;
   }
+  if (!hasMove) return isMax ? -5e4 : 5e4;
+  return best;
 }
-function getBestMove(pieces, aiColor, depth = 3) {
-  const moves = sortMoves(getAllMoves(pieces, aiColor), pieces);
-  if (moves.length === 0) return null;
+function getRevealBestMove(pieces, aiColor, depth) {
   let bestMove = null;
   let bestScore = -Infinity;
-  for (const move of moves) {
-    const score = minimax(applyMove(pieces, move), depth - 1, bestScore, Infinity, false, aiColor);
-    if (score > bestScore) {
-      bestScore = score;
-      bestMove = move;
+  const candidates = [];
+  for (const p of pieces) {
+    if (p.color !== aiColor) continue;
+    const moves = getRevealValidMoves(p, pieces);
+    for (const m of moves) {
+      const newPieces = simulateMove2(pieces, p, m);
+      const oppColor = aiColor === "red" ? "black" : "red";
+      const score = minimaxReveal(newPieces, oppColor, aiColor, depth - 1, -Infinity, Infinity);
+      candidates.push({ piece: p, to: m, score });
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = { piece: p, to: m };
+      }
     }
   }
+  if (!bestMove) return null;
+  const threshold = depth <= 1 ? 50 : 20;
+  const nearBest = candidates.filter((c) => c.score >= bestScore - threshold);
+  if (nearBest.length > 1) {
+    const pick = nearBest[Math.random() * nearBest.length | 0];
+    return { piece: pick.piece, to: pick.to };
+  }
   return bestMove;
+}
+
+// src/game/strategy.ts
+var StandardStrategy = class {
+  constructor() {
+    this.variant = "standard";
+  }
+  createInitialPieces() {
+    return createInitialPieces();
+  }
+  getValidMoves(piece, pieces) {
+    return getValidMoves(piece, pieces);
+  }
+  getGameStatus(pieces, currentTurn) {
+    if (isCheckmate(pieces, currentTurn)) {
+      return currentTurn === "red" ? "black_win" : "red_win";
+    }
+    return "playing";
+  }
+  getBoardDimensions() {
+    return { rows: 10, cols: 9 };
+  }
+  getPieceDisplayName(piece) {
+    return getPieceDisplayName(piece);
+  }
+  isInCheck(pieces, color) {
+    return isInCheck(pieces, color);
+  }
+  getAiMove(pieces, aiColor, depth) {
+    return getBestMove(pieces, aiColor, depth);
+  }
+};
+var FlipStrategy = class {
+  constructor() {
+    this.variant = "flip";
+  }
+  createInitialPieces() {
+    return createFlipInitialPieces();
+  }
+  getValidMoves(piece, pieces) {
+    return getFlipValidMoves(piece, pieces);
+  }
+  getGameStatus(pieces, currentTurn, state) {
+    return getFlipGameStatus(pieces, state.flipColorAssigned, currentTurn, state.flipScore);
+  }
+  getBoardDimensions() {
+    return { rows: FLIP_ROWS, cols: FLIP_COLS };
+  }
+  getPieceDisplayName(piece) {
+    if (!piece.faceUp) return "?";
+    return getFlipPieceName(piece.type, piece.color);
+  }
+  isInCheck() {
+    return false;
+  }
+  // 翻翻棋无将军概念
+  getAiMove(pieces, aiColor, depth, state) {
+    return getFlipBestAction(pieces, aiColor, depth, state.flipColorAssigned);
+  }
+};
+var RevealStrategy = class {
+  constructor() {
+    this.variant = "reveal";
+  }
+  createInitialPieces() {
+    return createRevealInitialPieces();
+  }
+  getValidMoves(piece, pieces) {
+    return getRevealValidMoves(piece, pieces);
+  }
+  getGameStatus(pieces, currentTurn) {
+    return getRevealGameStatus(pieces, currentTurn);
+  }
+  getBoardDimensions() {
+    return { rows: 10, cols: 9 };
+  }
+  getPieceDisplayName(piece) {
+    if (!piece.faceUp) return "?";
+    return getPieceName(piece.type, piece.color);
+  }
+  isInCheck(pieces, color) {
+    return isInRevealCheck(pieces, color);
+  }
+  getAiMove(pieces, aiColor, depth) {
+    return getRevealBestMove(pieces, aiColor, depth);
+  }
+};
+function createStrategy(variant) {
+  switch (variant) {
+    case "flip":
+      return new FlipStrategy();
+    case "reveal":
+      return new RevealStrategy();
+    default:
+      return new StandardStrategy();
+  }
 }
 
 // src/game/lan.ts
@@ -21111,23 +24159,25 @@ function disconnectFromServer() {
 function playSound(type) {
   globalThis.dartCallNative?.("Sound.play", { type });
 }
-function calcCellSize(screenWidth) {
-  return Math.floor(screenWidth / 9);
-}
-var AI_DEPTH = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 };
-function createInitialState(mode = "pvc", aiLevel = 3) {
+var AI_DEPTH = { 1: 2, 2: 3, 3: 5, 4: 7, 5: 10 };
+function createInitialState(mode = "pvc", aiLevel = 3, playerColor = "red", variant = "standard") {
+  const strategy = createStrategy(variant);
   return {
-    pieces: createInitialPieces(),
+    pieces: strategy.createInitialPieces(),
     currentTurn: "red",
     selectedPiece: null,
     validMoves: [],
     status: "playing",
     moveHistory: [],
     mode,
-    playerColor: "red",
+    playerColor,
     aiThinking: false,
     aiLevel,
-    aiChaseMap: {}
+    variant,
+    positionCounts: {},
+    flipColorAssigned: variant !== "flip",
+    // 标准和揭棋不需要翻棋定色
+    flipScore: { red: FLIP_INITIAL_SCORE, black: FLIP_INITIAL_SCORE }
   };
 }
 var PIECE_COLORS = {
@@ -21137,74 +24187,115 @@ var PIECE_COLORS = {
 var BOARD_LINE_COLOR = "#8B4513";
 var BOARD_BG_COLOR = "#F5DEB3";
 var VALID_MOVE_COLOR = "rgba(0, 200, 0, 0.5)";
-function doAiMove(pieces, playerColor, moveHistory, depth, aiChaseMap) {
+function positionSignature(pieces, currentTurn) {
+  return currentTurn + ":" + pieces.map((p) => `${p.id}${p.row}${p.col}`).sort().join(",");
+}
+function updateRepetition(newPieces, justMovedColor, opponentColor, prevPosCounts) {
+  const sig = positionSignature(newPieces, opponentColor);
+  const newPosCounts = { ...prevPosCounts };
+  newPosCounts[sig] = (newPosCounts[sig] ?? 0) + 1;
+  if (newPosCounts[sig] >= 3) {
+    const inCheck = isInCheck(newPieces, opponentColor);
+    if (inCheck) {
+      return {
+        positionCounts: newPosCounts,
+        statusSuffix: "\uFF08\u957F\u5C06\u5224\u8D1F\uFF09",
+        endReason: "\u957F\u5C06\u5224\u8D1F",
+        isDraw: false,
+        isLoser: true
+      };
+    }
+    return {
+      positionCounts: newPosCounts,
+      statusSuffix: "\uFF08\u4E09\u6B21\u91CD\u590D\u5224\u548C\uFF09",
+      endReason: "\u4E09\u6B21\u91CD\u590D\u5224\u548C",
+      isDraw: true,
+      isLoser: false
+    };
+  }
+  return {
+    positionCounts: newPosCounts,
+    statusSuffix: "",
+    endReason: "",
+    isDraw: false,
+    isLoser: false
+  };
+}
+function doAiMove(pieces, playerColor, moveHistory, depth, positionCounts) {
   const aiColor = playerColor === "red" ? "black" : "red";
   const bestMove = getBestMove(pieces, aiColor, depth);
-  if (!bestMove) return { aiThinking: false };
+  if (!bestMove) return { state: { aiThinking: false }, captured: null, movedPieceId: null };
   const { piece: movingPiece, to } = bestMove;
   const capturedPiece = getPieceAt(pieces, to.row, to.col);
   const newPieces = pieces.filter((p) => !(p.row === to.row && p.col === to.col)).map((p) => p.id === movingPiece.id ? { ...p, row: to.row, col: to.col } : p);
   const moveName = `AI:${getPieceName(movingPiece.type, aiColor)}(${movingPiece.col + 1},${10 - movingPiece.row})->(${to.col + 1},${10 - to.row})`;
-  const newAiChaseMap = { ...aiChaseMap };
-  const movedPiece = newPieces.find((p) => p.id === movingPiece.id);
-  const attackedTargets = getValidMoves(movedPiece, newPieces).filter((pos) => getPieceAt(newPieces, pos.row, pos.col)?.color === playerColor);
-  if (attackedTargets.length > 0) {
-    const chaseKey = `${movingPiece.id}->${to.row},${to.col}`;
-    newAiChaseMap[chaseKey] = (newAiChaseMap[chaseKey] ?? 0) + 1;
-    if (newAiChaseMap[chaseKey] >= 15) {
-      return {
-        pieces: newPieces,
-        currentTurn: playerColor,
-        selectedPiece: null,
-        validMoves: [],
-        status: playerColor === "red" ? "red_win" : "black_win",
-        moveHistory: [...moveHistory, moveName + "\uFF08\u957F\u6349\u5224\u8D1F\uFF09"],
-        aiThinking: false,
-        aiChaseMap: newAiChaseMap
-      };
-    }
-  } else {
-    const chaseKey = `${movingPiece.id}->${to.row},${to.col}`;
-    delete newAiChaseMap[chaseKey];
-  }
+  const rep = updateRepetition(newPieces, aiColor, playerColor, positionCounts);
   let newStatus = "playing";
+  let endReason = "";
   if (capturedPiece?.type === "king") {
     newStatus = aiColor === "red" ? "red_win" : "black_win";
+    endReason = "\u5C06\u6740";
   } else if (isCheckmate(newPieces, playerColor)) {
     newStatus = aiColor === "red" ? "red_win" : "black_win";
+    endReason = isInCheck(newPieces, playerColor) ? "\u5C06\u6740" : "\u56F0\u6BD9";
+  } else if (rep.isLoser) {
+    newStatus = playerColor === "red" ? "red_win" : "black_win";
+    endReason = rep.endReason;
+  } else if (rep.isDraw) {
+    newStatus = "draw";
+    endReason = rep.endReason;
   }
   if (newStatus !== "playing") playSound("win");
   else if (capturedPiece) playSound("capture");
   else if (isInCheck(newPieces, playerColor)) playSound("check");
   else playSound("move");
   return {
-    pieces: newPieces,
-    currentTurn: playerColor,
-    selectedPiece: null,
-    validMoves: [],
-    status: newStatus,
-    moveHistory: [...moveHistory, moveName],
-    aiThinking: false,
-    aiChaseMap: newAiChaseMap
+    state: {
+      pieces: newPieces,
+      currentTurn: playerColor,
+      selectedPiece: null,
+      validMoves: [],
+      status: newStatus,
+      moveHistory: [...moveHistory, moveName + rep.statusSuffix],
+      aiThinking: false,
+      positionCounts: rep.positionCounts,
+      endReason
+    },
+    captured: capturedPiece ? { row: to.row, col: to.col, piece: capturedPiece } : null,
+    movedPieceId: movingPiece.id
   };
 }
-function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, screenWidth: initScreenWidth }) {
-  const [state, setState] = (0, import_react3.useState)(createInitialState(mode, aiLevel));
-  const [screenWidth, setScreenWidth] = (0, import_react3.useState)(initScreenWidth || 360);
-  const [hint, setHint] = (0, import_react3.useState)(null);
-  const historyRef = (0, import_react3.useRef)([]);
-  const [lanStatus, setLanStatus] = (0, import_react3.useState)("idle");
-  const [lanRole, setLanRole] = (0, import_react3.useState)(null);
-  const [lanIp, setLanIp] = (0, import_react3.useState)("");
-  const [lanError, setLanError] = (0, import_react3.useState)("");
-  const lanRoleRef = (0, import_react3.useRef)(null);
-  (0, import_react3.useEffect)(() => {
+function GamePage({ mode = "pvp", aiLevel = 3, playerColor: initPlayerColor, lanAction, lanIp: initLanIp, screenWidth: initScreenWidth, variant = "standard" }) {
+  const strategy = (0, import_react4.useMemo)(() => createStrategy(variant), [variant]);
+  const [state, setState] = (0, import_react4.useState)(createInitialState(mode, aiLevel, initPlayerColor, variant));
+  const [screenWidth, setScreenWidth] = (0, import_react4.useState)(initScreenWidth || 360);
+  const [screenHeight, setScreenHeight] = (0, import_react4.useState)(640);
+  const [drawRefused, setDrawRefused] = (0, import_react4.useState)(false);
+  const [hint, setHint] = (0, import_react4.useState)(null);
+  const [capture, setCapture] = (0, import_react4.useState)(null);
+  const [checkFlash, setCheckFlash] = (0, import_react4.useState)(false);
+  const captureKeyRef = (0, import_react4.useRef)(0);
+  const [scoreDeduct, setScoreDeduct] = (0, import_react4.useState)(null);
+  const scoreDeductRef = (0, import_react4.useRef)(0);
+  const showCapture = (row, col, piece) => {
+    captureKeyRef.current += 1;
+    setCapture({ row, col, name: getPieceName(piece.type, piece.color), key: captureKeyRef.current });
+  };
+  const historyRef = (0, import_react4.useRef)([]);
+  const navigator2 = (0, import_hooks.useNavigator)();
+  const [lanStatus, setLanStatus] = (0, import_react4.useState)("idle");
+  const [lanRole, setLanRole] = (0, import_react4.useState)(null);
+  const [lanIp, setLanIp] = (0, import_react4.useState)("");
+  const [lanError, setLanError] = (0, import_react4.useState)("");
+  const lanRoleRef = (0, import_react4.useRef)(null);
+  (0, import_react4.useEffect)(() => {
     if (initScreenWidth) return;
-    import_fuickjs3.DeviceInfoService.getDeviceInfo().then((info) => {
+    import_fuickjs4.DeviceInfoService.getDeviceInfo().then((info) => {
       setScreenWidth(info.screenWidth);
+      setScreenHeight(info.screenHeight);
     });
   }, []);
-  (0, import_react3.useEffect)(() => {
+  (0, import_react4.useEffect)(() => {
     if (mode !== "lan") return;
     if (lanAction === "host") {
       handleLanHost();
@@ -21212,22 +24303,67 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
       handleLanJoin(initLanIp);
     }
   }, []);
-  (0, import_react3.useEffect)(() => {
+  (0, import_react4.useEffect)(() => {
     if (state.mode !== "pvc") return;
     if (state.status !== "playing") return;
     if (state.currentTurn === state.playerColor) return;
-    const depth = AI_DEPTH[state.aiLevel];
+    if (checkFlash) return;
+    const depth = state.variant === "standard" ? AI_DEPTH[state.aiLevel] : Math.min(state.aiLevel, 3);
+    const aiDelay = state.aiLevel >= 5 ? 0 : state.aiLevel >= 4 ? 100 : 500;
     const timer = setTimeout(() => {
       setState((s) => {
         if (s.status !== "playing" || s.currentTurn === s.playerColor) return s;
         historyRef.current.push({ ...s });
-        const aiResult = doAiMove(s.pieces, s.playerColor, s.moveHistory, AI_DEPTH[s.aiLevel], s.aiChaseMap);
-        return { ...s, ...aiResult };
+        const aiColor = s.playerColor === "red" ? "black" : "red";
+        if (s.variant === "flip") {
+          const action = strategy.getAiMove(s.pieces, aiColor, depth, s);
+          if (!action) return { ...s, aiThinking: false };
+          if (action.type === "flip") {
+            const newPieces = s.pieces.map(
+              (p) => p.row === action.row && p.col === action.col ? { ...p, faceUp: true } : p
+            );
+            const nextTurn = s.currentTurn === "red" ? "black" : "red";
+            let newFlipAssigned = s.flipColorAssigned;
+            if (!s.flipColorAssigned) newFlipAssigned = true;
+            const newStatus = strategy.getGameStatus(newPieces, nextTurn, { ...s, pieces: newPieces, flipColorAssigned: newFlipAssigned });
+            playSound("move");
+            return { ...s, pieces: newPieces, currentTurn: nextTurn, selectedPiece: null, validMoves: [], status: newStatus, moveHistory: [...s.moveHistory, `AI:\u7FFB(${action.col + 1},${action.row + 1})`], aiThinking: false, flipColorAssigned: newFlipAssigned };
+          } else {
+            const newPieces = s.pieces.filter((p) => !(p.row === action.to.row && p.col === action.to.col)).map((p) => p.id === action.piece.id ? { ...p, row: action.to.row, col: action.to.col } : p);
+            const nextTurn = s.currentTurn === "red" ? "black" : "red";
+            const captured = getPieceAt(s.pieces, action.to.row, action.to.col);
+            let newFlipScore = s.flipScore;
+            if (captured) {
+              const cost = getFlipScoreCost(captured.type);
+              newFlipScore = { ...s.flipScore, [captured.color]: s.flipScore[captured.color] - cost };
+              scoreDeductRef.current += 1;
+              setScoreDeduct({ color: captured.color, amount: cost, tick: scoreDeductRef.current });
+            }
+            const newStatus = strategy.getGameStatus(newPieces, nextTurn, { ...s, pieces: newPieces, flipScore: newFlipScore });
+            if (newStatus !== "playing") playSound("win");
+            else if (captured) {
+              playSound("capture");
+              showCapture(action.to.row, action.to.col, captured);
+            } else playSound("move");
+            return { ...s, pieces: newPieces, currentTurn: nextTurn, selectedPiece: null, validMoves: [], status: newStatus, moveHistory: [...s.moveHistory, `AI:\u8D70`], aiThinking: false, flipScore: newFlipScore };
+          }
+        }
+        const aiResult = doAiMove(s.pieces, s.playerColor, s.moveHistory, depth, s.positionCounts);
+        if (aiResult.captured) showCapture(aiResult.captured.row, aiResult.captured.col, aiResult.captured.piece);
+        if (s.variant === "reveal" && aiResult.state.pieces) {
+          const movedPieceId = aiResult.movedPieceId;
+          if (movedPieceId) {
+            aiResult.state.pieces = aiResult.state.pieces.map(
+              (p) => p.id === movedPieceId ? { ...p, faceUp: true } : p
+            );
+          }
+        }
+        return { ...s, ...aiResult.state };
       });
-    }, 500);
+    }, aiDelay);
     return () => clearTimeout(timer);
-  }, [state.currentTurn, state.mode, state.status]);
-  (0, import_react3.useEffect)(() => {
+  }, [state.currentTurn, state.mode, state.status, checkFlash, strategy]);
+  (0, import_react4.useEffect)(() => {
     setLanEventHandler((event) => {
       const role = lanRoleRef.current;
       switch (event.type) {
@@ -21242,7 +24378,7 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
           setLanStatus("connected");
           break;
         case "disconnected":
-          import_fuickjs3.NavigatorService.pop();
+          import_fuickjs4.NavigatorService.pop();
           break;
         case "error":
           setLanError(event.message);
@@ -21262,8 +24398,10 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
             if (capturedPiece?.type === "king") newStatus = prev.currentTurn === "red" ? "red_win" : "black_win";
             else if (isCheckmate(newPieces, nextTurn)) newStatus = prev.currentTurn === "red" ? "red_win" : "black_win";
             if (newStatus !== "playing") playSound("win");
-            else if (capturedPiece) playSound("capture");
-            else if (isInCheck(newPieces, nextTurn)) playSound("check");
+            else if (capturedPiece) {
+              playSound("capture");
+              showCapture(row, col, capturedPiece);
+            } else if (isInCheck(newPieces, nextTurn)) playSound("check");
             else playSound("move");
             return { ...prev, pieces: newPieces, currentTurn: nextTurn, selectedPiece: null, validMoves: [], status: newStatus, moveHistory: [...prev.moveHistory, moveName] };
           });
@@ -21290,7 +24428,7 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
       }
     });
   }, []);
-  const handleLanHost = (0, import_react3.useCallback)(async () => {
+  const handleLanHost = (0, import_react4.useCallback)(async () => {
     setLanStatus("hosting");
     setLanError("");
     const result = await startServer();
@@ -21305,7 +24443,7 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
       setLanStatus("error");
     }
   }, []);
-  const handleLanJoin = (0, import_react3.useCallback)(async (ip) => {
+  const handleLanJoin = (0, import_react4.useCallback)(async (ip) => {
     setLanStatus("connecting");
     setLanError("");
     const [host] = ip.split(":");
@@ -21319,18 +24457,36 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
       setLanStatus("error");
     }
   }, []);
-  const handleLanQuit = (0, import_react3.useCallback)(() => {
+  const handleLanQuit = (0, import_react4.useCallback)(() => {
     const role = lanRoleRef.current;
     if (role === "host") stopServer();
     else disconnectFromServer();
-    import_fuickjs3.NavigatorService.pop();
+    import_fuickjs4.NavigatorService.pop();
   }, []);
-  const handleCellTap = (0, import_react3.useCallback)((row, col) => {
+  const handleCellTap = (0, import_react4.useCallback)((row, col) => {
+    if (checkFlash) return;
     setState((prev) => {
       if (prev.status !== "playing") return prev;
       if (prev.mode === "pvc" && prev.currentTurn !== prev.playerColor) return prev;
       if (prev.mode === "lan" && prev.currentTurn !== prev.playerColor) return prev;
       const tappedPiece = getPieceAt(prev.pieces, row, col);
+      if (prev.variant === "flip" && tappedPiece && !tappedPiece.faceUp) {
+        historyRef.current.push({ ...prev });
+        const newPieces = prev.pieces.map(
+          (p) => p.row === row && p.col === col ? { ...p, faceUp: true } : p
+        );
+        const nextTurn = prev.currentTurn === "red" ? "black" : "red";
+        let newPlayerColor = prev.playerColor;
+        let newFlipAssigned = prev.flipColorAssigned;
+        if (!prev.flipColorAssigned) {
+          newFlipAssigned = true;
+          newPlayerColor = prev.currentTurn === prev.playerColor ? tappedPiece.color : tappedPiece.color === "red" ? "black" : "red";
+        }
+        const newStatus = strategy.getGameStatus(newPieces, nextTurn, { ...prev, pieces: newPieces, flipColorAssigned: newFlipAssigned });
+        const moveName = `\u7FFB(${col + 1},${row + 1})`;
+        playSound("move");
+        return { ...prev, pieces: newPieces, currentTurn: nextTurn, selectedPiece: null, validMoves: [], status: newStatus, moveHistory: [...prev.moveHistory, moveName], playerColor: newPlayerColor, flipColorAssigned: newFlipAssigned };
+      }
       if (prev.selectedPiece) {
         const isValidMove = prev.validMoves.some((m) => m.row === row && m.col === col);
         if (isValidMove) {
@@ -21338,46 +24494,139 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
           historyRef.current.push({ ...prev });
           const movingPiece = prev.selectedPiece;
           const capturedPiece = tappedPiece;
-          const newPieces = prev.pieces.filter((p) => !(p.row === row && p.col === col)).map((p) => p.id === movingPiece.id ? { ...p, row, col } : p);
+          const shouldReveal = prev.variant === "reveal" && !movingPiece.faceUp;
+          const newPieces = prev.pieces.filter((p) => !(p.row === row && p.col === col)).map((p) => p.id === movingPiece.id ? { ...p, row, col, faceUp: shouldReveal ? true : p.faceUp } : p);
           const nextTurn = prev.currentTurn === "red" ? "black" : "red";
-          const moveName = `${getPieceName(movingPiece.type, movingPiece.color)}(${movingPiece.col + 1},${10 - movingPiece.row})->(${col + 1},${10 - row})`;
+          const displayName = strategy.getPieceDisplayName(movingPiece);
+          const moveName = `${displayName}(${movingPiece.col + 1},${10 - movingPiece.row})->(${col + 1},${10 - row})`;
+          const rep = prev.variant === "standard" ? updateRepetition(newPieces, prev.currentTurn, nextTurn, prev.positionCounts) : { isLoser: false, isDraw: false, positionCounts: prev.positionCounts, statusSuffix: "", endReason: "" };
           let newStatus = prev.status;
-          if (capturedPiece?.type === "king") {
-            newStatus = prev.currentTurn === "red" ? "red_win" : "black_win";
-          } else if (isCheckmate(newPieces, nextTurn)) {
-            newStatus = prev.currentTurn === "red" ? "red_win" : "black_win";
+          let endReason = "";
+          if (prev.variant === "standard") {
+            if (capturedPiece?.type === "king") {
+              newStatus = prev.currentTurn === "red" ? "red_win" : "black_win";
+              endReason = "\u5C06\u6740";
+            } else if (isCheckmate(newPieces, nextTurn)) {
+              newStatus = prev.currentTurn === "red" ? "red_win" : "black_win";
+              endReason = isInCheck(newPieces, nextTurn) ? "\u5C06\u6740" : "\u56F0\u6BD9";
+            } else if (rep.isLoser) {
+              newStatus = nextTurn === "red" ? "red_win" : "black_win";
+              endReason = rep.endReason;
+            } else if (rep.isDraw) {
+              newStatus = "draw";
+              endReason = rep.endReason;
+            }
+          } else {
+            if (capturedPiece && prev.variant === "flip") {
+              const cost = getFlipScoreCost(capturedPiece.type);
+              prev = { ...prev, flipScore: { ...prev.flipScore, [capturedPiece.color]: prev.flipScore[capturedPiece.color] - cost } };
+              scoreDeductRef.current += 1;
+              setScoreDeduct({ color: capturedPiece.color, amount: cost, tick: scoreDeductRef.current });
+            }
+            newStatus = strategy.getGameStatus(newPieces, nextTurn, { ...prev, pieces: newPieces });
           }
-          const newHistory = [...prev.moveHistory, moveName];
+          const newHistory = [...prev.moveHistory, moveName + (rep.statusSuffix || "")];
           if (newStatus !== "playing") playSound("win");
-          else if (capturedPiece) playSound("capture");
-          else if (isInCheck(newPieces, nextTurn)) playSound("check");
+          else if (capturedPiece) {
+            playSound("capture");
+            showCapture(row, col, capturedPiece);
+          } else if (strategy.isInCheck(newPieces, nextTurn)) playSound("check");
           else playSound("move");
           if (prev.mode === "lan") {
             const msg = { type: "move", pieceId: movingPiece.id, row, col };
             if (lanRoleRef.current === "host") sendToClient(msg);
             else sendToServer(msg);
           }
-          return { ...prev, pieces: newPieces, currentTurn: nextTurn, selectedPiece: null, validMoves: [], status: newStatus, moveHistory: newHistory };
+          return { ...prev, pieces: newPieces, currentTurn: nextTurn, selectedPiece: null, validMoves: [], status: newStatus, moveHistory: newHistory, positionCounts: rep.positionCounts, endReason };
         }
-        if (tappedPiece && tappedPiece.color === prev.currentTurn) {
-          const validMoves2 = getValidMoves(tappedPiece, prev.pieces);
+        if (tappedPiece && tappedPiece.faceUp && tappedPiece.color === prev.currentTurn) {
+          const validMoves2 = strategy.getValidMoves(tappedPiece, prev.pieces);
+          return { ...prev, selectedPiece: tappedPiece, validMoves: validMoves2 };
+        }
+        if (prev.variant === "reveal" && tappedPiece && !tappedPiece.faceUp && tappedPiece.color === prev.currentTurn) {
+          const validMoves2 = strategy.getValidMoves(tappedPiece, prev.pieces);
           return { ...prev, selectedPiece: tappedPiece, validMoves: validMoves2 };
         }
         return { ...prev, selectedPiece: null, validMoves: [] };
       }
-      if (tappedPiece && tappedPiece.color === prev.currentTurn) {
-        const validMoves2 = getValidMoves(tappedPiece, prev.pieces);
+      if (tappedPiece && tappedPiece.faceUp && tappedPiece.color === prev.currentTurn) {
+        const validMoves2 = strategy.getValidMoves(tappedPiece, prev.pieces);
+        return { ...prev, selectedPiece: tappedPiece, validMoves: validMoves2 };
+      }
+      if (prev.variant === "reveal" && tappedPiece && !tappedPiece.faceUp && tappedPiece.color === prev.currentTurn) {
+        const validMoves2 = strategy.getValidMoves(tappedPiece, prev.pieces);
         return { ...prev, selectedPiece: tappedPiece, validMoves: validMoves2 };
       }
       return prev;
     });
-  }, []);
-  const handleRestart = (0, import_react3.useCallback)(() => {
+  }, [checkFlash, strategy]);
+  const handleRestart = (0, import_react4.useCallback)(() => {
+    clearTranspositionTable();
     historyRef.current = [];
     setHint(null);
-    setState((prev) => createInitialState(prev.mode, prev.aiLevel));
+    setState((prev) => createInitialState(prev.mode, prev.aiLevel, prev.playerColor, prev.variant));
   }, []);
-  const handleHint = (0, import_react3.useCallback)(() => {
+  const handleResign = (0, import_react4.useCallback)(() => {
+    navigator2.pop();
+    setState((s) => {
+      if (s.status !== "playing") return s;
+      const loser = s.mode === "pvc" ? s.playerColor : s.currentTurn;
+      return { ...s, status: loser === "red" ? "black_win" : "red_win" };
+    });
+  }, []);
+  const handleDrawOffer = (0, import_react4.useCallback)(() => {
+    navigator2.pop();
+    setState((s) => {
+      if (s.status !== "playing") return s;
+      if (s.mode === "pvc") {
+        const aiColor = s.playerColor === "red" ? "black" : "red";
+        const score = evaluatePosition(s.pieces, aiColor);
+        if (score > 150) {
+          setDrawRefused(true);
+          setTimeout(() => setDrawRefused(false), 2e3);
+          return s;
+        }
+        return { ...s, status: "draw" };
+      }
+      navigator2.showDialog(
+        /* @__PURE__ */ import_react4.default.createElement(
+          import_fuickjs4.Container,
+          {
+            width: 220,
+            decoration: { color: "#FFF8EC", borderRadius: 12, border: { color: "#C8A96E", width: 2 } },
+            padding: { horizontal: 24, vertical: 20 }
+          },
+          /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: "\u5BF9\u65B9\u8BF7\u6C42\u6C42\u548C", fontSize: 16, fontWeight: "bold", color: "#5A2D0C", textAlign: "center" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { height: 16 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u540C\u610F", onTap: handleDrawAccept, backgroundColor: "#2E7D32", textColor: "#FFF", borderRadius: 8, paddingH: 20, paddingV: 12 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u62D2\u7EDD", onTap: handleDrawDecline, backgroundColor: "#CC3333", textColor: "#FFF", borderRadius: 8, paddingH: 20, paddingV: 12 })))
+        )
+      );
+      return s;
+    });
+  }, []);
+  const handleDrawAccept = (0, import_react4.useCallback)(() => {
+    navigator2.pop();
+    setState((s) => ({ ...s, status: "draw" }));
+  }, []);
+  const handleDrawDecline = (0, import_react4.useCallback)(() => {
+    navigator2.pop();
+  }, []);
+  const handleQuit = (0, import_react4.useCallback)(() => {
+    navigator2.pop();
+    import_fuickjs4.NavigatorService.pop();
+  }, []);
+  const showMenuDialog = (0, import_react4.useCallback)(() => {
+    navigator2.showDialog(
+      /* @__PURE__ */ import_react4.default.createElement(
+        import_fuickjs4.Container,
+        {
+          width: 220,
+          decoration: { color: "#FFF8EC", borderRadius: 12, border: { color: "#C8A96E", width: 2 } },
+          padding: { horizontal: 24, vertical: 20 }
+        },
+        /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: "\u83DC\u5355", fontSize: 18, fontWeight: "bold", color: "#5A2D0C", textAlign: "center" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { height: 16 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u8BA4\u8F93", onTap: handleResign, backgroundColor: "#CC3333", textColor: "#FFF", borderRadius: 8, paddingH: 0, paddingV: 12 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { height: 10 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u6C42\u548C", onTap: handleDrawOffer, backgroundColor: "#B8860B", textColor: "#FFF", borderRadius: 8, paddingH: 0, paddingV: 12 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { height: 10 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u9000\u51FA", onTap: handleQuit, backgroundColor: "#5A5A5A", textColor: "#FFF", borderRadius: 8, paddingH: 0, paddingV: 12 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { height: 14 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u53D6\u6D88", onTap: () => navigator2.pop(), backgroundColor: "#E0D5C5", textColor: "#5A2D0C", borderRadius: 8, paddingH: 0, paddingV: 10 }))
+      )
+    );
+  }, []);
+  const handleHint = (0, import_react4.useCallback)(() => {
     setState((s) => {
       if (s.status !== "playing") return s;
       const color = s.currentTurn;
@@ -21386,7 +24635,7 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
       return s;
     });
   }, []);
-  const handleUndo = (0, import_react3.useCallback)(() => {
+  const handleUndo = (0, import_react4.useCallback)(() => {
     const history = historyRef.current;
     if (history.length === 0) return;
     setState((s) => {
@@ -21406,15 +24655,31 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
     });
   }, []);
   const { pieces, selectedPiece, validMoves, currentTurn, status } = state;
-  const CELL_SIZE = calcCellSize(screenWidth);
+  const boardDims = strategy.getBoardDimensions();
+  const CELL_SIZE = Math.floor(screenWidth / boardDims.cols);
   const BOARD_PADDING = Math.floor(CELL_SIZE / 2);
-  const BOARD_WIDTH = CELL_SIZE * 8 + BOARD_PADDING * 2;
-  const BOARD_HEIGHT = CELL_SIZE * 9 + BOARD_PADDING * 2;
-  const isRedInCheck = isInCheck(pieces, "red");
-  const isBlackInCheck = isInCheck(pieces, "black");
+  const BOARD_WIDTH = CELL_SIZE * (boardDims.cols - 1) + BOARD_PADDING * 2;
+  const BOARD_HEIGHT = CELL_SIZE * (boardDims.rows - 1) + BOARD_PADDING * 2;
+  const isRedInCheck = strategy.isInCheck(pieces, "red");
+  const isBlackInCheck = strategy.isInCheck(pieces, "black");
+  const anyInCheck = isRedInCheck || isBlackInCheck;
+  (0, import_react4.useEffect)(() => {
+    if (anyInCheck) {
+      setCheckFlash(true);
+      const t = setTimeout(() => setCheckFlash(false), 1e3);
+      return () => clearTimeout(t);
+    } else {
+      setCheckFlash(false);
+    }
+  }, [anyInCheck]);
   const statusText = (() => {
+    if (checkFlash && anyInCheck) {
+      if (currentTurn === "red") return isRedInCheck ? "\u7EA2\u65B9\u8D70\u68CB\uFF08\u5C06\u519B\uFF01\uFF09" : "\u7EA2\u65B9\u8D70\u68CB";
+      return isBlackInCheck ? "\u9ED1\u65B9\u8D70\u68CB\uFF08\u5C06\u519B\uFF01\uFF09" : "\u9ED1\u65B9\u8D70\u68CB";
+    }
     if (status === "red_win") return "\u7EA2\u65B9\u80DC\u5229\uFF01";
     if (status === "black_win") return "\u9ED1\u65B9\u80DC\u5229\uFF01";
+    if (status === "draw") return "\u548C\u68CB\uFF01";
     if (currentTurn === "red") {
       return isRedInCheck ? "\u7EA2\u65B9\u8D70\u68CB\uFF08\u5C06\u519B\uFF01\uFF09" : "\u7EA2\u65B9\u8D70\u68CB";
     } else {
@@ -21426,26 +24691,19 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
     if (currentTurn === "red" && isRedInCheck || currentTurn === "black" && isBlackInCheck) return "#FF0000";
     return currentTurn === "red" ? "#DC143C" : "#1A1A1A";
   })();
-  const isGameOver = status === "red_win" || status === "black_win";
+  const isGameOver = status === "red_win" || status === "black_win" || status === "draw";
   const winner = status === "red_win" ? "red" : "black";
-  const overlayHeight = Math.round(screenWidth * 1.95);
-  return /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Stack, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Scaffold, { backgroundColor: "#F0E6D3" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SafeArea, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Column, { mainAxisAlignment: "start", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react3.default.createElement(
-    import_fuickjs3.Container,
+  return /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Stack, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Scaffold, { backgroundColor: "#F0E6D3" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SafeArea, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Column, { mainAxisAlignment: "start", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(
+    PlayerHeader,
     {
-      width: BOARD_WIDTH,
-      padding: { horizontal: 16, vertical: 6 },
-      margin: { top: 8, bottom: 2 }
-    },
-    /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs3.Container,
-      {
-        width: 36,
-        height: 36,
-        decoration: { color: "#1A1A1A", borderRadius: 18, border: { color: "#555", width: 2 } }
-      },
-      /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u9ED1", fontSize: 14, color: "#FFFFFF", fontWeight: "bold" }))
-    ), isBlackInCheck && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u26A0 \u5C06\u519B", fontSize: 12, color: "#FF0000" }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: currentTurn === "black" && status === "playing" ? "\u8D70\u68CB\u4E2D" : "", fontSize: 12, color: "#888" }))
-  ), /* @__PURE__ */ import_react3.default.createElement(
+      color: state.playerColor === "black" ? "red" : "black",
+      inCheck: state.playerColor === "black" ? isRedInCheck : isBlackInCheck,
+      isTurn: currentTurn !== state.playerColor && status === "playing",
+      boardWidth: BOARD_WIDTH,
+      score: state.variant === "flip" ? state.flipScore[state.playerColor === "black" ? "red" : "black"] : void 0,
+      deduct: state.variant === "flip" && scoreDeduct && scoreDeduct.color === (state.playerColor === "black" ? "red" : "black") ? { amount: scoreDeduct.amount, tick: scoreDeduct.tick } : null
+    }
+  ), /* @__PURE__ */ import_react4.default.createElement(
     Board,
     {
       pieces,
@@ -21456,26 +24714,27 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
       cellSize: CELL_SIZE,
       boardPadding: BOARD_PADDING,
       boardWidth: BOARD_WIDTH,
-      boardHeight: BOARD_HEIGHT
+      boardHeight: BOARD_HEIGHT,
+      flipped: state.playerColor === "black",
+      capture,
+      onCaptureDone: () => setCapture(null),
+      inCheck: checkFlash,
+      variant: state.variant,
+      strategy
     }
-  ), /* @__PURE__ */ import_react3.default.createElement(
-    import_fuickjs3.Container,
+  ), /* @__PURE__ */ import_react4.default.createElement(
+    PlayerHeader,
     {
-      width: BOARD_WIDTH,
-      padding: { horizontal: 16, vertical: 6 },
-      margin: { top: 2, bottom: 4 }
-    },
-    /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs3.Container,
-      {
-        width: 36,
-        height: 36,
-        decoration: { color: "#DC143C", borderRadius: 18, border: { color: "#8B0000", width: 2 } }
-      },
-      /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u7EA2", fontSize: 14, color: "#FFFFFF", fontWeight: "bold" }))
-    ), isRedInCheck && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u26A0 \u5C06\u519B", fontSize: 12, color: "#FF0000" }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: currentTurn === "red" && status === "playing" ? "\u8D70\u68CB\u4E2D" : "", fontSize: 12, color: "#888" }))
-  ), /* @__PURE__ */ import_react3.default.createElement(
-    import_fuickjs3.Container,
+      color: state.playerColor,
+      inCheck: state.playerColor === "red" ? isRedInCheck : isBlackInCheck,
+      isTurn: currentTurn === state.playerColor && status === "playing",
+      boardWidth: BOARD_WIDTH,
+      isBottom: true,
+      score: state.variant === "flip" ? state.flipScore[state.playerColor] : void 0,
+      deduct: state.variant === "flip" && scoreDeduct && scoreDeduct.color === state.playerColor ? { amount: scoreDeduct.amount, tick: scoreDeduct.tick } : null
+    }
+  ), /* @__PURE__ */ import_react4.default.createElement(
+    import_fuickjs4.Container,
     {
       width: BOARD_WIDTH,
       padding: { horizontal: 16, vertical: 8 },
@@ -21486,58 +24745,71 @@ function GamePage({ mode = "pvp", aiLevel = 3, lanAction, lanIp: initLanIp, scre
         border: { color: "#D2B48C", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: statusText, fontSize: 14, fontWeight: "bold", color: statusColor }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SizedBox, { height: 8 }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Row, { mainAxisAlignment: "spaceEvenly", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Button, { text: "\u63D0\u793A", onTap: handleHint, backgroundColor: "#B8860B", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Button, { text: "\u6094\u68CB", onTap: handleUndo, backgroundColor: "#4A6FA5", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 }), mode === "lan" && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Button, { text: "\u9000\u51FA", onTap: handleLanQuit, backgroundColor: "#CC3333", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Button, { text: "\u91CD\u5F00", onTap: handleRestart, backgroundColor: "#8B4513", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 })), mode === "lan" && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Container, { padding: { top: 8 } }, lanStatus === "waiting_client" && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u7B49\u5F85\u5BF9\u65B9\u52A0\u5165...", fontSize: 12, color: "#666" }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: `\u672C\u673A\u5730\u5740\uFF1A${lanIp}`, fontSize: 12, color: "#336699", fontWeight: "bold" })), lanStatus === "connected" && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: `\u5DF2\u8FDE\u63A5 \xB7 ${lanRole === "host" ? "\u6267\u7EA2\u5148\u884C" : "\u6267\u9ED1\u540E\u884C"}`, fontSize: 12, color: "#2E7D32" }), lanStatus === "connecting" && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u8FDE\u63A5\u4E2D...", fontSize: 12, color: "#666" }), lanStatus === "error" && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: `\u9519\u8BEF\uFF1A${lanError}`, fontSize: 12, color: "#CC0000" })))
-  )))), isGameOver && /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react3.default.createElement(
+    /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: statusText, fontSize: 14, fontWeight: "bold", color: statusColor }), drawRefused && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: "AI \u62D2\u7EDD\u6C42\u548C\uFF08AI \u5360\u4F18\uFF09", fontSize: 16, fontWeight: "bold", color: "#CC3333", textAlign: "center" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { height: 8 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Row, { mainAxisAlignment: "spaceEvenly", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u63D0\u793A", onTap: handleHint, backgroundColor: "#B8860B", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 }), variant === "standard" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u6094\u68CB", onTap: handleUndo, backgroundColor: "#4A6FA5", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u83DC\u5355", onTap: showMenuDialog, backgroundColor: "#5A5A5A", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 }), mode === "lan" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u9000\u51FA", onTap: handleLanQuit, backgroundColor: "#CC3333", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Button, { text: "\u91CD\u5F00", onTap: handleRestart, backgroundColor: "#8B4513", textColor: "#FFF", borderRadius: 6, paddingH: 12, paddingV: 8 })), mode === "lan" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Container, { padding: { top: 8 } }, lanStatus === "waiting_client" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: "\u7B49\u5F85\u5BF9\u65B9\u52A0\u5165...", fontSize: 12, color: "#666" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: `\u672C\u673A\u5730\u5740\uFF1A${lanIp}`, fontSize: 12, color: "#336699", fontWeight: "bold" })), lanStatus === "connected" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: `\u5DF2\u8FDE\u63A5 \xB7 ${lanRole === "host" ? "\u6267\u7EA2\u5148\u884C" : "\u6267\u9ED1\u540E\u884C"}`, fontSize: 12, color: "#2E7D32" }), lanStatus === "connecting" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: "\u8FDE\u63A5\u4E2D...", fontSize: 12, color: "#666" }), lanStatus === "error" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: `\u9519\u8BEF\uFF1A${lanError}`, fontSize: 12, color: "#CC0000" })))
+  )))), isGameOver && !checkFlash && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react4.default.createElement(
     VictoryOverlay,
     {
       winner,
+      isDraw: status === "draw",
+      playerColor: state.playerColor,
+      endReason: state.endReason,
       width: screenWidth,
-      height: overlayHeight,
+      height: screenHeight,
       onRestart: handleRestart
     }
   )));
 }
-function Board({ pieces, selectedPiece, validMoves, hint, onCellTap, cellSize, boardPadding, boardWidth, boardHeight }) {
-  const painterRef = (0, import_react3.useRef)(null);
+function Board({ pieces, selectedPiece, validMoves, hint, onCellTap, cellSize, boardPadding, boardWidth, boardHeight, flipped, capture, onCaptureDone, inCheck, variant = "standard", strategy }) {
+  const painterRef = (0, import_react4.useRef)(null);
   if (!painterRef.current) {
-    painterRef.current = new import_fuickjs3.CustomPainter();
+    painterRef.current = new import_fuickjs4.CustomPainter();
   }
-  drawBoard(painterRef.current, cellSize, boardPadding, boardWidth, boardHeight, selectedPiece, validMoves, hint);
+  drawBoard(painterRef.current, cellSize, boardPadding, boardWidth, boardHeight, selectedPiece, validMoves, hint, flipped, variant);
   const pieceRadius = Math.floor(cellSize * 0.42);
   const pieceFontSize = Math.max(10, Math.floor(cellSize * 0.38));
+  const boardDims = strategy ? strategy.getBoardDimensions() : { rows: 10, cols: 9 };
+  const maxRow = boardDims.rows - 1;
+  const viewRow = (row) => flipped ? maxRow - row : row;
   const cells = [];
-  for (let row = 0; row < 10; row++) {
-    for (let col = 0; col < 9; col++) {
+  for (let row = 0; row < boardDims.rows; row++) {
+    for (let col = 0; col < boardDims.cols; col++) {
       const x = boardPadding + col * cellSize - cellSize / 2;
-      const y = boardPadding + row * cellSize - cellSize / 2;
+      const y = boardPadding + viewRow(row) * cellSize - cellSize / 2;
       cells.push(
-        /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { key: `cell-${row}-${col}`, left: x, top: y }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.GestureDetector, { onTap: () => onCellTap(row, col) }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SizedBox, { width: cellSize, height: cellSize })))
+        /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { key: `cell-${row}-${col}`, left: x, top: y }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.GestureDetector, { onTap: () => onCellTap(row, col) }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { width: cellSize, height: cellSize })))
       );
     }
   }
+  const SELECTED_SCALE = 1.2;
   const pieceElements = pieces.map((piece) => {
     const isSelected = selectedPiece?.id === piece.id;
-    const colors = PIECE_COLORS[piece.color];
-    const cx = boardPadding + piece.col * cellSize - pieceRadius;
-    const cy = boardPadding + piece.row * cellSize - pieceRadius;
-    const size = pieceRadius * 2;
+    const isFaceDown = !piece.faceUp;
+    const colors = isFaceDown ? { bg: "#8B7355", text: "#D2B48C", border: "#6B4226", selected: "#A0845C" } : PIECE_COLORS[piece.color];
+    const scale = isSelected ? SELECTED_SCALE : 1;
+    const scaledRadius = Math.floor(pieceRadius * scale);
+    const size = scaledRadius * 2;
+    const cx = boardPadding + piece.col * cellSize - scaledRadius;
+    const cy = boardPadding + viewRow(piece.row) * cellSize - scaledRadius;
     const bg = isSelected ? colors.selected : colors.bg;
-    return /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { key: piece.id, left: cx, top: cy }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.GestureDetector, { onTap: () => onCellTap(piece.row, piece.col) }, /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs3.Container,
+    const fontSize = Math.max(10, Math.floor(pieceFontSize * scale));
+    const displayName = strategy ? strategy.getPieceDisplayName(piece) : getPieceName(piece.type, piece.color);
+    return /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { key: piece.id, left: cx, top: cy }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.GestureDetector, { onTap: () => onCellTap(piece.row, piece.col) }, /* @__PURE__ */ import_react4.default.createElement(
+      import_fuickjs4.Container,
       {
         width: size,
         height: size,
         decoration: {
           color: bg,
-          borderRadius: pieceRadius,
-          border: { color: colors.border, width: isSelected ? 2 : 1 }
+          borderRadius: scaledRadius,
+          border: { color: colors.border, width: isSelected ? 2 : 1 },
+          boxShadow: isSelected ? { color: "rgba(0,0,0,0.3)", blurRadius: 8, offset: { dx: 0, dy: 2 } } : void 0
         }
       },
-      /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Center, null, /* @__PURE__ */ import_react3.default.createElement(
-        import_fuickjs3.Text,
+      /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Center, null, /* @__PURE__ */ import_react4.default.createElement(
+        import_fuickjs4.Text,
         {
-          text: getPieceName(piece.type, piece.color),
-          fontSize: pieceFontSize,
+          text: displayName,
+          fontSize,
           color: colors.text,
           fontWeight: "bold"
         }
@@ -21546,18 +24818,39 @@ function Board({ pieces, selectedPiece, validMoves, hint, onCellTap, cellSize, b
   });
   const riverY = boardPadding + cellSize * 4;
   const riverFontSize = Math.max(10, Math.floor(cellSize * 0.3));
-  return /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Stack, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SizedBox, { width: boardWidth, height: boardHeight }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react3.default.createElement(
-    import_fuickjs3.CustomPaint,
+  return /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Stack, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { width: boardWidth, height: boardHeight }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react4.default.createElement(
+    import_fuickjs4.CustomPaint,
     {
       painter: painterRef.current,
       size: { width: boardWidth, height: boardHeight }
     }
-  )), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { left: boardPadding, top: riverY }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SizedBox, { width: cellSize * 3.5, height: cellSize }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u695A", fontSize: riverFontSize, color: "#8B4513", fontWeight: "bold" }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u6CB3", fontSize: riverFontSize, color: "#8B4513", fontWeight: "bold" }))))), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { left: boardPadding + cellSize * 4.5, top: riverY }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.SizedBox, { width: cellSize * 3.5, height: cellSize }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Center, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u6C49", fontSize: riverFontSize, color: "#8B4513", fontWeight: "bold" }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Text, { text: "\u754C", fontSize: riverFontSize, color: "#8B4513", fontWeight: "bold" }))))), cells, pieceElements);
+  )), variant !== "flip" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { left: boardPadding, top: riverY }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { width: cellSize * 3.5, height: cellSize }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Center, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: flipped ? "\u6C49" : "\u695A", fontSize: riverFontSize, color: "#8B4513", fontWeight: "bold" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: flipped ? "\u754C" : "\u6CB3", fontSize: riverFontSize, color: "#8B4513", fontWeight: "bold" }))))), variant !== "flip" && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { left: boardPadding + cellSize * 4.5, top: riverY }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { width: cellSize * 3.5, height: cellSize }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Center, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: flipped ? "\u695A" : "\u6C49", fontSize: riverFontSize, color: "#8B4513", fontWeight: "bold" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: flipped ? "\u6CB3" : "\u754C", fontSize: riverFontSize, color: "#8B4513", fontWeight: "bold" }))))), cells, pieceElements, inCheck && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.SizedBox, { width: boardWidth, height: boardHeight }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Center, null, /* @__PURE__ */ import_react4.default.createElement(
+    import_fuickjs4.Container,
+    {
+      padding: { horizontal: 16, vertical: 6 },
+      decoration: {
+        color: "rgba(180, 30, 30, 0.85)",
+        borderRadius: 8
+      }
+    },
+    /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: "\u5C06\u519B", fontSize: Math.max(18, Math.floor(cellSize * 0.55)), color: "#FFD700", fontWeight: "bold" })
+  )))), capture && /* @__PURE__ */ import_react4.default.createElement(
+    CaptureEffect,
+    {
+      key: capture.key,
+      x: boardWidth / 2,
+      y: boardPadding + 4.5 * cellSize,
+      cellSize,
+      capturedName: capture.name,
+      onDone: onCaptureDone
+    }
+  ));
 }
-function drawBoard(painter, cellSize, boardPadding, boardWidth, boardHeight, selectedPiece, validMoves, hint = null) {
+function drawBoard(painter, cellSize, boardPadding, boardWidth, boardHeight, selectedPiece, validMoves, hint = null, flipped = false, variant = "standard") {
   const p = boardPadding;
   const linePaint = { color: BOARD_LINE_COLOR, strokeWidth: 1, style: "stroke" };
   const borderPaint = { color: BOARD_LINE_COLOR, strokeWidth: 2, style: "stroke" };
+  const vr = (row) => flipped ? 9 - row : row;
   painter.clear();
   painter.drawRect({ left: 0, top: 0, width: boardWidth, height: boardHeight }, { color: BOARD_BG_COLOR, style: "fill" });
   painter.drawRect({ left: p, top: p, width: cellSize * 8, height: cellSize * 9 }, borderPaint);
@@ -21570,45 +24863,105 @@ function drawBoard(painter, cellSize, boardPadding, boardWidth, boardHeight, sel
     painter.drawLine({ dx: x, dy: p }, { dx: x, dy: p + cellSize * 4 }, linePaint);
     painter.drawLine({ dx: x, dy: p + cellSize * 5 }, { dx: x, dy: p + cellSize * 9 }, linePaint);
   }
-  painter.drawLine({ dx: p + 3 * cellSize, dy: p }, { dx: p + 5 * cellSize, dy: p + 2 * cellSize }, linePaint);
-  painter.drawLine({ dx: p + 5 * cellSize, dy: p }, { dx: p + 3 * cellSize, dy: p + 2 * cellSize }, linePaint);
-  painter.drawLine({ dx: p + 3 * cellSize, dy: p + 7 * cellSize }, { dx: p + 5 * cellSize, dy: p + 9 * cellSize }, linePaint);
-  painter.drawLine({ dx: p + 5 * cellSize, dy: p + 7 * cellSize }, { dx: p + 3 * cellSize, dy: p + 9 * cellSize }, linePaint);
+  if (variant !== "flip") {
+    const bTop = p + vr(0) * cellSize;
+    const bMid = p + vr(1) * cellSize;
+    const bBot = p + vr(2) * cellSize;
+    painter.drawLine({ dx: p + 3 * cellSize, dy: bTop }, { dx: p + 5 * cellSize, dy: bBot }, linePaint);
+    painter.drawLine({ dx: p + 5 * cellSize, dy: bTop }, { dx: p + 3 * cellSize, dy: bBot }, linePaint);
+    const rTop = p + vr(7) * cellSize;
+    const rMid = p + vr(8) * cellSize;
+    const rBot = p + vr(9) * cellSize;
+    painter.drawLine({ dx: p + 3 * cellSize, dy: rTop }, { dx: p + 5 * cellSize, dy: rBot }, linePaint);
+    painter.drawLine({ dx: p + 5 * cellSize, dy: rTop }, { dx: p + 3 * cellSize, dy: rBot }, linePaint);
+  }
   const dotR = Math.floor(cellSize * 0.15);
   for (const move of validMoves) {
     const cx = p + move.col * cellSize;
-    const cy = p + move.row * cellSize;
+    const cy = p + vr(move.row) * cellSize;
     painter.drawCircle({ dx: cx, dy: cy }, dotR, { color: VALID_MOVE_COLOR, style: "fill" });
   }
   if (hint) {
     const hintR = Math.floor(cellSize * 0.44);
     const fromCx = p + hint.piece.col * cellSize;
-    const fromCy = p + hint.piece.row * cellSize;
+    const fromCy = p + vr(hint.piece.row) * cellSize;
     painter.drawCircle({ dx: fromCx, dy: fromCy }, hintR, { color: "rgba(255, 200, 0, 0.5)", style: "fill" });
     const toCx = p + hint.to.col * cellSize;
-    const toCy = p + hint.to.row * cellSize;
+    const toCy = p + vr(hint.to.row) * cellSize;
     painter.drawCircle({ dx: toCx, dy: toCy }, hintR, { color: "rgba(255, 200, 0, 0.35)", style: "fill" });
     painter.drawCircle({ dx: toCx, dy: toCy }, dotR, { color: "rgba(255, 160, 0, 0.9)", style: "fill" });
   }
 }
+function PlayerHeader({ color, inCheck, isTurn, boardWidth, isBottom, score, deduct }) {
+  const isRed = color === "red";
+  const maxScore = 60;
+  const barWidth = 80;
+  const fillWidth = score !== void 0 ? Math.max(0, score / maxScore * barWidth) : 0;
+  const barColor = score !== void 0 ? score <= 10 ? "#CC3333" : score <= 30 ? "#DAA520" : "#2E7D32" : "#2E7D32";
+  return /* @__PURE__ */ import_react4.default.createElement(
+    import_fuickjs4.Container,
+    {
+      width: boardWidth,
+      padding: { horizontal: 16, vertical: 6 },
+      margin: { top: isBottom ? 2 : 8, bottom: isBottom ? 4 : 2 }
+    },
+    /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(
+      import_fuickjs4.Container,
+      {
+        width: 36,
+        height: 36,
+        decoration: { color: isRed ? "#DC143C" : "#1A1A1A", borderRadius: 18, border: { color: isRed ? "#8B0000" : "#555", width: 2 } }
+      },
+      /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Center, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: isRed ? "\u7EA2" : "\u9ED1", fontSize: 14, color: "#FFFFFF", fontWeight: "bold" }))
+    ), score !== void 0 && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(
+      import_fuickjs4.Container,
+      {
+        width: barWidth,
+        height: 16,
+        decoration: {
+          color: "#555555",
+          borderRadius: 4
+        }
+      },
+      /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Stack, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { left: 0, top: 0 }, /* @__PURE__ */ import_react4.default.createElement(
+        import_fuickjs4.Container,
+        {
+          width: fillWidth,
+          height: 16,
+          decoration: {
+            color: barColor,
+            borderRadius: 4
+          }
+        }
+      )), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Positioned, { left: barWidth / 2 - 8, top: 0 }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Center, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: `${score}`, fontSize: 11, color: "#FFFFFF", fontWeight: "bold" }))))
+    ), deduct && deduct.tick > 0 && /* @__PURE__ */ import_react4.default.createElement(
+      import_fuickjs4.Container,
+      {
+        padding: { horizontal: 4, vertical: 2 },
+        margin: { left: 4 }
+      },
+      /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.AnimatedOpacity, { opacity: 1, duration: 800 }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.AnimatedScale, { scale: 1.5, duration: 400 }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: `-${deduct.amount}`, fontSize: 13, color: "#CC3333", fontWeight: "bold" })))
+    )), inCheck && /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: "\u26A0 \u5C06\u519B", fontSize: 12, color: "#FF0000" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs4.Text, { text: isTurn ? "\u8D70\u68CB\u4E2D" : "", fontSize: 12, color: "#888" }))
+  );
+}
 
 // src/index.ts
-var ErrorUI = (error) => import_react4.default.createElement(
-  import_fuickjs4.Container,
+var ErrorUI = (error) => import_react5.default.createElement(
+  import_fuickjs5.Container,
   { color: "#FFF3E0", padding: 20 },
-  import_react4.default.createElement(
-    import_fuickjs4.Column,
+  import_react5.default.createElement(
+    import_fuickjs5.Column,
     { mainAxisAlignment: "center", crossAxisAlignment: "center" },
-    import_react4.default.createElement(import_fuickjs4.Text, { text: "\u51FA\u9519\u4E86", fontSize: 20, color: "#E64A19", fontWeight: "bold" }),
-    import_react4.default.createElement(import_fuickjs4.Text, { text: error?.message || "\u672A\u77E5\u9519\u8BEF", fontSize: 14, color: "#BF360C", margin: { top: 10 } })
+    import_react5.default.createElement(import_fuickjs5.Text, { text: "\u51FA\u9519\u4E86", fontSize: 20, color: "#E64A19", fontWeight: "bold" }),
+    import_react5.default.createElement(import_fuickjs5.Text, { text: error?.message || "\u672A\u77E5\u9519\u8BEF", fontSize: 14, color: "#BF360C", margin: { top: 10 } })
   )
 );
 function initApp() {
   try {
-    import_fuickjs4.Runtime.bindGlobals();
-    (0, import_fuickjs4.setGlobalErrorFallback)(ErrorUI);
-    import_fuickjs4.Router.register("/", () => import_react4.default.createElement(HomePage));
-    import_fuickjs4.Router.register("/game", (params) => import_react4.default.createElement(GamePage, params));
+    import_fuickjs5.Runtime.bindGlobals();
+    (0, import_fuickjs5.setGlobalErrorFallback)(ErrorUI);
+    import_fuickjs5.Router.register("/", () => import_react5.default.createElement(HomePage));
+    import_fuickjs5.Router.register("/game", (params) => import_react5.default.createElement(GamePage, params));
   } catch (e) {
     console.error("initApp error:", e);
   }

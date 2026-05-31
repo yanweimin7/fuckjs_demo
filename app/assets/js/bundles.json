@@ -18,5 +18,10 @@
     "name": "wallet_bundle",
     "label": "Fuick Wallet",
     "initialRoute": "/"
+  },
+  {
+    "name": "xiangqi",
+    "label": "象棋",
+    "initialRoute": "/"
   }
 ]

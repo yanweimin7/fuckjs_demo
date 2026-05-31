@@ -1,1 +1,1 @@
-../../../../fuickjs_community/launcher/flutter/launcher_service.dart
+/Users/wey/work/flutter_dynamic/fuickjs_community/launcher/flutter/launcher_service.dart

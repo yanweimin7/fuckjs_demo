@@ -19,7 +19,7 @@ class FuickAppPage extends StatelessWidget {
       appName: appName,
       initialRoute: path,
       initialParams: params,
-      useAotCode: true,
+      useAotCode: false,
     );
   }
 }
