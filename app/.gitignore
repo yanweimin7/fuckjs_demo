@@ -1,2 +1,12 @@
 build/
 .dart_tool/
+android/.gradle/
+android/gradle/wrapper/gradle-wrapper.jar
+android/gradlew
+android/gradlew.bat
+ios/.symlinks/
+ios/Podfile.lock
+ios/Pods/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+*.lock
