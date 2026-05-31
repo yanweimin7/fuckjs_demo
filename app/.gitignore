@@ -4,6 +4,7 @@ android/.gradle/
 android/gradle/wrapper/gradle-wrapper.jar
 android/gradlew
 android/gradlew.bat
+android/local.properties
 ios/.symlinks/
 ios/Podfile.lock
 ios/Pods/
