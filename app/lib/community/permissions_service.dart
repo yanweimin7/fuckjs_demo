@@ -1,1 +1,1 @@
-/Users/wey/work/flutter_dynamic/fuickjs_community/permissions/flutter/permissions_service.dart
+../../../../fuickjs_community/permissions/flutter/permissions_service.dart

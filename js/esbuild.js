@@ -1,7 +1,7 @@
 const esbuild = require("esbuild");
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require("child_process");
+const { execSync, execFileSync } = require("child_process");
 
 const watch = process.argv.includes("--watch");
 
@@ -13,14 +13,15 @@ const QJSC_PATH = path.resolve(
 
 async function build() {
   const isProd = !watch;
+  // React 19 dropped the .min suffix from cjs filenames
   const reactPath = isProd
-    ? "node_modules/react/cjs/react.production.min.js"
+    ? "node_modules/react/cjs/react.production.js"
     : "node_modules/react/cjs/react.development.js";
   const reconcilerPath = isProd
-    ? "node_modules/react-reconciler/cjs/react-reconciler.production.min.js"
+    ? "node_modules/react-reconciler/cjs/react-reconciler.production.js"
     : "node_modules/react-reconciler/cjs/react-reconciler.development.js";
   const schedulerPath = isProd
-    ? "node_modules/scheduler/cjs/scheduler.production.min.js"
+    ? "node_modules/scheduler/cjs/scheduler.production.js"
     : "node_modules/scheduler/cjs/scheduler.development.js";
 
   const commonOptions = {
@@ -28,8 +29,8 @@ async function build() {
     platform: "neutral",
     format: "esm",
     target: "es2020",
-    minify: true,
-    sourcemap: !isProd,
+    minify: false,
+    sourcemap: !isProd || process.env.SOURCEMAP === 'true',
     loader: {
       ".ts": "ts",
       ".tsx": "tsx",
@@ -102,6 +103,13 @@ async function build() {
     console.log("Compiling bundle to QuickJS bytecode...");
     execSync(`${QJSC_PATH} -b -o ${destBin} ${src}`);
     console.log(`Compiled to ${destBin}`);
+  }
+
+  // Pack all bundles into zip files — skip in debug mode（SOURCEMAP 时不需要 zip）
+  if (process.env.SOURCEMAP !== 'true') {
+    console.log("\nPacking bundles...");
+    const packAll = path.resolve(__dirname, "tools/bundle/pack-all.js");
+    execFileSync(process.execPath, [packAll], { stdio: "inherit", cwd: __dirname });
   }
 
   console.log("Build complete.");

@@ -56,7 +56,6 @@ export const DemoOpsPage = () => {
         };
   const itemPadding = compact ? 8 : 14;
 
-  console.log("wine compat ", compact);
   const addItem = () => {
     const newId = Date.now();
     const newItems = [

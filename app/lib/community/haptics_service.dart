@@ -1,1 +1,1 @@
-/Users/wey/work/flutter_dynamic/fuickjs_community/haptics/flutter/haptics_service.dart
+../../../../fuickjs_community/haptics/flutter/haptics_service.dart

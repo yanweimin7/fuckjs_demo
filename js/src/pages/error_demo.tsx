@@ -10,6 +10,7 @@ import {
   Padding,
   SizedBox,
   SingleChildScrollView,
+  ListView,
   ErrorHandler,
 } from "fuickjs";
 
@@ -42,13 +43,7 @@ export default function ErrorDemoPage() {
       const err = error as Error;
       const message = `[${source}] ${err?.message || String(error)}`;
       setErrorLog((prev) => [...prev, message].slice(-8));
-
-      // 打印完整 stack 到控制台（在 Flutter 日志里可见）
-      const stack = err?.stack || String(error);
-      console.error('=== JS ERROR STACK (for sourcemap resolution) ===');
-      console.error(`source: ${source}`);
-      console.error(stack);
-      console.error('=================================================');
+      throw error;
     });
     return () => {
       ErrorHandler.set(null);
@@ -78,7 +73,7 @@ export default function ErrorDemoPage() {
               <Column crossAxisAlignment="start">
                 <Text text="触发不同类型错误" fontSize={18} fontWeight="bold" />
                 <SizedBox height={10} />
-                <Row mainAxisAlignment="spaceBetween">
+                <ListView mainAxisAlignment="spaceBetween">
                   <Button
                     text="渲染错误"
                     onTap={() => setTriggerRenderError(true)}
@@ -105,7 +100,7 @@ export default function ErrorDemoPage() {
                       })
                     }
                   />
-                </Row>
+                </ListView>
                 <SizedBox height={12} />
                 <Button
                   text="深层调用链错误（sourcemap 演示）"

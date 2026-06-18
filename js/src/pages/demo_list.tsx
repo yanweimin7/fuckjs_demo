@@ -52,6 +52,7 @@ const demoCategories = [
     items: [
       { name: "RichText", path: "/demo/richtext" },
       { name: "Image", path: "/demo/image" },
+      { name: "BundleImg", path: "/demo/bundle_local_image" },
       { name: "Opacity", path: "/demo/opacity" },
       { name: "ClipRRect", path: "/demo/cliprrect" },
       { name: "Transform", path: "/demo/transform" },
@@ -84,6 +85,13 @@ const demoCategories = [
       { name: "Tabs", path: "/demo/tabs" },
       { name: "PopScope", path: "/demo/popscope" },
       { name: "Drawer", path: "/demo/drawer" },
+    ],
+  },
+  {
+    title: "Framework",
+    items: [
+      { name: "I18n", path: "/demo/i18n" },
+      { name: "Lifecycle", path: "/demo/lifecycle" },
     ],
   },
   {

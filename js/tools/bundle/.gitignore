@@ -1,0 +1,5 @@
+# 签名私钥/公钥与产物，切勿入库
+bundle_signing_key.pem
+bundle_signing_pub.pem
+bundle_signing_pub.b64
+dist/

@@ -1,1 +1,1 @@
-/Users/wey/work/flutter_dynamic/fuickjs_community/connectivity/flutter/connectivity_service.dart
+../../../../fuickjs_community/connectivity/flutter/connectivity_service.dart

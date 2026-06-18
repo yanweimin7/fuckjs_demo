@@ -19,7 +19,8 @@ class FuickAppPage extends StatelessWidget {
       appName: appName,
       initialRoute: path,
       initialParams: params,
-      useAotCode: false,
+        // 内置 zip 以 .qjc 为主入口；若 zip 内仅有 .js（qjc 过期未重编）则自动回退。
+        useAotCode: true,
     );
   }
 }

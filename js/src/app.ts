@@ -2,12 +2,14 @@ import React from "react";
 import {
   Router,
   Runtime,
+  i18n,
   setGlobalErrorFallback,
   Column,
   Text,
   Container,
   Button,
 } from "fuickjs";
+import { i18nResources } from "./i18n/resources";
 import HomePage from "./pages/home";
 import NewsPage from "./pages/news";
 import NewsDetailPage from "./pages/news_detail";
@@ -21,6 +23,7 @@ import SwitchDemo from "./demos/SwitchDemo";
 import ListViewDemo from "./demos/ListViewDemo";
 import GridViewDemo from "./demos/GridViewDemo";
 import ImageDemo from "./demos/ImageDemo";
+import BundleLocalImageDemo from "./demos/BundleLocalImageDemo";
 import StackDemo from "./demos/StackDemo";
 import SliverDemo from "./demos/SliverDemo";
 import DividerDemo from "./demos/DividerDemo";
@@ -87,6 +90,9 @@ import PermissionsDemo from "./demos/PermissionsDemo";
 import MediaDemo from "./demos/MediaDemo";
 import ConnectivityDemo from "./demos/ConnectivityDemo";
 import SoundServiceDemo from "./demos/SoundServiceDemo";
+import I18nDemo from "./demos/I18nDemo";
+import LifecycleDemo from "./demos/LifecycleDemo";
+import { LifecycleSubPage } from "./demos/LifecycleDemo";
 
 // Custom Global Error UI
 const CustomErrorUI = (error: Error) =>
@@ -138,6 +144,9 @@ export function initApp() {
     Runtime.configure({ prewarm: false, prewarmMs: 50 });
     Runtime.bindGlobals();
 
+    i18n.configure({ fallbackLocale: "en", resources: i18nResources });
+    void i18n.init().catch((e) => console.warn("[i18n] init failed:", e));
+
     // Set global error fallback during initialization
     setGlobalErrorFallback(CustomErrorUI);
 
@@ -171,6 +180,9 @@ export function initApp() {
     Router.register("/demo/listview", () => React.createElement(ListViewDemo));
     Router.register("/demo/gridview", () => React.createElement(GridViewDemo));
     Router.register("/demo/image", () => React.createElement(ImageDemo));
+    Router.register("/demo/bundle_local_image", () =>
+      React.createElement(BundleLocalImageDemo),
+    );
     Router.register("/demo/stack", () => React.createElement(StackDemo));
     Router.register("/demo/sliver", () => React.createElement(SliverDemo));
     Router.register("/demo/divider", () => React.createElement(DividerDemo));
@@ -291,6 +303,9 @@ export function initApp() {
       React.createElement(WebViewDemo, args as any),
     );
     Router.register("/demo/sound", () => React.createElement(SoundServiceDemo));
+    Router.register("/demo/i18n", () => React.createElement(I18nDemo));
+    Router.register("/demo/lifecycle", () => React.createElement(LifecycleDemo));
+    Router.register("/demo/lifecycle_sub", () => React.createElement(LifecycleSubPage));
 
     console.log("App Initialized");
   } catch (e) {

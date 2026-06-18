@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:fuickjs_flutter/core/container/fuick_app_controller.dart'
     as fuick;
 import 'package:fuickjs_flutter/core/container/fuick_navigation_delegate.dart';
+import 'package:fuickjs_flutter/core/container/dev_fuick_app_page.dart';
 import 'package:fuickjs_flutter/core/engine/engine.dart';
 import 'package:fuickjs_flutter/core/logger.dart';
 import 'package:fuickjs_flutter/core/service/native_services.dart';
@@ -26,6 +27,7 @@ import 'community/web_view_parser.dart';
 import 'compile_test_page.dart';
 import 'debug_page.dart';
 import 'fuick_app_page.dart';
+import 'offline_bootstrap.dart';
 import 'service/fuick_storage_service.dart';
 import 'service/local_auth_service.dart';
 
@@ -51,7 +53,17 @@ class BundleConfig {
 
 Future<List<BundleConfig>> loadBundleConfigs() async {
   final raw = await rootBundle.loadString('assets/js/bundles.json');
-  final list = jsonDecode(raw) as List<dynamic>;
+  final decoded = jsonDecode(raw);
+  // 新格式：{ "packages": [ { "name", "label", "initialRoute", ... } ] }
+  // 兼容旧格式：[ { "name", "label", ... } ]
+  final List<dynamic> list;
+  if (decoded is Map<String, dynamic>) {
+    list = decoded['packages'] as List<dynamic>? ?? [];
+  } else if (decoded is List<dynamic>) {
+    list = decoded;
+  } else {
+    return [];
+  }
   return list
       .map((e) => BundleConfig.fromJson(e as Map<String, dynamic>))
       .toList();
@@ -88,6 +100,9 @@ void main() async {
   EngineInit.useJscOnIos = false;
 
   EngineInit.preload();
+
+  // 初始化 bundle 动态下发（内置 zip 验签 + 懒解压；远程默认关闭）。
+  await DemoOfflineBootstrap.init();
 
   final bundles = await loadBundleConfigs();
 
@@ -152,6 +167,10 @@ class MyApp extends StatelessWidget {
                 path: 'compile_test',
                 builder: (context, state) => const CompileTestPage(),
               ),
+              GoRoute(
+                path: 'dev',
+                builder: (context, state) => const DevFuickAppPage(),
+              ),
             ],
           ),
         ],
@@ -206,6 +225,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         actions: [
+          IconButton(
+            tooltip: '调试控制台',
+            icon: const Icon(Icons.bug_report, color: Color(0xFF5C6BC0)),
+            onPressed: () => context.push('/dev'),
+          ),
           IconButton(
             tooltip: '字节码编译测试',
             icon: const Icon(Icons.memory, color: Color(0xFF5C6BC0)),

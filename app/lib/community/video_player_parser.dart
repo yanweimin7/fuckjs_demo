@@ -1,1 +1,1 @@
-/Users/wey/work/flutter_dynamic/fuickjs_community/video_player/flutter/video_player_parser.dart
+../../../../fuickjs_community/video_player/flutter/video_player_parser.dart

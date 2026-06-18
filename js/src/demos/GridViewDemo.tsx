@@ -2,7 +2,7 @@ import React from "react";
 import { GridView, Container, Text, Scaffold, AppBar, Center } from "fuickjs";
 
 export default function GridViewDemo() {
-  const items = Array.from({ length: 20 }, (_, i) => `G ${i + 1}`);
+  const items = Array.from({ length: 50 }, (_, i) => `G ${i + 1}`);
 
   return (
     <Scaffold appBar={<AppBar title="GridView Demo" />}>
@@ -18,6 +18,19 @@ export default function GridViewDemo() {
             </Center>
           </Container>
         )}
+        onScroll={(e) => {
+          console.log(
+            `[GridView onScroll] pixels=${e.pixels.toFixed(0)}, ` +
+              `maxScrollExtent=${e.maxScrollExtent.toFixed(0)}, axis=${e.axis}`
+          );
+        }}
+        onScrollStartReached={() => {
+          console.log("[GridView onScrollStartReached] 已滚动到顶部");
+        }}
+        onScrollEndReached={() => {
+          console.log("[GridView onScrollEndReached] 已滚动到底部");
+        }}
+        endThreshold={200}
       />
     </Scaffold>
   );
