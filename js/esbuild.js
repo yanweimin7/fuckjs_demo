@@ -8,7 +8,7 @@ const watch = process.argv.includes("--watch");
 // qjsc 编译器路径（可选，不存在时跳过字节码编译）
 const QJSC_PATH = path.resolve(
   __dirname,
-  "../../fuickjs_engine/src/main/jni/quickjs/build/qjsc",
+  "../../fuickjs_engine/src/main/jni/quickjs/build_macos/qjsc",
 );
 
 async function build() {
