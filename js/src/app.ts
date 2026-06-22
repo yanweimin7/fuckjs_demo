@@ -79,6 +79,12 @@ import NestedScrollViewDemo from "./demos/NestedScrollViewDemo";
 import ReactManagedListDemo from "./demos/ReactManagedListDemo";
 import StaticListDemo from "./demos/StaticListDemo";
 import PerformanceDemo from "./demos/PerformanceDemo";
+import AlignDemo from "./demos/AlignDemo";
+import HeroDemo from "./demos/HeroDemo";
+import HeroDetailPage from "./demos/HeroDetailPage";
+import FadeTransitionDemo from "./demos/FadeTransitionDemo";
+import SizeTransitionDemo from "./demos/SizeTransitionDemo";
+import PositionedTransitionDemo from "./demos/PositionedTransitionDemo";
 
 // Community packages
 import WebViewDemo from "./demos/WebViewDemo";
@@ -286,6 +292,20 @@ export function initApp() {
     Router.register("/demo/performance", () =>
       React.createElement(PerformanceDemo),
     );
+    Router.register("/demo/align", () => React.createElement(AlignDemo));
+    Router.register("/demo/hero", () => React.createElement(HeroDemo));
+    Router.register("/demo/hero_detail", () =>
+      React.createElement(HeroDetailPage),
+    );
+    Router.register("/demo/fade_transition", () =>
+      React.createElement(FadeTransitionDemo),
+    );
+    Router.register("/demo/size_transition", () =>
+      React.createElement(SizeTransitionDemo),
+    );
+    Router.register("/demo/positioned_transition", () =>
+      React.createElement(PositionedTransitionDemo),
+    );
 
     // Community packages
     Router.register("/demo/haptics", () => React.createElement(HapticsDemo));
@@ -304,8 +324,12 @@ export function initApp() {
     );
     Router.register("/demo/sound", () => React.createElement(SoundServiceDemo));
     Router.register("/demo/i18n", () => React.createElement(I18nDemo));
-    Router.register("/demo/lifecycle", () => React.createElement(LifecycleDemo));
-    Router.register("/demo/lifecycle_sub", () => React.createElement(LifecycleSubPage));
+    Router.register("/demo/lifecycle", () =>
+      React.createElement(LifecycleDemo),
+    );
+    Router.register("/demo/lifecycle_sub", () =>
+      React.createElement(LifecycleSubPage),
+    );
 
     console.log("App Initialized");
   } catch (e) {
