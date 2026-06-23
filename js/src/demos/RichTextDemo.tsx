@@ -7,9 +7,8 @@ import {
   Text,
   Container,
   Padding,
+  RichText,
 } from 'fuickjs';
-
-const RichText = 'RichText' as any;
 
 const OWL = 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg';
 

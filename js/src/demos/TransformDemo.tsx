@@ -8,9 +8,8 @@ import {
   SizedBox,
   Center,
   SingleChildScrollView,
+  Transform,
 } from 'fuickjs';
-
-const Transform = 'Transform' as any;
 
 export default function TransformDemo() {
   return (

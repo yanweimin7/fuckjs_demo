@@ -85,6 +85,9 @@ import HeroDetailPage from "./demos/HeroDetailPage";
 import FadeTransitionDemo from "./demos/FadeTransitionDemo";
 import SizeTransitionDemo from "./demos/SizeTransitionDemo";
 import PositionedTransitionDemo from "./demos/PositionedTransitionDemo";
+import IndexedStackDemo from "./demos/IndexedStackDemo";
+import AnimatedSizeDemo from "./demos/AnimatedSizeDemo";
+import DismissibleDemo from "./demos/DismissibleDemo";
 
 // Community packages
 import WebViewDemo from "./demos/WebViewDemo";
@@ -305,6 +308,15 @@ export function initApp() {
     );
     Router.register("/demo/positioned_transition", () =>
       React.createElement(PositionedTransitionDemo),
+    );
+    Router.register("/demo/indexed_stack", () =>
+      React.createElement(IndexedStackDemo),
+    );
+    Router.register("/demo/animated_size", () =>
+      React.createElement(AnimatedSizeDemo),
+    );
+    Router.register("/demo/dismissible", () =>
+      React.createElement(DismissibleDemo),
     );
 
     // Community packages
