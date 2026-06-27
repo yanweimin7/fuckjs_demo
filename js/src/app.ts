@@ -88,6 +88,9 @@ import PositionedTransitionDemo from "./demos/PositionedTransitionDemo";
 import IndexedStackDemo from "./demos/IndexedStackDemo";
 import AnimatedSizeDemo from "./demos/AnimatedSizeDemo";
 import DismissibleDemo from "./demos/DismissibleDemo";
+import TransitionAnimatedDemo from "./demos/TransitionAnimatedDemo";
+import ThemeDemo from "./demos/ThemeDemo";
+import MediaQueryDemo from "./demos/MediaQueryDemo";
 
 // Community packages
 import WebViewDemo from "./demos/WebViewDemo";
@@ -317,6 +320,13 @@ export function initApp() {
     );
     Router.register("/demo/dismissible", () =>
       React.createElement(DismissibleDemo),
+    );
+    Router.register("/demo/transition_animated", () =>
+      React.createElement(TransitionAnimatedDemo),
+    );
+    Router.register("/demo/theme", () => React.createElement(ThemeDemo));
+    Router.register("/demo/media_query", () =>
+      React.createElement(MediaQueryDemo),
     );
 
     // Community packages

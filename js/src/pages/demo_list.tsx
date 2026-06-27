@@ -98,6 +98,8 @@ const demoCategories = [
     items: [
       { name: "I18n", path: "/demo/i18n" },
       { name: "Lifecycle", path: "/demo/lifecycle" },
+      { name: "Theme", path: "/demo/theme" },
+      { name: "MediaQuery", path: "/demo/media_query" },
     ],
   },
   {
@@ -107,6 +109,7 @@ const demoCategories = [
       { name: "Visibility", path: "/demo/visibility" },
       { name: "Animated", path: "/demo/animated" },
       { name: "Transition", path: "/demo/transition" },
+      { name: "TrAni", path: "/demo/transition_animated" },
       { name: "Error", path: "/demo/error" },
       { name: "Refresh", path: "/demo/refresh_indicator" },
       { name: "Switcher", path: "/demo/animated_switcher" },
