@@ -94,8 +94,13 @@ dispose?.call();
 
 JS 调用 Native 服务必须遵循 `ServiceName.MethodName` 的命名约定。
 
+> ⚠️ 业务代码请使用 `dartCallNativeAsync`。`dartCallNative`（同步）仅供
+> `Timer.*` / `Console.*` / `FileSystem.*Sync` 这 3 类在 worker isolate 真正
+> 同步的方法使用；命中非白名单 service 或 Dart 端 `registerAsyncMethod` 注册
+> 的方法会抛 `StateError`。
+
 ### 格式
-`dartCallNative('ServiceName.MethodName', args)`
+`dartCallNativeAsync('ServiceName.MethodName', args)`
 
 ### 示例
 
@@ -110,6 +115,6 @@ JS 调用 Native 服务必须遵循 `ServiceName.MethodName` 的命名约定。
 
 1.  在 Flutter 端继承 `BaseFuickService`。
 2.  重写 `name` getter 返回服务名称（如 `MyService`）。
-3.  在构造函数中使用 `registerMethod` 注册方法（如 `myMethod`）。
+3.  在构造函数中使用 `registerMethod`（同步）或 `registerAsyncMethod`（异步）注册方法。
 4.  在 `NativeServiceManager` 中注册该服务。
-5.  JS 端即可通过 `dartCallNative('MyService.myMethod', ...)` 调用。
+5.  JS 端即可通过 `dartCallNativeAsync('MyService.myMethod', ...)` 调用。

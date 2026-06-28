@@ -9444,7 +9444,7 @@ var require_ErrorReportService = __commonJS({
           timestamp: Date.now()
         };
         try {
-          dartCallNative("ErrorReport.report", payload);
+          void dartCallNativeAsync("ErrorReport.report", payload);
         } catch {
           console.error(payload.message, payload.stack);
         }
@@ -9645,9 +9645,10 @@ var require_NetworkService = __commonJS({
         });
       }
       static cancel(requestId) {
-        if (typeof dartCallNative === "function") {
-          dartCallNative("Network.cancel", { requestId });
+        if (typeof dartCallNativeAsync !== "function") {
+          return;
         }
+        void dartCallNativeAsync("Network.cancel", { requestId });
       }
       static async uploadFile(url, filePath, name, header, formData) {
         return await dartCallNativeAsync("Network.uploadFile", {
@@ -10631,7 +10632,7 @@ var require_websocket = __commonJS({
           messageData = String(data);
         }
         this._bufferedAmount += messageData.length;
-        dartCallNative("WebSocket.send", {
+        void dartCallNativeAsync("WebSocket.send", {
           socketId: this._socketId,
           data: messageData,
           isBinary: typeof data !== "string"
@@ -10817,10 +10818,10 @@ var require_DeviceInfoService = __commonJS({
         return dartCallNativeAsync("DeviceInfo.getNetworkType", {});
       }
       static startNetworkListener() {
-        dartCallNative("DeviceInfo.startNetworkListener", {});
+        void dartCallNativeAsync("DeviceInfo.startNetworkListener", {});
       }
       static stopNetworkListener() {
-        dartCallNative("DeviceInfo.stopNetworkListener", {});
+        void dartCallNativeAsync("DeviceInfo.stopNetworkListener", {});
       }
     };
     exports.DeviceInfoService = DeviceInfoService2;
@@ -10835,7 +10836,7 @@ var require_NativeEventService = __commonJS({
     exports.NativeEventService = void 0;
     var NativeEventService = class {
       static emit(event, data) {
-        dartCallNative("NativeEvent.emit", [event, data]);
+        void dartCallNativeAsync("NativeEvent.emit", [event, data]);
       }
     };
     exports.NativeEventService = NativeEventService;
@@ -20400,7 +20401,7 @@ var require_UIService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UIService = void 0;
-    var UIService = class _UIService {
+    var UIService = class {
       // 异步 fire-and-forget：JS 不阻塞等 Dart 主线程消费完成。
       // Worker isolate 单线程串行处理 onCallNativeAsync，保证调用到达 Dart 的顺序与 JS 发起顺序一致，
       // 因此 renderUI → patchUI/patchOps → componentCommand 之间无需额外同步。
@@ -20422,8 +20423,21 @@ var require_UIService = __commonJS({
           nodeType
         });
       }
-      static getRegisteredWidgets() {
-        return dartCallNative("UI.getRegisteredWidgets", []);
+      /**
+       * 拉取全部已注册的 widget 类型列表。
+       * worker isolate 中 UIService 未注册,必须走 async 路径。
+       */
+      static async getRegisteredWidgets() {
+        return await dartCallNativeAsync("UI.getRegisteredWidgets", []);
+      }
+      /**
+       * 判断某个 widget 类型是否已注册（由 Dart 侧 WidgetFactory 提供）。
+       * worker isolate 中 UIService 未注册,必须走 async 路径。
+       * 旧版曾在 JS 端缓存 Set,但同步缓存的 getRegisteredWidgets 在 worker 中是 Promise,
+       * Set 被错误填充为 [Promise],has() 永远 false,这里改为每次直查 Dart。
+       */
+      static async isWidgetRegistered(type) {
+        return await dartCallNativeAsync("UI.isWidgetRegistered", [type]);
       }
       /**
        * 同步获取当前页面的主题快照（来自宿主 ThemeData）。
@@ -20445,16 +20459,8 @@ var require_UIService = __commonJS({
       static getMediaQuery(pageId) {
         return dartCallNativeAsync("UI.getMediaQuery", { pageId });
       }
-      static isWidgetRegistered(type) {
-        if (_UIService._registeredWidgets === null) {
-          const list = _UIService.getRegisteredWidgets();
-          _UIService._registeredWidgets = new Set(list);
-        }
-        return _UIService._registeredWidgets.has(type);
-      }
     };
     exports.UIService = UIService;
-    UIService._registeredWidgets = null;
   }
 });
 
@@ -23197,13 +23203,13 @@ var require_NavigatorService = __commonJS({
         return _NavigatorService.push("/_generic_dialog", finalParams, pageId, rootNavigator);
       }
       static pop(pageId, rootNavigator, result) {
-        dartCallNative("Navigator.pop", { pageId, rootNavigator, result });
+        void dartCallNativeAsync("Navigator.pop", { pageId, rootNavigator, result });
       }
       static popTo(name, pageId) {
-        dartCallNative("Navigator.popTo", { name, pageId });
+        void dartCallNativeAsync("Navigator.popTo", { name, pageId });
       }
       static popAll(pageId) {
-        dartCallNative("Navigator.popAll", { pageId });
+        void dartCallNativeAsync("Navigator.popAll", { pageId });
       }
       static prewarm(path, params, pageId, prewarmMs = 50) {
         _NavigatorService.prewarmAndWait(path, params, pageId, prewarmMs).catch(() => {
@@ -23213,7 +23219,7 @@ var require_NavigatorService = __commonJS({
         return dartCallNativeAsync("Navigator.prewarm", { path, params, pageId, prewarmMs });
       }
       static cancelPrewarm(path) {
-        dartCallNative("Navigator.cancelPrewarm", { path });
+        void dartCallNativeAsync("Navigator.cancelPrewarm", { path });
       }
     };
     exports.NavigatorService = NavigatorService2;
@@ -25623,7 +25629,7 @@ var require_DialogService = __commonJS({
        * @param result Optional result to return from the dialog.
        */
       static dismiss(result) {
-        dartCallNative("Dialog.dismiss", result);
+        void dartCallNativeAsync("Dialog.dismiss", result);
       }
       /** 显示系统风格的确认框 */
       static async showModal(options) {
@@ -25787,7 +25793,7 @@ var require_SoundService = __commonJS({
     exports.SoundService = void 0;
     var SoundService2 = class {
       static play(type) {
-        dartCallNative("Sound.play", { type: type ?? "move" });
+        void dartCallNativeAsync("Sound.play", { type: type ?? "move" });
       }
     };
     exports.SoundService = SoundService2;
