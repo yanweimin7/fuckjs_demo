@@ -20428,16 +20428,22 @@ var require_UIService = __commonJS({
       /**
        * 同步获取当前页面的主题快照（来自宿主 ThemeData）。
        * 主题切换时由 Flutter 端推送 'themeChange' 事件，配合 useTheme hook 触发重渲染。
+       *
+       * 注意：worker isolate 中 UIService 未注册,sync 路径会 fallback 到主 isolate 并返回 Promise,
+       * 把 Promise 当对象用会得到 undefined。必须走 async 路径。
        */
       static getTheme(pageId) {
-        return dartCallNative("UI.getTheme", { pageId });
+        return dartCallNativeAsync("UI.getTheme", { pageId });
       }
       /**
        * 同步获取当前页面的 MediaQuery 快照（屏幕尺寸、暗黑模式、键盘弹起等）。
        * 屏幕旋转 / 键盘 / 暗黑切换时由 Flutter 端推送 'mediaQueryChange' 事件。
+       *
+       * 注意：worker isolate 中 UIService 未注册,sync 路径会 fallback 到主 isolate 并返回 Promise,
+       * 把 Promise 当 Map 用会得到 undefined。这里必须走 async 路径,等真实数据回来后再读。
        */
       static getMediaQuery(pageId) {
-        return dartCallNative("UI.getMediaQuery", { pageId });
+        return dartCallNativeAsync("UI.getMediaQuery", { pageId });
       }
       static isWidgetRegistered(type) {
         if (_UIService._registeredWidgets === null) {
@@ -20728,7 +20734,6 @@ var require_perf_timing = __commonJS({
       const end = Date.now();
       const dslReady = t.dslReady ?? end;
       const sendEnd = t.sendEnd ?? end;
-      console.log(`[PerfTiming] page=${pageId} path=${path} | t_js_to_dsl=${dslReady - t.start}ms | t_transfer=${sendEnd - dslReady}ms | t_total=${end - t.start}ms`);
       delete timings[pageId];
     }
   }
@@ -23375,27 +23380,24 @@ var require_hooks = __commonJS({
     };
     function useTheme2() {
       const pageId = usePageId();
-      const [theme, setTheme] = (0, react_1.useState)(() => {
-        try {
-          const raw = UIService_1.UIService.getTheme(pageId);
-          return raw ?? EMPTY_THEME;
-        } catch {
-          return EMPTY_THEME;
-        }
-      });
+      const [theme, setTheme] = (0, react_1.useState)(EMPTY_THEME);
       (0, react_1.useEffect)(() => {
-        try {
-          const raw = UIService_1.UIService.getTheme(pageId);
-          if (raw)
-            setTheme(raw);
-        } catch {
-        }
+        let cancelled = false;
+        UIService_1.UIService.getTheme(pageId).then((raw) => {
+          if (cancelled || !raw)
+            return;
+          setTheme(raw);
+        }).catch(() => {
+        });
         const unsubscribe = NativeEvent_1.NativeEvent.on("themeChange", (data) => {
           if (data && typeof data === "object") {
             setTheme(data);
           }
         }, pageId);
-        return unsubscribe;
+        return () => {
+          cancelled = true;
+          unsubscribe();
+        };
       }, [pageId]);
       return theme;
     }
@@ -23411,27 +23413,24 @@ var require_hooks = __commonJS({
     };
     function useMediaQuery2() {
       const pageId = usePageId();
-      const [mq, setMq] = (0, react_1.useState)(() => {
-        try {
-          const raw = UIService_1.UIService.getMediaQuery(pageId);
-          return raw ?? EMPTY_MEDIA_QUERY;
-        } catch {
-          return EMPTY_MEDIA_QUERY;
-        }
-      });
+      const [mq, setMq] = (0, react_1.useState)(EMPTY_MEDIA_QUERY);
       (0, react_1.useEffect)(() => {
-        try {
-          const raw = UIService_1.UIService.getMediaQuery(pageId);
-          if (raw)
-            setMq(raw);
-        } catch {
-        }
+        let cancelled = false;
+        UIService_1.UIService.getMediaQuery(pageId).then((raw) => {
+          if (cancelled || !raw)
+            return;
+          setMq(raw);
+        }).catch(() => {
+        });
         const unsubscribe = NativeEvent_1.NativeEvent.on("mediaQueryChange", (data) => {
           if (data && typeof data === "object") {
             setMq(data);
           }
         }, pageId);
-        return unsubscribe;
+        return () => {
+          cancelled = true;
+          unsubscribe();
+        };
       }, [pageId]);
       return mq;
     }
@@ -35923,4 +35922,3 @@ react-reconciler/cjs/react-reconciler.production.js:
    * LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=bundle.js.map
