@@ -105,6 +105,7 @@ import SoundServiceDemo from "./demos/SoundServiceDemo";
 import I18nDemo from "./demos/I18nDemo";
 import LifecycleDemo from "./demos/LifecycleDemo";
 import { LifecycleSubPage } from "./demos/LifecycleDemo";
+import FileObfuscatorPage from "./pages/file_obfuscator";
 
 // Custom Global Error UI
 const CustomErrorUI = (error: Error) =>
@@ -351,6 +352,9 @@ export function initApp() {
     );
     Router.register("/demo/lifecycle_sub", () =>
       React.createElement(LifecycleSubPage),
+    );
+    Router.register("/demo/file_obfuscator", () =>
+      React.createElement(FileObfuscatorPage),
     );
 
     console.log("App Initialized");
