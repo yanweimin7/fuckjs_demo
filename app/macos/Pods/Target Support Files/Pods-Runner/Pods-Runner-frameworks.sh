@@ -178,6 +178,7 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/OrderedSet/OrderedSet.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity_plus/connectivity_plus.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/file_picker/file_picker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/file_selector_macos/file_selector_macos.framework"
   install_framework "${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/fjs_engine/macos/libquickjs_ffi.dylib"
   install_framework "${BUILT_PRODUCTS_DIR}/fjs_engine/fjs_engine.framework"
@@ -194,6 +195,7 @@ fi
 if [[ "$CONFIGURATION" == "Profile" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/OrderedSet/OrderedSet.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity_plus/connectivity_plus.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/file_picker/file_picker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/file_selector_macos/file_selector_macos.framework"
   install_framework "${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/fjs_engine/macos/libquickjs_ffi.dylib"
   install_framework "${BUILT_PRODUCTS_DIR}/fjs_engine/fjs_engine.framework"
@@ -210,6 +212,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/OrderedSet/OrderedSet.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity_plus/connectivity_plus.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/file_picker/file_picker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/file_selector_macos/file_selector_macos.framework"
   install_framework "${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/fjs_engine/macos/libquickjs_ffi.dylib"
   install_framework "${BUILT_PRODUCTS_DIR}/fjs_engine/fjs_engine.framework"

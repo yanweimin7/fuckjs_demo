@@ -53,6 +53,8 @@ dependencies:
   local_auth: ^2.3.0
   encrypt: ^5.0.3
   pointycastle: ^3.9.1
+  file_picker: ^8.1.4
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:

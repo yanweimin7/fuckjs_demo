@@ -8804,10 +8804,10 @@ var require_blowfish = __commonJS({
           return { left: Xl, right: Xr };
         }
         function BlowFishInit(ctx, key, keysize) {
-          for (let Row51 = 0; Row51 < 4; Row51++) {
-            ctx.sbox[Row51] = [];
+          for (let Row52 = 0; Row52 < 4; Row52++) {
+            ctx.sbox[Row52] = [];
             for (let Col = 0; Col < 256; Col++) {
-              ctx.sbox[Row51][Col] = ORIG_S[Row51][Col];
+              ctx.sbox[Row52][Col] = ORIG_S[Row52][Col];
             }
           }
           let keyIndex = 0;
@@ -10646,7 +10646,7 @@ var require_websocket = __commonJS({
         }
         console.log(`[WebSocket] close() socketId=${this._socketId}, code=${code ?? 1e3}`);
         this._readyState = 2;
-        dartCallNative("WebSocket.close", {
+        void dartCallNativeAsync("WebSocket.close", {
           socketId: this._socketId,
           code: code ?? 1e3,
           reason: reason ?? ""
@@ -19050,14 +19050,14 @@ var require_react_reconciler_production = __commonJS({
       }
       var exports2 = {};
       "use strict";
-      var React93 = require_react_production(), Scheduler = require_scheduler_production(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
+      var React94 = require_react_production(), Scheduler = require_scheduler_production(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
       Symbol.for("react.scope");
       var REACT_ACTIVITY_TYPE = Symbol.for("react.activity");
       Symbol.for("react.legacy_hidden");
       Symbol.for("react.tracing_marker");
       var REACT_MEMO_CACHE_SENTINEL = Symbol.for("react.memo_cache_sentinel");
       Symbol.for("react.view_transition");
-      var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React93.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, rendererVersion = $$$config.rendererVersion, rendererPackageName = $$$config.rendererPackageName, extraDevToolsConfig = $$$config.extraDevToolsConfig, getPublicInstance = $$$config.getPublicInstance, getRootHostContext = $$$config.getRootHostContext, getChildHostContext = $$$config.getChildHostContext, prepareForCommit = $$$config.prepareForCommit, resetAfterCommit = $$$config.resetAfterCommit, createInstance = $$$config.createInstance;
+      var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React94.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, rendererVersion = $$$config.rendererVersion, rendererPackageName = $$$config.rendererPackageName, extraDevToolsConfig = $$$config.extraDevToolsConfig, getPublicInstance = $$$config.getPublicInstance, getRootHostContext = $$$config.getRootHostContext, getChildHostContext = $$$config.getChildHostContext, prepareForCommit = $$$config.prepareForCommit, resetAfterCommit = $$$config.resetAfterCommit, createInstance = $$$config.createInstance;
       $$$config.cloneMutableInstance;
       var appendInitialChild = $$$config.appendInitialChild, finalizeInitialChildren = $$$config.finalizeInitialChildren, shouldSetTextContent = $$$config.shouldSetTextContent, createTextInstance = $$$config.createTextInstance;
       $$$config.cloneMutableTextInstance;
@@ -21889,13 +21889,13 @@ var require_Container = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Container = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Container84 = class extends react_1.default.Component {
+    var Container85 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Container", { ...this.props });
       }
     };
-    exports.Container = Container84;
-    exports.default = Container84;
+    exports.Container = Container85;
+    exports.default = Container85;
   }
 });
 
@@ -21909,13 +21909,13 @@ var require_Text = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Text = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Text91 = class extends react_1.default.Component {
+    var Text92 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Text", { ...this.props, isBoundary: false });
       }
     };
-    exports.Text = Text91;
-    exports.default = Text91;
+    exports.Text = Text92;
+    exports.default = Text92;
   }
 });
 
@@ -22498,13 +22498,13 @@ var require_Column = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Column = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Column84 = class extends react_1.default.Component {
+    var Column85 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Column", { ...this.props });
       }
     };
-    exports.Column = Column84;
-    exports.default = Column84;
+    exports.Column = Column85;
+    exports.default = Column85;
   }
 });
 
@@ -22518,13 +22518,13 @@ var require_Row = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Row = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Row51 = class extends react_1.default.Component {
+    var Row52 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Row", { ...this.props });
       }
     };
-    exports.Row = Row51;
-    exports.default = Row51;
+    exports.Row = Row52;
+    exports.default = Row52;
   }
 });
 
@@ -22538,15 +22538,15 @@ var require_Button = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Button = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Button44 = class extends react_1.default.Component {
+    var Button45 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Button", {
           ...this.props
         });
       }
     };
-    exports.Button = Button44;
-    exports.default = Button44;
+    exports.Button = Button45;
+    exports.default = Button45;
   }
 });
 
@@ -22561,7 +22561,7 @@ var require_TextField = __commonJS({
     exports.TextField = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var TextField8 = class extends BaseWidget_1.BaseWidget {
+    var TextField9 = class extends BaseWidget_1.BaseWidget {
       setText(text) {
         this.callNativeCommand("setText", { text });
       }
@@ -22588,8 +22588,8 @@ var require_TextField = __commonJS({
         });
       }
     };
-    exports.TextField = TextField8;
-    exports.default = TextField8;
+    exports.TextField = TextField9;
+    exports.default = TextField9;
   }
 });
 
@@ -22603,13 +22603,13 @@ var require_Switch = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Switch = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Switch8 = class extends react_1.default.Component {
+    var Switch9 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Switch", { ...this.props });
       }
     };
-    exports.Switch = Switch8;
-    exports.default = Switch8;
+    exports.Switch = Switch9;
+    exports.default = Switch9;
   }
 });
 
@@ -22623,13 +22623,13 @@ var require_Expanded = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Expanded = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Expanded11 = class extends react_1.default.Component {
+    var Expanded12 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Expanded", { ...this.props });
       }
     };
-    exports.Expanded = Expanded11;
-    exports.default = Expanded11;
+    exports.Expanded = Expanded12;
+    exports.default = Expanded12;
   }
 });
 
@@ -22644,7 +22644,7 @@ var require_ListView = __commonJS({
     exports.ListView = void 0;
     var react_1 = __importDefault(require_react_production());
     var ScrollableBaseWidget_1 = require_ScrollableBaseWidget();
-    var ListView13 = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
+    var ListView14 = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
       animateTo(offset, duration = 300, curve = "easeInOut") {
         this.callNativeCommand("animateTo", { offset, duration, curve });
       }
@@ -22662,8 +22662,8 @@ var require_ListView = __commonJS({
         }, children);
       }
     };
-    exports.ListView = ListView13;
-    exports.default = ListView13;
+    exports.ListView = ListView14;
+    exports.default = ListView14;
   }
 });
 
@@ -22677,13 +22677,13 @@ var require_Padding = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Padding = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Padding63 = class extends react_1.default.Component {
+    var Padding64 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Padding", { ...this.props });
       }
     };
-    exports.Padding = Padding63;
-    exports.default = Padding63;
+    exports.Padding = Padding64;
+    exports.default = Padding64;
   }
 });
 
@@ -22717,13 +22717,13 @@ var require_SizedBox = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SizedBox = void 0;
     var react_1 = __importDefault(require_react_production());
-    var SizedBox42 = class extends react_1.default.Component {
+    var SizedBox43 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("SizedBox", { ...this.props });
       }
     };
-    exports.SizedBox = SizedBox42;
-    exports.default = SizedBox42;
+    exports.SizedBox = SizedBox43;
+    exports.default = SizedBox43;
   }
 });
 
@@ -23539,13 +23539,13 @@ var require_InkWell = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.InkWell = void 0;
     var react_1 = __importDefault(require_react_production());
-    var InkWell10 = class extends react_1.default.Component {
+    var InkWell11 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("InkWell", { ...this.props });
       }
     };
-    exports.InkWell = InkWell10;
-    exports.default = InkWell10;
+    exports.InkWell = InkWell11;
+    exports.default = InkWell11;
   }
 });
 
@@ -23559,13 +23559,13 @@ var require_Divider = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Divider = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Divider36 = class extends react_1.default.Component {
+    var Divider37 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Divider", { ...this.props, isBoundary: false });
       }
     };
-    exports.Divider = Divider36;
-    exports.default = Divider36;
+    exports.Divider = Divider37;
+    exports.default = Divider37;
   }
 });
 
@@ -23580,7 +23580,7 @@ var require_SingleChildScrollView = __commonJS({
     exports.SingleChildScrollView = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var SingleChildScrollView49 = class extends BaseWidget_1.BaseWidget {
+    var SingleChildScrollView50 = class extends BaseWidget_1.BaseWidget {
       animateTo(offset, duration = 300, curve = "easeInOut") {
         this.callNativeCommand("animateTo", { offset, duration, curve });
       }
@@ -23592,8 +23592,8 @@ var require_SingleChildScrollView = __commonJS({
         });
       }
     };
-    exports.SingleChildScrollView = SingleChildScrollView49;
-    exports.default = SingleChildScrollView49;
+    exports.SingleChildScrollView = SingleChildScrollView50;
+    exports.default = SingleChildScrollView50;
   }
 });
 
@@ -23749,7 +23749,7 @@ var require_Scaffold = __commonJS({
     exports.Scaffold = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var Scaffold90 = class extends react_1.default.Component {
+    var Scaffold91 = class extends react_1.default.Component {
       render() {
         const { appBar, floatingActionButton, drawer, endDrawer, bottomNavigationBar, bottomSheet, children, ...otherProps } = this.props;
         return react_1.default.createElement("Scaffold", {
@@ -23758,8 +23758,8 @@ var require_Scaffold = __commonJS({
         }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), drawer && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "drawer" }, drawer), endDrawer && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "endDrawer" }, endDrawer), bottomNavigationBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottomNavigationBar" }, bottomNavigationBar), bottomSheet && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottomSheet" }, bottomSheet), children);
       }
     };
-    exports.Scaffold = Scaffold90;
-    exports.default = Scaffold90;
+    exports.Scaffold = Scaffold91;
+    exports.default = Scaffold91;
   }
 });
 
@@ -23774,14 +23774,14 @@ var require_AppBar = __commonJS({
     exports.AppBar = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var AppBar87 = class extends react_1.default.Component {
+    var AppBar88 = class extends react_1.default.Component {
       render() {
         const { title, leading, actions, flexibleSpace, bottom, children, ...otherProps } = this.props;
         return react_1.default.createElement("AppBar", { ...otherProps, isBoundary: true }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), flexibleSpace && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "flexibleSpace" }, flexibleSpace), bottom && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottom" }, bottom), children);
       }
     };
-    exports.AppBar = AppBar87;
-    exports.default = AppBar87;
+    exports.AppBar = AppBar88;
+    exports.default = AppBar88;
   }
 });
 
@@ -25605,7 +25605,7 @@ var require_ToastService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ToastService = void 0;
-    var ToastService = class {
+    var ToastService2 = class {
       static show(message, duration) {
         return dartCallNativeAsync("Toast.show", { message, duration });
       }
@@ -25613,7 +25613,7 @@ var require_ToastService = __commonJS({
         return dartCallNativeAsync("Toast.hide", {});
       }
     };
-    exports.ToastService = ToastService;
+    exports.ToastService = ToastService2;
   }
 });
 
@@ -25623,7 +25623,7 @@ var require_DialogService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DialogService = void 0;
-    var DialogService2 = class {
+    var DialogService3 = class {
       /**
        * Dismisses the current dialog.
        * @param result Optional result to return from the dialog.
@@ -25640,7 +25640,7 @@ var require_DialogService = __commonJS({
         return dartCallNativeAsync("Dialog.showActionSheet", options);
       }
     };
-    exports.DialogService = DialogService2;
+    exports.DialogService = DialogService3;
   }
 });
 
@@ -26047,7 +26047,7 @@ var require_VideoPlayer = __commonJS({
       callNativeCommand(method, args) {
         if (!this.scopedRefId)
           return;
-        dartCallNative("UI.componentCommand", {
+        void dartCallNativeAsync("UI.componentCommand", {
           refId: this.scopedRefId,
           method,
           args: args ?? null,
@@ -26119,7 +26119,7 @@ var require_WebView = __commonJS({
         return this.props.refId ?? this._internalRefId;
       }
       callNativeCommand(method, args) {
-        dartCallNative("UI.componentCommand", {
+        void dartCallNativeAsync("UI.componentCommand", {
           refId: this._refId,
           method,
           args: args ?? null,
@@ -26184,19 +26184,19 @@ var require_HapticsService = __commonJS({
     var Haptics2 = class {
       /** 冲击反馈，适用于按钮点击等操作 */
       static impact(style = "medium") {
-        dartCallNative(`${exports.HAPTICS_SERVICE_NAME}.impact`, { style });
+        void dartCallNativeAsync(`${exports.HAPTICS_SERVICE_NAME}.impact`, { style });
       }
       /** 选择反馈，适用于滚轮/选项切换 */
       static selection() {
-        dartCallNative(`${exports.HAPTICS_SERVICE_NAME}.selection`, null);
+        void dartCallNativeAsync(`${exports.HAPTICS_SERVICE_NAME}.selection`, null);
       }
       /** 通知反馈，适用于操作结果提示 */
       static notification(type = "success") {
-        dartCallNative(`${exports.HAPTICS_SERVICE_NAME}.notification`, { type });
+        void dartCallNativeAsync(`${exports.HAPTICS_SERVICE_NAME}.notification`, { type });
       }
       /** 振动 N 毫秒（Android 专用，iOS 忽略） */
       static vibrate(duration = 100) {
-        dartCallNative(`${exports.HAPTICS_SERVICE_NAME}.vibrate`, { duration });
+        void dartCallNativeAsync(`${exports.HAPTICS_SERVICE_NAME}.vibrate`, { duration });
       }
     };
     exports.Haptics = Haptics2;
@@ -26481,11 +26481,11 @@ var require_ConnectivityService = __commonJS({
       }
       /** 开始监听网络状态变化（事件通过 NativeEvent 分发） */
       static startListener() {
-        dartCallNative(`${exports.CONNECTIVITY_SERVICE_NAME}.startNetworkListener`, null);
+        void dartCallNativeAsync(`${exports.CONNECTIVITY_SERVICE_NAME}.startNetworkListener`, null);
       }
       /** 停止监听 */
       static stopListener() {
-        dartCallNative(`${exports.CONNECTIVITY_SERVICE_NAME}.stopNetworkListener`, null);
+        void dartCallNativeAsync(`${exports.CONNECTIVITY_SERVICE_NAME}.stopNetworkListener`, null);
       }
     };
     exports.Connectivity = Connectivity2;
@@ -26509,8 +26509,8 @@ var require_dist11 = __commonJS({
 });
 
 // src/app.ts
-var import_react88 = __toESM(require_react_production());
-var import_fuickjs92 = __toESM(require_dist());
+var import_react89 = __toESM(require_react_production());
+var import_fuickjs93 = __toESM(require_dist());
 
 // src/i18n/resources.ts
 var i18nResources = {
@@ -27272,6 +27272,12 @@ var demoCategories = [
     ]
   },
   {
+    title: "Tools",
+    items: [
+      { name: "FileObfuscator", path: "/demo/file_obfuscator" }
+    ]
+  },
+  {
     title: "Community Packages",
     items: [
       { name: "Haptics", path: "/demo/haptics" },
@@ -27485,13 +27491,13 @@ function ButtonDemo() {
       fontSize: 12,
       paddingH: 10
     }
-  ))))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "5. \u5B57\u53F7\uFF08fontSize\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, { crossAxisAlignment: "center" }, [11, 14, 18, 22].map((fs) => /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Padding, { key: fs, padding: { right: 8 } }, /* @__PURE__ */ import_react9.default.createElement(
+  ))))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "5. \u5B57\u53F7\uFF08fontSize\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, { crossAxisAlignment: "center" }, [11, 14, 18, 22].map((fs2) => /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Padding, { key: fs2, padding: { right: 8 } }, /* @__PURE__ */ import_react9.default.createElement(
     import_fuickjs8.Button,
     {
-      text: `${fs}px`,
+      text: `${fs2}px`,
       backgroundColor: "#0277BD",
       textColor: "#FFFFFF",
-      fontSize: fs
+      fontSize: fs2
     }
   ))))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "6. Elevation\uFF08\u9634\u5F71\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, { crossAxisAlignment: "center" }, [0, 2, 6, 12].map((e) => /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Padding, { key: e, padding: { right: 12 } }, /* @__PURE__ */ import_react9.default.createElement(
     import_fuickjs8.Button,
@@ -35568,26 +35574,885 @@ function Tip({ children }) {
   );
 }
 
+// src/pages/file_obfuscator.tsx
+var import_react88 = __toESM(require_react_production());
+var import_fuickjs92 = __toESM(require_dist());
+var DEFAULT_DIRS = {};
+async function loadDefaultDirs() {
+  try {
+    const dirs = await import_fuickjs92.fs.getDirectories();
+    return dirs || {};
+  } catch (e) {
+    return {};
+  }
+}
+function joinPath(base, name) {
+  if (!base) return name;
+  if (base.endsWith("/")) return base + name;
+  return base + "/" + name;
+}
+function matchesExt(name, exts) {
+  if (exts.length === 0) return true;
+  const dot = name.lastIndexOf(".");
+  if (dot === -1) return false;
+  const ext = name.substring(dot + 1).toLowerCase();
+  return exts.some((e) => e.toLowerCase() === ext);
+}
+async function walkDir(root, exts, maxDepth = 99) {
+  const result = [];
+  const visited = /* @__PURE__ */ new Set();
+  async function walk(dir, depth) {
+    if (depth > maxDepth) return;
+    if (visited.has(dir)) return;
+    visited.add(dir);
+    let entries = [];
+    try {
+      entries = await import_fuickjs92.fs.readdir(dir);
+    } catch (e) {
+      console.warn("[walkDir] readdir failed:", dir, e);
+      return;
+    }
+    for (const name of entries) {
+      if (name.startsWith(".")) continue;
+      const full = joinPath(dir, name);
+      let stat = null;
+      try {
+        stat = await import_fuickjs92.fs.stat(full);
+      } catch (e) {
+        console.warn("[walkDir] stat failed:", full, e);
+        continue;
+      }
+      if (!stat) continue;
+      if (stat.isFile()) {
+        if (matchesExt(name, exts)) {
+          result.push({
+            path: full,
+            name,
+            size: stat.size,
+            status: "pending",
+            isDestroyed: false
+          });
+        }
+      } else if (stat.isDirectory()) {
+        console.log("[walkDir] recursing into:", full);
+        await walk(full, depth + 1);
+      }
+    }
+  }
+  await walk(root, 0);
+  return result;
+}
+function FileObfuscatorPage() {
+  const [dir, setDir] = (0, import_react88.useState)("");
+  const [extInput, setExtInput] = (0, import_react88.useState)(
+    "png,mp4,jpg,jpeg,gif,mp3,webp"
+  );
+  const [mode, setMode] = (0, import_react88.useState)("destroy");
+  const [files, setFiles] = (0, import_react88.useState)([]);
+  const [scanning, setScanning] = (0, import_react88.useState)(false);
+  const [running, setRunning] = (0, import_react88.useState)(false);
+  const [stopped, setStopped] = (0, import_react88.useState)(false);
+  const [progress, setProgress] = (0, import_react88.useState)({ done: 0, total: 0 });
+  const [log, setLog] = (0, import_react88.useState)([]);
+  const stopFlag = (0, import_react88.useRef)(false);
+  const exts = (0, import_react88.useMemo)(
+    () => extInput.split(/[,\s]+/).map((s) => s.trim().replace(/^\./, "")).filter(Boolean),
+    [extInput]
+  );
+  (0, import_react88.useEffect)(() => {
+    (async () => {
+      try {
+        const dirs = await loadDefaultDirs();
+        Object.assign(DEFAULT_DIRS, dirs);
+        if (dirs.documents) setDir(dirs.documents);
+      } catch (e) {
+        console.warn("[FileObfuscator] loadDefaultDirs failed:", e);
+      }
+    })();
+  }, []);
+  const appendLog = (msg) => {
+    setLog(
+      (prev) => [`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`, ...prev].slice(0, 50)
+    );
+  };
+  const handlePickDirectory = async () => {
+    console.log("[FileObfuscator] handlePickDirectory clicked");
+    console.log(
+      "[FileObfuscator] dartCallNativeAsync =",
+      typeof globalThis.dartCallNativeAsync
+    );
+    try {
+      const result = await globalThis.dartCallNativeAsync(
+        "FilePicker.pickDirectory",
+        {
+          initialDirectory: dir || void 0
+        }
+      );
+      console.log("[FileObfuscator] pickDirectory result:", result);
+      if (result) {
+        setDir(result);
+        appendLog(`\u5DF2\u9009\u62E9\u76EE\u5F55: ${result}`);
+      } else {
+        appendLog("\u672A\u9009\u62E9\u76EE\u5F55");
+      }
+    } catch (e) {
+      console.error("[FileObfuscator] pickDirectory error:", e);
+      appendLog(`\u9009\u62E9\u76EE\u5F55\u5931\u8D25: ${e?.message || e}`);
+    }
+  };
+  const handleScan = async () => {
+    if (!dir) {
+      await import_fuickjs92.DialogService.showModal({
+        title: "\u63D0\u793A",
+        content: "\u8BF7\u5148\u586B\u5199\u76EE\u5F55\u8DEF\u5F84",
+        showCancel: false
+      });
+      return;
+    }
+    setScanning(true);
+    setFiles([]);
+    setLog([]);
+    import_fuickjs92.ToastService.show("\u5F00\u59CB\u626B\u63CF...");
+    appendLog("walkDir \u5165\u53E3: " + dir);
+    try {
+      const exists = await import_fuickjs92.fs.exists(dir);
+      if (!exists) {
+        await import_fuickjs92.DialogService.showModal({
+          title: "\u76EE\u5F55\u4E0D\u5B58\u5728",
+          content: dir,
+          showCancel: false
+        });
+        return;
+      }
+      const result = await walkDir(dir, exts);
+      const inspectTasks = result.map(async (f) => {
+        try {
+          const r = await globalThis.dartCallNativeAsync(
+            "FileObfuscator.inspectFile",
+            { path: f.path }
+          );
+          if (r.ok) {
+            f.isDestroyed = !!r.isDestroyed;
+          }
+        } catch (e) {
+        }
+        return f;
+      });
+      const inspected = await Promise.all(inspectTasks);
+      setFiles(inspected);
+      const destroyedCount = inspected.filter((f) => f.isDestroyed).length;
+      appendLog(
+        `\u626B\u63CF\u5B8C\u6210\uFF1A${inspected.length} \u4E2A\u6587\u4EF6\uFF0C\u5176\u4E2D\u5DF2\u7834\u574F ${destroyedCount} \u4E2A`
+      );
+      import_fuickjs92.ToastService.show(`\u627E\u5230 ${inspected.length} \u4E2A\u6587\u4EF6`);
+    } catch (e) {
+      appendLog(`\u626B\u63CF\u5931\u8D25: ${e?.message || e}`);
+    } finally {
+      setScanning(false);
+    }
+  };
+  const updateFile = (idx, patch) => {
+    setFiles((prev) => {
+      const copy = prev.slice();
+      copy[idx] = { ...copy[idx], ...patch };
+      return copy;
+    });
+  };
+  const handleExecute = async () => {
+    if (files.length === 0) {
+      await import_fuickjs92.DialogService.showModal({
+        title: "\u63D0\u793A",
+        content: "\u8BF7\u5148\u626B\u63CF\u6587\u4EF6",
+        showCancel: false
+      });
+      return;
+    }
+    const actionLabel = mode === "destroy" ? "\u7834\u574F" : "\u8FD8\u539F";
+    const targets = [];
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i];
+      if (mode === "destroy" && f.isDestroyed) continue;
+      if (mode === "restore" && !f.isDestroyed) continue;
+      targets.push(i);
+    }
+    if (targets.length === 0) {
+      await import_fuickjs92.DialogService.showModal({
+        title: "\u65E0\u9700\u5904\u7406",
+        content: mode === "destroy" ? "\u6240\u9009\u6587\u4EF6\u5747\u5DF2\u7834\u574F" : "\u6240\u9009\u6587\u4EF6\u5747\u672A\u7834\u574F\uFF0C\u65E0\u9700\u8FD8\u539F",
+        showCancel: false
+      });
+      return;
+    }
+    const confirmed = await import_fuickjs92.DialogService.showModal({
+      title: `\u786E\u8BA4${actionLabel}`,
+      content: `\u5C06\u5BF9 ${targets.length} \u4E2A\u6587\u4EF6\u6267\u884C\u3010${actionLabel}\u3011\u64CD\u4F5C\uFF0C\u662F\u5426\u7EE7\u7EED\uFF1F`,
+      showCancel: true,
+      cancelText: "\u53D6\u6D88",
+      confirmText: actionLabel
+    });
+    if (!confirmed) return;
+    stopFlag.current = false;
+    setStopped(false);
+    setRunning(true);
+    setProgress({ done: 0, total: targets.length });
+    appendLog(`\u5F00\u59CB${actionLabel}\uFF1A${targets.length} \u4E2A\u6587\u4EF6`);
+    let done = 0;
+    let success = 0;
+    let fail = 0;
+    let interrupted = false;
+    for (const i of targets) {
+      if (stopFlag.current) {
+        interrupted = true;
+        break;
+      }
+      const f = files[i];
+      updateFile(i, { status: "processing", message: void 0 });
+      try {
+        const result = await globalThis.dartCallNativeAsync(
+          "FileObfuscator.obfuscateFileSafe",
+          { path: f.path, mode }
+        );
+        if (!result.ok) {
+          throw new Error(result.error || "unknown error");
+        }
+        let isDestroyed = mode === "destroy";
+        try {
+          const inspect = await globalThis.dartCallNativeAsync(
+            "FileObfuscator.inspectFile",
+            { path: f.path }
+          );
+          if (inspect.ok && typeof inspect.isDestroyed === "boolean") {
+            isDestroyed = inspect.isDestroyed;
+          }
+        } catch (_) {
+        }
+        updateFile(i, {
+          status: "done",
+          message: "OK",
+          isDestroyed
+        });
+        success++;
+      } catch (e) {
+        let isDestroyed = false;
+        try {
+          const inspect = await globalThis.dartCallNativeAsync(
+            "FileObfuscator.inspectFile",
+            { path: f.path }
+          );
+          if (inspect.ok && typeof inspect.isDestroyed === "boolean") {
+            isDestroyed = inspect.isDestroyed;
+          }
+        } catch (_) {
+        }
+        updateFile(i, {
+          status: "error",
+          message: e?.message || String(e),
+          isDestroyed
+        });
+        fail++;
+      }
+      done++;
+      setProgress({ done, total: targets.length });
+    }
+    if (interrupted) {
+      setStopped(true);
+      appendLog(
+        `${actionLabel}\u4E2D\u65AD\uFF1A\u5B8C\u6210 ${success}/${targets.length}\uFF0C\u6E90\u6587\u4EF6\u4FDD\u6301\u5B8C\u6574`
+      );
+      await import_fuickjs92.ToastService.show(`\u5DF2\u4E2D\u65AD\uFF0C\u6210\u529F ${success}`);
+    } else {
+      appendLog(
+        `${actionLabel}\u5B8C\u6210\uFF1A\u6210\u529F ${success}\uFF0C\u5931\u8D25 ${fail}\uFF0C\u603B\u8BA1 ${targets.length}`
+      );
+      await import_fuickjs92.ToastService.show(`${actionLabel}\u5B8C\u6210\uFF1A\u6210\u529F ${success}`);
+    }
+    setRunning(false);
+  };
+  const handleStop = () => {
+    if (!running) return;
+    stopFlag.current = true;
+    appendLog("\u6B63\u5728\u4E2D\u65AD...");
+    import_fuickjs92.ToastService.show("\u6B63\u5728\u4E2D\u65AD\uFF0C\u5DF2\u5904\u7406\u7684\u6587\u4EF6\u4FDD\u6301\u5B8C\u6574");
+  };
+  const handleClear = () => {
+    setFiles([]);
+    setLog([]);
+    setProgress({ done: 0, total: 0 });
+  };
+  return /* @__PURE__ */ import_react88.default.createElement(
+    import_fuickjs92.Scaffold,
+    {
+      appBar: /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.AppBar,
+        {
+          title: /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "\u{1F6E1}\uFE0F", fontSize: 18, margin: { right: 8 } }), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "\u6587\u4EF6\u4FDD\u62A4\u5DE5\u5177", fontSize: 16, fontWeight: "bold" }))
+        }
+      )
+    },
+    /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Container, { decoration: { color: "#0D0D1A" } }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Expanded, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, null, /* @__PURE__ */ import_react88.default.createElement(
+      import_fuickjs92.Container,
+      {
+        margin: 12,
+        padding: 16,
+        decoration: {
+          color: "#1A1A2E",
+          borderRadius: 16,
+          border: { color: "#2A2A4A", width: 1 }
+        }
+      },
+      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { crossAxisAlignment: "center", margin: { bottom: 16 } }, /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          padding: { horizontal: 10, vertical: 5 },
+          decoration: {
+            color: mode === "destroy" ? "rgba(255,92,92,0.15)" : "rgba(76,175,80,0.15)",
+            borderRadius: 20
+          }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: mode === "destroy" ? "\u{1F525} \u7834\u574F\u6A21\u5F0F" : "\u2728 \u8FD8\u539F\u6A21\u5F0F",
+            fontSize: 13,
+            fontWeight: "bold",
+            color: mode === "destroy" ? "#FF5C5C" : "#4CAF50"
+          }
+        )
+      ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { width: 8 }), /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          decoration: {
+            color: "#222240",
+            borderRadius: 20,
+            border: { color: "#333355", width: 1 }
+          },
+          padding: { horizontal: 4, vertical: 3 }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.InkWell, { onTap: () => setMode("destroy") }, /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Container,
+          {
+            padding: { horizontal: 12, vertical: 5 },
+            decoration: {
+              color: mode === "destroy" ? "#FF5C5C" : "transparent",
+              borderRadius: 16
+            }
+          },
+          /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Text,
+            {
+              text: "\u7834\u574F",
+              fontSize: 12,
+              fontWeight: "bold",
+              color: mode === "destroy" ? "#FFF" : "#666688"
+            }
+          )
+        )), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.InkWell, { onTap: () => setMode("restore") }, /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Container,
+          {
+            padding: { horizontal: 12, vertical: 5 },
+            decoration: {
+              color: mode === "restore" ? "#4CAF50" : "transparent",
+              borderRadius: 16
+            }
+          },
+          /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Text,
+            {
+              text: "\u8FD8\u539F",
+              fontSize: 12,
+              fontWeight: "bold",
+              color: mode === "restore" ? "#FFF" : "#666688"
+            }
+          )
+        )))
+      )), /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Text,
+        {
+          text: "\u{1F4C1} \u76EE\u6807\u76EE\u5F55",
+          fontSize: 12,
+          color: "#8888AA",
+          fontWeight: "bold",
+          margin: { bottom: 6 }
+        }
+      ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Expanded, null, /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          decoration: {
+            color: "#222240",
+            borderRadius: 12,
+            border: { color: "#333355", width: 1 }
+          },
+          padding: { left: 12, right: 4, top: 2, bottom: 2 }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.TextField,
+          {
+            hint: "\u8F93\u5165\u6216\u9009\u62E9\u76EE\u5F55\u8DEF\u5F84",
+            text: dir,
+            onChanged: setDir,
+            maxLines: 1
+          }
+        )
+      )), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { width: 8 }), /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Button,
+        {
+          text: "\u{1F4C2}",
+          onTap: handlePickDirectory,
+          backgroundColor: "#6C63FF",
+          textColor: "#FFF"
+        }
+      )), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { height: 14 }), /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Text,
+        {
+          text: "\u{1F50D} \u6269\u5C55\u540D\u8FC7\u6EE4",
+          fontSize: 12,
+          color: "#8888AA",
+          fontWeight: "bold",
+          margin: { bottom: 6 }
+        }
+      ), /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          decoration: {
+            color: "#222240",
+            borderRadius: 12,
+            border: { color: "#333355", width: 1 }
+          },
+          padding: { left: 12, right: 4, top: 2, bottom: 2 }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.TextField,
+          {
+            hint: "png, mp4, jpg...",
+            text: extInput,
+            onChanged: setExtInput
+          }
+        )
+      ), Object.keys(DEFAULT_DIRS).length > 0 ? /* @__PURE__ */ import_react88.default.createElement(import_react88.default.Fragment, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { height: 14 }), /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Text,
+        {
+          text: "\u26A1 \u5FEB\u901F\u9009\u62E9",
+          fontSize: 12,
+          color: "#8888AA",
+          fontWeight: "bold",
+          margin: { bottom: 6 }
+        }
+      ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { mainAxisAlignment: "start" }, Object.entries(DEFAULT_DIRS).map(([k, v]) => /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.InkWell, { key: k, onTap: () => setDir(v) }, /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          margin: { right: 6, bottom: 4 },
+          padding: { horizontal: 12, vertical: 6 },
+          decoration: {
+            color: "#6C63FF",
+            borderRadius: 20
+          }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: k,
+            fontSize: 12,
+            color: "#FFFFFF",
+            fontWeight: "bold"
+          }
+        )
+      ))))) : null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { height: 16 }), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Button,
+        {
+          text: scanning ? "\u23F3 \u626B\u63CF\u4E2D..." : "\u{1F50E} \u626B\u63CF\u6587\u4EF6",
+          onTap: handleScan,
+          disabled: scanning || running,
+          outlined: true,
+          borderColor: "#6C63FF",
+          textColor: "#6C63FF"
+        }
+      ), running ? /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Button,
+        {
+          text: "\u23F9 \u505C\u6B62",
+          onTap: handleStop,
+          backgroundColor: "#FF6F00",
+          textColor: "#FFFFFF"
+        }
+      ) : null, /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Button,
+        {
+          text: running ? `\u23F3 ${progress.done}/${progress.total}` : mode === "destroy" ? "\u{1F4A5} \u6267\u884C\u7834\u574F" : "\u267B\uFE0F \u6267\u884C\u8FD8\u539F",
+          onTap: handleExecute,
+          disabled: running || files.length === 0,
+          backgroundColor: mode === "destroy" ? "#FF5C5C" : "#4CAF50",
+          textColor: "#FFFFFF"
+        }
+      )))
+    ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Expanded, null, /* @__PURE__ */ import_react88.default.createElement(
+      import_fuickjs92.Container,
+      {
+        margin: { left: 12, right: 12, top: 0, bottom: 12 },
+        padding: 16,
+        decoration: {
+          color: "#1A1A2E",
+          borderRadius: 16,
+          border: { color: "#2A2A4A", width: 1 }
+        }
+      },
+      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, null, /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Row,
+        {
+          mainAxisAlignment: "spaceBetween",
+          crossAxisAlignment: "center",
+          margin: { bottom: 12 }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "\u{1F4C4}", fontSize: 16, margin: { right: 8 } }), /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: `\u6587\u4EF6\u5217\u8868`,
+            fontSize: 15,
+            fontWeight: "bold",
+            color: "#EEE"
+          }
+        ), /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Container,
+          {
+            margin: { left: 8 },
+            padding: { horizontal: 8, vertical: 3 },
+            decoration: {
+              color: "#6C63FF",
+              borderRadius: 12
+            }
+          },
+          /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Text,
+            {
+              text: `${files.length}`,
+              fontSize: 11,
+              fontWeight: "bold",
+              color: "#FFF"
+            }
+          )
+        )),
+        files.length > 0 ? /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.InkWell, { onTap: handleClear }, /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Container,
+          {
+            padding: { horizontal: 10, vertical: 5 },
+            decoration: {
+              color: "rgba(255,255,255,0.05)",
+              borderRadius: 8
+            }
+          },
+          /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Text,
+            {
+              text: "\u{1F5D1}\uFE0F \u6E05\u7A7A",
+              fontSize: 12,
+              color: "#8888AA"
+            }
+          )
+        )) : null
+      ), running || progress.total > 0 ? /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          height: 4,
+          margin: { bottom: 10 },
+          decoration: {
+            color: "#222240",
+            borderRadius: 2
+          }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Container,
+          {
+            width: progress.total > 0 ? Math.round(progress.done / progress.total * 100) : 0,
+            height: 4,
+            decoration: {
+              color: mode === "destroy" ? "#FF5C5C" : "#4CAF50",
+              borderRadius: 2
+            }
+          }
+        )
+      ) : null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Expanded, null, files.length === 0 ? /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          padding: 30,
+          alignment: "center",
+          decoration: {
+            color: "#222240",
+            borderRadius: 12
+          }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: "\u{1F4C2}",
+            fontSize: 36,
+            margin: { bottom: 10 }
+          }
+        ),
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: "\u6682\u65E0\u6587\u4EF6",
+            fontSize: 16,
+            fontWeight: "bold",
+            color: "#666688"
+          }
+        ),
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: "\u9009\u62E9\u76EE\u5F55\u540E\u70B9\u51FB\u300C\u626B\u63CF\u6587\u4EF6\u300D\u5F00\u59CB",
+            fontSize: 12,
+            color: "#555577",
+            margin: { top: 4 }
+          }
+        )
+      ) : /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.ListView, null, files.map((f, i) => {
+        const ext = f.name.lastIndexOf(".") >= 0 ? f.name.substring(f.name.lastIndexOf(".") + 1).toLowerCase() : "";
+        const iconMap = {
+          png: "\u{1F5BC}\uFE0F",
+          jpg: "\u{1F5BC}\uFE0F",
+          jpeg: "\u{1F5BC}\uFE0F",
+          gif: "\u{1F5BC}\uFE0F",
+          webp: "\u{1F5BC}\uFE0F",
+          mp4: "\u{1F3AC}",
+          mov: "\u{1F3AC}",
+          avi: "\u{1F3AC}",
+          mp3: "\u{1F3B5}",
+          wav: "\u{1F3B5}",
+          aac: "\u{1F3B5}",
+          m4a: "\u{1F3B5}",
+          pdf: "\u{1F4C4}",
+          doc: "\u{1F4DD}",
+          docx: "\u{1F4DD}",
+          txt: "\u{1F4C3}"
+        };
+        const icon = iconMap[ext] || "\u{1F4C4}";
+        return /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Container,
+          {
+            key: f.path,
+            padding: 12,
+            margin: { bottom: 6 },
+            decoration: {
+              color: "#222240",
+              borderRadius: 12,
+              border: {
+                color: f.status === "processing" ? "#6C63FF" : f.status === "error" ? "#FF5C5C" : "transparent",
+                width: 1
+              }
+            }
+          },
+          /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, null, /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Container,
+            {
+              width: 40,
+              height: 40,
+              alignment: "center",
+              decoration: {
+                color: f.isDestroyed ? "rgba(255,92,92,0.12)" : "rgba(108,99,255,0.12)",
+                borderRadius: 10
+              }
+            },
+            /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: icon, fontSize: 20 })
+          ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { width: 10 }), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Text,
+            {
+              text: f.name,
+              fontSize: 13,
+              fontWeight: "bold",
+              color: "#DDD"
+            }
+          ), f.isDestroyed ? /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Container,
+            {
+              margin: { left: 6 },
+              padding: {
+                horizontal: 6,
+                vertical: 2
+              },
+              decoration: {
+                color: "rgba(255,92,92,0.2)",
+                borderRadius: 4
+              }
+            },
+            /* @__PURE__ */ import_react88.default.createElement(
+              import_fuickjs92.Text,
+              {
+                text: "\u5DF2\u7834\u574F",
+                fontSize: 9,
+                color: "#FF5C5C",
+                fontWeight: "bold"
+              }
+            )
+          ) : null), /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Text,
+            {
+              text: `${(f.size / 1024).toFixed(1)} KB`,
+              fontSize: 11,
+              color: "#666688",
+              margin: { top: 2 }
+            }
+          ), f.message ? /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Text,
+            {
+              text: f.message,
+              fontSize: 10,
+              color: f.status === "error" ? "#FF5C5C" : "#4CAF50",
+              margin: { top: 1 }
+            }
+          ) : null)), /* @__PURE__ */ import_react88.default.createElement(StatusBadge2, { status: f.status }))
+        );
+      }))))
+    )))), /* @__PURE__ */ import_react88.default.createElement(
+      import_fuickjs92.Container,
+      {
+        width: 260,
+        margin: { top: 12, bottom: 12, right: 12 },
+        padding: 14,
+        decoration: {
+          color: "#111122",
+          borderRadius: 16,
+          border: { color: "#2A2A4A", width: 1 }
+        }
+      },
+      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, null, /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Row,
+        {
+          crossAxisAlignment: "center",
+          margin: { bottom: 10 }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "\u{1F4CB}", fontSize: 14, margin: { right: 6 } }),
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: "\u8FD0\u884C\u65E5\u5FD7",
+            fontSize: 13,
+            color: "#8888AA",
+            fontWeight: "bold"
+          }
+        ),
+        /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { width: 6 }),
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Container,
+          {
+            width: 6,
+            height: 6,
+            decoration: {
+              color: "#4CAF50",
+              borderRadius: 3
+            }
+          }
+        )
+      ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Divider, null), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Expanded, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SingleChildScrollView, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, { crossAxisAlignment: "start" }, log.length === 0 ? /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          padding: 20,
+          alignment: "center"
+        },
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: "\u7B49\u5F85\u64CD\u4F5C...",
+            fontSize: 11,
+            color: "#444466"
+          }
+        )
+      ) : log.map((l, i) => /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Container,
+        {
+          key: i,
+          padding: { top: 4, bottom: 4, left: 4, right: 4 },
+          margin: { top: 2 },
+          decoration: {
+            color: i === 0 ? "rgba(108,99,255,0.08)" : "transparent",
+            borderRadius: 4
+          }
+        },
+        /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Text,
+          {
+            text: l,
+            fontSize: 11,
+            color: i === 0 ? "#B0B0D0" : "#666688"
+          }
+        )
+      ))))))
+    )))
+  );
+}
+function StatusBadge2({ status }) {
+  const map = {
+    pending: {
+      color: "#8888AA",
+      bg: "rgba(136,136,170,0.12)",
+      label: "\u5F85\u5904\u7406",
+      dot: "#8888AA"
+    },
+    processing: {
+      color: "#6C63FF",
+      bg: "rgba(108,99,255,0.15)",
+      label: "\u5904\u7406\u4E2D",
+      dot: "#6C63FF"
+    },
+    done: {
+      color: "#4CAF50",
+      bg: "rgba(76,175,80,0.15)",
+      label: "\u5B8C\u6210",
+      dot: "#4CAF50"
+    },
+    error: {
+      color: "#FF5C5C",
+      bg: "rgba(255,92,92,0.15)",
+      label: "\u5931\u8D25",
+      dot: "#FF5C5C"
+    }
+  };
+  const s = map[status];
+  return /* @__PURE__ */ import_react88.default.createElement(
+    import_fuickjs92.Container,
+    {
+      padding: { horizontal: 10, vertical: 5 },
+      decoration: { color: s.bg, borderRadius: 20 }
+    },
+    /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react88.default.createElement(
+      import_fuickjs92.Container,
+      {
+        width: 6,
+        height: 6,
+        margin: { right: 5 },
+        decoration: { color: s.dot, borderRadius: 3 }
+      }
+    ), /* @__PURE__ */ import_react88.default.createElement(
+      import_fuickjs92.Text,
+      {
+        text: s.label,
+        fontSize: 11,
+        color: s.color,
+        fontWeight: "bold"
+      }
+    ))
+  );
+}
+
 // src/app.ts
-var CustomErrorUI = (error) => import_react88.default.createElement(
-  import_fuickjs92.Container,
+var CustomErrorUI = (error) => import_react89.default.createElement(
+  import_fuickjs93.Container,
   { color: "#E0F7FA" },
-  import_react88.default.createElement(
-    import_fuickjs92.Column,
+  import_react89.default.createElement(
+    import_fuickjs93.Column,
     {
       mainAxisAlignment: "center",
       crossAxisAlignment: "center",
       padding: 30
     },
-    import_react88.default.createElement(import_fuickjs92.Text, {
+    import_react89.default.createElement(import_fuickjs93.Text, {
       text: "Oops! Something went wrong",
       fontSize: 22,
       color: "#006064",
       fontWeight: "bold",
       margin: { bottom: 16 }
     }),
-    import_react88.default.createElement(
-      import_fuickjs92.Container,
+    import_react89.default.createElement(
+      import_fuickjs93.Container,
       {
         padding: 12,
         decoration: {
@@ -35597,7 +36462,7 @@ var CustomErrorUI = (error) => import_react88.default.createElement(
         },
         margin: { bottom: 20 }
       },
-      import_react88.default.createElement(import_fuickjs92.Text, {
+      import_react89.default.createElement(import_fuickjs93.Text, {
         text: error?.message || "Unknown Error",
         fontSize: 14,
         color: "#00838F",
@@ -35605,7 +36470,7 @@ var CustomErrorUI = (error) => import_react88.default.createElement(
         overflow: "ellipsis"
       })
     ),
-    import_react88.default.createElement(import_fuickjs92.Button, {
+    import_react89.default.createElement(import_fuickjs93.Button, {
       text: "Go Back Home",
       onTap: () => console.log("Navigate to home...")
     })
@@ -35613,246 +36478,250 @@ var CustomErrorUI = (error) => import_react88.default.createElement(
 );
 function initApp() {
   try {
-    import_fuickjs92.Runtime.configure({ prewarm: false, prewarmMs: 50 });
-    import_fuickjs92.Runtime.bindGlobals();
-    import_fuickjs92.i18n.configure({ fallbackLocale: "en", resources: i18nResources });
-    void import_fuickjs92.i18n.init().catch((e) => console.warn("[i18n] init failed:", e));
-    (0, import_fuickjs92.setGlobalErrorFallback)(CustomErrorUI);
-    import_fuickjs92.Router.register("/", () => import_react88.default.createElement(HomePage));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Runtime.configure({ prewarm: false, prewarmMs: 50 });
+    import_fuickjs93.Runtime.bindGlobals();
+    import_fuickjs93.i18n.configure({ fallbackLocale: "en", resources: i18nResources });
+    void import_fuickjs93.i18n.init().catch((e) => console.warn("[i18n] init failed:", e));
+    (0, import_fuickjs93.setGlobalErrorFallback)(CustomErrorUI);
+    import_fuickjs93.Router.register("/", () => import_react89.default.createElement(HomePage));
+    import_fuickjs93.Router.register(
       "/hybrid_demo",
-      (args) => import_react88.default.createElement(HybridDemoPage, args)
+      (args) => import_react89.default.createElement(HybridDemoPage, args)
     );
-    import_fuickjs92.Router.register("/news", () => import_react88.default.createElement(NewsPage));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/news", () => import_react89.default.createElement(NewsPage));
+    import_fuickjs93.Router.register(
       "/news_detail",
-      (args) => import_react88.default.createElement(NewsDetailPage, args)
+      (args) => import_react89.default.createElement(NewsDetailPage, args)
     );
-    import_fuickjs92.Router.register("/market", () => import_react88.default.createElement(MarketPage));
-    import_fuickjs92.Router.register("/demos", () => import_react88.default.createElement(DemoListPage));
-    import_fuickjs92.Router.register("/demo/column", () => import_react88.default.createElement(ColumnDemo));
-    import_fuickjs92.Router.register("/demo/row", () => import_react88.default.createElement(RowDemo));
-    import_fuickjs92.Router.register("/demo/button", () => import_react88.default.createElement(ButtonDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/market", () => import_react89.default.createElement(MarketPage));
+    import_fuickjs93.Router.register("/demos", () => import_react89.default.createElement(DemoListPage));
+    import_fuickjs93.Router.register("/demo/column", () => import_react89.default.createElement(ColumnDemo));
+    import_fuickjs93.Router.register("/demo/row", () => import_react89.default.createElement(RowDemo));
+    import_fuickjs93.Router.register("/demo/button", () => import_react89.default.createElement(ButtonDemo));
+    import_fuickjs93.Router.register(
       "/demo/textfield",
-      () => import_react88.default.createElement(TextFieldDemo)
+      () => import_react89.default.createElement(TextFieldDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/textfield_controller",
-      () => import_react88.default.createElement(TextFieldControllerDemo)
+      () => import_react89.default.createElement(TextFieldControllerDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/transition",
-      () => import_react88.default.createElement(TransitionDemo)
+      () => import_react89.default.createElement(TransitionDemo)
     );
-    import_fuickjs92.Router.register("/demo/box", () => import_react88.default.createElement(BoxDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/box", () => import_react89.default.createElement(BoxDemo));
+    import_fuickjs93.Router.register(
       "/demo/visibility",
-      () => import_react88.default.createElement(VisibilityDemo)
+      () => import_react89.default.createElement(VisibilityDemo)
     );
-    import_fuickjs92.Router.register("/demo/switch", () => import_react88.default.createElement(SwitchDemo));
-    import_fuickjs92.Router.register("/demo/listview", () => import_react88.default.createElement(ListViewDemo));
-    import_fuickjs92.Router.register("/demo/gridview", () => import_react88.default.createElement(GridViewDemo));
-    import_fuickjs92.Router.register("/demo/image", () => import_react88.default.createElement(ImageDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/switch", () => import_react89.default.createElement(SwitchDemo));
+    import_fuickjs93.Router.register("/demo/listview", () => import_react89.default.createElement(ListViewDemo));
+    import_fuickjs93.Router.register("/demo/gridview", () => import_react89.default.createElement(GridViewDemo));
+    import_fuickjs93.Router.register("/demo/image", () => import_react89.default.createElement(ImageDemo));
+    import_fuickjs93.Router.register(
       "/demo/bundle_local_image",
-      () => import_react88.default.createElement(BundleLocalImageDemo)
+      () => import_react89.default.createElement(BundleLocalImageDemo)
     );
-    import_fuickjs92.Router.register("/demo/stack", () => import_react88.default.createElement(StackDemo));
-    import_fuickjs92.Router.register("/demo/sliver", () => import_react88.default.createElement(SliverDemo));
-    import_fuickjs92.Router.register("/demo/divider", () => import_react88.default.createElement(DividerDemo));
-    import_fuickjs92.Router.register("/demo/opacity", () => import_react88.default.createElement(OpacityDemo));
-    import_fuickjs92.Router.register("/demo/progress", () => import_react88.default.createElement(ProgressDemo));
-    import_fuickjs92.Router.register("/demo/pageview", () => import_react88.default.createElement(PageViewDemo));
-    import_fuickjs92.Router.register("/demo/popscope", () => import_react88.default.createElement(PopScopeDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/stack", () => import_react89.default.createElement(StackDemo));
+    import_fuickjs93.Router.register("/demo/sliver", () => import_react89.default.createElement(SliverDemo));
+    import_fuickjs93.Router.register("/demo/divider", () => import_react89.default.createElement(DividerDemo));
+    import_fuickjs93.Router.register("/demo/opacity", () => import_react89.default.createElement(OpacityDemo));
+    import_fuickjs93.Router.register("/demo/progress", () => import_react89.default.createElement(ProgressDemo));
+    import_fuickjs93.Router.register("/demo/pageview", () => import_react89.default.createElement(PageViewDemo));
+    import_fuickjs93.Router.register("/demo/popscope", () => import_react89.default.createElement(PopScopeDemo));
+    import_fuickjs93.Router.register(
       "/demo/browser_api",
-      () => import_react88.default.createElement(BrowserApiDemo)
+      () => import_react89.default.createElement(BrowserApiDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/websocket",
-      () => import_react88.default.createElement(WebSocketDemo)
+      () => import_react89.default.createElement(WebSocketDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/bottomnav",
-      () => import_react88.default.createElement(BottomNavDemo)
+      () => import_react89.default.createElement(BottomNavDemo)
     );
-    import_fuickjs92.Router.register("/demo/flex", () => import_react88.default.createElement(FlexDemo));
-    import_fuickjs92.Router.register("/demo/flexible", () => import_react88.default.createElement(FlexibleDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/flex", () => import_react89.default.createElement(FlexDemo));
+    import_fuickjs93.Router.register("/demo/flexible", () => import_react89.default.createElement(FlexibleDemo));
+    import_fuickjs93.Router.register(
       "/demo/gesturedetector",
-      () => import_react88.default.createElement(GestureDetectorDemo)
+      () => import_react89.default.createElement(GestureDetectorDemo)
     );
-    import_fuickjs92.Router.register("/demo/safearea", () => import_react88.default.createElement(SafeAreaDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/safearea", () => import_react89.default.createElement(SafeAreaDemo));
+    import_fuickjs93.Router.register(
       "/demo/singlechildscrollview",
-      () => import_react88.default.createElement(SingleChildScrollViewDemo)
+      () => import_react89.default.createElement(SingleChildScrollViewDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/sliverpersistentheader",
-      () => import_react88.default.createElement(SliverPersistentHeaderDemo)
+      () => import_react89.default.createElement(SliverPersistentHeaderDemo)
     );
-    import_fuickjs92.Router.register("/demo/tabs", () => import_react88.default.createElement(TabDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/tabs", () => import_react89.default.createElement(TabDemo));
+    import_fuickjs93.Router.register(
       "/demo/container",
-      () => import_react88.default.createElement(ContainerDemo)
+      () => import_react89.default.createElement(ContainerDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/layoutbasics",
-      () => import_react88.default.createElement(LayoutBasicsDemo)
+      () => import_react89.default.createElement(LayoutBasicsDemo)
     );
-    import_fuickjs92.Router.register("/demo/inkwell", () => import_react88.default.createElement(InkWellDemo));
-    import_fuickjs92.Router.register("/demo/scaffold", () => import_react88.default.createElement(ScaffoldDemo_default));
-    import_fuickjs92.Router.register("/demo/animated", () => import_react88.default.createElement(AnimatedDemo));
-    import_fuickjs92.Router.register("/demo/dialog", () => import_react88.default.createElement(DialogDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/inkwell", () => import_react89.default.createElement(InkWellDemo));
+    import_fuickjs93.Router.register("/demo/scaffold", () => import_react89.default.createElement(ScaffoldDemo_default));
+    import_fuickjs93.Router.register("/demo/animated", () => import_react89.default.createElement(AnimatedDemo));
+    import_fuickjs93.Router.register("/demo/dialog", () => import_react89.default.createElement(DialogDemo));
+    import_fuickjs93.Router.register(
       "/demo/intrinsic",
-      () => import_react88.default.createElement(IntrinsicDemo)
+      () => import_react89.default.createElement(IntrinsicDemo)
     );
-    import_fuickjs92.Router.register("/demo/error", () => import_react88.default.createElement(ErrorDemoPage));
-    import_fuickjs92.Router.register("/demo/ops", () => import_react88.default.createElement(DemoOpsPage));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/error", () => import_react89.default.createElement(ErrorDemoPage));
+    import_fuickjs93.Router.register("/demo/ops", () => import_react89.default.createElement(DemoOpsPage));
+    import_fuickjs93.Router.register(
       "/demo/flutter_props",
-      () => import_react88.default.createElement(FlutterPropsDemo)
+      () => import_react89.default.createElement(FlutterPropsDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/custompaint",
-      () => import_react88.default.createElement(CustomPaintDemo)
+      () => import_react89.default.createElement(CustomPaintDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/visibility_detector",
-      (args) => import_react88.default.createElement(VisibilityDetectorDemo, args)
+      (args) => import_react89.default.createElement(VisibilityDetectorDemo, args)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/video_player",
-      (args) => import_react88.default.createElement(VideoPlayerDemo, args)
+      (args) => import_react89.default.createElement(VideoPlayerDemo, args)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/cliprrect",
-      (args) => import_react88.default.createElement(ClipRRectDemo, args)
+      (args) => import_react89.default.createElement(ClipRRectDemo, args)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/refresh_indicator",
-      (args) => import_react88.default.createElement(RefreshIndicatorDemo, args)
+      (args) => import_react89.default.createElement(RefreshIndicatorDemo, args)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/richtext",
-      (args) => import_react88.default.createElement(RichTextDemo, args)
+      (args) => import_react89.default.createElement(RichTextDemo, args)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/transform",
-      (args) => import_react88.default.createElement(TransformDemo, args)
+      (args) => import_react89.default.createElement(TransformDemo, args)
     );
-    import_fuickjs92.Router.register("/demo/overlay", () => import_react88.default.createElement(OverlayDemo));
-    import_fuickjs92.Router.register("/demo/material", () => import_react88.default.createElement(MaterialDemo));
-    import_fuickjs92.Router.register("/demo/slider", () => import_react88.default.createElement(SliderDemo));
-    import_fuickjs92.Router.register("/demo/radio", () => import_react88.default.createElement(RadioDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/overlay", () => import_react89.default.createElement(OverlayDemo));
+    import_fuickjs93.Router.register("/demo/material", () => import_react89.default.createElement(MaterialDemo));
+    import_fuickjs93.Router.register("/demo/slider", () => import_react89.default.createElement(SliderDemo));
+    import_fuickjs93.Router.register("/demo/radio", () => import_react89.default.createElement(RadioDemo));
+    import_fuickjs93.Router.register(
       "/demo/fab",
-      () => import_react88.default.createElement(FloatingActionButtonDemo)
+      () => import_react89.default.createElement(FloatingActionButtonDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/aspect_ratio",
-      () => import_react88.default.createElement(AspectRatioDemo)
+      () => import_react89.default.createElement(AspectRatioDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/fractionally_sized_box",
-      () => import_react88.default.createElement(FractionallySizedBoxDemo)
+      () => import_react89.default.createElement(FractionallySizedBoxDemo)
     );
-    import_fuickjs92.Router.register("/demo/drawer", () => import_react88.default.createElement(DrawerDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/drawer", () => import_react89.default.createElement(DrawerDemo));
+    import_fuickjs93.Router.register(
       "/demo/backdrop_filter",
-      () => import_react88.default.createElement(BackdropFilterDemo)
+      () => import_react89.default.createElement(BackdropFilterDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/animated_switcher",
-      () => import_react88.default.createElement(AnimatedSwitcherDemo)
+      () => import_react89.default.createElement(AnimatedSwitcherDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/animated_cross_fade",
-      () => import_react88.default.createElement(AnimatedCrossFadeDemo)
+      () => import_react89.default.createElement(AnimatedCrossFadeDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/nested_scroll_view",
-      () => import_react88.default.createElement(NestedScrollViewDemo)
+      () => import_react89.default.createElement(NestedScrollViewDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/react_managed_list",
-      () => import_react88.default.createElement(ReactManagedListDemo)
+      () => import_react89.default.createElement(ReactManagedListDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/static_list",
-      () => import_react88.default.createElement(StaticListDemo)
+      () => import_react89.default.createElement(StaticListDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/performance",
-      () => import_react88.default.createElement(PerformanceDemo)
+      () => import_react89.default.createElement(PerformanceDemo)
     );
-    import_fuickjs92.Router.register("/demo/align", () => import_react88.default.createElement(AlignDemo));
-    import_fuickjs92.Router.register("/demo/hero", () => import_react88.default.createElement(HeroDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/align", () => import_react89.default.createElement(AlignDemo));
+    import_fuickjs93.Router.register("/demo/hero", () => import_react89.default.createElement(HeroDemo));
+    import_fuickjs93.Router.register(
       "/demo/hero_detail",
-      () => import_react88.default.createElement(HeroDetailPage)
+      () => import_react89.default.createElement(HeroDetailPage)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/fade_transition",
-      () => import_react88.default.createElement(FadeTransitionDemo)
+      () => import_react89.default.createElement(FadeTransitionDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/size_transition",
-      () => import_react88.default.createElement(SizeTransitionDemo)
+      () => import_react89.default.createElement(SizeTransitionDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/positioned_transition",
-      () => import_react88.default.createElement(PositionedTransitionDemo)
+      () => import_react89.default.createElement(PositionedTransitionDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/indexed_stack",
-      () => import_react88.default.createElement(IndexedStackDemo)
+      () => import_react89.default.createElement(IndexedStackDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/animated_size",
-      () => import_react88.default.createElement(AnimatedSizeDemo)
+      () => import_react89.default.createElement(AnimatedSizeDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/dismissible",
-      () => import_react88.default.createElement(DismissibleDemo)
+      () => import_react89.default.createElement(DismissibleDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/transition_animated",
-      () => import_react88.default.createElement(TransitionAnimatedDemo)
+      () => import_react89.default.createElement(TransitionAnimatedDemo)
     );
-    import_fuickjs92.Router.register("/demo/theme", () => import_react88.default.createElement(ThemeDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/theme", () => import_react89.default.createElement(ThemeDemo));
+    import_fuickjs93.Router.register(
       "/demo/media_query",
-      () => import_react88.default.createElement(MediaQueryDemo)
+      () => import_react89.default.createElement(MediaQueryDemo)
     );
-    import_fuickjs92.Router.register("/demo/haptics", () => import_react88.default.createElement(HapticsDemo));
-    import_fuickjs92.Router.register("/demo/launcher", () => import_react88.default.createElement(LauncherDemo));
-    import_fuickjs92.Router.register("/demo/share", () => import_react88.default.createElement(ShareDemo));
-    import_fuickjs92.Router.register("/demo/app_info", () => import_react88.default.createElement(AppInfoDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/haptics", () => import_react89.default.createElement(HapticsDemo));
+    import_fuickjs93.Router.register("/demo/launcher", () => import_react89.default.createElement(LauncherDemo));
+    import_fuickjs93.Router.register("/demo/share", () => import_react89.default.createElement(ShareDemo));
+    import_fuickjs93.Router.register("/demo/app_info", () => import_react89.default.createElement(AppInfoDemo));
+    import_fuickjs93.Router.register(
       "/demo/permissions",
-      () => import_react88.default.createElement(PermissionsDemo)
+      () => import_react89.default.createElement(PermissionsDemo)
     );
-    import_fuickjs92.Router.register("/demo/media", () => import_react88.default.createElement(MediaDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/media", () => import_react89.default.createElement(MediaDemo));
+    import_fuickjs93.Router.register(
       "/demo/connectivity",
-      () => import_react88.default.createElement(ConnectivityDemo)
+      () => import_react89.default.createElement(ConnectivityDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/web_view",
-      (args) => import_react88.default.createElement(WebViewDemo, args)
+      (args) => import_react89.default.createElement(WebViewDemo, args)
     );
-    import_fuickjs92.Router.register("/demo/sound", () => import_react88.default.createElement(SoundServiceDemo));
-    import_fuickjs92.Router.register("/demo/i18n", () => import_react88.default.createElement(I18nDemo));
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register("/demo/sound", () => import_react89.default.createElement(SoundServiceDemo));
+    import_fuickjs93.Router.register("/demo/i18n", () => import_react89.default.createElement(I18nDemo));
+    import_fuickjs93.Router.register(
       "/demo/lifecycle",
-      () => import_react88.default.createElement(LifecycleDemo)
+      () => import_react89.default.createElement(LifecycleDemo)
     );
-    import_fuickjs92.Router.register(
+    import_fuickjs93.Router.register(
       "/demo/lifecycle_sub",
-      () => import_react88.default.createElement(LifecycleSubPage)
+      () => import_react89.default.createElement(LifecycleSubPage)
+    );
+    import_fuickjs93.Router.register(
+      "/demo/file_obfuscator",
+      () => import_react89.default.createElement(FileObfuscatorPage)
     );
     console.log("App Initialized");
   } catch (e) {

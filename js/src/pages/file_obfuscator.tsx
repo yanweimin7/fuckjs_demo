@@ -422,621 +422,299 @@ export default function FileObfuscatorPage() {
   };
 
   return (
-    <Scaffold
-      appBar={
-        <AppBar
-          title={
-            <Row crossAxisAlignment="center">
-              <Text text="🛡️" fontSize={18} margin={{ right: 8 }} />
-              <Text text="文件保护工具" fontSize={16} fontWeight="bold" />
-            </Row>
-          }
-        />
-      }
-    >
-      <Container decoration={{ color: "#0D0D1A" }}>
-        <Row>
-          {/* 左侧：主面板 */}
-          <Expanded>
-            <Column>
-              {/* ========== 配置卡片 ========== */}
-              <Container
-                margin={12}
-                padding={16}
-                decoration={{
-                  color: "#1A1A2E",
-                  borderRadius: 16,
-                  border: { color: "#2A2A4A", width: 1 },
-                }}
-              >
-                <Column>
-                  {/* 标题行 */}
-                  <Row crossAxisAlignment="center" margin={{ bottom: 16 }}>
-                    <Container
-                      padding={{ horizontal: 10, vertical: 5 }}
-                      decoration={{
-                        color: mode === "destroy"
-                          ? "rgba(255,92,92,0.15)"
-                          : "rgba(76,175,80,0.15)",
-                        borderRadius: 20,
-                      }}
-                    >
-                      <Text
-                        text={mode === "destroy" ? "🔥 破坏模式" : "✨ 还原模式"}
-                        fontSize={13}
-                        fontWeight="bold"
-                        color={mode === "destroy" ? "#FF5C5C" : "#4CAF50"}
-                      />
-                    </Container>
-                    <SizedBox width={8} />
-                    {/* 模式切换 */}
-                    <Container
-                      decoration={{
-                        color: "#222240",
-                        borderRadius: 20,
-                        border: { color: "#333355", width: 1 },
-                      }}
-                      padding={{ horizontal: 4, vertical: 3 }}
-                    >
-                      <Row crossAxisAlignment="center">
-                        <InkWell onTap={() => setMode("destroy")}>
-                          <Container
-                            padding={{ horizontal: 12, vertical: 5 }}
-                            decoration={{
-                              color: mode === "destroy"
-                                ? "#FF5C5C"
-                                : "transparent",
-                              borderRadius: 16,
-                            }}
-                          >
-                            <Text
-                              text="破坏"
-                              fontSize={12}
-                              fontWeight="bold"
-                              color={mode === "destroy" ? "#FFF" : "#666688"}
-                            />
-                          </Container>
-                        </InkWell>
-                        <InkWell onTap={() => setMode("restore")}>
-                          <Container
-                            padding={{ horizontal: 12, vertical: 5 }}
-                            decoration={{
-                              color: mode === "restore"
-                                ? "#4CAF50"
-                                : "transparent",
-                              borderRadius: 16,
-                            }}
-                          >
-                            <Text
-                              text="还原"
-                              fontSize={12}
-                              fontWeight="bold"
-                              color={mode === "restore" ? "#FFF" : "#666688"}
-                            />
-                          </Container>
-                        </InkWell>
-                      </Row>
-                    </Container>
-                  </Row>
-
-                  {/* 目录输入 */}
-                  <Text
-                    text="📁 目标目录"
-                    fontSize={12}
-                    color="#8888AA"
-                    fontWeight="bold"
-                    margin={{ bottom: 6 }}
-                  />
-                  <Row>
-                    <Expanded>
-                      <Container
-                        decoration={{
-                          color: "#222240",
-                          borderRadius: 12,
-                          border: { color: "#333355", width: 1 },
-                        }}
-                        padding={{ left: 12, right: 4, top: 2, bottom: 2 }}
-                      >
-                        <TextField
-                          hint="输入或选择目录路径"
-                          text={dir}
-                          onChanged={setDir}
-                          maxLines={1}
-                        />
-                      </Container>
-                    </Expanded>
-                    <SizedBox width={8} />
-                    <Button
-                      text="📂"
-                      onTap={handlePickDirectory}
-                      backgroundColor="#6C63FF"
-                      textColor="#FFF"
-                    />
-                  </Row>
-
-                  <SizedBox height={14} />
-
-                  {/* 扩展名过滤 */}
-                  <Text
-                    text="🔍 扩展名过滤"
-                    fontSize={12}
-                    color="#8888AA"
-                    fontWeight="bold"
-                    margin={{ bottom: 6 }}
-                  />
-                  <Container
-                    decoration={{
-                      color: "#222240",
-                      borderRadius: 12,
-                      border: { color: "#333355", width: 1 },
-                    }}
-                    padding={{ left: 12, right: 4, top: 2, bottom: 2 }}
-                  >
+    <Scaffold appBar={<AppBar title="文件破坏/还原工具" />}>
+      <Row>
+        {/* 左侧：配置区 + 文件列表 */}
+        <Expanded>
+          <Column>
+            {/* 配置区 */}
+            <Container
+              padding={12}
+              decoration={{
+                color: "#FFFFFF",
+                border: { color: "#E0E0E0", width: 1 },
+                borderRadius: 8,
+              }}
+              margin={12}
+            >
+              <Column>
+                <Text
+                  text="配置"
+                  fontWeight="bold"
+                  fontSize={16}
+                  margin={{ bottom: 8 }}
+                />
+                <Text
+                  text="目标目录"
+                  fontSize={13}
+                  color="#666"
+                  margin={{ bottom: 4 }}
+                />
+                <Row>
+                  <Expanded>
                     <TextField
-                      hint="png, mp4, jpg..."
-                      text={extInput}
-                      onChanged={setExtInput}
+                      hint="例如 /var/mobile/.../Documents"
+                      text={dir}
+                      onChanged={setDir}
+                      maxLines={2}
                     />
-                  </Container>
-
-                  {/* 快速选择目录 */}
-                  {Object.keys(DEFAULT_DIRS).length > 0 ? (
-                    <>
-                      <SizedBox height={14} />
-                      <Text
-                        text="⚡ 快速选择"
-                        fontSize={12}
-                        color="#8888AA"
-                        fontWeight="bold"
-                        margin={{ bottom: 6 }}
-                      />
-                      <Row mainAxisAlignment="start">
-                        {Object.entries(DEFAULT_DIRS).map(([k, v]) => (
-                          <InkWell key={k} onTap={() => setDir(v)}>
-                            <Container
-                              margin={{ right: 6, bottom: 4 }}
-                              padding={{ horizontal: 12, vertical: 6 }}
-                              decoration={{
-                                color: "#6C63FF",
-                                borderRadius: 20,
-                              }}
-                            >
-                              <Text
-                                text={k}
-                                fontSize={12}
-                                color="#FFFFFF"
-                                fontWeight="bold"
-                              />
-                            </Container>
-                          </InkWell>
-                        ))}
-                      </Row>
-                    </>
-                  ) : null}
-
-                  <SizedBox height={16} />
-
-                  {/* 操作按钮行 */}
-                  <Row mainAxisAlignment="spaceBetween">
-                    <Button
-                      text={
-                        scanning
-                          ? "⏳ 扫描中..."
-                          : "🔎 扫描文件"
-                      }
-                      onTap={handleScan}
-                      disabled={scanning || running}
-                      outlined
-                      borderColor="#6C63FF"
-                      textColor="#6C63FF"
+                  </Expanded>
+                  <SizedBox width={8} />
+                  <Button
+                    text="📂"
+                    onTap={handlePickDirectory}
+                    backgroundColor="#1976D2"
+                  />
+                </Row>
+                <SizedBox height={12} />
+                <Text
+                  text="扩展名过滤（逗号分隔，留空匹配所有）"
+                  fontSize={13}
+                  color="#666"
+                  margin={{ bottom: 4 }}
+                />
+                <TextField
+                  hint="png,mp4,jpg"
+                  text={extInput}
+                  onChanged={setExtInput}
+                />
+                <SizedBox height={12} />
+                <Row
+                  mainAxisAlignment="spaceBetween"
+                  crossAxisAlignment="center"
+                >
+                  <Text
+                    text={mode === "destroy" ? "模式：破坏" : "模式：还原"}
+                    fontWeight="bold"
+                    fontSize={14}
+                    color={mode === "destroy" ? "#D32F2F" : "#388E3C"}
+                  />
+                  <Row crossAxisAlignment="center">
+                    <Text
+                      text="破坏"
+                      fontSize={13}
+                      margin={{ right: 6 }}
+                      color={mode === "destroy" ? "#D32F2F" : "#999"}
                     />
-                    {running ? (
-                      <Button
-                        text="⏹ 停止"
-                        onTap={handleStop}
-                        backgroundColor="#FF6F00"
-                        textColor="#FFFFFF"
-                      />
-                    ) : null}
+                    <Switch
+                      value={mode === "restore"}
+                      onChanged={(v) => setMode(v ? "restore" : "destroy")}
+                    />
+                    <Text
+                      text="还原"
+                      fontSize={13}
+                      margin={{ left: 6 }}
+                      color={mode === "restore" ? "#388E3C" : "#999"}
+                    />
+                  </Row>
+                </Row>
+                <SizedBox height={12} />
+                <Row mainAxisAlignment="spaceBetween">
+                  <Button
+                    text={scanning ? "扫描中..." : "扫描文件"}
+                    onTap={handleScan}
+                    disabled={scanning || running}
+                    outlined
+                    borderColor="#1976D2"
+                    textColor="#1976D2"
+                  />
+                  <Button
+                    text={
+                      running
+                        ? `处理中 ${progress.done}/${progress.total}`
+                        : mode === "destroy"
+                          ? "执行破坏"
+                          : "执行还原"
+                    }
+                    onTap={handleExecute}
+                    disabled={running || files.length === 0}
+                    backgroundColor={mode === "destroy" ? "#D32F2F" : "#388E3C"}
+                  />
+                  {running ? (
                     <Button
-                      text={
-                        running
-                          ? `⏳ ${progress.done}/${progress.total}`
-                          : mode === "destroy"
-                            ? "💥 执行破坏"
-                            : "♻️ 执行还原"
-                      }
-                      onTap={handleExecute}
-                      disabled={running || files.length === 0}
-                      backgroundColor={
-                        mode === "destroy" ? "#FF5C5C" : "#4CAF50"
-                      }
+                      text="停止"
+                      onTap={handleStop}
+                      backgroundColor="#FF6F00"
                       textColor="#FFFFFF"
                     />
-                  </Row>
-                </Column>
-              </Container>
-
-              {/* ========== 文件列表（Expanded 确保有界高度） ========== */}
-              <Expanded>
-                <Container
-                  margin={{ left: 12, right: 12, top: 0, bottom: 12 }}
-                  padding={16}
-                  decoration={{
-                    color: "#1A1A2E",
-                    borderRadius: 16,
-                    border: { color: "#2A2A4A", width: 1 },
-                  }}
-                >
-                <Column>
-                  {/* 列表标题栏 */}
-                  <Row
-                    mainAxisAlignment="spaceBetween"
-                    crossAxisAlignment="center"
-                    margin={{ bottom: 12 }}
-                  >
-                    <Row crossAxisAlignment="center">
-                      <Text text="📄" fontSize={16} margin={{ right: 8 }} />
-                      <Text
-                        text={`文件列表`}
-                        fontSize={15}
-                        fontWeight="bold"
-                        color="#EEE"
-                      />
-                      <Container
-                        margin={{ left: 8 }}
-                        padding={{ horizontal: 8, vertical: 3 }}
-                        decoration={{
-                          color: "#6C63FF",
-                          borderRadius: 12,
-                        }}
-                      >
-                        <Text
-                          text={`${files.length}`}
-                          fontSize={11}
-                          fontWeight="bold"
-                          color="#FFF"
-                        />
-                      </Container>
+                  ) : null}
+                </Row>
+                {Object.keys(DEFAULT_DIRS).length > 0 ? (
+                  <>
+                    <SizedBox height={8} />
+                    <Text text="快速选择目录：" fontSize={12} color="#666" />
+                    <Row mainAxisAlignment="start">
+                      {Object.entries(DEFAULT_DIRS).map(([k, v]) => (
+                        <InkWell key={k} onTap={() => setDir(v)}>
+                          <Container
+                            margin={{ right: 6, top: 4 }}
+                            padding={{ horizontal: 8, vertical: 4 }}
+                            decoration={{
+                              color: "#E3F2FD",
+                              borderRadius: 4,
+                            }}
+                          >
+                            <Text text={k} fontSize={11} color="#1565C0" />
+                          </Container>
+                        </InkWell>
+                      ))}
                     </Row>
-                    {files.length > 0 ? (
-                      <InkWell onTap={handleClear}>
-                        <Container
-                          padding={{ horizontal: 10, vertical: 5 }}
-                          decoration={{
-                            color: "rgba(255,255,255,0.05)",
-                            borderRadius: 8,
-                          }}
-                        >
-                          <Text
-                            text="🗑️ 清空"
-                            fontSize={12}
-                            color="#8888AA"
-                          />
-                        </Container>
-                      </InkWell>
-                    ) : null}
-                  </Row>
-
-                  {/* 进度条 */}
-                  {running || progress.total > 0 ? (
+                  </>
+                ) : null}
+              </Column>
+            </Container>
+            <Divider />
+            {/* 文件列表 */}
+            <Padding padding={{ horizontal: 12, vertical: 8 }}>
+              <Row mainAxisAlignment="spaceBetween">
+                <Text
+                  text={`文件列表（${files.length}）`}
+                  fontWeight="bold"
+                  fontSize={14}
+                />
+                {files.length > 0 ? (
+                  <InkWell onTap={handleClear}>
+                    <Container padding={4}>
+                      <Text text="清空" fontSize={13} color="#1976D2" />
+                    </Container>
+                  </InkWell>
+                ) : null}
+              </Row>
+            </Padding>
+            <Expanded>
+              {files.length === 0 ? (
+                <Container
+                  padding={20}
+                  alignment="center"
+                  decoration={{ color: "#FAFAFA" }}
+                >
+                  <Text text="暂无文件，请先点击「扫描文件」" color="#999" />
+                </Container>
+              ) : (
+                <ListView>
+                  {files.map((f, i) => (
                     <Container
-                      height={4}
-                      margin={{ bottom: 10 }}
+                      key={f.path}
+                      padding={10}
+                      margin={{ horizontal: 12, bottom: 6 }}
                       decoration={{
-                        color: "#222240",
-                        borderRadius: 2,
+                        color: "#FFFFFF",
+                        border: { color: "#EEEEEE", width: 1 },
+                        borderRadius: 6,
                       }}
                     >
-                      <Container
-                        width={
-                          progress.total > 0
-                            ? Math.round((progress.done / progress.total) * 100)
-                            : 0
-                        }
-                        height={4}
-                        decoration={{
-                          color:
-                            mode === "destroy" ? "#FF5C5C" : "#4CAF50",
-                          borderRadius: 2,
-                        }}
-                      />
+                      <Row mainAxisAlignment="spaceBetween">
+                        <Column>
+                          <Row crossAxisAlignment="center">
+                            <Text
+                              text={f.name}
+                              fontSize={13}
+                              fontWeight="bold"
+                            />
+                            {f.isDestroyed ? (
+                              <Container
+                                margin={{ left: 6 }}
+                                padding={{
+                                  horizontal: 6,
+                                  vertical: 2,
+                                }}
+                                decoration={{
+                                  color: "#FFEBEE",
+                                  borderRadius: 3,
+                                }}
+                              >
+                                <Text
+                                  text="已破坏"
+                                  fontSize={10}
+                                  color="#C62828"
+                                />
+                              </Container>
+                            ) : null}
+                          </Row>
+                          <Text
+                            text={`${(f.size / 1024).toFixed(1)} KB · ${f.path}`}
+                            fontSize={11}
+                            color="#888"
+                            maxLines={1}
+                            overflow="ellipsis"
+                          />
+                          {f.message ? (
+                            <Text
+                              text={f.message}
+                              fontSize={11}
+                              color={
+                                f.status === "error" ? "#D32F2F" : "#388E3C"
+                              }
+                            />
+                          ) : null}
+                        </Column>
+                        <StatusBadge status={f.status} />
+                      </Row>
                     </Container>
-                  ) : null}
-
-                  {/* 列表内容 */}
-                  <Expanded>
-                    {files.length === 0 ? (
-                      <Container
-                        padding={30}
-                        alignment="center"
-                        decoration={{
-                          color: "#222240",
-                          borderRadius: 12,
-                        }}
-                      >
-                        <Text
-                          text="📂"
-                          fontSize={36}
-                          margin={{ bottom: 10 }}
-                        />
-                        <Text
-                          text="暂无文件"
-                          fontSize={16}
-                          fontWeight="bold"
-                          color="#666688"
-                        />
-                        <Text
-                          text="选择目录后点击「扫描文件」开始"
-                          fontSize={12}
-                          color="#555577"
-                          margin={{ top: 4 }}
-                        />
-                      </Container>
-                    ) : (
-                      <ListView>
-                        {files.map((f, i) => {
-                          const ext = f.name.lastIndexOf(".") >= 0
-                            ? f.name.substring(f.name.lastIndexOf(".") + 1).toLowerCase()
-                            : "";
-                          const iconMap: Record<string, string> = {
-                            png: "🖼️",
-                            jpg: "🖼️",
-                            jpeg: "🖼️",
-                            gif: "🖼️",
-                            webp: "🖼️",
-                            mp4: "🎬",
-                            mov: "🎬",
-                            avi: "🎬",
-                            mp3: "🎵",
-                            wav: "🎵",
-                            aac: "🎵",
-                            m4a: "🎵",
-                            pdf: "📄",
-                            doc: "📝",
-                            docx: "📝",
-                            txt: "📃",
-                          };
-                          const icon = iconMap[ext] || "📄";
-                          return (
-                            <Container
-                              key={f.path}
-                              padding={12}
-                              margin={{ bottom: 6 }}
-                              decoration={{
-                                color: "#222240",
-                                borderRadius: 12,
-                                border: {
-                                  color: f.status === "processing"
-                                    ? "#6C63FF"
-                                    : f.status === "error"
-                                      ? "#FF5C5C"
-                                      : "transparent",
-                                  width: 1,
-                                },
-                              }}
-                            >
-                              <Row mainAxisAlignment="spaceBetween">
-                                {/* 左侧：图标 + 信息 */}
-                                <Row>
-                                  {/* 文件类型图标 */}
-                                  <Container
-                                    width={40}
-                                    height={40}
-                                    alignment="center"
-                                    decoration={{
-                                      color: f.isDestroyed
-                                        ? "rgba(255,92,92,0.12)"
-                                        : "rgba(108,99,255,0.12)",
-                                      borderRadius: 10,
-                                    }}
-                                  >
-                                    <Text text={icon} fontSize={20} />
-                                  </Container>
-                                  <SizedBox width={10} />
-                                  <Column>
-                                    <Row crossAxisAlignment="center">
-                                      <Text
-                                        text={f.name}
-                                        fontSize={13}
-                                        fontWeight="bold"
-                                        color="#DDD"
-                                      />
-                                      {f.isDestroyed ? (
-                                        <Container
-                                          margin={{ left: 6 }}
-                                          padding={{
-                                            horizontal: 6,
-                                            vertical: 2,
-                                          }}
-                                          decoration={{
-                                            color: "rgba(255,92,92,0.2)",
-                                            borderRadius: 4,
-                                          }}
-                                        >
-                                          <Text
-                                            text="已破坏"
-                                            fontSize={9}
-                                            color="#FF5C5C"
-                                            fontWeight="bold"
-                                          />
-                                        </Container>
-                                      ) : null}
-                                    </Row>
-                                    <Text
-                                      text={`${(f.size / 1024).toFixed(1)} KB`}
-                                      fontSize={11}
-                                      color="#666688"
-                                      margin={{ top: 2 }}
-                                    />
-                                    {f.message ? (
-                                      <Text
-                                        text={f.message}
-                                        fontSize={10}
-                                        color={
-                                          f.status === "error"
-                                            ? "#FF5C5C"
-                                            : "#4CAF50"
-                                        }
-                                        margin={{ top: 1 }}
-                                      />
-                                    ) : null}
-                                  </Column>
-                                </Row>
-                                {/* 右侧：状态徽章 */}
-                                <StatusBadge status={f.status} />
-                              </Row>
-                            </Container>
-                          );
-                        })}
-                      </ListView>
-                    )}
-                  </Expanded>
-                </Column>
-              </Container>
+                  ))}
+                </ListView>
+              )}
             </Expanded>
           </Column>
-          </Expanded>
-
-          {/* ========== 右侧日志面板 ========== */}
-          <Container
-            width={260}
-            margin={{ top: 12, bottom: 12, right: 12 }}
-            padding={14}
-            decoration={{
-              color: "#111122",
-              borderRadius: 16,
-              border: { color: "#2A2A4A", width: 1 },
-            }}
-          >
-            <Column>
-              {/* 日志标题 */}
-              <Row
-                crossAxisAlignment="center"
-                margin={{ bottom: 10 }}
-              >
-                <Text text="📋" fontSize={14} margin={{ right: 6 }} />
-                <Text
-                  text="运行日志"
-                  fontSize={13}
-                  color="#8888AA"
-                  fontWeight="bold"
-                />
-                <SizedBox width={6} />
-                <Container
-                  width={6}
-                  height={6}
-                  decoration={{
-                    color: "#4CAF50",
-                    borderRadius: 3,
-                  }}
-                />
-              </Row>
-
-              <Divider />
-
-              {/* 日志内容 */}
-              <Expanded>
-                <SingleChildScrollView>
-                  <Column crossAxisAlignment="start">
-                    {log.length === 0 ? (
-                      <Container
-                        padding={20}
-                        alignment="center"
-                      >
-                        <Text
-                          text="等待操作..."
-                          fontSize={11}
-                          color="#444466"
-                        />
-                      </Container>
-                    ) : (
-                      log.map((l, i) => (
-                        <Container
-                          key={i}
-                          padding={{ top: 4, bottom: 4, left: 4, right: 4 }}
-                          margin={{ top: 2 }}
-                          decoration={{
-                            color: i === 0
-                              ? "rgba(108,99,255,0.08)"
-                              : "transparent",
-                            borderRadius: 4,
-                          }}
-                        >
-                          <Text
-                            text={l}
-                            fontSize={11}
-                            color={i === 0 ? "#B0B0D0" : "#666688"}
-                          />
-                        </Container>
-                      ))
-                    )}
-                  </Column>
-                </SingleChildScrollView>
-              </Expanded>
-            </Column>
-          </Container>
-        </Row>
-      </Container>
+        </Expanded>
+        {/* 右侧：日志区 */}
+        <Container
+          width={280}
+          margin={{ top: 12, bottom: 12, right: 12 }}
+          decoration={{
+            color: "#263238",
+            borderRadius: 8,
+          }}
+        >
+          <Padding padding={10}>
+            <Text
+              text="日志"
+              fontSize={13}
+              color="#B0BEC5"
+              fontWeight="bold"
+              margin={{ bottom: 8 }}
+            />
+            <Expanded>
+              <SingleChildScrollView>
+                <Column crossAxisAlignment="start">
+                  {log.length === 0 ? (
+                    <Text text="暂无日志" fontSize={11} color="#78909C" />
+                  ) : (
+                    log.map((l, i) => (
+                      <Text
+                        key={i}
+                        text={l}
+                        fontSize={11}
+                        color="#B0BEC5"
+                        margin={{ bottom: 2 }}
+                      />
+                    ))
+                  )}
+                </Column>
+              </SingleChildScrollView>
+            </Expanded>
+          </Padding>
+        </Container>
+      </Row>
     </Scaffold>
   );
 }
 
 function StatusBadge({ status }: { status: FileStatus }) {
-  const map: Record<
-    FileStatus,
+  const map: Record<FileStatus, { color: string; bg: string; label: string }> =
     {
-      color: string;
-      bg: string;
-      label: string;
-      dot: string;
-    }
-  > = {
-    pending: {
-      color: "#8888AA",
-      bg: "rgba(136,136,170,0.12)",
-      label: "待处理",
-      dot: "#8888AA",
-    },
-    processing: {
-      color: "#6C63FF",
-      bg: "rgba(108,99,255,0.15)",
-      label: "处理中",
-      dot: "#6C63FF",
-    },
-    done: {
-      color: "#4CAF50",
-      bg: "rgba(76,175,80,0.15)",
-      label: "完成",
-      dot: "#4CAF50",
-    },
-    error: {
-      color: "#FF5C5C",
-      bg: "rgba(255,92,92,0.15)",
-      label: "失败",
-      dot: "#FF5C5C",
-    },
-  };
+      pending: { color: "#666", bg: "#EEEEEE", label: "待处理" },
+      processing: { color: "#1565C0", bg: "#E3F2FD", label: "处理中" },
+      done: { color: "#388E3C", bg: "#E8F5E9", label: "完成" },
+      error: { color: "#D32F2F", bg: "#FFEBEE", label: "失败" },
+    };
   const s = map[status];
   return (
     <Container
-      padding={{ horizontal: 10, vertical: 5 }}
-      decoration={{ color: s.bg, borderRadius: 20 }}
+      padding={{ horizontal: 8, vertical: 4 }}
+      decoration={{ color: s.bg, borderRadius: 4 }}
     >
-      <Row crossAxisAlignment="center">
-        <Container
-          width={6}
-          height={6}
-          margin={{ right: 5 }}
-          decoration={{ color: s.dot, borderRadius: 3 }}
-        />
-        <Text
-          text={s.label}
-          fontSize={11}
-          color={s.color}
-          fontWeight="bold"
-        />
-      </Row>
+      <Text text={s.label} fontSize={11} color={s.color} fontWeight="bold" />
     </Container>
   );
 }

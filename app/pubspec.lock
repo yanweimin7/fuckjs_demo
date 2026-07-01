@@ -225,6 +225,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "7.0.1"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      sha256: ab13ae8ef5580a411c458d6207b6774a6c237d77ac37011b13994879f68a8810
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "8.3.7"
   file_selector_linux:
     dependency: transitive
     description:
@@ -437,7 +445,7 @@ packages:
       path: "../../fuickjs_framework/fuickjs_flutter"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.1.0"
   go_router:
     dependency: "direct main"
     description:
@@ -743,7 +751,7 @@ packages:
     source: hosted
     version: "3.2.1"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5"

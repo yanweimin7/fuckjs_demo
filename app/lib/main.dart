@@ -28,6 +28,8 @@ import 'compile_test_page.dart';
 import 'debug_page.dart';
 import 'fuick_app_page.dart';
 import 'offline_bootstrap.dart';
+import 'service/file_obfuscator_service.dart';
+import 'service/file_picker_service.dart';
 import 'service/fuick_storage_service.dart';
 import 'service/local_auth_service.dart';
 
@@ -90,6 +92,8 @@ void main() async {
 
   NativeServiceManager().registerService(() => FuickStorageService());
   NativeServiceManager().registerService(() => LocalAuthService());
+  NativeServiceManager().registerService(() => FilePickerService());
+  NativeServiceManager().registerService(() => FileObfuscatorService());
 
   fuick.widgetFactory.register(VideoPlayerParser());
   fuick.widgetFactory.register(VisibilityDetectorParser());

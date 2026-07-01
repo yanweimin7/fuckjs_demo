@@ -1,5 +1,6 @@
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OrderedSet.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/connectivity_plus.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/file_picker.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/file_selector_macos.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libquickjs_ffi.dylib
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/fjs_engine.framework

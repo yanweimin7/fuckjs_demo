@@ -12,7 +12,7 @@ class FuickMultiViewDemo extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              decoratiton: BoxDecoration(
+              decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
               ),
               child: const FuickAppView(
