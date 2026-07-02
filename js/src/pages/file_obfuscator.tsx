@@ -27,9 +27,9 @@ declare const dartCallNativeAsync: (
   args: Record<string, unknown>,
 ) => Promise<unknown>;
 
-// 固定规则：在文件第 20 字节处插入 16 字节 0x00（破坏文件头，使其无法正常播放）
-// 还原：从第 20 字节起删除 16 字节
-const INSERT_POS = 20;
+// 固定规则：在文件第 0 字节起写入 16 字节破坏标记 OBFS_CLR_DESTROY（替换文件头，使解析器拒绝打开）
+// 还原：从第 0 字节起把备份的 16 字节写回
+const INSERT_POS = 0;
 const INSERT_LEN = 16;
 
 type FileStatus = "pending" | "processing" | "done" | "error";
@@ -41,6 +41,7 @@ interface FileEntry {
   status: FileStatus;
   message?: string;
   isDestroyed?: boolean;
+  selected: boolean;
 }
 
 const DEFAULT_DIRS: Record<string, string> = {};
@@ -116,6 +117,7 @@ async function walkDir(
             size: stat.size,
             status: "pending",
             isDestroyed: false,
+            selected: true,
           });
         }
       } else if (stat.isDirectory()) {
@@ -152,6 +154,16 @@ export default function FileObfuscatorPage() {
         .map((s) => s.trim().replace(/^\./, ""))
         .filter(Boolean),
     [extInput],
+  );
+
+  const selectedCount = useMemo(
+    () => files.filter((f) => f.selected).length,
+    [files],
+  );
+
+  const allSelected = useMemo(
+    () => files.length > 0 && files.every((f) => f.selected),
+    [files],
   );
 
   useEffect(() => {
@@ -261,6 +273,26 @@ export default function FileObfuscatorPage() {
     });
   };
 
+  const toggleSelect = (idx: number) => {
+    setFiles((prev) => {
+      const copy = prev.slice();
+      copy[idx] = { ...copy[idx], selected: !copy[idx].selected };
+      return copy;
+    });
+  };
+
+  const selectAll = () => {
+    setFiles((prev) => prev.map((f) => ({ ...f, selected: true })));
+  };
+
+  const deselectAll = () => {
+    setFiles((prev) => prev.map((f) => ({ ...f, selected: false })));
+  };
+
+  const invertSelection = () => {
+    setFiles((prev) => prev.map((f) => ({ ...f, selected: !f.selected })));
+  };
+
   const handleExecute = async () => {
     if (files.length === 0) {
       await DialogService.showModal({
@@ -271,19 +303,22 @@ export default function FileObfuscatorPage() {
       return;
     }
     const actionLabel = mode === "destroy" ? "破坏" : "还原";
-    // 过滤：破坏模式跳过已破坏的，还原模式跳过未破坏的
+    // 过滤：未选中 → 跳过；破坏模式跳过已破坏的；还原模式跳过未破坏的
     const targets: number[] = [];
     for (let i = 0; i < files.length; i++) {
       const f = files[i];
+      if (!f.selected) continue;
       if (mode === "destroy" && f.isDestroyed) continue;
       if (mode === "restore" && !f.isDestroyed) continue;
       targets.push(i);
     }
     if (targets.length === 0) {
+      const noneSelected = selectedCount === 0;
       await DialogService.showModal({
         title: "无需处理",
-        content:
-          mode === "destroy"
+        content: noneSelected
+          ? "请先勾选要处理的文件"
+          : mode === "destroy"
             ? "所选文件均已破坏"
             : "所选文件均未破坏，无需还原",
         showCancel: false,
@@ -619,11 +654,11 @@ export default function FileObfuscatorPage() {
                         running
                           ? `⏳ ${progress.done}/${progress.total}`
                           : mode === "destroy"
-                            ? "💥 执行破坏"
-                            : "♻️ 执行还原"
+                            ? `💥 破坏选中 (${selectedCount})`
+                            : `♻️ 还原选中 (${selectedCount})`
                       }
                       onTap={handleExecute}
-                      disabled={running || files.length === 0}
+                      disabled={running || selectedCount === 0}
                       backgroundColor={
                         mode === "destroy" ? "#FF5C5C" : "#4CAF50"
                       }
@@ -663,12 +698,15 @@ export default function FileObfuscatorPage() {
                           margin={{ left: 8 }}
                           padding={{ horizontal: 8, vertical: 3 }}
                           decoration={{
-                            color: "#6C63FF",
+                            color:
+                              selectedCount === files.length && files.length > 0
+                                ? "#4CAF50"
+                                : "#6C63FF",
                             borderRadius: 12,
                           }}
                         >
                           <Text
-                            text={`${files.length}`}
+                            text={`${selectedCount}/${files.length}`}
                             fontSize={11}
                             fontWeight="bold"
                             color="#FFF"
@@ -676,21 +714,59 @@ export default function FileObfuscatorPage() {
                         </Container>
                       </Row>
                       {files.length > 0 ? (
-                        <InkWell onTap={handleClear}>
-                          <Container
-                            padding={{ horizontal: 10, vertical: 5 }}
-                            decoration={{
-                              color: "rgba(255,255,255,0.05)",
-                              borderRadius: 8,
-                            }}
+                        <Row crossAxisAlignment="center">
+                          <InkWell
+                            onTap={allSelected ? deselectAll : selectAll}
                           >
-                            <Text
-                              text="🗑️ 清空"
-                              fontSize={12}
-                              color="#8888AA"
-                            />
-                          </Container>
-                        </InkWell>
+                            <Container
+                              padding={{ horizontal: 10, vertical: 5 }}
+                              margin={{ right: 6 }}
+                              decoration={{
+                                color: "rgba(108,99,255,0.15)",
+                                borderRadius: 8,
+                              }}
+                            >
+                              <Text
+                                text={allSelected ? "取消全选" : "全选"}
+                                fontSize={12}
+                                color="#6C63FF"
+                                fontWeight="bold"
+                              />
+                            </Container>
+                          </InkWell>
+                          <InkWell onTap={invertSelection}>
+                            <Container
+                              padding={{ horizontal: 10, vertical: 5 }}
+                              margin={{ right: 6 }}
+                              decoration={{
+                                color: "rgba(108,99,255,0.15)",
+                                borderRadius: 8,
+                              }}
+                            >
+                              <Text
+                                text="反选"
+                                fontSize={12}
+                                color="#6C63FF"
+                                fontWeight="bold"
+                              />
+                            </Container>
+                          </InkWell>
+                          <InkWell onTap={handleClear}>
+                            <Container
+                              padding={{ horizontal: 10, vertical: 5 }}
+                              decoration={{
+                                color: "rgba(255,255,255,0.05)",
+                                borderRadius: 8,
+                              }}
+                            >
+                              <Text
+                                text="🗑️ 清空"
+                                fontSize={12}
+                                color="#8888AA"
+                              />
+                            </Container>
+                          </InkWell>
+                        </Row>
                       ) : null}
                     </Row>
 
@@ -779,95 +855,104 @@ export default function FileObfuscatorPage() {
                             };
                             const icon = iconMap[ext] || "📄";
                             return (
-                              <Container
-                                key={f.path}
-                                padding={12}
-                                margin={{ bottom: 6 }}
-                                decoration={{
-                                  color: "#222240",
-                                  borderRadius: 12,
-                                  border: {
-                                    color:
-                                      f.status === "processing"
-                                        ? "#6C63FF"
-                                        : f.status === "error"
-                                          ? "#FF5C5C"
-                                          : "transparent",
-                                    width: 1,
-                                  },
-                                }}
-                              >
-                                <Row mainAxisAlignment="spaceBetween">
-                                  {/* 左侧：图标 + 信息 */}
-                                  <Row>
-                                    {/* 文件类型图标 */}
-                                    <Container
-                                      width={40}
-                                      height={40}
-                                      alignment="center"
-                                      decoration={{
-                                        color: f.isDestroyed
-                                          ? "rgba(255,92,92,0.12)"
-                                          : "rgba(108,99,255,0.12)",
-                                        borderRadius: 10,
-                                      }}
-                                    >
-                                      <Text text={icon} fontSize={20} />
-                                    </Container>
-                                    <SizedBox width={10} />
-                                    <Column>
-                                      <Row crossAxisAlignment="center">
+                              <InkWell onTap={() => toggleSelect(i)}>
+                                <Container
+                                  key={f.path}
+                                  padding={12}
+                                  margin={{ bottom: 6 }}
+                                  decoration={{
+                                    color: f.selected
+                                      ? "rgba(108,99,255,0.08)"
+                                      : "#222240",
+                                    borderRadius: 12,
+                                    border: {
+                                      color:
+                                        f.status === "processing"
+                                          ? "#6C63FF"
+                                          : f.status === "error"
+                                            ? "#FF5C5C"
+                                            : f.selected
+                                              ? "rgba(108,99,255,0.4)"
+                                              : "transparent",
+                                      width: 1,
+                                    },
+                                  }}
+                                >
+                                  <Row mainAxisAlignment="spaceBetween">
+                                    {/* 左侧：勾选 + 图标 + 信息 */}
+                                    <Row>
+                                      {/* 勾选框 */}
+                                      <Checkbox checked={f.selected} />
+                                      <SizedBox width={10} />
+                                      {/* 文件类型图标 */}
+                                      <Container
+                                        width={40}
+                                        height={40}
+                                        alignment="center"
+                                        decoration={{
+                                          color: f.isDestroyed
+                                            ? "rgba(255,92,92,0.12)"
+                                            : "rgba(108,99,255,0.12)",
+                                          borderRadius: 10,
+                                        }}
+                                      >
+                                        <Text text={icon} fontSize={20} />
+                                      </Container>
+                                      <SizedBox width={10} />
+                                      <Column>
+                                        <Row crossAxisAlignment="center">
+                                          <Text
+                                            text={f.name}
+                                            fontSize={13}
+                                            fontWeight="bold"
+                                            color="#DDD"
+                                          />
+                                          {f.isDestroyed ? (
+                                            <Container
+                                              margin={{ left: 6 }}
+                                              padding={{
+                                                horizontal: 6,
+                                                vertical: 2,
+                                              }}
+                                              decoration={{
+                                                color: "rgba(255,92,92,0.2)",
+                                                borderRadius: 4,
+                                              }}
+                                            >
+                                              <Text
+                                                text="已破坏"
+                                                fontSize={9}
+                                                color="#FF5C5C"
+                                                fontWeight="bold"
+                                              />
+                                            </Container>
+                                          ) : null}
+                                        </Row>
                                         <Text
-                                          text={f.name}
-                                          fontSize={13}
-                                          fontWeight="bold"
-                                          color="#DDD"
+                                          text={`${(f.size / 1024).toFixed(1)} KB`}
+                                          fontSize={11}
+                                          color="#666688"
+                                          margin={{ top: 2 }}
                                         />
-                                        {f.isDestroyed ? (
-                                          <Container
-                                            margin={{ left: 6 }}
-                                            padding={{
-                                              horizontal: 6,
-                                              vertical: 2,
-                                            }}
-                                            decoration={{
-                                              color: "rgba(255,92,92,0.2)",
-                                              borderRadius: 4,
-                                            }}
-                                          >
-                                            <Text
-                                              text="已破坏"
-                                              fontSize={9}
-                                              color="#FF5C5C"
-                                              fontWeight="bold"
-                                            />
-                                          </Container>
+                                        {f.message ? (
+                                          <Text
+                                            text={f.message}
+                                            fontSize={10}
+                                            color={
+                                              f.status === "error"
+                                                ? "#FF5C5C"
+                                                : "#4CAF50"
+                                            }
+                                            margin={{ top: 1 }}
+                                          />
                                         ) : null}
-                                      </Row>
-                                      <Text
-                                        text={`${(f.size / 1024).toFixed(1)} KB`}
-                                        fontSize={11}
-                                        color="#666688"
-                                        margin={{ top: 2 }}
-                                      />
-                                      {f.message ? (
-                                        <Text
-                                          text={f.message}
-                                          fontSize={10}
-                                          color={
-                                            f.status === "error"
-                                              ? "#FF5C5C"
-                                              : "#4CAF50"
-                                          }
-                                          margin={{ top: 1 }}
-                                        />
-                                      ) : null}
-                                    </Column>
+                                      </Column>
+                                    </Row>
+                                    {/* 右侧：状态徽章 */}
+                                    <StatusBadge status={f.status} />
                                   </Row>
-                                  {/* 右侧：状态徽章 */}
-                                  <StatusBadge status={f.status} />
-                                </Row>
-                              </Container>
+                                </Container>
+                              </InkWell>
                             );
                           })}
                         </ListView>
@@ -953,6 +1038,28 @@ export default function FileObfuscatorPage() {
         </Row>
       </Container>
     </Scaffold>
+  );
+}
+
+function Checkbox({ checked }: { checked: boolean }) {
+  return (
+    <Container
+      width={22}
+      height={22}
+      alignment="center"
+      decoration={{
+        color: checked ? "#6C63FF" : "transparent",
+        borderRadius: 6,
+        border: {
+          color: checked ? "#6C63FF" : "#444466",
+          width: 1.5,
+        },
+      }}
+    >
+      {checked ? (
+        <Text text="✓" fontSize={14} color="#FFF" fontWeight="bold" />
+      ) : null}
+    </Container>
   );
 }
 

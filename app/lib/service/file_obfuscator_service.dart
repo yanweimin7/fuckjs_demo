@@ -38,7 +38,7 @@ class FileObfuscatorService extends BaseFuickService {
   ];
   static final Uint8List _destroyMagicBytes = Uint8List.fromList(_destroyMagic);
 
-  // 统一备份目录名（以 . 开头，扫描时忽略）
+  // 统一备份目录名（以 . 开头，扫描时忽略） 
   static const String _bakDirName = '.obfuscate_bak';
   static const String _manifestFileName = 'manifest.json';
 

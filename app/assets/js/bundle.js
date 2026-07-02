@@ -24163,12 +24163,12 @@ var require_Checkbox = __commonJS({
     exports.Checkbox = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var Checkbox = class extends BaseWidget_1.BaseWidget {
+    var Checkbox2 = class extends BaseWidget_1.BaseWidget {
       render() {
         return react_1.default.createElement("Checkbox", { ...this.props });
       }
     };
-    exports.Checkbox = Checkbox;
+    exports.Checkbox = Checkbox2;
   }
 });
 
@@ -35651,7 +35651,8 @@ async function walkDir(root, exts, maxDepth = 99) {
             name,
             size: stat.size,
             status: "pending",
-            isDestroyed: false
+            isDestroyed: false,
+            selected: true
           });
         }
       } else if (stat.isDirectory()) {
@@ -35679,6 +35680,14 @@ function FileObfuscatorPage() {
   const exts = (0, import_react88.useMemo)(
     () => extInput.split(/[,\s]+/).map((s) => s.trim().replace(/^\./, "")).filter(Boolean),
     [extInput]
+  );
+  const selectedCount = (0, import_react88.useMemo)(
+    () => files.filter((f) => f.selected).length,
+    [files]
+  );
+  const allSelected = (0, import_react88.useMemo)(
+    () => files.length > 0 && files.every((f) => f.selected),
+    [files]
   );
   (0, import_react88.useEffect)(() => {
     (async () => {
@@ -35779,6 +35788,22 @@ function FileObfuscatorPage() {
       return copy;
     });
   };
+  const toggleSelect = (idx) => {
+    setFiles((prev) => {
+      const copy = prev.slice();
+      copy[idx] = { ...copy[idx], selected: !copy[idx].selected };
+      return copy;
+    });
+  };
+  const selectAll = () => {
+    setFiles((prev) => prev.map((f) => ({ ...f, selected: true })));
+  };
+  const deselectAll = () => {
+    setFiles((prev) => prev.map((f) => ({ ...f, selected: false })));
+  };
+  const invertSelection = () => {
+    setFiles((prev) => prev.map((f) => ({ ...f, selected: !f.selected })));
+  };
   const handleExecute = async () => {
     if (files.length === 0) {
       await import_fuickjs92.DialogService.showModal({
@@ -35792,14 +35817,16 @@ function FileObfuscatorPage() {
     const targets = [];
     for (let i = 0; i < files.length; i++) {
       const f = files[i];
+      if (!f.selected) continue;
       if (mode === "destroy" && f.isDestroyed) continue;
       if (mode === "restore" && !f.isDestroyed) continue;
       targets.push(i);
     }
     if (targets.length === 0) {
+      const noneSelected = selectedCount === 0;
       await import_fuickjs92.DialogService.showModal({
         title: "\u65E0\u9700\u5904\u7406",
-        content: mode === "destroy" ? "\u6240\u9009\u6587\u4EF6\u5747\u5DF2\u7834\u574F" : "\u6240\u9009\u6587\u4EF6\u5747\u672A\u7834\u574F\uFF0C\u65E0\u9700\u8FD8\u539F",
+        content: noneSelected ? "\u8BF7\u5148\u52FE\u9009\u8981\u5904\u7406\u7684\u6587\u4EF6" : mode === "destroy" ? "\u6240\u9009\u6587\u4EF6\u5747\u5DF2\u7834\u574F" : "\u6240\u9009\u6587\u4EF6\u5747\u672A\u7834\u574F\uFF0C\u65E0\u9700\u8FD8\u539F",
         showCancel: false
       });
       return;
@@ -36098,9 +36125,9 @@ function FileObfuscatorPage() {
       ) : null, /* @__PURE__ */ import_react88.default.createElement(
         import_fuickjs92.Button,
         {
-          text: running ? `\u23F3 ${progress.done}/${progress.total}` : mode === "destroy" ? "\u{1F4A5} \u6267\u884C\u7834\u574F" : "\u267B\uFE0F \u6267\u884C\u8FD8\u539F",
+          text: running ? `\u23F3 ${progress.done}/${progress.total}` : mode === "destroy" ? `\u{1F4A5} \u7834\u574F\u9009\u4E2D (${selectedCount})` : `\u267B\uFE0F \u8FD8\u539F\u9009\u4E2D (${selectedCount})`,
           onTap: handleExecute,
-          disabled: running || files.length === 0,
+          disabled: running || selectedCount === 0,
           backgroundColor: mode === "destroy" ? "#FF5C5C" : "#4CAF50",
           textColor: "#FFFFFF"
         }
@@ -36137,21 +36164,65 @@ function FileObfuscatorPage() {
             margin: { left: 8 },
             padding: { horizontal: 8, vertical: 3 },
             decoration: {
-              color: "#6C63FF",
+              color: selectedCount === files.length && files.length > 0 ? "#4CAF50" : "#6C63FF",
               borderRadius: 12
             }
           },
           /* @__PURE__ */ import_react88.default.createElement(
             import_fuickjs92.Text,
             {
-              text: `${files.length}`,
+              text: `${selectedCount}/${files.length}`,
               fontSize: 11,
               fontWeight: "bold",
               color: "#FFF"
             }
           )
         )),
-        files.length > 0 ? /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.InkWell, { onTap: handleClear }, /* @__PURE__ */ import_react88.default.createElement(
+        files.length > 0 ? /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.InkWell,
+          {
+            onTap: allSelected ? deselectAll : selectAll
+          },
+          /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Container,
+            {
+              padding: { horizontal: 10, vertical: 5 },
+              margin: { right: 6 },
+              decoration: {
+                color: "rgba(108,99,255,0.15)",
+                borderRadius: 8
+              }
+            },
+            /* @__PURE__ */ import_react88.default.createElement(
+              import_fuickjs92.Text,
+              {
+                text: allSelected ? "\u53D6\u6D88\u5168\u9009" : "\u5168\u9009",
+                fontSize: 12,
+                color: "#6C63FF",
+                fontWeight: "bold"
+              }
+            )
+          )
+        ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.InkWell, { onTap: invertSelection }, /* @__PURE__ */ import_react88.default.createElement(
+          import_fuickjs92.Container,
+          {
+            padding: { horizontal: 10, vertical: 5 },
+            margin: { right: 6 },
+            decoration: {
+              color: "rgba(108,99,255,0.15)",
+              borderRadius: 8
+            }
+          },
+          /* @__PURE__ */ import_react88.default.createElement(
+            import_fuickjs92.Text,
+            {
+              text: "\u53CD\u9009",
+              fontSize: 12,
+              color: "#6C63FF",
+              fontWeight: "bold"
+            }
+          )
+        )), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.InkWell, { onTap: handleClear }, /* @__PURE__ */ import_react88.default.createElement(
           import_fuickjs92.Container,
           {
             padding: { horizontal: 10, vertical: 5 },
@@ -36168,7 +36239,7 @@ function FileObfuscatorPage() {
               color: "#8888AA"
             }
           )
-        )) : null
+        ))) : null
       ), running || progress.total > 0 ? /* @__PURE__ */ import_react88.default.createElement(
         import_fuickjs92.Container,
         {
@@ -36249,22 +36320,22 @@ function FileObfuscatorPage() {
           txt: "\u{1F4C3}"
         };
         const icon = iconMap[ext] || "\u{1F4C4}";
-        return /* @__PURE__ */ import_react88.default.createElement(
+        return /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.InkWell, { onTap: () => toggleSelect(i) }, /* @__PURE__ */ import_react88.default.createElement(
           import_fuickjs92.Container,
           {
             key: f.path,
             padding: 12,
             margin: { bottom: 6 },
             decoration: {
-              color: "#222240",
+              color: f.selected ? "rgba(108,99,255,0.08)" : "#222240",
               borderRadius: 12,
               border: {
-                color: f.status === "processing" ? "#6C63FF" : f.status === "error" ? "#FF5C5C" : "transparent",
+                color: f.status === "processing" ? "#6C63FF" : f.status === "error" ? "#FF5C5C" : f.selected ? "rgba(108,99,255,0.4)" : "transparent",
                 width: 1
               }
             }
           },
-          /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, null, /* @__PURE__ */ import_react88.default.createElement(
+          /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, null, /* @__PURE__ */ import_react88.default.createElement(Checkbox, { checked: f.selected }), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { width: 10 }), /* @__PURE__ */ import_react88.default.createElement(
             import_fuickjs92.Container,
             {
               width: 40,
@@ -36323,7 +36394,7 @@ function FileObfuscatorPage() {
               margin: { top: 1 }
             }
           ) : null)), /* @__PURE__ */ import_react88.default.createElement(StatusBadge2, { status: f.status }))
-        );
+        ));
       }))))
     )))), /* @__PURE__ */ import_react88.default.createElement(
       import_fuickjs92.Container,
@@ -36383,6 +36454,25 @@ function FileObfuscatorPage() {
         )
       ))))))
     )))
+  );
+}
+function Checkbox({ checked }) {
+  return /* @__PURE__ */ import_react88.default.createElement(
+    import_fuickjs92.Container,
+    {
+      width: 22,
+      height: 22,
+      alignment: "center",
+      decoration: {
+        color: checked ? "#6C63FF" : "transparent",
+        borderRadius: 6,
+        border: {
+          color: checked ? "#6C63FF" : "#444466",
+          width: 1.5
+        }
+      }
+    },
+    checked ? /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "\u2713", fontSize: 14, color: "#FFF", fontWeight: "bold" }) : null
   );
 }
 function StatusBadge2({ status }) {
