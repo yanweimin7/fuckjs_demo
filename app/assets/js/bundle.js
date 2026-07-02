@@ -25396,6 +25396,26 @@ var require_Dismissible = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/widgets/CSSLayout.js
+var require_CSSLayout = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/widgets/CSSLayout.js"(exports) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.CSSLayout = void 0;
+    var react_1 = __importDefault(require_react_production());
+    var CSSLayout = class extends react_1.default.Component {
+      render() {
+        const { css, children, ...rest } = this.props;
+        return react_1.default.createElement("CSSLayout", { ...rest, css }, children);
+      }
+    };
+    exports.CSSLayout = CSSLayout;
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/widgets/index.js
 var require_widgets = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/widgets/index.js"(exports) {
@@ -25519,6 +25539,7 @@ var require_widgets = __commonJS({
     __exportStar(require_IndexedStack(), exports);
     __exportStar(require_AnimatedSize(), exports);
     __exportStar(require_Dismissible(), exports);
+    __exportStar(require_CSSLayout(), exports);
   }
 });
 
@@ -36161,7 +36182,9 @@ function FileObfuscatorPage() {
         /* @__PURE__ */ import_react88.default.createElement(
           import_fuickjs92.Container,
           {
-            width: progress.total > 0 ? Math.round(progress.done / progress.total * 100) : 0,
+            width: progress.total > 0 ? Math.round(
+              progress.done / progress.total * 100
+            ) : 0,
             height: 4,
             decoration: {
               color: mode === "destroy" ? "#FF5C5C" : "#4CAF50",
@@ -36314,49 +36337,32 @@ function FileObfuscatorPage() {
           border: { color: "#2A2A4A", width: 1 }
         }
       },
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, null, /* @__PURE__ */ import_react88.default.createElement(
-        import_fuickjs92.Row,
+      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { crossAxisAlignment: "center", margin: { bottom: 10 } }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "\u{1F4CB}", fontSize: 14, margin: { right: 6 } }), /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Text,
         {
-          crossAxisAlignment: "center",
-          margin: { bottom: 10 }
-        },
-        /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "\u{1F4CB}", fontSize: 14, margin: { right: 6 } }),
-        /* @__PURE__ */ import_react88.default.createElement(
-          import_fuickjs92.Text,
-          {
-            text: "\u8FD0\u884C\u65E5\u5FD7",
-            fontSize: 13,
-            color: "#8888AA",
-            fontWeight: "bold"
-          }
-        ),
-        /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { width: 6 }),
-        /* @__PURE__ */ import_react88.default.createElement(
-          import_fuickjs92.Container,
-          {
-            width: 6,
-            height: 6,
-            decoration: {
-              color: "#4CAF50",
-              borderRadius: 3
-            }
-          }
-        )
-      ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Divider, null), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Expanded, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SingleChildScrollView, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, { crossAxisAlignment: "start" }, log.length === 0 ? /* @__PURE__ */ import_react88.default.createElement(
+          text: "\u8FD0\u884C\u65E5\u5FD7",
+          fontSize: 13,
+          color: "#8888AA",
+          fontWeight: "bold"
+        }
+      ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { width: 6 }), /* @__PURE__ */ import_react88.default.createElement(
         import_fuickjs92.Container,
         {
-          padding: 20,
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react88.default.createElement(
-          import_fuickjs92.Text,
-          {
-            text: "\u7B49\u5F85\u64CD\u4F5C...",
-            fontSize: 11,
-            color: "#444466"
+          width: 6,
+          height: 6,
+          decoration: {
+            color: "#4CAF50",
+            borderRadius: 3
           }
-        )
-      ) : log.map((l, i) => /* @__PURE__ */ import_react88.default.createElement(
+        }
+      )), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Divider, null), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Expanded, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SingleChildScrollView, null, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Column, { crossAxisAlignment: "start" }, log.length === 0 ? /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Container, { padding: 20, alignment: "center" }, /* @__PURE__ */ import_react88.default.createElement(
+        import_fuickjs92.Text,
+        {
+          text: "\u7B49\u5F85\u64CD\u4F5C...",
+          fontSize: 11,
+          color: "#444466"
+        }
+      )) : log.map((l, i) => /* @__PURE__ */ import_react88.default.createElement(
         import_fuickjs92.Container,
         {
           key: i,
@@ -36421,15 +36427,7 @@ function StatusBadge2({ status }) {
         margin: { right: 5 },
         decoration: { color: s.dot, borderRadius: 3 }
       }
-    ), /* @__PURE__ */ import_react88.default.createElement(
-      import_fuickjs92.Text,
-      {
-        text: s.label,
-        fontSize: 11,
-        color: s.color,
-        fontWeight: "bold"
-      }
-    ))
+    ), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: s.label, fontSize: 11, color: s.color, fontWeight: "bold" }))
   );
 }
 

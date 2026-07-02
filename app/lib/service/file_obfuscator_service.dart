@@ -8,24 +8,41 @@ import 'package:fuickjs_flutter/core/service/base_fuick_service.dart';
 
 /// Demo App 专用：文件破坏/还原工具
 ///
-/// 算法：原地替换文件 pos=20..35 的 16 字节
-/// - destroy: 读取原始 16 字节 → 保存到 .obfuscate_bak/{uuid} → 写 0x00 到原文件
-/// - restore: 从 .obfuscate_bak/{uuid} 读取 → 写回原文件 pos=20..35
+/// 算法：原地替换文件 pos=0..15 的 16 字节（覆盖文件头，让常见媒体格式无法识别）
+/// - destroy: 读取原始 16 字节 → 保存到 .obfuscate_bak/{uuid} → 写入破坏标记到原文件
+/// - restore: 从 .obfuscate_bak/{uuid} 读取 → 校验破坏标记 → 写回原文件 pos=0..15
+///
+/// 破坏标记：固定 16 字节 "OBFS_CLR_DESTROY"，自然文件在 pos=0..15 出现该完整序列
+/// 的概率 ≈ 1/256^16 ≈ 10^-39，配合 .obfuscate_bak/manifest.json 双重保证识别准确。
+///
+/// 文件头被改后效果：
+/// - JPEG: SOI (0xFFD8) → 所有解析器拒识
+/// - PNG: 8 字节签名 → 签名损坏
+/// - MP4: box size + 'ftyp' → 容器识别失败
+/// - MP3: ID3v2 header / frame sync → 解析失败
 ///
 /// 备份文件（16 字节）和映射表统一存在 .obfuscate_bak 目录，扫描时自动忽略。
 class FileObfuscatorService extends BaseFuickService {
   @override
   String get name => 'FileObfuscator';
 
-  static const int _insertPos = 20;
+  static const int _insertPos = 0;
   static const int _insertLen = 16;
+
+  // 16 字节破坏标记：ASCII "OBFS_CLR_DESTROY"
+  static const List<int> _destroyMagic = <int>[
+    0x4F, 0x42, 0x46, 0x53, // OBFS
+    0x5F, 0x43, 0x4C, 0x52, // _CLR
+    0x5F, 0x44, 0x45, 0x53, // _DES
+    0x54, 0x52, 0x4F, 0x59, // TROY
+  ];
+  static final Uint8List _destroyMagicBytes = Uint8List.fromList(_destroyMagic);
 
   // 统一备份目录名（以 . 开头，扫描时忽略）
   static const String _bakDirName = '.obfuscate_bak';
   static const String _manifestFileName = 'manifest.json';
 
   FileObfuscatorService() {
-    registerAsyncMethod('obfuscateFile', _obfuscateFile);
     registerAsyncMethod('obfuscateFileSafe', _obfuscateFileSafe);
     registerAsyncMethod('inspectFile', _inspectFile);
     registerAsyncMethod('cleanupTempFiles', _cleanupTempFiles);
@@ -114,70 +131,9 @@ class FileObfuscatorService extends BaseFuickService {
     }
   }
 
-  // 普通模式：readAsBytes → 改 → writeAsBytes（仅适合小文件）
-  Future<Map<String, dynamic>> _obfuscateFile(dynamic args) async {
-    final path = _getPath(args);
-    if (path == null) return {'ok': false, 'error': 'missing path'};
-    final Map argsMap = args is Map ? args : {};
-    final String mode = (argsMap['mode'] as String?) ?? 'destroy';
-
-    try {
-      final file = File(path);
-      if (!await file.exists()) {
-        return {'ok': false, 'error': 'file not found'};
-      }
-      final bytes = await file.readAsBytes();
-
-      late Uint8List out;
-      if (mode == 'destroy') {
-        if (bytes.length < _insertPos) {
-          out = Uint8List(bytes.length + _insertLen);
-          for (int i = 0; i < bytes.length; i++) {
-            out[i] = bytes[i];
-          }
-        } else {
-          out = Uint8List(bytes.length + _insertLen);
-          out.setRange(0, _insertPos, bytes);
-          out.setRange(
-              _insertPos + _insertLen, out.length, bytes.sublist(_insertPos));
-        }
-      } else {
-        if (bytes.length < _insertPos + _insertLen) {
-          return {
-            'ok': false,
-            'error': '文件长度 ${bytes.length} < ${_insertPos + _insertLen}，无法还原',
-          };
-        }
-        int zeroCount = 0;
-        for (int i = _insertPos; i < _insertPos + _insertLen; i++) {
-          if (bytes[i] == 0) zeroCount++;
-        }
-        if (zeroCount < _insertLen ~/ 2) {
-          return {
-            'ok': false,
-            'error': 'pos=20..35 不是零字节，可能未经过破坏处理',
-          };
-        }
-        out = Uint8List(bytes.length - _insertLen);
-        out.setRange(0, _insertPos, bytes);
-        out.setRange(
-            _insertPos, out.length, bytes.sublist(_insertPos + _insertLen));
-      }
-
-      await file.writeAsBytes(out, flush: true);
-      return {
-        'ok': true,
-        'size': out.length,
-        'origSize': bytes.length,
-      };
-    } catch (e) {
-      return {'ok': false, 'error': e.toString()};
-    }
-  }
-
   // 安全模式：
-  // - destroy: 备份 16 字节 → 统一 .obfuscate_bak/{uuid} → 写 0 到原文件
-  // - restore: 从 .obfuscate_bak/{uuid} 读 16 字节 → 写回原文件
+  // - destroy: 备份 16 字节 → 统一 .obfuscate_bak/{uuid} → 写入破坏标记到原文件
+  // - restore: 从 .obfuscate_bak/{uuid} 读 16 字节 → 校验破坏标记 → 写回原文件
   Future<Map<String, dynamic>> _obfuscateFileSafe(dynamic args) async {
     final path = _getPath(args);
     if (path == null) return {'ok': false, 'error': 'missing path'};
@@ -204,7 +160,7 @@ class FileObfuscatorService extends BaseFuickService {
       final manifest = _loadManifest(path);
 
       if (mode == 'destroy') {
-        // 读取原文件 pos=20..35 的 16 字节
+        // 读取原文件 pos=0..15 的 16 字节
         final backupData = await _readRange(file, _insertPos, _insertLen);
 
         // 生成 UUID 作为备份文件名
@@ -230,7 +186,7 @@ class FileObfuscatorService extends BaseFuickService {
 
         // 破坏原文件
         try {
-          await _writeRange(file, _insertPos, Uint8List(_insertLen));
+          await _writeRange(file, _insertPos, _destroyMagicBytes);
           return {
             'ok': true,
             'size': origSize,
@@ -255,7 +211,7 @@ class FileObfuscatorService extends BaseFuickService {
             return {
               'ok': false,
               'error':
-                  '源文件破坏且回滚失败，请手动用 .obfuscate_bak/$uuid 恢复 pos=20..35: ${e2.toString()}',
+                  '源文件破坏且回滚失败，请手动用 .obfuscate_bak/$uuid 恢复 pos=0..15: ${e2.toString()}',
             };
           }
         }
@@ -268,7 +224,7 @@ class FileObfuscatorService extends BaseFuickService {
           if (!isDestroyed) {
             return {
               'ok': false,
-              'error': 'pos=20..35 不是零字节，且无备份记录，无法还原',
+              'error': 'pos=0..15 不是破坏标记，且无备份记录，无法还原',
             };
           }
           return {
@@ -297,17 +253,21 @@ class FileObfuscatorService extends BaseFuickService {
           };
         }
 
-        // 校验原文件 pos=20..35 是否为 0
+        // 校验原文件 pos=0..15 是否仍是破坏标记
         final currentData = await _readRange(file, _insertPos, _insertLen);
-        int zeroCount = 0;
-        for (int i = 0; i < currentData.length; i++) {
-          if (currentData[i] == 0) zeroCount++;
-        }
-        if (zeroCount < _insertLen ~/ 2) {
+        if (currentData.length != _insertLen) {
           return {
             'ok': false,
-            'error': 'pos=20..35 不是零字节，可能已被修改过',
+            'error': 'pos=0..15 长度异常',
           };
+        }
+        for (int i = 0; i < _insertLen; i++) {
+          if (currentData[i] != _destroyMagic[i]) {
+            return {
+              'ok': false,
+              'error': 'pos=0..15 不是破坏标记，可能已被修改过',
+            };
+          }
         }
 
         // 恢复原文件
@@ -348,6 +308,17 @@ class FileObfuscatorService extends BaseFuickService {
           'isRestorable': false,
         };
       }
+      // 以 manifest 记录为准：存在记录 ⇒ 一定被本工具破坏
+      // final manifest = _loadManifest(path);
+      // if (manifest.containsKey(p.basename(path))) {
+      //   return {
+      //     'ok': true,
+      //     'size': len,
+      //     'isDestroyed': true,
+      //     'isRestorable': true,
+      //   };
+      // }
+      // 无 manifest 记录时，用破坏标记检查（自然文件几乎不可能匹配）
       final isDestroyed = await _checkDestroyed(file);
       return {
         'ok': true,
@@ -360,16 +331,17 @@ class FileObfuscatorService extends BaseFuickService {
     }
   }
 
+  // 检查文件 pos=0..15 是否为本工具的破坏标记
   Future<bool> _checkDestroyed(File file) async {
     final raf = await file.open(mode: FileMode.read);
     try {
       await raf.setPosition(_insertPos);
       final bytes = await raf.read(_insertLen);
-      int zeroCount = 0;
-      for (int i = 0; i < bytes.length; i++) {
-        if (bytes[i] == 0) zeroCount++;
+      if (bytes.length != _insertLen) return false;
+      for (int i = 0; i < _insertLen; i++) {
+        if (bytes[i] != _destroyMagic[i]) return false;
       }
-      return zeroCount >= _insertLen ~/ 2;
+      return true;
     } finally {
       await raf.close();
     }
