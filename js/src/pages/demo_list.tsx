@@ -120,12 +120,6 @@ const demoCategories = [
     ],
   },
   {
-    title: "Tools",
-    items: [
-      { name: "FileObfuscator", path: "/demo/file_obfuscator" },
-    ],
-  },
-  {
     title: "Community Packages",
     items: [
       { name: "Haptics", path: "/demo/haptics" },

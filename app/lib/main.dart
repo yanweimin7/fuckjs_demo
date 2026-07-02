@@ -175,6 +175,14 @@ class MyApp extends StatelessWidget {
                 path: 'dev',
                 builder: (context, state) => const DevFuickAppPage(),
               ),
+              GoRoute(
+                path: 'file_obfuscator',
+                builder: (context, state) => FuickAppPage(
+                  appName: 'bundle',
+                  path: '/demo/file_obfuscator',
+                  params: const {},
+                ),
+              ),
             ],
           ),
         ],
@@ -229,6 +237,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         actions: [
+          IconButton(
+            tooltip: '文件保护',
+            icon: const Icon(Icons.shield, color: Color(0xFF5C6BC0)),
+            onPressed: () => context.push('/file_obfuscator'),
+          ),
           IconButton(
             tooltip: '调试控制台',
             icon: const Icon(Icons.bug_report, color: Color(0xFF5C6BC0)),
