@@ -21562,9 +21562,17 @@ var require_ListItemManager = __commonJS({
           console.log(`[ListItemManager] Created sub-root for key=${key}`);
         }
         try {
-          this.reconciler.flushSyncFromReconciler(() => {
+          if (this.reconciler.flushSyncFromReconciler) {
+            this.reconciler.flushSyncFromReconciler(() => {
+              this.reconciler.updateContainer(element, entry.root, null, null);
+            });
+          } else if (this.reconciler.flushSync) {
+            this.reconciler.flushSync(() => {
+              this.reconciler.updateContainer(element, entry.root, null, null);
+            });
+          } else {
             this.reconciler.updateContainer(element, entry.root, null, null);
-          });
+          }
           entry.container.markInitialRenderDone();
           const dsl = entry.container.toDsl();
           return dsl;
@@ -21709,9 +21717,17 @@ var require_renderer = __commonJS({
             const updateStart = Date.now();
             try {
               if (isFirstRender) {
-                reconciler.flushSyncFromReconciler(() => {
+                if (reconciler.flushSyncFromReconciler) {
+                  reconciler.flushSyncFromReconciler(() => {
+                    reconciler.updateContainer(element, root, null, null);
+                  });
+                } else if (reconciler.flushSync) {
+                  reconciler.flushSync(() => {
+                    reconciler.updateContainer(element, root, null, null);
+                  });
+                } else {
                   reconciler.updateContainer(element, root, null, null);
-                });
+                }
                 renderedPages.add(pageId);
               } else {
                 reconciler.updateContainer(element, root, null, null);
@@ -25396,26 +25412,6 @@ var require_Dismissible = __commonJS({
   }
 });
 
-// ../../fuickjs_framework/fuickjs/dist/widgets/CSSLayout.js
-var require_CSSLayout = __commonJS({
-  "../../fuickjs_framework/fuickjs/dist/widgets/CSSLayout.js"(exports) {
-    "use strict";
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.CSSLayout = void 0;
-    var react_1 = __importDefault(require_react_production());
-    var CSSLayout = class extends react_1.default.Component {
-      render() {
-        const { css, children, ...rest } = this.props;
-        return react_1.default.createElement("CSSLayout", { ...rest, css }, children);
-      }
-    };
-    exports.CSSLayout = CSSLayout;
-  }
-});
-
 // ../../fuickjs_framework/fuickjs/dist/widgets/index.js
 var require_widgets = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/widgets/index.js"(exports) {
@@ -25539,7 +25535,6 @@ var require_widgets = __commonJS({
     __exportStar(require_IndexedStack(), exports);
     __exportStar(require_AnimatedSize(), exports);
     __exportStar(require_Dismissible(), exports);
-    __exportStar(require_CSSLayout(), exports);
   }
 });
 
@@ -27930,24 +27925,189 @@ function SectionTitle({ text }) {
 function ImageDemo() {
   const [loadStatus, setLoadStatus] = (0, import_react14.useState)("\u7B49\u5F85\u52A0\u8F7D...");
   const [errorStatus, setErrorStatus] = (0, import_react14.useState)("\u7B49\u5F85\u52A0\u8F7D...");
-  return /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Scaffold, { appBar: /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.AppBar, { title: "Image Demo" }) }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.SingleChildScrollView, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "src\uFF08\u63A8\u8350\uFF09vs url\uFF08\u5411\u540E\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 100, height: 100, fit: "cover", borderRadius: 8 }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "src=", fontSize: 11, color: "#757575", margin: { top: 4 } })), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { url: OWL, width: 100, height: 100, fit: "cover", borderRadius: 8 }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "url=\uFF08\u517C\u5BB9\uFF09", fontSize: 11, color: "#757575", margin: { top: 4 } }))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "fit \u6A21\u5F0F\uFF0880\xD780 \u5BB9\u5668\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, FITS.map((fit) => /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { key: fit, crossAxisAlignment: "center", margin: { right: 8 } }, /* @__PURE__ */ import_react14.default.createElement(
-    import_fuickjs13.Container,
+  return /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Scaffold, { appBar: /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.AppBar, { title: "Image Demo" }) }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.SingleChildScrollView, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "src\uFF08\u63A8\u8350\uFF09vs url\uFF08\u5411\u540E\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
     {
-      width: 60,
-      height: 60,
-      decoration: { color: "#ECEFF1", borderRadius: 4 }
+      src: OWL,
+      width: 100,
+      height: 100,
+      fit: "cover",
+      borderRadius: 8
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "src=",
+      fontSize: 11,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  )), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      url: OWL,
+      width: 100,
+      height: 100,
+      fit: "cover",
+      borderRadius: 8
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "url=\uFF08\u517C\u5BB9\uFF09",
+      fontSize: 11,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  ))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "fit \u6A21\u5F0F\uFF0880\xD780 \u5BB9\u5668\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, FITS.map((fit) => /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Column,
+    {
+      key: fit,
+      crossAxisAlignment: "center",
+      margin: { right: 8 }
     },
-    /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 60, height: 60, fit })
-  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: fit, fontSize: 9, color: "#757575", margin: { top: 2 } })))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "borderRadius \u88C1\u526A" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 80, height: 80, fit: "cover", borderRadius: 8, margin: { right: 12 } }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 80, height: 80, fit: "cover", borderRadius: 40, margin: { right: 12 } }), /* @__PURE__ */ import_react14.default.createElement(
+    /* @__PURE__ */ import_react14.default.createElement(
+      import_fuickjs13.Container,
+      {
+        width: 60,
+        height: 60,
+        decoration: { color: "#ECEFF1", borderRadius: 4 }
+      },
+      /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 60, height: 60, fit })
+    ),
+    /* @__PURE__ */ import_react14.default.createElement(
+      import_fuickjs13.Text,
+      {
+        text: fit,
+        fontSize: 9,
+        color: "#757575",
+        margin: { top: 2 }
+      }
+    )
+  ))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "borderRadius \u88C1\u526A" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Image,
     {
       src: OWL,
       width: 80,
       height: 80,
       fit: "cover",
-      borderRadius: { topLeft: 20, topRight: 0, bottomRight: 20, bottomLeft: 0 }
+      borderRadius: 8,
+      margin: { right: 12 }
     }
-  )), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "tintColor \u989C\u8272\u53E0\u52A0\uFF08\u63A8\u8350\uFF09vs color\uFF08\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 80, height: 80, fit: "cover", borderRadius: 8, tintColor: "#1976D2" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "tintColor=\u84DD", fontSize: 10, color: "#757575", margin: { top: 4 } })), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 80, height: 80, fit: "cover", borderRadius: 8, tintColor: "#E91E63" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "tintColor=\u7C89", fontSize: 10, color: "#757575", margin: { top: 4 } })), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 80, height: 80, fit: "cover", borderRadius: 8, color: "#43A047" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "color=\u7EFF\uFF08\u517C\u5BB9\uFF09", fontSize: 10, color: "#757575", margin: { top: 4 } }))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "placeholderColor \u52A0\u8F7D\u5360\u4F4D\u8272\uFF08\u7F51\u7EDC\u56FE\u7247\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 100, height: 100, fit: "cover", borderRadius: 8, placeholderColor: "#BBDEFB" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "\u84DD\u8272\u5360\u4F4D", fontSize: 11, color: "#757575", margin: { top: 4 } })), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 100, height: 100, fit: "cover", borderRadius: 8 }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "\u9ED8\u8BA4\u5360\u4F4D\uFF08\u7070\uFF09", fontSize: 11, color: "#757575", margin: { top: 4 } }))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "errorSrc \u52A0\u8F7D\u5931\u8D25\u5907\u7528\u56FE" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      src: OWL,
+      width: 80,
+      height: 80,
+      fit: "cover",
+      borderRadius: 40,
+      margin: { right: 12 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      src: OWL,
+      width: 80,
+      height: 80,
+      fit: "cover",
+      borderRadius: {
+        topLeft: 20,
+        topRight: 0,
+        bottomRight: 20,
+        bottomLeft: 0
+      }
+    }
+  )), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "tintColor \u989C\u8272\u53E0\u52A0\uFF08\u63A8\u8350\uFF09vs color\uFF08\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      src: OWL,
+      width: 80,
+      height: 80,
+      fit: "cover",
+      borderRadius: 8,
+      tintColor: "#1976D2"
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "tintColor=\u84DD",
+      fontSize: 10,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  )), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      src: OWL,
+      width: 80,
+      height: 80,
+      fit: "cover",
+      borderRadius: 8,
+      tintColor: "#E91E63"
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "tintColor=\u7C89",
+      fontSize: 10,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  )), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      src: OWL,
+      width: 80,
+      height: 80,
+      fit: "cover",
+      borderRadius: 8,
+      color: "#43A047"
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "color=\u7EFF\uFF08\u517C\u5BB9\uFF09",
+      fontSize: 10,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  ))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "placeholderColor \u52A0\u8F7D\u5360\u4F4D\u8272\uFF08\u7F51\u7EDC\u56FE\u7247\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      src: OWL,
+      width: 100,
+      height: 100,
+      fit: "cover",
+      borderRadius: 8,
+      placeholderColor: "#BBDEFB"
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "\u84DD\u8272\u5360\u4F4D",
+      fontSize: 11,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  )), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      src: OWL,
+      width: 100,
+      height: 100,
+      fit: "cover",
+      borderRadius: 8
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "\u9ED8\u8BA4\u5360\u4F4D\uFF08\u7070\uFF09",
+      fontSize: 11,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  ))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "errorSrc \u52A0\u8F7D\u5931\u8D25\u5907\u7528\u56FE" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Image,
     {
       src: BROKEN,
@@ -27957,7 +28117,15 @@ function ImageDemo() {
       borderRadius: 8,
       errorSrc: OWL
     }
-  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "\u5931\u8D25\u2192\u5907\u7528\u56FE", fontSize: 11, color: "#757575", margin: { top: 4 } })), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "\u5931\u8D25\u2192\u5907\u7528\u56FE",
+      fontSize: 11,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  )), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Image,
     {
       src: BROKEN,
@@ -27966,7 +28134,15 @@ function ImageDemo() {
       fit: "cover",
       borderRadius: 8
     }
-  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "\u5931\u8D25\u2192broken_image", fontSize: 11, color: "#757575", margin: { top: 4 } }))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "onLoad / onError \u56DE\u8C03" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "\u5931\u8D25\u2192broken_image",
+      fontSize: 11,
+      color: "#757575",
+      margin: { top: 4 }
+    }
+  ))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "onLoad / onError \u56DE\u8C03" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Row, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Image,
     {
       src: OWL,
@@ -27977,7 +28153,15 @@ function ImageDemo() {
       onLoad: () => setLoadStatus("\u2713 \u52A0\u8F7D\u6210\u529F"),
       onError: () => setLoadStatus("\u2717 \u52A0\u8F7D\u5931\u8D25")
     }
-  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: loadStatus, fontSize: 11, color: "#43A047", margin: { top: 4 } })), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: loadStatus,
+      fontSize: 11,
+      color: "#43A047",
+      margin: { top: 4 }
+    }
+  )), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Image,
     {
       src: BROKEN,
@@ -27988,11 +28172,23 @@ function ImageDemo() {
       onLoad: () => setErrorStatus("\u2713 \u52A0\u8F7D\u6210\u529F"),
       onError: () => setErrorStatus("\u2717 \u52A0\u8F7D\u5931\u8D25")
     }
-  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: errorStatus, fontSize: 11, color: "#E53935", margin: { top: 4 } }))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\uFF08file:// & \u7EDD\u5BF9\u8DEF\u5F84\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: errorStatus,
+      fontSize: 11,
+      color: "#E53935",
+      margin: { top: 4 }
+    }
+  ))), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\uFF08file:// & \u7EDD\u5BF9\u8DEF\u5F84\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Container,
     {
       padding: 12,
-      decoration: { color: "#FFF8E1", borderRadius: 8, border: { color: "#FFE082", width: 1 } },
+      decoration: {
+        color: "#FFF8E1",
+        borderRadius: 8,
+        border: { color: "#FFE082", width: 1 }
+      },
       margin: { bottom: 8 }
     },
     /* @__PURE__ */ import_react14.default.createElement(
@@ -28021,14 +28217,159 @@ function ImageDemo() {
       borderRadius: 8,
       errorSrc: OWL
     }
-  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "\u6587\u4EF6\u4E0D\u5B58\u5728 \u2192 \u964D\u7EA7\u5230 errorSrc", fontSize: 11, color: "#9E9E9E", margin: { top: 4 } }), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "base64 \u5185\u8054\u56FE\u7247" }), /* @__PURE__ */ import_react14.default.createElement(
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "\u6587\u4EF6\u4E0D\u5B58\u5728 \u2192 \u964D\u7EA7\u5230 errorSrc",
+      fontSize: 11,
+      color: "#9E9E9E",
+      margin: { top: 4 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "base64 \u5185\u8054\u56FE\u7247" }), /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Image,
     {
       src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAFklEQVR4nGNQnPaZJMQwqmFUw/DVAACnNaoQK5bsTwAAAABJRU5ErkJggg==",
       width: 40,
       height: 40
     }
-  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "16\xD716 \u84DD\u8272 PNG (base64)", fontSize: 11, color: "#9E9E9E", margin: { top: 4 } }), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "gaplessPlayback\uFF08\u5207\u6362 URL \u65F6\u4FDD\u7559\u65E7\u56FE\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 120, height: 80, fit: "cover", borderRadius: 8, gaplessPlayback: true }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: "gaplessPlayback=true\uFF0CURL \u5207\u6362\u65F6\u4E0D\u95EA\u767D", fontSize: 11, color: "#9E9E9E", margin: { top: 4 } }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Container, { height: 40 }))));
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "16\xD716 \u84DD\u8272 PNG (base64)",
+      fontSize: 11,
+      color: "#9E9E9E",
+      margin: { top: 4 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "gaplessPlayback\uFF08\u5207\u6362 URL \u65F6\u4FDD\u7559\u65E7\u56FE\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Image,
+    {
+      src: OWL,
+      width: 120,
+      height: 80,
+      fit: "cover",
+      borderRadius: 8,
+      gaplessPlayback: true
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "gaplessPlayback=true\uFF0CURL \u5207\u6362\u65F6\u4E0D\u95EA\u767D",
+      fontSize: 11,
+      color: "#9E9E9E",
+      margin: { top: 4 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(SectionTitle, { text: "centerSlice \u4E5D\u5BAB\u683C\u62C9\u4F38\uFF089-patch\uFF09" }), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Container,
+    {
+      padding: 10,
+      decoration: {
+        color: "#FFF3E0",
+        borderRadius: 6,
+        border: { color: "#FFE0B2", width: 1 }
+      },
+      margin: { bottom: 10 }
+    },
+    /* @__PURE__ */ import_react14.default.createElement(
+      import_fuickjs13.Text,
+      {
+        text: "centerSlice \u628A\u56FE\u6309 {left, top, right, bottom} \u5206\u6210 9 \u5757\uFF0C4 \u4E2A\u89D2\u6309\u539F\u5927\u5C0F\u7ED8\u5236\u30014 \u6761\u8FB9\u5355\u5411\u62C9\u4F38\u3001\u4E2D\u5FC3\u53CC\u5411\u62C9\u4F38\u3002\u5E38\u7528\u4E8E\u6C14\u6CE1/\u6309\u94AE\u80CC\u666F\u7684\u4EFB\u610F\u5C3A\u5BF8\u81EA\u9002\u5E94\u3002\u5750\u6807\u4EE5\u56FE\u7247\u539F\u59CB\u50CF\u7D20\u4E3A\u5355\u4F4D\u3002SVG \u4E0D\u652F\u6301\u6B64\u5C5E\u6027\uFF08\u5DF2\u81EA\u52A8\u5FFD\u7565\uFF09\u3002\u3010\u786C\u7EA6\u675F\u3011centerSlice \u5FC5\u987B\u914D fit=fill\uFF1B\u4F20\u5176\u4ED6 fit\uFF08\u5982 cover/contain\uFF09\u4F1A\u89E6\u53D1 Flutter \u65AD\u8A00\u5D29\u6E83\uFF0Cparser \u4F1A\u81EA\u52A8\u5F3A\u5236\u6539\u4E3A fill \u5E76\u6253 warning\u3002",
+        fontSize: 12,
+        color: "#E65100"
+      }
+    )
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "\u539F\u56FE\uFF0860\xD760 \u663E\u793A\uFF09",
+      fontSize: 11,
+      color: "#9E9E9E",
+      margin: { bottom: 4 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 60, height: 60, fit: "none" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: " ", fontSize: 11 }), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "fit=fill + centerSlice=10/10/50/50 (240\xD7120 \u5BB9\u5668)",
+      fontSize: 11,
+      color: "#9E9E9E",
+      margin: { top: 12, bottom: 4 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Container,
+    {
+      width: 240,
+      height: 120,
+      decoration: {
+        color: "#FAFAFA",
+        border: { color: "#BDBDBD", width: 1 }
+      }
+    },
+    /* @__PURE__ */ import_react14.default.createElement(
+      import_fuickjs13.Image,
+      {
+        src: OWL,
+        width: 240,
+        height: 120,
+        fit: "fill",
+        centerSlice: { left: 10, top: 10, right: 50, bottom: 50 }
+      }
+    )
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "4 \u4E2A 10\xD710 \u89D2\u4FDD\u6301\u539F\u56FE\uFF0C\u4E2D\u5FC3\u533A\u57DF\u88AB\u62C9\u4F38",
+      fontSize: 11,
+      color: "#9E9E9E",
+      margin: { top: 4 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "\u5BF9\u6BD4\uFF1Afit=fill \u65E0 centerSlice\uFF08240\xD7120\uFF0C\u6574\u56FE\u5747\u5300\u7F29\u653E\uFF09",
+      fontSize: 11,
+      color: "#9E9E9E",
+      margin: { top: 12, bottom: 4 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Container,
+    {
+      width: 240,
+      height: 120,
+      decoration: {
+        color: "#FAFAFA",
+        border: { color: "#BDBDBD", width: 1 }
+      }
+    },
+    /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 240, height: 120, fit: "fill" })
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Text,
+    {
+      text: "\u5E26 tintColor + centerSlice",
+      fontSize: 11,
+      color: "#9E9E9E",
+      margin: { top: 12, bottom: 4 }
+    }
+  ), /* @__PURE__ */ import_react14.default.createElement(
+    import_fuickjs13.Container,
+    {
+      width: 240,
+      height: 80,
+      decoration: {
+        color: "#FAFAFA",
+        border: { color: "#BDBDBD", width: 1 }
+      }
+    },
+    /* @__PURE__ */ import_react14.default.createElement(
+      import_fuickjs13.Image,
+      {
+        src: OWL,
+        width: 240,
+        height: 80,
+        fit: "fill",
+        centerSlice: { left: 10, top: 10, right: 50, bottom: 50 },
+        tintColor: "#1976D2"
+      }
+    )
+  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Container, { height: 40 }))));
 }
 
 // src/demos/BundleLocalImageDemo.tsx
