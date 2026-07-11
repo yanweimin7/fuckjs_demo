@@ -27901,6 +27901,7 @@ var import_react14 = __toESM(require_react_production());
 var import_fuickjs13 = __toESM(require_dist());
 var OWL = "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg";
 var BROKEN = "https://broken.url/not-exist.jpg";
+var PATCH_48 = "assets/images/patch_48.png";
 var FITS = [
   "cover",
   "contain",
@@ -28272,7 +28273,7 @@ function ImageDemo() {
     /* @__PURE__ */ import_react14.default.createElement(
       import_fuickjs13.Text,
       {
-        text: "centerSlice \u628A\u56FE\u6309 {left, top, right, bottom} \u5206\u6210 9 \u5757\uFF0C4 \u4E2A\u89D2\u6309\u539F\u5927\u5C0F\u7ED8\u5236\u30014 \u6761\u8FB9\u5355\u5411\u62C9\u4F38\u3001\u4E2D\u5FC3\u53CC\u5411\u62C9\u4F38\u3002\u5E38\u7528\u4E8E\u6C14\u6CE1/\u6309\u94AE\u80CC\u666F\u7684\u4EFB\u610F\u5C3A\u5BF8\u81EA\u9002\u5E94\u3002\u5750\u6807\u4EE5\u56FE\u7247\u539F\u59CB\u50CF\u7D20\u4E3A\u5355\u4F4D\u3002SVG \u4E0D\u652F\u6301\u6B64\u5C5E\u6027\uFF08\u5DF2\u81EA\u52A8\u5FFD\u7565\uFF09\u3002\u3010\u786C\u7EA6\u675F\u3011centerSlice \u5FC5\u987B\u914D fit=fill\uFF1B\u4F20\u5176\u4ED6 fit\uFF08\u5982 cover/contain\uFF09\u4F1A\u89E6\u53D1 Flutter \u65AD\u8A00\u5D29\u6E83\uFF0Cparser \u4F1A\u81EA\u52A8\u5F3A\u5236\u6539\u4E3A fill \u5E76\u6253 warning\u3002",
+        text: "centerSlice \u628A\u56FE\u6309 {left, top, right, bottom} \u5206\u6210 9 \u5757\uFF0C4 \u4E2A\u89D2\u6309\u539F\u5927\u5C0F\u7ED8\u5236\u30014 \u6761\u8FB9\u5355\u5411\u62C9\u4F38\u3001\u4E2D\u5FC3\u53CC\u5411\u62C9\u4F38\u3002\u5E38\u7528\u4E8E\u6C14\u6CE1/\u6309\u94AE\u80CC\u666F\u7684\u4EFB\u610F\u5C3A\u5BF8\u81EA\u9002\u5E94\u3002\u5750\u6807\u4EE5\u56FE\u7247\u539F\u59CB\u50CF\u7D20\u4E3A\u5355\u4F4D\u3002SVG \u4E0D\u652F\u6301\u6B64\u5C5E\u6027\uFF08\u5DF2\u81EA\u52A8\u5FFD\u7565\uFF09\u3002\u3010\u786C\u7EA6\u675F 1\u3011centerSlice \u5FC5\u987B\u914D fit=fill\uFF1B\u4F20\u5176\u4ED6 fit \u4F1A\u89E6\u53D1 Flutter \u65AD\u8A00\u5D29\u6E83\uFF0Cparser \u81EA\u52A8\u5F3A\u5236\u6539\u4E3A fill\u3002\u3010\u786C\u7EA6\u675F 2\u3011centerSlice \u8FB9\u6846 (left + imageWidth - right) \u5FC5\u987B <= widget \u5BBD\u5EA6\uFF0C\u4E0A\u4E0B\u540C\u7406\uFF1B\u5426\u5219 paintImage \u5185\u90E8 outputSize \u53D8\u8D1F\u5BFC\u81F4 applyBoxFit \u8FD4\u56DE Size.zero \u89E6\u53D1\u65AD\u8A00\u3002",
         fontSize: 12,
         color: "#E65100"
       }
@@ -28280,15 +28281,15 @@ function ImageDemo() {
   ), /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Text,
     {
-      text: "\u539F\u56FE\uFF0860\xD760 \u663E\u793A\uFF09",
+      text: "\u539F\u56FE\uFF0848\xD748\uFF0C\u653E\u5927 2\xD7\u663E\u793A\uFF09",
       fontSize: 11,
       color: "#9E9E9E",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 60, height: 60, fit: "none" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: " ", fontSize: 11 }), /* @__PURE__ */ import_react14.default.createElement(
+  ), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: PATCH_48, width: 96, height: 96, fit: "none" }), /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: " ", fontSize: 11 }), /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Text,
     {
-      text: "fit=fill + centerSlice=10/10/50/50 (240\xD7120 \u5BB9\u5668)",
+      text: "fit=fill + centerSlice=16/16/32/32 (240\xD7120 \u5BB9\u5668)",
       fontSize: 11,
       color: "#9E9E9E",
       margin: { top: 12, bottom: 4 }
@@ -28306,17 +28307,17 @@ function ImageDemo() {
     /* @__PURE__ */ import_react14.default.createElement(
       import_fuickjs13.Image,
       {
-        src: OWL,
+        src: PATCH_48,
         width: 240,
         height: 120,
         fit: "fill",
-        centerSlice: { left: 10, top: 10, right: 50, bottom: 50 }
+        centerSlice: { left: 16, top: 16, right: 32, bottom: 32 }
       }
     )
   ), /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Text,
     {
-      text: "4 \u4E2A 10\xD710 \u89D2\u4FDD\u6301\u539F\u56FE\uFF0C\u4E2D\u5FC3\u533A\u57DF\u88AB\u62C9\u4F38",
+      text: "4 \u4E2A 16\xD716 \u84DD\u89D2\u4FDD\u6301\u539F\u5927\u5C0F\uFF0C\u7EFF\u8FB9\u5355\u5411\u62C9\u4F38\uFF0C\u6A59\u4E2D\u5FC3\u53CC\u5411\u62C9\u4F38",
       fontSize: 11,
       color: "#9E9E9E",
       margin: { top: 4 }
@@ -28339,7 +28340,7 @@ function ImageDemo() {
         border: { color: "#BDBDBD", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: OWL, width: 240, height: 120, fit: "fill" })
+    /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Image, { src: PATCH_48, width: 240, height: 120, fit: "fill" })
   ), /* @__PURE__ */ import_react14.default.createElement(
     import_fuickjs13.Text,
     {
@@ -28361,11 +28362,11 @@ function ImageDemo() {
     /* @__PURE__ */ import_react14.default.createElement(
       import_fuickjs13.Image,
       {
-        src: OWL,
+        src: PATCH_48,
         width: 240,
         height: 80,
         fit: "fill",
-        centerSlice: { left: 10, top: 10, right: 50, bottom: 50 },
+        centerSlice: { left: 16, top: 16, right: 32, bottom: 32 },
         tintColor: "#1976D2"
       }
     )

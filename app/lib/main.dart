@@ -4,15 +4,15 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fuickjs_flutter/core/container/dev_fuick_app_page.dart';
 import 'package:fuickjs_flutter/core/container/fuick_app_controller.dart'
     as fuick;
 import 'package:fuickjs_flutter/core/container/fuick_navigation_delegate.dart';
-import 'package:fuickjs_flutter/core/container/dev_fuick_app_page.dart';
 import 'package:fuickjs_flutter/core/engine/engine.dart';
 import 'package:fuickjs_flutter/core/logger.dart';
 import 'package:fuickjs_flutter/core/service/native_services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wujie/fuick_swipe_tab_page.dart';
 
 import 'community/app_info_service.dart';
 import 'community/connectivity_service.dart';
@@ -176,6 +176,10 @@ class MyApp extends StatelessWidget {
                 builder: (context, state) => const DevFuickAppPage(),
               ),
               GoRoute(
+                path: 'swipe_tabs',
+                builder: (context, state) => const FuickSwipeTabPage(),
+              ),
+              GoRoute(
                 path: 'file_obfuscator',
                 builder: (context, state) => FuickAppPage(
                   appName: 'bundle',
@@ -251,6 +255,11 @@ class _MyHomePageState extends State<MyHomePage> {
             tooltip: '字节码编译测试',
             icon: const Icon(Icons.memory, color: Color(0xFF5C6BC0)),
             onPressed: () => context.push('/compile_test'),
+          ),
+          IconButton(
+            tooltip: '多 Tab 演示',
+            icon: const Icon(Icons.dashboard, color: Color(0xFF5C6BC0)),
+            onPressed: () => context.push('/swipe_tabs'),
           ),
         ],
       ),
