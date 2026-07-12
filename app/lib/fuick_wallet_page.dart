@@ -12,7 +12,7 @@ class FuickWalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FuickAppView(
-      appName: 'bundle',
+      appName: 'wallet_bundle',
       initialRoute: initialRoute,
       initialParams: {},
     );
