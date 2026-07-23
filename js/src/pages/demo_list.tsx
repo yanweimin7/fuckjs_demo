@@ -98,6 +98,7 @@ const demoCategories = [
     items: [
       { name: "I18n", path: "/demo/i18n" },
       { name: "Lifecycle", path: "/demo/lifecycle" },
+      { name: "Router", path: "/demo/router" },
       { name: "Theme", path: "/demo/theme" },
       { name: "MediaQuery", path: "/demo/media_query" },
     ],
