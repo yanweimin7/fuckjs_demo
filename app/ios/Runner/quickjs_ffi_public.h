@@ -122,4 +122,46 @@ int32_t qjs_take_awaited(void *handle, int32_t id, QjsResult *out);
 void qjs_free_result_content(QjsResult *res);
 void qjs_set_use_binary_protocol(int use);
 
+// QuickJS 引擎内存统计快照。字段与 quickjs.h 的 JSMemoryUsage 一一对应。
+// 由 qjs_compute_memory_usage 填充,所有字段为 int64_t。Dart 侧通过 FFI Struct
+// 直接读取,无需序列化。
+typedef struct QjsMemoryUsage {
+    int64_t malloc_size;
+    int64_t malloc_limit;
+    int64_t memory_used_size;
+    int64_t malloc_count;
+    int64_t memory_used_count;
+    int64_t atom_count;
+    int64_t atom_size;
+    int64_t str_count;
+    int64_t str_size;
+    int64_t obj_count;
+    int64_t obj_size;
+    int64_t prop_count;
+    int64_t prop_size;
+    int64_t shape_count;
+    int64_t shape_size;
+    int64_t js_func_count;
+    int64_t js_func_size;
+    int64_t js_func_code_size;
+    int64_t js_func_pc2line_count;
+    int64_t js_func_pc2line_size;
+    int64_t c_func_count;
+    int64_t array_count;
+    int64_t fast_array_count;
+    int64_t fast_array_elements;
+    int64_t binary_object_count;
+    int64_t binary_object_size;
+} QjsMemoryUsage;
+
+// 计算当前 runtime 的内存占用快照,写入 out。
+// rt_handle 必须是 qjs_create_runtime 返回的 runtime handle(不是 ctx handle)。
+// 调用零分配(除 out 本身),适合定时高频轮询。
+void qjs_compute_memory_usage(void *rt_handle, QjsMemoryUsage *out);
+
+// 强制执行一次完整的垃圾回收(包括周期检测,打破循环引用)。
+// 默认 malloc_limit=-1 时 QuickJS 不会自动触发周期 GC,页面销毁后 React fiber 树
+// 与闭包的循环引用无法被引用计数回收。建议在 destroyPage 后调用一次。
+void qjs_run_gc(void *rt_handle);
+
 #endif

@@ -20010,6 +20010,10 @@ var require_hostConfig = __commonJS({
         },
         noTimeout: -1,
         isPrimaryRenderer: true,
+        // React 18 (react-reconciler 0.29) reads getCurrentEventPriority;
+        // React 19 (0.33+) reads getCurrentUpdatePriority. Provide both so the
+        // same hostConfig works with either reconciler version.
+        getCurrentEventPriority: () => currentUpdatePriority,
         // React 19: priority API renamed from getCurrentEventPriority
         getCurrentUpdatePriority: () => currentUpdatePriority,
         setCurrentUpdatePriority: (priority) => {
@@ -22479,18 +22483,25 @@ var require_ScrollableBaseWidget = __commonJS({
     var BaseWidget_1 = require_BaseWidget();
     var page_render_1 = require_page_render();
     var ScrollableBaseWidget = class extends BaseWidget_1.BaseWidget {
+      // 每条 item 的合成回调 key,与 ListItemManager.itemKey 保持一致,
+      // 便于 elementToDslForItem 在重渲染前按 (pageId, refId, index) 回收旧回调。
+      itemCallbackKey(index) {
+        return `${this.pageId}:${this.scopedRefId}:${index}`;
+      }
       updateItem(index, dsl) {
         let finalDsl = dsl;
         if (react_1.default.isValidElement(dsl)) {
-          finalDsl = (0, page_render_1.elementToDsl)(this.pageId, dsl);
+          const container = (0, page_render_1.getContainer)(this.pageId);
+          finalDsl = container ? container.elementToDslForItem(this.itemCallbackKey(index), dsl) : (0, page_render_1.elementToDsl)(this.pageId, dsl);
         }
         this.callNativeCommand("updateItem", { index, dsl: finalDsl });
       }
       updateItems(items) {
+        const container = (0, page_render_1.getContainer)(this.pageId);
         const finalItems = items.map((item) => {
           let finalDsl = item.dsl;
           if (react_1.default.isValidElement(item.dsl)) {
-            finalDsl = (0, page_render_1.elementToDsl)(this.pageId, item.dsl);
+            finalDsl = container ? container.elementToDslForItem(this.itemCallbackKey(item.index), item.dsl) : (0, page_render_1.elementToDsl)(this.pageId, item.dsl);
           }
           return { index: item.index, dsl: finalDsl };
         });

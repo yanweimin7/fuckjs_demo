@@ -12,62 +12,44 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -fomit-frame-pointer -fPIC")
 
 # Paths to native sources in the repository
 # CMakeLists.txt 位置:fuickjs_demo/app/android/app/CMakeLists.txt
-# 目标:fuickjs_engine/src/main/jni/quickjs/ → 需要 4 层 ../
-set(QJS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../fuickjs_engine/src/main/jni/quickjs")
+# 目标:fuickjs_engine/src/main/jni/vendor/quickjs/ → 需要 4 层 ../
+set(QJS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../fuickjs_engine/src/main/jni/vendor/quickjs")
 set(FFI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../../fuickjs_engine/src/main/jni/quickjs_ffi.c")
-set(_QJS_CMAKE "${QJS_ROOT}/CMakeLists.txt")
 
-# 层级 1 复用:从上游 CMakeLists.txt 抽取 qjs_sources 列表
-# 上游格式:set(qjs_sources\n    file1.c\n    file2.c\n    ...\n)
-# 避免源列表在两处维护;加新 .c 文件只改上游,这里自动同步
-# 兜底:抽取失败时使用硬编码列表
-# 注:用 file(READ) + 手动切行,因 file(STRINGS) 在某些 CMake 版本上行为不一致
-file(READ "${_QJS_CMAKE}" _qjs_cmake_content)
-# 转义 ; 防止 list 解析,再按 \n 切
-string(REPLACE ";" "<<SEMI>>" _qjs_cmake_content "${_qjs_cmake_content}")
-string(REPLACE "\n" ";" _qjs_cmake_lines "${_qjs_cmake_content}")
+# 源文件 glob 自 ${QJS_ROOT},排除 CLI/fuzz/test/hosted-only 文件
+# 上游 QuickJS-NG 加新 .c 文件(例如 libbigint.c)无需同步这里
+# 与 build_*.sh 中的 QJS_EXCLUDE_REGEX 保持一致
+set(_QJS_EXCLUDE
+    qjs.c
+    qjsc.c
+    qjs-wasi.c
+    qjs-wasi-reactor.c
+    qjs-debugger.c
+    qjs-debugserver.c
+    ctest.c
+    cxxtest.c
+    fuzz.c
+    run-test262.c
+    unicode_gen.c
+    api-test.c
+    lre-test.c
+    standalone.c
+)
 
-set(_in_sources_block FALSE)
-set(_QJS_FILES "")
-foreach(_line IN LISTS _qjs_cmake_lines)
-    string(REPLACE "<<SEMI>>" ";" _line "${_line}")
-    if(_in_sources_block)
-        # set() 块结束:遇到单独成行的 )
-        string(STRIP "${_line}" _stripped)
-        if(_stripped STREQUAL ")")
-            set(_in_sources_block FALSE)
-        else()
-            # 抽取当前行的 .c 文件名
-            string(REGEX MATCH "[a-zA-Z_][a-zA-Z0-9_]*\\.c" _file "${_line}")
-            if(_file AND EXISTS "${QJS_ROOT}/${_file}")
-                list(APPEND _QJS_FILES "${_file}")
-            endif()
-        endif()
-    elseif(_line MATCHES "^set\\(qjs_sources")
-        set(_in_sources_block TRUE)
-    endif()
+file(GLOB _QJS_SRCS "${QJS_ROOT}/*.c")
+foreach(_excluded IN LISTS _QJS_EXCLUDE)
+    list(REMOVE_ITEM _QJS_SRCS "${QJS_ROOT}/${_excluded}")
 endforeach()
 
-# 兜底列表(从 quickjs/CMakeLists.txt:266-271 同步过来,抽取失败时使用)
-if(NOT _QJS_FILES)
-    message(WARNING
-        "[quickjs_ffi] Failed to extract qjs_sources from ${_QJS_CMAKE}, "
-        "falling back to hardcoded list. If upstream QuickJS-NG adds new "
-        "source files, update the fallback list below.")
-    set(_QJS_FILES
-        dtoa.c
-        libregexp.c
-        libunicode.c
-        quickjs.c
-    )
+if(NOT _QJS_SRCS)
+    message(FATAL_ERROR
+        "[quickjs_ffi] No QuickJS source files found in ${QJS_ROOT}. "
+        "Did you run 'cd fuickjs_engine && ./build.sh update'?")
 endif()
 
-message(STATUS "[quickjs_ffi] qjs_sources: ${_QJS_FILES}")
-
-# 拼成绝对路径
-set(_QJS_SRCS "")
-foreach(_f IN LISTS _QJS_FILES)
-    list(APPEND _QJS_SRCS "${QJS_ROOT}/${_f}")
+message(STATUS "[quickjs_ffi] qjs_sources:")
+foreach(_src IN LISTS _QJS_SRCS)
+    message(STATUS "  - ${_src}")
 endforeach()
 
 add_library(quickjs_ffi SHARED

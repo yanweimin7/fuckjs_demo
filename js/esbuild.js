@@ -30,7 +30,7 @@ async function build() {
     format: "esm",
     target: "es2020",
     minify: false,
-    sourcemap: !isProd || process.env.SOURCEMAP === 'true',
+    sourcemap: !isProd || process.env.SOURCEMAP === "true",
     loader: {
       ".ts": "ts",
       ".tsx": "tsx",
@@ -62,7 +62,7 @@ async function build() {
       scheduler: path.resolve(__dirname, schedulerPath),
       fuickjs: path.resolve(
         __dirname,
-        "../../fuickjs_framework/fuickjs/dist/index.js",
+        "../../fuickjs_framework/fuickjs/src/index.js",
       ),
       "@tarojs/components-fuickjs": path.resolve(
         __dirname,
@@ -106,10 +106,13 @@ async function build() {
   }
 
   // Pack all bundles into zip files — skip in debug mode（SOURCEMAP 时不需要 zip）
-  if (process.env.SOURCEMAP !== 'true') {
+  if (process.env.SOURCEMAP !== "true") {
     console.log("\nPacking bundles...");
     const packAll = path.resolve(__dirname, "tools/bundle/pack-all.js");
-    execFileSync(process.execPath, [packAll], { stdio: "inherit", cwd: __dirname });
+    execFileSync(process.execPath, [packAll], {
+      stdio: "inherit",
+      cwd: __dirname,
+    });
   }
 
   console.log("Build complete.");
