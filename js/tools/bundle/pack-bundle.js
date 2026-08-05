@@ -109,7 +109,6 @@ function main() {
       entry,
       codeForm,
       files,
-      encryption: null,
     };
     const manifestStr = JSON.stringify(manifest, null, 2);
     fs.writeFileSync(path.join(staging, 'manifest.json'), manifestStr);

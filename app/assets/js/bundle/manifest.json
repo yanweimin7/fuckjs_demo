@@ -1,0 +1,15 @@
+{
+  "name": "bundle",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "keyId": "demo-key",
+  "entry": "bundle.js",
+  "codeForm": "js",
+  "files": [
+    {
+      "path": "bundle.js",
+      "sha256": "73002a561667e371ef65b82e233e3aa181f844031c284d96c8ed7b0277852176"
+    }
+  ],
+  "encryption": null
+}

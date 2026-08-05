@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <rect width="120" height="120" rx="16" fill="#5C6BC0"/>
+  <circle cx="60" cy="48" r="22" fill="#E8EAF6"/>
+  <text x="60" y="98" text-anchor="middle" fill="#FFFFFF" font-size="18" font-family="sans-serif">Bundle</text>
+</svg>
