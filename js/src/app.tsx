@@ -21,6 +21,7 @@ import ButtonDemo from "./demos/ButtonDemo";
 import TextFieldDemo from "./demos/TextFieldDemo";
 import SwitchDemo from "./demos/SwitchDemo";
 import ListViewDemo from "./demos/ListViewDemo";
+import SingleChildScrollViewDemo from "./demos/SingleChildScrollViewDemo";
 import GridViewDemo from "./demos/GridViewDemo";
 import ImageDemo from "./demos/ImageDemo";
 import BundleLocalImageDemo from "./demos/BundleLocalImageDemo";
@@ -90,6 +91,9 @@ import DismissibleDemo from "./demos/DismissibleDemo";
 import TransitionAnimatedDemo from "./demos/TransitionAnimatedDemo";
 import ThemeDemo from "./demos/ThemeDemo";
 import MediaQueryDemo from "./demos/MediaQueryDemo";
+import AnimationDemo from "./demos/AnimationDemo";
+import GesturesDemo from "./demos/GesturesDemo";
+import ScrollControlDemo from "./demos/ScrollControlDemo";
 
 // Community packages
 import WebViewDemo from "./demos/WebViewDemo";
@@ -196,6 +200,7 @@ const routes: { path: string; component: React.ComponentType<any> }[] = [
 
   // 列表与网格
   { path: "/demo/listview", component: ListViewDemo },
+  { path: "/demo/singlechildscrollview", component: SingleChildScrollViewDemo },
   { path: "/demo/gridview", component: GridViewDemo },
   { path: "/demo/sliver", component: SliverDemo },
   {
@@ -235,6 +240,9 @@ const routes: { path: string; component: React.ComponentType<any> }[] = [
   { path: "/demo/align", component: AlignDemo },
 
   // 动画
+  { path: "/demo/animation", component: AnimationDemo },
+  { path: "/demo/gestures", component: GesturesDemo },
+  { path: "/demo/scroll_control", component: ScrollControlDemo },
   { path: "/demo/animated", component: AnimatedDemo },
   { path: "/demo/transition", component: TransitionDemo },
   { path: "/demo/transition_animated", component: TransitionAnimatedDemo },

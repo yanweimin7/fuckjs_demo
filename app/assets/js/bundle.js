@@ -8720,10 +8720,10 @@ var require_blowfish = __commonJS({
           return { left: Xl, right: Xr };
         }
         function BlowFishInit(ctx, key, keysize) {
-          for (let Row3 = 0; Row3 < 4; Row3++) {
-            ctx.sbox[Row3] = [];
+          for (let Row4 = 0; Row4 < 4; Row4++) {
+            ctx.sbox[Row4] = [];
             for (let Col = 0; Col < 256; Col++) {
-              ctx.sbox[Row3][Col] = ORIG_S[Row3][Col];
+              ctx.sbox[Row4][Col] = ORIG_S[Row4][Col];
             }
           }
           let keyIndex = 0;
@@ -16468,14 +16468,14 @@ var require_react_reconciler_production = __commonJS({
       }
       var exports2 = {};
       "use strict";
-      var React203 = require_react_production(), Scheduler = require_scheduler_production(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
+      var React207 = require_react_production(), Scheduler = require_scheduler_production(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
       Symbol.for("react.scope");
       var REACT_ACTIVITY_TYPE = Symbol.for("react.activity");
       Symbol.for("react.legacy_hidden");
       Symbol.for("react.tracing_marker");
       var REACT_MEMO_CACHE_SENTINEL = Symbol.for("react.memo_cache_sentinel");
       Symbol.for("react.view_transition");
-      var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React203.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, rendererVersion = $$$config.rendererVersion, rendererPackageName = $$$config.rendererPackageName, extraDevToolsConfig = $$$config.extraDevToolsConfig, getPublicInstance = $$$config.getPublicInstance, getRootHostContext = $$$config.getRootHostContext, getChildHostContext = $$$config.getChildHostContext, prepareForCommit = $$$config.prepareForCommit, resetAfterCommit = $$$config.resetAfterCommit, createInstance = $$$config.createInstance;
+      var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React207.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, rendererVersion = $$$config.rendererVersion, rendererPackageName = $$$config.rendererPackageName, extraDevToolsConfig = $$$config.extraDevToolsConfig, getPublicInstance = $$$config.getPublicInstance, getRootHostContext = $$$config.getRootHostContext, getChildHostContext = $$$config.getChildHostContext, prepareForCommit = $$$config.prepareForCommit, resetAfterCommit = $$$config.resetAfterCommit, createInstance = $$$config.createInstance;
       $$$config.cloneMutableInstance;
       var appendInitialChild = $$$config.appendInitialChild, finalizeInitialChildren = $$$config.finalizeInitialChildren, shouldSetTextContent = $$$config.shouldSetTextContent, createTextInstance = $$$config.createTextInstance;
       $$$config.cloneMutableTextInstance;
@@ -17766,7 +17766,7 @@ var require_dist10 = __commonJS({
 });
 
 // src/app.tsx
-var import_react199 = __toESM(require_react_production());
+var import_react204 = __toESM(require_react_production());
 
 // ../../fuickjs_framework/fuickjs/src/polyfill/global.ts
 var globalAny = globalThis;
@@ -22587,6 +22587,22 @@ var ListView = class extends ScrollableBaseWidget {
   jumpTo(offset) {
     this.callNativeCommand("jumpTo", { offset });
   }
+  /**
+   * 滚动到指定 index 的 item。
+   * 配置了 itemExtent 时精确滚动；否则按列表估算平均高度（maxScrollExtent/itemCount）。
+   * @param duration 传 > 0 时带动画（毫秒），否则瞬时跳转
+   */
+  scrollToIndex(index, duration = 300, curve = "easeInOut") {
+    this.callNativeCommand("scrollToIndex", { index, duration, curve });
+  }
+  /** 滚动到顶部（带动画） */
+  scrollToTop(duration = 300, curve = "easeInOut") {
+    this.callNativeCommand("scrollToTop", { duration, curve });
+  }
+  /** 滚动到底部（带动画） */
+  scrollToBottom(duration = 300, curve = "easeInOut") {
+    this.callNativeCommand("scrollToBottom", { duration, curve });
+  }
   render() {
     const { children, ...rest } = this.props;
     return import_react19.default.createElement(
@@ -23306,6 +23322,12 @@ var SingleChildScrollView = class extends BaseWidget {
   animateTo(offset, duration = 300, curve = "easeInOut") {
     this.callNativeCommand("animateTo", { offset, duration, curve });
   }
+  scrollToTop(duration = 300, curve = "easeInOut") {
+    this.callNativeCommand("scrollToTop", { duration, curve });
+  }
+  scrollToBottom(duration = 300, curve = "easeInOut") {
+    this.callNativeCommand("scrollToBottom", { duration, curve });
+  }
   render() {
     return import_react32.default.createElement("SingleChildScrollView", {
       ...this.props,
@@ -23454,6 +23476,25 @@ var import_react43 = __toESM(require_react_production());
 var GridView = class extends ScrollableBaseWidget {
   animateTo(offset, duration = 300, curve = "easeInOut") {
     this.callNativeCommand("animateTo", { offset, duration, curve });
+  }
+  jumpTo(offset) {
+    this.callNativeCommand("jumpTo", { offset });
+  }
+  /**
+   * 滚动到指定 index 的 item。
+   * 配置了 itemExtent 时精确滚动；否则按列表估算平均尺寸（maxScrollExtent/itemCount）。
+   * @param duration 传 > 0 时带动画（毫秒），否则瞬时跳转
+   */
+  scrollToIndex(index, duration = 300, curve = "easeInOut") {
+    this.callNativeCommand("scrollToIndex", { index, duration, curve });
+  }
+  /** 滚动到顶部（带动画） */
+  scrollToTop(duration = 300, curve = "easeInOut") {
+    this.callNativeCommand("scrollToTop", { duration, curve });
+  }
+  /** 滚动到底部（带动画） */
+  scrollToBottom(duration = 300, curve = "easeInOut") {
+    this.callNativeCommand("scrollToBottom", { duration, curve });
   }
   render() {
     const { children, ...rest } = this.props;
@@ -24267,6 +24308,125 @@ var Dismissible = class extends import_react109.default.Component {
   }
 };
 
+// ../../fuickjs_framework/fuickjs/src/hooks/useAnimation.ts
+var import_react110 = __toESM(require_react_production());
+
+// ../../fuickjs_framework/fuickjs/src/services/AnimationService.ts
+var AnimationService = class {
+  /**
+   * 开始播放动画。
+   * @param spec 传入后可覆盖 DSL 引用中的初始 spec（to/duration/curve 等）
+   */
+  static start(animId, pageId, spec) {
+    void dartCallNativeAsync("Animation.start", { animId, pageId, spec: spec ?? null });
+  }
+  /** 停止动画（保留当前值） */
+  static stop(animId, pageId) {
+    void dartCallNativeAsync("Animation.stop", { animId, pageId });
+  }
+  /** 反向播放（从当前值动画到 from） */
+  static reverse(animId, pageId) {
+    void dartCallNativeAsync("Animation.reverse", { animId, pageId });
+  }
+  /** 重置回初始值（from），立即生效 */
+  static reset(animId, pageId) {
+    void dartCallNativeAsync("Animation.reset", { animId, pageId });
+  }
+  /** 直接设置当前值（跳帧，不带动画） */
+  static setValue(animId, pageId, value) {
+    void dartCallNativeAsync("Animation.setValue", { animId, pageId, value });
+  }
+  /** 动画过渡到指定值 */
+  static setTo(animId, pageId, value, duration, curve) {
+    void dartCallNativeAsync("Animation.setTo", { animId, pageId, value, duration, curve });
+  }
+};
+
+// ../../fuickjs_framework/fuickjs/src/hooks/useAnimation.ts
+var ANIM_DEFAULTS = {
+  from: 0,
+  to: 1,
+  duration: 300,
+  curve: "easeInOut",
+  loop: false,
+  reverse: false,
+  autoStart: false
+};
+function useAnimation(spec = {}) {
+  const pageId = usePageId();
+  const id = (0, import_react110.useMemo)(() => `anim_${pageId}_${refsId()}`, [pageId]);
+  const specRef = (0, import_react110.useRef)(spec);
+  specRef.current = { ...ANIM_DEFAULTS, ...spec };
+  const currentSpec = specRef.current;
+  const specKey = (0, import_react110.useMemo)(
+    () => JSON.stringify([
+      currentSpec.from,
+      currentSpec.to,
+      currentSpec.duration,
+      currentSpec.curve,
+      currentSpec.loop,
+      currentSpec.reverse,
+      currentSpec.autoStart
+    ]),
+    [
+      currentSpec.from,
+      currentSpec.to,
+      currentSpec.duration,
+      currentSpec.curve,
+      currentSpec.loop,
+      currentSpec.reverse,
+      currentSpec.autoStart
+    ]
+  );
+  const value = (0, import_react110.useMemo)(
+    () => ({ "@anim": id, spec: currentSpec }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id, specKey]
+  );
+  const transformRef = (0, import_react110.useMemo)(
+    () => ({
+      scale: () => ({ "@anim": id, prop: "scale", spec: currentSpec }),
+      scaleX: () => ({ "@anim": id, prop: "scaleX", spec: currentSpec }),
+      scaleY: () => ({ "@anim": id, prop: "scaleY", spec: currentSpec }),
+      rotate: () => ({ "@anim": id, prop: "rotate", spec: currentSpec }),
+      translateX: () => ({ "@anim": id, prop: "translateX", spec: currentSpec }),
+      translateY: () => ({ "@anim": id, prop: "translateY", spec: currentSpec })
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id, specKey]
+  );
+  const onCompleteRef = (0, import_react110.useRef)(null);
+  (0, import_react110.useEffect)(() => {
+    return NativeEvent.on(
+      "animationComplete",
+      (data) => {
+        const payload = data;
+        if (payload && payload.animId === id) {
+          onCompleteRef.current?.();
+        }
+      },
+      pageId
+    );
+  }, [id, pageId]);
+  return {
+    id,
+    value,
+    transform: transformRef,
+    start: (override) => AnimationService.start(id, pageId, override ? { ...currentSpec, ...override } : void 0),
+    stop: () => AnimationService.stop(id, pageId),
+    reverse: () => AnimationService.reverse(id, pageId),
+    reset: () => AnimationService.reset(id, pageId),
+    setValue: (v) => AnimationService.setValue(id, pageId, v),
+    setTo: (v, duration, curve) => AnimationService.setTo(id, pageId, v, duration, curve),
+    onComplete: (cb) => {
+      onCompleteRef.current = cb;
+      return () => {
+        onCompleteRef.current = null;
+      };
+    }
+  };
+}
+
 // ../../fuickjs_framework/fuickjs/src/services/ToastService.ts
 var ToastService = class {
   static show(message, duration) {
@@ -24428,11 +24588,11 @@ var SoundService = class {
 };
 
 // ../../fuickjs_framework/fuickjs/src/i18n/hooks.ts
-var import_react110 = __toESM(require_react_production());
+var import_react111 = __toESM(require_react_production());
 function useTranslation() {
-  const [, forceUpdate] = (0, import_react110.useReducer)((c) => c + 1, 0);
-  (0, import_react110.useEffect)(() => i18n.subscribe(() => forceUpdate()), []);
-  const t2 = (0, import_react110.useCallback)(
+  const [, forceUpdate] = (0, import_react111.useReducer)((c) => c + 1, 0);
+  (0, import_react111.useEffect)(() => i18n.subscribe(() => forceUpdate()), []);
+  const t2 = (0, import_react111.useCallback)(
     (key, params, options) => i18n.t(key, params, options),
     []
   );
@@ -24499,10 +24659,10 @@ var i18nResources = {
 };
 
 // src/pages/home.tsx
-var import_react112 = __toESM(require_react_production());
+var import_react113 = __toESM(require_react_production());
 
 // src/store/global.ts
-var import_react111 = __toESM(require_react_production());
+var import_react112 = __toESM(require_react_production());
 var globalValue = "Initial Global Value";
 var listeners = /* @__PURE__ */ new Set();
 var setGlobalValue = (newValue) => {
@@ -24510,8 +24670,8 @@ var setGlobalValue = (newValue) => {
   listeners.forEach((listener) => listener(globalValue));
 };
 var useGlobalValue = () => {
-  const [value, setValue] = (0, import_react111.useState)(globalValue);
-  (0, import_react111.useEffect)(() => {
+  const [value, setValue] = (0, import_react112.useState)(globalValue);
+  (0, import_react112.useEffect)(() => {
     const listener = (newValue) => {
       setValue(newValue);
     };
@@ -24567,20 +24727,20 @@ function HomePage() {
       color: "#9C27B0"
     }
   ];
-  return /* @__PURE__ */ import_react112.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react112.default.createElement(AppBar, { title: "FuickJS \u63A2\u7D22" }) }, /* @__PURE__ */ import_react112.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react112.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react112.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react112.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react112.default.createElement(Text, { text: "\u6B22\u8FCE\u4F53\u9A8C\u52A8\u6001\u5316\u6E32\u67D3", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react112.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react112.default.createElement(
+  return /* @__PURE__ */ import_react113.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react113.default.createElement(AppBar, { title: "FuickJS \u63A2\u7D22" }) }, /* @__PURE__ */ import_react113.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react113.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react113.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react113.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react113.default.createElement(Text, { text: "\u6B22\u8FCE\u4F53\u9A8C\u52A8\u6001\u5316\u6E32\u67D3", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react113.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react113.default.createElement(
     Text,
     {
       text: "\u57FA\u4E8E React \u8BED\u6CD5\u7684 Flutter \u9AD8\u6027\u80FD\u52A8\u6001\u5316\u6846\u67B6",
       color: "#666666"
     }
-  ), /* @__PURE__ */ import_react112.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react112.default.createElement(
+  ), /* @__PURE__ */ import_react113.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react113.default.createElement(
     InkWell,
     {
       onTap: () => setValue(
         `Updated from Home: ${Math.floor(Math.random() * 100)}`
       )
     },
-    /* @__PURE__ */ import_react112.default.createElement(
+    /* @__PURE__ */ import_react113.default.createElement(
       Container,
       {
         padding: 10,
@@ -24590,9 +24750,9 @@ function HomePage() {
           border: { color: "#2196F3", width: 1 }
         }
       },
-      /* @__PURE__ */ import_react112.default.createElement(Text, { text: `Global Value: ${value}`, color: "#1565C0" })
+      /* @__PURE__ */ import_react113.default.createElement(Text, { text: `Global Value: ${value}`, color: "#1565C0" })
     )
-  ), /* @__PURE__ */ import_react112.default.createElement(SizedBox, { height: 40 }), menuItems.map((item, index) => /* @__PURE__ */ import_react112.default.createElement(Padding, { key: index, padding: { bottom: 16 } }, /* @__PURE__ */ import_react112.default.createElement(
+  ), /* @__PURE__ */ import_react113.default.createElement(SizedBox, { height: 40 }), menuItems.map((item, index) => /* @__PURE__ */ import_react113.default.createElement(Padding, { key: index, padding: { bottom: 16 } }, /* @__PURE__ */ import_react113.default.createElement(
     InkWell,
     {
       onTap: async () => {
@@ -24604,7 +24764,7 @@ function HomePage() {
         }
       }
     },
-    /* @__PURE__ */ import_react112.default.createElement(
+    /* @__PURE__ */ import_react113.default.createElement(
       Container,
       {
         padding: 20,
@@ -24618,7 +24778,7 @@ function HomePage() {
           }
         }
       },
-      /* @__PURE__ */ import_react112.default.createElement(Row, null, /* @__PURE__ */ import_react112.default.createElement(
+      /* @__PURE__ */ import_react113.default.createElement(Row, null, /* @__PURE__ */ import_react113.default.createElement(
         Container,
         {
           width: 48,
@@ -24629,28 +24789,28 @@ function HomePage() {
           },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react112.default.createElement(Icon, { name: item.icon, color: item.color, size: 24 })
-      ), /* @__PURE__ */ import_react112.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react112.default.createElement(Expanded, null, /* @__PURE__ */ import_react112.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react112.default.createElement(
+        /* @__PURE__ */ import_react113.default.createElement(Icon, { name: item.icon, color: item.color, size: 24 })
+      ), /* @__PURE__ */ import_react113.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react113.default.createElement(Expanded, null, /* @__PURE__ */ import_react113.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react113.default.createElement(
         Text,
         {
           text: item.title,
           fontSize: 18,
           fontWeight: "bold"
         }
-      ), /* @__PURE__ */ import_react112.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react112.default.createElement(
+      ), /* @__PURE__ */ import_react113.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react113.default.createElement(
         Text,
         {
           text: item.subtitle,
           fontSize: 14,
           color: "#757575"
         }
-      ))), /* @__PURE__ */ import_react112.default.createElement(Icon, { name: "chevron_right", color: "#BDBDBD" }))
+      ))), /* @__PURE__ */ import_react113.default.createElement(Icon, { name: "chevron_right", color: "#BDBDBD" }))
     )
   )))))));
 }
 
 // src/pages/news.tsx
-var import_react113 = __toESM(require_react_production());
+var import_react114 = __toESM(require_react_production());
 var CATEGORIES = [
   { id: "articles", name: "\u65B0\u95FB", icon: "newspaper" },
   { id: "blogs", name: "\u535A\u5BA2", icon: "book" },
@@ -24659,8 +24819,8 @@ var CATEGORIES = [
 ];
 function NewsList({ category }) {
   const navigator2 = useNavigator();
-  const [articles, setArticles] = (0, import_react113.useState)([]);
-  const [loading, setLoading] = (0, import_react113.useState)(false);
+  const [articles, setArticles] = (0, import_react114.useState)([]);
+  const [loading, setLoading] = (0, import_react114.useState)(false);
   const fetchNews = async () => {
     if (category === "favorites") {
       setArticles([]);
@@ -24679,13 +24839,13 @@ function NewsList({ category }) {
       setLoading(false);
     }
   };
-  (0, import_react113.useEffect)(() => {
+  (0, import_react114.useEffect)(() => {
     fetchNews();
   }, []);
   if (loading && articles.length === 0) {
-    return /* @__PURE__ */ import_react113.default.createElement(Container, { alignment: "center", padding: 20 }, /* @__PURE__ */ import_react113.default.createElement(CircularProgressIndicator, null));
+    return /* @__PURE__ */ import_react114.default.createElement(Container, { alignment: "center", padding: 20 }, /* @__PURE__ */ import_react114.default.createElement(CircularProgressIndicator, null));
   }
-  return /* @__PURE__ */ import_react113.default.createElement(KeepAlive, null, /* @__PURE__ */ import_react113.default.createElement(ListView, { padding: 12 }, articles.map((article) => /* @__PURE__ */ import_react113.default.createElement(Padding, { key: article.id, padding: { bottom: 12 } }, /* @__PURE__ */ import_react113.default.createElement(InkWell, { onTap: () => navigator2.push("/news_detail", { article }) }, /* @__PURE__ */ import_react113.default.createElement(
+  return /* @__PURE__ */ import_react114.default.createElement(KeepAlive, null, /* @__PURE__ */ import_react114.default.createElement(ListView, { padding: 12 }, articles.map((article) => /* @__PURE__ */ import_react114.default.createElement(Padding, { key: article.id, padding: { bottom: 12 } }, /* @__PURE__ */ import_react114.default.createElement(InkWell, { onTap: () => navigator2.push("/news_detail", { article }) }, /* @__PURE__ */ import_react114.default.createElement(
     Container,
     {
       padding: 12,
@@ -24699,7 +24859,7 @@ function NewsList({ category }) {
         }
       }
     },
-    /* @__PURE__ */ import_react113.default.createElement(Row, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react113.default.createElement(
+    /* @__PURE__ */ import_react114.default.createElement(Row, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react114.default.createElement(
       Image,
       {
         url: article.image_url,
@@ -24708,7 +24868,7 @@ function NewsList({ category }) {
         fit: "cover",
         borderRadius: 4
       }
-    ), /* @__PURE__ */ import_react113.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react113.default.createElement(Expanded, null, /* @__PURE__ */ import_react113.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react113.default.createElement(
+    ), /* @__PURE__ */ import_react114.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react114.default.createElement(Expanded, null, /* @__PURE__ */ import_react114.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react114.default.createElement(
       Text,
       {
         text: article.title,
@@ -24716,7 +24876,7 @@ function NewsList({ category }) {
         fontWeight: "bold",
         maxLines: 2
       }
-    ), /* @__PURE__ */ import_react113.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react113.default.createElement(
+    ), /* @__PURE__ */ import_react114.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react114.default.createElement(
       Text,
       {
         text: article.summary,
@@ -24724,14 +24884,14 @@ function NewsList({ category }) {
         color: "#666666",
         maxLines: 2
       }
-    ), /* @__PURE__ */ import_react113.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react113.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react113.default.createElement(
+    ), /* @__PURE__ */ import_react114.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react114.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react114.default.createElement(
       Text,
       {
         text: article.news_site,
         fontSize: 10,
         color: "#1976D2"
       }
-    ), /* @__PURE__ */ import_react113.default.createElement(
+    ), /* @__PURE__ */ import_react114.default.createElement(
       Text,
       {
         text: new Date(
@@ -24745,11 +24905,11 @@ function NewsList({ category }) {
 }
 function NewsPage() {
   const { value, setValue } = useGlobalValue();
-  return /* @__PURE__ */ import_react113.default.createElement(DefaultTabController, { length: CATEGORIES.length, initialIndex: 0 }, /* @__PURE__ */ import_react113.default.createElement(
+  return /* @__PURE__ */ import_react114.default.createElement(DefaultTabController, { length: CATEGORIES.length, initialIndex: 0 }, /* @__PURE__ */ import_react114.default.createElement(
     Scaffold,
     {
       backgroundColor: "#F5F5F5",
-      appBar: /* @__PURE__ */ import_react113.default.createElement(
+      appBar: /* @__PURE__ */ import_react114.default.createElement(
         AppBar,
         {
           title: "\u822A\u5929\u65B0\u95FB",
@@ -24759,21 +24919,21 @@ function NewsPage() {
         }
       )
     },
-    /* @__PURE__ */ import_react113.default.createElement(Column, null, /* @__PURE__ */ import_react113.default.createElement(
+    /* @__PURE__ */ import_react114.default.createElement(Column, null, /* @__PURE__ */ import_react114.default.createElement(
       InkWell,
       {
         onTap: () => setValue(`Updated from News: ${Math.floor(Math.random() * 100)}`)
       },
-      /* @__PURE__ */ import_react113.default.createElement(Container, { padding: 10, color: "#E0F7FA", alignment: "center" }, /* @__PURE__ */ import_react113.default.createElement(Text, { text: `Global Value: ${value}`, color: "#006064" }))
-    ), /* @__PURE__ */ import_react113.default.createElement(
+      /* @__PURE__ */ import_react114.default.createElement(Container, { padding: 10, color: "#E0F7FA", alignment: "center" }, /* @__PURE__ */ import_react114.default.createElement(Text, { text: `Global Value: ${value}`, color: "#006064" }))
+    ), /* @__PURE__ */ import_react114.default.createElement(
       TabBar,
       {
-        tabs: CATEGORIES.map((cat) => /* @__PURE__ */ import_react113.default.createElement(
+        tabs: CATEGORIES.map((cat) => /* @__PURE__ */ import_react114.default.createElement(
           Tab,
           {
             key: cat.id,
             text: cat.name,
-            icon: /* @__PURE__ */ import_react113.default.createElement(Icon, { name: cat.icon, size: 20 })
+            icon: /* @__PURE__ */ import_react114.default.createElement(Icon, { name: cat.icon, size: 20 })
           }
         )),
         isScrollable: false,
@@ -24782,19 +24942,19 @@ function NewsPage() {
         labelColor: "#2196F3",
         unselectedLabelColor: "#757575"
       }
-    ), /* @__PURE__ */ import_react113.default.createElement(Expanded, null, /* @__PURE__ */ import_react113.default.createElement(TabBarView, null, CATEGORIES.map((cat) => /* @__PURE__ */ import_react113.default.createElement(NewsList, { key: cat.id, category: cat.id })))))
+    ), /* @__PURE__ */ import_react114.default.createElement(Expanded, null, /* @__PURE__ */ import_react114.default.createElement(TabBarView, null, CATEGORIES.map((cat) => /* @__PURE__ */ import_react114.default.createElement(NewsList, { key: cat.id, category: cat.id })))))
   ));
 }
 
 // src/pages/news_detail.tsx
-var import_react114 = __toESM(require_react_production());
+var import_react115 = __toESM(require_react_production());
 function NewsDetailPage(props) {
   const navigator2 = useNavigator();
   const article = props.article;
   if (!article) {
-    return /* @__PURE__ */ import_react114.default.createElement(Container, { alignment: "center" }, /* @__PURE__ */ import_react114.default.createElement(Text, { text: "\u672A\u627E\u5230\u6587\u7AE0\u5185\u5BB9" }), /* @__PURE__ */ import_react114.default.createElement(Button, { text: "\u8FD4\u56DE", onTap: () => navigator2.pop() }));
+    return /* @__PURE__ */ import_react115.default.createElement(Container, { alignment: "center" }, /* @__PURE__ */ import_react115.default.createElement(Text, { text: "\u672A\u627E\u5230\u6587\u7AE0\u5185\u5BB9" }), /* @__PURE__ */ import_react115.default.createElement(Button, { text: "\u8FD4\u56DE", onTap: () => navigator2.pop() }));
   }
-  return /* @__PURE__ */ import_react114.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react114.default.createElement(
+  return /* @__PURE__ */ import_react115.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react115.default.createElement(
     Container,
     {
       height: 60,
@@ -24802,7 +24962,7 @@ function NewsDetailPage(props) {
       alignment: "topLeft",
       padding: { horizontal: 16, top: 10 }
     },
-    /* @__PURE__ */ import_react114.default.createElement(Row, null, /* @__PURE__ */ import_react114.default.createElement(InkWell, { onTap: () => navigator2.pop() }, /* @__PURE__ */ import_react114.default.createElement(Container, { padding: 10 }, /* @__PURE__ */ import_react114.default.createElement(Text, { text: "<", fontSize: 24, color: "#FFFFFF" }))), /* @__PURE__ */ import_react114.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react114.default.createElement(Container, { padding: { top: 8 } }, /* @__PURE__ */ import_react114.default.createElement(
+    /* @__PURE__ */ import_react115.default.createElement(Row, null, /* @__PURE__ */ import_react115.default.createElement(InkWell, { onTap: () => navigator2.pop() }, /* @__PURE__ */ import_react115.default.createElement(Container, { padding: 10 }, /* @__PURE__ */ import_react115.default.createElement(Text, { text: "<", fontSize: 24, color: "#FFFFFF" }))), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react115.default.createElement(Container, { padding: { top: 8 } }, /* @__PURE__ */ import_react115.default.createElement(
       Text,
       {
         text: "\u65B0\u95FB\u8BE6\u60C5",
@@ -24811,18 +24971,18 @@ function NewsDetailPage(props) {
         fontWeight: "bold"
       }
     )))
-  ), /* @__PURE__ */ import_react114.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react114.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react114.default.createElement(Image, { url: article.image_url, height: 250, fit: "cover" }), /* @__PURE__ */ import_react114.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react114.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react114.default.createElement(Text, { text: article.title, fontSize: 22, fontWeight: "bold" }), /* @__PURE__ */ import_react114.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react114.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react114.default.createElement(Text, { text: article.news_site, fontSize: 14, color: "#1976D2" }), /* @__PURE__ */ import_react114.default.createElement(
+  ), /* @__PURE__ */ import_react115.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react115.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react115.default.createElement(Image, { url: article.image_url, height: 250, fit: "cover" }), /* @__PURE__ */ import_react115.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react115.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react115.default.createElement(Text, { text: article.title, fontSize: 22, fontWeight: "bold" }), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react115.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react115.default.createElement(Text, { text: article.news_site, fontSize: 14, color: "#1976D2" }), /* @__PURE__ */ import_react115.default.createElement(
     Text,
     {
       text: new Date(article.published_at).toLocaleString(),
       fontSize: 14,
       color: "#999999"
     }
-  )), /* @__PURE__ */ import_react114.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react114.default.createElement(Text, { text: article.summary, fontSize: 16, color: "#333333" }))))));
+  )), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react115.default.createElement(Text, { text: article.summary, fontSize: 16, color: "#333333" }))))));
 }
 
 // src/pages/market.tsx
-var import_react115 = __toESM(require_react_production());
+var import_react116 = __toESM(require_react_production());
 var TABS = ["\u5168\u90E8", "\u6CAA\u6DF1", "\u6E2F\u80A1", "\u7F8E\u80A1"];
 var TAB_TO_PREFIXES = {
   \u5168\u90E8: [],
@@ -24879,14 +25039,14 @@ var CATEGORIES2 = [
 function StockItem({ stock }) {
   const isUp = stock.change >= 0;
   const color = isUp ? "#F44336" : "#4CAF50";
-  return /* @__PURE__ */ import_react115.default.createElement(Column, null, /* @__PURE__ */ import_react115.default.createElement(InkWell, { onTap: () => console.log(`Click stock: ${stock.symbol}`) }, /* @__PURE__ */ import_react115.default.createElement(Container, { color: "white" }, /* @__PURE__ */ import_react115.default.createElement(Padding, { padding: { left: 16, right: 16, top: 12, bottom: 12 } }, /* @__PURE__ */ import_react115.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react115.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react115.default.createElement(Row, null, /* @__PURE__ */ import_react115.default.createElement(Text, { text: stock.name, fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { width: 6 }), /* @__PURE__ */ import_react115.default.createElement(
+  return /* @__PURE__ */ import_react116.default.createElement(Column, null, /* @__PURE__ */ import_react116.default.createElement(InkWell, { onTap: () => console.log(`Click stock: ${stock.symbol}`) }, /* @__PURE__ */ import_react116.default.createElement(Container, { color: "white" }, /* @__PURE__ */ import_react116.default.createElement(Padding, { padding: { left: 16, right: 16, top: 12, bottom: 12 } }, /* @__PURE__ */ import_react116.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react116.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react116.default.createElement(Row, null, /* @__PURE__ */ import_react116.default.createElement(Text, { text: stock.name, fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react116.default.createElement(SizedBox, { width: 6 }), /* @__PURE__ */ import_react116.default.createElement(
     Container,
     {
       color: "#F5F5F5",
       borderRadius: 4,
       padding: { left: 4, right: 4, top: 1, bottom: 1 }
     },
-    /* @__PURE__ */ import_react115.default.createElement(
+    /* @__PURE__ */ import_react116.default.createElement(
       Text,
       {
         text: stock.symbol.split(".")[0],
@@ -24894,14 +25054,14 @@ function StockItem({ stock }) {
         color: "#666666"
       }
     )
-  )), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react115.default.createElement(Text, { text: stock.symbol, fontSize: 12, color: "#999999" })), /* @__PURE__ */ import_react115.default.createElement(Row, null, /* @__PURE__ */ import_react115.default.createElement(
+  )), /* @__PURE__ */ import_react116.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react116.default.createElement(Text, { text: stock.symbol, fontSize: 12, color: "#999999" })), /* @__PURE__ */ import_react116.default.createElement(Row, null, /* @__PURE__ */ import_react116.default.createElement(
     Icon,
     {
       name: isUp ? "trending_up" : "trending_down",
       size: 20,
       color: color + "44"
     }
-  ), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { width: 20 }), /* @__PURE__ */ import_react115.default.createElement(Column, { crossAxisAlignment: "end" }, /* @__PURE__ */ import_react115.default.createElement(
+  ), /* @__PURE__ */ import_react116.default.createElement(SizedBox, { width: 20 }), /* @__PURE__ */ import_react116.default.createElement(Column, { crossAxisAlignment: "end" }, /* @__PURE__ */ import_react116.default.createElement(
     Text,
     {
       text: stock.price.toFixed(2),
@@ -24909,27 +25069,27 @@ function StockItem({ stock }) {
       fontWeight: "bold",
       color
     }
-  ), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { height: 2 }), /* @__PURE__ */ import_react115.default.createElement(
+  ), /* @__PURE__ */ import_react116.default.createElement(SizedBox, { height: 2 }), /* @__PURE__ */ import_react116.default.createElement(
     Text,
     {
       text: (isUp ? "+" : "") + stock.change.toFixed(2) + "%",
       fontSize: 12,
       color
     }
-  ))))))), /* @__PURE__ */ import_react115.default.createElement(Padding, { padding: { left: 16 } }, /* @__PURE__ */ import_react115.default.createElement(Divider, { height: 1, color: "#EEEEEE" })));
+  ))))))), /* @__PURE__ */ import_react116.default.createElement(Padding, { padding: { left: 16 } }, /* @__PURE__ */ import_react116.default.createElement(Divider, { height: 1, color: "#EEEEEE" })));
 }
 function MarketPage() {
-  const [marketData, setMarketData] = (0, import_react115.useState)({
+  const [marketData, setMarketData] = (0, import_react116.useState)({
     tick: 0,
     bannerIndex: 0,
     stocks: ALL_STOCKS
     // 初始值
   });
-  const [activeTabIndex, setActiveTabIndex] = (0, import_react115.useState)(0);
-  const listRef = (0, import_react115.useRef)(null);
-  const pageViewRef = (0, import_react115.useRef)(null);
+  const [activeTabIndex, setActiveTabIndex] = (0, import_react116.useState)(0);
+  const listRef = (0, import_react116.useRef)(null);
+  const pageViewRef = (0, import_react116.useRef)(null);
   const { tick, stocks: stocksWithUpdate } = marketData;
-  const filteredStocks = (0, import_react115.useMemo)(() => {
+  const filteredStocks = (0, import_react116.useMemo)(() => {
     const activeTab = TABS[activeTabIndex];
     const prefixes = TAB_TO_PREFIXES[activeTab];
     if (prefixes.length === 0) return ALL_STOCKS;
@@ -24937,16 +25097,16 @@ function MarketPage() {
       (s) => prefixes.some((p) => s.symbol.startsWith(p))
     );
   }, [activeTabIndex]);
-  (0, import_react115.useEffect)(() => {
+  (0, import_react116.useEffect)(() => {
     setMarketData((prev) => ({ ...prev, stocks: filteredStocks }));
   }, [filteredStocks]);
-  (0, import_react115.useEffect)(() => {
+  (0, import_react116.useEffect)(() => {
     console.log("[MarketPage] Component MOUNTED");
     return () => {
       console.log("[MarketPage] Component UNMOUNTING \u2014 all useEffect cleanups will run");
     };
   }, []);
-  (0, import_react115.useEffect)(() => {
+  (0, import_react116.useEffect)(() => {
     const timer = setInterval(() => {
       console.log("[MarketPage] setInterval tick fired");
       setMarketData((prev) => {
@@ -24962,7 +25122,7 @@ function MarketPage() {
         if (listRef.current) {
           const updates = nextStocks.map((stock, index) => ({
             index,
-            dsl: /* @__PURE__ */ import_react115.default.createElement(StockItem, { key: stock.symbol, stock, index })
+            dsl: /* @__PURE__ */ import_react116.default.createElement(StockItem, { key: stock.symbol, stock, index })
           }));
           listRef.current.updateItems(updates);
         }
@@ -24979,20 +25139,20 @@ function MarketPage() {
       clearInterval(timer);
     };
   }, []);
-  const itemBuilder = (0, import_react115.useCallback)(
+  const itemBuilder = (0, import_react116.useCallback)(
     (index) => {
       const stock = stocksWithUpdate[index];
       if (!stock) return null;
-      return /* @__PURE__ */ import_react115.default.createElement(StockItem, { key: stock.symbol, stock, index });
+      return /* @__PURE__ */ import_react116.default.createElement(StockItem, { key: stock.symbol, stock, index });
     },
     [stocksWithUpdate]
   );
-  const bannerItems = (0, import_react115.useMemo)(
-    () => BANNERS.map((url, i) => /* @__PURE__ */ import_react115.default.createElement(Image, { key: i, url, fit: "cover", borderRadius: 12 })),
+  const bannerItems = (0, import_react116.useMemo)(
+    () => BANNERS.map((url, i) => /* @__PURE__ */ import_react116.default.createElement(Image, { key: i, url, fit: "cover", borderRadius: 12 })),
     []
   );
-  const categoriesGrid = (0, import_react115.useMemo)(
-    () => CATEGORIES2.map((cat, i) => /* @__PURE__ */ import_react115.default.createElement(Container, { key: i, color: "white", borderRadius: 12 }, /* @__PURE__ */ import_react115.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react115.default.createElement(
+  const categoriesGrid = (0, import_react116.useMemo)(
+    () => CATEGORIES2.map((cat, i) => /* @__PURE__ */ import_react116.default.createElement(Container, { key: i, color: "white", borderRadius: 12 }, /* @__PURE__ */ import_react116.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react116.default.createElement(
       Container,
       {
         width: 40,
@@ -25000,15 +25160,15 @@ function MarketPage() {
         borderRadius: 20,
         color: cat.color + "15"
       },
-      /* @__PURE__ */ import_react115.default.createElement(Center, null, /* @__PURE__ */ import_react115.default.createElement(Icon, { name: cat.icon, color: cat.color, size: 24 }))
-    ), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react115.default.createElement(Text, { text: cat.name, fontSize: 12, color: "#333333" })))),
+      /* @__PURE__ */ import_react116.default.createElement(Center, null, /* @__PURE__ */ import_react116.default.createElement(Icon, { name: cat.icon, color: cat.color, size: 24 }))
+    ), /* @__PURE__ */ import_react116.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react116.default.createElement(Text, { text: cat.name, fontSize: 12, color: "#333333" })))),
     []
   );
-  const tabBarTabs = (0, import_react115.useMemo)(
-    () => TABS.map((t2) => /* @__PURE__ */ import_react115.default.createElement(Tab, { key: t2, text: t2 })),
+  const tabBarTabs = (0, import_react116.useMemo)(
+    () => TABS.map((t2) => /* @__PURE__ */ import_react116.default.createElement(Tab, { key: t2, text: t2 })),
     []
   );
-  return /* @__PURE__ */ import_react115.default.createElement(DefaultTabController, { length: TABS.length, initialIndex: 0 }, /* @__PURE__ */ import_react115.default.createElement(Scaffold, { backgroundColor: "white" }, /* @__PURE__ */ import_react115.default.createElement(CustomScrollView, null, /* @__PURE__ */ import_react115.default.createElement(SliverAppBar, { pinned: true }, /* @__PURE__ */ import_react115.default.createElement(Container, { color: "#2196F3", isBoundary: true }, /* @__PURE__ */ import_react115.default.createElement(SafeArea, null, /* @__PURE__ */ import_react115.default.createElement(Padding, { padding: { left: 16, right: 16, bottom: 8 } }, /* @__PURE__ */ import_react115.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "start" }, /* @__PURE__ */ import_react115.default.createElement(
+  return /* @__PURE__ */ import_react116.default.createElement(DefaultTabController, { length: TABS.length, initialIndex: 0 }, /* @__PURE__ */ import_react116.default.createElement(Scaffold, { backgroundColor: "white" }, /* @__PURE__ */ import_react116.default.createElement(CustomScrollView, null, /* @__PURE__ */ import_react116.default.createElement(SliverAppBar, { pinned: true }, /* @__PURE__ */ import_react116.default.createElement(Container, { color: "#2196F3", isBoundary: true }, /* @__PURE__ */ import_react116.default.createElement(SafeArea, null, /* @__PURE__ */ import_react116.default.createElement(Padding, { padding: { left: 16, right: 16, bottom: 8 } }, /* @__PURE__ */ import_react116.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "start" }, /* @__PURE__ */ import_react116.default.createElement(
     Text,
     {
       text: "\u884C\u60C5\u4E2D\u5FC3",
@@ -25016,27 +25176,27 @@ function MarketPage() {
       color: "white",
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react115.default.createElement(
+  ), /* @__PURE__ */ import_react116.default.createElement(
     Text,
     {
       text: `\u5168\u7F51\u5B9E\u65F6\u884C\u60C5 \xB7 \u5DF2\u66F4\u65B0 ${tick} \u6B21`,
       fontSize: 11,
       color: "white"
     }
-  )))))), /* @__PURE__ */ import_react115.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react115.default.createElement(Padding, { padding: { left: 16, right: 16, top: 12, bottom: 0 } }, /* @__PURE__ */ import_react115.default.createElement(Container, { height: 44, color: "#F5F5F5", borderRadius: 22 }, /* @__PURE__ */ import_react115.default.createElement(Padding, { padding: { left: 16, right: 16 } }, /* @__PURE__ */ import_react115.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react115.default.createElement(Icon, { name: "search", size: 20, color: "#999999" }), /* @__PURE__ */ import_react115.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react115.default.createElement(Flexible, null, /* @__PURE__ */ import_react115.default.createElement(
+  )))))), /* @__PURE__ */ import_react116.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react116.default.createElement(Padding, { padding: { left: 16, right: 16, top: 12, bottom: 0 } }, /* @__PURE__ */ import_react116.default.createElement(Container, { height: 44, color: "#F5F5F5", borderRadius: 22 }, /* @__PURE__ */ import_react116.default.createElement(Padding, { padding: { left: 16, right: 16 } }, /* @__PURE__ */ import_react116.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react116.default.createElement(Icon, { name: "search", size: 20, color: "#999999" }), /* @__PURE__ */ import_react116.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react116.default.createElement(Flexible, null, /* @__PURE__ */ import_react116.default.createElement(
     TextField,
     {
       hintText: "\u641C\u7D22\u4EE3\u7801/\u540D\u79F0/\u62FC\u97F3",
       onChanged: (v) => console.log("Search:", v)
     }
-  ))))))), /* @__PURE__ */ import_react115.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react115.default.createElement(Padding, { padding: { left: 16, right: 16, top: 16 } }, /* @__PURE__ */ import_react115.default.createElement(Container, { height: 150, borderRadius: 12 }, /* @__PURE__ */ import_react115.default.createElement(
+  ))))))), /* @__PURE__ */ import_react116.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react116.default.createElement(Padding, { padding: { left: 16, right: 16, top: 16 } }, /* @__PURE__ */ import_react116.default.createElement(Container, { height: 150, borderRadius: 12 }, /* @__PURE__ */ import_react116.default.createElement(
     PageView,
     {
       ref: pageViewRef,
       onPageChanged: (index) => setMarketData((prev) => ({ ...prev, bannerIndex: index }))
     },
     bannerItems
-  )))), /* @__PURE__ */ import_react115.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react115.default.createElement(
+  )))), /* @__PURE__ */ import_react116.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react116.default.createElement(
     GridView,
     {
       padding: { left: 12, right: 12, bottom: 8 },
@@ -25048,21 +25208,21 @@ function MarketPage() {
       physics: "never"
     },
     categoriesGrid
-  )), /* @__PURE__ */ import_react115.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react115.default.createElement(Padding, { padding: { left: 16, right: 16, top: 20, bottom: 0 } }, /* @__PURE__ */ import_react115.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react115.default.createElement(
+  )), /* @__PURE__ */ import_react116.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react116.default.createElement(Padding, { padding: { left: 16, right: 16, top: 20, bottom: 0 } }, /* @__PURE__ */ import_react116.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react116.default.createElement(
     Text,
     {
       text: `${TABS[activeTabIndex]}\u699C\u5355`,
       fontSize: 18,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react115.default.createElement(Row, null, /* @__PURE__ */ import_react115.default.createElement(
+  ), /* @__PURE__ */ import_react116.default.createElement(Row, null, /* @__PURE__ */ import_react116.default.createElement(
     Text,
     {
       text: `\u5168\u90E8${TABS[activeTabIndex]}`,
       fontSize: 13,
       color: "#2196F3"
     }
-  ), /* @__PURE__ */ import_react115.default.createElement(Icon, { name: "chevron_right", size: 18, color: "#2196F3" }))))), /* @__PURE__ */ import_react115.default.createElement(SliverPersistentHeader, { pinned: true, minExtent: 49, maxExtent: 49 }, /* @__PURE__ */ import_react115.default.createElement(Container, { color: "#FFFFFF" }, /* @__PURE__ */ import_react115.default.createElement(Column, null, /* @__PURE__ */ import_react115.default.createElement(
+  ), /* @__PURE__ */ import_react116.default.createElement(Icon, { name: "chevron_right", size: 18, color: "#2196F3" }))))), /* @__PURE__ */ import_react116.default.createElement(SliverPersistentHeader, { pinned: true, minExtent: 49, maxExtent: 49 }, /* @__PURE__ */ import_react116.default.createElement(Container, { color: "#FFFFFF" }, /* @__PURE__ */ import_react116.default.createElement(Column, null, /* @__PURE__ */ import_react116.default.createElement(
     TabBar,
     {
       tabs: tabBarTabs,
@@ -25072,14 +25232,14 @@ function MarketPage() {
       indicatorColor: "#2196F3",
       indicatorWeight: 2
     }
-  ), /* @__PURE__ */ import_react115.default.createElement(Divider, { height: 1, color: "#EEEEEE" })))), /* @__PURE__ */ import_react115.default.createElement(
+  ), /* @__PURE__ */ import_react116.default.createElement(Divider, { height: 1, color: "#EEEEEE" })))), /* @__PURE__ */ import_react116.default.createElement(
     SliverList,
     {
       ref: listRef,
       itemCount: stocksWithUpdate.length,
       itemBuilder
     }
-  ), /* @__PURE__ */ import_react115.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react115.default.createElement(Container, { height: 60 }, /* @__PURE__ */ import_react115.default.createElement(Center, null, /* @__PURE__ */ import_react115.default.createElement(
+  ), /* @__PURE__ */ import_react116.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react116.default.createElement(Container, { height: 60 }, /* @__PURE__ */ import_react116.default.createElement(Center, null, /* @__PURE__ */ import_react116.default.createElement(
     Text,
     {
       text: `\u2014\u2014 \u5230\u5E95\u4E86\uFF0C\u5171 ${stocksWithUpdate.length} \u53EA\u80A1\u7968 \u2014\u2014`,
@@ -25090,7 +25250,7 @@ function MarketPage() {
 }
 
 // src/pages/demo_list.tsx
-var import_react116 = __toESM(require_react_production());
+var import_react117 = __toESM(require_react_production());
 var demoCategories = [
   {
     title: "Layout & Containers",
@@ -25187,6 +25347,9 @@ var demoCategories = [
     items: [
       { name: "FlutterProps", path: "/demo/flutter_props" },
       { name: "Visibility", path: "/demo/visibility" },
+      { name: "Animation", path: "/demo/animation" },
+      { name: "Gestures", path: "/demo/gestures" },
+      { name: "ScrollCtrl", path: "/demo/scroll_control" },
       { name: "Animated", path: "/demo/animated" },
       { name: "Transition", path: "/demo/transition" },
       { name: "TrAni", path: "/demo/transition_animated" },
@@ -25221,12 +25384,12 @@ var demoCategories = [
 function DemoListPage() {
   const navigator2 = useNavigator();
   const { value, setValue } = useGlobalValue();
-  return /* @__PURE__ */ import_react116.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react116.default.createElement(AppBar, { title: "FuickJS Demos" }) }, /* @__PURE__ */ import_react116.default.createElement(ListView, { padding: 16 }, /* @__PURE__ */ import_react116.default.createElement(
+  return /* @__PURE__ */ import_react117.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react117.default.createElement(AppBar, { title: "FuickJS Demos" }) }, /* @__PURE__ */ import_react117.default.createElement(ListView, { padding: 16 }, /* @__PURE__ */ import_react117.default.createElement(
     InkWell,
     {
       onTap: () => setValue(`Updated from Demos: ${Math.floor(Math.random() * 100)}`)
     },
-    /* @__PURE__ */ import_react116.default.createElement(
+    /* @__PURE__ */ import_react117.default.createElement(
       Container,
       {
         padding: 16,
@@ -25239,7 +25402,7 @@ function DemoListPage() {
           border: { width: 1, color: "#FFE0B2" }
         }
       },
-      /* @__PURE__ */ import_react116.default.createElement(
+      /* @__PURE__ */ import_react117.default.createElement(
         Text,
         {
           text: `Global Value: ${value}`,
@@ -25248,7 +25411,7 @@ function DemoListPage() {
         }
       )
     )
-  ), demoCategories.map((category) => /* @__PURE__ */ import_react116.default.createElement(Column, { key: category.title, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react116.default.createElement(Padding, { padding: { vertical: 12 } }, /* @__PURE__ */ import_react116.default.createElement(
+  ), demoCategories.map((category) => /* @__PURE__ */ import_react117.default.createElement(Column, { key: category.title, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react117.default.createElement(Padding, { padding: { vertical: 12 } }, /* @__PURE__ */ import_react117.default.createElement(
     Text,
     {
       text: category.title,
@@ -25256,13 +25419,13 @@ function DemoListPage() {
       fontWeight: "bold",
       color: "#333333"
     }
-  )), /* @__PURE__ */ import_react116.default.createElement(Wrap, { spacing: 10, runSpacing: 10 }, category.items.map((item) => /* @__PURE__ */ import_react116.default.createElement(
+  )), /* @__PURE__ */ import_react117.default.createElement(Wrap, { spacing: 10, runSpacing: 10 }, category.items.map((item) => /* @__PURE__ */ import_react117.default.createElement(
     InkWell,
     {
       key: item.path,
       onTap: () => navigator2.push(item.path, {})
     },
-    /* @__PURE__ */ import_react116.default.createElement(
+    /* @__PURE__ */ import_react117.default.createElement(
       Container,
       {
         width: 72,
@@ -25280,7 +25443,7 @@ function DemoListPage() {
           }
         }
       },
-      /* @__PURE__ */ import_react116.default.createElement(
+      /* @__PURE__ */ import_react117.default.createElement(
         Text,
         {
           text: item.name,
@@ -25291,30 +25454,30 @@ function DemoListPage() {
         }
       )
     )
-  ))))), /* @__PURE__ */ import_react116.default.createElement(Container, { height: 40 })));
+  ))))), /* @__PURE__ */ import_react117.default.createElement(Container, { height: 40 })));
 }
 
 // src/demos/ColumnDemo.tsx
-var import_react117 = __toESM(require_react_production());
+var import_react118 = __toESM(require_react_production());
 function ColumnDemo() {
-  return /* @__PURE__ */ import_react117.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react117.default.createElement(AppBar, { title: "Column Demo" }) }, /* @__PURE__ */ import_react117.default.createElement(Column, { crossAxisAlignment: "center", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react117.default.createElement(Container, { color: "#ff0000", width: 100, height: 100 }), /* @__PURE__ */ import_react117.default.createElement(Container, { color: "#00ff00", width: 100, height: 100 }), /* @__PURE__ */ import_react117.default.createElement(Container, { color: "#0000ff", width: 100, height: 100 })));
+  return /* @__PURE__ */ import_react118.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react118.default.createElement(AppBar, { title: "Column Demo" }) }, /* @__PURE__ */ import_react118.default.createElement(Column, { crossAxisAlignment: "center", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react118.default.createElement(Container, { color: "#ff0000", width: 100, height: 100 }), /* @__PURE__ */ import_react118.default.createElement(Container, { color: "#00ff00", width: 100, height: 100 }), /* @__PURE__ */ import_react118.default.createElement(Container, { color: "#0000ff", width: 100, height: 100 })));
 }
 
 // src/demos/RowDemo.tsx
-var import_react118 = __toESM(require_react_production());
+var import_react119 = __toESM(require_react_production());
 function RowDemo() {
-  return /* @__PURE__ */ import_react118.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react118.default.createElement(AppBar, { title: "Row Demo" }) }, /* @__PURE__ */ import_react118.default.createElement(Row, { crossAxisAlignment: "center", mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react118.default.createElement(Container, { color: "#ff0000", width: 80, height: 80 }), /* @__PURE__ */ import_react118.default.createElement(Container, { color: "#00ff00", width: 80, height: 80 }), /* @__PURE__ */ import_react118.default.createElement(Container, { color: "#0000ff", width: 80, height: 80 })));
+  return /* @__PURE__ */ import_react119.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react119.default.createElement(AppBar, { title: "Row Demo" }) }, /* @__PURE__ */ import_react119.default.createElement(Row, { crossAxisAlignment: "center", mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react119.default.createElement(Container, { color: "#ff0000", width: 80, height: 80 }), /* @__PURE__ */ import_react119.default.createElement(Container, { color: "#00ff00", width: 80, height: 80 }), /* @__PURE__ */ import_react119.default.createElement(Container, { color: "#0000ff", width: 80, height: 80 })));
 }
 
 // src/demos/ButtonDemo.tsx
-var import_react119 = __toESM(require_react_production());
+var import_react120 = __toESM(require_react_production());
 function Section({ title, children }) {
-  return /* @__PURE__ */ import_react119.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react119.default.createElement(Text, { text: title, fontSize: 15, fontWeight: "bold", color: "#333" }), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 10 }), children, /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react119.default.createElement(Divider, { color: "#EEEEEE" }), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 24 }));
+  return /* @__PURE__ */ import_react120.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react120.default.createElement(Text, { text: title, fontSize: 15, fontWeight: "bold", color: "#333" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 10 }), children, /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react120.default.createElement(Divider, { color: "#EEEEEE" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 24 }));
 }
 function ButtonDemo() {
-  const [count, setCount] = (0, import_react119.useState)(0);
-  const [loading, setLoading] = (0, import_react119.useState)(false);
-  const [asyncResult, setAsyncResult] = (0, import_react119.useState)("\uFF08\u7B49\u5F85\u70B9\u51FB\uFF09");
+  const [count, setCount] = (0, import_react120.useState)(0);
+  const [loading, setLoading] = (0, import_react120.useState)(false);
+  const [asyncResult, setAsyncResult] = (0, import_react120.useState)("\uFF08\u7B49\u5F85\u70B9\u51FB\uFF09");
   function handleAsync() {
     setLoading(true);
     setAsyncResult("\u52A0\u8F7D\u4E2D...");
@@ -25323,7 +25486,7 @@ function ButtonDemo() {
       setAsyncResult(`\u5B8C\u6210\uFF01\u65F6\u95F4: ${(/* @__PURE__ */ new Date()).toLocaleTimeString()}`);
     }, 2e3);
   }
-  return /* @__PURE__ */ import_react119.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react119.default.createElement(AppBar, { title: "Button Demo" }) }, /* @__PURE__ */ import_react119.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react119.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react119.default.createElement(Section, { title: "1. \u57FA\u7840\u4EA4\u4E92\uFF08onTap\uFF09" }, /* @__PURE__ */ import_react119.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react119.default.createElement(
+  return /* @__PURE__ */ import_react120.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react120.default.createElement(AppBar, { title: "Button Demo" }) }, /* @__PURE__ */ import_react120.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react120.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react120.default.createElement(Section, { title: "1. \u57FA\u7840\u4EA4\u4E92\uFF08onTap\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u2212",
@@ -25332,14 +25495,14 @@ function ButtonDemo() {
       paddingH: 20,
       paddingV: 12
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(
     Container,
     {
       width: 80,
       alignment: "center"
     },
-    /* @__PURE__ */ import_react119.default.createElement(Text, { text: `${count}`, fontSize: 28, fontWeight: "bold", color: "#1565C0" })
-  ), /* @__PURE__ */ import_react119.default.createElement(
+    /* @__PURE__ */ import_react120.default.createElement(Text, { text: `${count}`, fontSize: 28, fontWeight: "bold", color: "#1565C0" })
+  ), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "+",
@@ -25348,7 +25511,7 @@ function ButtonDemo() {
       paddingH: 20,
       paddingV: 12
     }
-  )), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react119.default.createElement(
+  )), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u91CD\u7F6E\u4E3A 0",
@@ -25358,7 +25521,7 @@ function ButtonDemo() {
       paddingH: 12,
       paddingV: 6
     }
-  )), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "2. \u80CC\u666F\u8272\u4E0E\u6587\u5B57\u8272" }, /* @__PURE__ */ import_react119.default.createElement(Row, null, /* @__PURE__ */ import_react119.default.createElement(Button, { text: "Primary", backgroundColor: "#1976D2", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(Button, { text: "Success", backgroundColor: "#388E3C", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(Button, { text: "Warning", backgroundColor: "#F57C00", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(Button, { text: "Danger", backgroundColor: "#D32F2F", textColor: "#FFFFFF" })), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react119.default.createElement(Row, null, /* @__PURE__ */ import_react119.default.createElement(Button, { text: "Dark text", backgroundColor: "#FFF176", textColor: "#212121" }), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(Button, { text: "Purple", backgroundColor: "#7B1FA2", textColor: "#E1BEE7" }))), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "3. Outlined \u6309\u94AE" }, /* @__PURE__ */ import_react119.default.createElement(Row, null, /* @__PURE__ */ import_react119.default.createElement(
+  )), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "2. \u80CC\u666F\u8272\u4E0E\u6587\u5B57\u8272" }, /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Primary", backgroundColor: "#1976D2", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Success", backgroundColor: "#388E3C", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Warning", backgroundColor: "#F57C00", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Danger", backgroundColor: "#D32F2F", textColor: "#FFFFFF" })), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Dark text", backgroundColor: "#FFF176", textColor: "#212121" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Purple", backgroundColor: "#7B1FA2", textColor: "#E1BEE7" }))), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "3. Outlined \u6309\u94AE" }, /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "Default",
@@ -25366,7 +25529,7 @@ function ButtonDemo() {
       borderColor: "#1976D2",
       textColor: "#1976D2"
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "Success",
@@ -25374,7 +25537,7 @@ function ButtonDemo() {
       borderColor: "#388E3C",
       textColor: "#388E3C"
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "Danger",
@@ -25382,7 +25545,7 @@ function ButtonDemo() {
       borderColor: "#D32F2F",
       textColor: "#D32F2F"
     }
-  )), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react119.default.createElement(Row, null, /* @__PURE__ */ import_react119.default.createElement(
+  )), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u7C97\u8FB9\u6846 2px",
@@ -25391,7 +25554,7 @@ function ButtonDemo() {
       borderWidth: 2,
       textColor: "#7B1FA2"
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u5706\u5F62\u8FB9\u6846",
@@ -25400,7 +25563,7 @@ function ButtonDemo() {
       borderRadius: 50,
       textColor: "#00838F"
     }
-  ))), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "4. \u5706\u89D2\uFF08borderRadius\uFF09" }, /* @__PURE__ */ import_react119.default.createElement(Row, { crossAxisAlignment: "center" }, [0, 4, 8, 16, 50].map((r) => /* @__PURE__ */ import_react119.default.createElement(Padding, { key: r, padding: { right: 8 } }, /* @__PURE__ */ import_react119.default.createElement(
+  ))), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "4. \u5706\u89D2\uFF08borderRadius\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(Row, { crossAxisAlignment: "center" }, [0, 4, 8, 16, 50].map((r) => /* @__PURE__ */ import_react120.default.createElement(Padding, { key: r, padding: { right: 8 } }, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: `r=${r}`,
@@ -25410,7 +25573,7 @@ function ButtonDemo() {
       fontSize: 12,
       paddingH: 10
     }
-  ))))), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "5. \u5B57\u53F7\uFF08fontSize\uFF09" }, /* @__PURE__ */ import_react119.default.createElement(Row, { crossAxisAlignment: "center" }, [11, 14, 18, 22].map((fs2) => /* @__PURE__ */ import_react119.default.createElement(Padding, { key: fs2, padding: { right: 8 } }, /* @__PURE__ */ import_react119.default.createElement(
+  ))))), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "5. \u5B57\u53F7\uFF08fontSize\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(Row, { crossAxisAlignment: "center" }, [11, 14, 18, 22].map((fs2) => /* @__PURE__ */ import_react120.default.createElement(Padding, { key: fs2, padding: { right: 8 } }, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: `${fs2}px`,
@@ -25418,7 +25581,7 @@ function ButtonDemo() {
       textColor: "#FFFFFF",
       fontSize: fs2
     }
-  ))))), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "6. Elevation\uFF08\u9634\u5F71\uFF09" }, /* @__PURE__ */ import_react119.default.createElement(Row, { crossAxisAlignment: "center" }, [0, 2, 6, 12].map((e) => /* @__PURE__ */ import_react119.default.createElement(Padding, { key: e, padding: { right: 12 } }, /* @__PURE__ */ import_react119.default.createElement(
+  ))))), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "6. Elevation\uFF08\u9634\u5F71\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(Row, { crossAxisAlignment: "center" }, [0, 2, 6, 12].map((e) => /* @__PURE__ */ import_react120.default.createElement(Padding, { key: e, padding: { right: 12 } }, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: `e=${e}`,
@@ -25428,7 +25591,7 @@ function ButtonDemo() {
       borderRadius: 8,
       fontSize: 13
     }
-  ))))), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "7. \u5C3A\u5BF8\uFF08minWidth / minHeight\uFF09" }, /* @__PURE__ */ import_react119.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react119.default.createElement(
+  ))))), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "7. \u5C3A\u5BF8\uFF08minWidth / minHeight\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u5C0F\u6309\u94AE",
@@ -25439,20 +25602,20 @@ function ButtonDemo() {
       paddingH: 8,
       paddingV: 4
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u4E2D\u6309\u94AE\uFF08\u9ED8\u8BA4\uFF09",
       backgroundColor: "#26C6DA"
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u5BBD\u6309\u94AE\uFF08full width\uFF09",
       backgroundColor: "#26C6DA",
       minWidth: 9999
     }
-  ))), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "8. Disabled \u72B6\u6001" }, /* @__PURE__ */ import_react119.default.createElement(Row, null, /* @__PURE__ */ import_react119.default.createElement(
+  ))), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "8. Disabled \u72B6\u6001" }, /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u7981\u7528\uFF08\u9ED8\u8BA4\u8272\uFF09",
@@ -25460,7 +25623,7 @@ function ButtonDemo() {
       onTap: () => {
       }
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u7981\u7528\uFF08\u81EA\u5B9A\u4E49\u8272\uFF09",
@@ -25470,7 +25633,7 @@ function ButtonDemo() {
       onTap: () => {
       }
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u7981\u7528 Outlined",
@@ -25481,7 +25644,7 @@ function ButtonDemo() {
       onTap: () => {
       }
     }
-  ))), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "9. Loading \u72B6\u6001\uFF08\u5F02\u6B65\u6A21\u62DF\uFF09" }, /* @__PURE__ */ import_react119.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react119.default.createElement(
+  ))), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "9. Loading \u72B6\u6001\uFF08\u5F02\u6B65\u6A21\u62DF\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: loading ? "" : "\u70B9\u51FB\u6A21\u62DF 2s \u5F02\u6B65",
@@ -25491,14 +25654,14 @@ function ButtonDemo() {
       onTap: handleAsync,
       minWidth: 200
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react120.default.createElement(
     Container,
     {
       padding: 12,
       decoration: { color: "#F5F5F5", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react119.default.createElement(Text, { text: asyncResult, fontSize: 13, color: "#37474F" })
-  ))), /* @__PURE__ */ import_react119.default.createElement(Section, { title: "10. \u7EC4\u5408\u6837\u5F0F\u793A\u4F8B" }, /* @__PURE__ */ import_react119.default.createElement(Row, null, /* @__PURE__ */ import_react119.default.createElement(
+    /* @__PURE__ */ import_react120.default.createElement(Text, { text: asyncResult, fontSize: 13, color: "#37474F" })
+  ))), /* @__PURE__ */ import_react120.default.createElement(Section, { title: "10. \u7EC4\u5408\u6837\u5F0F\u793A\u4F8B" }, /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u767B\u5F55",
@@ -25510,7 +25673,7 @@ function ButtonDemo() {
       paddingV: 12,
       elevation: 4
     }
-  ), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react119.default.createElement(
+  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u6CE8\u518C",
@@ -25522,7 +25685,7 @@ function ButtonDemo() {
       paddingH: 32,
       paddingV: 12
     }
-  )), /* @__PURE__ */ import_react119.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react119.default.createElement(
+  )), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react120.default.createElement(
     Button,
     {
       text: "\u5220\u9664\u8D26\u53F7",
@@ -25535,25 +25698,25 @@ function ButtonDemo() {
       elevation: 0,
       minWidth: 9999
     }
-  )), /* @__PURE__ */ import_react119.default.createElement(Container, { height: 40 }))));
+  )), /* @__PURE__ */ import_react120.default.createElement(Container, { height: 40 }))));
 }
 
 // src/demos/TextFieldDemo.tsx
-var import_react120 = __toESM(require_react_production());
+var import_react121 = __toESM(require_react_production());
 function Section2({ title, children }) {
-  return /* @__PURE__ */ import_react120.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react120.default.createElement(Text, { text: title, fontSize: 15, fontWeight: "bold", color: "#333" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 10 }), children, /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react120.default.createElement(Divider, { color: "#EEEEEE" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 24 }));
+  return /* @__PURE__ */ import_react121.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react121.default.createElement(Text, { text: title, fontSize: 15, fontWeight: "bold", color: "#333" }), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 10 }), children, /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react121.default.createElement(Divider, { color: "#EEEEEE" }), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 24 }));
 }
 function TextFieldDemo() {
-  const ref = (0, import_react120.useRef)(null);
-  const [controlled, setControlled] = (0, import_react120.useState)("\u53EF\u7F16\u8F91\u5185\u5BB9");
-  const [liveText, setLiveText] = (0, import_react120.useState)("");
-  const [password, setPassword] = (0, import_react120.useState)("");
-  const [obscure, setObscure] = (0, import_react120.useState)(true);
-  const [limitText, setLimitText] = (0, import_react120.useState)("");
-  const [multiText, setMultiText] = (0, import_react120.useState)("");
-  const [submitted, setSubmitted] = (0, import_react120.useState)([]);
-  const [focused, setFocused] = (0, import_react120.useState)(false);
-  return /* @__PURE__ */ import_react120.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react120.default.createElement(AppBar, { title: "TextField Demo" }) }, /* @__PURE__ */ import_react120.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react120.default.createElement(Column, { padding: 16, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "1. Controlled Value" }, /* @__PURE__ */ import_react120.default.createElement(
+  const ref = (0, import_react121.useRef)(null);
+  const [controlled, setControlled] = (0, import_react121.useState)("\u53EF\u7F16\u8F91\u5185\u5BB9");
+  const [liveText, setLiveText] = (0, import_react121.useState)("");
+  const [password, setPassword] = (0, import_react121.useState)("");
+  const [obscure, setObscure] = (0, import_react121.useState)(true);
+  const [limitText, setLimitText] = (0, import_react121.useState)("");
+  const [multiText, setMultiText] = (0, import_react121.useState)("");
+  const [submitted, setSubmitted] = (0, import_react121.useState)([]);
+  const [focused, setFocused] = (0, import_react121.useState)(false);
+  return /* @__PURE__ */ import_react121.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react121.default.createElement(AppBar, { title: "TextField Demo" }) }, /* @__PURE__ */ import_react121.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react121.default.createElement(Column, { padding: 16, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "1. Controlled Value" }, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       text: controlled,
@@ -25561,34 +25724,34 @@ function TextFieldDemo() {
       onChanged: (v) => setControlled(v),
       border: "outline"
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react121.default.createElement(Row, null, /* @__PURE__ */ import_react121.default.createElement(
     Button,
     {
       text: "\u91CD\u7F6E",
       onTap: () => setControlled("\u53EF\u7F16\u8F91\u5185\u5BB9"),
       backgroundColor: "#9E9E9E"
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react121.default.createElement(
     Button,
     {
       text: "\u6E05\u7A7A",
       onTap: () => setControlled(""),
       backgroundColor: "#EF5350"
     }
-  )), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react120.default.createElement(Text, { text: `\u5F53\u524D\u503C: "${controlled}"`, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "2. \u5B9E\u65F6\u8F93\u5165\uFF08onChanged\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(
+  )), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react121.default.createElement(Text, { text: `\u5F53\u524D\u503C: "${controlled}"`, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "2. \u5B9E\u65F6\u8F93\u5165\uFF08onChanged\uFF09" }, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       hintText: "\u8F93\u5165\u5185\u5BB9\u5B9E\u65F6\u663E\u793A...",
       onChanged: (v) => setLiveText(v),
       border: "outline"
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react121.default.createElement(
     Container,
     {
       padding: 12,
       decoration: { color: "#F5F5F5", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react120.default.createElement(
+    /* @__PURE__ */ import_react121.default.createElement(
       Text,
       {
         text: liveText.length > 0 ? `\u4F60\u8F93\u5165\u4E86: ${liveText}` : "\uFF08\u7B49\u5F85\u8F93\u5165\uFF09",
@@ -25596,7 +25759,7 @@ function TextFieldDemo() {
         color: liveText.length > 0 ? "#1565C0" : "#9E9E9E"
       }
     )
-  )), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "3. \u5BC6\u7801\u6846\uFF08obscureText\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react120.default.createElement(Expanded, null, /* @__PURE__ */ import_react120.default.createElement(
+  )), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "3. \u5BC6\u7801\u6846\uFF08obscureText\uFF09" }, /* @__PURE__ */ import_react121.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react121.default.createElement(Expanded, null, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       hintText: "\u8F93\u5165\u5BC6\u7801",
@@ -25605,21 +25768,21 @@ function TextFieldDemo() {
       border: "outline",
       keyboardType: "visiblePassword"
     }
-  )), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(
+  )), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react121.default.createElement(
     Button,
     {
       text: obscure ? "\u663E\u793A" : "\u9690\u85CF",
       onTap: () => setObscure(!obscure),
       backgroundColor: "#5C6BC0"
     }
-  )), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react120.default.createElement(
+  )), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react121.default.createElement(
     Text,
     {
       text: obscure ? `\u5BC6\u7801\u957F\u5EA6: ${password.length} \u4F4D` : `\u5BC6\u7801: ${password}`,
       fontSize: 13,
       color: "#616161"
     }
-  )), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "4. \u5B57\u6570\u9650\u5236\uFF08maxLength=20\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(
+  )), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "4. \u5B57\u6570\u9650\u5236\uFF08maxLength=20\uFF09" }, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       hintText: "\u6700\u591A\u8F93\u5165 20 \u4E2A\u5B57\u7B26",
@@ -25627,14 +25790,14 @@ function TextFieldDemo() {
       onChanged: (v) => setLimitText(v),
       border: "outline"
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react121.default.createElement(
     Text,
     {
       text: `\u5DF2\u8F93\u5165 ${limitText.length} / 20 \u5B57`,
       fontSize: 13,
       color: limitText.length >= 20 ? "#E53935" : "#616161"
     }
-  )), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "5. \u591A\u884C\u6587\u672C\uFF08maxLines=4\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(
+  )), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "5. \u591A\u884C\u6587\u672C\uFF08maxLines=4\uFF09" }, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       hintText: "\u8BF7\u8F93\u5165\u591A\u884C\u5185\u5BB9...",
@@ -25643,7 +25806,7 @@ function TextFieldDemo() {
       onChanged: (v) => setMultiText(v),
       border: "outline"
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react120.default.createElement(Text, { text: `\u884C\u6570: ${multiText.split("\n").length}`, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "6. \u63D0\u4EA4\u4E8B\u4EF6\uFF08onSubmitted\uFF09" }, /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react121.default.createElement(Text, { text: `\u884C\u6570: ${multiText.split("\n").length}`, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "6. \u63D0\u4EA4\u4E8B\u4EF6\uFF08onSubmitted\uFF09" }, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       hintText: "\u8F93\u5165\u540E\u70B9\u51FB\u952E\u76D8\u786E\u8BA4...",
@@ -25653,7 +25816,7 @@ function TextFieldDemo() {
       },
       border: "outline"
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), submitted.length === 0 ? /* @__PURE__ */ import_react120.default.createElement(Text, { text: "\uFF08\u5C1A\u672A\u63D0\u4EA4\uFF09", fontSize: 13, color: "#9E9E9E" }) : /* @__PURE__ */ import_react120.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react120.default.createElement(Text, { text: "\u5386\u53F2\u63D0\u4EA4\uFF08\u6700\u8FD15\u6761\uFF09:", fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 4 }), submitted.map((s, i) => /* @__PURE__ */ import_react120.default.createElement(Text, { key: i, text: `\u2022 ${s}`, fontSize: 13, color: "#1565C0" })))), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "7. Focus / Blur \u56DE\u8C03" }, /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 8 }), submitted.length === 0 ? /* @__PURE__ */ import_react121.default.createElement(Text, { text: "\uFF08\u5C1A\u672A\u63D0\u4EA4\uFF09", fontSize: 13, color: "#9E9E9E" }) : /* @__PURE__ */ import_react121.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react121.default.createElement(Text, { text: "\u5386\u53F2\u63D0\u4EA4\uFF08\u6700\u8FD15\u6761\uFF09:", fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 4 }), submitted.map((s, i) => /* @__PURE__ */ import_react121.default.createElement(Text, { key: i, text: `\u2022 ${s}`, fontSize: 13, color: "#1565C0" })))), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "7. Focus / Blur \u56DE\u8C03" }, /* @__PURE__ */ import_react121.default.createElement(
     Container,
     {
       padding: 2,
@@ -25662,7 +25825,7 @@ function TextFieldDemo() {
         border: { color: focused ? "#1976D2" : "#CCCCCC", width: focused ? 2 : 1 }
       }
     },
-    /* @__PURE__ */ import_react120.default.createElement(
+    /* @__PURE__ */ import_react121.default.createElement(
       TextField,
       {
         hintText: "\u70B9\u51FB\u83B7\u5F97\u7126\u70B9...",
@@ -25671,34 +25834,34 @@ function TextFieldDemo() {
         onBlur: () => setFocused(false)
       }
     )
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react120.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react121.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react121.default.createElement(
     Container,
     {
       width: 10,
       height: 10,
       decoration: { color: focused ? "#43A047" : "#E0E0E0", borderRadius: 5 }
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 6 }), /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { width: 6 }), /* @__PURE__ */ import_react121.default.createElement(
     Text,
     {
       text: focused ? "\u5DF2\u83B7\u5F97\u7126\u70B9" : "\u672A\u83B7\u5F97\u7126\u70B9",
       fontSize: 13,
       color: focused ? "#43A047" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "8. Keyboard \u7C7B\u578B" }, [
+  ))), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "8. Keyboard \u7C7B\u578B" }, [
     ["\u6587\u672C (text)", "text", "\u8F93\u5165\u6587\u672C"],
     ["\u6570\u5B57 (number)", "number", "\u8F93\u5165\u6570\u5B57"],
     ["\u7535\u8BDD (phone)", "phone", "\u8F93\u5165\u7535\u8BDD\u53F7\u7801"],
     ["\u90AE\u7BB1 (emailAddress)", "emailAddress", "\u8F93\u5165\u90AE\u7BB1"],
     ["URL (url)", "url", "\u8F93\u5165\u7F51\u5740"]
-  ].map(([label, kt, hint]) => /* @__PURE__ */ import_react120.default.createElement(Padding, { key: kt, padding: { bottom: 10 } }, /* @__PURE__ */ import_react120.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react120.default.createElement(Container, { width: 130 }, /* @__PURE__ */ import_react120.default.createElement(Text, { text: label, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react120.default.createElement(Expanded, null, /* @__PURE__ */ import_react120.default.createElement(
+  ].map(([label, kt, hint]) => /* @__PURE__ */ import_react121.default.createElement(Padding, { key: kt, padding: { bottom: 10 } }, /* @__PURE__ */ import_react121.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react121.default.createElement(Container, { width: 130 }, /* @__PURE__ */ import_react121.default.createElement(Text, { text: label, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react121.default.createElement(Expanded, null, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       hintText: hint,
       keyboardType: kt,
       border: "outline"
     }
-  )))))), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "9. \u6587\u672C\u5BF9\u9F50\uFF08textAlign\uFF09" }, ["left", "center", "right"].map((align) => /* @__PURE__ */ import_react120.default.createElement(Padding, { key: align, padding: { bottom: 10 } }, /* @__PURE__ */ import_react120.default.createElement(
+  )))))), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "9. \u6587\u672C\u5BF9\u9F50\uFF08textAlign\uFF09" }, ["left", "center", "right"].map((align) => /* @__PURE__ */ import_react121.default.createElement(Padding, { key: align, padding: { bottom: 10 } }, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       text: `textAlign="${align}"`,
@@ -25706,7 +25869,7 @@ function TextFieldDemo() {
       border: "outline",
       readOnly: true
     }
-  )))), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "10. Ref \u547D\u4EE4\u63A7\u5236" }, /* @__PURE__ */ import_react120.default.createElement(
+  )))), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "10. Ref \u547D\u4EE4\u63A7\u5236" }, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       ref,
@@ -25716,44 +25879,44 @@ function TextFieldDemo() {
       onChanged: () => {
       }
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Focus", onTap: () => ref.current?.focus(), backgroundColor: "#42A5F5" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Unfocus", onTap: () => ref.current?.unfocus(), backgroundColor: "#78909C" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Select All", onTap: () => ref.current?.selectAll(), backgroundColor: "#AB47BC" })), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react120.default.createElement(Row, null, /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Clear", onTap: () => ref.current?.clear(), backgroundColor: "#EF5350" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Set 'FuickJS'", onTap: () => ref.current?.setText("FuickJS"), backgroundColor: "#26A69A" }), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react120.default.createElement(Button, { text: "Sel[0,5]", onTap: () => ref.current?.setSelection(0, 5), backgroundColor: "#FFA726" }))), /* @__PURE__ */ import_react120.default.createElement(Section2, { title: "11. Disabled & ReadOnly" }, /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react121.default.createElement(Row, null, /* @__PURE__ */ import_react121.default.createElement(Button, { text: "Focus", onTap: () => ref.current?.focus(), backgroundColor: "#42A5F5" }), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react121.default.createElement(Button, { text: "Unfocus", onTap: () => ref.current?.unfocus(), backgroundColor: "#78909C" }), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react121.default.createElement(Button, { text: "Select All", onTap: () => ref.current?.selectAll(), backgroundColor: "#AB47BC" })), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react121.default.createElement(Row, null, /* @__PURE__ */ import_react121.default.createElement(Button, { text: "Clear", onTap: () => ref.current?.clear(), backgroundColor: "#EF5350" }), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react121.default.createElement(Button, { text: "Set 'FuickJS'", onTap: () => ref.current?.setText("FuickJS"), backgroundColor: "#26A69A" }), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react121.default.createElement(Button, { text: "Sel[0,5]", onTap: () => ref.current?.setSelection(0, 5), backgroundColor: "#FFA726" }))), /* @__PURE__ */ import_react121.default.createElement(Section2, { title: "11. Disabled & ReadOnly" }, /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       text: "\u8FD9\u662F\u7981\u7528\u72B6\u6001",
       enabled: false,
       border: "outline"
     }
-  ), /* @__PURE__ */ import_react120.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react120.default.createElement(
+  ), /* @__PURE__ */ import_react121.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react121.default.createElement(
     TextField,
     {
       text: "\u8FD9\u662F\u53EA\u8BFB\u72B6\u6001\uFF08readOnly\uFF09",
       readOnly: true,
       border: "outline"
     }
-  )), /* @__PURE__ */ import_react120.default.createElement(Container, { height: 40 }))));
+  )), /* @__PURE__ */ import_react121.default.createElement(Container, { height: 40 }))));
 }
 
 // src/demos/SwitchDemo.tsx
-var import_react121 = __toESM(require_react_production());
+var import_react122 = __toESM(require_react_production());
 function SwitchDemo() {
-  const [value, setValue] = (0, import_react121.useState)(false);
-  return /* @__PURE__ */ import_react121.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react121.default.createElement(AppBar, { title: "Switch Demo" }) }, /* @__PURE__ */ import_react121.default.createElement(Center, null, /* @__PURE__ */ import_react121.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react121.default.createElement(Text, { text: `Status: ${value ? "ON" : "OFF"}`, fontSize: 18 }), /* @__PURE__ */ import_react121.default.createElement(Padding, { padding: { left: 10 } }, /* @__PURE__ */ import_react121.default.createElement(Switch, { value, onChanged: (v) => setValue(v) })))));
+  const [value, setValue] = (0, import_react122.useState)(false);
+  return /* @__PURE__ */ import_react122.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react122.default.createElement(AppBar, { title: "Switch Demo" }) }, /* @__PURE__ */ import_react122.default.createElement(Center, null, /* @__PURE__ */ import_react122.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react122.default.createElement(Text, { text: `Status: ${value ? "ON" : "OFF"}`, fontSize: 18 }), /* @__PURE__ */ import_react122.default.createElement(Padding, { padding: { left: 10 } }, /* @__PURE__ */ import_react122.default.createElement(Switch, { value, onChanged: (v) => setValue(v) })))));
 }
 
 // src/demos/ListViewDemo.tsx
-var import_react122 = __toESM(require_react_production());
+var import_react123 = __toESM(require_react_production());
 function ListViewDemo() {
   const items = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`);
-  return /* @__PURE__ */ import_react122.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react122.default.createElement(AppBar, { title: "ListView Demo" }) }, /* @__PURE__ */ import_react122.default.createElement(
+  return /* @__PURE__ */ import_react123.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react123.default.createElement(AppBar, { title: "ListView Demo" }) }, /* @__PURE__ */ import_react123.default.createElement(
     ListView,
     {
       itemCount: items.length,
-      itemBuilder: (index) => /* @__PURE__ */ import_react122.default.createElement(
+      itemBuilder: (index) => /* @__PURE__ */ import_react123.default.createElement(
         ListTile,
         {
-          leading: /* @__PURE__ */ import_react122.default.createElement(Icon, { name: "info", color: "#2196F3" }),
-          title: /* @__PURE__ */ import_react122.default.createElement(Text, { text: items[index] }),
-          subtitle: /* @__PURE__ */ import_react122.default.createElement(Text, { text: `Description for ${items[index]}` }),
+          leading: /* @__PURE__ */ import_react123.default.createElement(Icon, { name: "info", color: "#2196F3" }),
+          title: /* @__PURE__ */ import_react123.default.createElement(Text, { text: items[index] }),
+          subtitle: /* @__PURE__ */ import_react123.default.createElement(Text, { text: `Description for ${items[index]}` }),
           onTap: () => console.log(`Tapped ${items[index]}`)
         }
       ),
@@ -25773,18 +25936,36 @@ function ListViewDemo() {
   ));
 }
 
+// src/demos/SingleChildScrollViewDemo.tsx
+var import_react124 = __toESM(require_react_production());
+function SingleChildScrollViewDemo() {
+  const items = Array.from({ length: 30 }, (_, i) => `Scroll Item ${i + 1}`);
+  return /* @__PURE__ */ import_react124.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react124.default.createElement(AppBar, { title: "SingleChildScrollView Demo" }) }, /* @__PURE__ */ import_react124.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react124.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react124.default.createElement(Text, { text: "Header Section", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react124.default.createElement(Container, { height: 100, color: "#FFCDD2", margin: { vertical: 10 } }), items.map((item, index) => /* @__PURE__ */ import_react124.default.createElement(
+    Container,
+    {
+      key: index,
+      height: 50,
+      color: index % 2 === 0 ? "#E1F5FE" : "#B3E5FC",
+      margin: { bottom: 5 },
+      padding: { left: 10 },
+      alignment: "topLeft"
+    },
+    /* @__PURE__ */ import_react124.default.createElement(Text, { text: item })
+  )), /* @__PURE__ */ import_react124.default.createElement(Text, { text: "Footer Section", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react124.default.createElement(Container, { height: 100, color: "#C8E6C9", margin: { vertical: 10 } })))));
+}
+
 // src/demos/GridViewDemo.tsx
-var import_react123 = __toESM(require_react_production());
+var import_react125 = __toESM(require_react_production());
 function GridViewDemo() {
   const items = Array.from({ length: 50 }, (_, i) => `G ${i + 1}`);
-  return /* @__PURE__ */ import_react123.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react123.default.createElement(AppBar, { title: "GridView Demo" }) }, /* @__PURE__ */ import_react123.default.createElement(
+  return /* @__PURE__ */ import_react125.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react125.default.createElement(AppBar, { title: "GridView Demo" }) }, /* @__PURE__ */ import_react125.default.createElement(
     GridView,
     {
       crossAxisCount: 3,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       itemCount: items.length,
-      itemBuilder: (index) => /* @__PURE__ */ import_react123.default.createElement(Container, { color: "#E3F2FD", borderRadius: 8 }, /* @__PURE__ */ import_react123.default.createElement(Center, null, /* @__PURE__ */ import_react123.default.createElement(Text, { text: items[index], fontSize: 16, fontWeight: "bold" }))),
+      itemBuilder: (index) => /* @__PURE__ */ import_react125.default.createElement(Container, { color: "#E3F2FD", borderRadius: 8 }, /* @__PURE__ */ import_react125.default.createElement(Center, null, /* @__PURE__ */ import_react125.default.createElement(Text, { text: items[index], fontSize: 16, fontWeight: "bold" }))),
       onScroll: (e) => {
         console.log(
           `[GridView onScroll] pixels=${e.pixels.toFixed(0)}, maxScrollExtent=${e.maxScrollExtent.toFixed(0)}, axis=${e.axis}`
@@ -25802,7 +25983,7 @@ function GridViewDemo() {
 }
 
 // src/demos/ImageDemo.tsx
-var import_react124 = __toESM(require_react_production());
+var import_react126 = __toESM(require_react_production());
 var OWL = "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg";
 var BROKEN = "https://broken.url/not-exist.jpg";
 var PATCH_48 = "assets/images/patch_48.png";
@@ -25816,7 +25997,7 @@ var FITS = [
   "scaleDown"
 ];
 function SectionTitle({ text }) {
-  return /* @__PURE__ */ import_react124.default.createElement(
+  return /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text,
@@ -25828,9 +26009,9 @@ function SectionTitle({ text }) {
   );
 }
 function ImageDemo() {
-  const [loadStatus, setLoadStatus] = (0, import_react124.useState)("\u7B49\u5F85\u52A0\u8F7D...");
-  const [errorStatus, setErrorStatus] = (0, import_react124.useState)("\u7B49\u5F85\u52A0\u8F7D...");
-  return /* @__PURE__ */ import_react124.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react124.default.createElement(AppBar, { title: "Image Demo" }) }, /* @__PURE__ */ import_react124.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react124.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "src\uFF08\u63A8\u8350\uFF09vs url\uFF08\u5411\u540E\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react124.default.createElement(Row, null, /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react124.default.createElement(
+  const [loadStatus, setLoadStatus] = (0, import_react126.useState)("\u7B49\u5F85\u52A0\u8F7D...");
+  const [errorStatus, setErrorStatus] = (0, import_react126.useState)("\u7B49\u5F85\u52A0\u8F7D...");
+  return /* @__PURE__ */ import_react126.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react126.default.createElement(AppBar, { title: "Image Demo" }) }, /* @__PURE__ */ import_react126.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react126.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "src\uFF08\u63A8\u8350\uFF09vs url\uFF08\u5411\u540E\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react126.default.createElement(Row, null, /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -25839,7 +26020,7 @@ function ImageDemo() {
       fit: "cover",
       borderRadius: 8
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "src=",
@@ -25847,7 +26028,7 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  )), /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react124.default.createElement(
+  )), /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       url: OWL,
@@ -25856,7 +26037,7 @@ function ImageDemo() {
       fit: "cover",
       borderRadius: 8
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "url=\uFF08\u517C\u5BB9\uFF09",
@@ -25864,23 +26045,23 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  ))), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "fit \u6A21\u5F0F\uFF0880\xD780 \u5BB9\u5668\uFF09" }), /* @__PURE__ */ import_react124.default.createElement(Row, null, FITS.map((fit) => /* @__PURE__ */ import_react124.default.createElement(
+  ))), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "fit \u6A21\u5F0F\uFF0880\xD780 \u5BB9\u5668\uFF09" }), /* @__PURE__ */ import_react126.default.createElement(Row, null, FITS.map((fit) => /* @__PURE__ */ import_react126.default.createElement(
     Column,
     {
       key: fit,
       crossAxisAlignment: "center",
       margin: { right: 8 }
     },
-    /* @__PURE__ */ import_react124.default.createElement(
+    /* @__PURE__ */ import_react126.default.createElement(
       Container,
       {
         width: 60,
         height: 60,
         decoration: { color: "#ECEFF1", borderRadius: 4 }
       },
-      /* @__PURE__ */ import_react124.default.createElement(Image, { src: OWL, width: 60, height: 60, fit })
+      /* @__PURE__ */ import_react126.default.createElement(Image, { src: OWL, width: 60, height: 60, fit })
     ),
-    /* @__PURE__ */ import_react124.default.createElement(
+    /* @__PURE__ */ import_react126.default.createElement(
       Text,
       {
         text: fit,
@@ -25889,7 +26070,7 @@ function ImageDemo() {
         margin: { top: 2 }
       }
     )
-  ))), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "borderRadius \u88C1\u526A" }), /* @__PURE__ */ import_react124.default.createElement(Row, null, /* @__PURE__ */ import_react124.default.createElement(
+  ))), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "borderRadius \u88C1\u526A" }), /* @__PURE__ */ import_react126.default.createElement(Row, null, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -25899,7 +26080,7 @@ function ImageDemo() {
       borderRadius: 8,
       margin: { right: 12 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -25909,7 +26090,7 @@ function ImageDemo() {
       borderRadius: 40,
       margin: { right: 12 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -25923,7 +26104,7 @@ function ImageDemo() {
         bottomLeft: 0
       }
     }
-  )), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "tintColor \u989C\u8272\u53E0\u52A0\uFF08\u63A8\u8350\uFF09vs color\uFF08\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react124.default.createElement(Row, null, /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react124.default.createElement(
+  )), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "tintColor \u989C\u8272\u53E0\u52A0\uFF08\u63A8\u8350\uFF09vs color\uFF08\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react126.default.createElement(Row, null, /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -25933,7 +26114,7 @@ function ImageDemo() {
       borderRadius: 8,
       tintColor: "#1976D2"
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "tintColor=\u84DD",
@@ -25941,7 +26122,7 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  )), /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react124.default.createElement(
+  )), /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -25951,7 +26132,7 @@ function ImageDemo() {
       borderRadius: 8,
       tintColor: "#E91E63"
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "tintColor=\u7C89",
@@ -25959,7 +26140,7 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  )), /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react124.default.createElement(
+  )), /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -25969,7 +26150,7 @@ function ImageDemo() {
       borderRadius: 8,
       color: "#43A047"
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "color=\u7EFF\uFF08\u517C\u5BB9\uFF09",
@@ -25977,7 +26158,7 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  ))), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "placeholderColor \u52A0\u8F7D\u5360\u4F4D\u8272\uFF08\u7F51\u7EDC\u56FE\u7247\uFF09" }), /* @__PURE__ */ import_react124.default.createElement(Row, null, /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react124.default.createElement(
+  ))), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "placeholderColor \u52A0\u8F7D\u5360\u4F4D\u8272\uFF08\u7F51\u7EDC\u56FE\u7247\uFF09" }), /* @__PURE__ */ import_react126.default.createElement(Row, null, /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -25987,7 +26168,7 @@ function ImageDemo() {
       borderRadius: 8,
       placeholderColor: "#BBDEFB"
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u84DD\u8272\u5360\u4F4D",
@@ -25995,7 +26176,7 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  )), /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react124.default.createElement(
+  )), /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -26004,7 +26185,7 @@ function ImageDemo() {
       fit: "cover",
       borderRadius: 8
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u9ED8\u8BA4\u5360\u4F4D\uFF08\u7070\uFF09",
@@ -26012,7 +26193,7 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  ))), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "errorSrc \u52A0\u8F7D\u5931\u8D25\u5907\u7528\u56FE" }), /* @__PURE__ */ import_react124.default.createElement(Row, null, /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react124.default.createElement(
+  ))), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "errorSrc \u52A0\u8F7D\u5931\u8D25\u5907\u7528\u56FE" }), /* @__PURE__ */ import_react126.default.createElement(Row, null, /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: BROKEN,
@@ -26022,7 +26203,7 @@ function ImageDemo() {
       borderRadius: 8,
       errorSrc: OWL
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u5931\u8D25\u2192\u5907\u7528\u56FE",
@@ -26030,7 +26211,7 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  )), /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react124.default.createElement(
+  )), /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: BROKEN,
@@ -26039,7 +26220,7 @@ function ImageDemo() {
       fit: "cover",
       borderRadius: 8
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u5931\u8D25\u2192broken_image",
@@ -26047,7 +26228,7 @@ function ImageDemo() {
       color: "#757575",
       margin: { top: 4 }
     }
-  ))), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "onLoad / onError \u56DE\u8C03" }), /* @__PURE__ */ import_react124.default.createElement(Row, null, /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react124.default.createElement(
+  ))), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "onLoad / onError \u56DE\u8C03" }), /* @__PURE__ */ import_react126.default.createElement(Row, null, /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -26058,7 +26239,7 @@ function ImageDemo() {
       onLoad: () => setLoadStatus("\u2713 \u52A0\u8F7D\u6210\u529F"),
       onError: () => setLoadStatus("\u2717 \u52A0\u8F7D\u5931\u8D25")
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: loadStatus,
@@ -26066,7 +26247,7 @@ function ImageDemo() {
       color: "#43A047",
       margin: { top: 4 }
     }
-  )), /* @__PURE__ */ import_react124.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react124.default.createElement(
+  )), /* @__PURE__ */ import_react126.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: BROKEN,
@@ -26077,7 +26258,7 @@ function ImageDemo() {
       onLoad: () => setErrorStatus("\u2713 \u52A0\u8F7D\u6210\u529F"),
       onError: () => setErrorStatus("\u2717 \u52A0\u8F7D\u5931\u8D25")
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: errorStatus,
@@ -26085,7 +26266,7 @@ function ImageDemo() {
       color: "#E53935",
       margin: { top: 4 }
     }
-  ))), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\uFF08file:// & \u7EDD\u5BF9\u8DEF\u5F84\uFF09" }), /* @__PURE__ */ import_react124.default.createElement(
+  ))), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\uFF08file:// & \u7EDD\u5BF9\u8DEF\u5F84\uFF09" }), /* @__PURE__ */ import_react126.default.createElement(
     Container,
     {
       padding: 12,
@@ -26096,7 +26277,7 @@ function ImageDemo() {
       },
       margin: { bottom: 8 }
     },
-    /* @__PURE__ */ import_react124.default.createElement(
+    /* @__PURE__ */ import_react126.default.createElement(
       Text,
       {
         text: "\u5728 Flutter \u4FA7\u901A\u8FC7 FileSystem \u670D\u52A1\u83B7\u53D6\u672C\u5730\u8DEF\u5F84\u540E\u4F20\u5165 src\uFF1A\n\u2022 file:///data/user/0/.../photo.jpg\n\u2022 /data/user/0/.../photo.jpg",
@@ -26104,7 +26285,7 @@ function ImageDemo() {
         color: "#795548"
       }
     )
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u793A\u4F8B\uFF08\u9700\u66FF\u6362\u4E3A\u8BBE\u5907\u4E0A\u5B9E\u9645\u5B58\u5728\u7684\u8DEF\u5F84\uFF09\uFF1A",
@@ -26112,7 +26293,7 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: "file:///nonexistent/path/image.jpg",
@@ -26122,7 +26303,7 @@ function ImageDemo() {
       borderRadius: 8,
       errorSrc: OWL
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u6587\u4EF6\u4E0D\u5B58\u5728 \u2192 \u964D\u7EA7\u5230 errorSrc",
@@ -26130,14 +26311,14 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { top: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "base64 \u5185\u8054\u56FE\u7247" }), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "base64 \u5185\u8054\u56FE\u7247" }), /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAFklEQVR4nGNQnPaZJMQwqmFUw/DVAACnNaoQK5bsTwAAAABJRU5ErkJggg==",
       width: 40,
       height: 40
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "16\xD716 \u84DD\u8272 PNG (base64)",
@@ -26145,7 +26326,7 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { top: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "gaplessPlayback\uFF08\u5207\u6362 URL \u65F6\u4FDD\u7559\u65E7\u56FE\uFF09" }), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "gaplessPlayback\uFF08\u5207\u6362 URL \u65F6\u4FDD\u7559\u65E7\u56FE\uFF09" }), /* @__PURE__ */ import_react126.default.createElement(
     Image,
     {
       src: OWL,
@@ -26155,7 +26336,7 @@ function ImageDemo() {
       borderRadius: 8,
       gaplessPlayback: true
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "gaplessPlayback=true\uFF0CURL \u5207\u6362\u65F6\u4E0D\u95EA\u767D",
@@ -26163,7 +26344,7 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { top: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(SectionTitle, { text: "centerSlice \u4E5D\u5BAB\u683C\u62C9\u4F38\uFF089-patch\uFF09" }), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(SectionTitle, { text: "centerSlice \u4E5D\u5BAB\u683C\u62C9\u4F38\uFF089-patch\uFF09" }), /* @__PURE__ */ import_react126.default.createElement(
     Container,
     {
       padding: 10,
@@ -26174,7 +26355,7 @@ function ImageDemo() {
       },
       margin: { bottom: 10 }
     },
-    /* @__PURE__ */ import_react124.default.createElement(
+    /* @__PURE__ */ import_react126.default.createElement(
       Text,
       {
         text: "centerSlice \u628A\u56FE\u6309 {left, top, right, bottom} \u5206\u6210 9 \u5757\uFF0C4 \u4E2A\u89D2\u6309\u539F\u5927\u5C0F\u7ED8\u5236\u30014 \u6761\u8FB9\u5355\u5411\u62C9\u4F38\u3001\u4E2D\u5FC3\u53CC\u5411\u62C9\u4F38\u3002\u5E38\u7528\u4E8E\u6C14\u6CE1/\u6309\u94AE\u80CC\u666F\u7684\u4EFB\u610F\u5C3A\u5BF8\u81EA\u9002\u5E94\u3002\u5750\u6807\u4EE5\u56FE\u7247\u539F\u59CB\u50CF\u7D20\u4E3A\u5355\u4F4D\u3002SVG \u4E0D\u652F\u6301\u6B64\u5C5E\u6027\uFF08\u5DF2\u81EA\u52A8\u5FFD\u7565\uFF09\u3002\u3010\u786C\u7EA6\u675F 1\u3011centerSlice \u5FC5\u987B\u914D fit=fill\uFF1B\u4F20\u5176\u4ED6 fit \u4F1A\u89E6\u53D1 Flutter \u65AD\u8A00\u5D29\u6E83\uFF0Cparser \u81EA\u52A8\u5F3A\u5236\u6539\u4E3A fill\u3002\u3010\u786C\u7EA6\u675F 2\u3011centerSlice \u8FB9\u6846 (left + imageWidth - right) \u5FC5\u987B <= widget \u5BBD\u5EA6\uFF0C\u4E0A\u4E0B\u540C\u7406\uFF1B\u5426\u5219 paintImage \u5185\u90E8 outputSize \u53D8\u8D1F\u5BFC\u81F4 applyBoxFit \u8FD4\u56DE Size.zero \u89E6\u53D1\u65AD\u8A00\u3002",
@@ -26182,7 +26363,7 @@ function ImageDemo() {
         color: "#E65100"
       }
     )
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u539F\u56FE\uFF0848\xD748\uFF0C\u653E\u5927 2\xD7\u663E\u793A\uFF09",
@@ -26190,7 +26371,7 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(Image, { src: PATCH_48, width: 96, height: 96, fit: "none" }), /* @__PURE__ */ import_react124.default.createElement(Text, { text: " ", fontSize: 11 }), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(Image, { src: PATCH_48, width: 96, height: 96, fit: "none" }), /* @__PURE__ */ import_react126.default.createElement(Text, { text: " ", fontSize: 11 }), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "fit=fill + centerSlice=16/16/32/32 (240\xD7120 \u5BB9\u5668)",
@@ -26198,7 +26379,7 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { top: 12, bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Container,
     {
       width: 240,
@@ -26208,7 +26389,7 @@ function ImageDemo() {
         border: { color: "#BDBDBD", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react124.default.createElement(
+    /* @__PURE__ */ import_react126.default.createElement(
       Image,
       {
         src: PATCH_48,
@@ -26218,7 +26399,7 @@ function ImageDemo() {
         centerSlice: { left: 16, top: 16, right: 32, bottom: 32 }
       }
     )
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "4 \u4E2A 16\xD716 \u84DD\u89D2\u4FDD\u6301\u539F\u5927\u5C0F\uFF0C\u7EFF\u8FB9\u5355\u5411\u62C9\u4F38\uFF0C\u6A59\u4E2D\u5FC3\u53CC\u5411\u62C9\u4F38",
@@ -26226,7 +26407,7 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { top: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u5BF9\u6BD4\uFF1Afit=fill \u65E0 centerSlice\uFF08240\xD7120\uFF0C\u6574\u56FE\u5747\u5300\u7F29\u653E\uFF09",
@@ -26234,7 +26415,7 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { top: 12, bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Container,
     {
       width: 240,
@@ -26244,8 +26425,8 @@ function ImageDemo() {
         border: { color: "#BDBDBD", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react124.default.createElement(Image, { src: PATCH_48, width: 240, height: 120, fit: "fill" })
-  ), /* @__PURE__ */ import_react124.default.createElement(
+    /* @__PURE__ */ import_react126.default.createElement(Image, { src: PATCH_48, width: 240, height: 120, fit: "fill" })
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Text,
     {
       text: "\u5E26 tintColor + centerSlice",
@@ -26253,7 +26434,7 @@ function ImageDemo() {
       color: "#9E9E9E",
       margin: { top: 12, bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react124.default.createElement(
+  ), /* @__PURE__ */ import_react126.default.createElement(
     Container,
     {
       width: 240,
@@ -26263,7 +26444,7 @@ function ImageDemo() {
         border: { color: "#BDBDBD", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react124.default.createElement(
+    /* @__PURE__ */ import_react126.default.createElement(
       Image,
       {
         src: PATCH_48,
@@ -26274,11 +26455,11 @@ function ImageDemo() {
         tintColor: "#1976D2"
       }
     )
-  ), /* @__PURE__ */ import_react124.default.createElement(Container, { height: 40 }))));
+  ), /* @__PURE__ */ import_react126.default.createElement(Container, { height: 40 }))));
 }
 
 // src/demos/BundleLocalImageDemo.tsx
-var import_react125 = __toESM(require_react_production());
+var import_react127 = __toESM(require_react_production());
 var LOCAL_LOGO = "images/demo-logo.svg";
 var LOCAL_BANNER = "images/demo-banner.svg";
 var LOCAL_MISSING = "images/not-in-zip.png";
@@ -26291,7 +26472,7 @@ function readBundleInfo() {
   }
 }
 function StatusBadge({ ok, label }) {
-  return /* @__PURE__ */ import_react125.default.createElement(
+  return /* @__PURE__ */ import_react127.default.createElement(
     Container,
     {
       padding: { horizontal: 8, vertical: 4 },
@@ -26302,16 +26483,16 @@ function StatusBadge({ ok, label }) {
       },
       margin: { right: 8, bottom: 8 }
     },
-    /* @__PURE__ */ import_react125.default.createElement(Text, { text: label, fontSize: 12, color: ok ? "#2E7D32" : "#C62828" })
+    /* @__PURE__ */ import_react127.default.createElement(Text, { text: label, fontSize: 12, color: ok ? "#2E7D32" : "#C62828" })
   );
 }
 function BundleLocalImageDemo() {
   const bundle = readBundleInfo();
-  const [logoOk, setLogoOk] = (0, import_react125.useState)(null);
-  const [bannerOk, setBannerOk] = (0, import_react125.useState)(null);
-  const [missingFailed, setMissingFailed] = (0, import_react125.useState)(null);
+  const [logoOk, setLogoOk] = (0, import_react127.useState)(null);
+  const [bannerOk, setBannerOk] = (0, import_react127.useState)(null);
+  const [missingFailed, setMissingFailed] = (0, import_react127.useState)(null);
   const hasRoot = Boolean(bundle.root);
-  return /* @__PURE__ */ import_react125.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react125.default.createElement(AppBar, { title: "Bundle \u672C\u5730\u56FE\u7247" }) }, /* @__PURE__ */ import_react125.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react125.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react125.default.createElement(
+  return /* @__PURE__ */ import_react127.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react127.default.createElement(AppBar, { title: "Bundle \u672C\u5730\u56FE\u7247" }) }, /* @__PURE__ */ import_react127.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react127.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react127.default.createElement(
     Text,
     {
       text: "\u9A8C\u8BC1 bundle \u89E3\u538B\u540E\uFF0C\u76F8\u5BF9\u8DEF\u5F84\u56FE\u7247\u80FD\u5426\u901A\u8FC7 __FUICK_BUNDLE__.root \u900F\u660E\u52A0\u8F7D\u3002",
@@ -26319,7 +26500,7 @@ function BundleLocalImageDemo() {
       color: "#424242",
       margin: { bottom: 12 }
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Container,
     {
       width: 9999,
@@ -26327,7 +26508,7 @@ function BundleLocalImageDemo() {
       decoration: { color: "#EEF0FF", borderRadius: 8 },
       margin: { bottom: 16 }
     },
-    /* @__PURE__ */ import_react125.default.createElement(
+    /* @__PURE__ */ import_react127.default.createElement(
       Text,
       {
         text: `bundle.name: ${bundle.name ?? "(\u672A\u6CE8\u5165)"}`,
@@ -26335,7 +26516,7 @@ function BundleLocalImageDemo() {
         color: "#3949AB"
       }
     ),
-    /* @__PURE__ */ import_react125.default.createElement(
+    /* @__PURE__ */ import_react127.default.createElement(
       Text,
       {
         text: `bundle.root: ${bundle.root ?? "(\u7A7A \u2192 \u8D70 Image.asset \u515C\u5E95)"}`,
@@ -26344,7 +26525,7 @@ function BundleLocalImageDemo() {
         margin: { top: 4 }
       }
     )
-  ), /* @__PURE__ */ import_react125.default.createElement(Row, { margin: { bottom: 8 } }, logoOk === true && /* @__PURE__ */ import_react125.default.createElement(StatusBadge, { ok: true, label: "logo \u2713" }), bannerOk === true && /* @__PURE__ */ import_react125.default.createElement(StatusBadge, { ok: true, label: "banner \u2713" }), missingFailed === true && /* @__PURE__ */ import_react125.default.createElement(StatusBadge, { ok: true, label: "missing \u2192 errorSrc \u2713" }), logoOk === false && /* @__PURE__ */ import_react125.default.createElement(StatusBadge, { ok: false, label: "logo \u2717" }), bannerOk === false && /* @__PURE__ */ import_react125.default.createElement(StatusBadge, { ok: false, label: "banner \u2717" })), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(Row, { margin: { bottom: 8 } }, logoOk === true && /* @__PURE__ */ import_react127.default.createElement(StatusBadge, { ok: true, label: "logo \u2713" }), bannerOk === true && /* @__PURE__ */ import_react127.default.createElement(StatusBadge, { ok: true, label: "banner \u2713" }), missingFailed === true && /* @__PURE__ */ import_react127.default.createElement(StatusBadge, { ok: true, label: "missing \u2192 errorSrc \u2713" }), logoOk === false && /* @__PURE__ */ import_react127.default.createElement(StatusBadge, { ok: false, label: "logo \u2717" }), bannerOk === false && /* @__PURE__ */ import_react127.default.createElement(StatusBadge, { ok: false, label: "banner \u2717" })), /* @__PURE__ */ import_react127.default.createElement(
     Text,
     {
       text: "1. SVG Logo\uFF08images/demo-logo.svg\uFF09",
@@ -26353,7 +26534,7 @@ function BundleLocalImageDemo() {
       color: "#333",
       margin: { bottom: 8 }
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Image,
     {
       src: LOCAL_LOGO,
@@ -26363,7 +26544,7 @@ function BundleLocalImageDemo() {
       onLoad: () => setLogoOk(true),
       onError: () => setLogoOk(false)
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Text,
     {
       text: `src="${LOCAL_LOGO}"`,
@@ -26371,7 +26552,7 @@ function BundleLocalImageDemo() {
       color: "#9E9E9E",
       margin: { top: 4, bottom: 16 }
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Text,
     {
       text: "2. SVG Banner\uFF08images/demo-banner.svg\uFF09",
@@ -26380,7 +26561,7 @@ function BundleLocalImageDemo() {
       color: "#333",
       margin: { bottom: 8 }
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Image,
     {
       src: LOCAL_BANNER,
@@ -26391,7 +26572,7 @@ function BundleLocalImageDemo() {
       onLoad: () => setBannerOk(true),
       onError: () => setBannerOk(false)
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Text,
     {
       text: `src="${LOCAL_BANNER}"`,
@@ -26399,7 +26580,7 @@ function BundleLocalImageDemo() {
       color: "#9E9E9E",
       margin: { top: 4, bottom: 16 }
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Text,
     {
       text: "3. \u7F3A\u5931\u6587\u4EF6 + errorSrc \u964D\u7EA7",
@@ -26408,7 +26589,7 @@ function BundleLocalImageDemo() {
       color: "#333",
       margin: { bottom: 8 }
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Image,
     {
       src: LOCAL_MISSING,
@@ -26419,7 +26600,7 @@ function BundleLocalImageDemo() {
       borderRadius: 8,
       onError: () => setMissingFailed(true)
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Text,
     {
       text: `src="${LOCAL_MISSING}" \u2192 errorSrc="${LOCAL_LOGO}"`,
@@ -26427,7 +26608,7 @@ function BundleLocalImageDemo() {
       color: "#9E9E9E",
       margin: { top: 4, bottom: 16 }
     }
-  ), /* @__PURE__ */ import_react125.default.createElement(
+  ), /* @__PURE__ */ import_react127.default.createElement(
     Container,
     {
       padding: 12,
@@ -26436,7 +26617,7 @@ function BundleLocalImageDemo() {
         borderRadius: 8
       }
     },
-    /* @__PURE__ */ import_react125.default.createElement(
+    /* @__PURE__ */ import_react127.default.createElement(
       Text,
       {
         text: hasRoot ? "\u2713 \u5DF2\u4ECE\u52A8\u6001\u5305\u76EE\u5F55\u52A0\u8F7D\uFF08zip \u89E3\u538B\u6210\u529F\u4E14 root \u5DF2\u6CE8\u5165\uFF09" : "\u26A0 root \u4E3A\u7A7A\uFF1A\u672A\u8D70\u52A8\u6001\u5305\uFF0C\u76F8\u5BF9\u8DEF\u5F84\u53EF\u80FD\u65E0\u6CD5\u52A0\u8F7D\uFF08\u68C0\u67E5 Offline \u662F\u5426 init\u3001\u662F\u5426\u4ECE zip \u89E3\u538B\uFF09",
@@ -26444,35 +26625,35 @@ function BundleLocalImageDemo() {
         color: hasRoot ? "#2E7D32" : "#E65100"
       }
     )
-  ), /* @__PURE__ */ import_react125.default.createElement(Container, { height: 32 }))));
+  ), /* @__PURE__ */ import_react127.default.createElement(Container, { height: 32 }))));
 }
 
 // src/demos/StackDemo.tsx
-var import_react126 = __toESM(require_react_production());
+var import_react128 = __toESM(require_react_production());
 function StackDemo() {
-  return /* @__PURE__ */ import_react126.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react126.default.createElement(AppBar, { title: "Stack Demo" }) }, /* @__PURE__ */ import_react126.default.createElement(Stack, null, /* @__PURE__ */ import_react126.default.createElement(Container, { color: "#ff0000", width: 200, height: 200 }), /* @__PURE__ */ import_react126.default.createElement(Positioned, { top: 50, left: 50 }, /* @__PURE__ */ import_react126.default.createElement(Container, { color: "#00ff00", width: 100, height: 100 })), /* @__PURE__ */ import_react126.default.createElement(Positioned, { bottom: 20, right: 20 }, /* @__PURE__ */ import_react126.default.createElement(Container, { color: "#0000ff", width: 50, height: 50 }, /* @__PURE__ */ import_react126.default.createElement(Text, { text: "Top", color: "#ffffff" })))));
+  return /* @__PURE__ */ import_react128.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react128.default.createElement(AppBar, { title: "Stack Demo" }) }, /* @__PURE__ */ import_react128.default.createElement(Stack, null, /* @__PURE__ */ import_react128.default.createElement(Container, { color: "#ff0000", width: 200, height: 200 }), /* @__PURE__ */ import_react128.default.createElement(Positioned, { top: 50, left: 50 }, /* @__PURE__ */ import_react128.default.createElement(Container, { color: "#00ff00", width: 100, height: 100 })), /* @__PURE__ */ import_react128.default.createElement(Positioned, { bottom: 20, right: 20 }, /* @__PURE__ */ import_react128.default.createElement(Container, { color: "#0000ff", width: 50, height: 50 }, /* @__PURE__ */ import_react128.default.createElement(Text, { text: "Top", color: "#ffffff" })))));
 }
 
 // src/demos/SliverDemo.tsx
-var import_react127 = __toESM(require_react_production());
+var import_react129 = __toESM(require_react_production());
 function SliverDemo() {
-  return /* @__PURE__ */ import_react127.default.createElement(Scaffold, null, /* @__PURE__ */ import_react127.default.createElement(CustomScrollView, null, /* @__PURE__ */ import_react127.default.createElement(
+  return /* @__PURE__ */ import_react129.default.createElement(Scaffold, null, /* @__PURE__ */ import_react129.default.createElement(CustomScrollView, null, /* @__PURE__ */ import_react129.default.createElement(
     SliverAppBar,
     {
       pinned: true,
       expandedHeight: 200,
       backgroundColor: "#2196F3",
-      title: /* @__PURE__ */ import_react127.default.createElement(Text, { text: "Sliver Demo", color: "#ffffff" })
+      title: /* @__PURE__ */ import_react129.default.createElement(Text, { text: "Sliver Demo", color: "#ffffff" })
     },
-    /* @__PURE__ */ import_react127.default.createElement(Container, { color: "#1976D2" })
-  ), /* @__PURE__ */ import_react127.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react127.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react127.default.createElement(
+    /* @__PURE__ */ import_react129.default.createElement(Container, { color: "#1976D2" })
+  ), /* @__PURE__ */ import_react129.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react129.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react129.default.createElement(
     Text,
     {
       text: "SliverToBoxAdapter: Section Title",
       fontSize: 20,
       fontWeight: "bold"
     }
-  ))), /* @__PURE__ */ import_react127.default.createElement(
+  ))), /* @__PURE__ */ import_react129.default.createElement(
     SliverGrid,
     {
       gridDelegate: {
@@ -26482,36 +26663,36 @@ function SliverDemo() {
         childAspectRatio: 2
       },
       itemCount: 4,
-      itemBuilder: (index) => /* @__PURE__ */ import_react127.default.createElement(Container, { color: "#E3F2FD", borderRadius: 8 }, /* @__PURE__ */ import_react127.default.createElement(Center, null, /* @__PURE__ */ import_react127.default.createElement(Text, { text: `Grid Item ${index}` })))
+      itemBuilder: (index) => /* @__PURE__ */ import_react129.default.createElement(Container, { color: "#E3F2FD", borderRadius: 8 }, /* @__PURE__ */ import_react129.default.createElement(Center, null, /* @__PURE__ */ import_react129.default.createElement(Text, { text: `Grid Item ${index}` })))
     }
-  ), /* @__PURE__ */ import_react127.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react127.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react127.default.createElement(Text, { text: "SliverList: Items", fontSize: 20, fontWeight: "bold" }))), /* @__PURE__ */ import_react127.default.createElement(
+  ), /* @__PURE__ */ import_react129.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react129.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react129.default.createElement(Text, { text: "SliverList: Items", fontSize: 20, fontWeight: "bold" }))), /* @__PURE__ */ import_react129.default.createElement(
     SliverList,
     {
       itemCount: 10,
-      itemBuilder: (index) => /* @__PURE__ */ import_react127.default.createElement(
+      itemBuilder: (index) => /* @__PURE__ */ import_react129.default.createElement(
         Container,
         {
           height: 60,
           color: index % 2 === 0 ? "#f5f5f5" : "#ffffff",
           padding: { left: 16 }
         },
-        /* @__PURE__ */ import_react127.default.createElement(Text, { text: `List Item ${index}` })
+        /* @__PURE__ */ import_react129.default.createElement(Text, { text: `List Item ${index}` })
       )
     }
   )));
 }
 
 // src/demos/DividerDemo.tsx
-var import_react128 = __toESM(require_react_production());
+var import_react130 = __toESM(require_react_production());
 function DividerDemo() {
-  return /* @__PURE__ */ import_react128.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react128.default.createElement(AppBar, { title: "Divider Demo" }) }, /* @__PURE__ */ import_react128.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react128.default.createElement(Column, null, /* @__PURE__ */ import_react128.default.createElement(Text, { text: "Item 1", fontSize: 18 }), /* @__PURE__ */ import_react128.default.createElement(Divider, { height: 20, thickness: 2, color: "#eeeeee" }), /* @__PURE__ */ import_react128.default.createElement(Text, { text: "Item 2", fontSize: 18 }), /* @__PURE__ */ import_react128.default.createElement(Divider, { height: 40, thickness: 5, color: "#2196F3" }), /* @__PURE__ */ import_react128.default.createElement(Text, { text: "Item 3", fontSize: 18 }))));
+  return /* @__PURE__ */ import_react130.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react130.default.createElement(AppBar, { title: "Divider Demo" }) }, /* @__PURE__ */ import_react130.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react130.default.createElement(Column, null, /* @__PURE__ */ import_react130.default.createElement(Text, { text: "Item 1", fontSize: 18 }), /* @__PURE__ */ import_react130.default.createElement(Divider, { height: 20, thickness: 2, color: "#eeeeee" }), /* @__PURE__ */ import_react130.default.createElement(Text, { text: "Item 2", fontSize: 18 }), /* @__PURE__ */ import_react130.default.createElement(Divider, { height: 40, thickness: 5, color: "#2196F3" }), /* @__PURE__ */ import_react130.default.createElement(Text, { text: "Item 3", fontSize: 18 }))));
 }
 
 // src/demos/OpacityDemo.tsx
-var import_react129 = __toESM(require_react_production());
+var import_react131 = __toESM(require_react_production());
 function OpacityDemo() {
-  const [opacity, setOpacity] = (0, import_react129.useState)(1);
-  return /* @__PURE__ */ import_react129.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react129.default.createElement(AppBar, { title: "Opacity Demo" }) }, /* @__PURE__ */ import_react129.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react129.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react129.default.createElement(Opacity, { opacity }, /* @__PURE__ */ import_react129.default.createElement(Container, { color: "#ff0000", width: 200, height: 200 })), /* @__PURE__ */ import_react129.default.createElement(Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react129.default.createElement(Text, { text: `Opacity: ${opacity.toFixed(1)}`, fontSize: 18 })), /* @__PURE__ */ import_react129.default.createElement(Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react129.default.createElement(
+  const [opacity, setOpacity] = (0, import_react131.useState)(1);
+  return /* @__PURE__ */ import_react131.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react131.default.createElement(AppBar, { title: "Opacity Demo" }) }, /* @__PURE__ */ import_react131.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react131.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react131.default.createElement(Opacity, { opacity }, /* @__PURE__ */ import_react131.default.createElement(Container, { color: "#ff0000", width: 200, height: 200 })), /* @__PURE__ */ import_react131.default.createElement(Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react131.default.createElement(Text, { text: `Opacity: ${opacity.toFixed(1)}`, fontSize: 18 })), /* @__PURE__ */ import_react131.default.createElement(Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react131.default.createElement(
     Button,
     {
       onTap: () => setOpacity(opacity > 0.1 ? opacity - 0.2 : 1),
@@ -26521,47 +26702,47 @@ function OpacityDemo() {
 }
 
 // src/demos/ProgressDemo.tsx
-var import_react130 = __toESM(require_react_production());
+var import_react132 = __toESM(require_react_production());
 function ProgressDemo() {
-  return /* @__PURE__ */ import_react130.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react130.default.createElement(AppBar, { title: "Progress Demo" }) }, /* @__PURE__ */ import_react130.default.createElement(Center, null, /* @__PURE__ */ import_react130.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react130.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react130.default.createElement(CircularProgressIndicator, null)), /* @__PURE__ */ import_react130.default.createElement(Text, { text: "Loading...", fontSize: 16 }), /* @__PURE__ */ import_react130.default.createElement(Padding, { padding: 40 }, /* @__PURE__ */ import_react130.default.createElement(CircularProgressIndicator, { color: "#FF0000", strokeWidth: 5 })), /* @__PURE__ */ import_react130.default.createElement(Text, { text: "Custom Progress", fontSize: 16 }))));
+  return /* @__PURE__ */ import_react132.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react132.default.createElement(AppBar, { title: "Progress Demo" }) }, /* @__PURE__ */ import_react132.default.createElement(Center, null, /* @__PURE__ */ import_react132.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react132.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react132.default.createElement(CircularProgressIndicator, null)), /* @__PURE__ */ import_react132.default.createElement(Text, { text: "Loading...", fontSize: 16 }), /* @__PURE__ */ import_react132.default.createElement(Padding, { padding: 40 }, /* @__PURE__ */ import_react132.default.createElement(CircularProgressIndicator, { color: "#FF0000", strokeWidth: 5 })), /* @__PURE__ */ import_react132.default.createElement(Text, { text: "Custom Progress", fontSize: 16 }))));
 }
 
 // src/demos/PageViewDemo.tsx
-var import_react131 = __toESM(require_react_production());
+var import_react133 = __toESM(require_react_production());
 function PageViewDemo() {
-  return /* @__PURE__ */ import_react131.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react131.default.createElement(AppBar, { title: "PageView Demo" }) }, /* @__PURE__ */ import_react131.default.createElement(PageView, null, /* @__PURE__ */ import_react131.default.createElement(Container, { color: "#FFEBEE" }, /* @__PURE__ */ import_react131.default.createElement(Center, null, /* @__PURE__ */ import_react131.default.createElement(Text, { text: "Page 1", fontSize: 32 }), /* @__PURE__ */ import_react131.default.createElement(Text, { text: "Swipe Left", fontSize: 16 }))), /* @__PURE__ */ import_react131.default.createElement(Container, { color: "#E3F2FD" }, /* @__PURE__ */ import_react131.default.createElement(Center, null, /* @__PURE__ */ import_react131.default.createElement(Text, { text: "Page 2", fontSize: 32 }))), /* @__PURE__ */ import_react131.default.createElement(Container, { color: "#E8F5E9" }, /* @__PURE__ */ import_react131.default.createElement(Center, null, /* @__PURE__ */ import_react131.default.createElement(Text, { text: "Page 3", fontSize: 32 })))));
+  return /* @__PURE__ */ import_react133.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react133.default.createElement(AppBar, { title: "PageView Demo" }) }, /* @__PURE__ */ import_react133.default.createElement(PageView, null, /* @__PURE__ */ import_react133.default.createElement(Container, { color: "#FFEBEE" }, /* @__PURE__ */ import_react133.default.createElement(Center, null, /* @__PURE__ */ import_react133.default.createElement(Text, { text: "Page 1", fontSize: 32 }), /* @__PURE__ */ import_react133.default.createElement(Text, { text: "Swipe Left", fontSize: 16 }))), /* @__PURE__ */ import_react133.default.createElement(Container, { color: "#E3F2FD" }, /* @__PURE__ */ import_react133.default.createElement(Center, null, /* @__PURE__ */ import_react133.default.createElement(Text, { text: "Page 2", fontSize: 32 }))), /* @__PURE__ */ import_react133.default.createElement(Container, { color: "#E8F5E9" }, /* @__PURE__ */ import_react133.default.createElement(Center, null, /* @__PURE__ */ import_react133.default.createElement(Text, { text: "Page 3", fontSize: 32 })))));
 }
 
 // src/demos/BottomNavDemo.tsx
-var import_react132 = __toESM(require_react_production());
+var import_react134 = __toESM(require_react_production());
 function BottomNavDemo() {
-  const [currentIndex, setCurrentIndex] = (0, import_react132.useState)(0);
+  const [currentIndex, setCurrentIndex] = (0, import_react134.useState)(0);
   const pages = [
     { name: "Home", icon: "home" },
     { name: "Business", icon: "business" },
     { name: "School", icon: "school" }
   ];
-  return /* @__PURE__ */ import_react132.default.createElement(
+  return /* @__PURE__ */ import_react134.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react132.default.createElement(AppBar, { title: `BottomNav: ${pages[currentIndex].name}` }),
-      bottomNavigationBar: /* @__PURE__ */ import_react132.default.createElement(
+      appBar: /* @__PURE__ */ import_react134.default.createElement(AppBar, { title: `BottomNav: ${pages[currentIndex].name}` }),
+      bottomNavigationBar: /* @__PURE__ */ import_react134.default.createElement(
         BottomNavigationBar,
         {
           currentIndex,
           onTap: (index) => setCurrentIndex(index),
-          items: pages.map((p) => /* @__PURE__ */ import_react132.default.createElement(
+          items: pages.map((p) => /* @__PURE__ */ import_react134.default.createElement(
             BottomNavigationBarItem,
             {
               key: p.name,
               label: p.name,
-              icon: /* @__PURE__ */ import_react132.default.createElement(Icon, { name: p.icon })
+              icon: /* @__PURE__ */ import_react134.default.createElement(Icon, { name: p.icon })
             }
           ))
         }
       )
     },
-    /* @__PURE__ */ import_react132.default.createElement(Center, null, /* @__PURE__ */ import_react132.default.createElement(
+    /* @__PURE__ */ import_react134.default.createElement(Center, null, /* @__PURE__ */ import_react134.default.createElement(
       Text,
       {
         text: `Selected Page: ${pages[currentIndex].name}`,
@@ -26572,12 +26753,12 @@ function BottomNavDemo() {
 }
 
 // src/demos/FlexDemo.tsx
-var import_react133 = __toESM(require_react_production());
+var import_react135 = __toESM(require_react_production());
 function FlexDemo() {
-  const [direction, setDirection] = (0, import_react133.useState)("horizontal");
-  const [mainAxisAlignment, setMainAxisAlignment] = (0, import_react133.useState)("start");
-  const [crossAxisAlignment, setCrossAxisAlignment] = (0, import_react133.useState)("center");
-  return /* @__PURE__ */ import_react133.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react133.default.createElement(AppBar, { title: "Flex Demo" }) }, /* @__PURE__ */ import_react133.default.createElement(Column, { padding: 16 }, /* @__PURE__ */ import_react133.default.createElement(Text, { text: "Flex Container:", fontSize: 18, fontWeight: "bold", margin: { bottom: 10 } }), /* @__PURE__ */ import_react133.default.createElement(
+  const [direction, setDirection] = (0, import_react135.useState)("horizontal");
+  const [mainAxisAlignment, setMainAxisAlignment] = (0, import_react135.useState)("start");
+  const [crossAxisAlignment, setCrossAxisAlignment] = (0, import_react135.useState)("center");
+  return /* @__PURE__ */ import_react135.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react135.default.createElement(AppBar, { title: "Flex Demo" }) }, /* @__PURE__ */ import_react135.default.createElement(Column, { padding: 16 }, /* @__PURE__ */ import_react135.default.createElement(Text, { text: "Flex Container:", fontSize: 18, fontWeight: "bold", margin: { bottom: 10 } }), /* @__PURE__ */ import_react135.default.createElement(
     Container,
     {
       height: 300,
@@ -26585,32 +26766,32 @@ function FlexDemo() {
       color: "#eeeeee",
       border: { width: 1, color: "#999999" }
     },
-    /* @__PURE__ */ import_react133.default.createElement(
+    /* @__PURE__ */ import_react135.default.createElement(
       Flex,
       {
         direction,
         mainAxisAlignment,
         crossAxisAlignment
       },
-      /* @__PURE__ */ import_react133.default.createElement(Container, { color: "#ff0000", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react133.default.createElement(Center, null, /* @__PURE__ */ import_react133.default.createElement(Text, { text: "1", color: "white" }))),
-      /* @__PURE__ */ import_react133.default.createElement(Container, { color: "#00ff00", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react133.default.createElement(Center, null, /* @__PURE__ */ import_react133.default.createElement(Text, { text: "2", color: "white" }))),
-      /* @__PURE__ */ import_react133.default.createElement(Container, { color: "#0000ff", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react133.default.createElement(Center, null, /* @__PURE__ */ import_react133.default.createElement(Text, { text: "3", color: "white" })))
+      /* @__PURE__ */ import_react135.default.createElement(Container, { color: "#ff0000", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react135.default.createElement(Center, null, /* @__PURE__ */ import_react135.default.createElement(Text, { text: "1", color: "white" }))),
+      /* @__PURE__ */ import_react135.default.createElement(Container, { color: "#00ff00", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react135.default.createElement(Center, null, /* @__PURE__ */ import_react135.default.createElement(Text, { text: "2", color: "white" }))),
+      /* @__PURE__ */ import_react135.default.createElement(Container, { color: "#0000ff", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react135.default.createElement(Center, null, /* @__PURE__ */ import_react135.default.createElement(Text, { text: "3", color: "white" })))
     )
-  ), /* @__PURE__ */ import_react133.default.createElement(Text, { text: "Direction:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react133.default.createElement(Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setDirection("horizontal"), text: "Horizontal" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setDirection("vertical"), text: "Vertical" })), /* @__PURE__ */ import_react133.default.createElement(Text, { text: "Main Axis Alignment:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react133.default.createElement(Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setMainAxisAlignment("start"), text: "Start" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setMainAxisAlignment("end"), text: "End" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setMainAxisAlignment("center"), text: "Center" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setMainAxisAlignment("spaceBetween"), text: "SpaceBetween" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setMainAxisAlignment("spaceAround"), text: "SpaceAround" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setMainAxisAlignment("spaceEvenly"), text: "SpaceEvenly" })), /* @__PURE__ */ import_react133.default.createElement(Text, { text: "Cross Axis Alignment:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react133.default.createElement(Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setCrossAxisAlignment("start"), text: "Start" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setCrossAxisAlignment("end"), text: "End" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setCrossAxisAlignment("center"), text: "Center" }), /* @__PURE__ */ import_react133.default.createElement(Button, { onTap: () => setCrossAxisAlignment("stretch"), text: "Stretch" }))));
+  ), /* @__PURE__ */ import_react135.default.createElement(Text, { text: "Direction:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react135.default.createElement(Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setDirection("horizontal"), text: "Horizontal" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setDirection("vertical"), text: "Vertical" })), /* @__PURE__ */ import_react135.default.createElement(Text, { text: "Main Axis Alignment:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react135.default.createElement(Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setMainAxisAlignment("start"), text: "Start" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setMainAxisAlignment("end"), text: "End" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setMainAxisAlignment("center"), text: "Center" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setMainAxisAlignment("spaceBetween"), text: "SpaceBetween" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setMainAxisAlignment("spaceAround"), text: "SpaceAround" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setMainAxisAlignment("spaceEvenly"), text: "SpaceEvenly" })), /* @__PURE__ */ import_react135.default.createElement(Text, { text: "Cross Axis Alignment:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react135.default.createElement(Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setCrossAxisAlignment("start"), text: "Start" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setCrossAxisAlignment("end"), text: "End" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setCrossAxisAlignment("center"), text: "Center" }), /* @__PURE__ */ import_react135.default.createElement(Button, { onTap: () => setCrossAxisAlignment("stretch"), text: "Stretch" }))));
 }
 
 // src/demos/FlexibleDemo.tsx
-var import_react134 = __toESM(require_react_production());
+var import_react136 = __toESM(require_react_production());
 function FlexibleDemo() {
-  return /* @__PURE__ */ import_react134.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react134.default.createElement(AppBar, { title: "Flexible Demo" }) }, /* @__PURE__ */ import_react134.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react134.default.createElement(Column, null, /* @__PURE__ */ import_react134.default.createElement(Text, { text: "Flexible in Row", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react134.default.createElement(Row, null, /* @__PURE__ */ import_react134.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react134.default.createElement(Container, { color: "#ff0000", height: 50 }, /* @__PURE__ */ import_react134.default.createElement(Text, { text: "Flex 1", color: "#ffffff" }))), /* @__PURE__ */ import_react134.default.createElement(Flexible, { flex: 2 }, /* @__PURE__ */ import_react134.default.createElement(Container, { color: "#00ff00", height: 50 }, /* @__PURE__ */ import_react134.default.createElement(Text, { text: "Flex 2", color: "#ffffff" }))), /* @__PURE__ */ import_react134.default.createElement(Container, { color: "#0000ff", width: 50, height: 50 })), /* @__PURE__ */ import_react134.default.createElement(Padding, { padding: { top: 40 } }, /* @__PURE__ */ import_react134.default.createElement(Text, { text: "Flexible in Column", fontSize: 18, fontWeight: "bold" })), /* @__PURE__ */ import_react134.default.createElement(Container, { height: 200, color: "#eeeeee" }, /* @__PURE__ */ import_react134.default.createElement(Column, null, /* @__PURE__ */ import_react134.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react134.default.createElement(Container, { color: "#ff0000", width: 100 }, /* @__PURE__ */ import_react134.default.createElement(Text, { text: "Flex 1", color: "#ffffff" }))), /* @__PURE__ */ import_react134.default.createElement(Flexible, { flex: 3 }, /* @__PURE__ */ import_react134.default.createElement(Container, { color: "#00ff00", width: 100 }, /* @__PURE__ */ import_react134.default.createElement(Text, { text: "Flex 3", color: "#ffffff" }))))))));
+  return /* @__PURE__ */ import_react136.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react136.default.createElement(AppBar, { title: "Flexible Demo" }) }, /* @__PURE__ */ import_react136.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react136.default.createElement(Column, null, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "Flexible in Row", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react136.default.createElement(Row, null, /* @__PURE__ */ import_react136.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react136.default.createElement(Container, { color: "#ff0000", height: 50 }, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "Flex 1", color: "#ffffff" }))), /* @__PURE__ */ import_react136.default.createElement(Flexible, { flex: 2 }, /* @__PURE__ */ import_react136.default.createElement(Container, { color: "#00ff00", height: 50 }, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "Flex 2", color: "#ffffff" }))), /* @__PURE__ */ import_react136.default.createElement(Container, { color: "#0000ff", width: 50, height: 50 })), /* @__PURE__ */ import_react136.default.createElement(Padding, { padding: { top: 40 } }, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "Flexible in Column", fontSize: 18, fontWeight: "bold" })), /* @__PURE__ */ import_react136.default.createElement(Container, { height: 200, color: "#eeeeee" }, /* @__PURE__ */ import_react136.default.createElement(Column, null, /* @__PURE__ */ import_react136.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react136.default.createElement(Container, { color: "#ff0000", width: 100 }, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "Flex 1", color: "#ffffff" }))), /* @__PURE__ */ import_react136.default.createElement(Flexible, { flex: 3 }, /* @__PURE__ */ import_react136.default.createElement(Container, { color: "#00ff00", width: 100 }, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "Flex 3", color: "#ffffff" }))))))));
 }
 
 // src/demos/GestureDetectorDemo.tsx
-var import_react135 = __toESM(require_react_production());
+var import_react137 = __toESM(require_react_production());
 function GestureDetectorDemo() {
-  const [status, setStatus] = (0, import_react135.useState)("Idle");
-  const [color, setColor] = (0, import_react135.useState)("#2196F3");
-  return /* @__PURE__ */ import_react135.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react135.default.createElement(AppBar, { title: "GestureDetector Demo" }) }, /* @__PURE__ */ import_react135.default.createElement(Center, null, /* @__PURE__ */ import_react135.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react135.default.createElement(Text, { text: `Status: ${status}`, fontSize: 20 }), /* @__PURE__ */ import_react135.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react135.default.createElement(
+  const [status, setStatus] = (0, import_react137.useState)("Idle");
+  const [color, setColor] = (0, import_react137.useState)("#2196F3");
+  return /* @__PURE__ */ import_react137.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react137.default.createElement(AppBar, { title: "GestureDetector Demo" }) }, /* @__PURE__ */ import_react137.default.createElement(Center, null, /* @__PURE__ */ import_react137.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react137.default.createElement(Text, { text: `Status: ${status}`, fontSize: 20 }), /* @__PURE__ */ import_react137.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react137.default.createElement(
     GestureDetector,
     {
       onTap: () => {
@@ -26626,7 +26807,7 @@ function GestureDetectorDemo() {
         setColor("#FFEB3B");
       }
     },
-    /* @__PURE__ */ import_react135.default.createElement(
+    /* @__PURE__ */ import_react137.default.createElement(
       Container,
       {
         width: 200,
@@ -26634,9 +26815,9 @@ function GestureDetectorDemo() {
         color,
         borderRadius: 100
       },
-      /* @__PURE__ */ import_react135.default.createElement(Center, null, /* @__PURE__ */ import_react135.default.createElement(Text, { text: "Interact Me", color: "#000000", fontWeight: "bold" }))
+      /* @__PURE__ */ import_react137.default.createElement(Center, null, /* @__PURE__ */ import_react137.default.createElement(Text, { text: "Interact Me", color: "#000000", fontWeight: "bold" }))
     )
-  )), /* @__PURE__ */ import_react135.default.createElement(
+  )), /* @__PURE__ */ import_react137.default.createElement(
     Text,
     {
       text: "Tap, Long Press or Double Tap",
@@ -26647,26 +26828,26 @@ function GestureDetectorDemo() {
 }
 
 // src/demos/SafeAreaDemo.tsx
-var import_react136 = __toESM(require_react_production());
+var import_react138 = __toESM(require_react_production());
 function SafeAreaDemo() {
-  return /* @__PURE__ */ import_react136.default.createElement(Container, { color: "#2196F3", height: 1e3 }, /* @__PURE__ */ import_react136.default.createElement(SafeArea, null, /* @__PURE__ */ import_react136.default.createElement(Container, { color: "#ffffff" }, /* @__PURE__ */ import_react136.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react136.default.createElement(Container, { height: 50, color: "#E3F2FD" }, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "This is inside SafeArea", fontSize: 18 })), /* @__PURE__ */ import_react136.default.createElement(Expanded, null, /* @__PURE__ */ import_react136.default.createElement(Container, { alignment: "center" }, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "SafeArea avoids notches and status bars" }))), /* @__PURE__ */ import_react136.default.createElement(Container, { height: 50, color: "#E3F2FD" }, /* @__PURE__ */ import_react136.default.createElement(Text, { text: "Bottom of SafeArea", fontSize: 18 }))))));
+  return /* @__PURE__ */ import_react138.default.createElement(Container, { color: "#2196F3", height: 1e3 }, /* @__PURE__ */ import_react138.default.createElement(SafeArea, null, /* @__PURE__ */ import_react138.default.createElement(Container, { color: "#ffffff" }, /* @__PURE__ */ import_react138.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react138.default.createElement(Container, { height: 50, color: "#E3F2FD" }, /* @__PURE__ */ import_react138.default.createElement(Text, { text: "This is inside SafeArea", fontSize: 18 })), /* @__PURE__ */ import_react138.default.createElement(Expanded, null, /* @__PURE__ */ import_react138.default.createElement(Container, { alignment: "center" }, /* @__PURE__ */ import_react138.default.createElement(Text, { text: "SafeArea avoids notches and status bars" }))), /* @__PURE__ */ import_react138.default.createElement(Container, { height: 50, color: "#E3F2FD" }, /* @__PURE__ */ import_react138.default.createElement(Text, { text: "Bottom of SafeArea", fontSize: 18 }))))));
 }
 
 // src/demos/SliverPersistentHeaderDemo.tsx
-var import_react137 = __toESM(require_react_production());
+var import_react139 = __toESM(require_react_production());
 function SliverPersistentHeaderDemo() {
-  return /* @__PURE__ */ import_react137.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react137.default.createElement(AppBar, { title: "SliverPersistentHeader Demo" }) }, /* @__PURE__ */ import_react137.default.createElement(CustomScrollView, null, /* @__PURE__ */ import_react137.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react137.default.createElement(Container, { height: 150, color: "#E3F2FD" }, /* @__PURE__ */ import_react137.default.createElement(Center, null, /* @__PURE__ */ import_react137.default.createElement(Text, { text: "Scroll down to see sticky headers", fontSize: 18 })))), /* @__PURE__ */ import_react137.default.createElement(SliverPersistentHeader, { pinned: true, minExtent: 50, maxExtent: 50 }, /* @__PURE__ */ import_react137.default.createElement(Container, { color: "#2196F3", padding: { left: 16 }, alignment: "topLeft" }, /* @__PURE__ */ import_react137.default.createElement(Center, null, /* @__PURE__ */ import_react137.default.createElement(
+  return /* @__PURE__ */ import_react139.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react139.default.createElement(AppBar, { title: "SliverPersistentHeader Demo" }) }, /* @__PURE__ */ import_react139.default.createElement(CustomScrollView, null, /* @__PURE__ */ import_react139.default.createElement(SliverToBoxAdapter, null, /* @__PURE__ */ import_react139.default.createElement(Container, { height: 150, color: "#E3F2FD" }, /* @__PURE__ */ import_react139.default.createElement(Center, null, /* @__PURE__ */ import_react139.default.createElement(Text, { text: "Scroll down to see sticky headers", fontSize: 18 })))), /* @__PURE__ */ import_react139.default.createElement(SliverPersistentHeader, { pinned: true, minExtent: 50, maxExtent: 50 }, /* @__PURE__ */ import_react139.default.createElement(Container, { color: "#2196F3", padding: { left: 16 }, alignment: "topLeft" }, /* @__PURE__ */ import_react139.default.createElement(Center, null, /* @__PURE__ */ import_react139.default.createElement(
     Text,
     {
       text: "Sticky Header 1 (Pinned)",
       color: "white",
       fontWeight: "bold"
     }
-  )))), /* @__PURE__ */ import_react137.default.createElement(
+  )))), /* @__PURE__ */ import_react139.default.createElement(
     SliverList,
     {
       itemCount: 15,
-      itemBuilder: (index) => /* @__PURE__ */ import_react137.default.createElement(
+      itemBuilder: (index) => /* @__PURE__ */ import_react139.default.createElement(
         Container,
         {
           height: 50,
@@ -26674,21 +26855,21 @@ function SliverPersistentHeaderDemo() {
           color: "white",
           alignment: "topLeft"
         },
-        /* @__PURE__ */ import_react137.default.createElement(Column, { crossAxisAlignment: "start", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react137.default.createElement(Text, { text: `List Item ${index}` }), /* @__PURE__ */ import_react137.default.createElement(Divider, { height: 1, color: "#EEEEEE" }))
+        /* @__PURE__ */ import_react139.default.createElement(Column, { crossAxisAlignment: "start", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react139.default.createElement(Text, { text: `List Item ${index}` }), /* @__PURE__ */ import_react139.default.createElement(Divider, { height: 1, color: "#EEEEEE" }))
       )
     }
-  ), /* @__PURE__ */ import_react137.default.createElement(SliverPersistentHeader, { pinned: true, minExtent: 50, maxExtent: 50 }, /* @__PURE__ */ import_react137.default.createElement(Container, { color: "#4CAF50", padding: { left: 16 }, alignment: "topLeft" }, /* @__PURE__ */ import_react137.default.createElement(Center, null, /* @__PURE__ */ import_react137.default.createElement(
+  ), /* @__PURE__ */ import_react139.default.createElement(SliverPersistentHeader, { pinned: true, minExtent: 50, maxExtent: 50 }, /* @__PURE__ */ import_react139.default.createElement(Container, { color: "#4CAF50", padding: { left: 16 }, alignment: "topLeft" }, /* @__PURE__ */ import_react139.default.createElement(Center, null, /* @__PURE__ */ import_react139.default.createElement(
     Text,
     {
       text: "Sticky Header 2 (Pinned)",
       color: "white",
       fontWeight: "bold"
     }
-  )))), /* @__PURE__ */ import_react137.default.createElement(
+  )))), /* @__PURE__ */ import_react139.default.createElement(
     SliverList,
     {
       itemCount: 20,
-      itemBuilder: (index) => /* @__PURE__ */ import_react137.default.createElement(
+      itemBuilder: (index) => /* @__PURE__ */ import_react139.default.createElement(
         Container,
         {
           height: 50,
@@ -26696,28 +26877,28 @@ function SliverPersistentHeaderDemo() {
           color: "white",
           alignment: "topLeft"
         },
-        /* @__PURE__ */ import_react137.default.createElement(Column, { crossAxisAlignment: "start", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react137.default.createElement(Text, { text: `Another List Item ${index}` }), /* @__PURE__ */ import_react137.default.createElement(Divider, { height: 1, color: "#EEEEEE" }))
+        /* @__PURE__ */ import_react139.default.createElement(Column, { crossAxisAlignment: "start", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react139.default.createElement(Text, { text: `Another List Item ${index}` }), /* @__PURE__ */ import_react139.default.createElement(Divider, { height: 1, color: "#EEEEEE" }))
       )
     }
   )));
 }
 
 // src/demos/TabDemo.tsx
-var import_react138 = __toESM(require_react_production());
+var import_react140 = __toESM(require_react_production());
 function TabDemo() {
-  const [activeTab, setActiveTab] = (0, import_react138.useState)(0);
+  const [activeTab, setActiveTab] = (0, import_react140.useState)(0);
   const tabs = ["Tab 1", "Tab 2", "Tab 3"];
-  return /* @__PURE__ */ import_react138.default.createElement(DefaultTabController, { length: tabs.length }, /* @__PURE__ */ import_react138.default.createElement(
+  return /* @__PURE__ */ import_react140.default.createElement(DefaultTabController, { length: tabs.length }, /* @__PURE__ */ import_react140.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react138.default.createElement(
+      appBar: /* @__PURE__ */ import_react140.default.createElement(
         AppBar,
         {
           title: "Tab Demo",
-          bottom: /* @__PURE__ */ import_react138.default.createElement(
+          bottom: /* @__PURE__ */ import_react140.default.createElement(
             TabBar,
             {
-              tabs: tabs.map((t2) => /* @__PURE__ */ import_react138.default.createElement(Tab, { key: t2, text: t2 })),
+              tabs: tabs.map((t2) => /* @__PURE__ */ import_react140.default.createElement(Tab, { key: t2, text: t2 })),
               onTap: (index) => setActiveTab(index),
               indicatorColor: "white",
               labelColor: "white",
@@ -26727,20 +26908,20 @@ function TabDemo() {
         }
       )
     },
-    /* @__PURE__ */ import_react138.default.createElement(TabBarView, null, /* @__PURE__ */ import_react138.default.createElement(Container, { color: "#F5F5F5" }, /* @__PURE__ */ import_react138.default.createElement(Center, null, /* @__PURE__ */ import_react138.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react138.default.createElement(Text, { text: "This is Tab 1 Content", fontSize: 20 }), /* @__PURE__ */ import_react138.default.createElement(Padding, { padding: 10 }, /* @__PURE__ */ import_react138.default.createElement(
+    /* @__PURE__ */ import_react140.default.createElement(TabBarView, null, /* @__PURE__ */ import_react140.default.createElement(Container, { color: "#F5F5F5" }, /* @__PURE__ */ import_react140.default.createElement(Center, null, /* @__PURE__ */ import_react140.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react140.default.createElement(Text, { text: "This is Tab 1 Content", fontSize: 20 }), /* @__PURE__ */ import_react140.default.createElement(Padding, { padding: 10 }, /* @__PURE__ */ import_react140.default.createElement(
       Text,
       {
         text: `Active Index from state: ${activeTab}`,
         color: "#666666"
       }
-    ))))), /* @__PURE__ */ import_react138.default.createElement(Container, { color: "#E8F5E9" }, /* @__PURE__ */ import_react138.default.createElement(Center, null, /* @__PURE__ */ import_react138.default.createElement(
+    ))))), /* @__PURE__ */ import_react140.default.createElement(Container, { color: "#E8F5E9" }, /* @__PURE__ */ import_react140.default.createElement(Center, null, /* @__PURE__ */ import_react140.default.createElement(
       Text,
       {
         text: "This is Tab 2 Content",
         fontSize: 20,
         color: "#2E7D32"
       }
-    ))), /* @__PURE__ */ import_react138.default.createElement(Container, { color: "#FFF3E0" }, /* @__PURE__ */ import_react138.default.createElement(Center, null, /* @__PURE__ */ import_react138.default.createElement(
+    ))), /* @__PURE__ */ import_react140.default.createElement(Container, { color: "#FFF3E0" }, /* @__PURE__ */ import_react140.default.createElement(Center, null, /* @__PURE__ */ import_react140.default.createElement(
       Text,
       {
         text: "This is Tab 3 Content",
@@ -26752,16 +26933,16 @@ function TabDemo() {
 }
 
 // src/demos/ContainerDemo.tsx
-var import_react139 = __toESM(require_react_production());
+var import_react141 = __toESM(require_react_production());
 function ContainerDemo() {
-  return /* @__PURE__ */ import_react139.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react139.default.createElement(AppBar, { title: "Container Demo" }) }, /* @__PURE__ */ import_react139.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react139.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react139.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react139.default.createElement(
+  return /* @__PURE__ */ import_react141.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react141.default.createElement(AppBar, { title: "Container Demo" }) }, /* @__PURE__ */ import_react141.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react141.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react141.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react141.default.createElement(
     Text,
     {
       text: "Basic Colors and Sizes",
       fontWeight: "bold",
       fontSize: 18
     }
-  ), /* @__PURE__ */ import_react139.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react139.default.createElement(Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react139.default.createElement(Center, null, /* @__PURE__ */ import_react139.default.createElement(Text, { text: "100x100", color: "white" })))), /* @__PURE__ */ import_react139.default.createElement(Text, { text: "Rounded Corners", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react139.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react139.default.createElement(
+  ), /* @__PURE__ */ import_react141.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react141.default.createElement(Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react141.default.createElement(Center, null, /* @__PURE__ */ import_react141.default.createElement(Text, { text: "100x100", color: "white" })))), /* @__PURE__ */ import_react141.default.createElement(Text, { text: "Rounded Corners", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react141.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react141.default.createElement(
     Container,
     {
       width: 200,
@@ -26769,8 +26950,8 @@ function ContainerDemo() {
       color: "#4CAF50",
       borderRadius: 12
     },
-    /* @__PURE__ */ import_react139.default.createElement(Center, null, /* @__PURE__ */ import_react139.default.createElement(Text, { text: "borderRadius: 12", color: "white" }))
-  )), /* @__PURE__ */ import_react139.default.createElement(Text, { text: "Border", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react139.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react139.default.createElement(
+    /* @__PURE__ */ import_react141.default.createElement(Center, null, /* @__PURE__ */ import_react141.default.createElement(Text, { text: "borderRadius: 12", color: "white" }))
+  )), /* @__PURE__ */ import_react141.default.createElement(Text, { text: "Border", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react141.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react141.default.createElement(
     Container,
     {
       width: 200,
@@ -26779,15 +26960,15 @@ function ContainerDemo() {
       borderRadius: 8,
       border: { color: "#2196F3", width: 2 }
     },
-    /* @__PURE__ */ import_react139.default.createElement(Center, null, /* @__PURE__ */ import_react139.default.createElement(Text, { text: "With Border", color: "#2196F3" }))
-  )), /* @__PURE__ */ import_react139.default.createElement(
+    /* @__PURE__ */ import_react141.default.createElement(Center, null, /* @__PURE__ */ import_react141.default.createElement(Text, { text: "With Border", color: "#2196F3" }))
+  )), /* @__PURE__ */ import_react141.default.createElement(
     Text,
     {
       text: "BoxShadow (Decoration)",
       fontWeight: "bold",
       fontSize: 18
     }
-  ), /* @__PURE__ */ import_react139.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react139.default.createElement(
+  ), /* @__PURE__ */ import_react141.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react141.default.createElement(
     Container,
     {
       width: 200,
@@ -26802,8 +26983,8 @@ function ContainerDemo() {
         }
       }
     },
-    /* @__PURE__ */ import_react139.default.createElement(Center, null, /* @__PURE__ */ import_react139.default.createElement(Text, { text: "With Shadow" }))
-  )), /* @__PURE__ */ import_react139.default.createElement(Text, { text: "Alignment", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react139.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react139.default.createElement(
+    /* @__PURE__ */ import_react141.default.createElement(Center, null, /* @__PURE__ */ import_react141.default.createElement(Text, { text: "With Shadow" }))
+  )), /* @__PURE__ */ import_react141.default.createElement(Text, { text: "Alignment", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react141.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react141.default.createElement(
     Container,
     {
       width: 300,
@@ -26812,37 +26993,37 @@ function ContainerDemo() {
       alignment: "bottomRight",
       padding: 8
     },
-    /* @__PURE__ */ import_react139.default.createElement(Container, { width: 50, height: 50, color: "#FF9800" }, /* @__PURE__ */ import_react139.default.createElement(Center, null, /* @__PURE__ */ import_react139.default.createElement(Text, { text: "BR", color: "white" })))
+    /* @__PURE__ */ import_react141.default.createElement(Container, { width: 50, height: 50, color: "#FF9800" }, /* @__PURE__ */ import_react141.default.createElement(Center, null, /* @__PURE__ */ import_react141.default.createElement(Text, { text: "BR", color: "white" })))
   ))))));
 }
 
 // src/demos/LayoutBasicsDemo.tsx
-var import_react140 = __toESM(require_react_production());
+var import_react142 = __toESM(require_react_production());
 function LayoutBasicsDemo() {
-  return /* @__PURE__ */ import_react140.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react140.default.createElement(AppBar, { title: "Layout Basics Demo" }) }, /* @__PURE__ */ import_react140.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react140.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react140.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react140.default.createElement(
+  return /* @__PURE__ */ import_react142.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react142.default.createElement(AppBar, { title: "Layout Basics Demo" }) }, /* @__PURE__ */ import_react142.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react142.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react142.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react142.default.createElement(
     Text,
     {
       text: "Expanded vs Flexible in Row",
       fontWeight: "bold",
       fontSize: 18
     }
-  ), /* @__PURE__ */ import_react140.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react140.default.createElement(Container, { height: 60, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react140.default.createElement(Row, null, /* @__PURE__ */ import_react140.default.createElement(Container, { width: 50, color: "#F44336" }), /* @__PURE__ */ import_react140.default.createElement(Expanded, null, /* @__PURE__ */ import_react140.default.createElement(Container, { color: "#2196F3" }, /* @__PURE__ */ import_react140.default.createElement(Center, null, /* @__PURE__ */ import_react140.default.createElement(
+  ), /* @__PURE__ */ import_react142.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react142.default.createElement(Container, { height: 60, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react142.default.createElement(Row, null, /* @__PURE__ */ import_react142.default.createElement(Container, { width: 50, color: "#F44336" }), /* @__PURE__ */ import_react142.default.createElement(Expanded, null, /* @__PURE__ */ import_react142.default.createElement(Container, { color: "#2196F3" }, /* @__PURE__ */ import_react142.default.createElement(Center, null, /* @__PURE__ */ import_react142.default.createElement(
     Text,
     {
       text: "Expanded (takes all)",
       color: "white",
       fontSize: 12
     }
-  )))), /* @__PURE__ */ import_react140.default.createElement(Container, { width: 50, color: "#4CAF50" })))), /* @__PURE__ */ import_react140.default.createElement(Padding, { padding: { bottom: 16 } }, /* @__PURE__ */ import_react140.default.createElement(Container, { height: 60, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react140.default.createElement(Row, null, /* @__PURE__ */ import_react140.default.createElement(Container, { width: 50, color: "#F44336" }), /* @__PURE__ */ import_react140.default.createElement(Flexible, null, /* @__PURE__ */ import_react140.default.createElement(Container, { width: 100, color: "#9C27B0" }, /* @__PURE__ */ import_react140.default.createElement(Center, null, /* @__PURE__ */ import_react140.default.createElement(Text, { text: "Flexible", color: "white", fontSize: 12 })))), /* @__PURE__ */ import_react140.default.createElement(Container, { width: 50, color: "#4CAF50" })))), /* @__PURE__ */ import_react140.default.createElement(Divider, { height: 32, color: "transparent" }), /* @__PURE__ */ import_react140.default.createElement(Text, { text: "Column Alignment", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react140.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react140.default.createElement(Container, { height: 150, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react140.default.createElement(
+  )))), /* @__PURE__ */ import_react142.default.createElement(Container, { width: 50, color: "#4CAF50" })))), /* @__PURE__ */ import_react142.default.createElement(Padding, { padding: { bottom: 16 } }, /* @__PURE__ */ import_react142.default.createElement(Container, { height: 60, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react142.default.createElement(Row, null, /* @__PURE__ */ import_react142.default.createElement(Container, { width: 50, color: "#F44336" }), /* @__PURE__ */ import_react142.default.createElement(Flexible, null, /* @__PURE__ */ import_react142.default.createElement(Container, { width: 100, color: "#9C27B0" }, /* @__PURE__ */ import_react142.default.createElement(Center, null, /* @__PURE__ */ import_react142.default.createElement(Text, { text: "Flexible", color: "white", fontSize: 12 })))), /* @__PURE__ */ import_react142.default.createElement(Container, { width: 50, color: "#4CAF50" })))), /* @__PURE__ */ import_react142.default.createElement(Divider, { height: 32, color: "transparent" }), /* @__PURE__ */ import_react142.default.createElement(Text, { text: "Column Alignment", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react142.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react142.default.createElement(Container, { height: 150, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react142.default.createElement(
     Column,
     {
       mainAxisAlignment: "spaceEvenly",
       crossAxisAlignment: "center"
     },
-    /* @__PURE__ */ import_react140.default.createElement(Container, { width: 100, height: 30, color: "#FF9800" }),
-    /* @__PURE__ */ import_react140.default.createElement(Container, { width: 150, height: 30, color: "#FF9800" }),
-    /* @__PURE__ */ import_react140.default.createElement(Container, { width: 80, height: 30, color: "#FF9800" })
-  ))), /* @__PURE__ */ import_react140.default.createElement(Divider, { height: 32, color: "transparent" }), /* @__PURE__ */ import_react140.default.createElement(Text, { text: "Center Widget", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react140.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react140.default.createElement(Container, { height: 100, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react140.default.createElement(Center, null, /* @__PURE__ */ import_react140.default.createElement(
+    /* @__PURE__ */ import_react142.default.createElement(Container, { width: 100, height: 30, color: "#FF9800" }),
+    /* @__PURE__ */ import_react142.default.createElement(Container, { width: 150, height: 30, color: "#FF9800" }),
+    /* @__PURE__ */ import_react142.default.createElement(Container, { width: 80, height: 30, color: "#FF9800" })
+  ))), /* @__PURE__ */ import_react142.default.createElement(Divider, { height: 32, color: "transparent" }), /* @__PURE__ */ import_react142.default.createElement(Text, { text: "Center Widget", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react142.default.createElement(Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react142.default.createElement(Container, { height: 100, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react142.default.createElement(Center, null, /* @__PURE__ */ import_react142.default.createElement(
     Container,
     {
       width: 60,
@@ -26854,10 +27035,10 @@ function LayoutBasicsDemo() {
 }
 
 // src/demos/InkWellDemo.tsx
-var import_react141 = __toESM(require_react_production());
+var import_react143 = __toESM(require_react_production());
 function InkWellDemo() {
-  const [count, setCount] = (0, import_react141.useState)(0);
-  return /* @__PURE__ */ import_react141.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react141.default.createElement(AppBar, { title: "InkWell Demo" }) }, /* @__PURE__ */ import_react141.default.createElement(Center, null, /* @__PURE__ */ import_react141.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react141.default.createElement(Text, { text: `Count: ${count}`, fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react141.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react141.default.createElement(InkWell, { onTap: () => setCount(count + 1) }, /* @__PURE__ */ import_react141.default.createElement(
+  const [count, setCount] = (0, import_react143.useState)(0);
+  return /* @__PURE__ */ import_react143.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react143.default.createElement(AppBar, { title: "InkWell Demo" }) }, /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react143.default.createElement(Text, { text: `Count: ${count}`, fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react143.default.createElement(Padding, { padding: 20 }, /* @__PURE__ */ import_react143.default.createElement(InkWell, { onTap: () => setCount(count + 1) }, /* @__PURE__ */ import_react143.default.createElement(
     Container,
     {
       width: 200,
@@ -26865,8 +27046,8 @@ function InkWellDemo() {
       color: "#2196F3",
       borderRadius: 8
     },
-    /* @__PURE__ */ import_react141.default.createElement(Center, null, /* @__PURE__ */ import_react141.default.createElement(Text, { text: "Click with Ripple", color: "white" }))
-  ))), /* @__PURE__ */ import_react141.default.createElement(Padding, { padding: 10 }, /* @__PURE__ */ import_react141.default.createElement(InkWell, { onTap: () => setCount(0) }, /* @__PURE__ */ import_react141.default.createElement(
+    /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Click with Ripple", color: "white" }))
+  ))), /* @__PURE__ */ import_react143.default.createElement(Padding, { padding: 10 }, /* @__PURE__ */ import_react143.default.createElement(InkWell, { onTap: () => setCount(0) }, /* @__PURE__ */ import_react143.default.createElement(
     Container,
     {
       width: 150,
@@ -26874,17 +27055,17 @@ function InkWellDemo() {
       border: { color: "#F44336", width: 1 },
       borderRadius: 20
     },
-    /* @__PURE__ */ import_react141.default.createElement(Center, null, /* @__PURE__ */ import_react141.default.createElement(Text, { text: "Reset", color: "#F44336" }))
+    /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Reset", color: "#F44336" }))
   ))))));
 }
 
 // src/demos/ScaffoldDemo.tsx
-var import_react142 = __toESM(require_react_production());
+var import_react144 = __toESM(require_react_production());
 var ScaffoldDemo = () => {
-  const [currentIndex, setCurrentIndex] = (0, import_react142.useState)(0);
-  const [clickCount, setClickCount] = (0, import_react142.useState)(0);
+  const [currentIndex, setCurrentIndex] = (0, import_react144.useState)(0);
+  const [clickCount, setClickCount] = (0, import_react144.useState)(0);
   const pages = [
-    /* @__PURE__ */ import_react142.default.createElement(Center, { key: "home" }, /* @__PURE__ */ import_react142.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "home", size: 100, color: "#2196F3" }), /* @__PURE__ */ import_react142.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react142.default.createElement(Text, { text: "\u8FD9\u662F\u9996\u9875\u5185\u5BB9", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react142.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react142.default.createElement(
+    /* @__PURE__ */ import_react144.default.createElement(Center, { key: "home" }, /* @__PURE__ */ import_react144.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "home", size: 100, color: "#2196F3" }), /* @__PURE__ */ import_react144.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react144.default.createElement(Text, { text: "\u8FD9\u662F\u9996\u9875\u5185\u5BB9", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react144.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react144.default.createElement(
       Text,
       {
         text: `FAB \u70B9\u51FB\u6B21\u6570: ${clickCount}`,
@@ -26892,26 +27073,26 @@ var ScaffoldDemo = () => {
         color: "#666666"
       }
     ))),
-    /* @__PURE__ */ import_react142.default.createElement(Center, { key: "search" }, /* @__PURE__ */ import_react142.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "search", size: 100, color: "#4CAF50" }), /* @__PURE__ */ import_react142.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react142.default.createElement(Text, { text: "\u8FD9\u662F\u641C\u7D22\u9875\u9762", fontSize: 24, fontWeight: "bold" }))),
-    /* @__PURE__ */ import_react142.default.createElement(Center, { key: "profile" }, /* @__PURE__ */ import_react142.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "person", size: 100, color: "#FF9800" }), /* @__PURE__ */ import_react142.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react142.default.createElement(Text, { text: "\u8FD9\u662F\u4E2A\u4EBA\u4E2D\u5FC3", fontSize: 24, fontWeight: "bold" })))
+    /* @__PURE__ */ import_react144.default.createElement(Center, { key: "search" }, /* @__PURE__ */ import_react144.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "search", size: 100, color: "#4CAF50" }), /* @__PURE__ */ import_react144.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react144.default.createElement(Text, { text: "\u8FD9\u662F\u641C\u7D22\u9875\u9762", fontSize: 24, fontWeight: "bold" }))),
+    /* @__PURE__ */ import_react144.default.createElement(Center, { key: "profile" }, /* @__PURE__ */ import_react144.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "person", size: 100, color: "#FF9800" }), /* @__PURE__ */ import_react144.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react144.default.createElement(Text, { text: "\u8FD9\u662F\u4E2A\u4EBA\u4E2D\u5FC3", fontSize: 24, fontWeight: "bold" })))
   ];
-  return /* @__PURE__ */ import_react142.default.createElement(
+  return /* @__PURE__ */ import_react144.default.createElement(
     Scaffold,
     {
       backgroundColor: "#F5F5F5",
-      appBar: /* @__PURE__ */ import_react142.default.createElement(
+      appBar: /* @__PURE__ */ import_react144.default.createElement(
         AppBar,
         {
-          title: /* @__PURE__ */ import_react142.default.createElement(Text, { text: "Scaffold \u529F\u80FD\u6F14\u793A", color: "white" }),
+          title: /* @__PURE__ */ import_react144.default.createElement(Text, { text: "Scaffold \u529F\u80FD\u6F14\u793A", color: "white" }),
           backgroundColor: "#2196F3",
           centerTitle: true,
-          leading: /* @__PURE__ */ import_react142.default.createElement(InkWell, { onTap: () => console.log("Menu tapped") }, /* @__PURE__ */ import_react142.default.createElement(Padding, { padding: { left: 16 } }, /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "menu", color: "white" }))),
+          leading: /* @__PURE__ */ import_react144.default.createElement(InkWell, { onTap: () => console.log("Menu tapped") }, /* @__PURE__ */ import_react144.default.createElement(Padding, { padding: { left: 16 } }, /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "menu", color: "white" }))),
           actions: [
-            /* @__PURE__ */ import_react142.default.createElement(InkWell, { key: "search", onTap: () => console.log("Search tapped") }, /* @__PURE__ */ import_react142.default.createElement(Padding, { padding: { right: 16 } }, /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "search", color: "white" })))
+            /* @__PURE__ */ import_react144.default.createElement(InkWell, { key: "search", onTap: () => console.log("Search tapped") }, /* @__PURE__ */ import_react144.default.createElement(Padding, { padding: { right: 16 } }, /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "search", color: "white" })))
           ]
         }
       ),
-      drawer: /* @__PURE__ */ import_react142.default.createElement(Container, { width: 280, color: "white" }, /* @__PURE__ */ import_react142.default.createElement(SafeArea, null, /* @__PURE__ */ import_react142.default.createElement(Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react142.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react142.default.createElement(
+      drawer: /* @__PURE__ */ import_react144.default.createElement(Container, { width: 280, color: "white" }, /* @__PURE__ */ import_react144.default.createElement(SafeArea, null, /* @__PURE__ */ import_react144.default.createElement(Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react144.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react144.default.createElement(
         Container,
         {
           width: 60,
@@ -26919,31 +27100,31 @@ var ScaffoldDemo = () => {
           borderRadius: 30,
           color: "#2196F3"
         },
-        /* @__PURE__ */ import_react142.default.createElement(Center, null, /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "person", color: "white", size: 30 }))
-      ), /* @__PURE__ */ import_react142.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react142.default.createElement(Text, { text: "FuickJS \u7528\u6237", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react142.default.createElement(
+        /* @__PURE__ */ import_react144.default.createElement(Center, null, /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "person", color: "white", size: 30 }))
+      ), /* @__PURE__ */ import_react144.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react144.default.createElement(Text, { text: "FuickJS \u7528\u6237", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react144.default.createElement(
         Text,
         {
           text: "fuickjs@example.com",
           fontSize: 14,
           color: "#666666"
         }
-      ), /* @__PURE__ */ import_react142.default.createElement(SizedBox, { height: 32 }), /* @__PURE__ */ import_react142.default.createElement(
+      ), /* @__PURE__ */ import_react144.default.createElement(SizedBox, { height: 32 }), /* @__PURE__ */ import_react144.default.createElement(
         ListTile,
         {
-          leading: /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "settings" }),
-          title: /* @__PURE__ */ import_react142.default.createElement(Text, { text: "\u8BBE\u7F6E" }),
+          leading: /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "settings" }),
+          title: /* @__PURE__ */ import_react144.default.createElement(Text, { text: "\u8BBE\u7F6E" }),
           onTap: () => console.log("Settings tapped")
         }
-      ), /* @__PURE__ */ import_react142.default.createElement(
+      ), /* @__PURE__ */ import_react144.default.createElement(
         ListTile,
         {
-          leading: /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "info" }),
-          title: /* @__PURE__ */ import_react142.default.createElement(Text, { text: "\u5173\u4E8E" }),
+          leading: /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "info" }),
+          title: /* @__PURE__ */ import_react144.default.createElement(Text, { text: "\u5173\u4E8E" }),
           onTap: () => console.log("About tapped")
         }
       ))))),
-      floatingActionButton: /* @__PURE__ */ import_react142.default.createElement(InkWell, { onTap: () => setClickCount((c) => c + 1) }, /* @__PURE__ */ import_react142.default.createElement(Container, { width: 56, height: 56, borderRadius: 28, color: "#2196F3" }, /* @__PURE__ */ import_react142.default.createElement(Center, null, /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "add", color: "white", size: 28 })))),
-      bottomNavigationBar: /* @__PURE__ */ import_react142.default.createElement(
+      floatingActionButton: /* @__PURE__ */ import_react144.default.createElement(InkWell, { onTap: () => setClickCount((c) => c + 1) }, /* @__PURE__ */ import_react144.default.createElement(Container, { width: 56, height: 56, borderRadius: 28, color: "#2196F3" }, /* @__PURE__ */ import_react144.default.createElement(Center, null, /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "add", color: "white", size: 28 })))),
+      bottomNavigationBar: /* @__PURE__ */ import_react144.default.createElement(
         BottomNavigationBar,
         {
           currentIndex,
@@ -26951,27 +27132,27 @@ var ScaffoldDemo = () => {
           selectedItemColor: "#2196F3",
           unselectedItemColor: "#999999",
           items: [
-            /* @__PURE__ */ import_react142.default.createElement(
+            /* @__PURE__ */ import_react144.default.createElement(
               BottomNavigationBarItem,
               {
                 key: "home",
-                icon: /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "home" }),
+                icon: /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "home" }),
                 label: "\u9996\u9875"
               }
             ),
-            /* @__PURE__ */ import_react142.default.createElement(
+            /* @__PURE__ */ import_react144.default.createElement(
               BottomNavigationBarItem,
               {
                 key: "search",
-                icon: /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "search" }),
+                icon: /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "search" }),
                 label: "\u641C\u7D22"
               }
             ),
-            /* @__PURE__ */ import_react142.default.createElement(
+            /* @__PURE__ */ import_react144.default.createElement(
               BottomNavigationBarItem,
               {
                 key: "profile",
-                icon: /* @__PURE__ */ import_react142.default.createElement(Icon, { name: "person" }),
+                icon: /* @__PURE__ */ import_react144.default.createElement(Icon, { name: "person" }),
                 label: "\u6211\u7684"
               }
             )
@@ -26985,21 +27166,21 @@ var ScaffoldDemo = () => {
 var ScaffoldDemo_default = ScaffoldDemo;
 
 // src/demos/AnimatedDemo.tsx
-var import_react143 = __toESM(require_react_production());
+var import_react145 = __toESM(require_react_production());
 function AnimatedDemo() {
-  const [selected, setSelected] = (0, import_react143.useState)(false);
-  const [opacity, setOpacity] = (0, import_react143.useState)(1);
-  const [alignment, setAlignment] = (0, import_react143.useState)("topLeft");
-  const [positioned, setPositioned] = (0, import_react143.useState)(false);
-  const [padding, setPadding] = (0, import_react143.useState)(10);
-  const [scaleImplicit, setScaleImplicit] = (0, import_react143.useState)(1);
-  const [rotationImplicit, setRotationImplicit] = (0, import_react143.useState)(0);
-  const [slideImplicit, setSlideImplicit] = (0, import_react143.useState)({ dx: 0, dy: 0 });
-  const [animating, setAnimating] = (0, import_react143.useState)(false);
-  const [turns, setTurns] = (0, import_react143.useState)(0);
-  const [scaleExplicit, setScaleExplicit] = (0, import_react143.useState)(1);
-  const [offsetExplicit, setOffsetExplicit] = (0, import_react143.useState)({ dx: 0, dy: 0 });
-  (0, import_react143.useEffect)(() => {
+  const [selected, setSelected] = (0, import_react145.useState)(false);
+  const [opacity, setOpacity] = (0, import_react145.useState)(1);
+  const [alignment, setAlignment] = (0, import_react145.useState)("topLeft");
+  const [positioned, setPositioned] = (0, import_react145.useState)(false);
+  const [padding, setPadding] = (0, import_react145.useState)(10);
+  const [scaleImplicit, setScaleImplicit] = (0, import_react145.useState)(1);
+  const [rotationImplicit, setRotationImplicit] = (0, import_react145.useState)(0);
+  const [slideImplicit, setSlideImplicit] = (0, import_react145.useState)({ dx: 0, dy: 0 });
+  const [animating, setAnimating] = (0, import_react145.useState)(false);
+  const [turns, setTurns] = (0, import_react145.useState)(0);
+  const [scaleExplicit, setScaleExplicit] = (0, import_react145.useState)(1);
+  const [offsetExplicit, setOffsetExplicit] = (0, import_react145.useState)({ dx: 0, dy: 0 });
+  (0, import_react145.useEffect)(() => {
     let interval;
     if (animating) {
       interval = setInterval(() => {
@@ -27017,7 +27198,7 @@ function AnimatedDemo() {
     }
     return () => clearInterval(interval);
   }, [animating]);
-  return /* @__PURE__ */ import_react143.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react143.default.createElement(AppBar, { title: /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Animated & Transition" }) }) }, /* @__PURE__ */ import_react143.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react143.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react143.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react143.default.createElement(
+  return /* @__PURE__ */ import_react145.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react145.default.createElement(AppBar, { title: /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Animated & Transition" }) }) }, /* @__PURE__ */ import_react145.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react145.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react145.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react145.default.createElement(
     Text,
     {
       text: "Implicit Animations",
@@ -27025,7 +27206,7 @@ function AnimatedDemo() {
       fontWeight: "bold",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "AnimatedContainer", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "AnimatedContainer", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     AnimatedContainer,
     {
       width: selected ? 200 : 100,
@@ -27035,28 +27216,28 @@ function AnimatedDemo() {
       duration: 1e3,
       curve: "fastOutSlowIn"
     },
-    /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Click me!", color: "#FFFFFF" }))
-  ), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+    /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Click me!", color: "#FFFFFF" }))
+  ), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     Button,
     {
       text: "Toggle Container",
       onTap: () => setSelected(!selected)
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "AnimatedOpacity", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(AnimatedOpacity, { opacity, duration: 1e3 }, /* @__PURE__ */ import_react143.default.createElement(Container, { width: 100, height: 100, color: "#00FF00" })), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "AnimatedOpacity", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(AnimatedOpacity, { opacity, duration: 1e3 }, /* @__PURE__ */ import_react145.default.createElement(Container, { width: 100, height: 100, color: "#00FF00" })), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     Button,
     {
       text: "Fade In/Out",
       onTap: () => setOpacity(opacity === 1 ? 0 : 1)
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "AnimatedAlign", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(Container, { width: 200, height: 200, color: "#EEEEEE" }, /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "AnimatedAlign", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(Container, { width: 200, height: 200, color: "#EEEEEE" }, /* @__PURE__ */ import_react145.default.createElement(
     AnimatedAlign,
     {
       alignment,
       duration: 1e3,
       curve: "easeInOut"
     },
-    /* @__PURE__ */ import_react143.default.createElement(Container, { width: 50, height: 50, color: "#FF00FF" })
-  )), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+    /* @__PURE__ */ import_react145.default.createElement(Container, { width: 50, height: 50, color: "#FF00FF" })
+  )), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     Button,
     {
       text: "Move Align",
@@ -27073,21 +27254,21 @@ function AnimatedDemo() {
         setAlignment(aligns[nextIdx]);
       }
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "AnimatedPadding", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(Container, { color: "#EEEEEE" }, /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "AnimatedPadding", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#EEEEEE" }, /* @__PURE__ */ import_react145.default.createElement(
     AnimatedPadding,
     {
       padding,
       duration: 500,
       curve: "easeInOut"
     },
-    /* @__PURE__ */ import_react143.default.createElement(Container, { width: 100, height: 100, color: "#00FFFF" })
-  )), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+    /* @__PURE__ */ import_react145.default.createElement(Container, { width: 100, height: 100, color: "#00FFFF" })
+  )), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     Button,
     {
       text: "Change Padding",
       onTap: () => setPadding(padding === 10 ? 50 : 10)
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "AnimatedPositioned", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(Container, { width: 300, height: 200, color: "#EEEEEE" }, /* @__PURE__ */ import_react143.default.createElement(Stack, null, /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "AnimatedPositioned", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(Container, { width: 300, height: 200, color: "#EEEEEE" }, /* @__PURE__ */ import_react145.default.createElement(Stack, null, /* @__PURE__ */ import_react145.default.createElement(
     AnimatedPositioned,
     {
       left: positioned ? 10 : 150,
@@ -27097,72 +27278,72 @@ function AnimatedDemo() {
       duration: 1e3,
       curve: "elasticInOut"
     },
-    /* @__PURE__ */ import_react143.default.createElement(Container, { color: "#FFA500" })
-  ))), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+    /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#FFA500" })
+  ))), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     Button,
     {
       text: "Move Positioned",
       onTap: () => setPositioned(!positioned)
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "AnimatedScale", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "AnimatedScale", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(
     AnimatedScale,
     {
       scale: scaleImplicit,
       duration: 500,
       curve: "easeInOut"
     },
-    /* @__PURE__ */ import_react143.default.createElement(
+    /* @__PURE__ */ import_react145.default.createElement(
       Container,
       {
         width: 100,
         height: 100,
         decoration: { color: "blue", borderRadius: 10 }
       },
-      /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Scale", color: "white" }))
+      /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Scale", color: "white" }))
     )
-  )), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+  )), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     Button,
     {
       text: "Toggle Scale",
       onTap: () => setScaleImplicit(scaleImplicit === 1 ? 1.5 : 1)
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "AnimatedRotation", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "AnimatedRotation", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(
     AnimatedRotation,
     {
       turns: rotationImplicit,
       duration: 500,
       curve: "easeInOut"
     },
-    /* @__PURE__ */ import_react143.default.createElement(
+    /* @__PURE__ */ import_react145.default.createElement(
       Container,
       {
         width: 100,
         height: 100,
         decoration: { color: "green", borderRadius: 10 }
       },
-      /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Rotate", color: "white" }))
+      /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Rotate", color: "white" }))
     )
-  )), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+  )), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     Button,
     {
       text: "Add 0.25 Turns",
       onTap: () => setRotationImplicit(rotationImplicit + 0.25)
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "AnimatedSlide", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "AnimatedSlide", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(
     Container,
     {
       width: 200,
       height: 150,
       decoration: { border: { color: "#ccc", width: 1 } }
     },
-    /* @__PURE__ */ import_react143.default.createElement(
+    /* @__PURE__ */ import_react145.default.createElement(
       AnimatedSlide,
       {
         offset: slideImplicit,
         duration: 500,
         curve: "easeInOut"
       },
-      /* @__PURE__ */ import_react143.default.createElement(
+      /* @__PURE__ */ import_react145.default.createElement(
         Container,
         {
           width: 50,
@@ -27171,7 +27352,7 @@ function AnimatedDemo() {
         }
       )
     )
-  )), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(
+  )), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(
     Button,
     {
       text: "Toggle Slide",
@@ -27179,14 +27360,14 @@ function AnimatedDemo() {
         slideImplicit.dx === 0 ? { dx: 1, dy: 0.5 } : { dx: 0, dy: 0 }
       )
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(
     Divider,
     {
       margin: { top: 40, bottom: 20 },
       color: "black",
       thickness: 2
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(
     Text,
     {
       text: "Explicit Transitions (JS Driven)",
@@ -27194,7 +27375,7 @@ function AnimatedDemo() {
       fontWeight: "bold",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react143.default.createElement(Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Animate Loop", fontSize: 18 }), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { width: 10 }), /* @__PURE__ */ import_react143.default.createElement(Switch, { value: animating, onChanged: (v) => setAnimating(v) })), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "RotationTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(RotationTransition, { turns }, /* @__PURE__ */ import_react143.default.createElement(Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Rotate", color: "white" })))), /* @__PURE__ */ import_react143.default.createElement(Text, { text: `Turns: ${turns.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "ScaleTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(ScaleTransition, { scale: scaleExplicit }, /* @__PURE__ */ import_react143.default.createElement(Container, { width: 100, height: 100, color: "#4CAF50" }, /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Scale", color: "white" })))), /* @__PURE__ */ import_react143.default.createElement(Text, { text: `Scale: ${scaleExplicit.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react143.default.createElement(Text, { text: "SlideTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react143.default.createElement(Container, { width: 200, height: 100, color: "#EEEEEE" }, /* @__PURE__ */ import_react143.default.createElement(SlideTransition, { position: offsetExplicit }, /* @__PURE__ */ import_react143.default.createElement(Container, { width: 100, height: 100, color: "#FF9800" }, /* @__PURE__ */ import_react143.default.createElement(Center, null, /* @__PURE__ */ import_react143.default.createElement(Text, { text: "Slide", color: "white" }))))), /* @__PURE__ */ import_react143.default.createElement(
+  ), /* @__PURE__ */ import_react145.default.createElement(Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Animate Loop", fontSize: 18 }), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { width: 10 }), /* @__PURE__ */ import_react145.default.createElement(Switch, { value: animating, onChanged: (v) => setAnimating(v) })), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "RotationTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(RotationTransition, { turns }, /* @__PURE__ */ import_react145.default.createElement(Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Rotate", color: "white" })))), /* @__PURE__ */ import_react145.default.createElement(Text, { text: `Turns: ${turns.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "ScaleTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(ScaleTransition, { scale: scaleExplicit }, /* @__PURE__ */ import_react145.default.createElement(Container, { width: 100, height: 100, color: "#4CAF50" }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Scale", color: "white" })))), /* @__PURE__ */ import_react145.default.createElement(Text, { text: `Scale: ${scaleExplicit.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react145.default.createElement(Text, { text: "SlideTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react145.default.createElement(Container, { width: 200, height: 100, color: "#EEEEEE" }, /* @__PURE__ */ import_react145.default.createElement(SlideTransition, { position: offsetExplicit }, /* @__PURE__ */ import_react145.default.createElement(Container, { width: 100, height: 100, color: "#FF9800" }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Slide", color: "white" }))))), /* @__PURE__ */ import_react145.default.createElement(
     Text,
     {
       text: `Offset: ${offsetExplicit.dx.toFixed(2)}, ${offsetExplicit.dy.toFixed(2)}`,
@@ -27204,27 +27385,27 @@ function AnimatedDemo() {
 }
 
 // src/demos/DialogDemo.tsx
-var import_react144 = __toESM(require_react_production());
+var import_react146 = __toESM(require_react_production());
 var dialogId = 0;
 function LifecycleContent({ label }) {
   const id = ++dialogId;
-  (0, import_react144.useEffect)(() => {
+  (0, import_react146.useEffect)(() => {
     console.log(`[${label} #${id}] mount`);
     return () => console.log(`[${label} #${id}] unmount`);
   }, []);
   return null;
 }
 function DialogDemo() {
-  const [showCustom, setShowCustom] = (0, import_react144.useState)(false);
-  const [result, setResult] = (0, import_react144.useState)("");
+  const [showCustom, setShowCustom] = (0, import_react146.useState)(false);
+  const [result, setResult] = (0, import_react146.useState)("");
   const navigator2 = useNavigator();
-  (0, import_react144.useEffect)(() => {
+  (0, import_react146.useEffect)(() => {
     console.log("[DialogDemo] mount");
     return () => console.log("[DialogDemo] unmount");
   }, []);
   const showDialog = () => {
     navigator2.showDialog(
-      /* @__PURE__ */ import_react144.default.createElement(Dialog, null, /* @__PURE__ */ import_react144.default.createElement(Column, { padding: 24 }, /* @__PURE__ */ import_react144.default.createElement(LifecycleContent, { label: "Dialog" }), /* @__PURE__ */ import_react144.default.createElement(
+      /* @__PURE__ */ import_react146.default.createElement(Dialog, null, /* @__PURE__ */ import_react146.default.createElement(Column, { padding: 24 }, /* @__PURE__ */ import_react146.default.createElement(LifecycleContent, { label: "Dialog" }), /* @__PURE__ */ import_react146.default.createElement(
         Text,
         {
           text: "Dialog",
@@ -27232,30 +27413,30 @@ function DialogDemo() {
           fontWeight: "bold",
           margin: { bottom: 12 }
         }
-      ), /* @__PURE__ */ import_react144.default.createElement(
+      ), /* @__PURE__ */ import_react146.default.createElement(
         Text,
         {
           text: "Opened via showDialog(). Check console for lifecycle logs.",
           margin: { bottom: 20 }
         }
-      ), /* @__PURE__ */ import_react144.default.createElement(Button, { text: "Close", onTap: () => navigator2.pop() })))
+      ), /* @__PURE__ */ import_react146.default.createElement(Button, { text: "Close", onTap: () => navigator2.pop() })))
     );
   };
   const showAlertDialog = () => {
     navigator2.showDialog(
-      /* @__PURE__ */ import_react144.default.createElement(
+      /* @__PURE__ */ import_react146.default.createElement(
         AlertDialog,
         {
-          title: /* @__PURE__ */ import_react144.default.createElement(Text, { text: "Alert" }),
-          content: /* @__PURE__ */ import_react144.default.createElement(Text, { text: "Opened via showDialog() with AlertDialog. Check console for lifecycle logs." }),
-          actions: [/* @__PURE__ */ import_react144.default.createElement(Button, { key: "ok", text: "OK", onTap: () => navigator2.pop() })]
+          title: /* @__PURE__ */ import_react146.default.createElement(Text, { text: "Alert" }),
+          content: /* @__PURE__ */ import_react146.default.createElement(Text, { text: "Opened via showDialog() with AlertDialog. Check console for lifecycle logs." }),
+          actions: [/* @__PURE__ */ import_react146.default.createElement(Button, { key: "ok", text: "OK", onTap: () => navigator2.pop() })]
         }
       )
     );
   };
   const showBottomSheet = () => {
     navigator2.showBottomSheet(
-      /* @__PURE__ */ import_react144.default.createElement(Column, { padding: 24 }, /* @__PURE__ */ import_react144.default.createElement(LifecycleContent, { label: "BottomSheet" }), /* @__PURE__ */ import_react144.default.createElement(
+      /* @__PURE__ */ import_react146.default.createElement(Column, { padding: 24 }, /* @__PURE__ */ import_react146.default.createElement(LifecycleContent, { label: "BottomSheet" }), /* @__PURE__ */ import_react146.default.createElement(
         Text,
         {
           text: "Bottom Sheet",
@@ -27263,13 +27444,13 @@ function DialogDemo() {
           fontWeight: "bold",
           margin: { bottom: 12 }
         }
-      ), /* @__PURE__ */ import_react144.default.createElement(
+      ), /* @__PURE__ */ import_react146.default.createElement(
         Text,
         {
           text: "Opened via showBottomSheet(). Check console for lifecycle logs.",
           margin: { bottom: 20 }
         }
-      ), /* @__PURE__ */ import_react144.default.createElement(Button, { text: "Close", onTap: () => navigator2.pop() })),
+      ), /* @__PURE__ */ import_react146.default.createElement(Button, { text: "Close", onTap: () => navigator2.pop() })),
       { minHeight: 200, maxHeight: 500 }
     );
   };
@@ -27309,43 +27490,43 @@ function DialogDemo() {
     const time2 = await PickerService.showTime();
     setResult(`TimePicker result: ${time2 ?? "cancelled"}`);
   };
-  return /* @__PURE__ */ import_react144.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react144.default.createElement(AppBar, { title: "Dialog Demo" }) }, /* @__PURE__ */ import_react144.default.createElement(Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react144.default.createElement(
+  return /* @__PURE__ */ import_react146.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react146.default.createElement(AppBar, { title: "Dialog Demo" }) }, /* @__PURE__ */ import_react146.default.createElement(Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react146.default.createElement(
     Text,
     {
       text: "showDialog",
       fontWeight: "bold",
       margin: { bottom: 8, top: 8 }
     }
-  ), /* @__PURE__ */ import_react144.default.createElement(Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react144.default.createElement(Button, { text: "Dialog", onTap: showDialog }), /* @__PURE__ */ import_react144.default.createElement(Button, { text: "AlertDialog", onTap: showAlertDialog })), /* @__PURE__ */ import_react144.default.createElement(Text, { text: "showBottomSheet", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react144.default.createElement(
+  ), /* @__PURE__ */ import_react146.default.createElement(Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react146.default.createElement(Button, { text: "Dialog", onTap: showDialog }), /* @__PURE__ */ import_react146.default.createElement(Button, { text: "AlertDialog", onTap: showAlertDialog })), /* @__PURE__ */ import_react146.default.createElement(Text, { text: "showBottomSheet", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react146.default.createElement(
     Button,
     {
       text: "BottomSheet",
       onTap: showBottomSheet,
       margin: { bottom: 16 }
     }
-  ), /* @__PURE__ */ import_react144.default.createElement(Text, { text: "System Dialogs", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react144.default.createElement(Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react144.default.createElement(Button, { text: "showModal", onTap: showConfirm }), /* @__PURE__ */ import_react144.default.createElement(Button, { text: "showActionSheet", onTap: showActionSheet })), /* @__PURE__ */ import_react144.default.createElement(Text, { text: "Pickers", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react144.default.createElement(Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react144.default.createElement(Button, { text: "Picker", onTap: showPicker }), /* @__PURE__ */ import_react144.default.createElement(Button, { text: "Date", onTap: showDatePicker }), /* @__PURE__ */ import_react144.default.createElement(Button, { text: "Time", onTap: showTimePicker })), /* @__PURE__ */ import_react144.default.createElement(
+  ), /* @__PURE__ */ import_react146.default.createElement(Text, { text: "System Dialogs", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react146.default.createElement(Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react146.default.createElement(Button, { text: "showModal", onTap: showConfirm }), /* @__PURE__ */ import_react146.default.createElement(Button, { text: "showActionSheet", onTap: showActionSheet })), /* @__PURE__ */ import_react146.default.createElement(Text, { text: "Pickers", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react146.default.createElement(Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react146.default.createElement(Button, { text: "Picker", onTap: showPicker }), /* @__PURE__ */ import_react146.default.createElement(Button, { text: "Date", onTap: showDatePicker }), /* @__PURE__ */ import_react146.default.createElement(Button, { text: "Time", onTap: showTimePicker })), /* @__PURE__ */ import_react146.default.createElement(
     Text,
     {
       text: "Custom (Stack-based)",
       fontWeight: "bold",
       margin: { bottom: 8 }
     }
-  ), /* @__PURE__ */ import_react144.default.createElement(
+  ), /* @__PURE__ */ import_react146.default.createElement(
     Button,
     {
       text: showCustom ? "Hide Custom Dialog" : "Show Custom Dialog",
       onTap: () => setShowCustom(!showCustom),
       margin: { bottom: 16 }
     }
-  ), result ? /* @__PURE__ */ import_react144.default.createElement(
+  ), result ? /* @__PURE__ */ import_react146.default.createElement(
     Container,
     {
       padding: 12,
       margin: { bottom: 16 },
       decoration: { color: "#E3F2FD", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react144.default.createElement(Text, { text: result, fontSize: 13, color: "#1565C0" })
-  ) : null), showCustom && /* @__PURE__ */ import_react144.default.createElement(
+    /* @__PURE__ */ import_react146.default.createElement(Text, { text: result, fontSize: 13, color: "#1565C0" })
+  ) : null), showCustom && /* @__PURE__ */ import_react146.default.createElement(
     Container,
     {
       color: "#00000080",
@@ -27356,13 +27537,13 @@ function DialogDemo() {
       right: 0,
       bottom: 0
     },
-    /* @__PURE__ */ import_react144.default.createElement(
+    /* @__PURE__ */ import_react146.default.createElement(
       Container,
       {
         padding: 24,
         decoration: { color: "white", borderRadius: 12 }
       },
-      /* @__PURE__ */ import_react144.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react144.default.createElement(
+      /* @__PURE__ */ import_react146.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react146.default.createElement(
         Text,
         {
           text: "Custom Dialog",
@@ -27370,27 +27551,27 @@ function DialogDemo() {
           fontWeight: "bold",
           margin: { bottom: 12 }
         }
-      ), /* @__PURE__ */ import_react144.default.createElement(
+      ), /* @__PURE__ */ import_react146.default.createElement(
         Text,
         {
           text: "Stack + state toggle. No overlay entry involved.",
           margin: { bottom: 20 }
         }
-      ), /* @__PURE__ */ import_react144.default.createElement(Button, { text: "Close", onTap: () => setShowCustom(false) }))
+      ), /* @__PURE__ */ import_react146.default.createElement(Button, { text: "Close", onTap: () => setShowCustom(false) }))
     )
   ));
 }
 
 // src/demos/IntrinsicDemo.tsx
-var import_react145 = __toESM(require_react_production());
-var IntrinsicDemo = class extends import_react145.default.Component {
+var import_react147 = __toESM(require_react_production());
+var IntrinsicDemo = class extends import_react147.default.Component {
   render() {
-    return /* @__PURE__ */ import_react145.default.createElement(
+    return /* @__PURE__ */ import_react147.default.createElement(
       Scaffold,
       {
-        appBar: /* @__PURE__ */ import_react145.default.createElement(AppBar, { title: /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Intrinsic Widgets Demo" }) })
+        appBar: /* @__PURE__ */ import_react147.default.createElement(AppBar, { title: /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Intrinsic Widgets Demo" }) })
       },
-      /* @__PURE__ */ import_react145.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react145.default.createElement(Column, { padding: { all: 16 } }, /* @__PURE__ */ import_react145.default.createElement(
+      /* @__PURE__ */ import_react147.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react147.default.createElement(Column, { padding: { all: 16 } }, /* @__PURE__ */ import_react147.default.createElement(
         Text,
         {
           text: "IntrinsicWidth Demo",
@@ -27398,19 +27579,19 @@ var IntrinsicDemo = class extends import_react145.default.Component {
           fontWeight: "bold",
           margin: { bottom: 10 }
         }
-      ), /* @__PURE__ */ import_react145.default.createElement(
+      ), /* @__PURE__ */ import_react147.default.createElement(
         Text,
         {
           text: "Without IntrinsicWidth (Column expands to max width):",
           margin: { bottom: 5 }
         }
-      ), /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#e0e0e0", padding: { all: 10 } }, /* @__PURE__ */ import_react145.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#ffcdd2", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Short" }))), /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#ef9a9a", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Medium Length" }))), /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#e57373", height: 50 }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Very Long Text Content" }))))), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react145.default.createElement(
+      ), /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#e0e0e0", padding: { all: 10 } }, /* @__PURE__ */ import_react147.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#ffcdd2", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Short" }))), /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#ef9a9a", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Medium Length" }))), /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#e57373", height: 50 }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Very Long Text Content" }))))), /* @__PURE__ */ import_react147.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react147.default.createElement(
         Text,
         {
           text: "With IntrinsicWidth (Column matches widest child):",
           margin: { bottom: 5 }
         }
-      ), /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(IntrinsicWidth, null, /* @__PURE__ */ import_react145.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#c8e6c9", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Short" }))), /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#a5d6a7", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Medium Length" }))), /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#81c784", height: 50 }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Very Long Text Content" })))))), /* @__PURE__ */ import_react145.default.createElement(SizedBox, { height: 30 }), /* @__PURE__ */ import_react145.default.createElement(
+      ), /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(IntrinsicWidth, null, /* @__PURE__ */ import_react147.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#c8e6c9", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Short" }))), /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#a5d6a7", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Medium Length" }))), /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#81c784", height: 50 }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Very Long Text Content" })))))), /* @__PURE__ */ import_react147.default.createElement(SizedBox, { height: 30 }), /* @__PURE__ */ import_react147.default.createElement(
         Text,
         {
           text: "IntrinsicHeight Demo",
@@ -27418,28 +27599,28 @@ var IntrinsicDemo = class extends import_react145.default.Component {
           fontWeight: "bold",
           margin: { bottom: 10 }
         }
-      ), /* @__PURE__ */ import_react145.default.createElement(
+      ), /* @__PURE__ */ import_react147.default.createElement(
         Text,
         {
           text: "With IntrinsicHeight (Row items stretch to tallest):",
           margin: { bottom: 5 }
         }
-      ), /* @__PURE__ */ import_react145.default.createElement(IntrinsicHeight, null, /* @__PURE__ */ import_react145.default.createElement(Row, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#bbdefb", width: 100 }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Height depends on neighbor" }))), /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#90caf9", width: 100, padding: { all: 20 } }, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "This is a taller item\\nthat forces the height\\nof the row to increase." })), /* @__PURE__ */ import_react145.default.createElement(Container, { color: "#64b5f6", width: 100 }, /* @__PURE__ */ import_react145.default.createElement(Center, null, /* @__PURE__ */ import_react145.default.createElement(Text, { text: "Me too" })))))))
+      ), /* @__PURE__ */ import_react147.default.createElement(IntrinsicHeight, null, /* @__PURE__ */ import_react147.default.createElement(Row, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#bbdefb", width: 100 }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Height depends on neighbor" }))), /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#90caf9", width: 100, padding: { all: 20 } }, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "This is a taller item\\nthat forces the height\\nof the row to increase." })), /* @__PURE__ */ import_react147.default.createElement(Container, { color: "#64b5f6", width: 100 }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Me too" })))))))
     );
   }
 };
 
 // src/demos/TextFieldControllerDemo.tsx
-var React144 = __toESM(require_react_production());
+var React145 = __toESM(require_react_production());
 function TextFieldControllerDemo() {
-  const textFieldRef = React144.useRef(null);
-  const [currentText] = React144.useState("Initial Text");
-  return /* @__PURE__ */ React144.createElement(
+  const textFieldRef = React145.useRef(null);
+  const [currentText] = React145.useState("Initial Text");
+  return /* @__PURE__ */ React145.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ React144.createElement(AppBar, { title: /* @__PURE__ */ React144.createElement(Text, { text: "TextField Controller Demo" }) })
+      appBar: /* @__PURE__ */ React145.createElement(AppBar, { title: /* @__PURE__ */ React145.createElement(Text, { text: "TextField Controller Demo" }) })
     },
-    /* @__PURE__ */ React144.createElement(SingleChildScrollView, null, /* @__PURE__ */ React144.createElement(Padding, { padding: 16 }, /* @__PURE__ */ React144.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ React144.createElement(
+    /* @__PURE__ */ React145.createElement(SingleChildScrollView, null, /* @__PURE__ */ React145.createElement(Padding, { padding: 16 }, /* @__PURE__ */ React145.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ React145.createElement(
       TextField,
       {
         ref: textFieldRef,
@@ -27449,7 +27630,7 @@ function TextFieldControllerDemo() {
           console.log("Text changed:", text);
         }
       }
-    ), /* @__PURE__ */ React144.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ React144.createElement(Text, { text: "Controller Actions:", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ React144.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React144.createElement(
+    ), /* @__PURE__ */ React145.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ React145.createElement(Text, { text: "Controller Actions:", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ React145.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React145.createElement(
       Container,
       {
         decoration: {
@@ -27458,7 +27639,7 @@ function TextFieldControllerDemo() {
         },
         padding: 10
       },
-      /* @__PURE__ */ React144.createElement(Column, null, /* @__PURE__ */ React144.createElement(
+      /* @__PURE__ */ React145.createElement(Column, null, /* @__PURE__ */ React145.createElement(
         Button,
         {
           text: "Focus",
@@ -27466,7 +27647,7 @@ function TextFieldControllerDemo() {
             textFieldRef.current?.focus();
           }
         }
-      ), /* @__PURE__ */ React144.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React144.createElement(
+      ), /* @__PURE__ */ React145.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React145.createElement(
         Button,
         {
           text: "Unfocus",
@@ -27474,7 +27655,7 @@ function TextFieldControllerDemo() {
             textFieldRef.current?.unfocus();
           }
         }
-      ), /* @__PURE__ */ React144.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React144.createElement(
+      ), /* @__PURE__ */ React145.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React145.createElement(
         Button,
         {
           text: "Select All",
@@ -27482,7 +27663,7 @@ function TextFieldControllerDemo() {
             textFieldRef.current?.selectAll();
           }
         }
-      ), /* @__PURE__ */ React144.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React144.createElement(
+      ), /* @__PURE__ */ React145.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React145.createElement(
         Button,
         {
           text: "Select First 3 Chars",
@@ -27490,7 +27671,7 @@ function TextFieldControllerDemo() {
             textFieldRef.current?.setSelection(0, 3);
           }
         }
-      ), /* @__PURE__ */ React144.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React144.createElement(
+      ), /* @__PURE__ */ React145.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React145.createElement(
         Button,
         {
           text: "Clear",
@@ -27498,7 +27679,7 @@ function TextFieldControllerDemo() {
             textFieldRef.current?.clear();
           }
         }
-      ), /* @__PURE__ */ React144.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React144.createElement(
+      ), /* @__PURE__ */ React145.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ React145.createElement(
         Button,
         {
           text: "Set Text to 'Hello World'",
@@ -27512,25 +27693,25 @@ function TextFieldControllerDemo() {
 }
 
 // src/pages/hybrid_demo.tsx
-var import_react146 = __toESM(require_react_production());
+var import_react148 = __toESM(require_react_production());
 function HybridDemoPage(props) {
   const navigator2 = useNavigator();
-  const [result, setResult] = import_react146.default.useState(null);
-  return /* @__PURE__ */ import_react146.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react146.default.createElement(AppBar, { title: "Hybrid Navigation Demo" }) }, /* @__PURE__ */ import_react146.default.createElement(Center, null, /* @__PURE__ */ import_react146.default.createElement(Column, null, /* @__PURE__ */ import_react146.default.createElement(Text, { text: "This is a JS Page", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react146.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react146.default.createElement(
+  const [result, setResult] = import_react148.default.useState(null);
+  return /* @__PURE__ */ import_react148.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react148.default.createElement(AppBar, { title: "Hybrid Navigation Demo" }) }, /* @__PURE__ */ import_react148.default.createElement(Center, null, /* @__PURE__ */ import_react148.default.createElement(Column, null, /* @__PURE__ */ import_react148.default.createElement(Text, { text: "This is a JS Page", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react148.default.createElement(
     Text,
     {
       text: `Params: ${JSON.stringify(props)}`,
       fontSize: 14,
       color: "grey"
     }
-  ), result && /* @__PURE__ */ import_react146.default.createElement(import_react146.default.Fragment, null, /* @__PURE__ */ import_react146.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react146.default.createElement(
+  ), result && /* @__PURE__ */ import_react148.default.createElement(import_react148.default.Fragment, null, /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react148.default.createElement(
     Text,
     {
       text: `Result from Native: ${result}`,
       fontSize: 16,
       color: "blue"
     }
-  )), /* @__PURE__ */ import_react146.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react146.default.createElement(
+  )), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react148.default.createElement(
     Button,
     {
       text: "\u8FD4\u56DE\u4E0A\u4E00\u4E2A\u9875\u9762\uFF0C\u5E76\u5E26\u6709\u53C2\u6570",
@@ -27541,7 +27722,7 @@ function HybridDemoPage(props) {
         });
       }
     }
-  ), /* @__PURE__ */ import_react146.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react146.default.createElement(
+  ), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react148.default.createElement(
     Button,
     {
       text: "\u6253\u5F00\u539F\u751F\u9875\u9762",
@@ -27556,7 +27737,7 @@ function HybridDemoPage(props) {
         }
       }
     }
-  ), /* @__PURE__ */ import_react146.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react146.default.createElement(
+  ), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react148.default.createElement(
     Button,
     {
       text: "\u6253\u5F00js\u9875\u9762",
@@ -27573,13 +27754,13 @@ function HybridDemoPage(props) {
 }
 
 // src/demos/TransitionDemo.tsx
-var import_react147 = __toESM(require_react_production());
+var import_react149 = __toESM(require_react_production());
 function TransitionDemo() {
-  const [animating, setAnimating] = (0, import_react147.useState)(false);
-  const [turns, setTurns] = (0, import_react147.useState)(0);
-  const [scale, setScale] = (0, import_react147.useState)(1);
-  const [offset, setOffset] = (0, import_react147.useState)({ dx: 0, dy: 0 });
-  (0, import_react147.useEffect)(() => {
+  const [animating, setAnimating] = (0, import_react149.useState)(false);
+  const [turns, setTurns] = (0, import_react149.useState)(0);
+  const [scale, setScale] = (0, import_react149.useState)(1);
+  const [offset, setOffset] = (0, import_react149.useState)({ dx: 0, dy: 0 });
+  (0, import_react149.useEffect)(() => {
     let interval;
     if (animating) {
       interval = setInterval(() => {
@@ -27597,7 +27778,7 @@ function TransitionDemo() {
     }
     return () => clearInterval(interval);
   }, [animating]);
-  return /* @__PURE__ */ import_react147.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react147.default.createElement(AppBar, { title: /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Transition Widgets" }) }) }, /* @__PURE__ */ import_react147.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react147.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react147.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react147.default.createElement(Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Animate" }), /* @__PURE__ */ import_react147.default.createElement(SizedBox, { width: 10 }), /* @__PURE__ */ import_react147.default.createElement(Switch, { value: animating, onChanged: (v) => setAnimating(v) })), /* @__PURE__ */ import_react147.default.createElement(Divider, null), /* @__PURE__ */ import_react147.default.createElement(Text, { text: "RotationTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react147.default.createElement(RotationTransition, { turns }, /* @__PURE__ */ import_react147.default.createElement(Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Rotate", color: "white" })))), /* @__PURE__ */ import_react147.default.createElement(Text, { text: `Turns: ${turns.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react147.default.createElement(Divider, null), /* @__PURE__ */ import_react147.default.createElement(Text, { text: "ScaleTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react147.default.createElement(ScaleTransition, { scale }, /* @__PURE__ */ import_react147.default.createElement(Container, { width: 100, height: 100, color: "#4CAF50" }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Scale", color: "white" })))), /* @__PURE__ */ import_react147.default.createElement(Text, { text: `Scale: ${scale.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react147.default.createElement(Divider, null), /* @__PURE__ */ import_react147.default.createElement(Text, { text: "SlideTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react147.default.createElement(Container, { width: 200, height: 100, color: "#EEEEEE" }, /* @__PURE__ */ import_react147.default.createElement(SlideTransition, { position: offset }, /* @__PURE__ */ import_react147.default.createElement(Container, { width: 100, height: 100, color: "#FF9800" }, /* @__PURE__ */ import_react147.default.createElement(Center, null, /* @__PURE__ */ import_react147.default.createElement(Text, { text: "Slide", color: "white" }))))), /* @__PURE__ */ import_react147.default.createElement(
+  return /* @__PURE__ */ import_react149.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react149.default.createElement(AppBar, { title: /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Transition Widgets" }) }) }, /* @__PURE__ */ import_react149.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react149.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react149.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react149.default.createElement(Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Animate" }), /* @__PURE__ */ import_react149.default.createElement(SizedBox, { width: 10 }), /* @__PURE__ */ import_react149.default.createElement(Switch, { value: animating, onChanged: (v) => setAnimating(v) })), /* @__PURE__ */ import_react149.default.createElement(Divider, null), /* @__PURE__ */ import_react149.default.createElement(Text, { text: "RotationTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react149.default.createElement(RotationTransition, { turns }, /* @__PURE__ */ import_react149.default.createElement(Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react149.default.createElement(Center, null, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Rotate", color: "white" })))), /* @__PURE__ */ import_react149.default.createElement(Text, { text: `Turns: ${turns.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react149.default.createElement(Divider, null), /* @__PURE__ */ import_react149.default.createElement(Text, { text: "ScaleTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react149.default.createElement(ScaleTransition, { scale }, /* @__PURE__ */ import_react149.default.createElement(Container, { width: 100, height: 100, color: "#4CAF50" }, /* @__PURE__ */ import_react149.default.createElement(Center, null, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Scale", color: "white" })))), /* @__PURE__ */ import_react149.default.createElement(Text, { text: `Scale: ${scale.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react149.default.createElement(Divider, null), /* @__PURE__ */ import_react149.default.createElement(Text, { text: "SlideTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react149.default.createElement(Container, { width: 200, height: 100, color: "#EEEEEE" }, /* @__PURE__ */ import_react149.default.createElement(SlideTransition, { position: offset }, /* @__PURE__ */ import_react149.default.createElement(Container, { width: 100, height: 100, color: "#FF9800" }, /* @__PURE__ */ import_react149.default.createElement(Center, null, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Slide", color: "white" }))))), /* @__PURE__ */ import_react149.default.createElement(
     Text,
     {
       text: `Offset: ${offset.dx.toFixed(2)}, ${offset.dy.toFixed(2)}`,
@@ -27607,9 +27788,9 @@ function TransitionDemo() {
 }
 
 // src/demos/BoxDemo.tsx
-var import_react148 = __toESM(require_react_production());
+var import_react150 = __toESM(require_react_production());
 function BoxDemo() {
-  return /* @__PURE__ */ import_react148.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react148.default.createElement(AppBar, { title: /* @__PURE__ */ import_react148.default.createElement(Text, { text: "Box Widgets Demo" }) }) }, /* @__PURE__ */ import_react148.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react148.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react148.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react148.default.createElement(
+  return /* @__PURE__ */ import_react150.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react150.default.createElement(AppBar, { title: /* @__PURE__ */ import_react150.default.createElement(Text, { text: "Box Widgets Demo" }) }) }, /* @__PURE__ */ import_react150.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react150.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react150.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react150.default.createElement(
     Text,
     {
       text: "Container with Constraints",
@@ -27617,14 +27798,14 @@ function BoxDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react148.default.createElement(
+  ), /* @__PURE__ */ import_react150.default.createElement(
     Text,
     {
       text: "Min Width 100, Min Height 100",
       color: "grey",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react148.default.createElement(
+  ), /* @__PURE__ */ import_react150.default.createElement(
     Container,
     {
       color: "blue",
@@ -27635,8 +27816,8 @@ function BoxDemo() {
         maxHeight: 200
       }
     },
-    /* @__PURE__ */ import_react148.default.createElement(Text, { text: "Small Text", color: "white" })
-  ), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react148.default.createElement(Divider, null), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react148.default.createElement(
+    /* @__PURE__ */ import_react150.default.createElement(Text, { text: "Small Text", color: "white" })
+  ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react150.default.createElement(Divider, null), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react150.default.createElement(
     Text,
     {
       text: "ConstrainedBox",
@@ -27644,14 +27825,14 @@ function BoxDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react148.default.createElement(
+  ), /* @__PURE__ */ import_react150.default.createElement(
     Text,
     {
       text: "Forces child to be at least 150x50",
       color: "grey",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react148.default.createElement(
+  ), /* @__PURE__ */ import_react150.default.createElement(
     ConstrainedBox,
     {
       constraints: {
@@ -27659,8 +27840,8 @@ function BoxDemo() {
         minHeight: 50
       }
     },
-    /* @__PURE__ */ import_react148.default.createElement(Container, { color: "red", width: 10, height: 10 }, /* @__PURE__ */ import_react148.default.createElement(Center, null, /* @__PURE__ */ import_react148.default.createElement(Text, { text: "I was 10x10", color: "white" })))
-  ), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react148.default.createElement(Divider, null), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react148.default.createElement(
+    /* @__PURE__ */ import_react150.default.createElement(Container, { color: "red", width: 10, height: 10 }, /* @__PURE__ */ import_react150.default.createElement(Center, null, /* @__PURE__ */ import_react150.default.createElement(Text, { text: "I was 10x10", color: "white" })))
+  ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react150.default.createElement(Divider, null), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react150.default.createElement(
     Text,
     {
       text: "FittedBox (BoxFit.contain)",
@@ -27668,7 +27849,7 @@ function BoxDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react148.default.createElement(Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react148.default.createElement(FittedBox, { fit: "contain" }, /* @__PURE__ */ import_react148.default.createElement(Container, { width: 50, height: 50, color: "green" }))), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react148.default.createElement(
+  ), /* @__PURE__ */ import_react150.default.createElement(Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react150.default.createElement(FittedBox, { fit: "contain" }, /* @__PURE__ */ import_react150.default.createElement(Container, { width: 50, height: 50, color: "green" }))), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react150.default.createElement(
     Text,
     {
       text: "FittedBox (BoxFit.fill)",
@@ -27676,7 +27857,7 @@ function BoxDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react148.default.createElement(Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react148.default.createElement(FittedBox, { fit: "fill" }, /* @__PURE__ */ import_react148.default.createElement(Container, { width: 50, height: 50, color: "green" }))), /* @__PURE__ */ import_react148.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react148.default.createElement(
+  ), /* @__PURE__ */ import_react150.default.createElement(Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react150.default.createElement(FittedBox, { fit: "fill" }, /* @__PURE__ */ import_react150.default.createElement(Container, { width: 50, height: 50, color: "green" }))), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react150.default.createElement(
     Text,
     {
       text: "FittedBox (BoxFit.fitWidth)",
@@ -27684,7 +27865,7 @@ function BoxDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react148.default.createElement(Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react148.default.createElement(FittedBox, { fit: "fitWidth" }, /* @__PURE__ */ import_react148.default.createElement(
+  ), /* @__PURE__ */ import_react150.default.createElement(Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react150.default.createElement(FittedBox, { fit: "fitWidth" }, /* @__PURE__ */ import_react150.default.createElement(
     Text,
     {
       text: "Very long text that should fit width",
@@ -27694,11 +27875,11 @@ function BoxDemo() {
 }
 
 // src/demos/VisibilityDemo.tsx
-var import_react149 = __toESM(require_react_production());
+var import_react151 = __toESM(require_react_production());
 function VisibilityDemo() {
-  const [isVisible, setIsVisible] = (0, import_react149.useState)(true);
-  const [maintainSize, setMaintainSize] = (0, import_react149.useState)(false);
-  return /* @__PURE__ */ import_react149.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react149.default.createElement(AppBar, { title: /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Visibility Demo" }) }) }, /* @__PURE__ */ import_react149.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react149.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react149.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react149.default.createElement(
+  const [isVisible, setIsVisible] = (0, import_react151.useState)(true);
+  const [maintainSize, setMaintainSize] = (0, import_react151.useState)(false);
+  return /* @__PURE__ */ import_react151.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react151.default.createElement(AppBar, { title: /* @__PURE__ */ import_react151.default.createElement(Text, { text: "Visibility Demo" }) }) }, /* @__PURE__ */ import_react151.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react151.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react151.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react151.default.createElement(
     Text,
     {
       text: "Basic Visibility",
@@ -27706,7 +27887,7 @@ function VisibilityDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react149.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Is Visible?" }), /* @__PURE__ */ import_react149.default.createElement(Switch, { value: isVisible, onChanged: setIsVisible })), /* @__PURE__ */ import_react149.default.createElement(Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react149.default.createElement(Visibility, { visible: isVisible }, /* @__PURE__ */ import_react149.default.createElement(Container, { width: 100, height: 100, color: "blue" }, /* @__PURE__ */ import_react149.default.createElement(Center, null, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "I am Visible", color: "white" }))))), /* @__PURE__ */ import_react149.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react149.default.createElement(Divider, null), /* @__PURE__ */ import_react149.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react149.default.createElement(
+  ), /* @__PURE__ */ import_react151.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react151.default.createElement(Text, { text: "Is Visible?" }), /* @__PURE__ */ import_react151.default.createElement(Switch, { value: isVisible, onChanged: setIsVisible })), /* @__PURE__ */ import_react151.default.createElement(Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react151.default.createElement(Visibility, { visible: isVisible }, /* @__PURE__ */ import_react151.default.createElement(Container, { width: 100, height: 100, color: "blue" }, /* @__PURE__ */ import_react151.default.createElement(Center, null, /* @__PURE__ */ import_react151.default.createElement(Text, { text: "I am Visible", color: "white" }))))), /* @__PURE__ */ import_react151.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react151.default.createElement(Divider, null), /* @__PURE__ */ import_react151.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react151.default.createElement(
     Text,
     {
       text: "Replacement",
@@ -27714,14 +27895,14 @@ function VisibilityDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react149.default.createElement(Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react149.default.createElement(
+  ), /* @__PURE__ */ import_react151.default.createElement(Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react151.default.createElement(
     Visibility,
     {
       visible: isVisible,
-      replacement: /* @__PURE__ */ import_react149.default.createElement(Container, { width: 100, height: 100, color: "red" }, /* @__PURE__ */ import_react149.default.createElement(Center, null, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "I am Replacement", color: "white" })))
+      replacement: /* @__PURE__ */ import_react151.default.createElement(Container, { width: 100, height: 100, color: "red" }, /* @__PURE__ */ import_react151.default.createElement(Center, null, /* @__PURE__ */ import_react151.default.createElement(Text, { text: "I am Replacement", color: "white" })))
     },
-    /* @__PURE__ */ import_react149.default.createElement(Container, { width: 100, height: 100, color: "blue" }, /* @__PURE__ */ import_react149.default.createElement(Center, null, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "I am Visible", color: "white" })))
-  )), /* @__PURE__ */ import_react149.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react149.default.createElement(Divider, null), /* @__PURE__ */ import_react149.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react149.default.createElement(
+    /* @__PURE__ */ import_react151.default.createElement(Container, { width: 100, height: 100, color: "blue" }, /* @__PURE__ */ import_react151.default.createElement(Center, null, /* @__PURE__ */ import_react151.default.createElement(Text, { text: "I am Visible", color: "white" })))
+  )), /* @__PURE__ */ import_react151.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react151.default.createElement(Divider, null), /* @__PURE__ */ import_react151.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react151.default.createElement(
     Text,
     {
       text: "Maintain Size (Invisible but takes space)",
@@ -27729,7 +27910,7 @@ function VisibilityDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react149.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Maintain Size?" }), /* @__PURE__ */ import_react149.default.createElement(Switch, { value: maintainSize, onChanged: setMaintainSize })), /* @__PURE__ */ import_react149.default.createElement(Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react149.default.createElement(Column, null, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Item Above" }), /* @__PURE__ */ import_react149.default.createElement(
+  ), /* @__PURE__ */ import_react151.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react151.default.createElement(Text, { text: "Maintain Size?" }), /* @__PURE__ */ import_react151.default.createElement(Switch, { value: maintainSize, onChanged: setMaintainSize })), /* @__PURE__ */ import_react151.default.createElement(Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react151.default.createElement(Column, null, /* @__PURE__ */ import_react151.default.createElement(Text, { text: "Item Above" }), /* @__PURE__ */ import_react151.default.createElement(
     Visibility,
     {
       visible: isVisible,
@@ -27737,24 +27918,24 @@ function VisibilityDemo() {
       maintainAnimation: maintainSize,
       maintainState: maintainSize
     },
-    /* @__PURE__ */ import_react149.default.createElement(Container, { width: 100, height: 100, color: "green" }, /* @__PURE__ */ import_react149.default.createElement(Center, null, /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Maintain Size", color: "white" })))
-  ), /* @__PURE__ */ import_react149.default.createElement(Text, { text: "Item Below" })))))));
+    /* @__PURE__ */ import_react151.default.createElement(Container, { width: 100, height: 100, color: "green" }, /* @__PURE__ */ import_react151.default.createElement(Center, null, /* @__PURE__ */ import_react151.default.createElement(Text, { text: "Maintain Size", color: "white" })))
+  ), /* @__PURE__ */ import_react151.default.createElement(Text, { text: "Item Below" })))))));
 }
 
 // src/pages/demo_ops.tsx
-var import_react150 = __toESM(require_react_production());
+var import_react152 = __toESM(require_react_production());
 var DemoOpsPage = () => {
-  const [theme, setTheme] = (0, import_react150.useState)("light");
-  const [compact, setCompact] = (0, import_react150.useState)(false);
-  const [showBanner, setShowBanner] = (0, import_react150.useState)(true);
-  const [progress, setProgress] = (0, import_react150.useState)(0.35);
-  const [stats, setStats] = (0, import_react150.useState)([
+  const [theme, setTheme] = (0, import_react152.useState)("light");
+  const [compact, setCompact] = (0, import_react152.useState)(false);
+  const [showBanner, setShowBanner] = (0, import_react152.useState)(true);
+  const [progress, setProgress] = (0, import_react152.useState)(0.35);
+  const [stats, setStats] = (0, import_react152.useState)([
     { id: 1, label: "\u6D3B\u8DC3", value: 12, color: "#4CAF50" },
     { id: 2, label: "\u544A\u8B66", value: 3, color: "#FF7043" },
     { id: 3, label: "\u5DE5\u5355", value: 28, color: "#42A5F5" },
     { id: 4, label: "\u5EF6\u8FDF", value: 6, color: "#AB47BC" }
   ]);
-  const [items, setItems] = (0, import_react150.useState)([
+  const [items, setItems] = (0, import_react152.useState)([
     { id: 101, title: "\u8BA2\u5355\u540C\u6B65", count: 2, color: "#FF7043", active: true },
     { id: 102, title: "\u5E93\u5B58\u68C0\u67E5", count: 4, color: "#42A5F5", active: true },
     { id: 103, title: "\u6D88\u606F\u5206\u53D1", count: 1, color: "#26A69A", active: false },
@@ -27828,13 +28009,13 @@ var DemoOpsPage = () => {
       stats.map((s) => ({ ...s, value: Math.floor(Math.random() * 100) }))
     );
   };
-  return /* @__PURE__ */ import_react150.default.createElement(
+  return /* @__PURE__ */ import_react152.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react150.default.createElement(AppBar, { title: /* @__PURE__ */ import_react150.default.createElement(Text, { text: "PatchOps \u590D\u6742\u9875\u9762" }) }),
+      appBar: /* @__PURE__ */ import_react152.default.createElement(AppBar, { title: /* @__PURE__ */ import_react152.default.createElement(Text, { text: "PatchOps \u590D\u6742\u9875\u9762" }) }),
       backgroundColor: palette.bg
     },
-    /* @__PURE__ */ import_react150.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react150.default.createElement(Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react150.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react150.default.createElement(
+    /* @__PURE__ */ import_react152.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react152.default.createElement(Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react152.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react152.default.createElement(
       Text,
       {
         text: "\u5B9E\u65F6\u770B\u677F",
@@ -27842,13 +28023,13 @@ var DemoOpsPage = () => {
         fontWeight: "bold",
         color: palette.text
       }
-    ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react150.default.createElement(
+    ), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react152.default.createElement(
       Text,
       {
         text: "\u5207\u6362\u6A21\u5F0F\u5E76\u66F4\u65B0\u4E0D\u540C\u8282\u70B9\u5C5E\u6027\uFF0C\u9A8C\u8BC1 patchOps",
         color: palette.sub
       }
-    ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react150.default.createElement(
+    ), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react152.default.createElement(
       Container,
       {
         padding: 12,
@@ -27858,39 +28039,39 @@ var DemoOpsPage = () => {
           border: { color: palette.border, width: 1 }
         }
       },
-      /* @__PURE__ */ import_react150.default.createElement(Column, null, /* @__PURE__ */ import_react150.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react150.default.createElement(Row, null, /* @__PURE__ */ import_react150.default.createElement(Icon, { name: "palette", color: palette.accent, size: 18 }), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react150.default.createElement(
+      /* @__PURE__ */ import_react152.default.createElement(Column, null, /* @__PURE__ */ import_react152.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react152.default.createElement(Row, null, /* @__PURE__ */ import_react152.default.createElement(Icon, { name: "palette", color: palette.accent, size: 18 }), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: `\u4E3B\u9898: ${theme === "dark" ? "Dark" : "Light"}`,
           color: palette.text
         }
-      )), /* @__PURE__ */ import_react150.default.createElement(
+      )), /* @__PURE__ */ import_react152.default.createElement(
         Switch,
         {
           value: theme === "dark",
           onChanged: (v) => setTheme(v ? "dark" : "light")
         }
-      )), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react150.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react150.default.createElement(Row, null, /* @__PURE__ */ import_react150.default.createElement(
+      )), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react152.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react152.default.createElement(Row, null, /* @__PURE__ */ import_react152.default.createElement(
         Icon,
         {
           name: "density_medium",
           color: palette.accent,
           size: 18
         }
-      ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react150.default.createElement(
+      ), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: `\u7D27\u51D1\u5E03\u5C40: ${compact ? "\u5F00\u542F" : "\u5173\u95ED"}`,
           color: palette.text
         }
-      )), /* @__PURE__ */ import_react150.default.createElement(Switch, { value: compact, onChanged: setCompact })), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react150.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react150.default.createElement(Row, null, /* @__PURE__ */ import_react150.default.createElement(Icon, { name: "campaign", color: palette.accent, size: 18 }), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react150.default.createElement(
+      )), /* @__PURE__ */ import_react152.default.createElement(Switch, { value: compact, onChanged: setCompact })), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react152.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react152.default.createElement(Row, null, /* @__PURE__ */ import_react152.default.createElement(Icon, { name: "campaign", color: palette.accent, size: 18 }), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: `\u6A2A\u5E45: ${showBanner ? "\u663E\u793A" : "\u9690\u85CF"}`,
           color: palette.text
         }
-      )), /* @__PURE__ */ import_react150.default.createElement(Switch, { value: showBanner, onChanged: setShowBanner })))
-    ), showBanner && /* @__PURE__ */ import_react150.default.createElement(
+      )), /* @__PURE__ */ import_react152.default.createElement(Switch, { value: showBanner, onChanged: setShowBanner })))
+    ), showBanner && /* @__PURE__ */ import_react152.default.createElement(
       Container,
       {
         margin: { top: 16 },
@@ -27901,14 +28082,14 @@ var DemoOpsPage = () => {
           border: { color: palette.border, width: 1 }
         }
       },
-      /* @__PURE__ */ import_react150.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react150.default.createElement(
+      /* @__PURE__ */ import_react152.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: "\u4ECA\u5929\u7684\u7CFB\u7EDF\u8D1F\u8F7D\u5904\u4E8E\u826F\u597D\u533A\u95F4",
           color: palette.text
         }
-      ), /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u5237\u65B0", onTap: randomizeStats }))
-    ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react150.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react150.default.createElement(
+      ), /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u5237\u65B0", onTap: randomizeStats }))
+    ), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react152.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react152.default.createElement(
       Text,
       {
         text: "\u5173\u952E\u6307\u6807",
@@ -27916,7 +28097,7 @@ var DemoOpsPage = () => {
         fontWeight: "bold",
         color: palette.text
       }
-    ), /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u968F\u673A\u66F4\u65B0", onTap: randomizeStats })), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react150.default.createElement(Column, null, /* @__PURE__ */ import_react150.default.createElement(Row, null, stats.slice(0, 2).map((stat) => /* @__PURE__ */ import_react150.default.createElement(Expanded, { key: stat.id }, /* @__PURE__ */ import_react150.default.createElement(
+    ), /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u968F\u673A\u66F4\u65B0", onTap: randomizeStats })), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react152.default.createElement(Column, null, /* @__PURE__ */ import_react152.default.createElement(Row, null, stats.slice(0, 2).map((stat) => /* @__PURE__ */ import_react152.default.createElement(Expanded, { key: stat.id }, /* @__PURE__ */ import_react152.default.createElement(
       Container,
       {
         padding: 12,
@@ -27927,7 +28108,7 @@ var DemoOpsPage = () => {
           border: { color: palette.border, width: 1 }
         }
       },
-      /* @__PURE__ */ import_react150.default.createElement(Row, null, /* @__PURE__ */ import_react150.default.createElement(Text, { text: stat.label, color: palette.sub }), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react150.default.createElement(
+      /* @__PURE__ */ import_react152.default.createElement(Row, null, /* @__PURE__ */ import_react152.default.createElement(Text, { text: stat.label, color: palette.sub }), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: `${stat.value}`,
@@ -27936,7 +28117,7 @@ var DemoOpsPage = () => {
           color: stat.color
         }
       ))
-    )))), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react150.default.createElement(Row, null, stats.slice(2, 4).map((stat) => /* @__PURE__ */ import_react150.default.createElement(Expanded, { key: stat.id }, /* @__PURE__ */ import_react150.default.createElement(
+    )))), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react152.default.createElement(Row, null, stats.slice(2, 4).map((stat) => /* @__PURE__ */ import_react152.default.createElement(Expanded, { key: stat.id }, /* @__PURE__ */ import_react152.default.createElement(
       Container,
       {
         padding: 12,
@@ -27947,7 +28128,7 @@ var DemoOpsPage = () => {
           border: { color: palette.border, width: 1 }
         }
       },
-      /* @__PURE__ */ import_react150.default.createElement(Row, null, /* @__PURE__ */ import_react150.default.createElement(Text, { text: stat.label, color: palette.sub }), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react150.default.createElement(
+      /* @__PURE__ */ import_react152.default.createElement(Row, null, /* @__PURE__ */ import_react152.default.createElement(Text, { text: stat.label, color: palette.sub }), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: `${stat.value}`,
@@ -27956,7 +28137,7 @@ var DemoOpsPage = () => {
           color: stat.color
         }
       ))
-    ))))), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react150.default.createElement(
+    ))))), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react152.default.createElement(
       Container,
       {
         padding: 12,
@@ -27966,14 +28147,14 @@ var DemoOpsPage = () => {
           border: { color: palette.border, width: 1 }
         }
       },
-      /* @__PURE__ */ import_react150.default.createElement(Column, null, /* @__PURE__ */ import_react150.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react150.default.createElement(Text, { text: "\u8FDB\u5EA6", color: palette.text }), /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u63A8\u8FDB", onTap: bumpProgress })), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react150.default.createElement(
+      /* @__PURE__ */ import_react152.default.createElement(Column, null, /* @__PURE__ */ import_react152.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react152.default.createElement(Text, { text: "\u8FDB\u5EA6", color: palette.text }), /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u63A8\u8FDB", onTap: bumpProgress })), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react152.default.createElement(
         Container,
         {
           height: 10,
           color: theme === "dark" ? "#2C2C2C" : "#EEEEEE",
           decoration: { borderRadius: 8 }
         },
-        /* @__PURE__ */ import_react150.default.createElement(
+        /* @__PURE__ */ import_react152.default.createElement(
           Container,
           {
             height: 10,
@@ -27981,14 +28162,14 @@ var DemoOpsPage = () => {
             decoration: { color: palette.accent, borderRadius: 8 }
           }
         )
-      ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react150.default.createElement(
+      ), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: `${Math.round(progress * 100)}%`,
           color: palette.sub
         }
       ))
-    ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react150.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react150.default.createElement(
+    ), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react152.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react152.default.createElement(
       Text,
       {
         text: "\u4EFB\u52A1\u5217\u8868",
@@ -27996,7 +28177,7 @@ var DemoOpsPage = () => {
         fontWeight: "bold",
         color: palette.text
       }
-    ), /* @__PURE__ */ import_react150.default.createElement(Row, null, /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u53CD\u8F6C", onTap: reverseItems }), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u6253\u4E71", onTap: shuffleItems }), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u6DFB\u52A0", onTap: addItem }))), /* @__PURE__ */ import_react150.default.createElement(Divider, { height: 16 }), /* @__PURE__ */ import_react150.default.createElement(ListView, null, items.map((item) => /* @__PURE__ */ import_react150.default.createElement(
+    ), /* @__PURE__ */ import_react152.default.createElement(Row, null, /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u53CD\u8F6C", onTap: reverseItems }), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u6253\u4E71", onTap: shuffleItems }), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u6DFB\u52A0", onTap: addItem }))), /* @__PURE__ */ import_react152.default.createElement(Divider, { height: 16 }), /* @__PURE__ */ import_react152.default.createElement(ListView, null, items.map((item) => /* @__PURE__ */ import_react152.default.createElement(
       Container,
       {
         key: item.id,
@@ -28011,7 +28192,7 @@ var DemoOpsPage = () => {
           }
         }
       },
-      /* @__PURE__ */ import_react150.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react150.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react150.default.createElement(
+      /* @__PURE__ */ import_react152.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react152.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: item.title,
@@ -28019,7 +28200,7 @@ var DemoOpsPage = () => {
           fontWeight: "bold",
           color: palette.text
         }
-      ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react150.default.createElement(Row, null, /* @__PURE__ */ import_react150.default.createElement(
+      ), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react152.default.createElement(Row, null, /* @__PURE__ */ import_react152.default.createElement(
         Container,
         {
           padding: { left: 8, right: 8, top: 4, bottom: 4 },
@@ -28028,7 +28209,7 @@ var DemoOpsPage = () => {
             borderRadius: 10
           }
         },
-        /* @__PURE__ */ import_react150.default.createElement(
+        /* @__PURE__ */ import_react152.default.createElement(
           Text,
           {
             text: item.active ? "\u8FD0\u884C\u4E2D" : "\u6682\u505C",
@@ -28036,19 +28217,19 @@ var DemoOpsPage = () => {
             fontSize: 12
           }
         )
-      ), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react150.default.createElement(Text, { text: `\u6B21\u6570 ${item.count}`, color: palette.sub }))), /* @__PURE__ */ import_react150.default.createElement(Column, { crossAxisAlignment: "end" }, /* @__PURE__ */ import_react150.default.createElement(Row, null, /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u66F4\u65B0", onTap: () => updateItem(item.id) }), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u5207\u6362", onTap: () => toggleItem(item.id) }), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react150.default.createElement(Button, { text: "\u5220\u9664", onTap: () => deleteItem(item.id) })), /* @__PURE__ */ import_react150.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react150.default.createElement(
+      ), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react152.default.createElement(Text, { text: `\u6B21\u6570 ${item.count}`, color: palette.sub }))), /* @__PURE__ */ import_react152.default.createElement(Column, { crossAxisAlignment: "end" }, /* @__PURE__ */ import_react152.default.createElement(Row, null, /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u66F4\u65B0", onTap: () => updateItem(item.id) }), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u5207\u6362", onTap: () => toggleItem(item.id) }), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react152.default.createElement(Button, { text: "\u5220\u9664", onTap: () => deleteItem(item.id) })), /* @__PURE__ */ import_react152.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react152.default.createElement(
         Text,
         {
           text: `\u4F18\u5148\u7EA7 ${item.active ? "\u9AD8" : "\u4F4E"}`,
           color: item.active ? item.color : palette.sub
         }
       )))
-    ))), items.length === 0 && /* @__PURE__ */ import_react150.default.createElement(Center, null, /* @__PURE__ */ import_react150.default.createElement(Padding, { padding: { top: 40 } }, /* @__PURE__ */ import_react150.default.createElement(Text, { text: "\u5217\u8868\u4E3A\u7A7A", color: palette.sub }))))))
+    ))), items.length === 0 && /* @__PURE__ */ import_react152.default.createElement(Center, null, /* @__PURE__ */ import_react152.default.createElement(Padding, { padding: { top: 40 } }, /* @__PURE__ */ import_react152.default.createElement(Text, { text: "\u5217\u8868\u4E3A\u7A7A", color: palette.sub }))))))
   );
 };
 
 // src/pages/error_demo.tsx
-var import_react151 = __toESM(require_react_production());
+var import_react153 = __toESM(require_react_production());
 function parseUserData(raw) {
   const data = raw;
   const score = data.profile.score;
@@ -28062,9 +28243,9 @@ function handleCheckout(cartData) {
   return processOrder(cartData);
 }
 function ErrorDemoPage() {
-  const [errorLog, setErrorLog] = (0, import_react151.useState)([]);
-  const [triggerRenderError, setTriggerRenderError] = (0, import_react151.useState)(false);
-  (0, import_react151.useEffect)(() => {
+  const [errorLog, setErrorLog] = (0, import_react153.useState)([]);
+  const [triggerRenderError, setTriggerRenderError] = (0, import_react153.useState)(false);
+  (0, import_react153.useEffect)(() => {
     ErrorHandler.set((error2, source) => {
       const err = error2;
       const message = `[${source}] ${err?.message || String(error2)}`;
@@ -28078,9 +28259,9 @@ function ErrorDemoPage() {
   if (triggerRenderError) {
     throw new Error("Render error demo");
   }
-  (0, import_react151.useEffect)(() => {
+  (0, import_react153.useEffect)(() => {
   }, []);
-  return /* @__PURE__ */ import_react151.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react151.default.createElement(AppBar, { title: /* @__PURE__ */ import_react151.default.createElement(Text, { text: "\u5F02\u5E38\u6355\u83B7\u6F14\u793A" }) }) }, /* @__PURE__ */ import_react151.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react151.default.createElement(Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react151.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react151.default.createElement(
+  return /* @__PURE__ */ import_react153.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react153.default.createElement(AppBar, { title: /* @__PURE__ */ import_react153.default.createElement(Text, { text: "\u5F02\u5E38\u6355\u83B7\u6F14\u793A" }) }) }, /* @__PURE__ */ import_react153.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react153.default.createElement(Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react153.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react153.default.createElement(
     Container,
     {
       padding: 12,
@@ -28090,13 +28271,13 @@ function ErrorDemoPage() {
         border: { color: "#E0E0E0", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react151.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react151.default.createElement(Text, { text: "\u89E6\u53D1\u4E0D\u540C\u7C7B\u578B\u9519\u8BEF", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react151.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react151.default.createElement(ListView, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react151.default.createElement(
+    /* @__PURE__ */ import_react153.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react153.default.createElement(Text, { text: "\u89E6\u53D1\u4E0D\u540C\u7C7B\u578B\u9519\u8BEF", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react153.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react153.default.createElement(ListView, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react153.default.createElement(
       Button,
       {
         text: "\u6E32\u67D3\u9519\u8BEF",
         onTap: () => setTriggerRenderError(true)
       }
-    ), /* @__PURE__ */ import_react151.default.createElement(
+    ), /* @__PURE__ */ import_react153.default.createElement(
       Button,
       {
         text: "\u4E8B\u4EF6\u9519\u8BEF",
@@ -28104,7 +28285,7 @@ function ErrorDemoPage() {
           throw new Error("Event handler error demo");
         }
       }
-    ), /* @__PURE__ */ import_react151.default.createElement(
+    ), /* @__PURE__ */ import_react153.default.createElement(
       Button,
       {
         text: "\u5B9A\u65F6\u5668\u9519\u8BEF",
@@ -28112,7 +28293,7 @@ function ErrorDemoPage() {
           throw new Error("Timer error demo");
         }, 80)
       }
-    ), /* @__PURE__ */ import_react151.default.createElement(
+    ), /* @__PURE__ */ import_react153.default.createElement(
       Button,
       {
         text: "Promise \u9519\u8BEF",
@@ -28120,7 +28301,7 @@ function ErrorDemoPage() {
           throw new Error("Promise error demo");
         })
       }
-    )), /* @__PURE__ */ import_react151.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react151.default.createElement(
+    )), /* @__PURE__ */ import_react153.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react153.default.createElement(
       Button,
       {
         text: "\u6DF1\u5C42\u8C03\u7528\u94FE\u9519\u8BEF\uFF08sourcemap \u6F14\u793A\uFF09",
@@ -28128,7 +28309,7 @@ function ErrorDemoPage() {
           handleCheckout({ name: "test" });
         }
       }
-    ), /* @__PURE__ */ import_react151.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react151.default.createElement(Column, null, errorLog.length === 0 && /* @__PURE__ */ import_react151.default.createElement(Text, { text: "\u6682\u65E0\u6355\u83B7\u8BB0\u5F55", color: "#757575" }), errorLog.map((item, index) => /* @__PURE__ */ import_react151.default.createElement(
+    ), /* @__PURE__ */ import_react153.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react153.default.createElement(Column, null, errorLog.length === 0 && /* @__PURE__ */ import_react153.default.createElement(Text, { text: "\u6682\u65E0\u6355\u83B7\u8BB0\u5F55", color: "#757575" }), errorLog.map((item, index) => /* @__PURE__ */ import_react153.default.createElement(
       Text,
       {
         key: `${item}-${index}`,
@@ -28140,65 +28321,65 @@ function ErrorDemoPage() {
 }
 
 // src/demos/FlutterPropsDemo.tsx
-var import_react152 = __toESM(require_react_production());
-var FloatingActionButton2 = (props) => import_react152.default.createElement(
+var import_react154 = __toESM(require_react_production());
+var FloatingActionButton2 = (props) => import_react154.default.createElement(
   "FloatingActionButton",
   { ...props, isBoundary: true },
   props.child
 );
 function FlutterPropsDemo() {
-  const [count, setCount] = (0, import_react152.useState)(0);
-  const [showAction, setShowAction] = (0, import_react152.useState)(true);
-  const [fabVisible, setFabVisible] = (0, import_react152.useState)(true);
-  return /* @__PURE__ */ import_react152.default.createElement(
+  const [count, setCount] = (0, import_react154.useState)(0);
+  const [showAction, setShowAction] = (0, import_react154.useState)(true);
+  const [fabVisible, setFabVisible] = (0, import_react154.useState)(true);
+  return /* @__PURE__ */ import_react154.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react152.default.createElement(
+      appBar: /* @__PURE__ */ import_react154.default.createElement(
         AppBar,
         {
-          title: /* @__PURE__ */ import_react152.default.createElement(Text, { text: `FlutterProps Demo ${count}` }),
+          title: /* @__PURE__ */ import_react154.default.createElement(Text, { text: `FlutterProps Demo ${count}` }),
           actions: showAction ? [
-            /* @__PURE__ */ import_react152.default.createElement(
+            /* @__PURE__ */ import_react154.default.createElement(
               GestureDetector,
               {
                 key: "btn1",
                 onTap: () => console.log("Action 1 pressed")
               },
-              /* @__PURE__ */ import_react152.default.createElement(Icon, { name: "add" })
+              /* @__PURE__ */ import_react154.default.createElement(Icon, { name: "add" })
             ),
-            /* @__PURE__ */ import_react152.default.createElement(
+            /* @__PURE__ */ import_react154.default.createElement(
               GestureDetector,
               {
                 key: "btn2",
                 onTap: () => console.log("Action 2 pressed")
               },
-              /* @__PURE__ */ import_react152.default.createElement(Icon, { name: "remove" })
+              /* @__PURE__ */ import_react154.default.createElement(Icon, { name: "remove" })
             )
           ] : []
         }
       ),
-      floatingActionButton: fabVisible ? /* @__PURE__ */ import_react152.default.createElement(
+      floatingActionButton: fabVisible ? /* @__PURE__ */ import_react154.default.createElement(
         FloatingActionButton2,
         {
           onPressed: () => {
             setCount((c) => c + 1);
           },
-          child: /* @__PURE__ */ import_react152.default.createElement(Icon, { name: "add" })
+          child: /* @__PURE__ */ import_react154.default.createElement(Icon, { name: "add" })
         }
       ) : null
     },
-    /* @__PURE__ */ import_react152.default.createElement(Center, null, /* @__PURE__ */ import_react152.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react152.default.createElement(Text, { text: `Count: ${count}` }), /* @__PURE__ */ import_react152.default.createElement(
+    /* @__PURE__ */ import_react154.default.createElement(Center, null, /* @__PURE__ */ import_react154.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react154.default.createElement(Text, { text: `Count: ${count}` }), /* @__PURE__ */ import_react154.default.createElement(
       Button,
       {
         text: "Toggle Actions",
         onTap: () => setShowAction((s) => !s)
       }
-    ), /* @__PURE__ */ import_react152.default.createElement(Button, { text: "Toggle FAB", onTap: () => setFabVisible((v) => !v) })))
+    ), /* @__PURE__ */ import_react154.default.createElement(Button, { text: "Toggle FAB", onTap: () => setFabVisible((v) => !v) })))
   );
 }
 
 // src/demos/CustomPaintDemo.tsx
-var import_react153 = __toESM(require_react_production());
+var import_react155 = __toESM(require_react_production());
 var drawBackground = (p) => {
   p.drawRect(
     { left: 0, top: 0, width: 300, height: 300 },
@@ -28218,7 +28399,7 @@ var drawBackground = (p) => {
   }
 };
 function CustomPaintDemo() {
-  const painterRef = (0, import_react153.useRef)(null);
+  const painterRef = (0, import_react155.useRef)(null);
   if (!painterRef.current) {
     painterRef.current = new CustomPainter();
     drawBackground(painterRef.current);
@@ -28292,31 +28473,31 @@ function CustomPaintDemo() {
     painter.drawPath(path, { color: "#FF4444", style: "stroke", strokeWidth: 3 });
     painter.repaint();
   };
-  return /* @__PURE__ */ import_react153.default.createElement(
+  return /* @__PURE__ */ import_react155.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react153.default.createElement(
+      appBar: /* @__PURE__ */ import_react155.default.createElement(
         AppBar,
         {
-          title: /* @__PURE__ */ import_react153.default.createElement(Text, { text: "CustomPaint Interactive Demo" })
+          title: /* @__PURE__ */ import_react155.default.createElement(Text, { text: "CustomPaint Interactive Demo" })
         }
       )
     },
-    /* @__PURE__ */ import_react153.default.createElement(Center, null, /* @__PURE__ */ import_react153.default.createElement(Column, { mainAxisSize: "min" }, /* @__PURE__ */ import_react153.default.createElement(Text, { text: "Interactive Canvas", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react153.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react153.default.createElement(Text, { text: "Click buttons to add shapes dynamically", fontSize: 14, color: "grey" }), /* @__PURE__ */ import_react153.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react153.default.createElement(
+    /* @__PURE__ */ import_react155.default.createElement(Center, null, /* @__PURE__ */ import_react155.default.createElement(Column, { mainAxisSize: "min" }, /* @__PURE__ */ import_react155.default.createElement(Text, { text: "Interactive Canvas", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react155.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react155.default.createElement(Text, { text: "Click buttons to add shapes dynamically", fontSize: 14, color: "grey" }), /* @__PURE__ */ import_react155.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react155.default.createElement(
       Container,
       {
         decoration: {
           border: { color: "black", width: 2 }
         }
       },
-      /* @__PURE__ */ import_react153.default.createElement(
+      /* @__PURE__ */ import_react155.default.createElement(
         CustomPaint,
         {
           size: { width: 300, height: 300 },
           painter
         }
       )
-    ), /* @__PURE__ */ import_react153.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react153.default.createElement(Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react153.default.createElement(Button, { text: "Add Circle", onTap: addRandomCircle }), /* @__PURE__ */ import_react153.default.createElement(Button, { text: "Add Rect", onTap: addRotatedRect }), /* @__PURE__ */ import_react153.default.createElement(Button, { text: "Add Star", onTap: addStarPath }), /* @__PURE__ */ import_react153.default.createElement(Button, { text: "Add Bezier", onTap: addBezierPath }), /* @__PURE__ */ import_react153.default.createElement(Button, { text: "Clear", onTap: clearCanvas })), /* @__PURE__ */ import_react153.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react153.default.createElement(
+    ), /* @__PURE__ */ import_react155.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react155.default.createElement(Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react155.default.createElement(Button, { text: "Add Circle", onTap: addRandomCircle }), /* @__PURE__ */ import_react155.default.createElement(Button, { text: "Add Rect", onTap: addRotatedRect }), /* @__PURE__ */ import_react155.default.createElement(Button, { text: "Add Star", onTap: addStarPath }), /* @__PURE__ */ import_react155.default.createElement(Button, { text: "Add Bezier", onTap: addBezierPath }), /* @__PURE__ */ import_react155.default.createElement(Button, { text: "Clear", onTap: clearCanvas })), /* @__PURE__ */ import_react155.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react155.default.createElement(
       Container,
       {
         width: 200,
@@ -28324,16 +28505,16 @@ function CustomPaintDemo() {
         color: "#f0f0f0",
         alignment: "center"
       },
-      /* @__PURE__ */ import_react153.default.createElement(Text, { text: "Changes are applied immediately without full re-render", fontSize: 12, textAlign: "center" })
+      /* @__PURE__ */ import_react155.default.createElement(Text, { text: "Changes are applied immediately without full re-render", fontSize: 12, textAlign: "center" })
     )))
   );
 }
 
 // src/demos/VisibilityDetectorDemo.tsx
-var import_react154 = __toESM(require_react_production());
+var import_react156 = __toESM(require_react_production());
 var import_visibility_detector = __toESM(require_dist());
 function VisibilityDetectorDemo() {
-  const [visibleItems, setVisibleItems] = (0, import_react154.useState)(/* @__PURE__ */ new Set());
+  const [visibleItems, setVisibleItems] = (0, import_react156.useState)(/* @__PURE__ */ new Set());
   const handleVisibilityChanged = (index, visible) => {
     setVisibleItems((prev) => {
       const next = new Set(prev);
@@ -28345,17 +28526,17 @@ function VisibilityDetectorDemo() {
       return next;
     });
   };
-  return /* @__PURE__ */ import_react154.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react154.default.createElement(AppBar, { title: "VisibilityDetector Demo" }) }, /* @__PURE__ */ import_react154.default.createElement(Column, null, /* @__PURE__ */ import_react154.default.createElement(Container, { padding: 16, color: "#E3F2FD" }, /* @__PURE__ */ import_react154.default.createElement(
+  return /* @__PURE__ */ import_react156.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react156.default.createElement(AppBar, { title: "VisibilityDetector Demo" }) }, /* @__PURE__ */ import_react156.default.createElement(Column, null, /* @__PURE__ */ import_react156.default.createElement(Container, { padding: 16, color: "#E3F2FD" }, /* @__PURE__ */ import_react156.default.createElement(
     Text,
     {
       text: `Visible Items: ${Array.from(visibleItems).sort((a, b) => a - b).join(", ")}`,
       fontSize: 16
     }
-  )), /* @__PURE__ */ import_react154.default.createElement(
+  )), /* @__PURE__ */ import_react156.default.createElement(
     ListView,
     {
       itemCount: 50,
-      itemBuilder: (index) => /* @__PURE__ */ import_react154.default.createElement(
+      itemBuilder: (index) => /* @__PURE__ */ import_react156.default.createElement(
         import_visibility_detector.VisibilityDetector,
         {
           key: index,
@@ -28364,7 +28545,7 @@ function VisibilityDetectorDemo() {
             handleVisibilityChanged(index, isVisible);
           }
         },
-        /* @__PURE__ */ import_react154.default.createElement(
+        /* @__PURE__ */ import_react156.default.createElement(
           Container,
           {
             margin: { all: 10 },
@@ -28372,7 +28553,7 @@ function VisibilityDetectorDemo() {
             color: visibleItems.has(index) ? "#81C784" : "#E0E0E0",
             alignment: "center"
           },
-          /* @__PURE__ */ import_react154.default.createElement(
+          /* @__PURE__ */ import_react156.default.createElement(
             Text,
             {
               text: `Item ${index} (${visibleItems.has(index) ? "Visible" : "Hidden"})`,
@@ -28387,14 +28568,14 @@ function VisibilityDetectorDemo() {
 }
 
 // src/demos/VideoPlayerDemo.tsx
-var import_react155 = __toESM(require_react_production());
+var import_react157 = __toESM(require_react_production());
 var import_video_player = __toESM(require_dist2());
 function VideoPlayerDemo() {
-  const playerRef = (0, import_react155.useRef)(null);
-  const [status, setStatus] = (0, import_react155.useState)("Idle");
-  const [duration, setDuration] = (0, import_react155.useState)(0);
+  const playerRef = (0, import_react157.useRef)(null);
+  const [status, setStatus] = (0, import_react157.useState)("Idle");
+  const [duration, setDuration] = (0, import_react157.useState)(0);
   const videoUrl = "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
-  return /* @__PURE__ */ import_react155.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react155.default.createElement(AppBar, { title: "VideoPlayer Demo" }) }, /* @__PURE__ */ import_react155.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react155.default.createElement(Column, { padding: 16 }, /* @__PURE__ */ import_react155.default.createElement(
+  return /* @__PURE__ */ import_react157.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react157.default.createElement(AppBar, { title: "VideoPlayer Demo" }) }, /* @__PURE__ */ import_react157.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react157.default.createElement(Column, { padding: 16 }, /* @__PURE__ */ import_react157.default.createElement(
     Text,
     {
       text: "Network Video",
@@ -28402,7 +28583,7 @@ function VideoPlayerDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react155.default.createElement(
+  ), /* @__PURE__ */ import_react157.default.createElement(
     Container,
     {
       height: 240,
@@ -28410,7 +28591,7 @@ function VideoPlayerDemo() {
       alignment: "center",
       margin: { bottom: 20 }
     },
-    /* @__PURE__ */ import_react155.default.createElement(
+    /* @__PURE__ */ import_react157.default.createElement(
       import_video_player.VideoPlayer,
       {
         ref: playerRef,
@@ -28433,7 +28614,7 @@ function VideoPlayerDemo() {
         }
       }
     )
-  ), /* @__PURE__ */ import_react155.default.createElement(Container, { padding: 10, color: "#F5F5F5", margin: { bottom: 20 } }, /* @__PURE__ */ import_react155.default.createElement(Text, { text: `Status: ${status}` }), /* @__PURE__ */ import_react155.default.createElement(Text, { text: `Duration: ${duration}ms` })), /* @__PURE__ */ import_react155.default.createElement(
+  ), /* @__PURE__ */ import_react157.default.createElement(Container, { padding: 10, color: "#F5F5F5", margin: { bottom: 20 } }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: `Status: ${status}` }), /* @__PURE__ */ import_react157.default.createElement(Text, { text: `Duration: ${duration}ms` })), /* @__PURE__ */ import_react157.default.createElement(
     Text,
     {
       text: "Controls",
@@ -28441,7 +28622,7 @@ function VideoPlayerDemo() {
       fontWeight: "bold",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react155.default.createElement(Row, { mainAxisAlignment: "spaceEvenly", margin: { bottom: 10 } }, /* @__PURE__ */ import_react155.default.createElement(
+  ), /* @__PURE__ */ import_react157.default.createElement(Row, { mainAxisAlignment: "spaceEvenly", margin: { bottom: 10 } }, /* @__PURE__ */ import_react157.default.createElement(
     Button,
     {
       text: "Play",
@@ -28450,7 +28631,7 @@ function VideoPlayerDemo() {
         setStatus("Playing");
       }
     }
-  ), /* @__PURE__ */ import_react155.default.createElement(
+  ), /* @__PURE__ */ import_react157.default.createElement(
     Button,
     {
       text: "Pause",
@@ -28459,7 +28640,7 @@ function VideoPlayerDemo() {
         setStatus("Paused");
       }
     }
-  ), /* @__PURE__ */ import_react155.default.createElement(
+  ), /* @__PURE__ */ import_react157.default.createElement(
     Button,
     {
       text: "Stop",
@@ -28468,13 +28649,13 @@ function VideoPlayerDemo() {
         setStatus("Stopped");
       }
     }
-  )), /* @__PURE__ */ import_react155.default.createElement(Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react155.default.createElement(
+  )), /* @__PURE__ */ import_react157.default.createElement(Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react157.default.createElement(
     Button,
     {
       text: "Seek to 0s",
       onTap: () => playerRef.current?.seekTo(0)
     }
-  ), /* @__PURE__ */ import_react155.default.createElement(
+  ), /* @__PURE__ */ import_react157.default.createElement(
     Button,
     {
       text: "Loop: Toggle",
@@ -28486,15 +28667,15 @@ function VideoPlayerDemo() {
 }
 
 // src/demos/ClipRRectDemo.tsx
-var React155 = __toESM(require_react_production());
+var React156 = __toESM(require_react_production());
 var ClipRRect2 = "ClipRRect";
 function ClipRRectDemo() {
-  return /* @__PURE__ */ React155.createElement(
+  return /* @__PURE__ */ React156.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ React155.createElement(AppBar, { title: "ClipRRect Demo" })
+      appBar: /* @__PURE__ */ React156.createElement(AppBar, { title: "ClipRRect Demo" })
     },
-    /* @__PURE__ */ React155.createElement(Center, null, /* @__PURE__ */ React155.createElement(ClipRRect2, { borderRadius: 20, clipBehavior: "hardEdge" }, /* @__PURE__ */ React155.createElement(
+    /* @__PURE__ */ React156.createElement(Center, null, /* @__PURE__ */ React156.createElement(ClipRRect2, { borderRadius: 20, clipBehavior: "hardEdge" }, /* @__PURE__ */ React156.createElement(
       Container,
       {
         width: 200,
@@ -28502,17 +28683,17 @@ function ClipRRectDemo() {
         color: "#FF5722",
         alignment: "center"
       },
-      /* @__PURE__ */ React155.createElement(Text, { text: "Rounded Corners", color: "#FFFFFF", fontWeight: "bold", fontSize: 24 })
+      /* @__PURE__ */ React156.createElement(Text, { text: "Rounded Corners", color: "#FFFFFF", fontWeight: "bold", fontSize: 24 })
     )))
   );
 }
 
 // src/demos/RefreshIndicatorDemo.tsx
-var React156 = __toESM(require_react_production());
+var React157 = __toESM(require_react_production());
 var RefreshIndicator2 = "RefreshIndicator";
 function RefreshIndicatorDemo() {
-  const [count, setCount] = React156.useState(0);
-  const refreshControl = React156.useRef(null);
+  const [count, setCount] = React157.useState(0);
+  const refreshControl = React157.useRef(null);
   const onRefresh = async () => {
     try {
       console.log("Refreshing...");
@@ -28527,12 +28708,12 @@ function RefreshIndicatorDemo() {
       }
     }
   };
-  return /* @__PURE__ */ React156.createElement(
+  return /* @__PURE__ */ React157.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ React156.createElement(AppBar, { title: "RefreshIndicator Demo" })
+      appBar: /* @__PURE__ */ React157.createElement(AppBar, { title: "RefreshIndicator Demo" })
     },
-    /* @__PURE__ */ React156.createElement(
+    /* @__PURE__ */ React157.createElement(
       RefreshIndicator2,
       {
         ref: refreshControl,
@@ -28540,16 +28721,16 @@ function RefreshIndicatorDemo() {
         color: "#FFFFFF",
         backgroundColor: "#2196F3"
       },
-      /* @__PURE__ */ React156.createElement(SingleChildScrollView, null, /* @__PURE__ */ React156.createElement(Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ React156.createElement(Text, { text: "Pull down to refresh!", textAlign: "center", color: "#757575", fontSize: 18 }), /* @__PURE__ */ React156.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ React156.createElement(Text, { text: `Refresh count: ${count}`, textAlign: "center", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ React156.createElement(SizedBox, { height: 500 }), /* @__PURE__ */ React156.createElement(Text, { text: "Scroll up to see content", textAlign: "center", color: "#9E9E9E" })))
+      /* @__PURE__ */ React157.createElement(SingleChildScrollView, null, /* @__PURE__ */ React157.createElement(Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ React157.createElement(Text, { text: "Pull down to refresh!", textAlign: "center", color: "#757575", fontSize: 18 }), /* @__PURE__ */ React157.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ React157.createElement(Text, { text: `Refresh count: ${count}`, textAlign: "center", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ React157.createElement(SizedBox, { height: 500 }), /* @__PURE__ */ React157.createElement(Text, { text: "Scroll up to see content", textAlign: "center", color: "#9E9E9E" })))
     )
   );
 }
 
 // src/demos/RichTextDemo.tsx
-var React157 = __toESM(require_react_production());
+var React158 = __toESM(require_react_production());
 var OWL2 = "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg";
 function RichTextDemo() {
-  return /* @__PURE__ */ React157.createElement(Scaffold, { appBar: /* @__PURE__ */ React157.createElement(AppBar, { title: "RichText Demo" }) }, /* @__PURE__ */ React157.createElement(SingleChildScrollView, null, /* @__PURE__ */ React157.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ React157.createElement(Text, { text: "\u57FA\u7840\u6587\u5B57\u6837\u5F0F", fontSize: 15, fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ React157.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React157.createElement(
+  return /* @__PURE__ */ React158.createElement(Scaffold, { appBar: /* @__PURE__ */ React158.createElement(AppBar, { title: "RichText Demo" }) }, /* @__PURE__ */ React158.createElement(SingleChildScrollView, null, /* @__PURE__ */ React158.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ React158.createElement(Text, { text: "\u57FA\u7840\u6587\u5B57\u6837\u5F0F", fontSize: 15, fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ React158.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React158.createElement(
     RichText,
     {
       text: {
@@ -28561,7 +28742,7 @@ function RichTextDemo() {
         ]
       }
     }
-  )), /* @__PURE__ */ React157.createElement(Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React157.createElement(Text, { text: "\u591A\u5C3A\u5BF8\u6DF7\u5408", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React157.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React157.createElement(
+  )), /* @__PURE__ */ React158.createElement(Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React158.createElement(Text, { text: "\u591A\u5C3A\u5BF8\u6DF7\u5408", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React158.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React158.createElement(
     RichText,
     {
       text: {
@@ -28574,7 +28755,7 @@ function RichTextDemo() {
         ]
       }
     }
-  )), /* @__PURE__ */ React157.createElement(Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React157.createElement(Text, { text: "\u53EF\u70B9\u51FB span", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React157.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React157.createElement(
+  )), /* @__PURE__ */ React158.createElement(Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React158.createElement(Text, { text: "\u53EF\u70B9\u51FB span", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React158.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React158.createElement(
     RichText,
     {
       text: {
@@ -28594,7 +28775,7 @@ function RichTextDemo() {
         ]
       }
     }
-  )), /* @__PURE__ */ React157.createElement(Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React157.createElement(Text, { text: "\u56FE\u6587\u6DF7\u6392\uFF08WidgetSpan\uFF09", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React157.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React157.createElement(
+  )), /* @__PURE__ */ React158.createElement(Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React158.createElement(Text, { text: "\u56FE\u6587\u6DF7\u6392\uFF08WidgetSpan\uFF09", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React158.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React158.createElement(
     RichText,
     {
       text: {
@@ -28609,7 +28790,7 @@ function RichTextDemo() {
         ]
       }
     }
-  )), /* @__PURE__ */ React157.createElement(Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React157.createElement(Text, { text: "\u56FE\u6807 + \u6587\u5B57\u6DF7\u6392", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React157.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React157.createElement(
+  )), /* @__PURE__ */ React158.createElement(Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React158.createElement(Text, { text: "\u56FE\u6807 + \u6587\u5B57\u6DF7\u6392", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React158.createElement(Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React158.createElement(
     RichText,
     {
       text: {
@@ -28632,62 +28813,62 @@ function RichTextDemo() {
         ]
       }
     }
-  )), /* @__PURE__ */ React157.createElement(Container, { height: 40 }))));
+  )), /* @__PURE__ */ React158.createElement(Container, { height: 40 }))));
 }
 
 // src/demos/TransformDemo.tsx
-var React158 = __toESM(require_react_production());
+var React159 = __toESM(require_react_production());
 function TransformDemo() {
-  return /* @__PURE__ */ React158.createElement(
+  return /* @__PURE__ */ React159.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ React158.createElement(AppBar, { title: "Transform Demo" })
+      appBar: /* @__PURE__ */ React159.createElement(AppBar, { title: "Transform Demo" })
     },
-    /* @__PURE__ */ React158.createElement(SingleChildScrollView, null, /* @__PURE__ */ React158.createElement(Center, null, /* @__PURE__ */ React158.createElement(Column, { padding: 20, crossAxisAlignment: "center" }, /* @__PURE__ */ React158.createElement(Text, { text: "Rotate (45 deg)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React158.createElement(Transform, { rotate: 0.785, alignment: "center" }, /* @__PURE__ */ React158.createElement(Container, { width: 100, height: 100, color: "#9C27B0", alignment: "center" }, /* @__PURE__ */ React158.createElement(Text, { text: "Rotated", color: "white" }))), /* @__PURE__ */ React158.createElement(SizedBox, { height: 60 }), /* @__PURE__ */ React158.createElement(Text, { text: "Scale (1.5x)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React158.createElement(Transform, { scale: 1.5, alignment: "center" }, /* @__PURE__ */ React158.createElement(Container, { width: 80, height: 80, color: "#3F51B5", alignment: "center" }, /* @__PURE__ */ React158.createElement(Text, { text: "Scaled", color: "white" }))), /* @__PURE__ */ React158.createElement(SizedBox, { height: 60 }), /* @__PURE__ */ React158.createElement(Text, { text: "Translate (x: 20, y: 10)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React158.createElement(Container, { color: "#DDDDDD", width: 150, height: 120 }, /* @__PURE__ */ React158.createElement(Transform, { translate: { x: 20, y: 10 } }, /* @__PURE__ */ React158.createElement(Container, { width: 80, height: 80, color: "#009688", alignment: "center" }, /* @__PURE__ */ React158.createElement(Text, { text: "Translated", color: "white" })))))))
+    /* @__PURE__ */ React159.createElement(SingleChildScrollView, null, /* @__PURE__ */ React159.createElement(Center, null, /* @__PURE__ */ React159.createElement(Column, { padding: 20, crossAxisAlignment: "center" }, /* @__PURE__ */ React159.createElement(Text, { text: "Rotate (45 deg)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React159.createElement(Transform, { rotate: 0.785, alignment: "center" }, /* @__PURE__ */ React159.createElement(Container, { width: 100, height: 100, color: "#9C27B0", alignment: "center" }, /* @__PURE__ */ React159.createElement(Text, { text: "Rotated", color: "white" }))), /* @__PURE__ */ React159.createElement(SizedBox, { height: 60 }), /* @__PURE__ */ React159.createElement(Text, { text: "Scale (1.5x)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React159.createElement(Transform, { scale: 1.5, alignment: "center" }, /* @__PURE__ */ React159.createElement(Container, { width: 80, height: 80, color: "#3F51B5", alignment: "center" }, /* @__PURE__ */ React159.createElement(Text, { text: "Scaled", color: "white" }))), /* @__PURE__ */ React159.createElement(SizedBox, { height: 60 }), /* @__PURE__ */ React159.createElement(Text, { text: "Translate (x: 20, y: 10)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React159.createElement(Container, { color: "#DDDDDD", width: 150, height: 120 }, /* @__PURE__ */ React159.createElement(Transform, { translate: { x: 20, y: 10 } }, /* @__PURE__ */ React159.createElement(Container, { width: 80, height: 80, color: "#009688", alignment: "center" }, /* @__PURE__ */ React159.createElement(Text, { text: "Translated", color: "white" })))))))
   );
 }
 
 // src/demos/OverlayDemo.tsx
-var import_react156 = __toESM(require_react_production());
+var import_react158 = __toESM(require_react_production());
 function OverlayDemo() {
-  const [showSimple, setShowSimple] = (0, import_react156.useState)(false);
-  const [showFull, setShowFull] = (0, import_react156.useState)(false);
-  return /* @__PURE__ */ import_react156.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react156.default.createElement(AppBar, { title: "Overlay Demo" }) }, /* @__PURE__ */ import_react156.default.createElement(Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react156.default.createElement(
+  const [showSimple, setShowSimple] = (0, import_react158.useState)(false);
+  const [showFull, setShowFull] = (0, import_react158.useState)(false);
+  return /* @__PURE__ */ import_react158.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react158.default.createElement(AppBar, { title: "Overlay Demo" }) }, /* @__PURE__ */ import_react158.default.createElement(Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react158.default.createElement(
     Button,
     {
       text: showSimple ? "Hide Simple Overlay" : "Show Simple Overlay",
       onTap: () => setShowSimple(!showSimple),
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react156.default.createElement(
+  ), /* @__PURE__ */ import_react158.default.createElement(
     Button,
     {
       text: showFull ? "Hide Full Overlay" : "Show Full Overlay",
       onTap: () => setShowFull(!showFull)
     }
-  )), /* @__PURE__ */ import_react156.default.createElement(Overlay, { visible: showSimple, overlayKey: "simple" }, /* @__PURE__ */ import_react156.default.createElement(Center, null, /* @__PURE__ */ import_react156.default.createElement(
+  )), /* @__PURE__ */ import_react158.default.createElement(Overlay, { visible: showSimple, overlayKey: "simple" }, /* @__PURE__ */ import_react158.default.createElement(Center, null, /* @__PURE__ */ import_react158.default.createElement(
     Container,
     {
       color: "#AA000000",
       padding: 20,
       borderRadius: 8
     },
-    /* @__PURE__ */ import_react156.default.createElement(Text, { text: "Simple Overlay", color: "white" }),
-    /* @__PURE__ */ import_react156.default.createElement(
+    /* @__PURE__ */ import_react158.default.createElement(Text, { text: "Simple Overlay", color: "white" }),
+    /* @__PURE__ */ import_react158.default.createElement(
       Button,
       {
         text: "Close",
         onTap: () => setShowSimple(false)
       }
     )
-  ))), /* @__PURE__ */ import_react156.default.createElement(Overlay, { visible: showFull, overlayKey: "fullscreen" }, /* @__PURE__ */ import_react156.default.createElement(Container, { color: "#88000000" }, /* @__PURE__ */ import_react156.default.createElement(Center, null, /* @__PURE__ */ import_react156.default.createElement(
+  ))), /* @__PURE__ */ import_react158.default.createElement(Overlay, { visible: showFull, overlayKey: "fullscreen" }, /* @__PURE__ */ import_react158.default.createElement(Container, { color: "#88000000" }, /* @__PURE__ */ import_react158.default.createElement(Center, null, /* @__PURE__ */ import_react158.default.createElement(
     Container,
     {
       color: "white",
       padding: 30,
       borderRadius: 16
     },
-    /* @__PURE__ */ import_react156.default.createElement(Column, null, /* @__PURE__ */ import_react156.default.createElement(
+    /* @__PURE__ */ import_react158.default.createElement(Column, null, /* @__PURE__ */ import_react158.default.createElement(
       Text,
       {
         text: "Full Screen Overlay",
@@ -28695,7 +28876,7 @@ function OverlayDemo() {
         fontWeight: "bold",
         margin: { bottom: 20 }
       }
-    ), /* @__PURE__ */ import_react156.default.createElement(
+    ), /* @__PURE__ */ import_react158.default.createElement(
       Button,
       {
         text: "Close",
@@ -28706,25 +28887,25 @@ function OverlayDemo() {
 }
 
 // src/demos/MaterialDemo.tsx
-var import_react157 = __toESM(require_react_production());
+var import_react159 = __toESM(require_react_production());
 function MaterialDemo() {
-  return /* @__PURE__ */ import_react157.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react157.default.createElement(AppBar, { title: "Material Demo" }) }, /* @__PURE__ */ import_react157.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react157.default.createElement(Column, null, /* @__PURE__ */ import_react157.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Standard Material (Canvas)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react157.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react157.default.createElement(
+  return /* @__PURE__ */ import_react159.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react159.default.createElement(AppBar, { title: "Material Demo" }) }, /* @__PURE__ */ import_react159.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react159.default.createElement(Column, null, /* @__PURE__ */ import_react159.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Standard Material (Canvas)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react159.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react159.default.createElement(
     Material,
     {
       elevation: 4,
       color: "white",
       borderRadius: 8
     },
-    /* @__PURE__ */ import_react157.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Elevation: 4, Radius: 8" }))
-  )), /* @__PURE__ */ import_react157.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Circle Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react157.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react157.default.createElement(Center, null, /* @__PURE__ */ import_react157.default.createElement(
+    /* @__PURE__ */ import_react159.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Elevation: 4, Radius: 8" }))
+  )), /* @__PURE__ */ import_react159.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Circle Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react159.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react159.default.createElement(Center, null, /* @__PURE__ */ import_react159.default.createElement(
     Material,
     {
       type: "circle",
       elevation: 8,
       color: "blue"
     },
-    /* @__PURE__ */ import_react157.default.createElement(Container, { width: 100, height: 100, alignment: "center" }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Circle", color: "white" }))
-  ))), /* @__PURE__ */ import_react157.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Card Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react157.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react157.default.createElement(
+    /* @__PURE__ */ import_react159.default.createElement(Container, { width: 100, height: 100, alignment: "center" }, /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Circle", color: "white" }))
+  ))), /* @__PURE__ */ import_react159.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Card Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react159.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react159.default.createElement(
     Material,
     {
       type: "card",
@@ -28733,23 +28914,23 @@ function MaterialDemo() {
       borderRadius: 12,
       clipBehavior: "antiAlias"
     },
-    /* @__PURE__ */ import_react157.default.createElement(Column, null, /* @__PURE__ */ import_react157.default.createElement(Container, { height: 100, color: "grey", alignment: "center" }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Image Placeholder", color: "white" })), /* @__PURE__ */ import_react157.default.createElement(Container, { padding: 10 }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Card Content" })))
-  )), /* @__PURE__ */ import_react157.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Transparency Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react157.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react157.default.createElement(Container, { color: "grey", padding: 20 }, /* @__PURE__ */ import_react157.default.createElement(
+    /* @__PURE__ */ import_react159.default.createElement(Column, null, /* @__PURE__ */ import_react159.default.createElement(Container, { height: 100, color: "grey", alignment: "center" }, /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Image Placeholder", color: "white" })), /* @__PURE__ */ import_react159.default.createElement(Container, { padding: 10 }, /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Card Content" })))
+  )), /* @__PURE__ */ import_react159.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Transparency Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react159.default.createElement(SizedBox, { height: 10 }), /* @__PURE__ */ import_react159.default.createElement(Container, { color: "grey", padding: 20 }, /* @__PURE__ */ import_react159.default.createElement(
     Material,
     {
       type: "transparency"
     },
-    /* @__PURE__ */ import_react157.default.createElement(Text, { text: "Transparent Text on Grey Background", color: "white" })
+    /* @__PURE__ */ import_react159.default.createElement(Text, { text: "Transparent Text on Grey Background", color: "white" })
   ))))));
 }
 
 // src/demos/PopScopeDemo.tsx
-var import_react158 = __toESM(require_react_production());
+var import_react160 = __toESM(require_react_production());
 function PopScopeDemo() {
-  const [canPop, setCanPop] = (0, import_react158.useState)(false);
-  const [showConfirm, setShowConfirm] = (0, import_react158.useState)(false);
+  const [canPop, setCanPop] = (0, import_react160.useState)(false);
+  const [showConfirm, setShowConfirm] = (0, import_react160.useState)(false);
   const nav = useNavigator();
-  return /* @__PURE__ */ import_react158.default.createElement(
+  return /* @__PURE__ */ import_react160.default.createElement(
     PopScope,
     {
       canPop,
@@ -28760,7 +28941,7 @@ function PopScopeDemo() {
         }
       }
     },
-    /* @__PURE__ */ import_react158.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react158.default.createElement(AppBar, { title: "PopScope Demo" }) }, /* @__PURE__ */ import_react158.default.createElement(Stack, null, /* @__PURE__ */ import_react158.default.createElement(Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react158.default.createElement(
+    /* @__PURE__ */ import_react160.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react160.default.createElement(AppBar, { title: "PopScope Demo" }) }, /* @__PURE__ */ import_react160.default.createElement(Stack, null, /* @__PURE__ */ import_react160.default.createElement(Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react160.default.createElement(
       Text,
       {
         text: `canPop: ${canPop}`,
@@ -28768,7 +28949,7 @@ function PopScopeDemo() {
         fontWeight: "bold",
         margin: { bottom: 20 }
       }
-    ), /* @__PURE__ */ import_react158.default.createElement(
+    ), /* @__PURE__ */ import_react160.default.createElement(
       Container,
       {
         padding: 16,
@@ -28776,14 +28957,14 @@ function PopScopeDemo() {
         borderRadius: 8,
         margin: { bottom: 20 }
       },
-      /* @__PURE__ */ import_react158.default.createElement(Text, { text: "When canPop is false, the system back button (or gesture) will be intercepted. We show a dialog to confirm." })
-    ), /* @__PURE__ */ import_react158.default.createElement(
+      /* @__PURE__ */ import_react160.default.createElement(Text, { text: "When canPop is false, the system back button (or gesture) will be intercepted. We show a dialog to confirm." })
+    ), /* @__PURE__ */ import_react160.default.createElement(
       Button,
       {
         text: canPop ? "Lock Page" : "Unlock Page",
         onTap: () => setCanPop(!canPop)
       }
-    ), /* @__PURE__ */ import_react158.default.createElement(
+    ), /* @__PURE__ */ import_react160.default.createElement(
       Text,
       {
         text: "Try to go back using system back button or gesture.",
@@ -28791,19 +28972,19 @@ function PopScopeDemo() {
         color: "#666666",
         textAlign: "center"
       }
-    )), showConfirm && /* @__PURE__ */ import_react158.default.createElement(Positioned, { left: 0, top: 0, right: 0, bottom: 0 }, /* @__PURE__ */ import_react158.default.createElement(
+    )), showConfirm && /* @__PURE__ */ import_react160.default.createElement(Positioned, { left: 0, top: 0, right: 0, bottom: 0 }, /* @__PURE__ */ import_react160.default.createElement(
       Container,
       {
         color: "#00000080",
         alignment: "center"
       },
-      /* @__PURE__ */ import_react158.default.createElement(
+      /* @__PURE__ */ import_react160.default.createElement(
         AlertDialog,
         {
-          title: /* @__PURE__ */ import_react158.default.createElement(Text, { text: "Confirm Exit" }),
-          content: /* @__PURE__ */ import_react158.default.createElement(Text, { text: "Are you sure you want to leave this page?" }),
+          title: /* @__PURE__ */ import_react160.default.createElement(Text, { text: "Confirm Exit" }),
+          content: /* @__PURE__ */ import_react160.default.createElement(Text, { text: "Are you sure you want to leave this page?" }),
           actions: [
-            /* @__PURE__ */ import_react158.default.createElement(
+            /* @__PURE__ */ import_react160.default.createElement(
               Button,
               {
                 key: "cancel",
@@ -28811,7 +28992,7 @@ function PopScopeDemo() {
                 onTap: () => setShowConfirm(false)
               }
             ),
-            /* @__PURE__ */ import_react158.default.createElement(
+            /* @__PURE__ */ import_react160.default.createElement(
               Button,
               {
                 key: "exit",
@@ -28829,9 +29010,9 @@ function PopScopeDemo() {
 }
 
 // src/demos/BrowserApiDemo.tsx
-var import_react159 = __toESM(require_react_production());
+var import_react161 = __toESM(require_react_production());
 function BrowserApiDemo() {
-  const [logs, setLogs] = (0, import_react159.useState)([
+  const [logs, setLogs] = (0, import_react161.useState)([
     "Click a button to test APIs..."
   ]);
   const addLog = (msg) => {
@@ -29014,35 +29195,35 @@ function BrowserApiDemo() {
       addLog(`Fetch RPC Error: ${e.message}`);
     }
   };
-  return /* @__PURE__ */ import_react159.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react159.default.createElement(AppBar, { title: "Browser API Demo" }) }, /* @__PURE__ */ import_react159.default.createElement(Column, null, /* @__PURE__ */ import_react159.default.createElement(Container, { height: 200, decoration: { color: "#f0f0f0" }, padding: 10 }, /* @__PURE__ */ import_react159.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react159.default.createElement(Column, { crossAxisAlignment: "start" }, logs.map((log2, i) => /* @__PURE__ */ import_react159.default.createElement(Text, { key: i, text: log2, fontSize: 12, margin: { bottom: 4 } }))))), /* @__PURE__ */ import_react159.default.createElement(Divider, null), /* @__PURE__ */ import_react159.default.createElement(Expanded, null, /* @__PURE__ */ import_react159.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react159.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react159.default.createElement(Column, null, /* @__PURE__ */ import_react159.default.createElement(Section3, { title: "Basic Utils" }, /* @__PURE__ */ import_react159.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react159.default.createElement(Button, { text: "Base64", onTap: testBase64 }), /* @__PURE__ */ import_react159.default.createElement(Button, { text: "URL", onTap: testURL }), /* @__PURE__ */ import_react159.default.createElement(Button, { text: "Performance", onTap: testPerformance }))), /* @__PURE__ */ import_react159.default.createElement(Section3, { title: "Storage & Events" }, /* @__PURE__ */ import_react159.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react159.default.createElement(Button, { text: "Storage", onTap: testStorage }), /* @__PURE__ */ import_react159.default.createElement(Button, { text: "Events", onTap: testEvents }))), /* @__PURE__ */ import_react159.default.createElement(Section3, { title: "Networking" }, /* @__PURE__ */ import_react159.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react159.default.createElement(
+  return /* @__PURE__ */ import_react161.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react161.default.createElement(AppBar, { title: "Browser API Demo" }) }, /* @__PURE__ */ import_react161.default.createElement(Column, null, /* @__PURE__ */ import_react161.default.createElement(Container, { height: 200, decoration: { color: "#f0f0f0" }, padding: 10 }, /* @__PURE__ */ import_react161.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react161.default.createElement(Column, { crossAxisAlignment: "start" }, logs.map((log2, i) => /* @__PURE__ */ import_react161.default.createElement(Text, { key: i, text: log2, fontSize: 12, margin: { bottom: 4 } }))))), /* @__PURE__ */ import_react161.default.createElement(Divider, null), /* @__PURE__ */ import_react161.default.createElement(Expanded, null, /* @__PURE__ */ import_react161.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react161.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react161.default.createElement(Column, null, /* @__PURE__ */ import_react161.default.createElement(Section3, { title: "Basic Utils" }, /* @__PURE__ */ import_react161.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react161.default.createElement(Button, { text: "Base64", onTap: testBase64 }), /* @__PURE__ */ import_react161.default.createElement(Button, { text: "URL", onTap: testURL }), /* @__PURE__ */ import_react161.default.createElement(Button, { text: "Performance", onTap: testPerformance }))), /* @__PURE__ */ import_react161.default.createElement(Section3, { title: "Storage & Events" }, /* @__PURE__ */ import_react161.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react161.default.createElement(Button, { text: "Storage", onTap: testStorage }), /* @__PURE__ */ import_react161.default.createElement(Button, { text: "Events", onTap: testEvents }))), /* @__PURE__ */ import_react161.default.createElement(Section3, { title: "Networking" }, /* @__PURE__ */ import_react161.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react161.default.createElement(
     Button,
     {
       text: "Fetch + Abort",
       onTap: testFetchAbort,
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react159.default.createElement(
+  ), /* @__PURE__ */ import_react161.default.createElement(
     Button,
     {
       text: "XMLHttpRequest (AJAX)",
       onTap: testXHR,
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react159.default.createElement(
+  ), /* @__PURE__ */ import_react161.default.createElement(
     Button,
     {
       text: "Fetch GET",
       onTap: testFetchGet,
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react159.default.createElement(
+  ), /* @__PURE__ */ import_react161.default.createElement(
     Button,
     {
       text: "Fetch POST",
       onTap: testFetchPost,
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react159.default.createElement(Button, { text: "Fetch JSON-RPC", onTap: testFetchRPC }))), /* @__PURE__ */ import_react159.default.createElement(Section3, { title: "Console Methods" }, /* @__PURE__ */ import_react159.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react159.default.createElement(
+  ), /* @__PURE__ */ import_react161.default.createElement(Button, { text: "Fetch JSON-RPC", onTap: testFetchRPC }))), /* @__PURE__ */ import_react161.default.createElement(Section3, { title: "Console Methods" }, /* @__PURE__ */ import_react161.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react161.default.createElement(
     Button,
     {
       text: "log/info",
@@ -29052,7 +29233,7 @@ function BrowserApiDemo() {
         addLog("Check native logs");
       }
     }
-  ), /* @__PURE__ */ import_react159.default.createElement(
+  ), /* @__PURE__ */ import_react161.default.createElement(
     Button,
     {
       text: "warn/error",
@@ -29062,7 +29243,7 @@ function BrowserApiDemo() {
         addLog("Check native logs");
       }
     }
-  ), /* @__PURE__ */ import_react159.default.createElement(
+  ), /* @__PURE__ */ import_react161.default.createElement(
     Button,
     {
       text: "trace",
@@ -29071,13 +29252,13 @@ function BrowserApiDemo() {
         addLog("Check native logs for stack");
       }
     }
-  )), /* @__PURE__ */ import_react159.default.createElement(Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react159.default.createElement(Button, { text: "time/table/group", onTap: testConsoleMethods }))), /* @__PURE__ */ import_react159.default.createElement(Section3, { title: "New APIs" }, /* @__PURE__ */ import_react159.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react159.default.createElement(Button, { text: "structuredClone", onTap: testStructuredClone }), /* @__PURE__ */ import_react159.default.createElement(Button, { text: "randomUUID", onTap: testRandomUUID }), /* @__PURE__ */ import_react159.default.createElement(Button, { text: "Blob", onTap: testBlob })))))))));
+  )), /* @__PURE__ */ import_react161.default.createElement(Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react161.default.createElement(Button, { text: "time/table/group", onTap: testConsoleMethods }))), /* @__PURE__ */ import_react161.default.createElement(Section3, { title: "New APIs" }, /* @__PURE__ */ import_react161.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react161.default.createElement(Button, { text: "structuredClone", onTap: testStructuredClone }), /* @__PURE__ */ import_react161.default.createElement(Button, { text: "randomUUID", onTap: testRandomUUID }), /* @__PURE__ */ import_react161.default.createElement(Button, { text: "Blob", onTap: testBlob })))))))));
 }
 function Section3({
   title,
   children
 }) {
-  return /* @__PURE__ */ import_react159.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 20 } }, /* @__PURE__ */ import_react159.default.createElement(
+  return /* @__PURE__ */ import_react161.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 20 } }, /* @__PURE__ */ import_react161.default.createElement(
     Text,
     {
       text: title,
@@ -29090,15 +29271,15 @@ function Section3({
 }
 
 // src/demos/WebSocketDemo.tsx
-var import_react160 = __toESM(require_react_production());
+var import_react162 = __toESM(require_react_production());
 function WebSocketDemo() {
-  const [url, setUrl] = (0, import_react160.useState)("wss://echo.websocket.org/");
-  const [message, setMessage] = (0, import_react160.useState)("");
-  const [logs, setLogs] = (0, import_react160.useState)([
+  const [url, setUrl] = (0, import_react162.useState)("wss://echo.websocket.org/");
+  const [message, setMessage] = (0, import_react162.useState)("");
+  const [logs, setLogs] = (0, import_react162.useState)([
     "WebSocket Demo - Click Connect to start..."
   ]);
-  const [isConnected, setIsConnected] = (0, import_react160.useState)(false);
-  const wsRef = (0, import_react160.useRef)(null);
+  const [isConnected, setIsConnected] = (0, import_react162.useState)(false);
+  const wsRef = (0, import_react162.useRef)(null);
   const addLog = (msg) => {
     const timestamp = (/* @__PURE__ */ new Date()).toLocaleTimeString();
     const logEntry = `[${timestamp}] ${msg}`;
@@ -29195,14 +29376,14 @@ function WebSocketDemo() {
     const state = states[wsRef.current.readyState] || "UNKNOWN";
     addLog(`State: ${state} (${wsRef.current.readyState})`);
   };
-  (0, import_react160.useEffect)(() => {
+  (0, import_react162.useEffect)(() => {
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
       }
     };
   }, []);
-  return /* @__PURE__ */ import_react160.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react160.default.createElement(AppBar, { title: "WebSocket Demo" }) }, /* @__PURE__ */ import_react160.default.createElement(Column, null, /* @__PURE__ */ import_react160.default.createElement(Container, { height: 180, decoration: { color: "#f5f5f5" }, padding: 10 }, /* @__PURE__ */ import_react160.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react160.default.createElement(Column, { crossAxisAlignment: "start" }, logs.map((log2, i) => /* @__PURE__ */ import_react160.default.createElement(
+  return /* @__PURE__ */ import_react162.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react162.default.createElement(AppBar, { title: "WebSocket Demo" }) }, /* @__PURE__ */ import_react162.default.createElement(Column, null, /* @__PURE__ */ import_react162.default.createElement(Container, { height: 180, decoration: { color: "#f5f5f5" }, padding: 10 }, /* @__PURE__ */ import_react162.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react162.default.createElement(Column, { crossAxisAlignment: "start" }, logs.map((log2, i) => /* @__PURE__ */ import_react162.default.createElement(
     Text,
     {
       key: i,
@@ -29211,33 +29392,33 @@ function WebSocketDemo() {
       margin: { bottom: 2 },
       color: "#2e7d32"
     }
-  ))))), /* @__PURE__ */ import_react160.default.createElement(Divider, null), /* @__PURE__ */ import_react160.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react160.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react160.default.createElement(Column, null, /* @__PURE__ */ import_react160.default.createElement(Section4, { title: "Connection" }, /* @__PURE__ */ import_react160.default.createElement(
+  ))))), /* @__PURE__ */ import_react162.default.createElement(Divider, null), /* @__PURE__ */ import_react162.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react162.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react162.default.createElement(Column, null, /* @__PURE__ */ import_react162.default.createElement(Section4, { title: "Connection" }, /* @__PURE__ */ import_react162.default.createElement(
     TextField,
     {
       hintText: "WebSocket URL",
       text: url,
       onChanged: setUrl
     }
-  ), /* @__PURE__ */ import_react160.default.createElement(Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react160.default.createElement(
+  ), /* @__PURE__ */ import_react162.default.createElement(Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react162.default.createElement(
     Button,
     {
       text: isConnected ? "Disconnect" : "Connect",
       onTap: isConnected ? disconnect : connect
     }
-  ), /* @__PURE__ */ import_react160.default.createElement(Button, { text: "Check State", onTap: checkState }))), /* @__PURE__ */ import_react160.default.createElement(Section4, { title: "Send Message" }, /* @__PURE__ */ import_react160.default.createElement(
+  ), /* @__PURE__ */ import_react162.default.createElement(Button, { text: "Check State", onTap: checkState }))), /* @__PURE__ */ import_react162.default.createElement(Section4, { title: "Send Message" }, /* @__PURE__ */ import_react162.default.createElement(
     TextField,
     {
       hintText: "Enter message...",
       text: message,
       onChanged: setMessage
     }
-  ), /* @__PURE__ */ import_react160.default.createElement(Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react160.default.createElement(Button, { text: "Send Text", onTap: sendMessage }), /* @__PURE__ */ import_react160.default.createElement(Button, { text: "Send Binary", onTap: sendBinary }))), /* @__PURE__ */ import_react160.default.createElement(Section4, { title: "Controls" }, /* @__PURE__ */ import_react160.default.createElement(Button, { text: "Clear Logs", onTap: clearLogs })))))));
+  ), /* @__PURE__ */ import_react162.default.createElement(Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react162.default.createElement(Button, { text: "Send Text", onTap: sendMessage }), /* @__PURE__ */ import_react162.default.createElement(Button, { text: "Send Binary", onTap: sendBinary }))), /* @__PURE__ */ import_react162.default.createElement(Section4, { title: "Controls" }, /* @__PURE__ */ import_react162.default.createElement(Button, { text: "Clear Logs", onTap: clearLogs })))))));
 }
 function Section4({
   title,
   children
 }) {
-  return /* @__PURE__ */ import_react160.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 20 } }, /* @__PURE__ */ import_react160.default.createElement(
+  return /* @__PURE__ */ import_react162.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 20 } }, /* @__PURE__ */ import_react162.default.createElement(
     Text,
     {
       text: title,
@@ -29250,12 +29431,12 @@ function Section4({
 }
 
 // src/demos/SliderDemo.tsx
-var import_react161 = __toESM(require_react_production());
+var import_react163 = __toESM(require_react_production());
 function SliderDemo() {
-  const [val1, setVal1] = (0, import_react161.useState)(0.5);
-  const [val2, setVal2] = (0, import_react161.useState)(30);
-  const [val3, setVal3] = (0, import_react161.useState)(0);
-  return /* @__PURE__ */ import_react161.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react161.default.createElement(AppBar, { title: "Slider Demo" }) }, /* @__PURE__ */ import_react161.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react161.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react161.default.createElement(Text, { text: "\u57FA\u7840 Slider\uFF080.0 ~ 1.0\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react161.default.createElement(Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react161.default.createElement(Slider, { value: val1, min: 0, max: 1, onChanged: (v) => setVal1(v) })), /* @__PURE__ */ import_react161.default.createElement(Text, { text: `\u503C: ${val1.toFixed(2)}`, fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react161.default.createElement(Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react161.default.createElement(Text, { text: "\u81EA\u5B9A\u4E49\u8303\u56F4\uFF080 ~ 100\uFF0Cstep=5\uFF09", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react161.default.createElement(Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react161.default.createElement(Slider, { value: val2, min: 0, max: 100, step: 5, onChanged: (v) => setVal2(v) })), /* @__PURE__ */ import_react161.default.createElement(Text, { text: `\u503C: ${val2}`, fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react161.default.createElement(Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react161.default.createElement(Text, { text: "\u81EA\u5B9A\u4E49\u989C\u8272", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react161.default.createElement(Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react161.default.createElement(
+  const [val1, setVal1] = (0, import_react163.useState)(0.5);
+  const [val2, setVal2] = (0, import_react163.useState)(30);
+  const [val3, setVal3] = (0, import_react163.useState)(0);
+  return /* @__PURE__ */ import_react163.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react163.default.createElement(AppBar, { title: "Slider Demo" }) }, /* @__PURE__ */ import_react163.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react163.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react163.default.createElement(Text, { text: "\u57FA\u7840 Slider\uFF080.0 ~ 1.0\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react163.default.createElement(Slider, { value: val1, min: 0, max: 1, onChanged: (v) => setVal1(v) })), /* @__PURE__ */ import_react163.default.createElement(Text, { text: `\u503C: ${val1.toFixed(2)}`, fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react163.default.createElement(Text, { text: "\u81EA\u5B9A\u4E49\u8303\u56F4\uFF080 ~ 100\uFF0Cstep=5\uFF09", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react163.default.createElement(Slider, { value: val2, min: 0, max: 100, step: 5, onChanged: (v) => setVal2(v) })), /* @__PURE__ */ import_react163.default.createElement(Text, { text: `\u503C: ${val2}`, fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react163.default.createElement(Text, { text: "\u81EA\u5B9A\u4E49\u989C\u8272", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react163.default.createElement(
     Slider,
     {
       value: val3,
@@ -29265,7 +29446,7 @@ function SliderDemo() {
       inactiveColor: "#F8BBD0",
       onChanged: (v) => setVal3(v)
     }
-  )), /* @__PURE__ */ import_react161.default.createElement(Text, { text: `\u503C: ${val3.toFixed(2)}`, fontSize: 13, color: "#E91E63" }), /* @__PURE__ */ import_react161.default.createElement(Padding, { padding: { top: 24 } }, /* @__PURE__ */ import_react161.default.createElement(Text, { text: "LinearProgressIndicator\uFF08\u8DDF\u968F val2\uFF09", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react161.default.createElement(Padding, { padding: { top: 12 } }, /* @__PURE__ */ import_react161.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react161.default.createElement(Text, { text: "\u8FDB\u5EA6\uFF1A" }), /* @__PURE__ */ import_react161.default.createElement(Container, { width: 200 }, /* @__PURE__ */ import_react161.default.createElement(
+  )), /* @__PURE__ */ import_react163.default.createElement(Text, { text: `\u503C: ${val3.toFixed(2)}`, fontSize: 13, color: "#E91E63" }), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 24 } }, /* @__PURE__ */ import_react163.default.createElement(Text, { text: "LinearProgressIndicator\uFF08\u8DDF\u968F val2\uFF09", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 12 } }, /* @__PURE__ */ import_react163.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react163.default.createElement(Text, { text: "\u8FDB\u5EA6\uFF1A" }), /* @__PURE__ */ import_react163.default.createElement(Container, { width: 200 }, /* @__PURE__ */ import_react163.default.createElement(
     LinearProgressIndicator,
     {
       value: val2 / 100,
@@ -29274,11 +29455,11 @@ function SliderDemo() {
       strokeWidth: 8,
       borderRadius: 4
     }
-  )), /* @__PURE__ */ import_react161.default.createElement(Text, { text: `${val2}%`, margin: { left: 8 }, fontSize: 13, color: "#1976D2" }))), /* @__PURE__ */ import_react161.default.createElement(Container, { height: 40 }))));
+  )), /* @__PURE__ */ import_react163.default.createElement(Text, { text: `${val2}%`, margin: { left: 8 }, fontSize: 13, color: "#1976D2" }))), /* @__PURE__ */ import_react163.default.createElement(Container, { height: 40 }))));
 }
 
 // src/demos/RadioDemo.tsx
-var import_react162 = __toESM(require_react_production());
+var import_react164 = __toESM(require_react_production());
 var FRUITS = ["\u82F9\u679C", "\u9999\u8549", "\u6A59\u5B50", "\u8461\u8404"];
 var COLORS = [
   { label: "\u7EA2\u8272", value: "red", color: "#F44336" },
@@ -29286,24 +29467,24 @@ var COLORS = [
   { label: "\u7EFF\u8272", value: "green", color: "#4CAF50" }
 ];
 function RadioDemo() {
-  const [fruit, setFruit] = (0, import_react162.useState)("\u82F9\u679C");
-  const [color, setColor] = (0, import_react162.useState)("red");
-  return /* @__PURE__ */ import_react162.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react162.default.createElement(AppBar, { title: "Radio Demo" }) }, /* @__PURE__ */ import_react162.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react162.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react162.default.createElement(Text, { text: "\u57FA\u7840 Radio", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react162.default.createElement(Padding, { padding: { top: 8 } }, /* @__PURE__ */ import_react162.default.createElement(Column, null, FRUITS.map((f) => /* @__PURE__ */ import_react162.default.createElement(Row, { key: f, crossAxisAlignment: "center", padding: { vertical: 4 } }, /* @__PURE__ */ import_react162.default.createElement(
+  const [fruit, setFruit] = (0, import_react164.useState)("\u82F9\u679C");
+  const [color, setColor] = (0, import_react164.useState)("red");
+  return /* @__PURE__ */ import_react164.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react164.default.createElement(AppBar, { title: "Radio Demo" }) }, /* @__PURE__ */ import_react164.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react164.default.createElement(Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react164.default.createElement(Text, { text: "\u57FA\u7840 Radio", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react164.default.createElement(Padding, { padding: { top: 8 } }, /* @__PURE__ */ import_react164.default.createElement(Column, null, FRUITS.map((f) => /* @__PURE__ */ import_react164.default.createElement(Row, { key: f, crossAxisAlignment: "center", padding: { vertical: 4 } }, /* @__PURE__ */ import_react164.default.createElement(
     Radio,
     {
       value: f,
       groupValue: fruit,
       onChanged: (v) => setFruit(v)
     }
-  ), /* @__PURE__ */ import_react162.default.createElement(Text, { text: f, margin: { left: 8 }, fontSize: 15 }))))), /* @__PURE__ */ import_react162.default.createElement(
+  ), /* @__PURE__ */ import_react164.default.createElement(Text, { text: f, margin: { left: 8 }, fontSize: 15 }))))), /* @__PURE__ */ import_react164.default.createElement(
     Container,
     {
       padding: 8,
       margin: { top: 8 },
       decoration: { color: "#F5F5F5", borderRadius: 6 }
     },
-    /* @__PURE__ */ import_react162.default.createElement(Text, { text: `\u9009\u4E2D: ${fruit}`, fontSize: 13, color: "#616161" })
-  ), /* @__PURE__ */ import_react162.default.createElement(Padding, { padding: { top: 24 } }, /* @__PURE__ */ import_react162.default.createElement(Text, { text: "\u81EA\u5B9A\u4E49 activeColor", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react162.default.createElement(Padding, { padding: { top: 8 } }, /* @__PURE__ */ import_react162.default.createElement(Column, null, COLORS.map((c) => /* @__PURE__ */ import_react162.default.createElement(Row, { key: c.value, crossAxisAlignment: "center", padding: { vertical: 4 } }, /* @__PURE__ */ import_react162.default.createElement(
+    /* @__PURE__ */ import_react164.default.createElement(Text, { text: `\u9009\u4E2D: ${fruit}`, fontSize: 13, color: "#616161" })
+  ), /* @__PURE__ */ import_react164.default.createElement(Padding, { padding: { top: 24 } }, /* @__PURE__ */ import_react164.default.createElement(Text, { text: "\u81EA\u5B9A\u4E49 activeColor", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react164.default.createElement(Padding, { padding: { top: 8 } }, /* @__PURE__ */ import_react164.default.createElement(Column, null, COLORS.map((c) => /* @__PURE__ */ import_react164.default.createElement(Row, { key: c.value, crossAxisAlignment: "center", padding: { vertical: 4 } }, /* @__PURE__ */ import_react164.default.createElement(
     Radio,
     {
       value: c.value,
@@ -29311,28 +29492,28 @@ function RadioDemo() {
       activeColor: c.color,
       onChanged: (v) => setColor(v)
     }
-  ), /* @__PURE__ */ import_react162.default.createElement(Text, { text: c.label, margin: { left: 8 }, color: c.color, fontSize: 15 }))))), /* @__PURE__ */ import_react162.default.createElement(
+  ), /* @__PURE__ */ import_react164.default.createElement(Text, { text: c.label, margin: { left: 8 }, color: c.color, fontSize: 15 }))))), /* @__PURE__ */ import_react164.default.createElement(
     Container,
     {
       padding: 8,
       margin: { top: 8 },
       decoration: { color: "#F5F5F5", borderRadius: 6 }
     },
-    /* @__PURE__ */ import_react162.default.createElement(Text, { text: `\u9009\u4E2D: ${color}`, fontSize: 13, color: "#616161" })
-  ), /* @__PURE__ */ import_react162.default.createElement(Container, { height: 40 }))));
+    /* @__PURE__ */ import_react164.default.createElement(Text, { text: `\u9009\u4E2D: ${color}`, fontSize: 13, color: "#616161" })
+  ), /* @__PURE__ */ import_react164.default.createElement(Container, { height: 40 }))));
 }
 
 // src/demos/FloatingActionButtonDemo.tsx
-var import_react163 = __toESM(require_react_production());
+var import_react165 = __toESM(require_react_production());
 function FloatingActionButtonDemo() {
-  const [count, setCount] = (0, import_react163.useState)(0);
-  return /* @__PURE__ */ import_react163.default.createElement(
+  const [count, setCount] = (0, import_react165.useState)(0);
+  return /* @__PURE__ */ import_react165.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react163.default.createElement(AppBar, { title: "FloatingActionButton Demo" }),
-      floatingActionButton: /* @__PURE__ */ import_react163.default.createElement(FloatingActionButton, { onPressed: () => setCount((c) => c + 1) }, /* @__PURE__ */ import_react163.default.createElement(Icon, { icon: "add", color: "white", size: 24 }))
+      appBar: /* @__PURE__ */ import_react165.default.createElement(AppBar, { title: "FloatingActionButton Demo" }),
+      floatingActionButton: /* @__PURE__ */ import_react165.default.createElement(FloatingActionButton, { onPressed: () => setCount((c) => c + 1) }, /* @__PURE__ */ import_react165.default.createElement(Icon, { icon: "add", color: "white", size: 24 }))
     },
-    /* @__PURE__ */ import_react163.default.createElement(Center, null, /* @__PURE__ */ import_react163.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react163.default.createElement(Text, { text: "\u70B9\u51FB\u53F3\u4E0B\u89D2 FAB \u6309\u94AE", fontSize: 16, color: "#616161" }), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 16 } }, /* @__PURE__ */ import_react163.default.createElement(
+    /* @__PURE__ */ import_react165.default.createElement(Center, null, /* @__PURE__ */ import_react165.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react165.default.createElement(Text, { text: "\u70B9\u51FB\u53F3\u4E0B\u89D2 FAB \u6309\u94AE", fontSize: 16, color: "#616161" }), /* @__PURE__ */ import_react165.default.createElement(Padding, { padding: { top: 16 } }, /* @__PURE__ */ import_react165.default.createElement(
       Container,
       {
         padding: { horizontal: 32, vertical: 16 },
@@ -29342,7 +29523,7 @@ function FloatingActionButtonDemo() {
           border: { color: "#90CAF9", width: 1 }
         }
       },
-      /* @__PURE__ */ import_react163.default.createElement(
+      /* @__PURE__ */ import_react165.default.createElement(
         Text,
         {
           text: `${count}`,
@@ -29352,46 +29533,46 @@ function FloatingActionButtonDemo() {
           textAlign: "center"
         }
       )
-    )), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 12 } }, /* @__PURE__ */ import_react163.default.createElement(Text, { text: "\u70B9\u51FB\u6B21\u6570", fontSize: 14, color: "#9E9E9E" })), /* @__PURE__ */ import_react163.default.createElement(Padding, { padding: { top: 32 } }, /* @__PURE__ */ import_react163.default.createElement(Row, null, /* @__PURE__ */ import_react163.default.createElement(FloatingActionButton, { onPressed: () => setCount((c) => Math.max(0, c - 1)) }, /* @__PURE__ */ import_react163.default.createElement(Icon, { icon: "remove", color: "white", size: 24 })), /* @__PURE__ */ import_react163.default.createElement(Container, { width: 16 }), /* @__PURE__ */ import_react163.default.createElement(FloatingActionButton, { onPressed: () => setCount(0) }, /* @__PURE__ */ import_react163.default.createElement(Icon, { icon: "refresh", color: "white", size: 24 })))), /* @__PURE__ */ import_react163.default.createElement(Text, { text: "\u51CF\u5C11 / \u91CD\u7F6E", fontSize: 12, color: "#9E9E9E", margin: { top: 8 } })))
+    )), /* @__PURE__ */ import_react165.default.createElement(Padding, { padding: { top: 12 } }, /* @__PURE__ */ import_react165.default.createElement(Text, { text: "\u70B9\u51FB\u6B21\u6570", fontSize: 14, color: "#9E9E9E" })), /* @__PURE__ */ import_react165.default.createElement(Padding, { padding: { top: 32 } }, /* @__PURE__ */ import_react165.default.createElement(Row, null, /* @__PURE__ */ import_react165.default.createElement(FloatingActionButton, { onPressed: () => setCount((c) => Math.max(0, c - 1)) }, /* @__PURE__ */ import_react165.default.createElement(Icon, { icon: "remove", color: "white", size: 24 })), /* @__PURE__ */ import_react165.default.createElement(Container, { width: 16 }), /* @__PURE__ */ import_react165.default.createElement(FloatingActionButton, { onPressed: () => setCount(0) }, /* @__PURE__ */ import_react165.default.createElement(Icon, { icon: "refresh", color: "white", size: 24 })))), /* @__PURE__ */ import_react165.default.createElement(Text, { text: "\u51CF\u5C11 / \u91CD\u7F6E", fontSize: 12, color: "#9E9E9E", margin: { top: 8 } })))
   );
 }
 
 // src/demos/AspectRatioDemo.tsx
-var import_react164 = __toESM(require_react_production());
+var import_react166 = __toESM(require_react_production());
 function AspectRatioDemo() {
-  return /* @__PURE__ */ import_react164.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react164.default.createElement(AppBar, { title: /* @__PURE__ */ import_react164.default.createElement(Text, { text: "AspectRatio" }) }) }, /* @__PURE__ */ import_react164.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react164.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react164.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react164.default.createElement(Text, { text: "16:9", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react164.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react164.default.createElement(Container, { color: "#E3F2FD", width: 300 }, /* @__PURE__ */ import_react164.default.createElement(AspectRatio, { aspectRatio: 16 / 9 }, /* @__PURE__ */ import_react164.default.createElement(
+  return /* @__PURE__ */ import_react166.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react166.default.createElement(AppBar, { title: /* @__PURE__ */ import_react166.default.createElement(Text, { text: "AspectRatio" }) }) }, /* @__PURE__ */ import_react166.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react166.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react166.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react166.default.createElement(Text, { text: "16:9", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react166.default.createElement(Container, { color: "#E3F2FD", width: 300 }, /* @__PURE__ */ import_react166.default.createElement(AspectRatio, { aspectRatio: 16 / 9 }, /* @__PURE__ */ import_react166.default.createElement(
     Container,
     {
       decoration: { color: "#2196F3", borderRadius: 8 },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react164.default.createElement(Text, { text: "16 : 9", color: "white", fontSize: 18, fontWeight: "bold" })
-  ))), /* @__PURE__ */ import_react164.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react164.default.createElement(Text, { text: "4:3", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react164.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react164.default.createElement(Container, { color: "#E8F5E9", width: 300 }, /* @__PURE__ */ import_react164.default.createElement(AspectRatio, { aspectRatio: 4 / 3 }, /* @__PURE__ */ import_react164.default.createElement(
+    /* @__PURE__ */ import_react166.default.createElement(Text, { text: "16 : 9", color: "white", fontSize: 18, fontWeight: "bold" })
+  ))), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react166.default.createElement(Text, { text: "4:3", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react166.default.createElement(Container, { color: "#E8F5E9", width: 300 }, /* @__PURE__ */ import_react166.default.createElement(AspectRatio, { aspectRatio: 4 / 3 }, /* @__PURE__ */ import_react166.default.createElement(
     Container,
     {
       decoration: { color: "#4CAF50", borderRadius: 8 },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react164.default.createElement(Text, { text: "4 : 3", color: "white", fontSize: 18, fontWeight: "bold" })
-  ))), /* @__PURE__ */ import_react164.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react164.default.createElement(Text, { text: "1:1", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react164.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react164.default.createElement(Container, { color: "#FFF3E0", width: 150 }, /* @__PURE__ */ import_react164.default.createElement(AspectRatio, { aspectRatio: 1 }, /* @__PURE__ */ import_react164.default.createElement(
+    /* @__PURE__ */ import_react166.default.createElement(Text, { text: "4 : 3", color: "white", fontSize: 18, fontWeight: "bold" })
+  ))), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react166.default.createElement(Text, { text: "1:1", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react166.default.createElement(Container, { color: "#FFF3E0", width: 150 }, /* @__PURE__ */ import_react166.default.createElement(AspectRatio, { aspectRatio: 1 }, /* @__PURE__ */ import_react166.default.createElement(
     Container,
     {
       decoration: { color: "#FF9800", borderRadius: 8 },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react164.default.createElement(Text, { text: "1 : 1", color: "white", fontSize: 18, fontWeight: "bold" })
-  ))), /* @__PURE__ */ import_react164.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react164.default.createElement(Text, { text: "2:1 (\u5BBD\u5C4F)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react164.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react164.default.createElement(Container, { color: "#F3E5F5", width: 300 }, /* @__PURE__ */ import_react164.default.createElement(AspectRatio, { aspectRatio: 2 }, /* @__PURE__ */ import_react164.default.createElement(
+    /* @__PURE__ */ import_react166.default.createElement(Text, { text: "1 : 1", color: "white", fontSize: 18, fontWeight: "bold" })
+  ))), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react166.default.createElement(Text, { text: "2:1 (\u5BBD\u5C4F)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react166.default.createElement(Container, { color: "#F3E5F5", width: 300 }, /* @__PURE__ */ import_react166.default.createElement(AspectRatio, { aspectRatio: 2 }, /* @__PURE__ */ import_react166.default.createElement(
     Container,
     {
       decoration: { color: "#9C27B0", borderRadius: 8 },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react164.default.createElement(Text, { text: "2 : 1", color: "white", fontSize: 18, fontWeight: "bold" })
+    /* @__PURE__ */ import_react166.default.createElement(Text, { text: "2 : 1", color: "white", fontSize: 18, fontWeight: "bold" })
   )))))));
 }
 
 // src/demos/FractionallySizedBoxDemo.tsx
-var import_react165 = __toESM(require_react_production());
+var import_react167 = __toESM(require_react_production());
 function FractionallySizedBoxDemo() {
   const items = [
     { factor: 0.25, label: "25%", color: "#E91E63" },
@@ -29399,59 +29580,59 @@ function FractionallySizedBoxDemo() {
     { factor: 0.75, label: "75%", color: "#4CAF50" },
     { factor: 1, label: "100%", color: "#2196F3" }
   ];
-  return /* @__PURE__ */ import_react165.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react165.default.createElement(AppBar, { title: /* @__PURE__ */ import_react165.default.createElement(Text, { text: "FractionallySizedBox" }) }) }, /* @__PURE__ */ import_react165.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react165.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react165.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react165.default.createElement(Text, { text: "widthFactor \u793A\u4F8B", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react165.default.createElement(SizedBox, { height: 12 }), items.map((item) => /* @__PURE__ */ import_react165.default.createElement(Column, { key: item.label, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react165.default.createElement(Text, { text: item.label, fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react165.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react165.default.createElement(Container, { height: 50, color: "#F5F5F5" }, /* @__PURE__ */ import_react165.default.createElement(FractionallySizedBox, { widthFactor: item.factor, alignment: "centerLeft" }, /* @__PURE__ */ import_react165.default.createElement(
+  return /* @__PURE__ */ import_react167.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react167.default.createElement(AppBar, { title: /* @__PURE__ */ import_react167.default.createElement(Text, { text: "FractionallySizedBox" }) }) }, /* @__PURE__ */ import_react167.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react167.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react167.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react167.default.createElement(Text, { text: "widthFactor \u793A\u4F8B", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 12 }), items.map((item) => /* @__PURE__ */ import_react167.default.createElement(Column, { key: item.label, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react167.default.createElement(Text, { text: item.label, fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react167.default.createElement(Container, { height: 50, color: "#F5F5F5" }, /* @__PURE__ */ import_react167.default.createElement(FractionallySizedBox, { widthFactor: item.factor, alignment: "centerLeft" }, /* @__PURE__ */ import_react167.default.createElement(
     Container,
     {
       decoration: { color: item.color, borderRadius: 4 },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react165.default.createElement(Text, { text: item.label, color: "white", fontWeight: "bold" })
-  ))), /* @__PURE__ */ import_react165.default.createElement(SizedBox, { height: 12 }))), /* @__PURE__ */ import_react165.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react165.default.createElement(Text, { text: "heightFactor \u793A\u4F8B", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react165.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react165.default.createElement(Container, { height: 200, color: "#F5F5F5" }, /* @__PURE__ */ import_react165.default.createElement(
+    /* @__PURE__ */ import_react167.default.createElement(Text, { text: item.label, color: "white", fontWeight: "bold" })
+  ))), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 12 }))), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react167.default.createElement(Text, { text: "heightFactor \u793A\u4F8B", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react167.default.createElement(Container, { height: 200, color: "#F5F5F5" }, /* @__PURE__ */ import_react167.default.createElement(
     FractionallySizedBox,
     {
       widthFactor: 0.6,
       heightFactor: 0.5,
       alignment: "center"
     },
-    /* @__PURE__ */ import_react165.default.createElement(
+    /* @__PURE__ */ import_react167.default.createElement(
       Container,
       {
         decoration: { color: "#673AB7", borderRadius: 8 },
         alignment: "center"
       },
-      /* @__PURE__ */ import_react165.default.createElement(Text, { text: "60% x 50%", color: "white", fontWeight: "bold" })
+      /* @__PURE__ */ import_react167.default.createElement(Text, { text: "60% x 50%", color: "white", fontWeight: "bold" })
     )
   ))))));
 }
 
 // src/demos/DrawerDemo.tsx
-var import_react166 = __toESM(require_react_production());
+var import_react168 = __toESM(require_react_production());
 function DrawerContent() {
-  return /* @__PURE__ */ import_react166.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react166.default.createElement(Container, { height: 120, color: "#2196F3", alignment: "bottomLeft", padding: 16 }, /* @__PURE__ */ import_react166.default.createElement(Text, { text: "FuickJS Menu", fontSize: 22, color: "white", fontWeight: "bold" })), /* @__PURE__ */ import_react166.default.createElement(InkWell, { onTap: () => console.log("Home tapped") }, /* @__PURE__ */ import_react166.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react166.default.createElement(Row, null, /* @__PURE__ */ import_react166.default.createElement(Icon, { data: "home", size: 24, color: "#333" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react166.default.createElement(Text, { text: "Home", fontSize: 16 })))), /* @__PURE__ */ import_react166.default.createElement(Divider, null), /* @__PURE__ */ import_react166.default.createElement(InkWell, { onTap: () => console.log("Settings tapped") }, /* @__PURE__ */ import_react166.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react166.default.createElement(Row, null, /* @__PURE__ */ import_react166.default.createElement(Icon, { data: "settings", size: 24, color: "#333" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react166.default.createElement(Text, { text: "Settings", fontSize: 16 })))), /* @__PURE__ */ import_react166.default.createElement(Divider, null), /* @__PURE__ */ import_react166.default.createElement(InkWell, { onTap: () => console.log("Info tapped") }, /* @__PURE__ */ import_react166.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react166.default.createElement(Row, null, /* @__PURE__ */ import_react166.default.createElement(Icon, { data: "info", size: 24, color: "#333" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react166.default.createElement(Text, { text: "About", fontSize: 16 })))));
+  return /* @__PURE__ */ import_react168.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react168.default.createElement(Container, { height: 120, color: "#2196F3", alignment: "bottomLeft", padding: 16 }, /* @__PURE__ */ import_react168.default.createElement(Text, { text: "FuickJS Menu", fontSize: 22, color: "white", fontWeight: "bold" })), /* @__PURE__ */ import_react168.default.createElement(InkWell, { onTap: () => console.log("Home tapped") }, /* @__PURE__ */ import_react168.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react168.default.createElement(Row, null, /* @__PURE__ */ import_react168.default.createElement(Icon, { data: "home", size: 24, color: "#333" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react168.default.createElement(Text, { text: "Home", fontSize: 16 })))), /* @__PURE__ */ import_react168.default.createElement(Divider, null), /* @__PURE__ */ import_react168.default.createElement(InkWell, { onTap: () => console.log("Settings tapped") }, /* @__PURE__ */ import_react168.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react168.default.createElement(Row, null, /* @__PURE__ */ import_react168.default.createElement(Icon, { data: "settings", size: 24, color: "#333" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react168.default.createElement(Text, { text: "Settings", fontSize: 16 })))), /* @__PURE__ */ import_react168.default.createElement(Divider, null), /* @__PURE__ */ import_react168.default.createElement(InkWell, { onTap: () => console.log("Info tapped") }, /* @__PURE__ */ import_react168.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react168.default.createElement(Row, null, /* @__PURE__ */ import_react168.default.createElement(Icon, { data: "info", size: 24, color: "#333" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react168.default.createElement(Text, { text: "About", fontSize: 16 })))));
 }
 function DrawerDemo() {
-  return /* @__PURE__ */ import_react166.default.createElement(
+  return /* @__PURE__ */ import_react168.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react166.default.createElement(AppBar, { title: /* @__PURE__ */ import_react166.default.createElement(Text, { text: "Drawer Demo" }) }),
-      drawer: /* @__PURE__ */ import_react166.default.createElement(Drawer, { backgroundColor: "#FFFFFF", elevation: 8, width: 280 }, /* @__PURE__ */ import_react166.default.createElement(DrawerContent, null))
+      appBar: /* @__PURE__ */ import_react168.default.createElement(AppBar, { title: /* @__PURE__ */ import_react168.default.createElement(Text, { text: "Drawer Demo" }) }),
+      drawer: /* @__PURE__ */ import_react168.default.createElement(Drawer, { backgroundColor: "#FFFFFF", elevation: 8, width: 280 }, /* @__PURE__ */ import_react168.default.createElement(DrawerContent, null))
     },
-    /* @__PURE__ */ import_react166.default.createElement(Padding, { padding: 24 }, /* @__PURE__ */ import_react166.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react166.default.createElement(Icon, { data: "swap_horiz", size: 64, color: "#2196F3" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react166.default.createElement(Text, { text: "\u4ECE\u5DE6\u4FA7\u8FB9\u7F18\u5411\u53F3\u6ED1\u52A8", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react166.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react166.default.createElement(Text, { text: "\u6216\u70B9\u51FB\u5DE6\u4E0A\u89D2\u83DC\u5355\u6309\u94AE\u6253\u5F00 Drawer", fontSize: 14, color: "#666" })))
+    /* @__PURE__ */ import_react168.default.createElement(Padding, { padding: 24 }, /* @__PURE__ */ import_react168.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react168.default.createElement(Icon, { data: "swap_horiz", size: 64, color: "#2196F3" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react168.default.createElement(Text, { text: "\u4ECE\u5DE6\u4FA7\u8FB9\u7F18\u5411\u53F3\u6ED1\u52A8", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react168.default.createElement(Text, { text: "\u6216\u70B9\u51FB\u5DE6\u4E0A\u89D2\u83DC\u5355\u6309\u94AE\u6253\u5F00 Drawer", fontSize: 14, color: "#666" })))
   );
 }
 
 // src/demos/BackdropFilterDemo.tsx
-var import_react167 = __toESM(require_react_production());
+var import_react169 = __toESM(require_react_production());
 function BackdropFilterDemo() {
-  return /* @__PURE__ */ import_react167.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react167.default.createElement(AppBar, { title: /* @__PURE__ */ import_react167.default.createElement(Text, { text: "BackdropFilter" }) }) }, /* @__PURE__ */ import_react167.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react167.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react167.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react167.default.createElement(Text, { text: "Blur \u6548\u679C", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react167.default.createElement(Text, { text: "sigmaX=5, sigmaY=5", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react167.default.createElement(Container, { width: 320, height: 200 }, /* @__PURE__ */ import_react167.default.createElement(Stack, null, /* @__PURE__ */ import_react167.default.createElement(
+  return /* @__PURE__ */ import_react169.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react169.default.createElement(AppBar, { title: /* @__PURE__ */ import_react169.default.createElement(Text, { text: "BackdropFilter" }) }) }, /* @__PURE__ */ import_react169.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react169.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react169.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react169.default.createElement(Text, { text: "Blur \u6548\u679C", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "sigmaX=5, sigmaY=5", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react169.default.createElement(Container, { width: 320, height: 200 }, /* @__PURE__ */ import_react169.default.createElement(Stack, null, /* @__PURE__ */ import_react169.default.createElement(
     Container,
     {
       decoration: { color: "#E8F5E9", borderRadius: 12 },
       alignment: "center",
       padding: 16
     },
-    /* @__PURE__ */ import_react167.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react167.default.createElement(Text, { text: "Background", fontSize: 28, fontWeight: "bold", color: "#2E7D32" }), /* @__PURE__ */ import_react167.default.createElement(Text, { text: "\u8FD9\u6BB5\u6587\u5B57\u5728\u6A21\u7CCA\u5C42\u540E\u9762", fontSize: 16, color: "#388E3C" }), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react167.default.createElement(Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react167.default.createElement(Container, { width: 30, height: 30, color: "#F44336", margin: 4 }), /* @__PURE__ */ import_react167.default.createElement(Container, { width: 30, height: 30, color: "#FF9800", margin: 4 }), /* @__PURE__ */ import_react167.default.createElement(Container, { width: 30, height: 30, color: "#4CAF50", margin: 4 }), /* @__PURE__ */ import_react167.default.createElement(Container, { width: 30, height: 30, color: "#2196F3", margin: 4 })))
-  ), /* @__PURE__ */ import_react167.default.createElement(Container, { alignment: "center" }, /* @__PURE__ */ import_react167.default.createElement(ClipRRect, { borderRadius: 8 }, /* @__PURE__ */ import_react167.default.createElement(BackdropFilter, { sigmaX: 5, sigmaY: 5 }, /* @__PURE__ */ import_react167.default.createElement(
+    /* @__PURE__ */ import_react169.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(Text, { text: "Background", fontSize: 28, fontWeight: "bold", color: "#2E7D32" }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "\u8FD9\u6BB5\u6587\u5B57\u5728\u6A21\u7CCA\u5C42\u540E\u9762", fontSize: 16, color: "#388E3C" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react169.default.createElement(Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(Container, { width: 30, height: 30, color: "#F44336", margin: 4 }), /* @__PURE__ */ import_react169.default.createElement(Container, { width: 30, height: 30, color: "#FF9800", margin: 4 }), /* @__PURE__ */ import_react169.default.createElement(Container, { width: 30, height: 30, color: "#4CAF50", margin: 4 }), /* @__PURE__ */ import_react169.default.createElement(Container, { width: 30, height: 30, color: "#2196F3", margin: 4 })))
+  ), /* @__PURE__ */ import_react169.default.createElement(Container, { alignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(ClipRRect, { borderRadius: 8 }, /* @__PURE__ */ import_react169.default.createElement(BackdropFilter, { sigmaX: 5, sigmaY: 5 }, /* @__PURE__ */ import_react169.default.createElement(
     Container,
     {
       width: 180,
@@ -29459,16 +29640,16 @@ function BackdropFilterDemo() {
       color: "#ffffff55",
       alignment: "center"
     },
-    /* @__PURE__ */ import_react167.default.createElement(Text, { text: "\u6A21\u7CCA\u533A\u57DF", fontSize: 16, color: "#333", fontWeight: "bold" })
-  )))))), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 32 }), /* @__PURE__ */ import_react167.default.createElement(Text, { text: "\u5F3A\u6A21\u7CCA", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react167.default.createElement(Text, { text: "sigmaX=15, sigmaY=15", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react167.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react167.default.createElement(Container, { width: 320, height: 200 }, /* @__PURE__ */ import_react167.default.createElement(Stack, null, /* @__PURE__ */ import_react167.default.createElement(
+    /* @__PURE__ */ import_react169.default.createElement(Text, { text: "\u6A21\u7CCA\u533A\u57DF", fontSize: 16, color: "#333", fontWeight: "bold" })
+  )))))), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 32 }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "\u5F3A\u6A21\u7CCA", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "sigmaX=15, sigmaY=15", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react169.default.createElement(Container, { width: 320, height: 200 }, /* @__PURE__ */ import_react169.default.createElement(Stack, null, /* @__PURE__ */ import_react169.default.createElement(
     Container,
     {
       decoration: { color: "#FFF3E0", borderRadius: 12 },
       alignment: "center",
       padding: 16
     },
-    /* @__PURE__ */ import_react167.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react167.default.createElement(Text, { text: "Sharp Text", fontSize: 28, fontWeight: "bold", color: "#E65100" }), /* @__PURE__ */ import_react167.default.createElement(Text, { text: "Clear details here", fontSize: 16, color: "#F57C00" }))
-  ), /* @__PURE__ */ import_react167.default.createElement(Container, { alignment: "center" }, /* @__PURE__ */ import_react167.default.createElement(ClipRRect, { borderRadius: 12 }, /* @__PURE__ */ import_react167.default.createElement(BackdropFilter, { sigmaX: 15, sigmaY: 15 }, /* @__PURE__ */ import_react167.default.createElement(
+    /* @__PURE__ */ import_react169.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(Text, { text: "Sharp Text", fontSize: 28, fontWeight: "bold", color: "#E65100" }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "Clear details here", fontSize: 16, color: "#F57C00" }))
+  ), /* @__PURE__ */ import_react169.default.createElement(Container, { alignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(ClipRRect, { borderRadius: 12 }, /* @__PURE__ */ import_react169.default.createElement(BackdropFilter, { sigmaX: 15, sigmaY: 15 }, /* @__PURE__ */ import_react169.default.createElement(
     Container,
     {
       width: 200,
@@ -29476,18 +29657,18 @@ function BackdropFilterDemo() {
       color: "#ffffff44",
       alignment: "center"
     },
-    /* @__PURE__ */ import_react167.default.createElement(Text, { text: "Heavy Blur", fontSize: 18, color: "#333", fontWeight: "bold" })
+    /* @__PURE__ */ import_react169.default.createElement(Text, { text: "Heavy Blur", fontSize: 18, color: "#333", fontWeight: "bold" })
   ))))))))));
 }
 
 // src/demos/AnimatedSwitcherDemo.tsx
-var import_react168 = __toESM(require_react_production());
+var import_react170 = __toESM(require_react_production());
 var colors = ["#2196F3", "#FF5722", "#4CAF50", "#9C27B0", "#FF9800"];
 function AnimatedSwitcherDemo() {
-  const [count, setCount] = (0, import_react168.useState)(0);
-  const [textIndex, setTextIndex] = (0, import_react168.useState)(0);
+  const [count, setCount] = (0, import_react170.useState)(0);
+  const [textIndex, setTextIndex] = (0, import_react170.useState)(0);
   const texts = ["Hello", "World", "FuickJS", "Flutter", "React"];
-  return /* @__PURE__ */ import_react168.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react168.default.createElement(AppBar, { title: /* @__PURE__ */ import_react168.default.createElement(Text, { text: "AnimatedSwitcher" }) }) }, /* @__PURE__ */ import_react168.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react168.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react168.default.createElement(Text, { text: "\u6570\u5B57\u5207\u6362", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react168.default.createElement(Text, { text: "key \u53D8\u5316\u89E6\u53D1\u6DE1\u5165\u6DE1\u51FA\u52A8\u753B", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react168.default.createElement(AnimatedSwitcher, { duration: 500, switchInCurve: "easeIn", switchOutCurve: "easeOut" }, /* @__PURE__ */ import_react168.default.createElement(
+  return /* @__PURE__ */ import_react170.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react170.default.createElement(AppBar, { title: /* @__PURE__ */ import_react170.default.createElement(Text, { text: "AnimatedSwitcher" }) }) }, /* @__PURE__ */ import_react170.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react170.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react170.default.createElement(Text, { text: "\u6570\u5B57\u5207\u6362", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react170.default.createElement(Text, { text: "key \u53D8\u5316\u89E6\u53D1\u6DE1\u5165\u6DE1\u51FA\u52A8\u753B", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react170.default.createElement(AnimatedSwitcher, { duration: 500, switchInCurve: "easeIn", switchOutCurve: "easeOut" }, /* @__PURE__ */ import_react170.default.createElement(
     Container,
     {
       key: `num-${count}`,
@@ -29499,8 +29680,8 @@ function AnimatedSwitcherDemo() {
       },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react168.default.createElement(Text, { text: `${count}`, fontSize: 48, color: "white", fontWeight: "bold" })
-  )), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react168.default.createElement(Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react168.default.createElement(Button, { text: " - ", onTap: () => setCount(count - 1) }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react168.default.createElement(Button, { text: " + ", onTap: () => setCount(count + 1) })), /* @__PURE__ */ import_react168.default.createElement(Divider, { margin: { top: 32, bottom: 32 } }), /* @__PURE__ */ import_react168.default.createElement(Text, { text: "\u6587\u5B57\u5207\u6362", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react168.default.createElement(Text, { text: "switchInCurve: easeInOut", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react168.default.createElement(AnimatedSwitcher, { duration: 300, switchInCurve: "easeInOut" }, /* @__PURE__ */ import_react168.default.createElement(
+    /* @__PURE__ */ import_react170.default.createElement(Text, { text: `${count}`, fontSize: 48, color: "white", fontWeight: "bold" })
+  )), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react170.default.createElement(Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react170.default.createElement(Button, { text: " - ", onTap: () => setCount(count - 1) }), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { width: 16 }), /* @__PURE__ */ import_react170.default.createElement(Button, { text: " + ", onTap: () => setCount(count + 1) })), /* @__PURE__ */ import_react170.default.createElement(Divider, { margin: { top: 32, bottom: 32 } }), /* @__PURE__ */ import_react170.default.createElement(Text, { text: "\u6587\u5B57\u5207\u6362", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react170.default.createElement(Text, { text: "switchInCurve: easeInOut", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react170.default.createElement(AnimatedSwitcher, { duration: 300, switchInCurve: "easeInOut" }, /* @__PURE__ */ import_react170.default.createElement(
     Text,
     {
       key: `text-${textIndex}`,
@@ -29509,7 +29690,7 @@ function AnimatedSwitcherDemo() {
       fontWeight: "bold",
       color: "#333"
     }
-  )), /* @__PURE__ */ import_react168.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react168.default.createElement(
+  )), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react170.default.createElement(
     Button,
     {
       text: "Next Text",
@@ -29519,17 +29700,17 @@ function AnimatedSwitcherDemo() {
 }
 
 // src/demos/AnimatedCrossFadeDemo.tsx
-var import_react169 = __toESM(require_react_production());
+var import_react171 = __toESM(require_react_production());
 function AnimatedCrossFadeDemo() {
-  const [showFirst1, setShowFirst1] = (0, import_react169.useState)(true);
-  const [showFirst2, setShowFirst2] = (0, import_react169.useState)(true);
-  return /* @__PURE__ */ import_react169.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react169.default.createElement(AppBar, { title: /* @__PURE__ */ import_react169.default.createElement(Text, { text: "AnimatedCrossFade" }) }) }, /* @__PURE__ */ import_react169.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react169.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(Text, { text: "\u57FA\u672C\u4EA4\u53C9\u6DE1\u5165\u6DE1\u51FA", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "\u4E24\u4E2A\u5B50\u7EC4\u4EF6\u4E4B\u95F4\u5E73\u6ED1\u8FC7\u6E21", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react169.default.createElement(
+  const [showFirst1, setShowFirst1] = (0, import_react171.useState)(true);
+  const [showFirst2, setShowFirst2] = (0, import_react171.useState)(true);
+  return /* @__PURE__ */ import_react171.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react171.default.createElement(AppBar, { title: /* @__PURE__ */ import_react171.default.createElement(Text, { text: "AnimatedCrossFade" }) }) }, /* @__PURE__ */ import_react171.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react171.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(Text, { text: "\u57FA\u672C\u4EA4\u53C9\u6DE1\u5165\u6DE1\u51FA", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: "\u4E24\u4E2A\u5B50\u7EC4\u4EF6\u4E4B\u95F4\u5E73\u6ED1\u8FC7\u6E21", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react171.default.createElement(
     AnimatedCrossFade,
     {
       crossFadeState: showFirst1 ? "showFirst" : "showSecond",
       duration: 600
     },
-    /* @__PURE__ */ import_react169.default.createElement(FlutterProps, { propsKey: "firstChild" }, /* @__PURE__ */ import_react169.default.createElement(
+    /* @__PURE__ */ import_react171.default.createElement(FlutterProps, { propsKey: "firstChild" }, /* @__PURE__ */ import_react171.default.createElement(
       Container,
       {
         width: 240,
@@ -29537,9 +29718,9 @@ function AnimatedCrossFadeDemo() {
         decoration: { color: "#4CAF50", borderRadius: 16 },
         alignment: "center"
       },
-      /* @__PURE__ */ import_react169.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(Icon, { data: "home", size: 36, color: "white" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "First Child", fontSize: 20, color: "white", fontWeight: "bold" }))
+      /* @__PURE__ */ import_react171.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(Icon, { data: "home", size: 36, color: "white" }), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: "First Child", fontSize: 20, color: "white", fontWeight: "bold" }))
     )),
-    /* @__PURE__ */ import_react169.default.createElement(FlutterProps, { propsKey: "secondChild" }, /* @__PURE__ */ import_react169.default.createElement(
+    /* @__PURE__ */ import_react171.default.createElement(FlutterProps, { propsKey: "secondChild" }, /* @__PURE__ */ import_react171.default.createElement(
       Container,
       {
         width: 240,
@@ -29547,15 +29728,15 @@ function AnimatedCrossFadeDemo() {
         decoration: { color: "#FF9800", borderRadius: 16 },
         alignment: "center"
       },
-      /* @__PURE__ */ import_react169.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(Icon, { data: "settings", size: 36, color: "white" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "Second Child", fontSize: 20, color: "white", fontWeight: "bold" }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "(\u66F4\u9AD8)", fontSize: 14, color: "white" }))
+      /* @__PURE__ */ import_react171.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(Icon, { data: "settings", size: 36, color: "white" }), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: "Second Child", fontSize: 20, color: "white", fontWeight: "bold" }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: "(\u66F4\u9AD8)", fontSize: 14, color: "white" }))
     ))
-  ), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react169.default.createElement(
+  ), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react171.default.createElement(
     Button,
     {
       text: showFirst1 ? "Show Second" : "Show First",
       onTap: () => setShowFirst1(!showFirst1)
     }
-  ), /* @__PURE__ */ import_react169.default.createElement(Divider, { margin: { top: 32, bottom: 32 } }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "\u81EA\u5B9A\u4E49 Curve", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "firstCurve: easeIn, secondCurve: easeOut", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react169.default.createElement(
+  ), /* @__PURE__ */ import_react171.default.createElement(Divider, { margin: { top: 32, bottom: 32 } }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: "\u81EA\u5B9A\u4E49 Curve", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: "firstCurve: easeIn, secondCurve: easeOut", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react171.default.createElement(
     AnimatedCrossFade,
     {
       crossFadeState: showFirst2 ? "showFirst" : "showSecond",
@@ -29564,7 +29745,7 @@ function AnimatedCrossFadeDemo() {
       secondCurve: "easeOut",
       sizeCurve: "fastOutSlowIn"
     },
-    /* @__PURE__ */ import_react169.default.createElement(FlutterProps, { propsKey: "firstChild" }, /* @__PURE__ */ import_react169.default.createElement(
+    /* @__PURE__ */ import_react171.default.createElement(FlutterProps, { propsKey: "firstChild" }, /* @__PURE__ */ import_react171.default.createElement(
       Container,
       {
         width: 200,
@@ -29572,9 +29753,9 @@ function AnimatedCrossFadeDemo() {
         decoration: { color: "#2196F3", borderRadius: 12 },
         alignment: "center"
       },
-      /* @__PURE__ */ import_react169.default.createElement(Text, { text: "Compact", fontSize: 18, color: "white", fontWeight: "bold" })
+      /* @__PURE__ */ import_react171.default.createElement(Text, { text: "Compact", fontSize: 18, color: "white", fontWeight: "bold" })
     )),
-    /* @__PURE__ */ import_react169.default.createElement(FlutterProps, { propsKey: "secondChild" }, /* @__PURE__ */ import_react169.default.createElement(
+    /* @__PURE__ */ import_react171.default.createElement(FlutterProps, { propsKey: "secondChild" }, /* @__PURE__ */ import_react171.default.createElement(
       Container,
       {
         width: 280,
@@ -29582,9 +29763,9 @@ function AnimatedCrossFadeDemo() {
         decoration: { color: "#E91E63", borderRadius: 12 },
         alignment: "center"
       },
-      /* @__PURE__ */ import_react169.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react169.default.createElement(Text, { text: "Expanded", fontSize: 22, color: "white", fontWeight: "bold" }), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "More content here", fontSize: 14, color: "white" }), /* @__PURE__ */ import_react169.default.createElement(Text, { text: "With multiple lines", fontSize: 14, color: "white" }))
+      /* @__PURE__ */ import_react171.default.createElement(Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(Text, { text: "Expanded", fontSize: 22, color: "white", fontWeight: "bold" }), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: "More content here", fontSize: 14, color: "white" }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: "With multiple lines", fontSize: 14, color: "white" }))
     ))
-  ), /* @__PURE__ */ import_react169.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react169.default.createElement(
+  ), /* @__PURE__ */ import_react171.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react171.default.createElement(
     Button,
     {
       text: showFirst2 ? "Expand" : "Compact",
@@ -29594,7 +29775,7 @@ function AnimatedCrossFadeDemo() {
 }
 
 // src/demos/NestedScrollViewDemo.tsx
-var import_react170 = __toESM(require_react_production());
+var import_react172 = __toESM(require_react_production());
 var categories = [
   { icon: "home", label: "Home", color: "#2196F3" },
   { icon: "star", label: "Favorites", color: "#FF9800" },
@@ -29602,22 +29783,22 @@ var categories = [
   { icon: "settings", label: "Settings", color: "#9C27B0" }
 ];
 function NestedScrollViewDemo() {
-  return /* @__PURE__ */ import_react170.default.createElement(Scaffold, null, /* @__PURE__ */ import_react170.default.createElement(NestedScrollView, null, /* @__PURE__ */ import_react170.default.createElement(FlutterProps, { propsKey: "headerSliverBuilder" }, /* @__PURE__ */ import_react170.default.createElement(
+  return /* @__PURE__ */ import_react172.default.createElement(Scaffold, null, /* @__PURE__ */ import_react172.default.createElement(NestedScrollView, null, /* @__PURE__ */ import_react172.default.createElement(FlutterProps, { propsKey: "headerSliverBuilder" }, /* @__PURE__ */ import_react172.default.createElement(
     SliverAppBar,
     {
       pinned: true,
       expandedHeight: 180,
       backgroundColor: "#673AB7",
-      title: /* @__PURE__ */ import_react170.default.createElement(Text, { text: "NestedScrollView", color: "white" })
+      title: /* @__PURE__ */ import_react172.default.createElement(Text, { text: "NestedScrollView", color: "white" })
     },
-    /* @__PURE__ */ import_react170.default.createElement(
+    /* @__PURE__ */ import_react172.default.createElement(
       Container,
       {
         color: "#512DA8",
         alignment: "center",
         padding: { bottom: 60, left: 16, right: 16 }
       },
-      /* @__PURE__ */ import_react170.default.createElement(
+      /* @__PURE__ */ import_react172.default.createElement(
         Text,
         {
           text: "\u5411\u4E0A\u6ED1\u52A8\uFF0CAppBar \u4F1A\u6298\u53E0\u5E76\u56FA\u5B9A",
@@ -29626,7 +29807,7 @@ function NestedScrollViewDemo() {
         }
       )
     )
-  )), /* @__PURE__ */ import_react170.default.createElement(FlutterProps, { propsKey: "body" }, /* @__PURE__ */ import_react170.default.createElement(ListView, { shrinkWrap: false, physics: "never" }, /* @__PURE__ */ import_react170.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react170.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react170.default.createElement(Text, { text: "Quick Actions", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react170.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, categories.map((cat) => /* @__PURE__ */ import_react170.default.createElement(Column, { key: cat.label, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react170.default.createElement(
+  )), /* @__PURE__ */ import_react172.default.createElement(FlutterProps, { propsKey: "body" }, /* @__PURE__ */ import_react172.default.createElement(ListView, { shrinkWrap: false, physics: "never" }, /* @__PURE__ */ import_react172.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react172.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react172.default.createElement(Text, { text: "Quick Actions", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react172.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react172.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, categories.map((cat) => /* @__PURE__ */ import_react172.default.createElement(Column, { key: cat.label, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react172.default.createElement(
     Container,
     {
       width: 50,
@@ -29634,8 +29815,8 @@ function NestedScrollViewDemo() {
       decoration: { color: cat.color, borderRadius: 25 },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react170.default.createElement(Icon, { data: cat.icon, color: "white", size: 24 })
-  ), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react170.default.createElement(Text, { text: cat.label, fontSize: 12, color: "#666" })))), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react170.default.createElement(Text, { text: "All Items", fontSize: 18, fontWeight: "bold" }))), Array.from({ length: 29 }, (_, i) => /* @__PURE__ */ import_react170.default.createElement(
+    /* @__PURE__ */ import_react172.default.createElement(Icon, { data: cat.icon, color: "white", size: 24 })
+  ), /* @__PURE__ */ import_react172.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react172.default.createElement(Text, { text: cat.label, fontSize: 12, color: "#666" })))), /* @__PURE__ */ import_react172.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react172.default.createElement(Text, { text: "All Items", fontSize: 18, fontWeight: "bold" }))), Array.from({ length: 29 }, (_, i) => /* @__PURE__ */ import_react172.default.createElement(
     Container,
     {
       key: `item-${i}`,
@@ -29644,7 +29825,7 @@ function NestedScrollViewDemo() {
       padding: { left: 16, right: 16 },
       alignment: "centerLeft"
     },
-    /* @__PURE__ */ import_react170.default.createElement(Row, null, /* @__PURE__ */ import_react170.default.createElement(
+    /* @__PURE__ */ import_react172.default.createElement(Row, null, /* @__PURE__ */ import_react172.default.createElement(
       Container,
       {
         width: 36,
@@ -29655,17 +29836,17 @@ function NestedScrollViewDemo() {
         },
         alignment: "center"
       },
-      /* @__PURE__ */ import_react170.default.createElement(Text, { text: `${i}`, color: "white", fontSize: 14, fontWeight: "bold" })
-    ), /* @__PURE__ */ import_react170.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react170.default.createElement(Text, { text: `List Item ${i}`, fontSize: 16 }))
+      /* @__PURE__ */ import_react172.default.createElement(Text, { text: `${i}`, color: "white", fontSize: 14, fontWeight: "bold" })
+    ), /* @__PURE__ */ import_react172.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react172.default.createElement(Text, { text: `List Item ${i}`, fontSize: 16 }))
   ))))));
 }
 
 // src/demos/ReactManagedListDemo.tsx
-var import_react171 = __toESM(require_react_production());
+var import_react173 = __toESM(require_react_production());
 function CounterItem({ index }) {
-  const [count, setCount] = (0, import_react171.useState)(0);
-  const [active, setActive] = (0, import_react171.useState)(false);
-  return /* @__PURE__ */ import_react171.default.createElement(Container, { padding: { left: 16, right: 8, top: 10, bottom: 10 } }, /* @__PURE__ */ import_react171.default.createElement(Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(
+  const [count, setCount] = (0, import_react173.useState)(0);
+  const [active, setActive] = (0, import_react173.useState)(false);
+  return /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 8, top: 10, bottom: 10 } }, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(
     Container,
     {
       width: 36,
@@ -29679,8 +29860,8 @@ function CounterItem({ index }) {
       },
       onTap: () => setActive((a) => !a)
     },
-    /* @__PURE__ */ import_react171.default.createElement(Text, { text: String(count), fontSize: 14, fontWeight: "bold", color: active ? "#2196F3" : "#757575" })
-  ), /* @__PURE__ */ import_react171.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react171.default.createElement(Text, { text: `Item ${index + 1}`, fontSize: 14 }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: active ? "Active" : "Inactive", fontSize: 11, color: "#999" }))), /* @__PURE__ */ import_react171.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(
+    /* @__PURE__ */ import_react173.default.createElement(Text, { text: String(count), fontSize: 14, fontWeight: "bold", color: active ? "#2196F3" : "#757575" })
+  ), /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: `Item ${index + 1}`, fontSize: 14 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: active ? "Active" : "Inactive", fontSize: 11, color: "#999" }))), /* @__PURE__ */ import_react173.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(
     Container,
     {
       width: 28,
@@ -29690,8 +29871,8 @@ function CounterItem({ index }) {
       decoration: { color: "#FFEBEE", borderRadius: 14 },
       onTap: () => setCount((c) => c - 1)
     },
-    /* @__PURE__ */ import_react171.default.createElement(Text, { text: "\u2212", fontSize: 16, color: "#E53935" })
-  ), /* @__PURE__ */ import_react171.default.createElement(
+    /* @__PURE__ */ import_react173.default.createElement(Text, { text: "\u2212", fontSize: 16, color: "#E53935" })
+  ), /* @__PURE__ */ import_react173.default.createElement(
     Container,
     {
       width: 28,
@@ -29700,13 +29881,13 @@ function CounterItem({ index }) {
       decoration: { color: "#E8F5E9", borderRadius: 14 },
       onTap: () => setCount((c) => c + 1)
     },
-    /* @__PURE__ */ import_react171.default.createElement(Text, { text: "+", fontSize: 16, color: "#43A047" })
+    /* @__PURE__ */ import_react173.default.createElement(Text, { text: "+", fontSize: 16, color: "#43A047" })
   ))));
 }
 function TimerItem({ index }) {
-  const [seconds, setSeconds] = (0, import_react171.useState)(0);
-  const [running, setRunning] = (0, import_react171.useState)(true);
-  (0, import_react171.useEffect)(() => {
+  const [seconds, setSeconds] = (0, import_react173.useState)(0);
+  const [running, setRunning] = (0, import_react173.useState)(true);
+  (0, import_react173.useEffect)(() => {
     if (!running) return;
     const id = setInterval(() => {
       setSeconds((s) => s + 1);
@@ -29717,7 +29898,7 @@ function TimerItem({ index }) {
       clearInterval(id);
     };
   }, [running]);
-  return /* @__PURE__ */ import_react171.default.createElement(Container, { padding: { left: 16, right: 16, top: 8, bottom: 8 } }, /* @__PURE__ */ import_react171.default.createElement(Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react171.default.createElement(Text, { text: `Timer #${index + 1}`, fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react171.default.createElement(Text, { text: `${seconds}s elapsed`, fontSize: 12, color: running ? "#4CAF50" : "#9E9E9E" })), /* @__PURE__ */ import_react171.default.createElement(
+  return /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, top: 8, bottom: 8 } }, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: `Timer #${index + 1}`, fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: `${seconds}s elapsed`, fontSize: 12, color: running ? "#4CAF50" : "#9E9E9E" })), /* @__PURE__ */ import_react173.default.createElement(
     Container,
     {
       padding: { left: 12, right: 12, top: 6, bottom: 6 },
@@ -29727,34 +29908,34 @@ function TimerItem({ index }) {
       },
       onTap: () => setRunning((r) => !r)
     },
-    /* @__PURE__ */ import_react171.default.createElement(Text, { text: running ? "Pause" : "Resume", fontSize: 12, color: running ? "#2E7D32" : "#E65100" })
+    /* @__PURE__ */ import_react173.default.createElement(Text, { text: running ? "Pause" : "Resume", fontSize: 12, color: running ? "#2E7D32" : "#E65100" })
   )));
 }
 function LoadingItem({ index }) {
-  const [loaded, setLoaded] = (0, import_react171.useState)(false);
-  const [data, setData] = (0, import_react171.useState)("Loading...");
-  (0, import_react171.useEffect)(() => {
+  const [loaded, setLoaded] = (0, import_react173.useState)(false);
+  const [data, setData] = (0, import_react173.useState)("Loading...");
+  (0, import_react173.useEffect)(() => {
     const timer = setTimeout(() => {
       setLoaded(true);
       setData(`Item ${index + 1} data loaded`);
     }, 1500);
     return () => clearTimeout(timer);
   }, []);
-  return /* @__PURE__ */ import_react171.default.createElement(
+  return /* @__PURE__ */ import_react173.default.createElement(
     Container,
     {
       padding: 16,
       margin: { bottom: 1 },
       color: loaded ? "#FFFFFF" : "#FAFAFA"
     },
-    /* @__PURE__ */ import_react171.default.createElement(Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(
+    /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(
       Text,
       {
         text: data,
         fontSize: 14,
         color: loaded ? "#333333" : "#BDBDBD"
       }
-    ), /* @__PURE__ */ import_react171.default.createElement(
+    ), /* @__PURE__ */ import_react173.default.createElement(
       Container,
       {
         width: 8,
@@ -29768,8 +29949,8 @@ function LoadingItem({ index }) {
   );
 }
 function ReactManagedListDemo() {
-  const [tab, setTab] = (0, import_react171.useState)("counter");
-  const [itemCount, setItemCount] = (0, import_react171.useState)(15);
+  const [tab, setTab] = (0, import_react173.useState)("counter");
+  const [itemCount, setItemCount] = (0, import_react173.useState)(15);
   const tabs = [
     { key: "counter", label: "Counter (useState)" },
     { key: "timer", label: "Timer (useEffect)" },
@@ -29778,25 +29959,25 @@ function ReactManagedListDemo() {
   const itemBuilder = (index) => {
     switch (tab) {
       case "counter":
-        return /* @__PURE__ */ import_react171.default.createElement(CounterItem, { index });
+        return /* @__PURE__ */ import_react173.default.createElement(CounterItem, { index });
       case "timer":
-        return /* @__PURE__ */ import_react171.default.createElement(TimerItem, { index });
+        return /* @__PURE__ */ import_react173.default.createElement(TimerItem, { index });
       case "loading":
-        return /* @__PURE__ */ import_react171.default.createElement(LoadingItem, { index });
+        return /* @__PURE__ */ import_react173.default.createElement(LoadingItem, { index });
     }
   };
-  return /* @__PURE__ */ import_react171.default.createElement(
+  return /* @__PURE__ */ import_react173.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react171.default.createElement(AppBar, { title: "React Managed List" })
+      appBar: /* @__PURE__ */ import_react173.default.createElement(AppBar, { title: "React Managed List" })
     },
-    /* @__PURE__ */ import_react171.default.createElement(Column, null, /* @__PURE__ */ import_react171.default.createElement(
+    /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(
       Container,
       {
         padding: 8,
         color: "#F5F5F5"
       },
-      /* @__PURE__ */ import_react171.default.createElement(Row, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, tabs.map((t2) => /* @__PURE__ */ import_react171.default.createElement(
+      /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, tabs.map((t2) => /* @__PURE__ */ import_react173.default.createElement(
         Container,
         {
           key: t2.key,
@@ -29811,7 +29992,7 @@ function ReactManagedListDemo() {
             setItemCount(15);
           }
         },
-        /* @__PURE__ */ import_react171.default.createElement(
+        /* @__PURE__ */ import_react173.default.createElement(
           Text,
           {
             text: t2.label,
@@ -29820,13 +30001,13 @@ function ReactManagedListDemo() {
           }
         )
       )))
-    ), /* @__PURE__ */ import_react171.default.createElement(
+    ), /* @__PURE__ */ import_react173.default.createElement(
       Container,
       {
         padding: { left: 16, right: 16, top: 8, bottom: 8 },
         color: "#FAFAFA"
       },
-      /* @__PURE__ */ import_react171.default.createElement(Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react171.default.createElement(Text, { text: `Items: ${itemCount}`, fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react171.default.createElement(Row, null, /* @__PURE__ */ import_react171.default.createElement(
+      /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: `Items: ${itemCount}`, fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react173.default.createElement(Row, null, /* @__PURE__ */ import_react173.default.createElement(
         Container,
         {
           width: 36,
@@ -29836,8 +30017,8 @@ function ReactManagedListDemo() {
           decoration: { color: "#FFEBEE", borderRadius: 18 },
           onTap: () => setItemCount((n) => Math.max(1, n - 5))
         },
-        /* @__PURE__ */ import_react171.default.createElement(Text, { text: "\u22125", fontSize: 12, color: "#E53935" })
-      ), /* @__PURE__ */ import_react171.default.createElement(
+        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "\u22125", fontSize: 12, color: "#E53935" })
+      ), /* @__PURE__ */ import_react173.default.createElement(
         Container,
         {
           width: 36,
@@ -29846,9 +30027,9 @@ function ReactManagedListDemo() {
           decoration: { color: "#E8F5E9", borderRadius: 18 },
           onTap: () => setItemCount((n) => n + 5)
         },
-        /* @__PURE__ */ import_react171.default.createElement(Text, { text: "+5", fontSize: 12, color: "#43A047" })
+        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "+5", fontSize: 12, color: "#43A047" })
       )))
-    ), /* @__PURE__ */ import_react171.default.createElement(Expanded, null, /* @__PURE__ */ import_react171.default.createElement(
+    ), /* @__PURE__ */ import_react173.default.createElement(Expanded, null, /* @__PURE__ */ import_react173.default.createElement(
       ListView,
       {
         itemCount,
@@ -29861,17 +30042,17 @@ function ReactManagedListDemo() {
 }
 
 // src/demos/StaticListDemo.tsx
-var import_react172 = __toESM(require_react_production());
+var import_react174 = __toESM(require_react_production());
 var COLORS2 = ["#E3F2FD", "#FFF3E0", "#E8F5E9", "#FCE4EC", "#F3E5F5", "#FFF9C4"];
 var ICONS = ["star", "favorite", "bookmark", "cloud", "flight", "music_note"];
 function StaticListDemo() {
-  return /* @__PURE__ */ import_react172.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react172.default.createElement(AppBar, { title: "Static List (Stateless)" }) }, /* @__PURE__ */ import_react172.default.createElement(Column, null, /* @__PURE__ */ import_react172.default.createElement(
+  return /* @__PURE__ */ import_react174.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react174.default.createElement(AppBar, { title: "Static List (Stateless)" }) }, /* @__PURE__ */ import_react174.default.createElement(Column, null, /* @__PURE__ */ import_react174.default.createElement(
     Container,
     {
       padding: { left: 16, right: 16, top: 12, bottom: 8 },
       color: "#F5F5F5"
     },
-    /* @__PURE__ */ import_react172.default.createElement(
+    /* @__PURE__ */ import_react174.default.createElement(
       Text,
       {
         text: "itemBuilder \u4E2D\u4E0D\u4F7F\u7528 useState/useEffect\uFF0C\u5217\u8868\u9879\u65E0\u751F\u547D\u5468\u671F\uFF0C\u7EAF\u5C55\u793A\u578B",
@@ -29880,18 +30061,18 @@ function StaticListDemo() {
         maxLines: 2
       }
     )
-  ), /* @__PURE__ */ import_react172.default.createElement(
+  ), /* @__PURE__ */ import_react174.default.createElement(
     Container,
     {
       padding: { left: 16, top: 8, bottom: 4 }
     },
-    /* @__PURE__ */ import_react172.default.createElement(Text, { text: "Contacts", fontSize: 18, fontWeight: "bold", color: "#333" })
-  ), /* @__PURE__ */ import_react172.default.createElement(Expanded, null, /* @__PURE__ */ import_react172.default.createElement(
+    /* @__PURE__ */ import_react174.default.createElement(Text, { text: "Contacts", fontSize: 18, fontWeight: "bold", color: "#333" })
+  ), /* @__PURE__ */ import_react174.default.createElement(Expanded, null, /* @__PURE__ */ import_react174.default.createElement(
     ListView,
     {
       itemCount: 30,
       stateful: false,
-      itemBuilder: (index) => /* @__PURE__ */ import_react172.default.createElement(
+      itemBuilder: (index) => /* @__PURE__ */ import_react174.default.createElement(
         Container,
         {
           padding: { left: 16, right: 16, top: 10, bottom: 10 },
@@ -29901,7 +30082,7 @@ function StaticListDemo() {
           },
           onTap: () => console.log(`Tapped contact ${index + 1}`)
         },
-        /* @__PURE__ */ import_react172.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react172.default.createElement(
+        /* @__PURE__ */ import_react174.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react174.default.createElement(
           Container,
           {
             width: 40,
@@ -29913,8 +30094,8 @@ function StaticListDemo() {
               borderRadius: 20
             }
           },
-          /* @__PURE__ */ import_react172.default.createElement(Icon, { name: ICONS[index % ICONS.length], fontSize: 18, color: "#555" })
-        ), /* @__PURE__ */ import_react172.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react172.default.createElement(Text, { text: `Contact ${index + 1}`, fontSize: 14 }), /* @__PURE__ */ import_react172.default.createElement(
+          /* @__PURE__ */ import_react174.default.createElement(Icon, { name: ICONS[index % ICONS.length], fontSize: 18, color: "#555" })
+        ), /* @__PURE__ */ import_react174.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react174.default.createElement(Text, { text: `Contact ${index + 1}`, fontSize: 14 }), /* @__PURE__ */ import_react174.default.createElement(
           Text,
           {
             text: `+1 (555) ${String(1e3 + index).slice(1)}-${String(1e4 + index * 7).slice(1)}`,
@@ -29928,7 +30109,7 @@ function StaticListDemo() {
 }
 
 // src/demos/PerformanceDemo.tsx
-var import_react173 = __toESM(require_react_production());
+var import_react175 = __toESM(require_react_production());
 var Transform2 = "Transform";
 var COLORS3 = [
   "#E3F2FD",
@@ -29968,14 +30149,14 @@ function SectionHeader({
   title,
   subtitle
 }) {
-  return /* @__PURE__ */ import_react173.default.createElement(
+  return /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       padding: { left: 16, top: 20, right: 16, bottom: 8 },
       color: "#FAFAFA"
     },
-    /* @__PURE__ */ import_react173.default.createElement(Text, { text: title, fontSize: 20, fontWeight: "bold", color: "#212121" }),
-    subtitle && /* @__PURE__ */ import_react173.default.createElement(
+    /* @__PURE__ */ import_react175.default.createElement(Text, { text: title, fontSize: 20, fontWeight: "bold", color: "#212121" }),
+    subtitle && /* @__PURE__ */ import_react175.default.createElement(
       Text,
       {
         text: subtitle,
@@ -29989,7 +30170,7 @@ function SectionHeader({
 function CardItem({ index }) {
   const color = COLORS3[index % COLORS3.length];
   const icon = ICONS2[index % ICONS2.length];
-  return /* @__PURE__ */ import_react173.default.createElement(
+  return /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       margin: { left: 8, right: 8, bottom: 8 },
@@ -30004,7 +30185,7 @@ function CardItem({ index }) {
         }
       }
     },
-    /* @__PURE__ */ import_react173.default.createElement(Row, null, /* @__PURE__ */ import_react173.default.createElement(
+    /* @__PURE__ */ import_react175.default.createElement(Row, null, /* @__PURE__ */ import_react175.default.createElement(
       Container,
       {
         width: 48,
@@ -30012,15 +30193,15 @@ function CardItem({ index }) {
         decoration: { color, borderRadius: 24 },
         alignment: "center"
       },
-      /* @__PURE__ */ import_react173.default.createElement(Icon, { name: icon, color: "#424242", size: 24 })
-    ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: `Card Item ${index}`, fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react173.default.createElement(
+      /* @__PURE__ */ import_react175.default.createElement(Icon, { name: icon, color: "#424242", size: 24 })
+    ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: `Card Item ${index}`, fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react175.default.createElement(
       Text,
       {
         text: `Description text for card item ${index}`,
         fontSize: 13,
         color: "#757575"
       }
-    ))), /* @__PURE__ */ import_react173.default.createElement(Icon, { name: "chevron_right", color: "#BDBDBD", size: 20 }))
+    ))), /* @__PURE__ */ import_react175.default.createElement(Icon, { name: "chevron_right", color: "#BDBDBD", size: 20 }))
   );
 }
 function StatCard({
@@ -30028,7 +30209,7 @@ function StatCard({
   value,
   color
 }) {
-  return /* @__PURE__ */ import_react173.default.createElement(
+  return /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       padding: 16,
@@ -30038,14 +30219,14 @@ function StatCard({
         borderRadius: 12
       }
     },
-    /* @__PURE__ */ import_react173.default.createElement(Center, null, /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: value, fontSize: 24, fontWeight: "bold", color: "white" }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: label, fontSize: 12, color: "rgba(255,255,255,0.85)" })))
+    /* @__PURE__ */ import_react175.default.createElement(Center, null, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: value, fontSize: 24, fontWeight: "bold", color: "white" }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: label, fontSize: 12, color: "rgba(255,255,255,0.85)" })))
   );
 }
 function AvatarRow({ count }) {
   const avatarWidth = 36;
   const overlap = 8;
   const totalWidth = avatarWidth + (count - 1) * (avatarWidth - overlap) + avatarWidth + overlap;
-  return /* @__PURE__ */ import_react173.default.createElement(Container, { width: totalWidth, height: 36 }, /* @__PURE__ */ import_react173.default.createElement(Stack, null, Array.from({ length: count }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(Positioned, { key: i, left: i * (avatarWidth - overlap), top: 0 }, /* @__PURE__ */ import_react173.default.createElement(
+  return /* @__PURE__ */ import_react175.default.createElement(Container, { width: totalWidth, height: 36 }, /* @__PURE__ */ import_react175.default.createElement(Stack, null, Array.from({ length: count }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(Positioned, { key: i, left: i * (avatarWidth - overlap), top: 0 }, /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       width: avatarWidth,
@@ -30057,7 +30238,7 @@ function AvatarRow({ count }) {
       },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react173.default.createElement(
+    /* @__PURE__ */ import_react175.default.createElement(
       Text,
       {
         text: String(i + 1),
@@ -30066,7 +30247,7 @@ function AvatarRow({ count }) {
         fontWeight: "bold"
       }
     )
-  ))), /* @__PURE__ */ import_react173.default.createElement(Positioned, { left: count * (avatarWidth - overlap), top: 0 }, /* @__PURE__ */ import_react173.default.createElement(
+  ))), /* @__PURE__ */ import_react175.default.createElement(Positioned, { left: count * (avatarWidth - overlap), top: 0 }, /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       width: avatarWidth,
@@ -30078,11 +30259,11 @@ function AvatarRow({ count }) {
       },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react173.default.createElement(Text, { text: "+9", fontSize: 10, color: "#757575" })
+    /* @__PURE__ */ import_react175.default.createElement(Text, { text: "+9", fontSize: 10, color: "#757575" })
   ))));
 }
 function TagChip({ text, color }) {
-  return /* @__PURE__ */ import_react173.default.createElement(
+  return /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       padding: { left: 12, top: 6, right: 12, bottom: 6 },
@@ -30091,11 +30272,11 @@ function TagChip({ text, color }) {
         borderRadius: 16
       }
     },
-    /* @__PURE__ */ import_react173.default.createElement(Text, { text, fontSize: 12, color: "#424242" })
+    /* @__PURE__ */ import_react175.default.createElement(Text, { text, fontSize: 12, color: "#424242" })
   );
 }
 function ProgressBar({ progress, color }) {
-  return /* @__PURE__ */ import_react173.default.createElement(Container, { height: 8, decoration: { color: "#E0E0E0", borderRadius: 4 } }, /* @__PURE__ */ import_react173.default.createElement(
+  return /* @__PURE__ */ import_react175.default.createElement(Container, { height: 8, decoration: { color: "#E0E0E0", borderRadius: 4 } }, /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       width: progress * 100,
@@ -30105,17 +30286,17 @@ function ProgressBar({ progress, color }) {
   ));
 }
 function PerformanceDemo() {
-  const [switchVal1, setSwitchVal1] = (0, import_react173.useState)(false);
-  const [switchVal2, setSwitchVal2] = (0, import_react173.useState)(true);
-  const [switchVal3, setSwitchVal3] = (0, import_react173.useState)(false);
-  const [sliderVal, setSliderVal] = (0, import_react173.useState)(50);
-  const [animToggle, setAnimToggle] = (0, import_react173.useState)(false);
-  const [isReady, setIsReady] = (0, import_react173.useState)(false);
+  const [switchVal1, setSwitchVal1] = (0, import_react175.useState)(false);
+  const [switchVal2, setSwitchVal2] = (0, import_react175.useState)(true);
+  const [switchVal3, setSwitchVal3] = (0, import_react175.useState)(false);
+  const [sliderVal, setSliderVal] = (0, import_react175.useState)(50);
+  const [animToggle, setAnimToggle] = (0, import_react175.useState)(false);
+  const [isReady, setIsReady] = (0, import_react175.useState)(false);
   useRouteTransitionComplete((result) => {
     console.log(`\u8DEF\u7531\u52A8\u753B\u5B8C\u6210: pageId=${result.pageId}, path=${result.path}`);
     setIsReady(true);
   });
-  return /* @__PURE__ */ import_react173.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react173.default.createElement(AppBar, { title: "Performance Stress Test" }) }, /* @__PURE__ */ import_react173.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(Container, { height: 200, padding: 20, color: "#1565C0" }, /* @__PURE__ */ import_react173.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "start" }, /* @__PURE__ */ import_react173.default.createElement(
+  return /* @__PURE__ */ import_react175.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react175.default.createElement(AppBar, { title: "Performance Stress Test" }) }, /* @__PURE__ */ import_react175.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react175.default.createElement(Column, null, /* @__PURE__ */ import_react175.default.createElement(Container, { height: 200, padding: 20, color: "#1565C0" }, /* @__PURE__ */ import_react175.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "start" }, /* @__PURE__ */ import_react175.default.createElement(
     Text,
     {
       text: "Performance Stress Test",
@@ -30123,14 +30304,14 @@ function PerformanceDemo() {
       fontWeight: "bold",
       color: "white"
     }
-  ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(
+  ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(
     Text,
     {
       text: "A very complex page with many widgets to verify rendering performance",
       fontSize: 14,
       color: "rgba(255,255,255,0.85)"
     }
-  ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react173.default.createElement(Row, null, /* @__PURE__ */ import_react173.default.createElement(
+  ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react175.default.createElement(Row, null, /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       padding: { left: 16, top: 8, right: 16, bottom: 8 },
@@ -30139,7 +30320,7 @@ function PerformanceDemo() {
         borderRadius: 20
       }
     },
-    /* @__PURE__ */ import_react173.default.createElement(
+    /* @__PURE__ */ import_react175.default.createElement(
       Text,
       {
         text: "Explore",
@@ -30148,7 +30329,7 @@ function PerformanceDemo() {
         color: "white"
       }
     )
-  ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react173.default.createElement(
+  ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       padding: { left: 16, top: 8, right: 16, bottom: 8 },
@@ -30158,20 +30339,20 @@ function PerformanceDemo() {
         border: { color: "rgba(255,255,255,0.5)", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Learn More", fontSize: 14, color: "white" })
-  )))), /* @__PURE__ */ import_react173.default.createElement(
+    /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Learn More", fontSize: 14, color: "white" })
+  )))), /* @__PURE__ */ import_react175.default.createElement(
     SectionHeader,
     {
       title: "Statistics",
       subtitle: "Key metrics at a glance"
     }
-  ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Row, null, /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(StatCard, { label: "Users", value: "12.5K", color: "#1E88E5" })), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(StatCard, { label: "Revenue", value: "$48K", color: "#43A047" })), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(StatCard, { label: "Orders", value: "3.2K", color: "#FB8C00" })))), /* @__PURE__ */ import_react173.default.createElement(
+  ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Row, null, /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(StatCard, { label: "Users", value: "12.5K", color: "#1E88E5" })), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(StatCard, { label: "Revenue", value: "$48K", color: "#43A047" })), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(StatCard, { label: "Orders", value: "3.2K", color: "#FB8C00" })))), /* @__PURE__ */ import_react175.default.createElement(
     SectionHeader,
     {
       title: "Quick Actions",
       subtitle: "8 action buttons in a grid"
     }
-  ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Wrap, { spacing: 12, runSpacing: 12 }, Array.from({ length: 8 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(
+  ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Wrap, { spacing: 12, runSpacing: 12 }, Array.from({ length: 8 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(
     Container,
     {
       key: i,
@@ -30183,13 +30364,13 @@ function PerformanceDemo() {
       },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react173.default.createElement(
+    /* @__PURE__ */ import_react175.default.createElement(
       Column,
       {
         crossAxisAlignment: "center",
         mainAxisAlignment: "center"
       },
-      /* @__PURE__ */ import_react173.default.createElement(
+      /* @__PURE__ */ import_react175.default.createElement(
         Icon,
         {
           name: ICONS2[i % ICONS2.length],
@@ -30197,8 +30378,8 @@ function PerformanceDemo() {
           size: 28
         }
       ),
-      /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 4 }),
-      /* @__PURE__ */ import_react173.default.createElement(
+      /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 4 }),
+      /* @__PURE__ */ import_react175.default.createElement(
         Text,
         {
           text: `Action ${i + 1}`,
@@ -30207,20 +30388,20 @@ function PerformanceDemo() {
         }
       )
     )
-  )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+  )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
     SectionHeader,
     {
       title: "GridView (3 columns, 30 items)",
       subtitle: "Grid layout with colored cards"
     }
-  ), /* @__PURE__ */ import_react173.default.createElement(Container, { height: 400, padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(
+  ), /* @__PURE__ */ import_react175.default.createElement(Container, { height: 400, padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(
     GridView,
     {
       crossAxisCount: 3,
       mainAxisSpacing: 8,
       crossAxisSpacing: 8,
       itemCount: 30,
-      itemBuilder: (index) => /* @__PURE__ */ import_react173.default.createElement(
+      itemBuilder: (index) => /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           decoration: {
@@ -30234,21 +30415,21 @@ function PerformanceDemo() {
           },
           padding: 8
         },
-        /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react175.default.createElement(
           Icon,
           {
             name: ICONS2[index % ICONS2.length],
             color: "#616161",
             size: 20
           }
-        ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `Grid ${index + 1}`,
             fontSize: 13,
             fontWeight: "bold"
           }
-        ), /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `Subtitle ${index + 1}`,
@@ -30258,23 +30439,23 @@ function PerformanceDemo() {
         ))
       )
     }
-  )), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+  )), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
     LazyView,
     {
       load: isReady,
-      builder: () => /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(
+      builder: () => /* @__PURE__ */ import_react175.default.createElement(Column, null, /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "PageView (5 swipeable pages)",
           subtitle: "Horizontal swipe between pages"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 180,
           padding: { left: 12, right: 12, bottom: 12 }
         },
-        /* @__PURE__ */ import_react173.default.createElement(PageView, null, Array.from({ length: 5 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(PageView, null, Array.from({ length: 5 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             key: i,
@@ -30285,13 +30466,13 @@ function PerformanceDemo() {
             },
             padding: 20
           },
-          /* @__PURE__ */ import_react173.default.createElement(
+          /* @__PURE__ */ import_react175.default.createElement(
             Column,
             {
               mainAxisAlignment: "center",
               crossAxisAlignment: "start"
             },
-            /* @__PURE__ */ import_react173.default.createElement(
+            /* @__PURE__ */ import_react175.default.createElement(
               Text,
               {
                 text: `Page ${i + 1}`,
@@ -30300,8 +30481,8 @@ function PerformanceDemo() {
                 color: "#424242"
               }
             ),
-            /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }),
-            /* @__PURE__ */ import_react173.default.createElement(
+            /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }),
+            /* @__PURE__ */ import_react175.default.createElement(
               Text,
               {
                 text: `Swipe to see page ${i + 2 <= 5 ? i + 2 : 1}`,
@@ -30309,8 +30490,8 @@ function PerformanceDemo() {
                 color: "#757575"
               }
             ),
-            /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 12 }),
-            /* @__PURE__ */ import_react173.default.createElement(Row, null, Array.from({ length: 3 }, (_2, j) => /* @__PURE__ */ import_react173.default.createElement(
+            /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 12 }),
+            /* @__PURE__ */ import_react175.default.createElement(Row, null, Array.from({ length: 3 }, (_2, j) => /* @__PURE__ */ import_react175.default.createElement(
               Container,
               {
                 key: j,
@@ -30323,7 +30504,7 @@ function PerformanceDemo() {
                 },
                 alignment: "center"
               },
-              /* @__PURE__ */ import_react173.default.createElement(
+              /* @__PURE__ */ import_react175.default.createElement(
                 Icon,
                 {
                   name: ICONS2[(i + j) % ICONS2.length],
@@ -30333,26 +30514,26 @@ function PerformanceDemo() {
             )))
           )
         )))
-      ), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "ListView (20 list tiles)",
           subtitle: "Scrollable list with icons"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 400,
           padding: { left: 8, right: 8, bottom: 8 }
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           ListView,
           {
             itemCount: 20,
-            itemBuilder: (index) => /* @__PURE__ */ import_react173.default.createElement(
+            itemBuilder: (index) => /* @__PURE__ */ import_react175.default.createElement(
               ListTile,
               {
-                leading: /* @__PURE__ */ import_react173.default.createElement(
+                leading: /* @__PURE__ */ import_react175.default.createElement(
                   Container,
                   {
                     width: 44,
@@ -30363,7 +30544,7 @@ function PerformanceDemo() {
                     },
                     alignment: "center"
                   },
-                  /* @__PURE__ */ import_react173.default.createElement(
+                  /* @__PURE__ */ import_react175.default.createElement(
                     Icon,
                     {
                       name: ICONS2[index % ICONS2.length],
@@ -30372,7 +30553,7 @@ function PerformanceDemo() {
                     }
                   )
                 ),
-                title: /* @__PURE__ */ import_react173.default.createElement(
+                title: /* @__PURE__ */ import_react175.default.createElement(
                   Text,
                   {
                     text: `List Item ${index + 1}`,
@@ -30380,7 +30561,7 @@ function PerformanceDemo() {
                     fontWeight: "bold"
                   }
                 ),
-                subtitle: /* @__PURE__ */ import_react173.default.createElement(
+                subtitle: /* @__PURE__ */ import_react175.default.createElement(
                   Text,
                   {
                     text: `Secondary text for item ${index + 1}`,
@@ -30388,7 +30569,7 @@ function PerformanceDemo() {
                     color: "#757575"
                   }
                 ),
-                trailing: /* @__PURE__ */ import_react173.default.createElement(
+                trailing: /* @__PURE__ */ import_react175.default.createElement(
                   Icon,
                   {
                     name: "chevron_right",
@@ -30401,25 +30582,25 @@ function PerformanceDemo() {
             )
           }
         )
-      ), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Card List (15 cards)",
           subtitle: "Cards with avatars and descriptions"
         }
-      ), Array.from({ length: 15 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(CardItem, { key: i, index: i })), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#806565ff" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), Array.from({ length: 15 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(CardItem, { key: i, index: i })), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#806565ff" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Stack & Positioned",
           subtitle: "Overlapping elements"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 200,
           padding: { left: 16, right: 16, bottom: 12 }
         },
-        /* @__PURE__ */ import_react173.default.createElement(Stack, null, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Stack, null, /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             width: 350,
@@ -30429,7 +30610,7 @@ function PerformanceDemo() {
               borderRadius: 16
             }
           }
-        ), /* @__PURE__ */ import_react173.default.createElement(Positioned, { top: 20, left: 20 }, /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(Positioned, { top: 20, left: 20 }, /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             width: 80,
@@ -30437,8 +30618,8 @@ function PerformanceDemo() {
             decoration: { color: "#3F51B5", borderRadius: 40 },
             alignment: "center"
           },
-          /* @__PURE__ */ import_react173.default.createElement(Icon, { name: "person", color: "white", size: 36 })
-        )), /* @__PURE__ */ import_react173.default.createElement(Positioned, { top: 30, left: 120 }, /* @__PURE__ */ import_react173.default.createElement(
+          /* @__PURE__ */ import_react175.default.createElement(Icon, { name: "person", color: "white", size: 36 })
+        )), /* @__PURE__ */ import_react175.default.createElement(Positioned, { top: 30, left: 120 }, /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: "Stack Demo",
@@ -30446,14 +30627,14 @@ function PerformanceDemo() {
             fontWeight: "bold",
             color: "#1A237E"
           }
-        )), /* @__PURE__ */ import_react173.default.createElement(Positioned, { top: 60, left: 120 }, /* @__PURE__ */ import_react173.default.createElement(
+        )), /* @__PURE__ */ import_react175.default.createElement(Positioned, { top: 60, left: 120 }, /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: "Overlapping elements positioned absolutely",
             fontSize: 13,
             color: "#5C6BC0"
           }
-        )), /* @__PURE__ */ import_react173.default.createElement(Positioned, { bottom: 20, right: 20 }, /* @__PURE__ */ import_react173.default.createElement(
+        )), /* @__PURE__ */ import_react175.default.createElement(Positioned, { bottom: 20, right: 20 }, /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             padding: { left: 16, top: 8, right: 16, bottom: 8 },
@@ -30462,7 +30643,7 @@ function PerformanceDemo() {
               borderRadius: 20
             }
           },
-          /* @__PURE__ */ import_react173.default.createElement(
+          /* @__PURE__ */ import_react175.default.createElement(
             Text,
             {
               text: "Follow",
@@ -30472,32 +30653,32 @@ function PerformanceDemo() {
             }
           )
         )))
-      ), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Avatar Groups",
           subtitle: "Overlapping avatar rows"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Team Alpha", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "10 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(AvatarRow, { count: 8 }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Team Beta", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "8 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(AvatarRow, { count: 6 }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Team Gamma", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "12 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(AvatarRow, { count: 10 }))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Team Alpha", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "10 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(AvatarRow, { count: 8 }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Team Beta", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "8 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(AvatarRow, { count: 6 }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Team Gamma", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "12 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(AvatarRow, { count: 10 }))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Tags & Chips",
           subtitle: "Wrap layout with many tags"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Wrap, { spacing: 8, runSpacing: 8 }, Array.from({ length: 20 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Wrap, { spacing: 8, runSpacing: 8 }, Array.from({ length: 20 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(
         TagChip,
         {
           key: i,
           text: `Tag ${i + 1}`,
           color: COLORS3[i % COLORS3.length]
         }
-      )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Progress Bars",
           subtitle: "Multiple progress indicators"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, [
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, [
         { label: "Storage", progress: 0.72, color: "#1E88E5" },
         { label: "Memory", progress: 0.45, color: "#43A047" },
         { label: "CPU", progress: 0.88, color: "#E53935" },
@@ -30506,13 +30687,13 @@ function PerformanceDemo() {
         { label: "Disk I/O", progress: 0.55, color: "#00897B" },
         { label: "GPU", progress: 0.92, color: "#D81B60" },
         { label: "Cache", progress: 0.28, color: "#5E35B1" }
-      ].map((item, i) => /* @__PURE__ */ import_react173.default.createElement(Container, { key: i, margin: { bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(
+      ].map((item, i) => /* @__PURE__ */ import_react175.default.createElement(Container, { key: i, margin: { bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(
         Row,
         {
           mainAxisAlignment: "spaceBetween",
           margin: { bottom: 4 }
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: item.label,
@@ -30520,7 +30701,7 @@ function PerformanceDemo() {
             color: "#424242"
           }
         ),
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `${Math.round(item.progress * 100)}%`,
@@ -30528,91 +30709,91 @@ function PerformanceDemo() {
             color: "#9E9E9E"
           }
         )
-      ), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(
         ProgressBar,
         {
           progress: item.progress,
           color: item.color
         }
-      ))))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ))))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Circular Progress",
           subtitle: "Loading indicators"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(CircularProgressIndicator, { color: "#1E88E5" }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Blue", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(CircularProgressIndicator, { color: "#1E88E5" }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Blue", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(
         CircularProgressIndicator,
         {
           color: "#43A047",
           strokeWidth: 3
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Green", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Green", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(
         CircularProgressIndicator,
         {
           color: "#E53935",
           strokeWidth: 6
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Red", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Red", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(
         CircularProgressIndicator,
         {
           color: "#FB8C00",
           strokeWidth: 2
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Orange", fontSize: 12, color: "#757575" })))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Orange", fontSize: 12, color: "#757575" })))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Form Controls",
           subtitle: "Switches, sliders, text fields"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Dark Mode", fontSize: 15 }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Dark Mode", fontSize: 15 }), /* @__PURE__ */ import_react175.default.createElement(
         Switch,
         {
           value: switchVal1,
           onChanged: (v) => setSwitchVal1(v)
         }
-      )), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Notifications", fontSize: 15 }), /* @__PURE__ */ import_react173.default.createElement(
+      )), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Notifications", fontSize: 15 }), /* @__PURE__ */ import_react175.default.createElement(
         Switch,
         {
           value: switchVal2,
           onChanged: (v) => setSwitchVal2(v)
         }
-      )), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Auto Sync", fontSize: 15 }), /* @__PURE__ */ import_react173.default.createElement(
+      )), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Auto Sync", fontSize: 15 }), /* @__PURE__ */ import_react175.default.createElement(
         Switch,
         {
           value: switchVal3,
           onChanged: (v) => setSwitchVal3(v)
         }
-      )), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: `Volume: ${sliderVal}%`, fontSize: 14 }), /* @__PURE__ */ import_react173.default.createElement(
+      )), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: `Volume: ${sliderVal}%`, fontSize: 14 }), /* @__PURE__ */ import_react175.default.createElement(
         Slider,
         {
           value: sliderVal,
           onChanged: (v) => setSliderVal(v)
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react173.default.createElement(TextField, { hintText: "Enter your name" }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(TextField, { hintText: "Enter your email" }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(TextField, { hintText: "Search..." }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react173.default.createElement(Row, null, /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(Container, { margin: { right: 8 } }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react175.default.createElement(TextField, { hintText: "Enter your name" }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(TextField, { hintText: "Enter your email" }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(TextField, { hintText: "Search..." }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react175.default.createElement(Row, null, /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(Container, { margin: { right: 8 } }, /* @__PURE__ */ import_react175.default.createElement(
         Button,
         {
           text: "Submit",
           onTap: () => console.log("submit")
         }
-      ))), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(Container, { margin: { left: 8 } }, /* @__PURE__ */ import_react173.default.createElement(
+      ))), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(Container, { margin: { left: 8 } }, /* @__PURE__ */ import_react175.default.createElement(
         Button,
         {
           text: "Cancel",
           onTap: () => console.log("cancel")
         }
-      )))))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      )))))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Animated Widgets",
           subtitle: "Toggle to see animations"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, /* @__PURE__ */ import_react175.default.createElement(
         Button,
         {
           text: "Toggle Animations",
           onTap: () => setAnimToggle(!animToggle)
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react175.default.createElement(
         AnimatedContainer,
         {
           width: animToggle ? 100 : 60,
@@ -30621,13 +30802,13 @@ function PerformanceDemo() {
           duration: 500,
           curve: "easeInOut"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(
         AnimatedOpacity,
         {
           opacity: animToggle ? 0.3 : 1,
           duration: 500
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             width: 80,
@@ -30635,14 +30816,14 @@ function PerformanceDemo() {
             decoration: { color: "#43A047", borderRadius: 40 }
           }
         )
-      ), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(
         AnimatedScale,
         {
           scale: animToggle ? 1.3 : 1,
           duration: 500,
           curve: "easeInOut"
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             width: 60,
@@ -30650,26 +30831,26 @@ function PerformanceDemo() {
             decoration: { color: "#FB8C00", borderRadius: 30 }
           }
         )
-      )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Opacity Variations",
           subtitle: "10 levels of opacity"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, Array.from({ length: 10 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(Opacity, { key: i, opacity: 1 - i * 0.1 }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, Array.from({ length: 10 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(Opacity, { key: i, opacity: 1 - i * 0.1 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 28,
           height: 28,
           decoration: { color: "#1E88E5", borderRadius: 4 }
         }
-      ))))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ))))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Transform",
           subtitle: "Scaled and rotated containers"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react173.default.createElement(Transform2, { scale: 1.2 }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react175.default.createElement(Transform2, { scale: 1.2 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 50,
@@ -30677,8 +30858,8 @@ function PerformanceDemo() {
           decoration: { color: "#E53935", borderRadius: 8 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "1.2x", fontSize: 11, color: "white" })
-      )), /* @__PURE__ */ import_react173.default.createElement(Transform2, { rotate: 0.3 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "1.2x", fontSize: 11, color: "white" })
+      )), /* @__PURE__ */ import_react175.default.createElement(Transform2, { rotate: 0.3 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 50,
@@ -30686,8 +30867,8 @@ function PerformanceDemo() {
           decoration: { color: "#43A047", borderRadius: 8 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "0.3r", fontSize: 11, color: "white" })
-      )), /* @__PURE__ */ import_react173.default.createElement(Transform2, { scale: 0.8 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "0.3r", fontSize: 11, color: "white" })
+      )), /* @__PURE__ */ import_react175.default.createElement(Transform2, { scale: 0.8 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 50,
@@ -30695,8 +30876,8 @@ function PerformanceDemo() {
           decoration: { color: "#1E88E5", borderRadius: 8 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "0.8x", fontSize: 11, color: "white" })
-      )), /* @__PURE__ */ import_react173.default.createElement(Transform2, { rotate: -0.2 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "0.8x", fontSize: 11, color: "white" })
+      )), /* @__PURE__ */ import_react175.default.createElement(Transform2, { rotate: -0.2 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 50,
@@ -30704,14 +30885,14 @@ function PerformanceDemo() {
           decoration: { color: "#FB8C00", borderRadius: 8 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "-0.2r", fontSize: 11, color: "white" })
-      )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "-0.2r", fontSize: 11, color: "white" })
+      )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "ClipRRect",
           subtitle: "Rounded clipping containers"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react173.default.createElement(ClipRRect, { borderRadius: 8 }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react175.default.createElement(ClipRRect, { borderRadius: 8 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 70,
@@ -30719,8 +30900,8 @@ function PerformanceDemo() {
           color: "#E53935",
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "8px", fontSize: 12, color: "white" })
-      )), /* @__PURE__ */ import_react173.default.createElement(ClipRRect, { borderRadius: 20 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "8px", fontSize: 12, color: "white" })
+      )), /* @__PURE__ */ import_react175.default.createElement(ClipRRect, { borderRadius: 20 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 70,
@@ -30728,8 +30909,8 @@ function PerformanceDemo() {
           color: "#43A047",
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "20px", fontSize: 12, color: "white" })
-      )), /* @__PURE__ */ import_react173.default.createElement(ClipRRect, { borderRadius: 35 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "20px", fontSize: 12, color: "white" })
+      )), /* @__PURE__ */ import_react175.default.createElement(ClipRRect, { borderRadius: 35 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 70,
@@ -30737,23 +30918,23 @@ function PerformanceDemo() {
           color: "#1E88E5",
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "35px", fontSize: 12, color: "white" })
-      )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "35px", fontSize: 12, color: "white" })
+      )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Tab Section",
           subtitle: "TabBar with TabBarView"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(DefaultTabController, { length: 3 }, /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(DefaultTabController, { length: 3 }, /* @__PURE__ */ import_react175.default.createElement(Column, null, /* @__PURE__ */ import_react175.default.createElement(
         TabBar,
         {
-          tabs: ["Popular", "Newest", "Trending"].map((t2) => /* @__PURE__ */ import_react173.default.createElement(Tab, { key: t2, text: t2 })),
+          tabs: ["Popular", "Newest", "Trending"].map((t2) => /* @__PURE__ */ import_react175.default.createElement(Tab, { key: t2, text: t2 })),
           onTap: (index) => console.log(`Tab ${index}`),
           indicatorColor: "#1E88E5",
           labelColor: "#1E88E5",
           unselectedLabelColor: "#9E9E9E"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { height: 150 }, /* @__PURE__ */ import_react173.default.createElement(TabBarView, null, /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#E3F2FD", padding: 16 }, /* @__PURE__ */ import_react173.default.createElement(Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { height: 150 }, /* @__PURE__ */ import_react175.default.createElement(TabBarView, null, /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#E3F2FD", padding: 16 }, /* @__PURE__ */ import_react175.default.createElement(Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 32,
@@ -30764,7 +30945,7 @@ function PerformanceDemo() {
           },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `${i + 1}`,
@@ -30772,13 +30953,13 @@ function PerformanceDemo() {
             color: "white"
           }
         )
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react175.default.createElement(
         Text,
         {
           text: `Popular item ${i + 1}`,
           fontSize: 14
         }
-      ))))), /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#E8F5E9", padding: 16 }, /* @__PURE__ */ import_react173.default.createElement(Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react173.default.createElement(
+      ))))), /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#E8F5E9", padding: 16 }, /* @__PURE__ */ import_react175.default.createElement(Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 32,
@@ -30789,7 +30970,7 @@ function PerformanceDemo() {
           },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `${i + 1}`,
@@ -30797,13 +30978,13 @@ function PerformanceDemo() {
             color: "white"
           }
         )
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react175.default.createElement(
         Text,
         {
           text: `Newest item ${i + 1}`,
           fontSize: 14
         }
-      ))))), /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#FFF3E0", padding: 16 }, /* @__PURE__ */ import_react173.default.createElement(Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react173.default.createElement(
+      ))))), /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#FFF3E0", padding: 16 }, /* @__PURE__ */ import_react175.default.createElement(Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           width: 32,
@@ -30814,7 +30995,7 @@ function PerformanceDemo() {
           },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `${i + 1}`,
@@ -30822,32 +31003,32 @@ function PerformanceDemo() {
             color: "white"
           }
         )
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react175.default.createElement(
         Text,
         {
           text: `Trending item ${i + 1}`,
           fontSize: 14
         }
-      )))))))))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      )))))))))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Image Grid (2 columns, 8 images)",
           subtitle: "Network images with rounded corners"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(
         GridView,
         {
           crossAxisCount: 2,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
           itemCount: 8,
-          itemBuilder: (index) => /* @__PURE__ */ import_react173.default.createElement(ClipRRect, { borderRadius: 12 }, /* @__PURE__ */ import_react173.default.createElement(
+          itemBuilder: (index) => /* @__PURE__ */ import_react175.default.createElement(ClipRRect, { borderRadius: 12 }, /* @__PURE__ */ import_react175.default.createElement(
             Container,
             {
               height: 120,
               color: COLORS3[index % COLORS3.length]
             },
-            /* @__PURE__ */ import_react173.default.createElement(Stack, null, /* @__PURE__ */ import_react173.default.createElement(
+            /* @__PURE__ */ import_react175.default.createElement(Stack, null, /* @__PURE__ */ import_react175.default.createElement(
               Image,
               {
                 src: `https://picsum.photos/200/120?random=${index}`,
@@ -30856,7 +31037,7 @@ function PerformanceDemo() {
                 fit: "cover",
                 placeholderColor: COLORS3[index % COLORS3.length]
               }
-            ), /* @__PURE__ */ import_react173.default.createElement(Positioned, { bottom: 8, left: 8 }, /* @__PURE__ */ import_react173.default.createElement(
+            ), /* @__PURE__ */ import_react175.default.createElement(Positioned, { bottom: 8, left: 8 }, /* @__PURE__ */ import_react175.default.createElement(
               Container,
               {
                 padding: {
@@ -30870,7 +31051,7 @@ function PerformanceDemo() {
                   borderRadius: 4
                 }
               },
-              /* @__PURE__ */ import_react173.default.createElement(
+              /* @__PURE__ */ import_react175.default.createElement(
                 Text,
                 {
                   text: `Photo ${index + 1}`,
@@ -30881,13 +31062,13 @@ function PerformanceDemo() {
             )))
           ))
         }
-      )), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      )), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Flex Layout",
           subtitle: "Flexible and expanded children"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, /* @__PURE__ */ import_react175.default.createElement(Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 60,
@@ -30895,8 +31076,8 @@ function PerformanceDemo() {
           margin: { right: 4 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
-      )), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 2 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
+      )), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 2 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 60,
@@ -30904,8 +31085,8 @@ function PerformanceDemo() {
           margin: { left: 4 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "flex: 2", fontSize: 13 })
-      ))), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "flex: 2", fontSize: 13 })
+      ))), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 60,
@@ -30913,8 +31094,8 @@ function PerformanceDemo() {
           margin: { right: 4 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
-      )), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
+      )), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 60,
@@ -30922,8 +31103,8 @@ function PerformanceDemo() {
           margin: { left: 2, right: 2 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
-      )), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
+      )), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 60,
@@ -30931,8 +31112,8 @@ function PerformanceDemo() {
           margin: { left: 4 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
-      ))), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 3 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
+      ))), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 3 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 60,
@@ -30940,8 +31121,8 @@ function PerformanceDemo() {
           margin: { right: 4 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "flex: 3", fontSize: 13 })
-      )), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "flex: 3", fontSize: 13 })
+      )), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 60,
@@ -30949,20 +31130,20 @@ function PerformanceDemo() {
           margin: { left: 4 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
-      ))))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: "flex: 1", fontSize: 13 })
+      ))))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "AspectRatio",
           subtitle: "Different aspect ratio containers"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 80, height: 80 }, /* @__PURE__ */ import_react173.default.createElement(AspectRatio, { aspectRatio: 1 }, /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#E3F2FD", alignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "1:1", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Square", fontSize: 11, color: "#757575" })), /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 100, height: 56 }, /* @__PURE__ */ import_react173.default.createElement(AspectRatio, { aspectRatio: 16 / 9 }, /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#F3E5F5", alignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "16:9", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Widescreen", fontSize: 11, color: "#757575" })), /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 100, height: 75 }, /* @__PURE__ */ import_react173.default.createElement(AspectRatio, { aspectRatio: 4 / 3 }, /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#FFF3E0", alignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "4:3", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react173.default.createElement(Text, { text: "Standard", fontSize: 11, color: "#757575" })))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 80, height: 80 }, /* @__PURE__ */ import_react175.default.createElement(AspectRatio, { aspectRatio: 1 }, /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#E3F2FD", alignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "1:1", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Square", fontSize: 11, color: "#757575" })), /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 100, height: 56 }, /* @__PURE__ */ import_react175.default.createElement(AspectRatio, { aspectRatio: 16 / 9 }, /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#F3E5F5", alignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "16:9", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Widescreen", fontSize: 11, color: "#757575" })), /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 100, height: 75 }, /* @__PURE__ */ import_react175.default.createElement(AspectRatio, { aspectRatio: 4 / 3 }, /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#FFF3E0", alignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "4:3", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Standard", fontSize: 11, color: "#757575" })))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Color Palette",
           subtitle: "50 color swatches"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Wrap, { spacing: 6, runSpacing: 6 }, Array.from({ length: 50 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Wrap, { spacing: 6, runSpacing: 6 }, Array.from({ length: 50 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           key: i,
@@ -30975,27 +31156,27 @@ function PerformanceDemo() {
           },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react173.default.createElement(Text, { text: `${i + 1}`, fontSize: 9, color: "#424242" })
-      )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Text, { text: `${i + 1}`, fontSize: 9, color: "#424242" })
+      )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Long Text Content",
           subtitle: "Multiple paragraphs of text"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, Array.from({ length: 6 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(Container, { key: i, margin: { bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, Array.from({ length: 6 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(Container, { key: i, margin: { bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(
         Text,
         {
           text: `Paragraph ${i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`,
           fontSize: 14,
           color: "#424242"
         }
-      ))))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ))))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Mixed Row Cards",
           subtitle: "Various card layouts"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, Array.from({ length: 6 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, Array.from({ length: 6 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           key: i,
@@ -31011,7 +31192,7 @@ function PerformanceDemo() {
             }
           }
         },
-        /* @__PURE__ */ import_react173.default.createElement(Row, null, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Row, null, /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             width: 80,
@@ -31022,7 +31203,7 @@ function PerformanceDemo() {
             },
             alignment: "center"
           },
-          /* @__PURE__ */ import_react173.default.createElement(
+          /* @__PURE__ */ import_react175.default.createElement(
             Icon,
             {
               name: ICONS2[i % ICONS2.length],
@@ -31030,40 +31211,40 @@ function PerformanceDemo() {
               color: "#424242"
             }
           )
-        ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `Mixed Card ${i + 1}`,
             fontSize: 16,
             fontWeight: "bold"
           }
-        ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: "Short description text here",
             fontSize: 13,
             color: "#757575"
           }
-        ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(Row, null, /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(Row, null, /* @__PURE__ */ import_react175.default.createElement(
           TagChip,
           {
             text: "Tag A",
             color: COLORS3[(i + 1) % COLORS3.length]
           }
-        ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 6 }), /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 6 }), /* @__PURE__ */ import_react175.default.createElement(
           TagChip,
           {
             text: "Tag B",
             color: COLORS3[(i + 2) % COLORS3.length]
           }
         )))))
-      )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "InkWell Buttons",
           subtitle: "12 tappable buttons"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Wrap, { spacing: 10, runSpacing: 10 }, Array.from({ length: 12 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(InkWell, { key: i, onTap: () => console.log(`Button ${i}`) }, /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Wrap, { spacing: 10, runSpacing: 10 }, Array.from({ length: 12 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(InkWell, { key: i, onTap: () => console.log(`Button ${i}`) }, /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           padding: { left: 20, top: 10, right: 20, bottom: 10 },
@@ -31072,7 +31253,7 @@ function PerformanceDemo() {
             borderRadius: 8
           }
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `Btn ${i + 1}`,
@@ -31080,13 +31261,13 @@ function PerformanceDemo() {
             color: "#424242"
           }
         )
-      ))))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ))))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Nested Layouts",
           subtitle: "Deep nesting stress test"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, Array.from({ length: 4 }, (_, row) => /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, Array.from({ length: 4 }, (_, row) => /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           key: row,
@@ -31097,7 +31278,7 @@ function PerformanceDemo() {
             borderRadius: 8
           }
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `Level 0 - Row ${row + 1}`,
@@ -31106,7 +31287,7 @@ function PerformanceDemo() {
             margin: { bottom: 4 }
           }
         ),
-        /* @__PURE__ */ import_react173.default.createElement(Row, null, Array.from({ length: 3 }, (_2, col) => /* @__PURE__ */ import_react173.default.createElement(Flexible, { key: col, flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Row, null, Array.from({ length: 3 }, (_2, col) => /* @__PURE__ */ import_react175.default.createElement(Flexible, { key: col, flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             margin: {
@@ -31119,14 +31300,14 @@ function PerformanceDemo() {
               borderRadius: 6
             }
           },
-          /* @__PURE__ */ import_react173.default.createElement(Column, null, /* @__PURE__ */ import_react173.default.createElement(
+          /* @__PURE__ */ import_react175.default.createElement(Column, null, /* @__PURE__ */ import_react175.default.createElement(
             Text,
             {
               text: `L1-${row}-${col}`,
               fontSize: 12,
               fontWeight: "bold"
             }
-          ), /* @__PURE__ */ import_react173.default.createElement(Row, { margin: { top: 4 } }, Array.from({ length: 2 }, (_3, inner) => /* @__PURE__ */ import_react173.default.createElement(Flexible, { key: inner, flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(
+          ), /* @__PURE__ */ import_react175.default.createElement(Row, { margin: { top: 4 } }, Array.from({ length: 2 }, (_3, inner) => /* @__PURE__ */ import_react175.default.createElement(Flexible, { key: inner, flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(
             Container,
             {
               margin: {
@@ -31140,7 +31321,7 @@ function PerformanceDemo() {
               },
               alignment: "center"
             },
-            /* @__PURE__ */ import_react173.default.createElement(
+            /* @__PURE__ */ import_react175.default.createElement(
               Text,
               {
                 text: `${inner}`,
@@ -31150,32 +31331,32 @@ function PerformanceDemo() {
             )
           )))))
         ))))
-      )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "FractionallySizedBox",
           subtitle: "Width/Height as fractions"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react173.default.createElement(FractionallySizedBox, { widthFactor: 0.5, heightFactor: 1 }, /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#E3F2FD", alignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "50% width", fontSize: 12 })))), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react173.default.createElement(FractionallySizedBox, { widthFactor: 0.75, heightFactor: 1 }, /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#F3E5F5", alignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "75% width", fontSize: 12 })))), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react173.default.createElement(FractionallySizedBox, { widthFactor: 1, heightFactor: 1 }, /* @__PURE__ */ import_react173.default.createElement(Container, { color: "#FFF3E0", alignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(Text, { text: "100% width", fontSize: 12 }))))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react175.default.createElement(FractionallySizedBox, { widthFactor: 0.5, heightFactor: 1 }, /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#E3F2FD", alignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "50% width", fontSize: 12 })))), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react175.default.createElement(FractionallySizedBox, { widthFactor: 0.75, heightFactor: 1 }, /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#F3E5F5", alignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "75% width", fontSize: 12 })))), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react175.default.createElement(FractionallySizedBox, { widthFactor: 1, heightFactor: 1 }, /* @__PURE__ */ import_react175.default.createElement(Container, { color: "#FFF3E0", alignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "100% width", fontSize: 12 }))))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Large GridView (4 columns, 40 items)",
           subtitle: "Stress test with many grid items"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           height: 500,
           padding: { left: 12, right: 12, bottom: 12 }
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           GridView,
           {
             crossAxisCount: 4,
             mainAxisSpacing: 6,
             crossAxisSpacing: 6,
             itemCount: 40,
-            itemBuilder: (index) => /* @__PURE__ */ import_react173.default.createElement(
+            itemBuilder: (index) => /* @__PURE__ */ import_react175.default.createElement(
               Container,
               {
                 decoration: {
@@ -31184,13 +31365,13 @@ function PerformanceDemo() {
                 },
                 alignment: "center"
               },
-              /* @__PURE__ */ import_react173.default.createElement(
+              /* @__PURE__ */ import_react175.default.createElement(
                 Column,
                 {
                   crossAxisAlignment: "center",
                   mainAxisAlignment: "center"
                 },
-                /* @__PURE__ */ import_react173.default.createElement(
+                /* @__PURE__ */ import_react175.default.createElement(
                   Icon,
                   {
                     name: ICONS2[index % ICONS2.length],
@@ -31198,8 +31379,8 @@ function PerformanceDemo() {
                     color: "#616161"
                   }
                 ),
-                /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 2 }),
-                /* @__PURE__ */ import_react173.default.createElement(
+                /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 2 }),
+                /* @__PURE__ */ import_react175.default.createElement(
                   Text,
                   {
                     text: `${index + 1}`,
@@ -31211,13 +31392,13 @@ function PerformanceDemo() {
             )
           }
         )
-      ), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(
         SectionHeader,
         {
           title: "Notification Cards (10)",
           subtitle: "Cards with time stamps and status"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react173.default.createElement(Column, null, Array.from({ length: 10 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react175.default.createElement(Column, null, Array.from({ length: 10 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           key: i,
@@ -31233,7 +31414,7 @@ function PerformanceDemo() {
             }
           }
         },
-        /* @__PURE__ */ import_react173.default.createElement(Row, null, /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(Row, null, /* @__PURE__ */ import_react175.default.createElement(
           Container,
           {
             width: 8,
@@ -31244,21 +31425,21 @@ function PerformanceDemo() {
               borderRadius: 4
             }
           }
-        ), /* @__PURE__ */ import_react173.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(Flexible, { flex: 1 }, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `Notification ${i + 1}`,
             fontSize: 14,
             fontWeight: "bold"
           }
-        ), /* @__PURE__ */ import_react173.default.createElement(
+        ), /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `${i + 1}h ago`,
             fontSize: 11,
             color: "#9E9E9E"
           }
-        )), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react173.default.createElement(
+        )), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: `This is the content of notification ${i + 1}. It contains some details about the event.`,
@@ -31266,7 +31447,7 @@ function PerformanceDemo() {
             color: "#616161"
           }
         ))))
-      )))), /* @__PURE__ */ import_react173.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react173.default.createElement(Container, { padding: 24, color: "#FAFAFA" }, /* @__PURE__ */ import_react173.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react173.default.createElement(
+      )))), /* @__PURE__ */ import_react175.default.createElement(Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react175.default.createElement(Container, { padding: 24, color: "#FAFAFA" }, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react175.default.createElement(
         Text,
         {
           text: "End of Performance Stress Test",
@@ -31274,14 +31455,14 @@ function PerformanceDemo() {
           fontWeight: "bold",
           color: "#424242"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(
         Text,
         {
           text: "If you can scroll here smoothly, the performance is good!",
           fontSize: 13,
           color: "#9E9E9E"
         }
-      ), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react173.default.createElement(Row, { mainAxisAlignment: "center" }, Array.from({ length: 5 }, (_, i) => /* @__PURE__ */ import_react173.default.createElement(
+      ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react175.default.createElement(Row, { mainAxisAlignment: "center" }, Array.from({ length: 5 }, (_, i) => /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           key: i,
@@ -31293,13 +31474,13 @@ function PerformanceDemo() {
             borderRadius: 4
           }
         }
-      ))), /* @__PURE__ */ import_react173.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react173.default.createElement(
+      ))), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react175.default.createElement(
         Container,
         {
           padding: { left: 24, top: 10, right: 24, bottom: 10 },
           decoration: { color: "#1E88E5", borderRadius: 24 }
         },
-        /* @__PURE__ */ import_react173.default.createElement(
+        /* @__PURE__ */ import_react175.default.createElement(
           Text,
           {
             text: "Back to Top",
@@ -31314,7 +31495,7 @@ function PerformanceDemo() {
 }
 
 // src/demos/AlignDemo.tsx
-var import_react174 = __toESM(require_react_production());
+var import_react176 = __toESM(require_react_production());
 var alignments = [
   "topLeft",
   "topCenter",
@@ -31328,16 +31509,16 @@ var alignments = [
 ];
 var factorOptions = [null, 0.5, 0.25];
 function AlignDemo() {
-  const [align, setAlign] = (0, import_react174.useState)("center");
-  const [widthFactor, setWidthFactor] = (0, import_react174.useState)(null);
-  return /* @__PURE__ */ import_react174.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react174.default.createElement(AppBar, { title: /* @__PURE__ */ import_react174.default.createElement(Text, { text: "Align" }) }) }, /* @__PURE__ */ import_react174.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react174.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react174.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react174.default.createElement(
+  const [align, setAlign] = (0, import_react176.useState)("center");
+  const [widthFactor, setWidthFactor] = (0, import_react176.useState)(null);
+  return /* @__PURE__ */ import_react176.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react176.default.createElement(AppBar, { title: /* @__PURE__ */ import_react176.default.createElement(Text, { text: "Align" }) }) }, /* @__PURE__ */ import_react176.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react176.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react176.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react176.default.createElement(
     Text,
     {
       text: "Align \u901A\u8FC7 alignment / widthFactor / heightFactor \u7CBE\u786E\u63A7\u5236\u5B50\u7EC4\u4EF6\u5728\u7236\u5BB9\u5668\u5185\u7684\u4F4D\u7F6E\u3002",
       fontSize: 14,
       color: "#555555"
     }
-  ), /* @__PURE__ */ import_react174.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react174.default.createElement(Text, { text: "1. alignment \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react174.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react174.default.createElement(
+  ), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react176.default.createElement(Text, { text: "1. alignment \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react176.default.createElement(
     Container,
     {
       color: "#FFF3E0",
@@ -31345,16 +31526,16 @@ function AlignDemo() {
       height: 180,
       decoration: { color: "#FFF3E0", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react174.default.createElement(Align, { alignment: align }, /* @__PURE__ */ import_react174.default.createElement(
+    /* @__PURE__ */ import_react176.default.createElement(Align, { alignment: align }, /* @__PURE__ */ import_react176.default.createElement(
       Container,
       {
         width: 70,
         height: 50,
         decoration: { color: "#1976D2", borderRadius: 6 }
       },
-      /* @__PURE__ */ import_react174.default.createElement(Center, null, /* @__PURE__ */ import_react174.default.createElement(Text, { text: "box", color: "white", fontSize: 13 }))
+      /* @__PURE__ */ import_react176.default.createElement(Center, null, /* @__PURE__ */ import_react176.default.createElement(Text, { text: "box", color: "white", fontSize: 13 }))
     ))
-  ), /* @__PURE__ */ import_react174.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react174.default.createElement(Wrap, { spacing: 8 }, alignments.map((a) => /* @__PURE__ */ import_react174.default.createElement(
+  ), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react176.default.createElement(Wrap, { spacing: 8 }, alignments.map((a) => /* @__PURE__ */ import_react176.default.createElement(
     Button,
     {
       key: a,
@@ -31362,21 +31543,21 @@ function AlignDemo() {
       onTap: () => setAlign(a),
       backgroundColor: a === align ? "#1976D2" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react174.default.createElement(Divider, null), /* @__PURE__ */ import_react174.default.createElement(
+  ))), /* @__PURE__ */ import_react176.default.createElement(Divider, null), /* @__PURE__ */ import_react176.default.createElement(
     Text,
     {
       text: "2. widthFactor \u7F29\u7D27\u5BB9\u5668",
       fontSize: 16,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react174.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react174.default.createElement(
+  ), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react176.default.createElement(
     Text,
     {
       text: "widthFactor \u975E null \u65F6\uFF0CAlign \u81EA\u8EAB\u5BBD\u5EA6 = \u5B50\u8282\u70B9\u5BBD\u5EA6 \xD7 factor\u3002",
       fontSize: 13,
       color: "#666666"
     }
-  ), /* @__PURE__ */ import_react174.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react174.default.createElement(Row, null, /* @__PURE__ */ import_react174.default.createElement(Text, { text: `widthFactor: ${widthFactor ?? "null"}` }), /* @__PURE__ */ import_react174.default.createElement(Padding, { padding: { left: 12 } }, /* @__PURE__ */ import_react174.default.createElement(Wrap, { spacing: 8 }, factorOptions.map((f) => /* @__PURE__ */ import_react174.default.createElement(
+  ), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react176.default.createElement(Row, null, /* @__PURE__ */ import_react176.default.createElement(Text, { text: `widthFactor: ${widthFactor ?? "null"}` }), /* @__PURE__ */ import_react176.default.createElement(Padding, { padding: { left: 12 } }, /* @__PURE__ */ import_react176.default.createElement(Wrap, { spacing: 8 }, factorOptions.map((f) => /* @__PURE__ */ import_react176.default.createElement(
     Button,
     {
       key: String(f),
@@ -31384,23 +31565,23 @@ function AlignDemo() {
       onTap: () => setWidthFactor(f),
       backgroundColor: f === widthFactor ? "#9C27B0" : "#9E9E9E"
     }
-  ))))), /* @__PURE__ */ import_react174.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react174.default.createElement(
+  ))))), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react176.default.createElement(
     Container,
     {
       color: "#FAFAFA",
       width: 300,
       decoration: { color: "#FAFAFA", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react174.default.createElement(Align, { alignment: "center", widthFactor }, /* @__PURE__ */ import_react174.default.createElement(
+    /* @__PURE__ */ import_react176.default.createElement(Align, { alignment: "center", widthFactor }, /* @__PURE__ */ import_react176.default.createElement(
       Container,
       {
         width: 120,
         height: 40,
         decoration: { color: "#9C27B0", borderRadius: 4 }
       },
-      /* @__PURE__ */ import_react174.default.createElement(Center, null, /* @__PURE__ */ import_react174.default.createElement(Text, { text: "child 120x40", color: "white", fontSize: 12 }))
+      /* @__PURE__ */ import_react176.default.createElement(Center, null, /* @__PURE__ */ import_react176.default.createElement(Text, { text: "child 120x40", color: "white", fontSize: 12 }))
     ))
-  ), /* @__PURE__ */ import_react174.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react174.default.createElement(
+  ), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react176.default.createElement(
     Text,
     {
       text: "\u5916\u5C42 Container \u7070\u8272\u80CC\u666F\u4FBF\u4E8E\u89C2\u5BDF Align \u5B9E\u9645\u5360\u4F4D\uFF08widthFactor \u751F\u6548\u65F6\u7070\u8272\u533A\u57DF\u4E5F\u4F1A\u88AB\u538B\u7F29\uFF09\u3002",
@@ -31411,11 +31592,11 @@ function AlignDemo() {
 }
 
 // src/demos/HeroDemo.tsx
-var import_react175 = __toESM(require_react_production());
+var import_react177 = __toESM(require_react_production());
 var HERO_TAG = "hero-demo-circle";
 var TARGET_PATH = "/demo/hero_detail";
 function HeroDemo() {
-  (0, import_react175.useEffect)(() => {
+  (0, import_react177.useEffect)(() => {
     NavigatorService.prewarm(TARGET_PATH, {});
     const timers = [];
     for (let i = 1; i <= 5; i++) {
@@ -31427,14 +31608,14 @@ function HeroDemo() {
     }
     return () => timers.forEach((t2) => clearTimeout(t2));
   }, []);
-  return /* @__PURE__ */ import_react175.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react175.default.createElement(AppBar, { title: /* @__PURE__ */ import_react175.default.createElement(Text, { text: "Hero" }) }) }, /* @__PURE__ */ import_react175.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react175.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react175.default.createElement(
+  return /* @__PURE__ */ import_react177.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react177.default.createElement(AppBar, { title: /* @__PURE__ */ import_react177.default.createElement(Text, { text: "Hero" }) }) }, /* @__PURE__ */ import_react177.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react177.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react177.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react177.default.createElement(
     Text,
     {
       text: "\u4E24\u4E2A\u76F8\u540C tag \u7684 Hero \u5728\u8DEF\u7531\u5207\u6362\u65F6\u81EA\u52A8\u64AD\u653E\u98DE\u884C\u52A8\u753B\u3002\u672C demo \u5728\u672C\u9875\u653E\u4E00\u4E2A\u5C0F Hero\uFF0C\u76EE\u6807\u9875\u653E\u4E00\u4E2A\u5927 Hero\uFF0Ctag \u76F8\u540C\u3002",
       fontSize: 14,
       color: "#555555"
     }
-  ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "1. \u6E90 Hero\uFF08\u5C0F\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(
+  ), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react177.default.createElement(Text, { text: "1. \u6E90 Hero\uFF08\u5C0F\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react177.default.createElement(
     Container,
     {
       color: "#FFF3E0",
@@ -31442,7 +31623,7 @@ function HeroDemo() {
       height: 140,
       decoration: { color: "#FFF3E0", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react175.default.createElement(Center, null, /* @__PURE__ */ import_react175.default.createElement(Hero, { tag: HERO_TAG }, /* @__PURE__ */ import_react175.default.createElement(
+    /* @__PURE__ */ import_react177.default.createElement(Center, null, /* @__PURE__ */ import_react177.default.createElement(Hero, { tag: HERO_TAG }, /* @__PURE__ */ import_react177.default.createElement(
       Container,
       {
         width: 50,
@@ -31453,14 +31634,14 @@ function HeroDemo() {
         }
       }
     )))
-  ), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(NavigationLink, { url: TARGET_PATH, prewarmMs: 300 }, /* @__PURE__ */ import_react175.default.createElement(
+  ), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react177.default.createElement(NavigationLink, { url: TARGET_PATH, prewarmMs: 300 }, /* @__PURE__ */ import_react177.default.createElement(
     Container,
     {
       width: 300,
       height: 44,
       decoration: { color: "#1976D2", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react175.default.createElement(Center, null, /* @__PURE__ */ import_react175.default.createElement(
+    /* @__PURE__ */ import_react177.default.createElement(Center, null, /* @__PURE__ */ import_react177.default.createElement(
       Text,
       {
         text: "\u6253\u5F00\u76EE\u6807\u9875 (tag \u76F8\u540C)",
@@ -31468,34 +31649,34 @@ function HeroDemo() {
         fontSize: 16
       }
     ))
-  )), /* @__PURE__ */ import_react175.default.createElement(Divider, null), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "2. \u98DE\u884C\u52A8\u753B\u539F\u7406", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react175.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react175.default.createElement(
+  )), /* @__PURE__ */ import_react177.default.createElement(Divider, null), /* @__PURE__ */ import_react177.default.createElement(Text, { text: "2. \u98DE\u884C\u52A8\u753B\u539F\u7406", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react177.default.createElement(
     Container,
     {
       color: "#E3F2FD",
       decoration: { color: "#E3F2FD", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react175.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react175.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react175.default.createElement(Text, { text: "\u2022 Hero \u7684 tag \u662F\u5B83\u7684\u552F\u4E00\u6807\u8BC6\uFF0C\u6E90/\u76EE\u6807\u9875 tag \u4E00\u81F4\u5373\u5339\u914D\u3002" }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "\u2022 \u5207\u6362\u9875\u9762\u65F6\uFF0CFlutter \u4F1A\u5728 Overlay \u4E2D\u751F\u6210\u4E00\u4E2A\u4E34\u65F6\u98DE\u884C\u4F53\uFF08flightShuttle\uFF09\uFF0C\u6309 RectTween \u5728\u4E24\u7AEF\u4F4D\u7F6E\u4E4B\u95F4\u63D2\u503C\u3002" }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "\u2022 \u5B50\u8282\u70B9\u5FC5\u987B\u5B58\u5728\uFF1Btag \u7F3A\u5931\u65F6\u9000\u5316\u4E3A\u5B50\u8282\u70B9\u6E32\u67D3\uFF08\u4E0D\u629B\u9519\uFF09\u3002" }), /* @__PURE__ */ import_react175.default.createElement(Text, { text: "\u2022 \u63A8\u8350\u628A Hero \u653E\u5728\u80FD\u611F\u77E5\u5C3A\u5BF8\u7684\u5BB9\u5668\u5185\uFF0C\u5426\u5219\u98DE\u884C\u4F53\u53EF\u80FD\u6CA1\u76EE\u6807\u4F4D\u7F6E\u3002" })))
+    /* @__PURE__ */ import_react177.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react177.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react177.default.createElement(Text, { text: "\u2022 Hero \u7684 tag \u662F\u5B83\u7684\u552F\u4E00\u6807\u8BC6\uFF0C\u6E90/\u76EE\u6807\u9875 tag \u4E00\u81F4\u5373\u5339\u914D\u3002" }), /* @__PURE__ */ import_react177.default.createElement(Text, { text: "\u2022 \u5207\u6362\u9875\u9762\u65F6\uFF0CFlutter \u4F1A\u5728 Overlay \u4E2D\u751F\u6210\u4E00\u4E2A\u4E34\u65F6\u98DE\u884C\u4F53\uFF08flightShuttle\uFF09\uFF0C\u6309 RectTween \u5728\u4E24\u7AEF\u4F4D\u7F6E\u4E4B\u95F4\u63D2\u503C\u3002" }), /* @__PURE__ */ import_react177.default.createElement(Text, { text: "\u2022 \u5B50\u8282\u70B9\u5FC5\u987B\u5B58\u5728\uFF1Btag \u7F3A\u5931\u65F6\u9000\u5316\u4E3A\u5B50\u8282\u70B9\u6E32\u67D3\uFF08\u4E0D\u629B\u9519\uFF09\u3002" }), /* @__PURE__ */ import_react177.default.createElement(Text, { text: "\u2022 \u63A8\u8350\u628A Hero \u653E\u5728\u80FD\u611F\u77E5\u5C3A\u5BF8\u7684\u5BB9\u5668\u5185\uFF0C\u5426\u5219\u98DE\u884C\u4F53\u53EF\u80FD\u6CA1\u76EE\u6807\u4F4D\u7F6E\u3002" })))
   )))));
 }
 
 // src/demos/HeroDetailPage.tsx
-var import_react176 = __toESM(require_react_production());
+var import_react178 = __toESM(require_react_production());
 var HERO_TAG2 = "hero-demo-circle";
 function HeroDetailPage() {
   const navigator2 = useNavigator();
-  return /* @__PURE__ */ import_react176.default.createElement(
+  return /* @__PURE__ */ import_react178.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react176.default.createElement(AppBar, { title: /* @__PURE__ */ import_react176.default.createElement(Text, { text: "Hero \u76EE\u6807\u9875" }) })
+      appBar: /* @__PURE__ */ import_react178.default.createElement(AppBar, { title: /* @__PURE__ */ import_react178.default.createElement(Text, { text: "Hero \u76EE\u6807\u9875" }) })
     },
-    /* @__PURE__ */ import_react176.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react176.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react176.default.createElement(
+    /* @__PURE__ */ import_react178.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react178.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react178.default.createElement(
       Text,
       {
         text: "\u672C\u9875 Hero \u4E0E\u6E90\u9875 tag \u4E00\u81F4\u3002\u70B9\u51FB\u8FD4\u56DE\u4F1A\u770B\u5230\u98DE\u884C\u56DE\u5F39\u52A8\u753B\u3002",
         fontSize: 14,
         color: "#555555"
       }
-    ), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react176.default.createElement(Text, { text: "2. \u76EE\u6807 Hero\uFF08\u5927\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react176.default.createElement(
+    ), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react178.default.createElement(Text, { text: "2. \u76EE\u6807 Hero\uFF08\u5927\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react178.default.createElement(
       Container,
       {
         color: "#FFF3E0",
@@ -31503,7 +31684,7 @@ function HeroDetailPage() {
         height: 220,
         decoration: { color: "#FFF3E0", borderRadius: 8 }
       },
-      /* @__PURE__ */ import_react176.default.createElement(Center, null, /* @__PURE__ */ import_react176.default.createElement(Hero, { tag: HERO_TAG2 }, /* @__PURE__ */ import_react176.default.createElement(
+      /* @__PURE__ */ import_react178.default.createElement(Center, null, /* @__PURE__ */ import_react178.default.createElement(Hero, { tag: HERO_TAG2 }, /* @__PURE__ */ import_react178.default.createElement(
         Container,
         {
           width: 150,
@@ -31513,9 +31694,9 @@ function HeroDetailPage() {
             borderRadius: 75
           }
         },
-        /* @__PURE__ */ import_react176.default.createElement(Center, null, /* @__PURE__ */ import_react176.default.createElement(Text, { text: "BIG", color: "white", fontSize: 24, fontWeight: "bold" }))
+        /* @__PURE__ */ import_react178.default.createElement(Center, null, /* @__PURE__ */ import_react178.default.createElement(Text, { text: "BIG", color: "white", fontSize: 24, fontWeight: "bold" }))
       )))
-    ), /* @__PURE__ */ import_react176.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react176.default.createElement(
+    ), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react178.default.createElement(
       Button,
       {
         text: "\u8FD4\u56DE (\u770B\u98DE\u884C\u52A8\u753B)",
@@ -31527,12 +31708,12 @@ function HeroDetailPage() {
 }
 
 // src/demos/FadeTransitionDemo.tsx
-var import_react177 = __toESM(require_react_production());
+var import_react179 = __toESM(require_react_production());
 var opacities = [0, 0.25, 0.5, 0.75, 1];
 function FadeTransitionDemo() {
-  const [opacity, setOpacity] = (0, import_react177.useState)(1);
-  const [animating, setAnimating] = (0, import_react177.useState)(false);
-  (0, import_react177.useEffect)(() => {
+  const [opacity, setOpacity] = (0, import_react179.useState)(1);
+  const [animating, setAnimating] = (0, import_react179.useState)(false);
+  (0, import_react179.useEffect)(() => {
     if (!animating) return;
     const id = setInterval(() => {
       setOpacity((o) => {
@@ -31542,14 +31723,14 @@ function FadeTransitionDemo() {
     }, 80);
     return () => clearInterval(id);
   }, [animating]);
-  return /* @__PURE__ */ import_react177.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react177.default.createElement(AppBar, { title: /* @__PURE__ */ import_react177.default.createElement(Text, { text: "FadeTransition" }) }) }, /* @__PURE__ */ import_react177.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react177.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react177.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react177.default.createElement(
+  return /* @__PURE__ */ import_react179.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react179.default.createElement(AppBar, { title: /* @__PURE__ */ import_react179.default.createElement(Text, { text: "FadeTransition" }) }) }, /* @__PURE__ */ import_react179.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react179.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react179.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react179.default.createElement(
     Text,
     {
       text: "FadeTransition \u5728\u9759\u6001\u7EC8\u6001\u6A21\u5F0F\u4E0B\u4F7F\u7528 AlwaysStoppedAnimation\u3002\u4E0B\u5217\u4EA4\u4E92\u53EF\u5373\u65F6\u6539\u53D8 opacity\u3002",
       fontSize: 14,
       color: "#555555"
     }
-  ), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react177.default.createElement(Text, { text: "1. \u9759\u6001 opacity", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react177.default.createElement(
+  ), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react179.default.createElement(Text, { text: "1. \u9759\u6001 opacity", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(
     Container,
     {
       color: "#FFF3E0",
@@ -31557,16 +31738,16 @@ function FadeTransitionDemo() {
       height: 120,
       decoration: { color: "#FFF3E0", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react177.default.createElement(Center, null, /* @__PURE__ */ import_react177.default.createElement(FadeTransition, { opacity }, /* @__PURE__ */ import_react177.default.createElement(
+    /* @__PURE__ */ import_react179.default.createElement(Center, null, /* @__PURE__ */ import_react179.default.createElement(FadeTransition, { opacity }, /* @__PURE__ */ import_react179.default.createElement(
       Container,
       {
         width: 80,
         height: 80,
         decoration: { color: "#1976D2", borderRadius: 8 }
       },
-      /* @__PURE__ */ import_react177.default.createElement(Center, null, /* @__PURE__ */ import_react177.default.createElement(Text, { text: "box", color: "white" }))
+      /* @__PURE__ */ import_react179.default.createElement(Center, null, /* @__PURE__ */ import_react179.default.createElement(Text, { text: "box", color: "white" }))
     )))
-  ), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react177.default.createElement(Text, { text: `opacity = ${opacity.toFixed(2)}` }), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react177.default.createElement(Wrap, { spacing: 8 }, opacities.map((o) => /* @__PURE__ */ import_react177.default.createElement(
+  ), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(Text, { text: `opacity = ${opacity.toFixed(2)}` }), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(Wrap, { spacing: 8 }, opacities.map((o) => /* @__PURE__ */ import_react179.default.createElement(
     Button,
     {
       key: o,
@@ -31574,14 +31755,14 @@ function FadeTransitionDemo() {
       onTap: () => setOpacity(o),
       backgroundColor: Math.abs(o - opacity) < 0.01 ? "#1976D2" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react177.default.createElement(Divider, null), /* @__PURE__ */ import_react177.default.createElement(Text, { text: "2. \u81EA\u52A8\u547C\u5438 (setInterval \u6A21\u62DF\u52A8\u753B)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react177.default.createElement(
+  ))), /* @__PURE__ */ import_react179.default.createElement(Divider, null), /* @__PURE__ */ import_react179.default.createElement(Text, { text: "2. \u81EA\u52A8\u547C\u5438 (setInterval \u6A21\u62DF\u52A8\u753B)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(
     Text,
     {
       text: "\u70B9\u51FB\u4E0B\u65B9\u6309\u94AE\u53EF\u542F\u505C\u4E00\u6BB5\u81EA\u9A71\u52A8\u7684 opacity \u52A8\u753B\u3002\u6846\u67B6\u9ED8\u8BA4\u7528\u9759\u6001 Animation\uFF1B\u672C demo \u7528 useState + setInterval \u6A21\u62DF\u3002",
       fontSize: 13,
       color: "#666666"
     }
-  ), /* @__PURE__ */ import_react177.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react177.default.createElement(Row, null, /* @__PURE__ */ import_react177.default.createElement(
+  ), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(Row, null, /* @__PURE__ */ import_react179.default.createElement(
     Button,
     {
       text: animating ? "\u505C\u6B62" : "\u5F00\u59CB",
@@ -31592,7 +31773,7 @@ function FadeTransitionDemo() {
 }
 
 // src/demos/SizeTransitionDemo.tsx
-var import_react178 = __toESM(require_react_production());
+var import_react180 = __toESM(require_react_production());
 var sizeOptions = [0, 0.25, 0.5, 0.75, 1];
 var axisOptions = [
   { value: "vertical", label: "vertical" },
@@ -31604,41 +31785,41 @@ var alignmentOptions = [
   "bottomRight"
 ];
 function SizeTransitionDemo() {
-  const [sizeFactor, setSizeFactor] = (0, import_react178.useState)(1);
-  const [axis, setAxis] = (0, import_react178.useState)("vertical");
-  const [axisAlignment, setAxisAlignment] = (0, import_react178.useState)("center");
-  return /* @__PURE__ */ import_react178.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react178.default.createElement(AppBar, { title: /* @__PURE__ */ import_react178.default.createElement(Text, { text: "SizeTransition" }) }) }, /* @__PURE__ */ import_react178.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react178.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react178.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react178.default.createElement(
+  const [sizeFactor, setSizeFactor] = (0, import_react180.useState)(1);
+  const [axis, setAxis] = (0, import_react180.useState)("vertical");
+  const [axisAlignment, setAxisAlignment] = (0, import_react180.useState)("center");
+  return /* @__PURE__ */ import_react180.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react180.default.createElement(AppBar, { title: /* @__PURE__ */ import_react180.default.createElement(Text, { text: "SizeTransition" }) }) }, /* @__PURE__ */ import_react180.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react180.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react180.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react180.default.createElement(
     Text,
     {
       text: "SizeTransition \u5728\u9759\u6001\u7EC8\u6001\u4E0B\u901A\u8FC7 sizeFactor \u63A7\u5236\u5B50\u8282\u70B9\u6CBF axis \u65B9\u5411\u7F29\u653E\uFF0CaxisAlignment \u63A7\u5236\u53E6\u4E00\u8F74\u5BF9\u9F50\u3002",
       fontSize: 14,
       color: "#555555"
     }
-  ), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react178.default.createElement(Text, { text: "1. sizeFactor \u8C03\u8282", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react178.default.createElement(
+  ), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react180.default.createElement(Text, { text: "1. sizeFactor \u8C03\u8282", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react180.default.createElement(
     Container,
     {
       color: "#FFF3E0",
       width: 300,
       decoration: { color: "#FFF3E0", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react178.default.createElement(Center, null, /* @__PURE__ */ import_react178.default.createElement(
+    /* @__PURE__ */ import_react180.default.createElement(Center, null, /* @__PURE__ */ import_react180.default.createElement(
       SizeTransition,
       {
         sizeFactor,
         axis,
         axisAlignment
       },
-      /* @__PURE__ */ import_react178.default.createElement(
+      /* @__PURE__ */ import_react180.default.createElement(
         Container,
         {
           width: 180,
           height: 120,
           decoration: { color: "#1976D2", borderRadius: 8 }
         },
-        /* @__PURE__ */ import_react178.default.createElement(Center, null, /* @__PURE__ */ import_react178.default.createElement(Text, { text: "child 180x120", color: "white" }))
+        /* @__PURE__ */ import_react180.default.createElement(Center, null, /* @__PURE__ */ import_react180.default.createElement(Text, { text: "child 180x120", color: "white" }))
       )
     ))
-  ), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react178.default.createElement(Text, { text: `sizeFactor = ${sizeFactor.toFixed(2)}` }), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react178.default.createElement(Wrap, { spacing: 8 }, sizeOptions.map((s) => /* @__PURE__ */ import_react178.default.createElement(
+  ), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react180.default.createElement(Text, { text: `sizeFactor = ${sizeFactor.toFixed(2)}` }), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react180.default.createElement(Wrap, { spacing: 8 }, sizeOptions.map((s) => /* @__PURE__ */ import_react180.default.createElement(
     Button,
     {
       key: s,
@@ -31646,7 +31827,7 @@ function SizeTransitionDemo() {
       onTap: () => setSizeFactor(s),
       backgroundColor: Math.abs(s - sizeFactor) < 0.01 ? "#1976D2" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react178.default.createElement(Divider, null), /* @__PURE__ */ import_react178.default.createElement(Text, { text: "2. axis \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react178.default.createElement(Row, null, axisOptions.map((a) => /* @__PURE__ */ import_react178.default.createElement(
+  ))), /* @__PURE__ */ import_react180.default.createElement(Divider, null), /* @__PURE__ */ import_react180.default.createElement(Text, { text: "2. axis \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react180.default.createElement(Row, null, axisOptions.map((a) => /* @__PURE__ */ import_react180.default.createElement(
     Button,
     {
       key: a.value,
@@ -31654,14 +31835,14 @@ function SizeTransitionDemo() {
       onTap: () => setAxis(a.value),
       backgroundColor: axis === a.value ? "#43A047" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react178.default.createElement(Divider, null), /* @__PURE__ */ import_react178.default.createElement(Text, { text: "3. axisAlignment \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react178.default.createElement(
+  ))), /* @__PURE__ */ import_react180.default.createElement(Divider, null), /* @__PURE__ */ import_react180.default.createElement(Text, { text: "3. axisAlignment \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react180.default.createElement(
     Text,
     {
       text: "\u503C\u6620\u5C04: top* -> 0.0, center* -> 0.5, bottom* -> 1.0",
       fontSize: 12,
       color: "#888888"
     }
-  ), /* @__PURE__ */ import_react178.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react178.default.createElement(Row, null, alignmentOptions.map((a) => /* @__PURE__ */ import_react178.default.createElement(
+  ), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react180.default.createElement(Row, null, alignmentOptions.map((a) => /* @__PURE__ */ import_react180.default.createElement(
     Button,
     {
       key: a,
@@ -31673,7 +31854,7 @@ function SizeTransitionDemo() {
 }
 
 // src/demos/PositionedTransitionDemo.tsx
-var import_react179 = __toESM(require_react_production());
+var import_react181 = __toESM(require_react_production());
 var presets = [
   { label: "\u539F\u70B9", value: { left: 0, top: 0, right: 0, bottom: 0 } },
   { label: "\u5DE6\u4E0A", value: { left: 20, top: 20, right: 0, bottom: 0 } },
@@ -31681,15 +31862,15 @@ var presets = [
   { label: "\u53F3\u4E0B", value: { left: 0, top: 0, right: 20, bottom: 20 } }
 ];
 function PositionedTransitionDemo() {
-  const [end, setEnd] = (0, import_react179.useState)({ left: 0, top: 0, right: 0, bottom: 0 });
-  return /* @__PURE__ */ import_react179.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react179.default.createElement(AppBar, { title: /* @__PURE__ */ import_react179.default.createElement(Text, { text: "PositionedTransition" }) }) }, /* @__PURE__ */ import_react179.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react179.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react179.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react179.default.createElement(
+  const [end, setEnd] = (0, import_react181.useState)({ left: 0, top: 0, right: 0, bottom: 0 });
+  return /* @__PURE__ */ import_react181.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react181.default.createElement(AppBar, { title: /* @__PURE__ */ import_react181.default.createElement(Text, { text: "PositionedTransition" }) }) }, /* @__PURE__ */ import_react181.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react181.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react181.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react181.default.createElement(
     Text,
     {
       text: "PositionedTransition \u5FC5\u987B\u653E\u5728 Stack \u5185\uFF1B\u672C demo \u7528\u9759\u6001\u7EC8\u6001\u7248\uFF08AlwaysStoppedAnimation\uFF09\uFF0Cbegin \u9ED8\u8BA4 RelativeRect.zero\u3002",
       fontSize: 14,
       color: "#555555"
     }
-  ), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react179.default.createElement(Text, { text: "1. end \u77E9\u5F62\u9009\u62E9", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(
+  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react181.default.createElement(Text, { text: "1. end \u77E9\u5F62\u9009\u62E9", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react181.default.createElement(
     Container,
     {
       color: "#FFF3E0",
@@ -31697,22 +31878,22 @@ function PositionedTransitionDemo() {
       height: 220,
       decoration: { color: "#FFF3E0", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react179.default.createElement(Stack, null, /* @__PURE__ */ import_react179.default.createElement(PositionedTransition, { end }, /* @__PURE__ */ import_react179.default.createElement(
+    /* @__PURE__ */ import_react181.default.createElement(Stack, null, /* @__PURE__ */ import_react181.default.createElement(PositionedTransition, { end }, /* @__PURE__ */ import_react181.default.createElement(
       Container,
       {
         width: 100,
         height: 100,
         decoration: { color: "#1976D2", borderRadius: 8 }
       },
-      /* @__PURE__ */ import_react179.default.createElement(Center, null, /* @__PURE__ */ import_react179.default.createElement(Text, { text: "100x100", color: "white", fontSize: 12 }))
+      /* @__PURE__ */ import_react181.default.createElement(Center, null, /* @__PURE__ */ import_react181.default.createElement(Text, { text: "100x100", color: "white", fontSize: 12 }))
     )))
-  ), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(
+  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react181.default.createElement(
     Text,
     {
       text: `end = { left: ${end.left}, top: ${end.top}, right: ${end.right}, bottom: ${end.bottom} }`,
       fontSize: 12
     }
-  ), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(Row, null, presets.map((p) => /* @__PURE__ */ import_react179.default.createElement(
+  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react181.default.createElement(Row, null, presets.map((p) => /* @__PURE__ */ import_react181.default.createElement(
     Button,
     {
       key: p.label,
@@ -31720,22 +31901,22 @@ function PositionedTransitionDemo() {
       onTap: () => setEnd(p.value),
       backgroundColor: "#9C27B0"
     }
-  ))), /* @__PURE__ */ import_react179.default.createElement(Divider, null), /* @__PURE__ */ import_react179.default.createElement(Text, { text: "2. \u7AEF\u70B9\u542B\u4E49", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react179.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react179.default.createElement(
+  ))), /* @__PURE__ */ import_react181.default.createElement(Divider, null), /* @__PURE__ */ import_react181.default.createElement(Text, { text: "2. \u7AEF\u70B9\u542B\u4E49", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react181.default.createElement(
     Container,
     {
       color: "#E3F2FD",
       decoration: { color: "#E3F2FD", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react179.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react179.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react179.default.createElement(Text, { text: "\u2022 left/top: \u5B50\u8282\u70B9\u8DDD Stack \u5DE6/\u4E0A\u8FB9\u7684\u504F\u79FB\uFF08\u50CF\u7D20\uFF09\u3002" }), /* @__PURE__ */ import_react179.default.createElement(Text, { text: "\u2022 right/bottom: \u5B50\u8282\u70B9\u8DDD Stack \u53F3/\u4E0B\u8FB9\u7684\u504F\u79FB\uFF1B\u4E3A 0 \u8868\u793A\u8D34\u8FB9\u3002" }), /* @__PURE__ */ import_react179.default.createElement(Text, { text: "\u2022 \u5B9E\u9645\u4F4D\u7F6E = Stack \u8FB9\u957F - \u5B50\u8282\u70B9\u5C3A\u5BF8 - \u5BF9\u5E94\u7AEF\u70B9\u503C\u3002" })))
+    /* @__PURE__ */ import_react181.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react181.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react181.default.createElement(Text, { text: "\u2022 left/top: \u5B50\u8282\u70B9\u8DDD Stack \u5DE6/\u4E0A\u8FB9\u7684\u504F\u79FB\uFF08\u50CF\u7D20\uFF09\u3002" }), /* @__PURE__ */ import_react181.default.createElement(Text, { text: "\u2022 right/bottom: \u5B50\u8282\u70B9\u8DDD Stack \u53F3/\u4E0B\u8FB9\u7684\u504F\u79FB\uFF1B\u4E3A 0 \u8868\u793A\u8D34\u8FB9\u3002" }), /* @__PURE__ */ import_react181.default.createElement(Text, { text: "\u2022 \u5B9E\u9645\u4F4D\u7F6E = Stack \u8FB9\u957F - \u5B50\u8282\u70B9\u5C3A\u5BF8 - \u5BF9\u5E94\u7AEF\u70B9\u503C\u3002" })))
   )))));
 }
 
 // src/demos/IndexedStackDemo.tsx
-var import_react180 = __toESM(require_react_production());
+var import_react182 = __toESM(require_react_production());
 function IndexedStackDemo() {
-  const [index, setIndex] = (0, import_react180.useState)(0);
-  const [sizing, setSizing] = (0, import_react180.useState)("loose");
-  const [alignment, setAlignment] = (0, import_react180.useState)("center");
+  const [index, setIndex] = (0, import_react182.useState)(0);
+  const [sizing, setSizing] = (0, import_react182.useState)("loose");
+  const [alignment, setAlignment] = (0, import_react182.useState)("center");
   const pages = [
     {
       label: "Home",
@@ -31756,21 +31937,21 @@ function IndexedStackDemo() {
       list: Array.from({ length: 30 }, (_, i) => `Profile row #${i + 1}`)
     }
   ];
-  return /* @__PURE__ */ import_react180.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react180.default.createElement(AppBar, { title: /* @__PURE__ */ import_react180.default.createElement(Text, { text: "IndexedStack" }) }) }, /* @__PURE__ */ import_react180.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react180.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react180.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react180.default.createElement(
+  return /* @__PURE__ */ import_react182.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react182.default.createElement(AppBar, { title: /* @__PURE__ */ import_react182.default.createElement(Text, { text: "IndexedStack" }) }) }, /* @__PURE__ */ import_react182.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react182.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react182.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react182.default.createElement(
     Text,
     {
       text: "IndexedStack \u5207\u6362\u4E0D\u91CD\u5EFA",
       fontSize: 15,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react180.default.createElement(
+  ), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react182.default.createElement(
     Text,
     {
       text: "\u5207\u5230 Messages \u6EDA\u5230\u4E2D\u95F4\uFF0C\u518D\u5207\u5230 Home \u7136\u540E\u5207\u56DE Messages\uFF0C\u6EDA\u52A8\u4F4D\u7F6E\u4F9D\u7136\u4FDD\u7559\u3002",
       fontSize: 13,
       color: "#666666"
     }
-  ))), /* @__PURE__ */ import_react180.default.createElement(Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react180.default.createElement(Padding, { padding: { horizontal: 16, top: 12, bottom: 8 } }, /* @__PURE__ */ import_react180.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, pages.map((p, i) => /* @__PURE__ */ import_react180.default.createElement(
+  ))), /* @__PURE__ */ import_react182.default.createElement(Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react182.default.createElement(Padding, { padding: { horizontal: 16, top: 12, bottom: 8 } }, /* @__PURE__ */ import_react182.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, pages.map((p, i) => /* @__PURE__ */ import_react182.default.createElement(
     Button,
     {
       key: p.label,
@@ -31778,7 +31959,7 @@ function IndexedStackDemo() {
       onTap: () => setIndex(i),
       backgroundColor: i === index ? p.tag : "#9E9E9E"
     }
-  )))), /* @__PURE__ */ import_react180.default.createElement(
+  )))), /* @__PURE__ */ import_react182.default.createElement(
     Container,
     {
       width: 300,
@@ -31787,7 +31968,7 @@ function IndexedStackDemo() {
       decoration: { borderRadius: 8 },
       margin: { horizontal: 16 }
     },
-    /* @__PURE__ */ import_react180.default.createElement(IndexedStack, { index, alignment, sizing }, pages.map((p) => /* @__PURE__ */ import_react180.default.createElement(Container, { key: p.label, color: p.color, width: 300, height: 300 }, /* @__PURE__ */ import_react180.default.createElement(ListView, { padding: 12 }, p.list.map((item) => /* @__PURE__ */ import_react180.default.createElement(
+    /* @__PURE__ */ import_react182.default.createElement(IndexedStack, { index, alignment, sizing }, pages.map((p) => /* @__PURE__ */ import_react182.default.createElement(Container, { key: p.label, color: p.color, width: 300, height: 300 }, /* @__PURE__ */ import_react182.default.createElement(ListView, { padding: 12 }, p.list.map((item) => /* @__PURE__ */ import_react182.default.createElement(
       Container,
       {
         key: item,
@@ -31799,23 +31980,23 @@ function IndexedStackDemo() {
           border: { width: 1, color: "#E0E0E0" }
         }
       },
-      /* @__PURE__ */ import_react180.default.createElement(Text, { text: item, fontSize: 14, color: "#333333" })
+      /* @__PURE__ */ import_react182.default.createElement(Text, { text: item, fontSize: 14, color: "#333333" })
     ))))))
-  ), /* @__PURE__ */ import_react180.default.createElement(Container, { color: "#F5F5F5", height: 1, margin: { top: 16 } }), /* @__PURE__ */ import_react180.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react180.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react180.default.createElement(Text, { text: "sizing \u63A7\u5236\u5E03\u5C40\u884C\u4E3A", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react180.default.createElement(Wrap, { spacing: 8 }, /* @__PURE__ */ import_react180.default.createElement(
+  ), /* @__PURE__ */ import_react182.default.createElement(Container, { color: "#F5F5F5", height: 1, margin: { top: 16 } }), /* @__PURE__ */ import_react182.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react182.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react182.default.createElement(Text, { text: "sizing \u63A7\u5236\u5E03\u5C40\u884C\u4E3A", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react182.default.createElement(Wrap, { spacing: 8 }, /* @__PURE__ */ import_react182.default.createElement(
     Button,
     {
       text: "stack (expand)",
       onTap: () => setSizing("stack"),
       backgroundColor: sizing === "stack" ? "#1976D2" : "#9E9E9E"
     }
-  ), /* @__PURE__ */ import_react180.default.createElement(
+  ), /* @__PURE__ */ import_react182.default.createElement(
     Button,
     {
       text: "loose (\u6309\u5B50\u8282\u70B9)",
       onTap: () => setSizing("loose"),
       backgroundColor: sizing === "loose" ? "#1976D2" : "#9E9E9E"
     }
-  )), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react180.default.createElement(Text, { text: "alignment \u5BF9\u9F50\u951A\u70B9", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react180.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react180.default.createElement(Wrap, { spacing: 8 }, ["topLeft", "center", "bottomRight"].map((a) => /* @__PURE__ */ import_react180.default.createElement(
+  )), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react182.default.createElement(Text, { text: "alignment \u5BF9\u9F50\u951A\u70B9", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react182.default.createElement(Wrap, { spacing: 8 }, ["topLeft", "center", "bottomRight"].map((a) => /* @__PURE__ */ import_react182.default.createElement(
     Button,
     {
       key: a,
@@ -31827,35 +32008,35 @@ function IndexedStackDemo() {
 }
 
 // src/demos/AnimatedSizeDemo.tsx
-var import_react181 = __toESM(require_react_production());
+var import_react183 = __toESM(require_react_production());
 function AnimatedSizeDemo() {
-  const [expanded, setExpanded] = (0, import_react181.useState)(false);
-  const [boxSize, setBoxSize] = (0, import_react181.useState)(120);
-  const [duration, setDuration] = (0, import_react181.useState)(300);
-  const [curve, setCurve] = (0, import_react181.useState)("easeInOut");
-  const [axis, setAxis] = (0, import_react181.useState)("none");
-  return /* @__PURE__ */ import_react181.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react181.default.createElement(AppBar, { title: /* @__PURE__ */ import_react181.default.createElement(Text, { text: "AnimatedSize" }) }) }, /* @__PURE__ */ import_react181.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react181.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react181.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react181.default.createElement(
+  const [expanded, setExpanded] = (0, import_react183.useState)(false);
+  const [boxSize, setBoxSize] = (0, import_react183.useState)(120);
+  const [duration, setDuration] = (0, import_react183.useState)(300);
+  const [curve, setCurve] = (0, import_react183.useState)("easeInOut");
+  const [axis, setAxis] = (0, import_react183.useState)("none");
+  return /* @__PURE__ */ import_react183.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react183.default.createElement(AppBar, { title: /* @__PURE__ */ import_react183.default.createElement(Text, { text: "AnimatedSize" }) }) }, /* @__PURE__ */ import_react183.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react183.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react183.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react183.default.createElement(
     Text,
     {
       text: "AnimatedSize\uFF1A\u5305\u88F9\u52A8\u6001\u5C3A\u5BF8\u5B50\u8282\u70B9\uFF0C\u5207\u6362\u65F6\u81EA\u52A8\u8FC7\u6E21\u3002",
       fontSize: 14,
       color: "#666666"
     }
-  ))), /* @__PURE__ */ import_react181.default.createElement(Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react181.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react181.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react181.default.createElement(
+  ))), /* @__PURE__ */ import_react183.default.createElement(Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react183.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react183.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react183.default.createElement(
     Text,
     {
       text: "1. \u5C55\u5F00 / \u6298\u53E0\uFF08\u53D7\u63A7 visibility\uFF09",
       fontSize: 15,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react181.default.createElement(
+  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(
     Text,
     {
       text: "\u901A\u8FC7 width/height 0\u2194target \u89E6\u53D1\u5C3A\u5BF8\u63D2\u503C\u3002",
       fontSize: 13,
       color: "#666666"
     }
-  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react181.default.createElement(
+  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react183.default.createElement(
     Container,
     {
       width: 350,
@@ -31863,14 +32044,14 @@ function AnimatedSizeDemo() {
       color: "#FAFAFA",
       decoration: { borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react181.default.createElement(Center, null, /* @__PURE__ */ import_react181.default.createElement(
+    /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(
       AnimatedSize,
       {
         duration,
         curve,
         alignment: "center"
       },
-      /* @__PURE__ */ import_react181.default.createElement(
+      /* @__PURE__ */ import_react183.default.createElement(
         Container,
         {
           width: expanded ? 220 : 0,
@@ -31879,7 +32060,7 @@ function AnimatedSizeDemo() {
           decoration: { borderRadius: 8 },
           alignment: "center"
         },
-        expanded ? /* @__PURE__ */ import_react181.default.createElement(
+        expanded ? /* @__PURE__ */ import_react183.default.createElement(
           Text,
           {
             text: "\u{1F44B} \u6211\u5728\u8FD9\u91CC",
@@ -31890,28 +32071,28 @@ function AnimatedSizeDemo() {
         ) : null
       )
     ))
-  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react181.default.createElement(Row, null, /* @__PURE__ */ import_react181.default.createElement(
+  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react183.default.createElement(Row, null, /* @__PURE__ */ import_react183.default.createElement(
     Button,
     {
       text: expanded ? "\u6298\u53E0" : "\u5C55\u5F00",
       onTap: () => setExpanded(!expanded),
       backgroundColor: expanded ? "#E91E63" : "#1976D2"
     }
-  )))), /* @__PURE__ */ import_react181.default.createElement(Divider, null), /* @__PURE__ */ import_react181.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react181.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react181.default.createElement(
+  )))), /* @__PURE__ */ import_react183.default.createElement(Divider, null), /* @__PURE__ */ import_react183.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react183.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react183.default.createElement(
     Text,
     {
       text: "2. \u5C3A\u5BF8\u5FAA\u73AF\uFF08\u624B\u52A8\u8C03\u8282\uFF09",
       fontSize: 15,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react181.default.createElement(
+  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(
     Text,
     {
       text: `\u5F53\u524D boxSize: ${boxSize}px`,
       fontSize: 13,
       color: "#666666"
     }
-  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react181.default.createElement(
+  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react183.default.createElement(
     Container,
     {
       width: 300,
@@ -31920,7 +32101,7 @@ function AnimatedSizeDemo() {
       decoration: { borderRadius: 8 },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react181.default.createElement(
+    /* @__PURE__ */ import_react183.default.createElement(
       AnimatedSize,
       {
         duration,
@@ -31928,7 +32109,7 @@ function AnimatedSizeDemo() {
         alignment: "center",
         axis: axis === "none" ? void 0 : axis
       },
-      /* @__PURE__ */ import_react181.default.createElement(
+      /* @__PURE__ */ import_react183.default.createElement(
         Container,
         {
           width: boxSize,
@@ -31937,7 +32118,7 @@ function AnimatedSizeDemo() {
           decoration: { borderRadius: 12 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react181.default.createElement(
+        /* @__PURE__ */ import_react183.default.createElement(
           Text,
           {
             text: `${boxSize}`,
@@ -31948,28 +32129,28 @@ function AnimatedSizeDemo() {
         )
       )
     )
-  ), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react181.default.createElement(Wrap, { spacing: 8 }, /* @__PURE__ */ import_react181.default.createElement(
+  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 8 }, /* @__PURE__ */ import_react183.default.createElement(
     Button,
     {
       text: "\u5C0F",
       onTap: () => setBoxSize(80),
       backgroundColor: "#9E9E9E"
     }
-  ), /* @__PURE__ */ import_react181.default.createElement(
+  ), /* @__PURE__ */ import_react183.default.createElement(
     Button,
     {
       text: "\u4E2D",
       onTap: () => setBoxSize(160),
       backgroundColor: "#9E9E9E"
     }
-  ), /* @__PURE__ */ import_react181.default.createElement(
+  ), /* @__PURE__ */ import_react183.default.createElement(
     Button,
     {
       text: "\u5927",
       onTap: () => setBoxSize(240),
       backgroundColor: "#9E9E9E"
     }
-  )))), /* @__PURE__ */ import_react181.default.createElement(Divider, null), /* @__PURE__ */ import_react181.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react181.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react181.default.createElement(Text, { text: "3. \u53C2\u6570\u63A7\u5236", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react181.default.createElement(Text, { text: "duration (ms)", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react181.default.createElement(Wrap, { spacing: 8 }, [150, 300, 600, 1e3].map((d) => /* @__PURE__ */ import_react181.default.createElement(
+  )))), /* @__PURE__ */ import_react183.default.createElement(Divider, null), /* @__PURE__ */ import_react183.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react183.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react183.default.createElement(Text, { text: "3. \u53C2\u6570\u63A7\u5236", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "duration (ms)", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 8 }, [150, 300, 600, 1e3].map((d) => /* @__PURE__ */ import_react183.default.createElement(
     Button,
     {
       key: d,
@@ -31977,13 +32158,13 @@ function AnimatedSizeDemo() {
       onTap: () => setDuration(d),
       backgroundColor: d === duration ? "#1976D2" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react181.default.createElement(Text, { text: "curve", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react181.default.createElement(Wrap, { spacing: 8 }, [
+  ))), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "curve", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 8 }, [
     "easeInOut",
     "easeIn",
     "easeOut",
     "linear",
     "fastOutSlowIn"
-  ].map((c) => /* @__PURE__ */ import_react181.default.createElement(
+  ].map((c) => /* @__PURE__ */ import_react183.default.createElement(
     Button,
     {
       key: c,
@@ -31991,7 +32172,7 @@ function AnimatedSizeDemo() {
       onTap: () => setCurve(c),
       backgroundColor: c === curve ? "#9C27B0" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react181.default.createElement(Text, { text: "axis", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react181.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react181.default.createElement(Wrap, { spacing: 8 }, ["none", "horizontal", "vertical"].map((a) => /* @__PURE__ */ import_react181.default.createElement(
+  ))), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "axis", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 8 }, ["none", "horizontal", "vertical"].map((a) => /* @__PURE__ */ import_react183.default.createElement(
     Button,
     {
       key: a,
@@ -31999,11 +32180,11 @@ function AnimatedSizeDemo() {
       onTap: () => setAxis(a),
       backgroundColor: a === axis ? "#009688" : "#9E9E9E"
     }
-  ))))), /* @__PURE__ */ import_react181.default.createElement(Container, { height: 40 })));
+  ))))), /* @__PURE__ */ import_react183.default.createElement(Container, { height: 40 })));
 }
 
 // src/demos/DismissibleDemo.tsx
-var import_react182 = __toESM(require_react_production());
+var import_react184 = __toESM(require_react_production());
 var initial = [
   {
     id: "1",
@@ -32055,9 +32236,9 @@ var initial = [
   }
 ];
 function DismissibleDemo() {
-  const [items, setItems] = (0, import_react182.useState)(initial);
-  const [direction, setDirection] = (0, import_react182.useState)("horizontal");
-  const [lastEvent, setLastEvent] = (0, import_react182.useState)("\uFF08\u65E0\uFF09");
+  const [items, setItems] = (0, import_react184.useState)(initial);
+  const [direction, setDirection] = (0, import_react184.useState)("horizontal");
+  const [lastEvent, setLastEvent] = (0, import_react184.useState)("\uFF08\u65E0\uFF09");
   const reset = () => {
     setItems(initial);
     setLastEvent("\u5DF2\u91CD\u7F6E");
@@ -32067,26 +32248,26 @@ function DismissibleDemo() {
     setLastEvent(`dismissed id=${id} dir=${dirName}`);
   };
   const isHorizontalLike = direction === "horizontal" || direction === "endToStart" || direction === "startToEnd";
-  return /* @__PURE__ */ import_react182.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react182.default.createElement(AppBar, { title: /* @__PURE__ */ import_react182.default.createElement(Text, { text: "Dismissible" }) }) }, /* @__PURE__ */ import_react182.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react182.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react182.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react182.default.createElement(
+  return /* @__PURE__ */ import_react184.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react184.default.createElement(AppBar, { title: /* @__PURE__ */ import_react184.default.createElement(Text, { text: "Dismissible" }) }) }, /* @__PURE__ */ import_react184.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react184.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react184.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react184.default.createElement(
     Text,
     {
       text: "Dismissible\uFF1A\u6ED1\u52A8\u5217\u8868\u9879\u6267\u884C\u64CD\u4F5C\uFF08\u5220\u9664/\u5F52\u6863\uFF09\u3002",
       fontSize: 14,
       color: "#666666"
     }
-  ), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react182.default.createElement(
+  ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react184.default.createElement(
     Text,
     {
       text: `\u5F53\u524D\u5217\u8868 ${items.length} \u6761 \xB7 \u6700\u8FD1\u4E8B\u4EF6\uFF1A${lastEvent}`,
       fontSize: 12,
       color: "#999999"
     }
-  ))), /* @__PURE__ */ import_react182.default.createElement(Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react182.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react182.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react182.default.createElement(Text, { text: "direction", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react182.default.createElement(Wrap, { spacing: 8 }, [
+  ))), /* @__PURE__ */ import_react184.default.createElement(Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react184.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react184.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react184.default.createElement(Text, { text: "direction", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 6 }), /* @__PURE__ */ import_react184.default.createElement(Wrap, { spacing: 8 }, [
     "horizontal",
     "vertical",
     "endToStart",
     "startToEnd"
-  ].map((d) => /* @__PURE__ */ import_react182.default.createElement(
+  ].map((d) => /* @__PURE__ */ import_react184.default.createElement(
     Button,
     {
       key: d,
@@ -32094,7 +32275,7 @@ function DismissibleDemo() {
       onTap: () => setDirection(d),
       backgroundColor: d === direction ? "#1976D2" : "#9E9E9E"
     }
-  )), /* @__PURE__ */ import_react182.default.createElement(Button, { text: "\u91CD\u7F6E", onTap: reset, backgroundColor: "#9E9E9E" })))), /* @__PURE__ */ import_react182.default.createElement(Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react182.default.createElement(ListView, { padding: 0 }, items.length === 0 ? /* @__PURE__ */ import_react182.default.createElement(Container, { height: 200, color: "#FAFAFA", alignment: "center" }, /* @__PURE__ */ import_react182.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react182.default.createElement(Text, { text: "\u{1F5D1}\uFE0F \u5217\u8868\u5DF2\u6E05\u7A7A", fontSize: 16, color: "#999" }), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react182.default.createElement(Button, { text: "\u91CD\u7F6E", onTap: reset, backgroundColor: "#1976D2" }))) : items.map((it) => /* @__PURE__ */ import_react182.default.createElement(
+  )), /* @__PURE__ */ import_react184.default.createElement(Button, { text: "\u91CD\u7F6E", onTap: reset, backgroundColor: "#9E9E9E" })))), /* @__PURE__ */ import_react184.default.createElement(Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react184.default.createElement(ListView, { padding: 0 }, items.length === 0 ? /* @__PURE__ */ import_react184.default.createElement(Container, { height: 200, color: "#FAFAFA", alignment: "center" }, /* @__PURE__ */ import_react184.default.createElement(Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react184.default.createElement(Text, { text: "\u{1F5D1}\uFE0F \u5217\u8868\u5DF2\u6E05\u7A7A", fontSize: 16, color: "#999" }), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react184.default.createElement(Button, { text: "\u91CD\u7F6E", onTap: reset, backgroundColor: "#1976D2" }))) : items.map((it) => /* @__PURE__ */ import_react184.default.createElement(
     Dismissible,
     {
       key: it.id,
@@ -32141,7 +32322,7 @@ function DismissibleDemo() {
       } : void 0,
       onDismissed: onItemDismissed(it.id)
     },
-    /* @__PURE__ */ import_react182.default.createElement(
+    /* @__PURE__ */ import_react184.default.createElement(
       Container,
       {
         color: "#FFFFFF",
@@ -32151,7 +32332,7 @@ function DismissibleDemo() {
           border: { width: 0.5, color: "#E0E0E0" }
         }
       },
-      /* @__PURE__ */ import_react182.default.createElement(Row, null, /* @__PURE__ */ import_react182.default.createElement(
+      /* @__PURE__ */ import_react184.default.createElement(Row, null, /* @__PURE__ */ import_react184.default.createElement(
         Container,
         {
           width: 36,
@@ -32159,7 +32340,7 @@ function DismissibleDemo() {
           decoration: { color: it.tag, borderRadius: 18 },
           alignment: "center"
         },
-        /* @__PURE__ */ import_react182.default.createElement(
+        /* @__PURE__ */ import_react184.default.createElement(
           Text,
           {
             text: it.title.charAt(0),
@@ -32168,7 +32349,7 @@ function DismissibleDemo() {
             fontWeight: "bold"
           }
         )
-      ), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react182.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react182.default.createElement(
+      ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { width: 12 }), /* @__PURE__ */ import_react184.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react184.default.createElement(
         Text,
         {
           text: it.title,
@@ -32176,13 +32357,13 @@ function DismissibleDemo() {
           color: "#333",
           fontWeight: "bold"
         }
-      ), /* @__PURE__ */ import_react182.default.createElement(SizedBox, { height: 2 }), /* @__PURE__ */ import_react182.default.createElement(Text, { text: it.subtitle, fontSize: 12, color: "#999" })))
+      ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 2 }), /* @__PURE__ */ import_react184.default.createElement(Text, { text: it.subtitle, fontSize: 12, color: "#999" })))
     )
   )))));
 }
 
 // src/demos/TransitionAnimatedDemo.tsx
-var import_react183 = __toESM(require_react_production());
+var import_react185 = __toESM(require_react_production());
 var opacityOptions = [0, 0.3, 0.6, 1];
 var scaleOptions = [0.5, 0.8, 1, 1.3];
 var turnsOptions = [0, 0.25, 0.5, 0.75];
@@ -32195,21 +32376,21 @@ var offsetOptions = [
 ];
 var curveOptions = ["linear", "ease", "easeInOut", "bounceOut", "elasticOut"];
 function TransitionAnimatedDemo() {
-  const [opacity, setOpacity] = (0, import_react183.useState)(1);
-  const [scale, setScale] = (0, import_react183.useState)(1);
-  const [turns, setTurns] = (0, import_react183.useState)(0);
-  const [sizeFactor, setSizeFactor] = (0, import_react183.useState)(1);
-  const [offset, setOffset] = (0, import_react183.useState)({ dx: 0, dy: 0 });
-  const [duration, setDuration] = (0, import_react183.useState)(600);
-  const [curve, setCurve] = (0, import_react183.useState)("easeInOut");
-  return /* @__PURE__ */ import_react183.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react183.default.createElement(AppBar, { title: /* @__PURE__ */ import_react183.default.createElement(Text, { text: "Transition Animated" }) }) }, /* @__PURE__ */ import_react183.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react183.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react183.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react183.default.createElement(
+  const [opacity, setOpacity] = (0, import_react185.useState)(1);
+  const [scale, setScale] = (0, import_react185.useState)(1);
+  const [turns, setTurns] = (0, import_react185.useState)(0);
+  const [sizeFactor, setSizeFactor] = (0, import_react185.useState)(1);
+  const [offset, setOffset] = (0, import_react185.useState)({ dx: 0, dy: 0 });
+  const [duration, setDuration] = (0, import_react185.useState)(600);
+  const [curve, setCurve] = (0, import_react185.useState)("easeInOut");
+  return /* @__PURE__ */ import_react185.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react185.default.createElement(AppBar, { title: /* @__PURE__ */ import_react185.default.createElement(Text, { text: "Transition Animated" }) }) }, /* @__PURE__ */ import_react185.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react185.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react185.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react185.default.createElement(
     Text,
     {
       text: "\u4F20 duration \u540E\uFF0CTransition \u7EC4\u4EF6\u5185\u90E8\u8D70 TweenAnimationBuilder\uFF0Cprops \u53D8\u5316\u65F6\u81EA\u52A8\u8865\u95F4\u3002",
       fontSize: 14,
       color: "#555555"
     }
-  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "\u5168\u5C40\u914D\u7F6E", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(Row, null, /* @__PURE__ */ import_react183.default.createElement(Text, { text: "duration:" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 6 }, [0, 300, 600, 1200].map((d) => /* @__PURE__ */ import_react183.default.createElement(
+  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "\u5168\u5C40\u914D\u7F6E", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(Row, null, /* @__PURE__ */ import_react185.default.createElement(Text, { text: "duration:" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react185.default.createElement(Wrap, { spacing: 6 }, [0, 300, 600, 1200].map((d) => /* @__PURE__ */ import_react185.default.createElement(
     Button,
     {
       key: d,
@@ -32217,7 +32398,7 @@ function TransitionAnimatedDemo() {
       onTap: () => setDuration(d),
       backgroundColor: duration === d ? "#1976D2" : "#9E9E9E"
     }
-  )))), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(Row, null, /* @__PURE__ */ import_react183.default.createElement(Text, { text: "curve:" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 6 }, curveOptions.map((c) => /* @__PURE__ */ import_react183.default.createElement(
+  )))), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(Row, null, /* @__PURE__ */ import_react185.default.createElement(Text, { text: "curve:" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react185.default.createElement(Wrap, { spacing: 6 }, curveOptions.map((c) => /* @__PURE__ */ import_react185.default.createElement(
     Button,
     {
       key: c,
@@ -32225,31 +32406,31 @@ function TransitionAnimatedDemo() {
       onTap: () => setCurve(c),
       backgroundColor: curve === c ? "#43A047" : "#9E9E9E"
     }
-  )))), /* @__PURE__ */ import_react183.default.createElement(Divider, null), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "1. FadeTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(
+  )))), /* @__PURE__ */ import_react185.default.createElement(Divider, null), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "1. FadeTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(
     Container,
     {
       width: 300,
       height: 120,
       decoration: { color: "#FFF3E0", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(
+    /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(
       FadeTransition,
       {
         opacity,
         duration,
         curve
       },
-      /* @__PURE__ */ import_react183.default.createElement(
+      /* @__PURE__ */ import_react185.default.createElement(
         Container,
         {
           width: 80,
           height: 80,
           decoration: { color: "#1976D2", borderRadius: 8 }
         },
-        /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(Text, { text: "fade", color: "white" }))
+        /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(Text, { text: "fade", color: "white" }))
       )
     ))
-  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: `opacity = ${opacity.toFixed(2)}` }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 6 }, opacityOptions.map((o) => /* @__PURE__ */ import_react183.default.createElement(
+  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: `opacity = ${opacity.toFixed(2)}` }), /* @__PURE__ */ import_react185.default.createElement(Wrap, { spacing: 6 }, opacityOptions.map((o) => /* @__PURE__ */ import_react185.default.createElement(
     Button,
     {
       key: o,
@@ -32257,31 +32438,31 @@ function TransitionAnimatedDemo() {
       onTap: () => setOpacity(o),
       backgroundColor: Math.abs(o - opacity) < 0.01 ? "#1976D2" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react183.default.createElement(Divider, null), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "2. ScaleTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(
+  ))), /* @__PURE__ */ import_react185.default.createElement(Divider, null), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "2. ScaleTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(
     Container,
     {
       width: 300,
       height: 140,
       decoration: { color: "#E8F5E9", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(
+    /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(
       ScaleTransition,
       {
         scale,
         duration,
         curve
       },
-      /* @__PURE__ */ import_react183.default.createElement(
+      /* @__PURE__ */ import_react185.default.createElement(
         Container,
         {
           width: 80,
           height: 80,
           decoration: { color: "#43A047", borderRadius: 8 }
         },
-        /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(Text, { text: "scale", color: "white" }))
+        /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(Text, { text: "scale", color: "white" }))
       )
     ))
-  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: `scale = ${scale.toFixed(2)}` }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 6 }, scaleOptions.map((s) => /* @__PURE__ */ import_react183.default.createElement(
+  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: `scale = ${scale.toFixed(2)}` }), /* @__PURE__ */ import_react185.default.createElement(Wrap, { spacing: 6 }, scaleOptions.map((s) => /* @__PURE__ */ import_react185.default.createElement(
     Button,
     {
       key: s,
@@ -32289,31 +32470,31 @@ function TransitionAnimatedDemo() {
       onTap: () => setScale(s),
       backgroundColor: Math.abs(s - scale) < 0.01 ? "#43A047" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react183.default.createElement(Divider, null), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "3. RotationTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(
+  ))), /* @__PURE__ */ import_react185.default.createElement(Divider, null), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "3. RotationTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(
     Container,
     {
       width: 300,
       height: 140,
       decoration: { color: "#FCE4EC", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(
+    /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(
       RotationTransition,
       {
         turns,
         duration,
         curve
       },
-      /* @__PURE__ */ import_react183.default.createElement(
+      /* @__PURE__ */ import_react185.default.createElement(
         Container,
         {
           width: 80,
           height: 80,
           decoration: { color: "#C2185B", borderRadius: 8 }
         },
-        /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(Text, { text: "rot", color: "white" }))
+        /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(Text, { text: "rot", color: "white" }))
       )
     ))
-  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: `turns = ${turns.toFixed(2)}` }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 6 }, turnsOptions.map((t2) => /* @__PURE__ */ import_react183.default.createElement(
+  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: `turns = ${turns.toFixed(2)}` }), /* @__PURE__ */ import_react185.default.createElement(Wrap, { spacing: 6 }, turnsOptions.map((t2) => /* @__PURE__ */ import_react185.default.createElement(
     Button,
     {
       key: t2,
@@ -32321,14 +32502,14 @@ function TransitionAnimatedDemo() {
       onTap: () => setTurns(t2),
       backgroundColor: Math.abs(t2 - turns) < 0.01 ? "#C2185B" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react183.default.createElement(Divider, null), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "4. SizeTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(
+  ))), /* @__PURE__ */ import_react185.default.createElement(Divider, null), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "4. SizeTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(
     Container,
     {
       width: 300,
       height: 140,
       decoration: { color: "#EDE7F6", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(
+    /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(
       SizeTransition,
       {
         sizeFactor,
@@ -32336,17 +32517,17 @@ function TransitionAnimatedDemo() {
         duration,
         curve
       },
-      /* @__PURE__ */ import_react183.default.createElement(
+      /* @__PURE__ */ import_react185.default.createElement(
         Container,
         {
           width: 140,
           height: 120,
           decoration: { color: "#5E35B1", borderRadius: 8 }
         },
-        /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(Text, { text: "size", color: "white" }))
+        /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(Text, { text: "size", color: "white" }))
       )
     ))
-  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: `sizeFactor = ${sizeFactor.toFixed(2)}` }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 6 }, sizeOptions2.map((s) => /* @__PURE__ */ import_react183.default.createElement(
+  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: `sizeFactor = ${sizeFactor.toFixed(2)}` }), /* @__PURE__ */ import_react185.default.createElement(Wrap, { spacing: 6 }, sizeOptions2.map((s) => /* @__PURE__ */ import_react185.default.createElement(
     Button,
     {
       key: s,
@@ -32354,31 +32535,31 @@ function TransitionAnimatedDemo() {
       onTap: () => setSizeFactor(s),
       backgroundColor: Math.abs(s - sizeFactor) < 0.01 ? "#5E35B1" : "#9E9E9E"
     }
-  ))), /* @__PURE__ */ import_react183.default.createElement(Divider, null), /* @__PURE__ */ import_react183.default.createElement(Text, { text: "5. SlideTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(
+  ))), /* @__PURE__ */ import_react185.default.createElement(Divider, null), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "5. SlideTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(
     Container,
     {
       width: 300,
       height: 140,
       decoration: { color: "#FFF8E1", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(
+    /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(
       SlideTransition,
       {
         position: offset,
         duration,
         curve
       },
-      /* @__PURE__ */ import_react183.default.createElement(
+      /* @__PURE__ */ import_react185.default.createElement(
         Container,
         {
           width: 60,
           height: 60,
           decoration: { color: "#FB8C00", borderRadius: 30 }
         },
-        /* @__PURE__ */ import_react183.default.createElement(Center, null, /* @__PURE__ */ import_react183.default.createElement(Text, { text: "slide", color: "white", fontSize: 11 }))
+        /* @__PURE__ */ import_react185.default.createElement(Center, null, /* @__PURE__ */ import_react185.default.createElement(Text, { text: "slide", color: "white", fontSize: 11 }))
       )
     ))
-  ), /* @__PURE__ */ import_react183.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react183.default.createElement(Text, { text: `offset = (${offset.dx.toFixed(2)}, ${offset.dy.toFixed(2)})` }), /* @__PURE__ */ import_react183.default.createElement(Wrap, { spacing: 6 }, offsetOptions.map((o, i) => /* @__PURE__ */ import_react183.default.createElement(
+  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: `offset = (${offset.dx.toFixed(2)}, ${offset.dy.toFixed(2)})` }), /* @__PURE__ */ import_react185.default.createElement(Wrap, { spacing: 6 }, offsetOptions.map((o, i) => /* @__PURE__ */ import_react185.default.createElement(
     Button,
     {
       key: i,
@@ -32390,19 +32571,19 @@ function TransitionAnimatedDemo() {
 }
 
 // src/demos/ThemeDemo.tsx
-var import_react184 = __toESM(require_react_production());
+var import_react186 = __toESM(require_react_production());
 function Field({ label, value }) {
-  return /* @__PURE__ */ import_react184.default.createElement(Container, { padding: { vertical: 6, horizontal: 12 }, margin: { bottom: 6 } }, /* @__PURE__ */ import_react184.default.createElement(Text, { text: `${label}: ${value}`, fontSize: 14, color: "#424242" }));
+  return /* @__PURE__ */ import_react186.default.createElement(Container, { padding: { vertical: 6, horizontal: 12 }, margin: { bottom: 6 } }, /* @__PURE__ */ import_react186.default.createElement(Text, { text: `${label}: ${value}`, fontSize: 14, color: "#424242" }));
 }
 function Swatch({ name, color }) {
-  return /* @__PURE__ */ import_react184.default.createElement(Container, { margin: { right: 8, bottom: 8 } }, /* @__PURE__ */ import_react184.default.createElement(
+  return /* @__PURE__ */ import_react186.default.createElement(Container, { margin: { right: 8, bottom: 8 } }, /* @__PURE__ */ import_react186.default.createElement(
     Container,
     {
       width: 56,
       height: 56,
       decoration: { color, borderRadius: 8 }
     }
-  ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react184.default.createElement(Text, { text: name, fontSize: 11, color: "#555555" }));
+  ), /* @__PURE__ */ import_react186.default.createElement(SizedBox, { height: 4 }), /* @__PURE__ */ import_react186.default.createElement(Text, { text: name, fontSize: 11, color: "#555555" }));
 }
 function ThemeDemo() {
   const theme = useTheme();
@@ -32410,7 +32591,7 @@ function ThemeDemo() {
   const cardBg = theme.isDark ? "#1E1E1E" : "#FFFFFF";
   const titleColor = theme.isDark ? "#FFFFFF" : "#212121";
   const subColor = theme.isDark ? "#B0BEC5" : "#757575";
-  return /* @__PURE__ */ import_react184.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react184.default.createElement(AppBar, { title: /* @__PURE__ */ import_react184.default.createElement(Text, { text: "useTheme" }) }) }, /* @__PURE__ */ import_react184.default.createElement(Container, { color: bg }, /* @__PURE__ */ import_react184.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react184.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react184.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react184.default.createElement(
+  return /* @__PURE__ */ import_react186.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react186.default.createElement(AppBar, { title: /* @__PURE__ */ import_react186.default.createElement(Text, { text: "useTheme" }) }) }, /* @__PURE__ */ import_react186.default.createElement(Container, { color: bg }, /* @__PURE__ */ import_react186.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react186.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react186.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react186.default.createElement(
     Container,
     {
       padding: 16,
@@ -32419,7 +32600,7 @@ function ThemeDemo() {
         borderRadius: theme.borderRadius
       }
     },
-    /* @__PURE__ */ import_react184.default.createElement(
+    /* @__PURE__ */ import_react186.default.createElement(
       Text,
       {
         text: theme.isDark ? "Dark Mode" : "Light Mode",
@@ -32428,8 +32609,8 @@ function ThemeDemo() {
         color: titleColor
       }
     ),
-    /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 4 }),
-    /* @__PURE__ */ import_react184.default.createElement(
+    /* @__PURE__ */ import_react186.default.createElement(SizedBox, { height: 4 }),
+    /* @__PURE__ */ import_react186.default.createElement(
       Text,
       {
         text: `brightness: ${theme.brightness}`,
@@ -32437,7 +32618,7 @@ function ThemeDemo() {
         color: subColor
       }
     )
-  ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react184.default.createElement(
+  ), /* @__PURE__ */ import_react186.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react186.default.createElement(
     Text,
     {
       text: "\u8272\u677F",
@@ -32445,18 +32626,18 @@ function ThemeDemo() {
       fontWeight: "bold",
       color: titleColor
     }
-  ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react184.default.createElement(
+  ), /* @__PURE__ */ import_react186.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react186.default.createElement(
     Container,
     {
       padding: 12,
       decoration: { color: cardBg, borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react184.default.createElement(Swatch, { name: "primary", color: theme.primaryColor }),
-    /* @__PURE__ */ import_react184.default.createElement(Swatch, { name: "scaffold", color: theme.scaffoldBackgroundColor }),
-    /* @__PURE__ */ import_react184.default.createElement(Swatch, { name: "surface", color: theme.surfaceColor }),
-    theme.textColor ? /* @__PURE__ */ import_react184.default.createElement(Swatch, { name: "text", color: theme.textColor }) : null,
-    theme.secondaryTextColor ? /* @__PURE__ */ import_react184.default.createElement(Swatch, { name: "subText", color: theme.secondaryTextColor }) : null
-  ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react184.default.createElement(Divider, null), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react184.default.createElement(
+    /* @__PURE__ */ import_react186.default.createElement(Swatch, { name: "primary", color: theme.primaryColor }),
+    /* @__PURE__ */ import_react186.default.createElement(Swatch, { name: "scaffold", color: theme.scaffoldBackgroundColor }),
+    /* @__PURE__ */ import_react186.default.createElement(Swatch, { name: "surface", color: theme.surfaceColor }),
+    theme.textColor ? /* @__PURE__ */ import_react186.default.createElement(Swatch, { name: "text", color: theme.textColor }) : null,
+    theme.secondaryTextColor ? /* @__PURE__ */ import_react186.default.createElement(Swatch, { name: "subText", color: theme.secondaryTextColor }) : null
+  ), /* @__PURE__ */ import_react186.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react186.default.createElement(Divider, null), /* @__PURE__ */ import_react186.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react186.default.createElement(
     Text,
     {
       text: "\u5B8C\u6574\u5FEB\u7167",
@@ -32464,39 +32645,39 @@ function ThemeDemo() {
       fontWeight: "bold",
       color: titleColor
     }
-  ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react184.default.createElement(
+  ), /* @__PURE__ */ import_react186.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react186.default.createElement(
     Container,
     {
       padding: 12,
       decoration: { color: cardBg, borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react184.default.createElement(Field, { label: "brightness", value: theme.brightness }),
-    /* @__PURE__ */ import_react184.default.createElement(Field, { label: "isDark", value: String(theme.isDark) }),
-    /* @__PURE__ */ import_react184.default.createElement(Field, { label: "primaryColor", value: theme.primaryColor }),
-    /* @__PURE__ */ import_react184.default.createElement(
+    /* @__PURE__ */ import_react186.default.createElement(Field, { label: "brightness", value: theme.brightness }),
+    /* @__PURE__ */ import_react186.default.createElement(Field, { label: "isDark", value: String(theme.isDark) }),
+    /* @__PURE__ */ import_react186.default.createElement(Field, { label: "primaryColor", value: theme.primaryColor }),
+    /* @__PURE__ */ import_react186.default.createElement(
       Field,
       {
         label: "scaffoldBg",
         value: theme.scaffoldBackgroundColor
       }
     ),
-    /* @__PURE__ */ import_react184.default.createElement(Field, { label: "surfaceColor", value: theme.surfaceColor }),
-    /* @__PURE__ */ import_react184.default.createElement(Field, { label: "textColor", value: theme.textColor ?? "(unset)" }),
-    /* @__PURE__ */ import_react184.default.createElement(
+    /* @__PURE__ */ import_react186.default.createElement(Field, { label: "surfaceColor", value: theme.surfaceColor }),
+    /* @__PURE__ */ import_react186.default.createElement(Field, { label: "textColor", value: theme.textColor ?? "(unset)" }),
+    /* @__PURE__ */ import_react186.default.createElement(
       Field,
       {
         label: "secondaryText",
         value: theme.secondaryTextColor ?? "(unset)"
       }
     ),
-    /* @__PURE__ */ import_react184.default.createElement(
+    /* @__PURE__ */ import_react186.default.createElement(
       Field,
       {
         label: "borderRadius",
         value: theme.borderRadius.toString()
       }
     )
-  ), /* @__PURE__ */ import_react184.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react184.default.createElement(
+  ), /* @__PURE__ */ import_react186.default.createElement(SizedBox, { height: 24 }), /* @__PURE__ */ import_react186.default.createElement(
     Text,
     {
       text: "\u63D0\u793A\uFF1A\u5207\u6362\u7CFB\u7EDF\u6697\u9ED1\u6A21\u5F0F\u6216\u4FEE\u6539\u5BBF\u4E3B ThemeData \u540E\u56DE\u5230\u6B64\u9875\uFF0C\u4E3B\u9898\u5FEB\u7167\u4F1A\u81EA\u52A8\u66F4\u65B0\u3002",
@@ -32507,13 +32688,13 @@ function ThemeDemo() {
 }
 
 // src/demos/MediaQueryDemo.tsx
-var import_react185 = __toESM(require_react_production());
+var import_react187 = __toESM(require_react_production());
 function Stat({
   label,
   value,
   hint
 }) {
-  return /* @__PURE__ */ import_react185.default.createElement(
+  return /* @__PURE__ */ import_react187.default.createElement(
     Container,
     {
       padding: { vertical: 8, horizontal: 12 },
@@ -32523,11 +32704,11 @@ function Stat({
         borderRadius: 6
       }
     },
-    /* @__PURE__ */ import_react185.default.createElement(Text, { text: label, fontSize: 12, color: "#757575" }),
-    /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 2 }),
-    /* @__PURE__ */ import_react185.default.createElement(Text, { text: value, fontSize: 16, color: "#212121", fontWeight: "bold" }),
-    hint ? /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 2 }) : null,
-    hint ? /* @__PURE__ */ import_react185.default.createElement(Text, { text: hint, fontSize: 11, color: "#9E9E9E" }) : null
+    /* @__PURE__ */ import_react187.default.createElement(Text, { text: label, fontSize: 12, color: "#757575" }),
+    /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 2 }),
+    /* @__PURE__ */ import_react187.default.createElement(Text, { text: value, fontSize: 16, color: "#212121", fontWeight: "bold" }),
+    hint ? /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 2 }) : null,
+    hint ? /* @__PURE__ */ import_react187.default.createElement(Text, { text: hint, fontSize: 11, color: "#9E9E9E" }) : null
   );
 }
 function MediaQueryDemo() {
@@ -32537,7 +32718,7 @@ function MediaQueryDemo() {
   const isKeyboardOpen = keyboardHeight > 0;
   const topInset = mq.viewPadding.top;
   const bottomInset = mq.viewPadding.bottom;
-  return /* @__PURE__ */ import_react185.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react185.default.createElement(AppBar, { title: /* @__PURE__ */ import_react185.default.createElement(Text, { text: "useMediaQuery" }) }) }, /* @__PURE__ */ import_react185.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react185.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react185.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react185.default.createElement(
+  return /* @__PURE__ */ import_react187.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react187.default.createElement(AppBar, { title: /* @__PURE__ */ import_react187.default.createElement(Text, { text: "useMediaQuery" }) }) }, /* @__PURE__ */ import_react187.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react187.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react187.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react187.default.createElement(
     Container,
     {
       padding: 16,
@@ -32546,7 +32727,7 @@ function MediaQueryDemo() {
         borderRadius: 12
       }
     },
-    /* @__PURE__ */ import_react185.default.createElement(
+    /* @__PURE__ */ import_react187.default.createElement(
       Text,
       {
         text: isLandscape ? "\u6A2A\u5C4F Landscape" : "\u7AD6\u5C4F Portrait",
@@ -32555,8 +32736,8 @@ function MediaQueryDemo() {
         color: mq.isDark ? "#FFFFFF" : "#0D47A1"
       }
     ),
-    /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 4 }),
-    /* @__PURE__ */ import_react185.default.createElement(
+    /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 4 }),
+    /* @__PURE__ */ import_react187.default.createElement(
       Text,
       {
         text: `${Math.round(mq.screenWidth)} \xD7 ${Math.round(mq.screenHeight)} @${mq.pixelRatio}x`,
@@ -32564,56 +32745,56 @@ function MediaQueryDemo() {
         color: mq.isDark ? "#B0BEC5" : "#1565C0"
       }
     )
-  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "\u5C4F\u5E55", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(
+  ), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react187.default.createElement(Text, { text: "\u5C4F\u5E55", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react187.default.createElement(
     Stat,
     {
       label: "screenWidth",
       value: mq.screenWidth.toString(),
       hint: "\u903B\u8F91\u50CF\u7D20\uFF0C\u975E\u7269\u7406\u50CF\u7D20"
     }
-  ), /* @__PURE__ */ import_react185.default.createElement(Stat, { label: "screenHeight", value: mq.screenHeight.toString() }), /* @__PURE__ */ import_react185.default.createElement(
+  ), /* @__PURE__ */ import_react187.default.createElement(Stat, { label: "screenHeight", value: mq.screenHeight.toString() }), /* @__PURE__ */ import_react187.default.createElement(
     Stat,
     {
       label: "pixelRatio",
       value: `${mq.pixelRatio.toString()} x`,
       hint: "\u7269\u7406\u50CF\u7D20 = \u903B\u8F91\u50CF\u7D20 \xD7 pixelRatio"
     }
-  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react185.default.createElement(Divider, null), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "\u5916\u89C2", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(
+  ), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react187.default.createElement(Divider, null), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react187.default.createElement(Text, { text: "\u5916\u89C2", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react187.default.createElement(
     Stat,
     {
       label: "platformBrightness",
       value: mq.platformBrightness,
       hint: mq.isDark ? "\u6697\u9ED1\u6A21\u5F0F\u5DF2\u6FC0\u6D3B" : "\u660E\u4EAE\u6A21\u5F0F"
     }
-  ), /* @__PURE__ */ import_react185.default.createElement(
+  ), /* @__PURE__ */ import_react187.default.createElement(
     Stat,
     {
       label: "textScaleFactor",
       value: `${mq.textScaleFactor.toString()} x`,
       hint: "\u7CFB\u7EDF\u5B57\u53F7\u7F29\u653E\uFF0C\u53D7\u8BBE\u7F6E \u2192 \u663E\u793A \u2192 \u5B57\u4F53\u5927\u5C0F\u5F71\u54CD"
     }
-  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react185.default.createElement(Divider, null), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react185.default.createElement(Text, { text: "\u5B89\u5168\u533A\u57DF / \u63D2\u5165", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react185.default.createElement(
+  ), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react187.default.createElement(Divider, null), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 12 }), /* @__PURE__ */ import_react187.default.createElement(Text, { text: "\u5B89\u5168\u533A\u57DF / \u63D2\u5165", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react187.default.createElement(
     Stat,
     {
       label: "viewPadding.top",
       value: topInset.toString(),
       hint: "\u72B6\u6001\u680F / \u5218\u6D77\u9AD8\u5EA6"
     }
-  ), /* @__PURE__ */ import_react185.default.createElement(
+  ), /* @__PURE__ */ import_react187.default.createElement(
     Stat,
     {
       label: "viewPadding.bottom",
       value: bottomInset.toString(),
       hint: "Home Indicator \u9AD8\u5EA6"
     }
-  ), /* @__PURE__ */ import_react185.default.createElement(
+  ), /* @__PURE__ */ import_react187.default.createElement(
     Stat,
     {
       label: "viewInsets.bottom",
       value: keyboardHeight.toString(),
       hint: isKeyboardOpen ? `\u952E\u76D8\u5DF2\u5F39\u8D77\uFF08\u9AD8\u5EA6 ${Math.round(keyboardHeight)}\uFF09` : "\u952E\u76D8\u672A\u5F39\u8D77"
     }
-  ), /* @__PURE__ */ import_react185.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react185.default.createElement(
+  ), /* @__PURE__ */ import_react187.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react187.default.createElement(
     Text,
     {
       text: "\u63D0\u793A\uFF1A\u65CB\u8F6C\u5C4F\u5E55 / \u5F39\u8D77\u952E\u76D8 / \u5207\u6362\u6697\u9ED1\u6A21\u5F0F / \u6539\u5B57\u53F7\uFF0C\u6240\u6709\u6570\u636E\u4F1A\u81EA\u52A8\u66F4\u65B0\u3002",
@@ -32623,28 +32804,326 @@ function MediaQueryDemo() {
   )))));
 }
 
+// src/demos/AnimationDemo.tsx
+var import_react188 = __toESM(require_react_production());
+function AnimationDemo() {
+  const [fadeToggle, setFadeToggle] = (0, import_react188.useState)(false);
+  const [bounceToggle, setBounceToggle] = (0, import_react188.useState)(false);
+  const [width, setWidth] = (0, import_react188.useState)(false);
+  const fade = useAnimation({
+    from: 0,
+    to: 1,
+    duration: 600,
+    curve: "easeOut"
+  });
+  fade.onComplete(() => {
+    ToastService.show("Fade \u5B8C\u6210 \u2705");
+  });
+  const bounce = useAnimation({
+    to: 0.6,
+    duration: 400,
+    curve: "easeOut",
+    autoStart: true,
+    loop: true,
+    reverse: true
+  });
+  const spin = useAnimation({
+    to: 2 * Math.PI,
+    duration: 1200,
+    curve: "easeInOut"
+  });
+  const size = useAnimation({
+    from: 80,
+    to: 200,
+    duration: 700,
+    curve: "easeOut"
+  });
+  const move = useAnimation({
+    from: 0,
+    to: 120,
+    duration: 500,
+    curve: "easeOut"
+  });
+  const progress = useAnimation({ from: 0, to: 300, duration: 500 });
+  return /* @__PURE__ */ import_react188.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react188.default.createElement(AppBar, { title: "useAnimation \u7A0B\u5E8F\u5316\u52A8\u753B" }) }, /* @__PURE__ */ import_react188.default.createElement(Column, { padding: 16, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react188.default.createElement(Text, { text: "1. \u6DE1\u5165 (autoStart + onComplete)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react188.default.createElement(
+    Button,
+    {
+      text: fadeToggle ? "\u64AD\u653E\u6DE1\u5165" : "\u91CD\u65B0\u64AD\u653E",
+      onTap: () => {
+        setFadeToggle(!fadeToggle);
+        fade.start();
+      }
+    }
+  ), /* @__PURE__ */ import_react188.default.createElement(Container, { height: 10 }), /* @__PURE__ */ import_react188.default.createElement(Opacity, { opacity: fade.value }, /* @__PURE__ */ import_react188.default.createElement(
+    Container,
+    {
+      height: 60,
+      color: "#FF7043",
+      alignment: "center",
+      decoration: { color: "#FF7043", borderRadius: 8 }
+    },
+    /* @__PURE__ */ import_react188.default.createElement(Text, { text: "Hello Animation \u{1F44B}", color: "white", fontWeight: "bold" })
+  )), /* @__PURE__ */ import_react188.default.createElement(Divider, { height: 24 }), /* @__PURE__ */ import_react188.default.createElement(Text, { text: "2. \u5FAA\u73AF\u5F39\u8DF3 (loop + reverse)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react188.default.createElement(
+    Button,
+    {
+      text: bounceToggle ? "\u505C\u6B62\u5F39\u8DF3" : "\u5F00\u59CB\u5F39\u8DF3",
+      onTap: () => {
+        setBounceToggle(!bounceToggle);
+        bounceToggle ? bounce.stop() : bounce.start();
+      }
+    }
+  ), /* @__PURE__ */ import_react188.default.createElement(Container, { height: 10 }), /* @__PURE__ */ import_react188.default.createElement(Center, null, /* @__PURE__ */ import_react188.default.createElement(Transform, { scale: bounce.transform.scale() }, /* @__PURE__ */ import_react188.default.createElement(Container, { width: 80, height: 80, color: "#42A5F5", decoration: { color: "#42A5F5", borderRadius: 40 } }))), /* @__PURE__ */ import_react188.default.createElement(Divider, { height: 24 }), /* @__PURE__ */ import_react188.default.createElement(Text, { text: "3. \u65CB\u8F6C + \u53CD\u5411", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Row, null, /* @__PURE__ */ import_react188.default.createElement(Button, { text: "\u65CB\u8F6C 360\xB0", onTap: () => spin.start(), margin: { right: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Button, { text: "\u53CD\u5411", onTap: () => spin.reverse(), margin: { right: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Button, { text: "\u590D\u4F4D", onTap: () => spin.reset() })), /* @__PURE__ */ import_react188.default.createElement(Container, { height: 10 }), /* @__PURE__ */ import_react188.default.createElement(Center, null, /* @__PURE__ */ import_react188.default.createElement(Transform, { rotate: spin.transform.rotate() }, /* @__PURE__ */ import_react188.default.createElement(Container, { width: 80, height: 80, color: "#AB47BC", decoration: { color: "#AB47BC", borderRadius: 8 } }, /* @__PURE__ */ import_react188.default.createElement(Center, null, /* @__PURE__ */ import_react188.default.createElement(Text, { text: "\u{1F300}", fontSize: 28 }))))), /* @__PURE__ */ import_react188.default.createElement(Divider, { height: 24 }), /* @__PURE__ */ import_react188.default.createElement(Text, { text: "4. \u5C3A\u5BF8\u52A8\u753B (width/height)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react188.default.createElement(
+    Button,
+    {
+      text: width ? "\u6536\u56DE\u53BB" : "\u5C55\u5F00",
+      onTap: () => {
+        setWidth(!width);
+        width ? size.reverse() : size.start();
+      }
+    }
+  ), /* @__PURE__ */ import_react188.default.createElement(Container, { height: 10 }), /* @__PURE__ */ import_react188.default.createElement(
+    Container,
+    {
+      width: size.value,
+      height: size.value,
+      color: "#66BB6A",
+      alignment: "center",
+      decoration: { color: "#66BB6A", borderRadius: 8 }
+    },
+    /* @__PURE__ */ import_react188.default.createElement(Text, { text: "\u{1F340}", fontSize: 24 })
+  ), /* @__PURE__ */ import_react188.default.createElement(Divider, { height: 24 }), /* @__PURE__ */ import_react188.default.createElement(Text, { text: "5. \u4F4D\u79FB (setValue / setTo)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Row, null, /* @__PURE__ */ import_react188.default.createElement(Button, { text: "\u53F3\u79FB 120", onTap: () => move.start(), margin: { right: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Button, { text: "setTo 60", onTap: () => move.setTo(60), margin: { right: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Button, { text: "setValue 30", onTap: () => move.setValue(30), margin: { right: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Button, { text: "\u5F52\u4F4D", onTap: () => move.reset() })), /* @__PURE__ */ import_react188.default.createElement(Container, { height: 10 }), /* @__PURE__ */ import_react188.default.createElement(Transform, { translate: move.transform.translateX() }, /* @__PURE__ */ import_react188.default.createElement(Container, { width: 60, height: 60, color: "#FFA726", decoration: { color: "#FFA726", borderRadius: 30 } })), /* @__PURE__ */ import_react188.default.createElement(Divider, { height: 24 }), /* @__PURE__ */ import_react188.default.createElement(Text, { text: "6. \u8FDB\u5EA6\u6761 (setTo)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Row, null, /* @__PURE__ */ import_react188.default.createElement(Button, { text: "25%", onTap: () => progress.setTo(75), margin: { right: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Button, { text: "50%", onTap: () => progress.setTo(150), margin: { right: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Button, { text: "100%", onTap: () => progress.setTo(300), margin: { right: 8 } }), /* @__PURE__ */ import_react188.default.createElement(Button, { text: "\u590D\u4F4D", onTap: () => progress.reset() })), /* @__PURE__ */ import_react188.default.createElement(Container, { height: 10 }), /* @__PURE__ */ import_react188.default.createElement(
+    Container,
+    {
+      height: 20,
+      color: "#ECEFF1",
+      decoration: { color: "#ECEFF1", borderRadius: 10 }
+    },
+    /* @__PURE__ */ import_react188.default.createElement(
+      Container,
+      {
+        width: progress.value,
+        height: 20,
+        color: "#26C6DA",
+        decoration: { color: "#26C6DA", borderRadius: 10 }
+      }
+    )
+  ), /* @__PURE__ */ import_react188.default.createElement(SizedBox, { height: 30 })));
+}
+
+// src/demos/GesturesDemo.tsx
+var import_react189 = __toESM(require_react_production());
+function GesturesDemo() {
+  const [scale, setScale] = (0, import_react189.useState)(1);
+  const [dragOffset, setDragOffset] = (0, import_react189.useState)({ x: 0, y: 0 });
+  const [longPressDrag, setLongPressDrag] = (0, import_react189.useState)({ x: 0, y: 0 });
+  const [verticalDrag, setVerticalDrag] = (0, import_react189.useState)(0);
+  const [horizontalDrag, setHorizontalDrag] = (0, import_react189.useState)(0);
+  const [panInfo, setPanInfo] = (0, import_react189.useState)("\u62D6\u52A8\u7EA2\u8272\u65B9\u5757\u8BD5\u8BD5");
+  const [scaleInfo, setScaleInfo] = (0, import_react189.useState)("\u53CC\u6307\u7F29\u653E\u56FE\u7247 (scale: 1.0)");
+  return /* @__PURE__ */ import_react189.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react189.default.createElement(AppBar, { title: "\u624B\u52BF\u6269\u5C55 (GestureDetector)" }) }, /* @__PURE__ */ import_react189.default.createElement(Column, { padding: 16, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react189.default.createElement(Text, { text: "1. \u53CC\u6307\u7F29\u653E onScale*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(
+    GestureDetector,
+    {
+      onScaleStart: (e) => setScaleInfo(`\u7F29\u653E\u5F00\u59CB (fingers: ${e.pointerCount})`),
+      onScaleUpdate: (e) => {
+        setScale(e.scale);
+        setScaleInfo(`scale=${e.scale.toFixed(2)} focal=(${e.focalX.toFixed(0)}, ${e.focalY.toFixed(0)})`);
+      },
+      onScaleEnd: () => setScaleInfo("\u7F29\u653E\u7ED3\u675F")
+    },
+    /* @__PURE__ */ import_react189.default.createElement(Transform, { scale }, /* @__PURE__ */ import_react189.default.createElement(
+      Container,
+      {
+        width: 140,
+        height: 140,
+        color: "#1E88E5",
+        alignment: "center",
+        decoration: { color: "#1E88E5", borderRadius: 12 }
+      },
+      /* @__PURE__ */ import_react189.default.createElement(Text, { text: "\u{1F446}\u{1F90F}", fontSize: 32 })
+    ))
+  )), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(Text, { text: scaleInfo, fontSize: 12, color: "#666666", margin: { top: 6 } })), /* @__PURE__ */ import_react189.default.createElement(Divider, { height: 20 }), /* @__PURE__ */ import_react189.default.createElement(Text, { text: "2. \u81EA\u7531\u62D6\u62FD onPan*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(
+    GestureDetector,
+    {
+      onPanStart: () => setPanInfo("\u5F00\u59CB\u62D6\u52A8"),
+      onPanUpdate: (e) => setDragOffset((prev) => ({ x: prev.x + e.dx, y: prev.y + e.dy })),
+      onPanEnd: () => setPanInfo("\u62D6\u52A8\u7ED3\u675F")
+    },
+    /* @__PURE__ */ import_react189.default.createElement(Transform, { translate: dragOffset }, /* @__PURE__ */ import_react189.default.createElement(
+      Container,
+      {
+        width: 100,
+        height: 60,
+        color: "#E53935",
+        alignment: "center",
+        decoration: { color: "#E53935", borderRadius: 8 }
+      },
+      /* @__PURE__ */ import_react189.default.createElement(Text, { text: "\u62D6\u6211", color: "white" })
+    ))
+  )), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(Text, { text: panInfo, fontSize: 12, color: "#666666", margin: { top: 6 } })), /* @__PURE__ */ import_react189.default.createElement(Divider, { height: 20 }), /* @__PURE__ */ import_react189.default.createElement(Text, { text: "3. \u957F\u6309\u62D6\u62FD onLongPress*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(
+    GestureDetector,
+    {
+      onLongPressStart: (e) => console.log("\u957F\u6309\u5F00\u59CB", e),
+      onLongPressMoveUpdate: (e) => setLongPressDrag({ x: e.dx, y: e.dy }),
+      onLongPressEnd: () => console.log("\u957F\u6309\u7ED3\u675F")
+    },
+    /* @__PURE__ */ import_react189.default.createElement(Transform, { translate: longPressDrag }, /* @__PURE__ */ import_react189.default.createElement(
+      Container,
+      {
+        width: 100,
+        height: 60,
+        color: "#8E24AA",
+        alignment: "center",
+        decoration: { color: "#8E24AA", borderRadius: 8 }
+      },
+      /* @__PURE__ */ import_react189.default.createElement(Text, { text: "\u957F\u6309\u62D6\u52A8", color: "white" })
+    ))
+  )), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(
+    Text,
+    {
+      text: `\u504F\u79FB (${longPressDrag.x.toFixed(0)}, ${longPressDrag.y.toFixed(0)})`,
+      fontSize: 12,
+      color: "#666666",
+      margin: { top: 6 }
+    }
+  )), /* @__PURE__ */ import_react189.default.createElement(Divider, { height: 20 }), /* @__PURE__ */ import_react189.default.createElement(Text, { text: "4. \u5782\u76F4\u62D6\u52A8 onVerticalDrag*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(
+    GestureDetector,
+    {
+      onVerticalDragUpdate: (e) => setVerticalDrag((prev) => prev + e.dy)
+    },
+    /* @__PURE__ */ import_react189.default.createElement(Transform, { translate: { x: 0, y: verticalDrag } }, /* @__PURE__ */ import_react189.default.createElement(
+      Container,
+      {
+        width: 100,
+        height: 50,
+        color: "#00897B",
+        alignment: "center",
+        decoration: { color: "#00897B", borderRadius: 8 }
+      },
+      /* @__PURE__ */ import_react189.default.createElement(Text, { text: "\u4E0A\u4E0B\u62D6", color: "white" })
+    ))
+  )), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(Text, { text: `\u5782\u76F4\u4F4D\u79FB: ${verticalDrag.toFixed(0)}`, fontSize: 12, color: "#666666", margin: { top: 6 } })), /* @__PURE__ */ import_react189.default.createElement(Divider, { height: 20 }), /* @__PURE__ */ import_react189.default.createElement(Text, { text: "5. \u6C34\u5E73\u62D6\u52A8 onHorizontalDrag*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(
+    GestureDetector,
+    {
+      onHorizontalDragUpdate: (e) => setHorizontalDrag((prev) => prev + e.dx)
+    },
+    /* @__PURE__ */ import_react189.default.createElement(Transform, { translate: { x: horizontalDrag, y: 0 } }, /* @__PURE__ */ import_react189.default.createElement(
+      Container,
+      {
+        width: 100,
+        height: 50,
+        color: "#F4511E",
+        alignment: "center",
+        decoration: { color: "#F4511E", borderRadius: 8 }
+      },
+      /* @__PURE__ */ import_react189.default.createElement(Text, { text: "\u5DE6\u53F3\u62D6", color: "white" })
+    ))
+  )), /* @__PURE__ */ import_react189.default.createElement(Center, null, /* @__PURE__ */ import_react189.default.createElement(Text, { text: `\u6C34\u5E73\u4F4D\u79FB: ${horizontalDrag.toFixed(0)}`, fontSize: 12, color: "#666666", margin: { top: 6 } })), /* @__PURE__ */ import_react189.default.createElement(Container, { height: 16 }), /* @__PURE__ */ import_react189.default.createElement(
+    GestureDetector,
+    {
+      onTap: () => {
+        setScale(1);
+        setDragOffset({ x: 0, y: 0 });
+        setLongPressDrag({ x: 0, y: 0 });
+        setVerticalDrag(0);
+        setHorizontalDrag(0);
+        setPanInfo("\u5DF2\u91CD\u7F6E");
+      }
+    },
+    /* @__PURE__ */ import_react189.default.createElement(
+      Container,
+      {
+        height: 44,
+        color: "#E0E0E0",
+        alignment: "center",
+        decoration: { color: "#E0E0E0", borderRadius: 22 }
+      },
+      /* @__PURE__ */ import_react189.default.createElement(Text, { text: "\u91CD\u7F6E\u6240\u6709\u624B\u52BF", color: "#424242", fontWeight: "bold" })
+    )
+  ), /* @__PURE__ */ import_react189.default.createElement(Container, { height: 30 })));
+}
+
+// src/demos/ScrollControlDemo.tsx
+var import_react190 = __toESM(require_react_production());
+var TOTAL = 200;
+function ScrollControlDemo() {
+  const listRef = (0, import_react190.useRef)(null);
+  const [scrollInfo, setScrollInfo] = (0, import_react190.useState)("pixels: 0 / 0");
+  const [loaded, setLoaded] = (0, import_react190.useState)(40);
+  return /* @__PURE__ */ import_react190.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react190.default.createElement(AppBar, { title: "\u6EDA\u52A8\u63A7\u5236 (Scroll Control)" }) }, /* @__PURE__ */ import_react190.default.createElement(Column, { padding: 12, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react190.default.createElement(Text, { text: `${scrollInfo}`, fontSize: 12, color: "#666666" }), /* @__PURE__ */ import_react190.default.createElement(Row, { margin: { top: 8, bottom: 8 } }, /* @__PURE__ */ import_react190.default.createElement(Button, { text: "\u56DE\u9876", onTap: () => listRef.current?.scrollToTop() }), /* @__PURE__ */ import_react190.default.createElement(Button, { text: "\u5230\u5E95", onTap: () => listRef.current?.scrollToBottom() })), /* @__PURE__ */ import_react190.default.createElement(Row, { margin: { bottom: 8 } }, /* @__PURE__ */ import_react190.default.createElement(Button, { text: "\u8DF3\u5230 #50", onTap: () => listRef.current?.scrollToIndex(50) }), /* @__PURE__ */ import_react190.default.createElement(Button, { text: "\u8DF3\u5230 #150", onTap: () => listRef.current?.scrollToIndex(150) })), /* @__PURE__ */ import_react190.default.createElement(Row, { margin: { bottom: 8 } }, /* @__PURE__ */ import_react190.default.createElement(Button, { text: "jumpTo 1000", onTap: () => listRef.current?.jumpTo(1e3) }), /* @__PURE__ */ import_react190.default.createElement(Button, { text: "animateTo 3000", onTap: () => listRef.current?.animateTo(3e3, 600) }), /* @__PURE__ */ import_react190.default.createElement(
+    Button,
+    {
+      text: `\u52A0\u8F7D\u66F4\u591A(${loaded})`,
+      onTap: () => setLoaded((n) => Math.min(n + 40, TOTAL))
+    }
+  )), /* @__PURE__ */ import_react190.default.createElement(Expanded, null, /* @__PURE__ */ import_react190.default.createElement(
+    ListView,
+    {
+      ref: listRef,
+      itemCount: loaded,
+      itemExtent: 52,
+      stateful: true,
+      cacheKey: loaded,
+      onScroll: (e) => setScrollInfo(
+        `pixels: ${e.pixels.toFixed(0)} / max: ${e.maxScrollExtent.toFixed(0)}`
+      ),
+      onScrollEndReached: () => {
+        setLoaded((n) => Math.min(n + 20, TOTAL));
+      },
+      itemBuilder: (index) => /* @__PURE__ */ import_react190.default.createElement(
+        Container,
+        {
+          height: 52,
+          margin: { bottom: 4 },
+          padding: { left: 12 },
+          alignment: "center",
+          decoration: {
+            color: index % 10 === 0 ? "#FFE0B2" : "#F5F5F5",
+            borderRadius: 8
+          }
+        },
+        /* @__PURE__ */ import_react190.default.createElement(
+          Text,
+          {
+            text: `Item #${index}${index % 10 === 0 ? " (\u5341\u7684\u500D\u6570)" : ""}`,
+            color: index % 10 === 0 ? "#E65100" : "#424242",
+            fontWeight: index % 10 === 0 ? "bold" : "normal"
+          }
+        )
+      )
+    }
+  )), /* @__PURE__ */ import_react190.default.createElement(Center, null, /* @__PURE__ */ import_react190.default.createElement(
+    Text,
+    {
+      text: "\u63D0\u793A: itemExtent=52 \u65F6 scrollToIndex \u7CBE\u786E\u6EDA\u52A8\uFF1B\u6EDA\u5230\u5E95\u90E8\u81EA\u52A8\u52A0\u8F7D\u66F4\u591A",
+      fontSize: 11,
+      color: "#999999",
+      margin: { top: 6 }
+    }
+  ))));
+}
+
 // src/demos/WebViewDemo.tsx
-var import_react186 = __toESM(require_react_production());
+var import_react191 = __toESM(require_react_production());
 var import_web_view = __toESM(require_dist3());
 function WebViewDemo() {
-  const webViewRef = (0, import_react186.useRef)(null);
-  const [title, setTitle] = (0, import_react186.useState)("Loading...");
-  const [progress, setProgress] = (0, import_react186.useState)(0);
-  const [inputUrl, setInputUrl] = (0, import_react186.useState)("https://flutter.dev");
-  return /* @__PURE__ */ import_react186.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react186.default.createElement(AppBar, { title: "WebView Demo" }) }, /* @__PURE__ */ import_react186.default.createElement(Column, null, /* @__PURE__ */ import_react186.default.createElement(Row, { padding: { horizontal: 8, vertical: 6 } }, /* @__PURE__ */ import_react186.default.createElement(Expanded, null, /* @__PURE__ */ import_react186.default.createElement(
+  const webViewRef = (0, import_react191.useRef)(null);
+  const [title, setTitle] = (0, import_react191.useState)("Loading...");
+  const [progress, setProgress] = (0, import_react191.useState)(0);
+  const [inputUrl, setInputUrl] = (0, import_react191.useState)("https://flutter.dev");
+  return /* @__PURE__ */ import_react191.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react191.default.createElement(AppBar, { title: "WebView Demo" }) }, /* @__PURE__ */ import_react191.default.createElement(Column, null, /* @__PURE__ */ import_react191.default.createElement(Row, { padding: { horizontal: 8, vertical: 6 } }, /* @__PURE__ */ import_react191.default.createElement(Expanded, null, /* @__PURE__ */ import_react191.default.createElement(
     TextField,
     {
       value: inputUrl,
       onChanged: (v) => setInputUrl(v),
       decoration: { labelText: "URL" }
     }
-  )), /* @__PURE__ */ import_react186.default.createElement(
+  )), /* @__PURE__ */ import_react191.default.createElement(
     Button,
     {
       text: "Go",
       onTap: () => webViewRef.current?.loadUrl(inputUrl)
     }
-  )), /* @__PURE__ */ import_react186.default.createElement(Container, { padding: { horizontal: 12 }, margin: { bottom: 4 } }, /* @__PURE__ */ import_react186.default.createElement(Text, { text: `Title: ${title}`, fontSize: 13, color: "#555555", maxLines: 1, overflow: "ellipsis" }), /* @__PURE__ */ import_react186.default.createElement(Text, { text: `Progress: ${progress}%`, fontSize: 13, color: "#888888" })), /* @__PURE__ */ import_react186.default.createElement(Expanded, null, /* @__PURE__ */ import_react186.default.createElement(
+  )), /* @__PURE__ */ import_react191.default.createElement(Container, { padding: { horizontal: 12 }, margin: { bottom: 4 } }, /* @__PURE__ */ import_react191.default.createElement(Text, { text: `Title: ${title}`, fontSize: 13, color: "#555555", maxLines: 1, overflow: "ellipsis" }), /* @__PURE__ */ import_react191.default.createElement(Text, { text: `Progress: ${progress}%`, fontSize: 13, color: "#888888" })), /* @__PURE__ */ import_react191.default.createElement(Expanded, null, /* @__PURE__ */ import_react191.default.createElement(
     import_web_view.WebView,
     {
       ref: webViewRef,
@@ -32657,14 +33136,14 @@ function WebViewDemo() {
       onLoadStop: (url) => console.log("Load stop:", url),
       onLoadError: (info2) => console.error("Load error:", info2)
     }
-  )), /* @__PURE__ */ import_react186.default.createElement(Row, { mainAxisAlignment: "spaceEvenly", padding: { vertical: 8 } }, /* @__PURE__ */ import_react186.default.createElement(Button, { text: "Back", onTap: () => webViewRef.current?.goBack() }), /* @__PURE__ */ import_react186.default.createElement(Button, { text: "Forward", onTap: () => webViewRef.current?.goForward() }), /* @__PURE__ */ import_react186.default.createElement(Button, { text: "Reload", onTap: () => webViewRef.current?.reload() }))));
+  )), /* @__PURE__ */ import_react191.default.createElement(Row, { mainAxisAlignment: "spaceEvenly", padding: { vertical: 8 } }, /* @__PURE__ */ import_react191.default.createElement(Button, { text: "Back", onTap: () => webViewRef.current?.goBack() }), /* @__PURE__ */ import_react191.default.createElement(Button, { text: "Forward", onTap: () => webViewRef.current?.goForward() }), /* @__PURE__ */ import_react191.default.createElement(Button, { text: "Reload", onTap: () => webViewRef.current?.reload() }))));
 }
 
 // src/demos/HapticsDemo.tsx
-var import_react187 = __toESM(require_react_production());
+var import_react192 = __toESM(require_react_production());
 var import_haptics = __toESM(require_dist4());
 function HapticsDemo() {
-  return /* @__PURE__ */ import_react187.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react187.default.createElement(AppBar, { title: "Haptics Demo" }) }, /* @__PURE__ */ import_react187.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react187.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react187.default.createElement(Column, null, /* @__PURE__ */ import_react187.default.createElement(
+  return /* @__PURE__ */ import_react192.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react192.default.createElement(AppBar, { title: "Haptics Demo" }) }, /* @__PURE__ */ import_react192.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react192.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react192.default.createElement(Column, null, /* @__PURE__ */ import_react192.default.createElement(
     Text,
     {
       text: "\u89E6\u89C9\u53CD\u9988 (Haptics)",
@@ -32672,7 +33151,7 @@ function HapticsDemo() {
       fontWeight: "bold",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react187.default.createElement(
+  ), /* @__PURE__ */ import_react192.default.createElement(
     Text,
     {
       text: "\u5728\u771F\u673A\u4E0A\u8FD0\u884C\uFF0C\u6A21\u62DF\u5668\u65E0\u632F\u611F\u3002",
@@ -32680,53 +33159,53 @@ function HapticsDemo() {
       color: "#888",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react187.default.createElement(Section5, { title: "Impact \u2014 \u51B2\u51FB\u53CD\u9988" }, /* @__PURE__ */ import_react187.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react187.default.createElement(Button, { text: "Light", onTap: () => import_haptics.Haptics.impact("light") }), /* @__PURE__ */ import_react187.default.createElement(Button, { text: "Medium", onTap: () => import_haptics.Haptics.impact("medium") }), /* @__PURE__ */ import_react187.default.createElement(Button, { text: "Heavy", onTap: () => import_haptics.Haptics.impact("heavy") }))), /* @__PURE__ */ import_react187.default.createElement(Section5, { title: "Selection \u2014 \u9009\u62E9\u53CD\u9988" }, /* @__PURE__ */ import_react187.default.createElement(
+  ), /* @__PURE__ */ import_react192.default.createElement(Section5, { title: "Impact \u2014 \u51B2\u51FB\u53CD\u9988" }, /* @__PURE__ */ import_react192.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react192.default.createElement(Button, { text: "Light", onTap: () => import_haptics.Haptics.impact("light") }), /* @__PURE__ */ import_react192.default.createElement(Button, { text: "Medium", onTap: () => import_haptics.Haptics.impact("medium") }), /* @__PURE__ */ import_react192.default.createElement(Button, { text: "Heavy", onTap: () => import_haptics.Haptics.impact("heavy") }))), /* @__PURE__ */ import_react192.default.createElement(Section5, { title: "Selection \u2014 \u9009\u62E9\u53CD\u9988" }, /* @__PURE__ */ import_react192.default.createElement(
     Button,
     {
       text: "Selection Click",
       onTap: () => import_haptics.Haptics.selection()
     }
-  )), /* @__PURE__ */ import_react187.default.createElement(Section5, { title: "Notification \u2014 \u901A\u77E5\u53CD\u9988" }, /* @__PURE__ */ import_react187.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react187.default.createElement(
+  )), /* @__PURE__ */ import_react192.default.createElement(Section5, { title: "Notification \u2014 \u901A\u77E5\u53CD\u9988" }, /* @__PURE__ */ import_react192.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react192.default.createElement(
     Button,
     {
       text: "\u2705 Success",
       onTap: () => import_haptics.Haptics.notification("success"),
       backgroundColor: "#4CAF50"
     }
-  ), /* @__PURE__ */ import_react187.default.createElement(
+  ), /* @__PURE__ */ import_react192.default.createElement(
     Button,
     {
       text: "\u26A0\uFE0F Warning",
       onTap: () => import_haptics.Haptics.notification("warning"),
       backgroundColor: "#FF9800"
     }
-  ), /* @__PURE__ */ import_react187.default.createElement(
+  ), /* @__PURE__ */ import_react192.default.createElement(
     Button,
     {
       text: "\u274C Error",
       onTap: () => import_haptics.Haptics.notification("error"),
       backgroundColor: "#F44336"
     }
-  ))), /* @__PURE__ */ import_react187.default.createElement(Section5, { title: "Vibrate \u2014 \u9707\u52A8\uFF08Android\uFF09" }, /* @__PURE__ */ import_react187.default.createElement(Button, { text: "Vibrate 200ms", onTap: () => import_haptics.Haptics.vibrate(200) }))))));
+  ))), /* @__PURE__ */ import_react192.default.createElement(Section5, { title: "Vibrate \u2014 \u9707\u52A8\uFF08Android\uFF09" }, /* @__PURE__ */ import_react192.default.createElement(Button, { text: "Vibrate 200ms", onTap: () => import_haptics.Haptics.vibrate(200) }))))));
 }
 function Section5({
   title,
   children
 }) {
-  return /* @__PURE__ */ import_react187.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react187.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react187.default.createElement(Divider, { margin: { bottom: 10 } }), children);
+  return /* @__PURE__ */ import_react192.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react192.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react192.default.createElement(Divider, { margin: { bottom: 10 } }), children);
 }
 
 // src/demos/LauncherDemo.tsx
-var import_react188 = __toESM(require_react_production());
+var import_react193 = __toESM(require_react_production());
 var import_launcher = __toESM(require_dist5());
 function LauncherDemo() {
-  const [phone, setPhone] = (0, import_react188.useState)("10086");
-  const [url, setUrl] = (0, import_react188.useState)("https://flutter.dev");
-  const [result, setResult] = (0, import_react188.useState)("");
+  const [phone, setPhone] = (0, import_react193.useState)("10086");
+  const [url, setUrl] = (0, import_react193.useState)("https://flutter.dev");
+  const [result, setResult] = (0, import_react193.useState)("");
   const log2 = (msg) => {
     setResult(`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`);
   };
-  return /* @__PURE__ */ import_react188.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react188.default.createElement(AppBar, { title: "Launcher Demo" }) }, /* @__PURE__ */ import_react188.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react188.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react188.default.createElement(Column, null, /* @__PURE__ */ import_react188.default.createElement(
+  return /* @__PURE__ */ import_react193.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react193.default.createElement(AppBar, { title: "Launcher Demo" }) }, /* @__PURE__ */ import_react193.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react193.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react193.default.createElement(Column, null, /* @__PURE__ */ import_react193.default.createElement(
     Text,
     {
       text: "\u7CFB\u7EDF\u8DF3\u8F6C (Launcher)",
@@ -32734,7 +33213,7 @@ function LauncherDemo() {
       fontWeight: "bold",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react188.default.createElement(
+  ), /* @__PURE__ */ import_react193.default.createElement(
     Text,
     {
       text: "\u8C03\u7528\u7CFB\u7EDF\u6253\u5F00\u5916\u94FE / \u62E8\u53F7 / \u53D1\u4FE1 / \u90AE\u4EF6 / \u8BBE\u7F6E\u3002",
@@ -32742,7 +33221,7 @@ function LauncherDemo() {
       color: "#888",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react188.default.createElement(Section6, { title: "Open URL" }, /* @__PURE__ */ import_react188.default.createElement(
+  ), /* @__PURE__ */ import_react193.default.createElement(Section6, { title: "Open URL" }, /* @__PURE__ */ import_react193.default.createElement(
     TextField,
     {
       text: url,
@@ -32750,7 +33229,7 @@ function LauncherDemo() {
       border: "outline",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react188.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react188.default.createElement(
+  ), /* @__PURE__ */ import_react193.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react193.default.createElement(
     Button,
     {
       text: "Default",
@@ -32759,7 +33238,7 @@ function LauncherDemo() {
         log2(`openUrl: ${ok}`);
       }
     }
-  ), /* @__PURE__ */ import_react188.default.createElement(
+  ), /* @__PURE__ */ import_react193.default.createElement(
     Button,
     {
       text: "In-App",
@@ -32768,7 +33247,7 @@ function LauncherDemo() {
         log2(`openUrl (in-app): ${ok}`);
       }
     }
-  ), /* @__PURE__ */ import_react188.default.createElement(
+  ), /* @__PURE__ */ import_react193.default.createElement(
     Button,
     {
       text: "External",
@@ -32780,7 +33259,7 @@ function LauncherDemo() {
         log2(`openUrl (external): ${ok}`);
       }
     }
-  ))), /* @__PURE__ */ import_react188.default.createElement(Section6, { title: "Phone / SMS" }, /* @__PURE__ */ import_react188.default.createElement(
+  ))), /* @__PURE__ */ import_react193.default.createElement(Section6, { title: "Phone / SMS" }, /* @__PURE__ */ import_react193.default.createElement(
     TextField,
     {
       text: phone,
@@ -32789,13 +33268,13 @@ function LauncherDemo() {
       keyboardType: "phone",
       margin: { bottom: 10 }
     }
-  ), /* @__PURE__ */ import_react188.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react188.default.createElement(
+  ), /* @__PURE__ */ import_react193.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react193.default.createElement(
     Button,
     {
       text: "\u{1F4DE} Call",
       onTap: async () => log2(`call: ${await import_launcher.Launcher.call(phone)}`)
     }
-  ), /* @__PURE__ */ import_react188.default.createElement(
+  ), /* @__PURE__ */ import_react193.default.createElement(
     Button,
     {
       text: "\u{1F4AC} SMS",
@@ -32803,7 +33282,7 @@ function LauncherDemo() {
         `sms: ${await import_launcher.Launcher.sms(phone, "Hello from FuickJS")}`
       )
     }
-  ))), /* @__PURE__ */ import_react188.default.createElement(Section6, { title: "Email" }, /* @__PURE__ */ import_react188.default.createElement(
+  ))), /* @__PURE__ */ import_react193.default.createElement(Section6, { title: "Email" }, /* @__PURE__ */ import_react193.default.createElement(
     Button,
     {
       text: "\u{1F4E7} Send Mail",
@@ -32815,13 +33294,13 @@ function LauncherDemo() {
         })}`
       )
     }
-  )), /* @__PURE__ */ import_react188.default.createElement(Section6, { title: "System Settings" }, /* @__PURE__ */ import_react188.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react188.default.createElement(
+  )), /* @__PURE__ */ import_react193.default.createElement(Section6, { title: "System Settings" }, /* @__PURE__ */ import_react193.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react193.default.createElement(
     Button,
     {
       text: "App Settings",
       onTap: async () => log2(`appSettings: ${await import_launcher.Launcher.openAppSettings()}`)
     }
-  ), /* @__PURE__ */ import_react188.default.createElement(
+  ), /* @__PURE__ */ import_react193.default.createElement(
     Button,
     {
       text: "Can Open weixin://",
@@ -32829,32 +33308,32 @@ function LauncherDemo() {
         `canOpen weixin:// = ${await import_launcher.Launcher.canOpenUrl("weixin://")}`
       )
     }
-  ))), result ? /* @__PURE__ */ import_react188.default.createElement(
+  ))), result ? /* @__PURE__ */ import_react193.default.createElement(
     Container,
     {
       margin: { top: 16 },
       padding: 12,
       decoration: { color: "#f0f0f0", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react188.default.createElement(Text, { text: result, fontSize: 12, color: "#333" })
+    /* @__PURE__ */ import_react193.default.createElement(Text, { text: result, fontSize: 12, color: "#333" })
   ) : null))));
 }
 function Section6({
   title,
   children
 }) {
-  return /* @__PURE__ */ import_react188.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react188.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react188.default.createElement(Divider, { margin: { bottom: 10 } }), children);
+  return /* @__PURE__ */ import_react193.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react193.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react193.default.createElement(Divider, { margin: { bottom: 10 } }), children);
 }
 
 // src/demos/ShareDemo.tsx
-var import_react189 = __toESM(require_react_production());
+var import_react194 = __toESM(require_react_production());
 var import_share = __toESM(require_dist6());
 function ShareDemo() {
-  const [result, setResult] = (0, import_react189.useState)("");
+  const [result, setResult] = (0, import_react194.useState)("");
   const log2 = (msg) => {
     setResult(`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`);
   };
-  return /* @__PURE__ */ import_react189.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react189.default.createElement(AppBar, { title: "Share Demo" }) }, /* @__PURE__ */ import_react189.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react189.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react189.default.createElement(Column, null, /* @__PURE__ */ import_react189.default.createElement(
+  return /* @__PURE__ */ import_react194.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react194.default.createElement(AppBar, { title: "Share Demo" }) }, /* @__PURE__ */ import_react194.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react194.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react194.default.createElement(Column, null, /* @__PURE__ */ import_react194.default.createElement(
     Text,
     {
       text: "\u7CFB\u7EDF\u5206\u4EAB (Share)",
@@ -32862,7 +33341,7 @@ function ShareDemo() {
       fontWeight: "bold",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react189.default.createElement(
+  ), /* @__PURE__ */ import_react194.default.createElement(
     Text,
     {
       text: "\u8C03\u8D77\u7CFB\u7EDF\u5206\u4EAB\u83DC\u5355\uFF0C\u5206\u4EAB\u6587\u672C / \u94FE\u63A5 / \u6587\u4EF6\u3002",
@@ -32870,7 +33349,7 @@ function ShareDemo() {
       color: "#888",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react189.default.createElement(Section7, { title: "Share Text" }, /* @__PURE__ */ import_react189.default.createElement(
+  ), /* @__PURE__ */ import_react194.default.createElement(Section7, { title: "Share Text" }, /* @__PURE__ */ import_react194.default.createElement(
     Button,
     {
       text: "\u5206\u4EAB\u7EAF\u6587\u672C",
@@ -32879,7 +33358,7 @@ function ShareDemo() {
         log2(`status: ${r.status}`);
       }
     }
-  )), /* @__PURE__ */ import_react189.default.createElement(Section7, { title: "Share with Subject" }, /* @__PURE__ */ import_react189.default.createElement(
+  )), /* @__PURE__ */ import_react194.default.createElement(Section7, { title: "Share with Subject" }, /* @__PURE__ */ import_react194.default.createElement(
     Button,
     {
       text: "\u5206\u4EAB\u6587\u672C + \u6807\u9898",
@@ -32891,7 +33370,7 @@ function ShareDemo() {
         log2(`status: ${r.status}`);
       }
     }
-  )), /* @__PURE__ */ import_react189.default.createElement(Section7, { title: "Share URL" }, /* @__PURE__ */ import_react189.default.createElement(
+  )), /* @__PURE__ */ import_react194.default.createElement(Section7, { title: "Share URL" }, /* @__PURE__ */ import_react194.default.createElement(
     Button,
     {
       text: "\u5206\u4EAB\u94FE\u63A5",
@@ -32903,29 +33382,29 @@ function ShareDemo() {
         log2(`status: ${r.status}`);
       }
     }
-  )), result ? /* @__PURE__ */ import_react189.default.createElement(
+  )), result ? /* @__PURE__ */ import_react194.default.createElement(
     Container,
     {
       margin: { top: 16 },
       padding: 12,
       decoration: { color: "#f0f0f0", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react189.default.createElement(Text, { text: result, fontSize: 12, color: "#333" })
+    /* @__PURE__ */ import_react194.default.createElement(Text, { text: result, fontSize: 12, color: "#333" })
   ) : null))));
 }
 function Section7({
   title,
   children
 }) {
-  return /* @__PURE__ */ import_react189.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react189.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react189.default.createElement(Divider, { margin: { bottom: 10 } }), children);
+  return /* @__PURE__ */ import_react194.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react194.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react194.default.createElement(Divider, { margin: { bottom: 10 } }), children);
 }
 
 // src/demos/AppInfoDemo.tsx
-var import_react190 = __toESM(require_react_production());
+var import_react195 = __toESM(require_react_production());
 var import_app_info = __toESM(require_dist7());
 function AppInfoDemo() {
-  const [info2, setInfo] = (0, import_react190.useState)(null);
-  const [loading, setLoading] = (0, import_react190.useState)(false);
+  const [info2, setInfo] = (0, import_react195.useState)(null);
+  const [loading, setLoading] = (0, import_react195.useState)(false);
   const load = async () => {
     setLoading(true);
     import_app_info.AppInfo.clearCache();
@@ -32933,7 +33412,7 @@ function AppInfoDemo() {
     setInfo(data);
     setLoading(false);
   };
-  (0, import_react190.useEffect)(() => {
+  (0, import_react195.useEffect)(() => {
     load();
   }, []);
   const rows = info2 ? [
@@ -32944,7 +33423,7 @@ function AppInfoDemo() {
     { label: "Build Signature", value: info2.buildSignature ?? "\u2014" },
     { label: "Installer", value: info2.installerStore ?? "\u2014" }
   ] : [];
-  return /* @__PURE__ */ import_react190.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react190.default.createElement(AppBar, { title: "AppInfo Demo" }) }, /* @__PURE__ */ import_react190.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react190.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react190.default.createElement(Column, null, /* @__PURE__ */ import_react190.default.createElement(
+  return /* @__PURE__ */ import_react195.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react195.default.createElement(AppBar, { title: "AppInfo Demo" }) }, /* @__PURE__ */ import_react195.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react195.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react195.default.createElement(Column, null, /* @__PURE__ */ import_react195.default.createElement(
     Text,
     {
       text: "\u5E94\u7528\u4FE1\u606F (AppInfo)",
@@ -32952,7 +33431,7 @@ function AppInfoDemo() {
       fontWeight: "bold",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react190.default.createElement(
+  ), /* @__PURE__ */ import_react195.default.createElement(
     Text,
     {
       text: "\u8BFB\u53D6\u7248\u672C\u53F7\u3001\u6784\u5EFA\u53F7\u3001\u5305\u540D\u7B49\u3002\u7ED3\u679C\u5728 JS \u4FA7\u7F13\u5B58\u3002",
@@ -32960,7 +33439,7 @@ function AppInfoDemo() {
       color: "#888",
       margin: { bottom: 20 }
     }
-  ), loading && /* @__PURE__ */ import_react190.default.createElement(Text, { text: "Loading...", color: "#999" }), rows.map((row) => /* @__PURE__ */ import_react190.default.createElement(
+  ), loading && /* @__PURE__ */ import_react195.default.createElement(Text, { text: "Loading...", color: "#999" }), rows.map((row) => /* @__PURE__ */ import_react195.default.createElement(
     Container,
     {
       key: row.label,
@@ -32971,12 +33450,12 @@ function AppInfoDemo() {
         border: { color: "#eee", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react190.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react190.default.createElement(Text, { text: row.label, fontSize: 11, color: "#999" }), /* @__PURE__ */ import_react190.default.createElement(Text, { text: row.value, fontSize: 15, fontWeight: "w500" }))
-  )), /* @__PURE__ */ import_react190.default.createElement(Divider, { margin: { vertical: 16 } }), /* @__PURE__ */ import_react190.default.createElement(Button, { text: "\u5237\u65B0\uFF08\u6E05\u9664\u7F13\u5B58\uFF09", onTap: load })))));
+    /* @__PURE__ */ import_react195.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react195.default.createElement(Text, { text: row.label, fontSize: 11, color: "#999" }), /* @__PURE__ */ import_react195.default.createElement(Text, { text: row.value, fontSize: 15, fontWeight: "w500" }))
+  )), /* @__PURE__ */ import_react195.default.createElement(Divider, { margin: { vertical: 16 } }), /* @__PURE__ */ import_react195.default.createElement(Button, { text: "\u5237\u65B0\uFF08\u6E05\u9664\u7F13\u5B58\uFF09", onTap: load })))));
 }
 
 // src/demos/PermissionsDemo.tsx
-var import_react191 = __toESM(require_react_production());
+var import_react196 = __toESM(require_react_production());
 var import_permissions = __toESM(require_dist8());
 var ALL_PERMS = [
   "camera",
@@ -32995,7 +33474,7 @@ var statusColor = {
   provisional: "#2196F3"
 };
 function PermissionsDemo() {
-  const [states, setStates] = (0, import_react191.useState)({});
+  const [states, setStates] = (0, import_react196.useState)({});
   const check = async (p) => {
     const s = await import_permissions.Permissions.check(p);
     setStates((prev) => ({ ...prev, [p]: s }));
@@ -33008,7 +33487,7 @@ function PermissionsDemo() {
     const r = await import_permissions.Permissions.requestMultiple(ALL_PERMS);
     setStates(r);
   };
-  return /* @__PURE__ */ import_react191.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react191.default.createElement(AppBar, { title: "Permissions Demo" }) }, /* @__PURE__ */ import_react191.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react191.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react191.default.createElement(Column, null, /* @__PURE__ */ import_react191.default.createElement(
+  return /* @__PURE__ */ import_react196.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react196.default.createElement(AppBar, { title: "Permissions Demo" }) }, /* @__PURE__ */ import_react196.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react196.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react196.default.createElement(Column, null, /* @__PURE__ */ import_react196.default.createElement(
     Text,
     {
       text: "\u8FD0\u884C\u65F6\u6743\u9650 (Permissions)",
@@ -33016,7 +33495,7 @@ function PermissionsDemo() {
       fontWeight: "bold",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react191.default.createElement(
+  ), /* @__PURE__ */ import_react196.default.createElement(
     Text,
     {
       text: "iOS/Android \u9700\u8981\u9884\u5148\u5728 Info.plist / AndroidManifest \u58F0\u660E\u3002",
@@ -33024,14 +33503,14 @@ function PermissionsDemo() {
       color: "#888",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react191.default.createElement(
+  ), /* @__PURE__ */ import_react196.default.createElement(
     Button,
     {
       text: "\u6279\u91CF\u8BF7\u6C42\u6240\u6709\u6743\u9650",
       onTap: requestAll,
       margin: { bottom: 20 }
     }
-  ), ALL_PERMS.map((p) => /* @__PURE__ */ import_react191.default.createElement(
+  ), ALL_PERMS.map((p) => /* @__PURE__ */ import_react196.default.createElement(
     Container,
     {
       key: p,
@@ -33043,14 +33522,14 @@ function PermissionsDemo() {
         border: { color: "#eee", width: 1 }
       }
     },
-    /* @__PURE__ */ import_react191.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react191.default.createElement(
+    /* @__PURE__ */ import_react196.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react196.default.createElement(
       Row,
       {
         mainAxisAlignment: "spaceBetween",
         crossAxisAlignment: "center"
       },
-      /* @__PURE__ */ import_react191.default.createElement(Text, { text: p, fontSize: 15, fontWeight: "w500" }),
-      states[p] ? /* @__PURE__ */ import_react191.default.createElement(
+      /* @__PURE__ */ import_react196.default.createElement(Text, { text: p, fontSize: 15, fontWeight: "w500" }),
+      states[p] ? /* @__PURE__ */ import_react196.default.createElement(
         Container,
         {
           padding: { horizontal: 8, vertical: 4 },
@@ -33059,17 +33538,17 @@ function PermissionsDemo() {
             borderRadius: 4
           }
         },
-        /* @__PURE__ */ import_react191.default.createElement(Text, { text: states[p], fontSize: 11, color: "#fff" })
-      ) : /* @__PURE__ */ import_react191.default.createElement(Text, { text: "\u2014", fontSize: 11, color: "#aaa" })
-    ), /* @__PURE__ */ import_react191.default.createElement(Row, { margin: { top: 10 } }, /* @__PURE__ */ import_react191.default.createElement(
+        /* @__PURE__ */ import_react196.default.createElement(Text, { text: states[p], fontSize: 11, color: "#fff" })
+      ) : /* @__PURE__ */ import_react196.default.createElement(Text, { text: "\u2014", fontSize: 11, color: "#aaa" })
+    ), /* @__PURE__ */ import_react196.default.createElement(Row, { margin: { top: 10 } }, /* @__PURE__ */ import_react196.default.createElement(
       Button,
       {
         text: "Check",
         onTap: () => check(p),
         margin: { right: 8 }
       }
-    ), /* @__PURE__ */ import_react191.default.createElement(Button, { text: "Request", onTap: () => request(p) })))
-  )), /* @__PURE__ */ import_react191.default.createElement(Divider, { margin: { vertical: 16 } }), /* @__PURE__ */ import_react191.default.createElement(
+    ), /* @__PURE__ */ import_react196.default.createElement(Button, { text: "Request", onTap: () => request(p) })))
+  )), /* @__PURE__ */ import_react196.default.createElement(Divider, { margin: { vertical: 16 } }), /* @__PURE__ */ import_react196.default.createElement(
     Text,
     {
       text: "\u72B6\u6001\uFF1Agranted(\u5DF2\u6388\u6743) / denied(\u672C\u6B21\u62D2\u7EDD) / permanentlyDenied(\u6C38\u4E45\u62D2\u7EDD\uFF0C\u9700\u53BB\u7CFB\u7EDF\u8BBE\u7F6E)",
@@ -33080,14 +33559,14 @@ function PermissionsDemo() {
 }
 
 // src/demos/MediaDemo.tsx
-var import_react192 = __toESM(require_react_production());
+var import_react197 = __toESM(require_react_production());
 var import_media = __toESM(require_dist9());
 function MediaDemo() {
-  const [images, setImages] = (0, import_react192.useState)([]);
-  const [video, setVideo] = (0, import_react192.useState)(
+  const [images, setImages] = (0, import_react197.useState)([]);
+  const [video, setVideo] = (0, import_react197.useState)(
     null
   );
-  const [log2, setLog] = (0, import_react192.useState)("");
+  const [log2, setLog] = (0, import_react197.useState)("");
   const addLog = (msg) => setLog(`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`);
   const pickImages = async (count) => {
     const result = await import_media.Media.chooseImage(count, ["album", "camera"]);
@@ -33107,7 +33586,7 @@ function MediaDemo() {
       addLog("cancelled");
     }
   };
-  return /* @__PURE__ */ import_react192.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react192.default.createElement(AppBar, { title: "Media Demo" }) }, /* @__PURE__ */ import_react192.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react192.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react192.default.createElement(Column, null, /* @__PURE__ */ import_react192.default.createElement(
+  return /* @__PURE__ */ import_react197.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react197.default.createElement(AppBar, { title: "Media Demo" }) }, /* @__PURE__ */ import_react197.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react197.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react197.default.createElement(Column, null, /* @__PURE__ */ import_react197.default.createElement(
     Text,
     {
       text: "\u5A92\u4F53\u9009\u62E9 (Media)",
@@ -33115,7 +33594,7 @@ function MediaDemo() {
       fontWeight: "bold",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react192.default.createElement(
+  ), /* @__PURE__ */ import_react197.default.createElement(
     Text,
     {
       text: "\u9009\u53D6\u56FE\u7247 / \u89C6\u9891\uFF0C\u652F\u6301\u76F8\u518C\u548C\u76F8\u673A\u3002\u9700\u8981\u76F8\u5173\u6743\u9650\u3002",
@@ -33123,7 +33602,7 @@ function MediaDemo() {
       color: "#888",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react192.default.createElement(Section8, { title: "\u9009\u62E9\u56FE\u7247" }, /* @__PURE__ */ import_react192.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react192.default.createElement(Button, { text: "\u5355\u9009", onTap: () => pickImages(1) }), /* @__PURE__ */ import_react192.default.createElement(Button, { text: "\u591A\u9009 (\u6700\u591A3)", onTap: () => pickImages(3) }), /* @__PURE__ */ import_react192.default.createElement(
+  ), /* @__PURE__ */ import_react197.default.createElement(Section8, { title: "\u9009\u62E9\u56FE\u7247" }, /* @__PURE__ */ import_react197.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react197.default.createElement(Button, { text: "\u5355\u9009", onTap: () => pickImages(1) }), /* @__PURE__ */ import_react197.default.createElement(Button, { text: "\u591A\u9009 (\u6700\u591A3)", onTap: () => pickImages(3) }), /* @__PURE__ */ import_react197.default.createElement(
     Button,
     {
       text: "\u9884\u89C8",
@@ -33135,7 +33614,7 @@ function MediaDemo() {
         import_media.Media.previewImage(images, 0);
       }
     }
-  )), images.length > 0 && /* @__PURE__ */ import_react192.default.createElement(Wrap, { spacing: 8, runSpacing: 8, margin: { top: 12 } }, images.map((src, i) => /* @__PURE__ */ import_react192.default.createElement(
+  )), images.length > 0 && /* @__PURE__ */ import_react197.default.createElement(Wrap, { spacing: 8, runSpacing: 8, margin: { top: 12 } }, images.map((src, i) => /* @__PURE__ */ import_react197.default.createElement(
     Image,
     {
       key: i,
@@ -33144,14 +33623,14 @@ function MediaDemo() {
       height: 100,
       fit: "cover"
     }
-  )))), /* @__PURE__ */ import_react192.default.createElement(Section8, { title: "\u9009\u62E9\u89C6\u9891" }, /* @__PURE__ */ import_react192.default.createElement(Button, { text: "\u9009\u62E9\u89C6\u9891", onTap: pickVideo }), video && /* @__PURE__ */ import_react192.default.createElement(
+  )))), /* @__PURE__ */ import_react197.default.createElement(Section8, { title: "\u9009\u62E9\u89C6\u9891" }, /* @__PURE__ */ import_react197.default.createElement(Button, { text: "\u9009\u62E9\u89C6\u9891", onTap: pickVideo }), video && /* @__PURE__ */ import_react197.default.createElement(
     Container,
     {
       margin: { top: 12 },
       padding: 10,
       decoration: { color: "#f5f5f5", borderRadius: 6 }
     },
-    /* @__PURE__ */ import_react192.default.createElement(
+    /* @__PURE__ */ import_react197.default.createElement(
       Text,
       {
         text: `\u8DEF\u5F84: ${video.path}`,
@@ -33160,7 +33639,7 @@ function MediaDemo() {
         maxLines: 2
       }
     ),
-    /* @__PURE__ */ import_react192.default.createElement(
+    /* @__PURE__ */ import_react197.default.createElement(
       Text,
       {
         text: `\u5927\u5C0F: ${(video.size / 1024).toFixed(1)} KB`,
@@ -33169,24 +33648,24 @@ function MediaDemo() {
         margin: { top: 4 }
       }
     )
-  )), log2 ? /* @__PURE__ */ import_react192.default.createElement(
+  )), log2 ? /* @__PURE__ */ import_react197.default.createElement(
     Container,
     {
       padding: 10,
       decoration: { color: "#f0f0f0", borderRadius: 6 }
     },
-    /* @__PURE__ */ import_react192.default.createElement(Text, { text: log2, fontSize: 12, color: "#444" })
+    /* @__PURE__ */ import_react197.default.createElement(Text, { text: log2, fontSize: 12, color: "#444" })
   ) : null))));
 }
 function Section8({
   title,
   children
 }) {
-  return /* @__PURE__ */ import_react192.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react192.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react192.default.createElement(Divider, { margin: { bottom: 10 } }), children);
+  return /* @__PURE__ */ import_react197.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react197.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react197.default.createElement(Divider, { margin: { bottom: 10 } }), children);
 }
 
 // src/demos/ConnectivityDemo.tsx
-var import_react193 = __toESM(require_react_production());
+var import_react198 = __toESM(require_react_production());
 var import_connectivity = __toESM(require_dist10());
 var typeColor = {
   wifi: "#4CAF50",
@@ -33196,17 +33675,17 @@ var typeColor = {
   unknown: "#9E9E9E"
 };
 function ConnectivityDemo() {
-  const [current, setCurrent] = (0, import_react193.useState)("unknown");
-  const [listening, setListening] = (0, import_react193.useState)(false);
-  const [events, setEvents] = (0, import_react193.useState)([]);
+  const [current, setCurrent] = (0, import_react198.useState)("unknown");
+  const [listening, setListening] = (0, import_react198.useState)(false);
+  const [events, setEvents] = (0, import_react198.useState)([]);
   const refresh = async () => {
     const t2 = await import_connectivity.Connectivity.getNetworkType();
     setCurrent(t2);
   };
-  (0, import_react193.useEffect)(() => {
+  (0, import_react198.useEffect)(() => {
     refresh();
   }, []);
-  (0, import_react193.useEffect)(() => {
+  (0, import_react198.useEffect)(() => {
     if (!listening) return;
     const unlisten = NativeEvent.on("networkStatusChange", (data) => {
       const msg = `${(/* @__PURE__ */ new Date()).toLocaleTimeString()} \u2014 ${data.networkType} (${data.isConnected ? "online" : "offline"})`;
@@ -33219,7 +33698,7 @@ function ConnectivityDemo() {
       unlisten();
     };
   }, [listening]);
-  return /* @__PURE__ */ import_react193.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react193.default.createElement(AppBar, { title: "Connectivity Demo" }) }, /* @__PURE__ */ import_react193.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react193.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react193.default.createElement(Column, null, /* @__PURE__ */ import_react193.default.createElement(
+  return /* @__PURE__ */ import_react198.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react198.default.createElement(AppBar, { title: "Connectivity Demo" }) }, /* @__PURE__ */ import_react198.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react198.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react198.default.createElement(Column, null, /* @__PURE__ */ import_react198.default.createElement(
     Text,
     {
       text: "\u7F51\u7EDC\u72B6\u6001 (Connectivity)",
@@ -33227,7 +33706,7 @@ function ConnectivityDemo() {
       fontWeight: "bold",
       margin: { bottom: 4 }
     }
-  ), /* @__PURE__ */ import_react193.default.createElement(
+  ), /* @__PURE__ */ import_react198.default.createElement(
     Text,
     {
       text: "\u76D1\u542C WiFi / \u79FB\u52A8\u7F51\u7EDC\u5207\u6362\u3002",
@@ -33235,7 +33714,7 @@ function ConnectivityDemo() {
       color: "#888",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react193.default.createElement(Section9, { title: "\u5F53\u524D\u72B6\u6001" }, /* @__PURE__ */ import_react193.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react193.default.createElement(
+  ), /* @__PURE__ */ import_react198.default.createElement(Section9, { title: "\u5F53\u524D\u72B6\u6001" }, /* @__PURE__ */ import_react198.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react198.default.createElement(
     Container,
     {
       padding: { horizontal: 14, vertical: 8 },
@@ -33245,7 +33724,7 @@ function ConnectivityDemo() {
       },
       margin: { right: 10 }
     },
-    /* @__PURE__ */ import_react193.default.createElement(
+    /* @__PURE__ */ import_react198.default.createElement(
       Text,
       {
         text: current.toUpperCase(),
@@ -33254,21 +33733,21 @@ function ConnectivityDemo() {
         fontWeight: "bold"
       }
     )
-  ), /* @__PURE__ */ import_react193.default.createElement(Button, { text: "Refresh", onTap: refresh }))), /* @__PURE__ */ import_react193.default.createElement(Section9, { title: "\u5B9E\u65F6\u76D1\u542C" }, /* @__PURE__ */ import_react193.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react193.default.createElement(
+  ), /* @__PURE__ */ import_react198.default.createElement(Button, { text: "Refresh", onTap: refresh }))), /* @__PURE__ */ import_react198.default.createElement(Section9, { title: "\u5B9E\u65F6\u76D1\u542C" }, /* @__PURE__ */ import_react198.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react198.default.createElement(
     Button,
     {
       text: listening ? "Stop Listener" : "Start Listener",
       onTap: () => setListening((v) => !v),
       backgroundColor: listening ? "#F44336" : "#4CAF50"
     }
-  )), events.length > 0 && /* @__PURE__ */ import_react193.default.createElement(
+  )), events.length > 0 && /* @__PURE__ */ import_react198.default.createElement(
     Container,
     {
       margin: { top: 12 },
       padding: 10,
       decoration: { color: "#f5f5f5", borderRadius: 6 }
     },
-    events.map((e, i) => /* @__PURE__ */ import_react193.default.createElement(
+    events.map((e, i) => /* @__PURE__ */ import_react198.default.createElement(
       Text,
       {
         key: i,
@@ -33278,7 +33757,7 @@ function ConnectivityDemo() {
         margin: { bottom: 4 }
       }
     ))
-  )), /* @__PURE__ */ import_react193.default.createElement(
+  )), /* @__PURE__ */ import_react198.default.createElement(
     Text,
     {
       text: "\u63D0\u793A\uFF1A\u5F00\u542F\u76D1\u542C\u540E\uFF0C\u5207\u6362 WiFi/\u98DE\u884C\u6A21\u5F0F\u53EF\u4EE5\u770B\u5230\u4E8B\u4EF6\u3002",
@@ -33291,11 +33770,11 @@ function Section9({
   title,
   children
 }) {
-  return /* @__PURE__ */ import_react193.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react193.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react193.default.createElement(Divider, { margin: { bottom: 10 } }), children);
+  return /* @__PURE__ */ import_react198.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react198.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react198.default.createElement(Divider, { margin: { bottom: 10 } }), children);
 }
 
 // src/demos/SoundServiceDemo.tsx
-var import_react194 = __toESM(require_react_production());
+var import_react199 = __toESM(require_react_production());
 function SoundServiceDemo() {
   const handleMove = () => {
     SoundService.play("move");
@@ -33309,27 +33788,27 @@ function SoundServiceDemo() {
   const handleWin = () => {
     SoundService.play("win");
   };
-  return /* @__PURE__ */ import_react194.default.createElement(
+  return /* @__PURE__ */ import_react199.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react194.default.createElement(AppBar, { title: /* @__PURE__ */ import_react194.default.createElement(Text, { text: "Sound Service Demo" }) })
+      appBar: /* @__PURE__ */ import_react199.default.createElement(AppBar, { title: /* @__PURE__ */ import_react199.default.createElement(Text, { text: "Sound Service Demo" }) })
     },
-    /* @__PURE__ */ import_react194.default.createElement(
+    /* @__PURE__ */ import_react199.default.createElement(
       Column,
       {
         padding: 20,
         crossAxisAlignment: "center",
         mainAxisAlignment: "center"
       },
-      /* @__PURE__ */ import_react194.default.createElement(Text, { text: "Sound & Haptic Feedback", fontSize: 20, fontWeight: "bold" }),
-      /* @__PURE__ */ import_react194.default.createElement(SizedBox, { height: 10 }),
-      /* @__PURE__ */ import_react194.default.createElement(Text, { text: "Each button triggers a haptic + sound combo", fontSize: 14, color: "#666" }),
-      /* @__PURE__ */ import_react194.default.createElement(SizedBox, { height: 30 }),
-      /* @__PURE__ */ import_react194.default.createElement(Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react194.default.createElement(Button, { text: "Move (light)", onTap: handleMove }), /* @__PURE__ */ import_react194.default.createElement(Button, { text: "Capture (medium)", onTap: handleCapture })),
-      /* @__PURE__ */ import_react194.default.createElement(SizedBox, { height: 20 }),
-      /* @__PURE__ */ import_react194.default.createElement(Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react194.default.createElement(Button, { text: "Check (heavy)", onTap: handleCheck }), /* @__PURE__ */ import_react194.default.createElement(Button, { text: "Win (heavy)", onTap: handleWin })),
-      /* @__PURE__ */ import_react194.default.createElement(SizedBox, { height: 30 }),
-      /* @__PURE__ */ import_react194.default.createElement(
+      /* @__PURE__ */ import_react199.default.createElement(Text, { text: "Sound & Haptic Feedback", fontSize: 20, fontWeight: "bold" }),
+      /* @__PURE__ */ import_react199.default.createElement(SizedBox, { height: 10 }),
+      /* @__PURE__ */ import_react199.default.createElement(Text, { text: "Each button triggers a haptic + sound combo", fontSize: 14, color: "#666" }),
+      /* @__PURE__ */ import_react199.default.createElement(SizedBox, { height: 30 }),
+      /* @__PURE__ */ import_react199.default.createElement(Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react199.default.createElement(Button, { text: "Move (light)", onTap: handleMove }), /* @__PURE__ */ import_react199.default.createElement(Button, { text: "Capture (medium)", onTap: handleCapture })),
+      /* @__PURE__ */ import_react199.default.createElement(SizedBox, { height: 20 }),
+      /* @__PURE__ */ import_react199.default.createElement(Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react199.default.createElement(Button, { text: "Check (heavy)", onTap: handleCheck }), /* @__PURE__ */ import_react199.default.createElement(Button, { text: "Win (heavy)", onTap: handleWin })),
+      /* @__PURE__ */ import_react199.default.createElement(SizedBox, { height: 30 }),
+      /* @__PURE__ */ import_react199.default.createElement(
         Container,
         {
           width: 200,
@@ -33337,7 +33816,7 @@ function SoundServiceDemo() {
           color: "#f0f0f0",
           alignment: "center"
         },
-        /* @__PURE__ */ import_react194.default.createElement(
+        /* @__PURE__ */ import_react199.default.createElement(
           Text,
           {
             text: "SoundService.play(type)\\nmove / capture / check / win",
@@ -33352,16 +33831,16 @@ function SoundServiceDemo() {
 }
 
 // src/demos/I18nDemo.tsx
-var import_react195 = __toESM(require_react_production());
+var import_react200 = __toESM(require_react_production());
 function I18nDemo() {
   const { t: t2, locale, setLocale } = useTranslation();
-  const [itemCount, setItemCount] = (0, import_react195.useState)(0);
-  const [systemLocale, setSystemLocale] = (0, import_react195.useState)("\u2014");
-  (0, import_react195.useEffect)(() => {
+  const [itemCount, setItemCount] = (0, import_react200.useState)(0);
+  const [systemLocale, setSystemLocale] = (0, import_react200.useState)("\u2014");
+  (0, import_react200.useEffect)(() => {
     DeviceInfoService.getDeviceInfo().then((info2) => setSystemLocale(info2.locale)).catch(() => setSystemLocale("\u2014"));
   }, []);
   const switchTo = (loc) => () => setLocale(loc);
-  return /* @__PURE__ */ import_react195.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react195.default.createElement(AppBar, { title: t2("demo.title") }) }, /* @__PURE__ */ import_react195.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react195.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react195.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react195.default.createElement(
+  return /* @__PURE__ */ import_react200.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react200.default.createElement(AppBar, { title: t2("demo.title") }) }, /* @__PURE__ */ import_react200.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react200.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react200.default.createElement(Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react200.default.createElement(
     Text,
     {
       text: t2("demo.subtitle"),
@@ -33369,13 +33848,13 @@ function I18nDemo() {
       color: "#888",
       margin: { bottom: 16 }
     }
-  ), /* @__PURE__ */ import_react195.default.createElement(
+  ), /* @__PURE__ */ import_react200.default.createElement(
     InfoCard,
     {
       label: t2("demo.currentLocale", { locale }),
       hint: `System (DeviceInfo): ${systemLocale}`
     }
-  ), /* @__PURE__ */ import_react195.default.createElement(Section10, { title: t2("demo.nestedTitle") }, /* @__PURE__ */ import_react195.default.createElement(Text, { text: t2("demo.nestedSample"), fontSize: 16 })), /* @__PURE__ */ import_react195.default.createElement(Section10, { title: t2("demo.interpolationTitle") }, /* @__PURE__ */ import_react195.default.createElement(
+  ), /* @__PURE__ */ import_react200.default.createElement(Section10, { title: t2("demo.nestedTitle") }, /* @__PURE__ */ import_react200.default.createElement(Text, { text: t2("demo.nestedSample"), fontSize: 16 })), /* @__PURE__ */ import_react200.default.createElement(Section10, { title: t2("demo.interpolationTitle") }, /* @__PURE__ */ import_react200.default.createElement(
     Text,
     {
       text: t2("demo.greeting", {
@@ -33384,7 +33863,7 @@ function I18nDemo() {
       fontSize: 16,
       fontWeight: "w500"
     }
-  )), /* @__PURE__ */ import_react195.default.createElement(Section10, { title: t2("demo.pluralTitle") }, /* @__PURE__ */ import_react195.default.createElement(
+  )), /* @__PURE__ */ import_react200.default.createElement(Section10, { title: t2("demo.pluralTitle") }, /* @__PURE__ */ import_react200.default.createElement(
     Text,
     {
       text: t2(
@@ -33395,33 +33874,33 @@ function I18nDemo() {
       fontSize: 16,
       margin: { bottom: 12 }
     }
-  ), /* @__PURE__ */ import_react195.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react195.default.createElement(
+  ), /* @__PURE__ */ import_react200.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react200.default.createElement(
     Button,
     {
       text: t2("demo.removeItem"),
       onTap: () => setItemCount((c) => Math.max(0, c - 1))
     }
-  ), /* @__PURE__ */ import_react195.default.createElement(
+  ), /* @__PURE__ */ import_react200.default.createElement(
     Button,
     {
       text: t2("demo.addItem"),
       onTap: () => setItemCount((c) => c + 1)
     }
-  ))), /* @__PURE__ */ import_react195.default.createElement(Section10, { title: t2("demo.switchTitle") }, /* @__PURE__ */ import_react195.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react195.default.createElement(
+  ))), /* @__PURE__ */ import_react200.default.createElement(Section10, { title: t2("demo.switchTitle") }, /* @__PURE__ */ import_react200.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react200.default.createElement(
     Button,
     {
       text: t2("demo.switchEn"),
       onTap: switchTo("en"),
       backgroundColor: locale === "en" ? "#1976D2" : void 0
     }
-  ), /* @__PURE__ */ import_react195.default.createElement(
+  ), /* @__PURE__ */ import_react200.default.createElement(
     Button,
     {
       text: t2("demo.switchZh"),
       onTap: switchTo("zh-CN"),
       backgroundColor: locale === "zh-cn" ? "#1976D2" : void 0
     }
-  )), /* @__PURE__ */ import_react195.default.createElement(
+  )), /* @__PURE__ */ import_react200.default.createElement(
     Text,
     {
       text: t2("demo.persistHint"),
@@ -33435,10 +33914,10 @@ function Section10({
   title,
   children
 }) {
-  return /* @__PURE__ */ import_react195.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react195.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react195.default.createElement(Divider, { margin: { bottom: 10 } }), children);
+  return /* @__PURE__ */ import_react200.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react200.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react200.default.createElement(Divider, { margin: { bottom: 10 } }), children);
 }
 function InfoCard({ label, hint }) {
-  return /* @__PURE__ */ import_react195.default.createElement(
+  return /* @__PURE__ */ import_react200.default.createElement(
     Container,
     {
       margin: { bottom: 20 },
@@ -33449,18 +33928,18 @@ function InfoCard({ label, hint }) {
         border: { width: 1, color: "#90CAF9" }
       }
     },
-    /* @__PURE__ */ import_react195.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react195.default.createElement(Text, { text: label, fontSize: 15, fontWeight: "w600" }), /* @__PURE__ */ import_react195.default.createElement(Text, { text: hint, fontSize: 12, color: "#666", margin: { top: 6 } }))
+    /* @__PURE__ */ import_react200.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react200.default.createElement(Text, { text: label, fontSize: 15, fontWeight: "w600" }), /* @__PURE__ */ import_react200.default.createElement(Text, { text: hint, fontSize: 12, color: "#666", margin: { top: 6 } }))
   );
 }
 
 // src/demos/LifecycleDemo.tsx
-var import_react196 = __toESM(require_react_production());
+var import_react201 = __toESM(require_react_production());
 var INFO_COLOR = "#1976D2";
 var SUCCESS_COLOR = "#388E3C";
 var WARNING_COLOR = "#F57C00";
 function LogLine({ text, color, time: time2 }) {
   const ts = time2 ? `[+${time2}ms]` : `[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}]`;
-  return /* @__PURE__ */ import_react196.default.createElement(
+  return /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: `${ts} ${text}`,
@@ -33477,7 +33956,7 @@ function VisibilityTracker({ onLog }) {
   useInvisible(() => {
     onLog("useInvisible \u2014 page became invisible", WARNING_COLOR);
   });
-  return /* @__PURE__ */ import_react196.default.createElement(
+  return /* @__PURE__ */ import_react201.default.createElement(
     Container,
     {
       padding: 12,
@@ -33485,8 +33964,8 @@ function VisibilityTracker({ onLog }) {
       decoration: { color: "#E8F5E9", borderRadius: 8 },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react196.default.createElement(Text, { text: "\u{1F441} Visibility Tracker Active", fontSize: 13, color: SUCCESS_COLOR, fontWeight: "bold" }),
-    /* @__PURE__ */ import_react196.default.createElement(
+    /* @__PURE__ */ import_react201.default.createElement(Text, { text: "\u{1F441} Visibility Tracker Active", fontSize: 13, color: SUCCESS_COLOR, fontWeight: "bold" }),
+    /* @__PURE__ */ import_react201.default.createElement(
       Text,
       {
         text: "useVisible / useInvisible hooks registered",
@@ -33498,10 +33977,10 @@ function VisibilityTracker({ onLog }) {
   );
 }
 function LifecycleDemo() {
-  const [logs, setLogs] = (0, import_react196.useState)([]);
-  const [appState, setAppState] = (0, import_react196.useState)("\u2014");
+  const [logs, setLogs] = (0, import_react201.useState)([]);
+  const [appState, setAppState] = (0, import_react201.useState)("\u2014");
   const { isInBackground } = useAppState();
-  const startRef = (0, import_react196.useRef)(Date.now());
+  const startRef = (0, import_react201.useRef)(Date.now());
   const addLog = (msg, color) => {
     const elapsed = Date.now() - startRef.current;
     setLogs((prev) => {
@@ -33509,7 +33988,7 @@ function LifecycleDemo() {
       return [`${prefix}[+${elapsed}ms] ${msg}`, ...prev].slice(0, 30);
     });
   };
-  (0, import_react196.useEffect)(() => {
+  (0, import_react201.useEffect)(() => {
     const unlisten = LifecycleService.onChange((state) => {
       if (state === "background") {
         addLog("LifecycleService.onChange \u2192 background", WARNING_COLOR);
@@ -33519,7 +33998,7 @@ function LifecycleDemo() {
     });
     return unlisten;
   }, []);
-  (0, import_react196.useEffect)(() => {
+  (0, import_react201.useEffect)(() => {
     LifecycleService.getState().then((s) => setAppState(s)).catch(() => setAppState("error"));
   }, []);
   const handleQueryState = async () => {
@@ -33542,7 +34021,7 @@ function LifecycleDemo() {
     addLog("Logs cleared");
   };
   const navigator2 = useNavigator();
-  return /* @__PURE__ */ import_react196.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react196.default.createElement(AppBar, { title: "LifecycleService Demo" }) }, /* @__PURE__ */ import_react196.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react196.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react196.default.createElement(Column, null, /* @__PURE__ */ import_react196.default.createElement(Text, { text: "App \u751F\u547D\u5468\u671F", fontSize: 18, fontWeight: "bold", margin: { bottom: 4 } }), /* @__PURE__ */ import_react196.default.createElement(
+  return /* @__PURE__ */ import_react201.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react201.default.createElement(AppBar, { title: "LifecycleService Demo" }) }, /* @__PURE__ */ import_react201.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react201.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react201.default.createElement(Column, null, /* @__PURE__ */ import_react201.default.createElement(Text, { text: "App \u751F\u547D\u5468\u671F", fontSize: 18, fontWeight: "bold", margin: { bottom: 4 } }), /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: "\u5728\u771F\u673A\u4E0A\u5207\u5230\u540E\u53F0/\u524D\u53F0\u89C2\u5BDF\u4E8B\u4EF6\u3002\u6A21\u62DF\u5668\u7528\u547D\u4EE4\u884C\u6A21\u62DF\u3002",
@@ -33550,13 +34029,13 @@ function LifecycleDemo() {
       color: "#888",
       margin: { bottom: 20 }
     }
-  ), /* @__PURE__ */ import_react196.default.createElement(Container, { margin: { bottom: 16 } }, /* @__PURE__ */ import_react196.default.createElement(VisibilityTracker, { onLog: addLog })), /* @__PURE__ */ import_react196.default.createElement(Section11, { title: "\u9875\u9762\u7EA7\u53EF\u89C1\u6027\uFF08push / pop\uFF09" }, /* @__PURE__ */ import_react196.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react196.default.createElement(
+  ), /* @__PURE__ */ import_react201.default.createElement(Container, { margin: { bottom: 16 } }, /* @__PURE__ */ import_react201.default.createElement(VisibilityTracker, { onLog: addLog })), /* @__PURE__ */ import_react201.default.createElement(Section11, { title: "\u9875\u9762\u7EA7\u53EF\u89C1\u6027\uFF08push / pop\uFF09" }, /* @__PURE__ */ import_react201.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react201.default.createElement(
     Button,
     {
       text: "Push \u5B50\u9875\u9762 \u2192",
       onTap: () => navigator2.push("/demo/lifecycle_sub")
     }
-  )), /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: "Push \u540E\u5F53\u524D\u9875 useInvisible \u89E6\u53D1\uFF0C\u5B50\u9875 useVisible \u89E6\u53D1\u3002\u8FD4\u56DE\u540E\u5F53\u524D\u9875 useVisible \u518D\u6B21\u89E6\u53D1\u3002",
@@ -33564,7 +34043,7 @@ function LifecycleDemo() {
       color: "#999",
       margin: { top: 8 }
     }
-  )), /* @__PURE__ */ import_react196.default.createElement(Section11, { title: "useAppState() Hook" }, /* @__PURE__ */ import_react196.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(Section11, { title: "useAppState() Hook" }, /* @__PURE__ */ import_react201.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react201.default.createElement(
     Container,
     {
       padding: { horizontal: 20, vertical: 12 },
@@ -33578,7 +34057,7 @@ function LifecycleDemo() {
       },
       alignment: "center"
     },
-    /* @__PURE__ */ import_react196.default.createElement(
+    /* @__PURE__ */ import_react201.default.createElement(
       Text,
       {
         text: isInBackground ? "\u{1F319} \u540E\u53F0" : "\u2600\uFE0F \u524D\u53F0",
@@ -33587,7 +34066,7 @@ function LifecycleDemo() {
         color: isInBackground ? "#C62828" : "#2E7D32"
       }
     )
-  )), /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: "useAppState() \u54CD\u5E94\u5F0F\u8FFD\u8E2A App \u524D\u540E\u53F0\u72B6\u6001",
@@ -33596,7 +34075,7 @@ function LifecycleDemo() {
       textAlign: "center",
       margin: { top: 8 }
     }
-  )), /* @__PURE__ */ import_react196.default.createElement(Section11, { title: "App \u524D\u540E\u53F0\uFF08useVisible / useInvisible \u81EA\u52A8\u54CD\u5E94\uFF09" }, /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(Section11, { title: "App \u524D\u540E\u53F0\uFF08useVisible / useInvisible \u81EA\u52A8\u54CD\u5E94\uFF09" }, /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: "\u5207\u540E\u53F0\u65F6\u4E0B\u65B9 Visibility Tracker \u7684 useInvisible \u81EA\u52A8\u89E6\u53D1\uFF0C\u56DE\u524D\u53F0\u65F6 useVisible \u89E6\u53D1\u3002",
@@ -33604,7 +34083,7 @@ function LifecycleDemo() {
       color: "#999",
       margin: { bottom: 8 }
     }
-  )), /* @__PURE__ */ import_react196.default.createElement(Section11, { title: "LifecycleService API" }, /* @__PURE__ */ import_react196.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react196.default.createElement(Button, { text: "getState()", onTap: handleQueryState }), /* @__PURE__ */ import_react196.default.createElement(Button, { text: "isInBackground", onTap: handleCheckDirect, backgroundColor: "#546E7A" }), /* @__PURE__ */ import_react196.default.createElement(Button, { text: "Clear Logs", onTap: handleClear, backgroundColor: "#EF5350" })), /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(Section11, { title: "LifecycleService API" }, /* @__PURE__ */ import_react201.default.createElement(Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react201.default.createElement(Button, { text: "getState()", onTap: handleQueryState }), /* @__PURE__ */ import_react201.default.createElement(Button, { text: "isInBackground", onTap: handleCheckDirect, backgroundColor: "#546E7A" }), /* @__PURE__ */ import_react201.default.createElement(Button, { text: "Clear Logs", onTap: handleClear, backgroundColor: "#EF5350" })), /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: `\u5F53\u524D native state: ${appState}`,
@@ -33612,7 +34091,7 @@ function LifecycleDemo() {
       color: "#555",
       margin: { top: 12 }
     }
-  ), /* @__PURE__ */ import_react196.default.createElement(
+  ), /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: `\u540C\u6B65 isInBackground: ${String(isInBackground)}`,
@@ -33620,48 +34099,48 @@ function LifecycleDemo() {
       color: "#555",
       margin: { top: 4 }
     }
-  )), /* @__PURE__ */ import_react196.default.createElement(Section11, { title: "\u6D4B\u8BD5\u65B9\u6CD5" }, /* @__PURE__ */ import_react196.default.createElement(Tip, null, /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(Section11, { title: "\u6D4B\u8BD5\u65B9\u6CD5" }, /* @__PURE__ */ import_react201.default.createElement(Tip, null, /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: "\u2022 \u771F\u673A\uFF1A\u6309 Home \u952E / \u5207\u5230\u5176\u4ED6 App \u2192 \u7B49\u5F85 2 \u79D2 \u2192 \u5207\u56DE\u6765",
       fontSize: 13,
       color: "#333"
     }
-  )), /* @__PURE__ */ import_react196.default.createElement(Tip, null, /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(Tip, null, /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: "\u2022 iOS \u6A21\u62DF\u5668\uFF1AHardware \u2192 Home",
       fontSize: 13,
       color: "#333"
     }
-  )), /* @__PURE__ */ import_react196.default.createElement(Tip, null, /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(Tip, null, /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: "\u2022 Android \u6A21\u62DF\u5668\uFF1Aadb shell am start -W -a android.intent.action.MAIN -c android.intent.category.HOME",
       fontSize: 13,
       color: "#333"
     }
-  )), /* @__PURE__ */ import_react196.default.createElement(Tip, null, /* @__PURE__ */ import_react196.default.createElement(
+  )), /* @__PURE__ */ import_react201.default.createElement(Tip, null, /* @__PURE__ */ import_react201.default.createElement(
     Text,
     {
       text: "\u9884\u671F\uFF1A\u5207\u540E\u53F0\u65F6 isInBackground \u2192 true\uFF0CuseInvisible \u89E6\u53D1\u3002\u56DE\u524D\u53F0\u65F6 isInBackground \u2192 false\uFF0CuseVisible \u89E6\u53D1\u3002",
       fontSize: 13,
       color: "#666"
     }
-  ))), /* @__PURE__ */ import_react196.default.createElement(Section11, { title: "\u4E8B\u4EF6\u65E5\u5FD7\uFF08\u6700\u8FD1 30 \u6761\uFF09" }, logs.length === 1 && /* @__PURE__ */ import_react196.default.createElement(Text, { text: logs[0], fontSize: 12, color: "#999" }), logs.filter((l) => l.length > 0).map((line, i) => {
+  ))), /* @__PURE__ */ import_react201.default.createElement(Section11, { title: "\u4E8B\u4EF6\u65E5\u5FD7\uFF08\u6700\u8FD1 30 \u6761\uFF09" }, logs.length === 1 && /* @__PURE__ */ import_react201.default.createElement(Text, { text: logs[0], fontSize: 12, color: "#999" }), logs.filter((l) => l.length > 0).map((line, i) => {
     const colorMatch = line.match(/^%%COLOR:(#[0-9A-Fa-f]+)%%/);
     if (colorMatch) {
       const color = colorMatch[1];
       const text = line.slice(colorMatch[0].length);
-      return /* @__PURE__ */ import_react196.default.createElement(LogLine, { key: i, text, color });
+      return /* @__PURE__ */ import_react201.default.createElement(LogLine, { key: i, text, color });
     }
-    return /* @__PURE__ */ import_react196.default.createElement(LogLine, { key: i, text: line });
-  })), /* @__PURE__ */ import_react196.default.createElement(Container, { height: 40 })))));
+    return /* @__PURE__ */ import_react201.default.createElement(LogLine, { key: i, text: line });
+  })), /* @__PURE__ */ import_react201.default.createElement(Container, { height: 40 })))));
 }
 function LifecycleSubPage() {
   const navigator2 = useNavigator();
-  const [logs, setLogs] = (0, import_react196.useState)([]);
-  const startRef = (0, import_react196.useRef)(Date.now());
+  const [logs, setLogs] = (0, import_react201.useState)([]);
+  const startRef = (0, import_react201.useRef)(Date.now());
   const addLog = (msg, color) => {
     const elapsed = Date.now() - startRef.current;
     setLogs((prev) => {
@@ -33669,14 +34148,14 @@ function LifecycleSubPage() {
       return [`${prefix}[+${elapsed}ms] SUB ${msg}`, ...prev].slice(0, 20);
     });
   };
-  return /* @__PURE__ */ import_react196.default.createElement(
+  return /* @__PURE__ */ import_react201.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react196.default.createElement(
+      appBar: /* @__PURE__ */ import_react201.default.createElement(
         AppBar,
         {
           title: "Lifecycle Sub Page",
-          leading: /* @__PURE__ */ import_react196.default.createElement(
+          leading: /* @__PURE__ */ import_react201.default.createElement(
             Button,
             {
               text: "\u2190 Back",
@@ -33687,7 +34166,7 @@ function LifecycleSubPage() {
         }
       )
     },
-    /* @__PURE__ */ import_react196.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react196.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react196.default.createElement(Column, null, /* @__PURE__ */ import_react196.default.createElement(VisibilityTracker, { onLog: addLog }), /* @__PURE__ */ import_react196.default.createElement(Container, { margin: { top: 20 } }, /* @__PURE__ */ import_react196.default.createElement(
+    /* @__PURE__ */ import_react201.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react201.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react201.default.createElement(Column, null, /* @__PURE__ */ import_react201.default.createElement(VisibilityTracker, { onLog: addLog }), /* @__PURE__ */ import_react201.default.createElement(Container, { margin: { top: 20 } }, /* @__PURE__ */ import_react201.default.createElement(
       Text,
       {
         text: "\u5B50\u9875\u9762\u4E8B\u4EF6\u65E5\u5FD7",
@@ -33695,10 +34174,10 @@ function LifecycleSubPage() {
         color: "#555",
         margin: { bottom: 8 }
       }
-    ), /* @__PURE__ */ import_react196.default.createElement(Divider, { margin: { bottom: 8 } }), logs.filter((l) => l.length > 0).map((line, i) => {
+    ), /* @__PURE__ */ import_react201.default.createElement(Divider, { margin: { bottom: 8 } }), logs.filter((l) => l.length > 0).map((line, i) => {
       const colorMatch = line.match(/^%%COLOR:(#[0-9A-Fa-f]+)%%/);
       if (colorMatch) {
-        return /* @__PURE__ */ import_react196.default.createElement(
+        return /* @__PURE__ */ import_react201.default.createElement(
           LogLine,
           {
             key: i,
@@ -33707,15 +34186,15 @@ function LifecycleSubPage() {
           }
         );
       }
-      return /* @__PURE__ */ import_react196.default.createElement(LogLine, { key: i, text: line });
-    })), /* @__PURE__ */ import_react196.default.createElement(
+      return /* @__PURE__ */ import_react201.default.createElement(LogLine, { key: i, text: line });
+    })), /* @__PURE__ */ import_react201.default.createElement(
       Container,
       {
         margin: { top: 24 },
         padding: 12,
         decoration: { color: "#E3F2FD", borderRadius: 8 }
       },
-      /* @__PURE__ */ import_react196.default.createElement(
+      /* @__PURE__ */ import_react201.default.createElement(
         Text,
         {
           text: "\u6309\u8FD4\u56DE\u6309\u94AE\u5173\u95ED\u5B50\u9875\u9762\uFF0C\u56DE\u5230\u4E3B\u9875\u9762\u540E\u89C2\u5BDF\u4E3B\u9875\u9762 useVisible \u89E6\u53D1\u3002",
@@ -33727,10 +34206,10 @@ function LifecycleSubPage() {
   );
 }
 function Section11({ title, children }) {
-  return /* @__PURE__ */ import_react196.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react196.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react196.default.createElement(Divider, { margin: { bottom: 10 } }), children);
+  return /* @__PURE__ */ import_react201.default.createElement(Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react201.default.createElement(Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react201.default.createElement(Divider, { margin: { bottom: 10 } }), children);
 }
 function Tip({ children }) {
-  return /* @__PURE__ */ import_react196.default.createElement(
+  return /* @__PURE__ */ import_react201.default.createElement(
     Container,
     {
       padding: { vertical: 3, horizontal: 0 }
@@ -33740,7 +34219,7 @@ function Tip({ children }) {
 }
 
 // src/pages/file_obfuscator.tsx
-var import_react197 = __toESM(require_react_production());
+var import_react202 = __toESM(require_react_production());
 var DEFAULT_DIRS = {};
 async function loadDefaultDirs() {
   try {
@@ -33808,31 +34287,31 @@ async function walkDir(root, exts, maxDepth = 99) {
   return result;
 }
 function FileObfuscatorPage() {
-  const [dir, setDir] = (0, import_react197.useState)("");
-  const [extInput, setExtInput] = (0, import_react197.useState)(
+  const [dir, setDir] = (0, import_react202.useState)("");
+  const [extInput, setExtInput] = (0, import_react202.useState)(
     "png,mp4,jpg,jpeg,gif,mp3,webp"
   );
-  const [mode, setMode] = (0, import_react197.useState)("destroy");
-  const [files, setFiles] = (0, import_react197.useState)([]);
-  const [scanning, setScanning] = (0, import_react197.useState)(false);
-  const [running, setRunning] = (0, import_react197.useState)(false);
-  const [stopped, setStopped] = (0, import_react197.useState)(false);
-  const [progress, setProgress] = (0, import_react197.useState)({ done: 0, total: 0 });
-  const [log2, setLog] = (0, import_react197.useState)([]);
-  const stopFlag = (0, import_react197.useRef)(false);
-  const exts = (0, import_react197.useMemo)(
+  const [mode, setMode] = (0, import_react202.useState)("destroy");
+  const [files, setFiles] = (0, import_react202.useState)([]);
+  const [scanning, setScanning] = (0, import_react202.useState)(false);
+  const [running, setRunning] = (0, import_react202.useState)(false);
+  const [stopped, setStopped] = (0, import_react202.useState)(false);
+  const [progress, setProgress] = (0, import_react202.useState)({ done: 0, total: 0 });
+  const [log2, setLog] = (0, import_react202.useState)([]);
+  const stopFlag = (0, import_react202.useRef)(false);
+  const exts = (0, import_react202.useMemo)(
     () => extInput.split(/[,\s]+/).map((s) => s.trim().replace(/^\./, "")).filter(Boolean),
     [extInput]
   );
-  const selectedCount = (0, import_react197.useMemo)(
+  const selectedCount = (0, import_react202.useMemo)(
     () => files.filter((f) => f.selected).length,
     [files]
   );
-  const allSelected = (0, import_react197.useMemo)(
+  const allSelected = (0, import_react202.useMemo)(
     () => files.length > 0 && files.every((f) => f.selected),
     [files]
   );
-  (0, import_react197.useEffect)(() => {
+  (0, import_react202.useEffect)(() => {
     (async () => {
       try {
         const dirs = await loadDefaultDirs();
@@ -34070,17 +34549,17 @@ function FileObfuscatorPage() {
     setLog([]);
     setProgress({ done: 0, total: 0 });
   };
-  return /* @__PURE__ */ import_react197.default.createElement(
+  return /* @__PURE__ */ import_react202.default.createElement(
     Scaffold,
     {
-      appBar: /* @__PURE__ */ import_react197.default.createElement(
+      appBar: /* @__PURE__ */ import_react202.default.createElement(
         AppBar,
         {
-          title: /* @__PURE__ */ import_react197.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react197.default.createElement(Text, { text: "\u{1F6E1}\uFE0F", fontSize: 18, margin: { right: 8 } }), /* @__PURE__ */ import_react197.default.createElement(Text, { text: "\u6587\u4EF6\u4FDD\u62A4\u5DE5\u5177", fontSize: 16, fontWeight: "bold" }))
+          title: /* @__PURE__ */ import_react202.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react202.default.createElement(Text, { text: "\u{1F6E1}\uFE0F", fontSize: 18, margin: { right: 8 } }), /* @__PURE__ */ import_react202.default.createElement(Text, { text: "\u6587\u4EF6\u4FDD\u62A4\u5DE5\u5177", fontSize: 16, fontWeight: "bold" }))
         }
       )
     },
-    /* @__PURE__ */ import_react197.default.createElement(Container, { decoration: { color: "#0D0D1A" } }, /* @__PURE__ */ import_react197.default.createElement(Row, null, /* @__PURE__ */ import_react197.default.createElement(Expanded, null, /* @__PURE__ */ import_react197.default.createElement(Column, null, /* @__PURE__ */ import_react197.default.createElement(
+    /* @__PURE__ */ import_react202.default.createElement(Container, { decoration: { color: "#0D0D1A" } }, /* @__PURE__ */ import_react202.default.createElement(Row, null, /* @__PURE__ */ import_react202.default.createElement(Expanded, null, /* @__PURE__ */ import_react202.default.createElement(Column, null, /* @__PURE__ */ import_react202.default.createElement(
       Container,
       {
         margin: 12,
@@ -34091,7 +34570,7 @@ function FileObfuscatorPage() {
           border: { color: "#2A2A4A", width: 1 }
         }
       },
-      /* @__PURE__ */ import_react197.default.createElement(Column, null, /* @__PURE__ */ import_react197.default.createElement(Row, { crossAxisAlignment: "center", margin: { bottom: 16 } }, /* @__PURE__ */ import_react197.default.createElement(
+      /* @__PURE__ */ import_react202.default.createElement(Column, null, /* @__PURE__ */ import_react202.default.createElement(Row, { crossAxisAlignment: "center", margin: { bottom: 16 } }, /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           padding: { horizontal: 10, vertical: 5 },
@@ -34100,7 +34579,7 @@ function FileObfuscatorPage() {
             borderRadius: 20
           }
         },
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           Text,
           {
             text: mode === "destroy" ? "\u{1F525} \u7834\u574F\u6A21\u5F0F" : "\u2728 \u8FD8\u539F\u6A21\u5F0F",
@@ -34109,7 +34588,7 @@ function FileObfuscatorPage() {
             color: mode === "destroy" ? "#FF5C5C" : "#4CAF50"
           }
         )
-      ), /* @__PURE__ */ import_react197.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react197.default.createElement(
+      ), /* @__PURE__ */ import_react202.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           decoration: {
@@ -34119,7 +34598,7 @@ function FileObfuscatorPage() {
           },
           padding: { horizontal: 4, vertical: 3 }
         },
-        /* @__PURE__ */ import_react197.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react197.default.createElement(InkWell, { onTap: () => setMode("destroy") }, /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react202.default.createElement(InkWell, { onTap: () => setMode("destroy") }, /* @__PURE__ */ import_react202.default.createElement(
           Container,
           {
             padding: { horizontal: 12, vertical: 5 },
@@ -34128,7 +34607,7 @@ function FileObfuscatorPage() {
               borderRadius: 16
             }
           },
-          /* @__PURE__ */ import_react197.default.createElement(
+          /* @__PURE__ */ import_react202.default.createElement(
             Text,
             {
               text: "\u7834\u574F",
@@ -34137,7 +34616,7 @@ function FileObfuscatorPage() {
               color: mode === "destroy" ? "#FFF" : "#666688"
             }
           )
-        )), /* @__PURE__ */ import_react197.default.createElement(InkWell, { onTap: () => setMode("restore") }, /* @__PURE__ */ import_react197.default.createElement(
+        )), /* @__PURE__ */ import_react202.default.createElement(InkWell, { onTap: () => setMode("restore") }, /* @__PURE__ */ import_react202.default.createElement(
           Container,
           {
             padding: { horizontal: 12, vertical: 5 },
@@ -34146,7 +34625,7 @@ function FileObfuscatorPage() {
               borderRadius: 16
             }
           },
-          /* @__PURE__ */ import_react197.default.createElement(
+          /* @__PURE__ */ import_react202.default.createElement(
             Text,
             {
               text: "\u8FD8\u539F",
@@ -34156,7 +34635,7 @@ function FileObfuscatorPage() {
             }
           )
         )))
-      )), /* @__PURE__ */ import_react197.default.createElement(
+      )), /* @__PURE__ */ import_react202.default.createElement(
         Text,
         {
           text: "\u{1F4C1} \u76EE\u6807\u76EE\u5F55",
@@ -34165,7 +34644,7 @@ function FileObfuscatorPage() {
           fontWeight: "bold",
           margin: { bottom: 6 }
         }
-      ), /* @__PURE__ */ import_react197.default.createElement(Row, null, /* @__PURE__ */ import_react197.default.createElement(Expanded, null, /* @__PURE__ */ import_react197.default.createElement(
+      ), /* @__PURE__ */ import_react202.default.createElement(Row, null, /* @__PURE__ */ import_react202.default.createElement(Expanded, null, /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           decoration: {
@@ -34175,7 +34654,7 @@ function FileObfuscatorPage() {
           },
           padding: { left: 12, right: 4, top: 2, bottom: 2 }
         },
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           TextField,
           {
             hint: "\u8F93\u5165\u6216\u9009\u62E9\u76EE\u5F55\u8DEF\u5F84",
@@ -34184,7 +34663,7 @@ function FileObfuscatorPage() {
             maxLines: 1
           }
         )
-      )), /* @__PURE__ */ import_react197.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react197.default.createElement(
+      )), /* @__PURE__ */ import_react202.default.createElement(SizedBox, { width: 8 }), /* @__PURE__ */ import_react202.default.createElement(
         Button,
         {
           text: "\u{1F4C2}",
@@ -34192,7 +34671,7 @@ function FileObfuscatorPage() {
           backgroundColor: "#6C63FF",
           textColor: "#FFF"
         }
-      )), /* @__PURE__ */ import_react197.default.createElement(SizedBox, { height: 14 }), /* @__PURE__ */ import_react197.default.createElement(
+      )), /* @__PURE__ */ import_react202.default.createElement(SizedBox, { height: 14 }), /* @__PURE__ */ import_react202.default.createElement(
         Text,
         {
           text: "\u{1F50D} \u6269\u5C55\u540D\u8FC7\u6EE4",
@@ -34201,7 +34680,7 @@ function FileObfuscatorPage() {
           fontWeight: "bold",
           margin: { bottom: 6 }
         }
-      ), /* @__PURE__ */ import_react197.default.createElement(
+      ), /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           decoration: {
@@ -34211,7 +34690,7 @@ function FileObfuscatorPage() {
           },
           padding: { left: 12, right: 4, top: 2, bottom: 2 }
         },
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           TextField,
           {
             hint: "png, mp4, jpg...",
@@ -34219,7 +34698,7 @@ function FileObfuscatorPage() {
             onChanged: setExtInput
           }
         )
-      ), Object.keys(DEFAULT_DIRS).length > 0 ? /* @__PURE__ */ import_react197.default.createElement(import_react197.default.Fragment, null, /* @__PURE__ */ import_react197.default.createElement(SizedBox, { height: 14 }), /* @__PURE__ */ import_react197.default.createElement(
+      ), Object.keys(DEFAULT_DIRS).length > 0 ? /* @__PURE__ */ import_react202.default.createElement(import_react202.default.Fragment, null, /* @__PURE__ */ import_react202.default.createElement(SizedBox, { height: 14 }), /* @__PURE__ */ import_react202.default.createElement(
         Text,
         {
           text: "\u26A1 \u5FEB\u901F\u9009\u62E9",
@@ -34228,7 +34707,7 @@ function FileObfuscatorPage() {
           fontWeight: "bold",
           margin: { bottom: 6 }
         }
-      ), /* @__PURE__ */ import_react197.default.createElement(Row, { mainAxisAlignment: "start" }, Object.entries(DEFAULT_DIRS).map(([k, v]) => /* @__PURE__ */ import_react197.default.createElement(InkWell, { key: k, onTap: () => setDir(v) }, /* @__PURE__ */ import_react197.default.createElement(
+      ), /* @__PURE__ */ import_react202.default.createElement(Row, { mainAxisAlignment: "start" }, Object.entries(DEFAULT_DIRS).map(([k, v]) => /* @__PURE__ */ import_react202.default.createElement(InkWell, { key: k, onTap: () => setDir(v) }, /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           margin: { right: 6, bottom: 4 },
@@ -34238,7 +34717,7 @@ function FileObfuscatorPage() {
             borderRadius: 20
           }
         },
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           Text,
           {
             text: k,
@@ -34247,7 +34726,7 @@ function FileObfuscatorPage() {
             fontWeight: "bold"
           }
         )
-      ))))) : null, /* @__PURE__ */ import_react197.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react197.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react197.default.createElement(
+      ))))) : null, /* @__PURE__ */ import_react202.default.createElement(SizedBox, { height: 16 }), /* @__PURE__ */ import_react202.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react202.default.createElement(
         Button,
         {
           text: scanning ? "\u23F3 \u626B\u63CF\u4E2D..." : "\u{1F50E} \u626B\u63CF\u6587\u4EF6",
@@ -34257,7 +34736,7 @@ function FileObfuscatorPage() {
           borderColor: "#6C63FF",
           textColor: "#6C63FF"
         }
-      ), running ? /* @__PURE__ */ import_react197.default.createElement(
+      ), running ? /* @__PURE__ */ import_react202.default.createElement(
         Button,
         {
           text: "\u23F9 \u505C\u6B62",
@@ -34265,7 +34744,7 @@ function FileObfuscatorPage() {
           backgroundColor: "#FF6F00",
           textColor: "#FFFFFF"
         }
-      ) : null, /* @__PURE__ */ import_react197.default.createElement(
+      ) : null, /* @__PURE__ */ import_react202.default.createElement(
         Button,
         {
           text: running ? `\u23F3 ${progress.done}/${progress.total}` : mode === "destroy" ? `\u{1F4A5} \u7834\u574F\u9009\u4E2D (${selectedCount})` : `\u267B\uFE0F \u8FD8\u539F\u9009\u4E2D (${selectedCount})`,
@@ -34275,7 +34754,7 @@ function FileObfuscatorPage() {
           textColor: "#FFFFFF"
         }
       )))
-    ), /* @__PURE__ */ import_react197.default.createElement(Expanded, null, /* @__PURE__ */ import_react197.default.createElement(
+    ), /* @__PURE__ */ import_react202.default.createElement(Expanded, null, /* @__PURE__ */ import_react202.default.createElement(
       Container,
       {
         margin: { left: 12, right: 12, top: 0, bottom: 12 },
@@ -34286,14 +34765,14 @@ function FileObfuscatorPage() {
           border: { color: "#2A2A4A", width: 1 }
         }
       },
-      /* @__PURE__ */ import_react197.default.createElement(Column, null, /* @__PURE__ */ import_react197.default.createElement(
+      /* @__PURE__ */ import_react202.default.createElement(Column, null, /* @__PURE__ */ import_react202.default.createElement(
         Row,
         {
           mainAxisAlignment: "spaceBetween",
           crossAxisAlignment: "center",
           margin: { bottom: 12 }
         },
-        /* @__PURE__ */ import_react197.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react197.default.createElement(Text, { text: "\u{1F4C4}", fontSize: 16, margin: { right: 8 } }), /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react202.default.createElement(Text, { text: "\u{1F4C4}", fontSize: 16, margin: { right: 8 } }), /* @__PURE__ */ import_react202.default.createElement(
           Text,
           {
             text: `\u6587\u4EF6\u5217\u8868`,
@@ -34301,7 +34780,7 @@ function FileObfuscatorPage() {
             fontWeight: "bold",
             color: "#EEE"
           }
-        ), /* @__PURE__ */ import_react197.default.createElement(
+        ), /* @__PURE__ */ import_react202.default.createElement(
           Container,
           {
             margin: { left: 8 },
@@ -34311,7 +34790,7 @@ function FileObfuscatorPage() {
               borderRadius: 12
             }
           },
-          /* @__PURE__ */ import_react197.default.createElement(
+          /* @__PURE__ */ import_react202.default.createElement(
             Text,
             {
               text: `${selectedCount}/${files.length}`,
@@ -34321,12 +34800,12 @@ function FileObfuscatorPage() {
             }
           )
         )),
-        files.length > 0 ? /* @__PURE__ */ import_react197.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react197.default.createElement(
+        files.length > 0 ? /* @__PURE__ */ import_react202.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react202.default.createElement(
           InkWell,
           {
             onTap: allSelected ? deselectAll : selectAll
           },
-          /* @__PURE__ */ import_react197.default.createElement(
+          /* @__PURE__ */ import_react202.default.createElement(
             Container,
             {
               padding: { horizontal: 10, vertical: 5 },
@@ -34336,7 +34815,7 @@ function FileObfuscatorPage() {
                 borderRadius: 8
               }
             },
-            /* @__PURE__ */ import_react197.default.createElement(
+            /* @__PURE__ */ import_react202.default.createElement(
               Text,
               {
                 text: allSelected ? "\u53D6\u6D88\u5168\u9009" : "\u5168\u9009",
@@ -34346,7 +34825,7 @@ function FileObfuscatorPage() {
               }
             )
           )
-        ), /* @__PURE__ */ import_react197.default.createElement(InkWell, { onTap: invertSelection }, /* @__PURE__ */ import_react197.default.createElement(
+        ), /* @__PURE__ */ import_react202.default.createElement(InkWell, { onTap: invertSelection }, /* @__PURE__ */ import_react202.default.createElement(
           Container,
           {
             padding: { horizontal: 10, vertical: 5 },
@@ -34356,7 +34835,7 @@ function FileObfuscatorPage() {
               borderRadius: 8
             }
           },
-          /* @__PURE__ */ import_react197.default.createElement(
+          /* @__PURE__ */ import_react202.default.createElement(
             Text,
             {
               text: "\u53CD\u9009",
@@ -34365,7 +34844,7 @@ function FileObfuscatorPage() {
               fontWeight: "bold"
             }
           )
-        )), /* @__PURE__ */ import_react197.default.createElement(InkWell, { onTap: handleClear }, /* @__PURE__ */ import_react197.default.createElement(
+        )), /* @__PURE__ */ import_react202.default.createElement(InkWell, { onTap: handleClear }, /* @__PURE__ */ import_react202.default.createElement(
           Container,
           {
             padding: { horizontal: 10, vertical: 5 },
@@ -34374,7 +34853,7 @@ function FileObfuscatorPage() {
               borderRadius: 8
             }
           },
-          /* @__PURE__ */ import_react197.default.createElement(
+          /* @__PURE__ */ import_react202.default.createElement(
             Text,
             {
               text: "\u{1F5D1}\uFE0F \u6E05\u7A7A",
@@ -34383,7 +34862,7 @@ function FileObfuscatorPage() {
             }
           )
         ))) : null
-      ), running || progress.total > 0 ? /* @__PURE__ */ import_react197.default.createElement(
+      ), running || progress.total > 0 ? /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           height: 4,
@@ -34393,7 +34872,7 @@ function FileObfuscatorPage() {
             borderRadius: 2
           }
         },
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           Container,
           {
             width: progress.total > 0 ? Math.round(
@@ -34406,7 +34885,7 @@ function FileObfuscatorPage() {
             }
           }
         )
-      ) : null, /* @__PURE__ */ import_react197.default.createElement(Expanded, null, files.length === 0 ? /* @__PURE__ */ import_react197.default.createElement(
+      ) : null, /* @__PURE__ */ import_react202.default.createElement(Expanded, null, files.length === 0 ? /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           padding: 30,
@@ -34416,7 +34895,7 @@ function FileObfuscatorPage() {
             borderRadius: 12
           }
         },
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           Text,
           {
             text: "\u{1F4C2}",
@@ -34424,7 +34903,7 @@ function FileObfuscatorPage() {
             margin: { bottom: 10 }
           }
         ),
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           Text,
           {
             text: "\u6682\u65E0\u6587\u4EF6",
@@ -34433,7 +34912,7 @@ function FileObfuscatorPage() {
             color: "#666688"
           }
         ),
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           Text,
           {
             text: "\u9009\u62E9\u76EE\u5F55\u540E\u70B9\u51FB\u300C\u626B\u63CF\u6587\u4EF6\u300D\u5F00\u59CB",
@@ -34442,7 +34921,7 @@ function FileObfuscatorPage() {
             margin: { top: 4 }
           }
         )
-      ) : /* @__PURE__ */ import_react197.default.createElement(ListView, null, files.map((f, i) => {
+      ) : /* @__PURE__ */ import_react202.default.createElement(ListView, null, files.map((f, i) => {
         const ext = f.name.lastIndexOf(".") >= 0 ? f.name.substring(f.name.lastIndexOf(".") + 1).toLowerCase() : "";
         const iconMap = {
           png: "\u{1F5BC}\uFE0F",
@@ -34463,7 +34942,7 @@ function FileObfuscatorPage() {
           txt: "\u{1F4C3}"
         };
         const icon = iconMap[ext] || "\u{1F4C4}";
-        return /* @__PURE__ */ import_react197.default.createElement(InkWell, { onTap: () => toggleSelect(i) }, /* @__PURE__ */ import_react197.default.createElement(
+        return /* @__PURE__ */ import_react202.default.createElement(InkWell, { onTap: () => toggleSelect(i) }, /* @__PURE__ */ import_react202.default.createElement(
           Container,
           {
             key: f.path,
@@ -34478,7 +34957,7 @@ function FileObfuscatorPage() {
               }
             }
           },
-          /* @__PURE__ */ import_react197.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react197.default.createElement(Row, null, /* @__PURE__ */ import_react197.default.createElement(Checkbox, { checked: f.selected }), /* @__PURE__ */ import_react197.default.createElement(SizedBox, { width: 10 }), /* @__PURE__ */ import_react197.default.createElement(
+          /* @__PURE__ */ import_react202.default.createElement(Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react202.default.createElement(Row, null, /* @__PURE__ */ import_react202.default.createElement(Checkbox, { checked: f.selected }), /* @__PURE__ */ import_react202.default.createElement(SizedBox, { width: 10 }), /* @__PURE__ */ import_react202.default.createElement(
             Container,
             {
               width: 40,
@@ -34489,8 +34968,8 @@ function FileObfuscatorPage() {
                 borderRadius: 10
               }
             },
-            /* @__PURE__ */ import_react197.default.createElement(Text, { text: icon, fontSize: 20 })
-          ), /* @__PURE__ */ import_react197.default.createElement(SizedBox, { width: 10 }), /* @__PURE__ */ import_react197.default.createElement(Column, null, /* @__PURE__ */ import_react197.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react197.default.createElement(
+            /* @__PURE__ */ import_react202.default.createElement(Text, { text: icon, fontSize: 20 })
+          ), /* @__PURE__ */ import_react202.default.createElement(SizedBox, { width: 10 }), /* @__PURE__ */ import_react202.default.createElement(Column, null, /* @__PURE__ */ import_react202.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react202.default.createElement(
             Text,
             {
               text: f.name,
@@ -34498,7 +34977,7 @@ function FileObfuscatorPage() {
               fontWeight: "bold",
               color: "#DDD"
             }
-          ), f.isDestroyed ? /* @__PURE__ */ import_react197.default.createElement(
+          ), f.isDestroyed ? /* @__PURE__ */ import_react202.default.createElement(
             Container,
             {
               margin: { left: 6 },
@@ -34511,7 +34990,7 @@ function FileObfuscatorPage() {
                 borderRadius: 4
               }
             },
-            /* @__PURE__ */ import_react197.default.createElement(
+            /* @__PURE__ */ import_react202.default.createElement(
               Text,
               {
                 text: "\u5DF2\u7834\u574F",
@@ -34520,7 +34999,7 @@ function FileObfuscatorPage() {
                 fontWeight: "bold"
               }
             )
-          ) : null), /* @__PURE__ */ import_react197.default.createElement(
+          ) : null), /* @__PURE__ */ import_react202.default.createElement(
             Text,
             {
               text: `${(f.size / 1024).toFixed(1)} KB`,
@@ -34528,7 +35007,7 @@ function FileObfuscatorPage() {
               color: "#666688",
               margin: { top: 2 }
             }
-          ), f.message ? /* @__PURE__ */ import_react197.default.createElement(
+          ), f.message ? /* @__PURE__ */ import_react202.default.createElement(
             Text,
             {
               text: f.message,
@@ -34536,10 +35015,10 @@ function FileObfuscatorPage() {
               color: f.status === "error" ? "#FF5C5C" : "#4CAF50",
               margin: { top: 1 }
             }
-          ) : null)), /* @__PURE__ */ import_react197.default.createElement(StatusBadge2, { status: f.status }))
+          ) : null)), /* @__PURE__ */ import_react202.default.createElement(StatusBadge2, { status: f.status }))
         ));
       }))))
-    )))), /* @__PURE__ */ import_react197.default.createElement(
+    )))), /* @__PURE__ */ import_react202.default.createElement(
       Container,
       {
         width: 260,
@@ -34551,7 +35030,7 @@ function FileObfuscatorPage() {
           border: { color: "#2A2A4A", width: 1 }
         }
       },
-      /* @__PURE__ */ import_react197.default.createElement(Column, null, /* @__PURE__ */ import_react197.default.createElement(Row, { crossAxisAlignment: "center", margin: { bottom: 10 } }, /* @__PURE__ */ import_react197.default.createElement(Text, { text: "\u{1F4CB}", fontSize: 14, margin: { right: 6 } }), /* @__PURE__ */ import_react197.default.createElement(
+      /* @__PURE__ */ import_react202.default.createElement(Column, null, /* @__PURE__ */ import_react202.default.createElement(Row, { crossAxisAlignment: "center", margin: { bottom: 10 } }, /* @__PURE__ */ import_react202.default.createElement(Text, { text: "\u{1F4CB}", fontSize: 14, margin: { right: 6 } }), /* @__PURE__ */ import_react202.default.createElement(
         Text,
         {
           text: "\u8FD0\u884C\u65E5\u5FD7",
@@ -34559,7 +35038,7 @@ function FileObfuscatorPage() {
           color: "#8888AA",
           fontWeight: "bold"
         }
-      ), /* @__PURE__ */ import_react197.default.createElement(SizedBox, { width: 6 }), /* @__PURE__ */ import_react197.default.createElement(
+      ), /* @__PURE__ */ import_react202.default.createElement(SizedBox, { width: 6 }), /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           width: 6,
@@ -34569,14 +35048,14 @@ function FileObfuscatorPage() {
             borderRadius: 3
           }
         }
-      )), /* @__PURE__ */ import_react197.default.createElement(Divider, null), /* @__PURE__ */ import_react197.default.createElement(Expanded, null, /* @__PURE__ */ import_react197.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react197.default.createElement(Column, { crossAxisAlignment: "start" }, log2.length === 0 ? /* @__PURE__ */ import_react197.default.createElement(Container, { padding: 20, alignment: "center" }, /* @__PURE__ */ import_react197.default.createElement(
+      )), /* @__PURE__ */ import_react202.default.createElement(Divider, null), /* @__PURE__ */ import_react202.default.createElement(Expanded, null, /* @__PURE__ */ import_react202.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react202.default.createElement(Column, { crossAxisAlignment: "start" }, log2.length === 0 ? /* @__PURE__ */ import_react202.default.createElement(Container, { padding: 20, alignment: "center" }, /* @__PURE__ */ import_react202.default.createElement(
         Text,
         {
           text: "\u7B49\u5F85\u64CD\u4F5C...",
           fontSize: 11,
           color: "#444466"
         }
-      )) : log2.map((l, i) => /* @__PURE__ */ import_react197.default.createElement(
+      )) : log2.map((l, i) => /* @__PURE__ */ import_react202.default.createElement(
         Container,
         {
           key: i,
@@ -34587,7 +35066,7 @@ function FileObfuscatorPage() {
             borderRadius: 4
           }
         },
-        /* @__PURE__ */ import_react197.default.createElement(
+        /* @__PURE__ */ import_react202.default.createElement(
           Text,
           {
             text: l,
@@ -34600,7 +35079,7 @@ function FileObfuscatorPage() {
   );
 }
 function Checkbox({ checked }) {
-  return /* @__PURE__ */ import_react197.default.createElement(
+  return /* @__PURE__ */ import_react202.default.createElement(
     Container,
     {
       width: 22,
@@ -34615,7 +35094,7 @@ function Checkbox({ checked }) {
         }
       }
     },
-    checked ? /* @__PURE__ */ import_react197.default.createElement(Text, { text: "\u2713", fontSize: 14, color: "#FFF", fontWeight: "bold" }) : null
+    checked ? /* @__PURE__ */ import_react202.default.createElement(Text, { text: "\u2713", fontSize: 14, color: "#FFF", fontWeight: "bold" }) : null
   );
 }
 function StatusBadge2({ status }) {
@@ -34646,13 +35125,13 @@ function StatusBadge2({ status }) {
     }
   };
   const s = map[status];
-  return /* @__PURE__ */ import_react197.default.createElement(
+  return /* @__PURE__ */ import_react202.default.createElement(
     Container,
     {
       padding: { horizontal: 10, vertical: 5 },
       decoration: { color: s.bg, borderRadius: 20 }
     },
-    /* @__PURE__ */ import_react197.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react197.default.createElement(
+    /* @__PURE__ */ import_react202.default.createElement(Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react202.default.createElement(
       Container,
       {
         width: 6,
@@ -34660,52 +35139,52 @@ function StatusBadge2({ status }) {
         margin: { right: 5 },
         decoration: { color: s.dot, borderRadius: 3 }
       }
-    ), /* @__PURE__ */ import_react197.default.createElement(Text, { text: s.label, fontSize: 11, color: s.color, fontWeight: "bold" }))
+    ), /* @__PURE__ */ import_react202.default.createElement(Text, { text: s.label, fontSize: 11, color: s.color, fontWeight: "bold" }))
   );
 }
 
 // src/demos/RouterDemo.tsx
-var import_react198 = __toESM(require_react_production());
+var import_react203 = __toESM(require_react_production());
 var authState = { loggedIn: false };
 function RouterDemo() {
   const nav = useNavigator();
   const route = useRoute();
-  const [, force] = (0, import_react198.useState)(0);
-  return /* @__PURE__ */ import_react198.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react198.default.createElement(AppBar, { title: /* @__PURE__ */ import_react198.default.createElement(Text, { text: "Router Demo" }) }) }, /* @__PURE__ */ import_react198.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react198.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react198.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react198.default.createElement(
+  const [, force] = (0, import_react203.useState)(0);
+  return /* @__PURE__ */ import_react203.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react203.default.createElement(AppBar, { title: /* @__PURE__ */ import_react203.default.createElement(Text, { text: "Router Demo" }) }) }, /* @__PURE__ */ import_react203.default.createElement(SingleChildScrollView, null, /* @__PURE__ */ import_react203.default.createElement(Padding, { padding: 16 }, /* @__PURE__ */ import_react203.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "\u5F53\u524D\u8DEF\u7531\u4FE1\u606F (useRoute)",
       fontSize: 16,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Container,
     {
       padding: 12,
       decoration: { color: "#F5F5F5", borderRadius: 8 }
     },
-    /* @__PURE__ */ import_react198.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react198.default.createElement(
+    /* @__PURE__ */ import_react203.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react203.default.createElement(
       Text,
       {
         text: `path: ${route?.path ?? "-"}`,
         fontSize: 13,
         color: "#666"
       }
-    ), /* @__PURE__ */ import_react198.default.createElement(
+    ), /* @__PURE__ */ import_react203.default.createElement(
       Text,
       {
         text: `name: ${route?.name ?? "-"}`,
         fontSize: 13,
         color: "#666"
       }
-    ), /* @__PURE__ */ import_react198.default.createElement(
+    ), /* @__PURE__ */ import_react203.default.createElement(
       Text,
       {
         text: `params: ${JSON.stringify(route?.params ?? {})}`,
         fontSize: 13,
         color: "#666"
       }
-    ), /* @__PURE__ */ import_react198.default.createElement(
+    ), /* @__PURE__ */ import_react203.default.createElement(
       Text,
       {
         text: `meta: ${JSON.stringify(route?.meta ?? {})}`,
@@ -34713,7 +35192,7 @@ function RouterDemo() {
         color: "#666"
       }
     ))
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(Text, { text: "\u5B88\u536B\u6F14\u793A\uFF1A\u767B\u5F55\u72B6\u6001", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(Row, null, /* @__PURE__ */ import_react198.default.createElement(Text, { text: `\u5DF2\u767B\u5F55: ${authState.loggedIn}` }), /* @__PURE__ */ import_react198.default.createElement(Padding, { padding: { left: 12 } }, /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(Text, { text: "\u5B88\u536B\u6F14\u793A\uFF1A\u767B\u5F55\u72B6\u6001", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(Row, null, /* @__PURE__ */ import_react203.default.createElement(Text, { text: `\u5DF2\u767B\u5F55: ${authState.loggedIn}` }), /* @__PURE__ */ import_react203.default.createElement(Padding, { padding: { left: 12 } }, /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: authState.loggedIn ? "\u767B\u51FA" : "\u767B\u5F55",
@@ -34723,110 +35202,110 @@ function RouterDemo() {
         force((n) => n + 1);
       }
     }
-  ))), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(Divider, null), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(
+  ))), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(Divider, null), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "1. \u8DEF\u5F84\u53C2\u6570 /demo/router/user/:id",
       fontSize: 16,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "\u8DEF\u5F84\u4E2D\u7684 :id \u4F1A\u88AB\u89E3\u6790\u5230 params.id",
       fontSize: 12,
       color: "#666"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(Wrap, { spacing: 8 }, /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(Wrap, { spacing: 8 }, /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: "user/123",
       onTap: () => nav.push("/demo/router/user/123")
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: "user/456",
       onTap: () => nav.push("/demo/router/user/456")
     }
-  )), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(
+  )), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "2. \u547D\u540D\u8DEF\u7531 pushByName",
       fontSize: 16,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "\u901A\u8FC7 name \u8DF3\u8F6C\uFF0C\u81EA\u52A8\u6784\u9020\u8DEF\u5F84",
       fontSize: 12,
       color: "#666"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: "pushByName('user', { id: 789 })",
       backgroundColor: "#1976D2",
       onTap: () => nav.pushByName("user", { id: 789 })
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "3. \u5B88\u536B\u4FDD\u62A4\u9875\u9762 (meta.requiresAuth)",
       fontSize: 16,
       fontWeight: "bold"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "\u672A\u767B\u5F55\u65F6\u8DF3\u8F6C\u4F1A\u88AB\u5B88\u536B\u62D2\u7EDD\uFF0C\u663E\u793A Access Denied\uFF1B\u767B\u5F55\u540E\u653E\u884C",
       fontSize: 12,
       color: "#666"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: "\u8BBF\u95EE\u53D7\u4FDD\u62A4\u9875\u9762",
       backgroundColor: "#FF9800",
       onTap: () => nav.push("/demo/router/protected")
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(Text, { text: "4. \u91CD\u5B9A\u5411 redirect", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(Text, { text: "4. \u91CD\u5B9A\u5411 redirect", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "/demo/router/old \u914D\u7F6E\u4E86 redirect: /demo/router",
       fontSize: 12,
       color: "#666"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: "\u8BBF\u95EE /demo/router/old",
       backgroundColor: "#795548",
       onTap: () => nav.push("/demo/router/old")
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(Text, { text: "5. 404 \u515C\u5E95", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(Text, { text: "5. 404 \u515C\u5E95", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "\u672A\u5339\u914D\u4EFB\u4F55\u8DEF\u7531\u65F6\u663E\u793A\u9ED8\u8BA4 404 UI",
       fontSize: 12,
       color: "#666"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: "\u8BBF\u95EE\u4E0D\u5B58\u5728\u7684\u9875\u9762",
       backgroundColor: "#9E9E9E",
       onTap: () => nav.push("/demo/router/not-exist-xxx")
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(Text, { text: "6. push \u7B49\u5F85\u8FD4\u56DE\u7ED3\u679C", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(Text, { text: "6. push \u7B49\u5F85\u8FD4\u56DE\u7ED3\u679C", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "\u8DF3\u8F6C\u540E\u5728\u5B50\u9875\u9762 pop(result)\uFF0C\u7236\u9875\u9762 await \u62FF\u5230 result",
       fontSize: 12,
       color: "#666"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: "\u8DF3\u8F6C user/123 \u5E76\u7B49\u5F85\u8FD4\u56DE",
@@ -34836,7 +35315,7 @@ function RouterDemo() {
           from: "push"
         });
         nav.showDialog(
-          /* @__PURE__ */ import_react198.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react198.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react198.default.createElement(Text, { text: "\u6536\u5230\u8FD4\u56DE\u7ED3\u679C:", fontWeight: "bold" }), /* @__PURE__ */ import_react198.default.createElement(
+          /* @__PURE__ */ import_react203.default.createElement(Container, { padding: 20 }, /* @__PURE__ */ import_react203.default.createElement(Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react203.default.createElement(Text, { text: "\u6536\u5230\u8FD4\u56DE\u7ED3\u679C:", fontWeight: "bold" }), /* @__PURE__ */ import_react203.default.createElement(
             Text,
             {
               text: JSON.stringify(result),
@@ -34853,14 +35332,14 @@ function RouterUserPage() {
   const route = useRoute();
   const nav = useNavigator();
   const id = route?.params?.id;
-  return /* @__PURE__ */ import_react198.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react198.default.createElement(AppBar, { title: /* @__PURE__ */ import_react198.default.createElement(Text, { text: `User ${id}` }) }) }, /* @__PURE__ */ import_react198.default.createElement(Center, null, /* @__PURE__ */ import_react198.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react198.default.createElement(Text, { text: `User ID: ${id}`, fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(
+  return /* @__PURE__ */ import_react203.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react203.default.createElement(AppBar, { title: /* @__PURE__ */ import_react203.default.createElement(Text, { text: `User ${id}` }) }) }, /* @__PURE__ */ import_react203.default.createElement(Center, null, /* @__PURE__ */ import_react203.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react203.default.createElement(Text, { text: `User ID: ${id}`, fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: `params: ${JSON.stringify(route?.params)}`,
       fontSize: 12,
       color: "#666"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react198.default.createElement(
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 20 }), /* @__PURE__ */ import_react203.default.createElement(
     Button,
     {
       text: "\u8FD4\u56DE\u5E76\u4F20\u7ED3\u679C",
@@ -34870,7 +35349,7 @@ function RouterUserPage() {
   ))));
 }
 function RouterProtectedPage() {
-  return /* @__PURE__ */ import_react198.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react198.default.createElement(AppBar, { title: /* @__PURE__ */ import_react198.default.createElement(Text, { text: "Protected" }) }) }, /* @__PURE__ */ import_react198.default.createElement(Center, null, /* @__PURE__ */ import_react198.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react198.default.createElement(
+  return /* @__PURE__ */ import_react203.default.createElement(Scaffold, { appBar: /* @__PURE__ */ import_react203.default.createElement(AppBar, { title: /* @__PURE__ */ import_react203.default.createElement(Text, { text: "Protected" }) }) }, /* @__PURE__ */ import_react203.default.createElement(Center, null, /* @__PURE__ */ import_react203.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react203.default.createElement(
     Text,
     {
       text: "\u53D7\u4FDD\u62A4\u9875\u9762",
@@ -34878,11 +35357,11 @@ function RouterProtectedPage() {
       fontWeight: "bold",
       color: "#43A047"
     }
-  ), /* @__PURE__ */ import_react198.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react198.default.createElement(Text, { text: "\u53EA\u6709\u767B\u5F55\u540E\u624D\u80FD\u8BBF\u95EE\u6B64\u9875\u9762", fontSize: 14, color: "#666" }))));
+  ), /* @__PURE__ */ import_react203.default.createElement(SizedBox, { height: 8 }), /* @__PURE__ */ import_react203.default.createElement(Text, { text: "\u53EA\u6709\u767B\u5F55\u540E\u624D\u80FD\u8BBF\u95EE\u6B64\u9875\u9762", fontSize: 14, color: "#666" }))));
 }
 
 // src/app.tsx
-var CustomErrorUI = (error2) => /* @__PURE__ */ import_react199.default.createElement(Container, { color: "#E0F7FA" }, /* @__PURE__ */ import_react199.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "center", padding: 30 }, /* @__PURE__ */ import_react199.default.createElement(
+var CustomErrorUI = (error2) => /* @__PURE__ */ import_react204.default.createElement(Container, { color: "#E0F7FA" }, /* @__PURE__ */ import_react204.default.createElement(Column, { mainAxisAlignment: "center", crossAxisAlignment: "center", padding: 30 }, /* @__PURE__ */ import_react204.default.createElement(
   Text,
   {
     text: "Oops! Something went wrong",
@@ -34891,7 +35370,7 @@ var CustomErrorUI = (error2) => /* @__PURE__ */ import_react199.default.createEl
     fontWeight: "bold",
     margin: { bottom: 16 }
   }
-), /* @__PURE__ */ import_react199.default.createElement(
+), /* @__PURE__ */ import_react204.default.createElement(
   Container,
   {
     padding: 12,
@@ -34902,7 +35381,7 @@ var CustomErrorUI = (error2) => /* @__PURE__ */ import_react199.default.createEl
     },
     margin: { bottom: 20 }
   },
-  /* @__PURE__ */ import_react199.default.createElement(
+  /* @__PURE__ */ import_react204.default.createElement(
     Text,
     {
       text: error2?.message || "Unknown Error",
@@ -34912,7 +35391,7 @@ var CustomErrorUI = (error2) => /* @__PURE__ */ import_react199.default.createEl
       overflow: "ellipsis"
     }
   )
-), /* @__PURE__ */ import_react199.default.createElement(
+), /* @__PURE__ */ import_react204.default.createElement(
   Button,
   {
     text: "Go Back Home",
@@ -34956,6 +35435,7 @@ var routes2 = [
   { path: "/demo/richtext", component: RichTextDemo },
   // 列表与网格
   { path: "/demo/listview", component: ListViewDemo },
+  { path: "/demo/singlechildscrollview", component: SingleChildScrollViewDemo },
   { path: "/demo/gridview", component: GridViewDemo },
   { path: "/demo/sliver", component: SliverDemo },
   {
@@ -34991,6 +35471,9 @@ var routes2 = [
   { path: "/demo/fractionally_sized_box", component: FractionallySizedBoxDemo },
   { path: "/demo/align", component: AlignDemo },
   // 动画
+  { path: "/demo/animation", component: AnimationDemo },
+  { path: "/demo/gestures", component: GesturesDemo },
+  { path: "/demo/scroll_control", component: ScrollControlDemo },
   { path: "/demo/animated", component: AnimatedDemo },
   { path: "/demo/transition", component: TransitionDemo },
   { path: "/demo/transition_animated", component: TransitionAnimatedDemo },
@@ -35039,13 +35522,13 @@ function initApp() {
     void i18n.init().catch((e) => console.warn("[i18n] init failed:", e));
     setGlobalErrorFallback(CustomErrorUI);
     for (const r of routes2) {
-      Router.register(r.path, () => import_react199.default.createElement(r.component));
+      Router.register(r.path, () => import_react204.default.createElement(r.component));
     }
     Router.config({
       routes: [
         {
           path: "/demo/router/protected",
-          component: () => /* @__PURE__ */ import_react199.default.createElement(RouterProtectedPage, null),
+          component: () => /* @__PURE__ */ import_react204.default.createElement(RouterProtectedPage, null),
           meta: { requiresAuth: true }
         },
         {
@@ -35055,7 +35538,7 @@ function initApp() {
         {
           path: "/demo/router/user/:id",
           name: "user",
-          component: () => /* @__PURE__ */ import_react199.default.createElement(RouterUserPage, null)
+          component: () => /* @__PURE__ */ import_react204.default.createElement(RouterUserPage, null)
         }
       ]
     });

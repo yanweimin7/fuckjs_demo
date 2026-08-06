@@ -108,6 +108,9 @@ const demoCategories = [
     items: [
       { name: "FlutterProps", path: "/demo/flutter_props" },
       { name: "Visibility", path: "/demo/visibility" },
+      { name: "Animation", path: "/demo/animation" },
+      { name: "Gestures", path: "/demo/gestures" },
+      { name: "ScrollCtrl", path: "/demo/scroll_control" },
       { name: "Animated", path: "/demo/animated" },
       { name: "Transition", path: "/demo/transition" },
       { name: "TrAni", path: "/demo/transition_animated" },
