@@ -21954,6 +21954,7 @@ var routes = [];
 var routesByName = /* @__PURE__ */ new Map();
 var globalGuards = [];
 var notFoundFactory = null;
+var nativeFallbackEnabled = true;
 var pageLocations = /* @__PURE__ */ new Map();
 routes.push({
   path: "/_generic_dialog",
@@ -22064,6 +22065,12 @@ function config(options) {
       routes.push({ path: "*", component: options.notFound });
     }
   }
+  if (options.nativeFallback !== void 0) {
+    nativeFallbackEnabled = options.nativeFallback === true;
+  }
+}
+function isNativeFallbackEnabled() {
+  return nativeFallbackEnabled;
 }
 function register(path, componentFactory, routeConfig) {
   const route = {
@@ -22097,7 +22104,8 @@ var Router = {
   runGuards,
   recordLocation,
   getLocation,
-  clearLocation
+  clearLocation,
+  isNativeFallbackEnabled
 };
 
 // ../../fuickjs_framework/fuickjs/src/core/PageContext.ts
@@ -22961,6 +22969,10 @@ var NavigatorService = class _NavigatorService {
     const from = pageId != null ? getLocation(pageId) : null;
     const to = resolve(path, params);
     if (!to) {
+      if (isNativeFallbackEnabled()) {
+        console.log(`[Navigator] No JS route for ${path}, delegating to native`);
+        return _NavigatorService.pushRaw(path, params, pageId, true, prewarmMs);
+      }
       console.warn(`[Navigator] No route matched for ${path}`);
       return null;
     }
@@ -22987,6 +22999,15 @@ var NavigatorService = class _NavigatorService {
     const from = pageId != null ? getLocation(pageId) : null;
     const to = resolve(path, params);
     if (!to) {
+      if (isNativeFallbackEnabled()) {
+        console.log(`[Navigator] No JS route for ${path}, delegating to native`);
+        return dartCallNativeAsync("Navigator.pushReplace", {
+          path,
+          params,
+          pageId,
+          rootNavigator: true
+        });
+      }
       console.warn(`[Navigator] No route matched for ${path}`);
       return null;
     }

@@ -308,6 +308,7 @@ export function initApp() {
     }
 
     // 声明式配置：受保护页面 + 重定向 + 命名路由
+    // 混合开发：nativeFallback 默认开启，未匹配 JS 路由的路径直接交给 Native 侧（go_router）
     Router.config({
       routes: [
         {
