@@ -72,13 +72,16 @@ function main() {
   const staging = fs.mkdtempSync(path.join(os.tmpdir(), 'fuick-bundle-'));
   try {
     // 2. zip 内代码文件统一命名为 bundle.qjc / bundle.js（与包 name 无关）。
+    //    manifest.files 只收录 .js：.qjc 是 QuickJS 字节码，可能是本地编译的
+    //    （引擎版本升级后 BundleCompiler 重新编译），sha256 不固定，不参与验签。
+    //    .qjc 被篡改不会执行恶意代码——字节码格式不匹配时引擎加载失败 →
+    //    回退到已验签的 bundle.js。.js 必须存在，作为验签与回退基准。
     const files = [];
     let entry = null;
     let codeForm = null;
 
     if (args.qjc && fs.existsSync(args.qjc)) {
-      const rel = copyAs(args.qjc, staging, 'bundle.qjc');
-      files.push({ path: rel, sha256: sha256File(path.join(staging, rel)) });
+      copyAs(args.qjc, staging, 'bundle.qjc');
       entry = 'bundle.qjc';
       codeForm = 'qjc';
     }
@@ -91,7 +94,7 @@ function main() {
       }
     }
     if (files.length === 0) {
-      console.error('找不到代码文件 (--qjc 和/或 --js)');
+      console.error('找不到代码文件（--js 必填，作为验签与回退基准）');
       process.exit(1);
     }
 
