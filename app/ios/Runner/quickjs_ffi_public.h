@@ -164,4 +164,9 @@ void qjs_compute_memory_usage(void *rt_handle, QjsMemoryUsage *out);
 // 与闭包的循环引用无法被引用计数回收。建议在 destroyPage 后调用一次。
 void qjs_run_gc(void *rt_handle);
 
+// ---- Debug-only crash hooks (符号化验证用) ----
+// 故意触发 SIGSEGV, 仅用于验证 native 崩溃符号化链路。业务代码禁止调用。
+void qjs_debug_crash(void);
+void qjs_debug_crash_caller(void);
+
 #endif

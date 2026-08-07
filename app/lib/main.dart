@@ -261,6 +261,11 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.dashboard, color: Color(0xFF5C6BC0)),
             onPressed: () => context.push('/swipe_tabs'),
           ),
+          IconButton(
+            tooltip: '引擎崩溃测试(故意 SIGSEGV, 用于验证符号化)',
+            icon: const Icon(Icons.bolt, color: Color(0xFFEF5350)),
+            onPressed: () => EngineInit.debugCrash(),
+          ),
         ],
       ),
       body: GridView.builder(
