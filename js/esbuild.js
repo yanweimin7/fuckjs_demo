@@ -62,7 +62,7 @@ async function build() {
       scheduler: path.resolve(__dirname, schedulerPath),
       fuickjs: path.resolve(
         __dirname,
-        "../../fuickjs_framework/fuickjs/src/index.js",
+        "../../fuickjs_framework/fuickjs/dist/index.js",
       ),
       "@tarojs/components-fuickjs": path.resolve(
         __dirname,
