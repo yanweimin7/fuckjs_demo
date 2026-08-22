@@ -10427,6 +10427,35 @@ var require_storage = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/utils/log.js
+var require_log = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/utils/log.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.setDebug = setDebug;
+    exports.isDebug = isDebug;
+    exports.logDebug = logDebug;
+    exports.perfLog = perfLog;
+    var _debug = false;
+    function setDebug(enabled) {
+      _debug = enabled;
+    }
+    function isDebug() {
+      return _debug;
+    }
+    function logDebug(message) {
+      if (_debug) {
+        console.log(message);
+      }
+    }
+    function perfLog(message) {
+      if (_debug) {
+        console.log(message);
+      }
+    }
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/ex/websocket.js
 var require_websocket = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/ex/websocket.js"(exports) {
@@ -10435,6 +10464,7 @@ var require_websocket = __commonJS({
     exports.WebSocket = exports.MessageEvent = exports.CloseEvent = void 0;
     exports.base64ToArrayBuffer = base64ToArrayBuffer;
     var events_1 = require_events();
+    var log_1 = require_log();
     var CloseEvent = class extends events_1.Event {
       constructor(type, options = {}) {
         super(type);
@@ -10516,23 +10546,23 @@ var require_websocket = __commonJS({
         const key = `_ws_${this._socketId}`;
         const existed = globalThis[key] !== void 0;
         delete globalThis[key];
-        console.log(`[WebSocket] _cleanupGlobalRef() socketId=${this._socketId}, key=${key}, existed=${existed}`);
+        (0, log_1.logDebug)(`[WebSocket] _cleanupGlobalRef() socketId=${this._socketId}, key=${key}, existed=${existed}`);
       }
       async _initConnection() {
-        console.log(`[WebSocket] _initConnection() socketId=${this._socketId}, url=${this._url}`);
+        (0, log_1.logDebug)(`[WebSocket] _initConnection() socketId=${this._socketId}, url=${this._url}`);
         try {
           if (typeof dartCallNativeAsync !== "function") {
             throw new Error("dartCallNativeAsync is not available.");
           }
           const globalKey = `_ws_${this._socketId}`;
           globalThis[globalKey] = this;
-          console.log(`[WebSocket] Registered on globalThis: ${globalKey}`);
+          (0, log_1.logDebug)(`[WebSocket] Registered on globalThis: ${globalKey}`);
           const result = await dartCallNativeAsync("WebSocket.connect", {
             socketId: this._socketId,
             url: this._url,
             protocols: Array.isArray(this._protocols) ? this._protocols : [this._protocols]
           });
-          console.log(`[WebSocket] connect result for socketId=${this._socketId}: success=${result.success}, error=${result.error}`);
+          (0, log_1.logDebug)(`[WebSocket] connect result for socketId=${this._socketId}: success=${result.success}, error=${result.error}`);
           if (result.success) {
             this._readyState = 1;
             this._protocol = result.protocol ?? "";
@@ -10594,7 +10624,7 @@ var require_websocket = __commonJS({
       }
       // Called by native when the connection is closed
       _handleClose(code, reason, wasClean) {
-        console.log(`[WebSocket] _handleClose() socketId=${this._socketId}, code=${code}, reason=${reason}, wasClean=${wasClean}`);
+        (0, log_1.logDebug)(`[WebSocket] _handleClose() socketId=${this._socketId}, code=${code}, reason=${reason}, wasClean=${wasClean}`);
         this._readyState = 3;
         const closeEvent = new CloseEvent("close", { code, reason, wasClean });
         this.dispatchEvent(closeEvent);
@@ -10641,10 +10671,10 @@ var require_websocket = __commonJS({
       }
       close(code, reason) {
         if (this._readyState === 2 || this._readyState === 3) {
-          console.log(`[WebSocket] close() called but already closing/closed socketId=${this._socketId}, state=${this._readyState}`);
+          (0, log_1.logDebug)(`[WebSocket] close() called but already closing/closed socketId=${this._socketId}, state=${this._readyState}`);
           return;
         }
-        console.log(`[WebSocket] close() socketId=${this._socketId}, code=${code ?? 1e3}`);
+        (0, log_1.logDebug)(`[WebSocket] close() socketId=${this._socketId}, code=${code ?? 1e3}`);
         this._readyState = 2;
         void dartCallNativeAsync("WebSocket.close", {
           socketId: this._socketId,
@@ -19837,29 +19867,6 @@ var require_react_reconciler_production = __commonJS({
   }
 });
 
-// ../../fuickjs_framework/fuickjs/dist/utils/log.js
-var require_log = __commonJS({
-  "../../fuickjs_framework/fuickjs/dist/utils/log.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.setDebug = setDebug;
-    exports.isDebug = isDebug;
-    exports.perfLog = perfLog;
-    var _debug = false;
-    function setDebug(enabled) {
-      _debug = enabled;
-    }
-    function isDebug() {
-      return _debug;
-    }
-    function perfLog(message) {
-      if (_debug) {
-        console.log(message);
-      }
-    }
-  }
-});
-
 // ../../fuickjs_framework/fuickjs/dist/core/hostConfig.js
 var require_hostConfig = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/core/hostConfig.js"(exports) {
@@ -19871,16 +19878,30 @@ var require_hostConfig = __commonJS({
     exports.createHostConfig = void 0;
     var react_1 = __importDefault(require_react_production());
     var log_1 = require_log();
-    function deepEqual(objA, objB) {
-      if (objA === objB)
+    function deepEqual(valA, valB, options) {
+      if (valA === valB)
         return true;
-      if (!objA || !objB || typeof objA !== "object" || typeof objB !== "object")
+      if (options?.treatFunctionsAsEqual && typeof valA === "function" && typeof valB === "function") {
+        return true;
+      }
+      if (!valA || !valB || typeof valA !== "object" || typeof valB !== "object")
         return false;
-      if (react_1.default.isValidElement(objA) || react_1.default.isValidElement(objB)) {
+      if (react_1.default.isValidElement(valA) || react_1.default.isValidElement(valB)) {
         return false;
       }
-      const recordA = objA;
-      const recordB = objB;
+      if (Array.isArray(valA) !== Array.isArray(valB))
+        return false;
+      if (Array.isArray(valA) && Array.isArray(valB)) {
+        if (valA.length !== valB.length)
+          return false;
+        for (let i = 0; i < valA.length; i++) {
+          if (!deepEqual(valA[i], valB[i], options))
+            return false;
+        }
+        return true;
+      }
+      const recordA = valA;
+      const recordB = valB;
       const keysA = Object.keys(recordA);
       const keysB = Object.keys(recordB);
       if (keysA.length !== keysB.length)
@@ -19888,17 +19909,12 @@ var require_hostConfig = __commonJS({
       for (const key of keysA) {
         if (!Object.prototype.hasOwnProperty.call(recordB, key))
           return false;
-        const valA = recordA[key];
-        const valB = recordB[key];
-        if (valA && valB && typeof valA === "object" && typeof valB === "object") {
-          if (!deepEqual(valA, valB))
-            return false;
-        } else if (valA !== valB) {
+        if (!deepEqual(recordA[key], recordB[key], options))
           return false;
-        }
       }
       return true;
     }
+    var DSL_EQUAL_OPTIONS = { treatFunctionsAsEqual: true };
     function diffProps(oldProps, newProps) {
       const updatePayload = [];
       let hasChanges = false;
@@ -19927,7 +19943,7 @@ var require_hostConfig = __commonJS({
             if (!deepEqual(oldVal, newVal)) {
               updatePayload.push(key, newVal);
               hasChanges = true;
-              if (!isDslEqual(oldVal, newVal)) {
+              if (!deepEqual(oldVal, newVal, DSL_EQUAL_OPTIONS)) {
                 hasDslChanges = true;
               }
             }
@@ -19948,41 +19964,6 @@ var require_hostConfig = __commonJS({
         }
       }
       return hasChanges ? { payload: updatePayload, hasDslChanges } : null;
-    }
-    function isDslEqual(valA, valB) {
-      if (valA === valB)
-        return true;
-      if (typeof valA === "function" && typeof valB === "function")
-        return true;
-      if (!valA || !valB || typeof valA !== "object" || typeof valB !== "object")
-        return false;
-      if (react_1.default.isValidElement(valA) || react_1.default.isValidElement(valB)) {
-        return false;
-      }
-      if (Array.isArray(valA) !== Array.isArray(valB))
-        return false;
-      if (Array.isArray(valA) && Array.isArray(valB)) {
-        if (valA.length !== valB.length)
-          return false;
-        for (let i = 0; i < valA.length; i++) {
-          if (!isDslEqual(valA[i], valB[i]))
-            return false;
-        }
-        return true;
-      }
-      const recordA = valA;
-      const recordB = valB;
-      const keysA = Object.keys(recordA);
-      const keysB = Object.keys(recordB);
-      if (keysA.length !== keysB.length)
-        return false;
-      for (const key of keysA) {
-        if (!Object.prototype.hasOwnProperty.call(recordB, key))
-          return false;
-        if (!isDslEqual(recordA[key], recordB[key]))
-          return false;
-      }
-      return true;
     }
     var createHostConfig = () => {
       let currentUpdatePriority = 16;
@@ -20120,6 +20101,7 @@ var require_hostConfig = __commonJS({
           container.removeChildFromContainer(child);
         },
         insertInContainerBefore: (container, child, _beforeChild) => {
+          console.warn(`[HostConfig] insertInContainerBefore is not supported by the single-root container (page ${container.pageId}); falling back to append. Portals / multiple root children will misbehave.`);
           container.appendChildToContainer(child);
         },
         resetTextContent: (_instance) => {
@@ -20172,6 +20154,21 @@ var require_hostConfig = __commonJS({
   }
 });
 
+// ../../fuickjs_framework/fuickjs/dist/core/constants.js
+var require_constants = __commonJS({
+  "../../fuickjs_framework/fuickjs/dist/core/constants.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.FLUTTER_PROPS_TYPE = exports.TRANSPARENT_TYPES = void 0;
+    exports.isTransparentType = isTransparentType;
+    exports.TRANSPARENT_TYPES = ["FlutterProps", "flutter-props"];
+    exports.FLUTTER_PROPS_TYPE = exports.TRANSPARENT_TYPES[0];
+    function isTransparentType(type) {
+      return type === "FlutterProps" || type === "flutter-props";
+    }
+  }
+});
+
 // ../../fuickjs_framework/fuickjs/dist/core/node.js
 var require_node = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/core/node.js"(exports) {
@@ -20182,6 +20179,8 @@ var require_node = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Node = exports.TEXT_TYPE = void 0;
     var react_1 = __importDefault(require_react_production());
+    var PageContainer_1 = require_PageContainer();
+    var constants_1 = require_constants();
     exports.TEXT_TYPE = "Text";
     var ABSOLUTE_ASSET_RE = /^(https?:\/\/|file:\/\/|data:|\/)/i;
     function resolveBundleAssetPath(src) {
@@ -20245,7 +20244,7 @@ var require_node = __commonJS({
         }
       }
       _isTransparent() {
-        return this.type === "FlutterProps" || this.type === "flutter-props";
+        return (0, constants_1.isTransparentType)(this.type);
       }
       /**
        * 递归向上通知父节点 DSL 缓存失效
@@ -20315,7 +20314,11 @@ var require_node = __commonJS({
       getCallback(key) {
         return this.container?.getCallback(this.id, key);
       }
-      toDsl() {
+      toDsl(depth = 0) {
+        if (depth > PageContainer_1.PageContainer.MAX_ELEMENT_DEPTH) {
+          console.warn(`[Node] toDsl depth exceeded ${PageContainer_1.PageContainer.MAX_ELEMENT_DEPTH} at node id=${this.id} type=${this.type}; truncating`);
+          return null;
+        }
         const dslCacheEnabled = this.container ? this.container.dslCacheEnabled : true;
         if (dslCacheEnabled && !this._dslCacheDirty && !this._childrenDslCacheDirty && this._dslCache !== null) {
           return this._dslCache;
@@ -20334,10 +20337,10 @@ var require_node = __commonJS({
         const refId = this.props?.refId;
         const children = [];
         for (const child of this.children) {
-          if (child.type === "FlutterProps" || child.type === "flutter-props") {
+          if ((0, constants_1.isTransparentType)(child.type)) {
             const propsKey = child.props?.propsKey;
             if (propsKey) {
-              const propChildren = child.children.map((c) => c.toDsl()).filter((c) => c !== null);
+              const propChildren = child.children.map((c) => c.toDsl(depth + 2)).filter((c) => c !== null);
               if (propChildren.length > 0) {
                 const newValue = propChildren.length === 1 ? propChildren[0] : propChildren;
                 if (props[propsKey]) {
@@ -20352,7 +20355,7 @@ var require_node = __commonJS({
               }
             }
           } else {
-            const dslChild = child.toDsl();
+            const dslChild = child.toDsl(depth + 1);
             if (dslChild) {
               children.push(dslChild);
             }
@@ -20475,6 +20478,7 @@ var require_IncrementalStrategy = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.IncrementalStrategy = void 0;
     var UIService_1 = require_UIService();
+    var constants_1 = require_constants();
     var log_1 = require_log();
     var IncrementalStrategy = class {
       constructor(container) {
@@ -20504,11 +20508,11 @@ var require_IncrementalStrategy = __commonJS({
           this.recordHostUpdateFromFlutterProps(flutterProps);
           return;
         }
-        if (child.type === "FlutterProps" || child.type === "flutter-props") {
+        if ((0, constants_1.isTransparentType)(child.type)) {
           this.recordHostUpdateFromFlutterProps(child);
           return;
         }
-        if (parent.type === "FlutterProps" || parent.type === "flutter-props") {
+        if ((0, constants_1.isTransparentType)(parent.type)) {
           this.recordHostUpdateFromFlutterProps(parent);
           return;
         }
@@ -20528,11 +20532,11 @@ var require_IncrementalStrategy = __commonJS({
           this.recordHostUpdateFromFlutterProps(flutterProps);
           return;
         }
-        if (child.type === "FlutterProps" || child.type === "flutter-props") {
+        if ((0, constants_1.isTransparentType)(child.type)) {
           this.recordHostUpdateFromFlutterProps(child);
           return;
         }
-        if (parent.type === "FlutterProps" || parent.type === "flutter-props") {
+        if ((0, constants_1.isTransparentType)(parent.type)) {
           this.recordHostUpdateFromFlutterProps(parent);
           return;
         }
@@ -20543,7 +20547,7 @@ var require_IncrementalStrategy = __commonJS({
       getFlutterPropsAncestor(node) {
         let current = node;
         while (current) {
-          if (current.type === "FlutterProps" || current.type === "flutter-props") {
+          if ((0, constants_1.isTransparentType)(current.type)) {
             return current;
           }
           current = current.parent || null;
@@ -20667,7 +20671,7 @@ var require_IncrementalStrategy = __commonJS({
         const allValues = [];
         let hasMultiple = false;
         for (const child of host.children) {
-          if (child.type !== "FlutterProps" && child.type !== "flutter-props")
+          if (!(0, constants_1.isTransparentType)(child.type))
             continue;
           if (child.props?.propsKey !== propsKey)
             continue;
@@ -20756,6 +20760,7 @@ var require_DiffStrategy = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiffStrategy = void 0;
     var UIService_1 = require_UIService();
+    var constants_1 = require_constants();
     var log_1 = require_log();
     var perf_timing_1 = require_perf_timing();
     var DiffStrategy = class {
@@ -20807,7 +20812,7 @@ var require_DiffStrategy = __commonJS({
           const processedNodes = /* @__PURE__ */ new Set();
           const normalizedChangedNodes = /* @__PURE__ */ new Set();
           for (const node of this.changedNodes) {
-            if ((node.type === "FlutterProps" || node.type === "flutter-props") && node.parent) {
+            if ((0, constants_1.isTransparentType)(node.type) && node.parent) {
               normalizedChangedNodes.add(node.parent);
             } else {
               normalizedChangedNodes.add(node);
@@ -20865,6 +20870,7 @@ var require_PageContainer = __commonJS({
     exports.PageContainer = void 0;
     var react_1 = __importDefault(require_react_production());
     var node_1 = require_node();
+    var constants_1 = require_constants();
     var IncrementalStrategy_1 = require_IncrementalStrategy();
     var DiffStrategy_1 = require_DiffStrategy();
     var NativeEvent_1 = require_NativeEvent();
@@ -21131,6 +21137,9 @@ var require_PageContainer = __commonJS({
         }
       }
       appendChildToContainer(child) {
+        if (this.root && this.root !== child) {
+          console.warn(`[PageContainer] Multiple container-level children are not supported on page ${this.pageId}: replacing root id=${this.root.id} type=${this.root.type} with id=${child.id} type=${child.type}. Previous sibling will not be rendered.`);
+        }
         this.root = child;
         this.markChanged(child);
         this.diffStrategy.rendered = false;
@@ -21185,8 +21194,7 @@ var require_PageContainer = __commonJS({
         }
         try {
           const element = itemBuilder(index);
-          const dsl = this.elementToDsl(element);
-          return dsl;
+          return this.elementToDslForItem(`${this.pageId}:${refId}:${index}`, element);
         } catch (e) {
           console.error(`[PageContainer] Error in itemBuilder for refId ${refId} at index ${index}:`, e);
           return null;
@@ -21224,6 +21232,10 @@ var require_PageContainer = __commonJS({
             const originalProps = elAny.props || {};
             while (typeof type === "object" && type !== null && type.type) {
               type = type.type;
+            }
+            if (type === react_1.default.Fragment) {
+              currentElement = originalProps.children ?? null;
+              continue;
             }
             if (typeof type === "function") {
               if (type.prototype && type.prototype.isReactComponent) {
@@ -21279,7 +21291,7 @@ var require_PageContainer = __commonJS({
       }
       processDslChild(processedProps, dslChildren, childDsl) {
         const child = childDsl;
-        if (child.type === "FlutterProps" || child.type === "flutter-props") {
+        if ((0, constants_1.isTransparentType)(child.type)) {
           const propsKey = child.props?.propsKey;
           if (propsKey) {
             const propChildren = child.children || [];
@@ -21432,10 +21444,17 @@ var require_ItemContainer = __commonJS({
        * 标记初始渲染完成。
        * 由 ListItemManager.getItemDSL() 在 flushSync 后调用。
        * 之后的 commit() 调用将发送增量补丁到 Flutter。
+       *
+       * 必须同时置 isFirstRender = false：ItemContainer 重写了 commit()，
+       * 不会走 PageContainer.commit 里清除 isFirstRender 的逻辑。若不清除，
+       * 后续 Node.applyProps 会永远跳过 registerCallbacksRecursive，导致
+       * 「函数引用变化但节点自身无 DSL 变化」的更新不重注册回调，
+       * 事件 handler 持续引用首帧的旧闭包（stale closure）。
        */
       markInitialRenderDone() {
         this.initialRenderDone = true;
         this.diffStrategy.rendered = true;
+        this.isFirstRender = false;
       }
       /**
        * 重写：初始渲染为空操作（DSL 由 toDsl() 手动提取），
@@ -21525,6 +21544,7 @@ var require_ListItemManager = __commonJS({
     exports.ListItemManager = void 0;
     var ItemContainer_1 = require_ItemContainer();
     var ErrorHandler_1 = require_ErrorHandler();
+    var log_1 = require_log();
     var ListItemManager = class {
       constructor(reconciler, handleRecoverableError) {
         this.items = /* @__PURE__ */ new Map();
@@ -21533,6 +21553,24 @@ var require_ListItemManager = __commonJS({
       }
       itemKey(pageId, refId, index) {
         return `${pageId}:${refId}:${index}`;
+      }
+      /**
+       * 同步 flush 卸载 sub-root。ConcurrentRoot 下裸 updateContainer(null) 只是
+       * 调度卸载（异步 commit），items.delete 后可能永远没人触发 useEffect cleanup；
+       * 与 getItemDSL 的渲染路径一样用 flushSync 保证返回即已 unmount。
+       */
+      flushSyncUnmount(root) {
+        if (this.reconciler.flushSyncFromReconciler) {
+          this.reconciler.flushSyncFromReconciler(() => {
+            this.reconciler.updateContainer(null, root, null, null);
+          });
+        } else if (this.reconciler.flushSync) {
+          this.reconciler.flushSync(() => {
+            this.reconciler.updateContainer(null, root, null, null);
+          });
+        } else {
+          this.reconciler.updateContainer(null, root, null, null);
+        }
       }
       /**
        * 渲染列表项并通过 reconciler sub-root，返回 DSL。
@@ -21563,7 +21601,7 @@ var require_ListItemManager = __commonJS({
           );
           entry = { container, root };
           this.items.set(key, entry);
-          console.log(`[ListItemManager] Created sub-root for key=${key}`);
+          (0, log_1.logDebug)(`[ListItemManager] Created sub-root for key=${key}`);
         }
         try {
           if (this.reconciler.flushSyncFromReconciler) {
@@ -21584,7 +21622,7 @@ var require_ListItemManager = __commonJS({
           console.error(`[ListItemManager] Error rendering item key=${key}:`, e);
           ErrorHandler_1.ErrorHandler.notify(e, "render", { pageId, refId, index });
           console.warn(`[ListItemManager] Falling back to elementToDsl for key=${key}`);
-          return mainContainer.elementToDsl(element);
+          return mainContainer.elementToDslForItem(key, element);
         }
       }
       /**
@@ -21597,9 +21635,9 @@ var require_ListItemManager = __commonJS({
         if (!entry) {
           return;
         }
-        console.log(`[ListItemManager] Disposing item key=${key}`);
+        (0, log_1.logDebug)(`[ListItemManager] Disposing item key=${key}`);
         try {
-          this.reconciler.updateContainer(null, entry.root, null, null);
+          this.flushSyncUnmount(entry.root);
         } catch (e) {
           console.error(`[ListItemManager] Error disposing item key=${key}:`, e);
         }
@@ -21618,12 +21656,12 @@ var require_ListItemManager = __commonJS({
           }
         }
         if (keysToDispose.length > 0) {
-          console.log(`[ListItemManager] Disposing ${keysToDispose.length} items for pageId=${pageId}`);
+          (0, log_1.logDebug)(`[ListItemManager] Disposing ${keysToDispose.length} items for pageId=${pageId}`);
           for (const key of keysToDispose) {
             const entry = this.items.get(key);
             if (entry) {
               try {
-                this.reconciler.updateContainer(null, entry.root, null, null);
+                this.flushSyncUnmount(entry.root);
               } catch (e) {
                 console.error(`[ListItemManager] Error disposing item key=${key}:`, e);
               }
@@ -21705,6 +21743,19 @@ var require_renderer = __commonJS({
         roots[pageId] = root;
         return root;
       }
+      function flushSyncUnmount(root) {
+        if (reconciler.flushSyncFromReconciler) {
+          reconciler.flushSyncFromReconciler(() => {
+            reconciler.updateContainer(null, root, null, null);
+          });
+        } else if (reconciler.flushSync) {
+          reconciler.flushSync(() => {
+            reconciler.updateContainer(null, root, null, null);
+          });
+        } else {
+          reconciler.updateContainer(null, root, null, null);
+        }
+      }
       const renderedPages = /* @__PURE__ */ new Set();
       return {
         update(element, pageId) {
@@ -21765,6 +21816,7 @@ var require_renderer = __commonJS({
             let retryCount = 0;
             const maxRetries = 100;
             const finalize = () => {
+              listItemManager.disposePageItems(pageId);
               containers[pageId]?.dispose();
               delete roots[pageId];
               delete containers[pageId];
@@ -21773,7 +21825,7 @@ var require_renderer = __commonJS({
             };
             const performDestroy = () => {
               try {
-                reconciler.updateContainer(null, root, null, null);
+                flushSyncUnmount(root);
                 (0, log_1.perfLog)(`[Renderer] destroy() succeeded for pageId=${pageId}, retries=${retryCount}`);
                 finalize();
               } catch (e) {
@@ -21792,7 +21844,7 @@ var require_renderer = __commonJS({
                   ErrorHandler_1.ErrorHandler.notify(e, "render", { pageId });
                   try {
                     console.warn(`[Renderer] Best-effort unmount for pageId=${pageId} after fatal error`);
-                    reconciler.updateContainer(null, root, null, null);
+                    flushSyncUnmount(root);
                   } catch (_e) {
                     console.error(`[Renderer] Best-effort unmount also failed for pageId=${pageId}`);
                   }
@@ -21801,10 +21853,10 @@ var require_renderer = __commonJS({
               }
             };
             performDestroy();
-            listItemManager.disposePageItems(pageId);
           } else {
             if (containers[pageId]) {
               console.warn(`[Renderer] destroy() pageId=${pageId} has no root but has orphaned container, cleaning up.`);
+              listItemManager.disposePageItems(pageId);
               containers[pageId]?.dispose();
               delete containers[pageId];
               renderedPages.delete(pageId);
@@ -21815,6 +21867,10 @@ var require_renderer = __commonJS({
         },
         dispatchEvent,
         getItemDSL(pageId, refId, index) {
+          if (destroyingPages.has(pageId)) {
+            console.warn(`[Renderer] getItemDSL() ignored: pageId=${pageId} is destroying.`);
+            return null;
+          }
           const container = containers[pageId];
           if (!container)
             return null;
@@ -22447,6 +22503,7 @@ var require_page_render = __commonJS({
     var ErrorBoundary_1 = require_ErrorBoundary();
     var LifecycleService_1 = require_LifecycleService();
     var perf_timing_1 = require_perf_timing();
+    var log_1 = require_log();
     var renderer = null;
     var globalErrorFallback = null;
     var routeGuardFallback = null;
@@ -22527,11 +22584,12 @@ var require_page_render = __commonJS({
       const fallbackUI = globalErrorFallback || defaultErrorFallback;
       return react_1.default.createElement(PageContext_1.PageContext.Provider, { value: { pageId } }, react_1.default.createElement(ErrorBoundary_1.ErrorBoundary, { fallback: fallbackUI }, app));
     }
-    async function doRenderAsync(pageId, path, params) {
+    async function doRenderAsync(pageId, path, params, token) {
       (0, perf_timing_1.markStart)(pageId);
       const t0 = Date.now();
       const r = ensureRenderer();
       const t1 = Date.now();
+      const isCancelled = () => renderState[pageId]?.token !== token;
       const to = Router2.resolve(path, params);
       const t2 = Date.now();
       if (!to || !to.matched.component) {
@@ -22547,6 +22605,10 @@ var require_page_render = __commonJS({
         console.error("[Router] Guard error:", e);
         guardResult = false;
       }
+      if (isCancelled()) {
+        console.warn(`[page_render] render cancelled for pageId=${pageId}, path=${path} (page destroyed or superseded)`);
+        return;
+      }
       if (guardResult === false) {
         console.warn(`[Router] Guard rejected navigation to ${path}`);
         r.update(wrapWithProviders(pageId, buildGuardRejectedApp(to)), pageId);
@@ -22554,7 +22616,7 @@ var require_page_render = __commonJS({
       }
       if ((0, router_1.isGuardRedirect)(guardResult)) {
         const target = (0, router_1.extractRedirectTarget)(guardResult);
-        console.log(`[Router] Guard redirecting ${path} \u2192 ${target.path}`);
+        (0, log_1.logDebug)(`[Router] Guard redirecting ${path} \u2192 ${target.path}`);
         void dartCallNativeAsync("Navigator.pushReplace", {
           path: target.path,
           params: target.params ?? {},
@@ -22566,11 +22628,18 @@ var require_page_render = __commonJS({
       Router2.recordLocation(pageId, to);
       const t3 = Date.now();
       const factory = to.matched.component;
-      const app = factory(to.params);
+      let app;
+      try {
+        app = factory(to.params);
+      } catch (e) {
+        console.error(`[page_render] Page component factory threw for ${path}:`, e);
+        const fallbackUI = globalErrorFallback || defaultErrorFallback;
+        app = fallbackUI(e instanceof Error ? e : new Error(String(e)));
+      }
       const t4 = Date.now();
       r.update(wrapWithProviders(pageId, app), pageId);
       const t5 = Date.now();
-      console.log(`[Perf] page=${pageId} path=${path} total=${t5 - t0}ms | ensureRenderer=${t1 - t0}ms | router.resolve=${t2 - t1}ms | createElement=${t4 - t3}ms | reconciler.update=${t5 - t4}ms`);
+      (0, log_1.perfLog)(`[Perf] page=${pageId} path=${path} total=${t5 - t0}ms | ensureRenderer=${t1 - t0}ms | router.resolve=${t2 - t1}ms | createElement=${t4 - t3}ms | reconciler.update=${t5 - t4}ms`);
       (0, perf_timing_1.report)(pageId, path);
     }
     function render(pageId, path, params) {
@@ -22580,12 +22649,22 @@ var require_page_render = __commonJS({
         console.warn(`[page_render] coalescing render for pageId=${pageId}, path=${path}`);
         return;
       }
-      renderState[pageId] = { rendering: true };
-      void doRenderAsync(pageId, path, params).finally(() => {
-        const next = renderState[pageId]?.pending;
+      const token = {};
+      renderState[pageId] = { rendering: true, token };
+      void doRenderAsync(pageId, path, params, token).catch((e) => {
+        console.error(`[page_render] doRenderAsync failed for pageId=${pageId}, path=${path}:`, e);
+      }).finally(() => {
+        const current = renderState[pageId];
+        if (!current || current.token !== token)
+          return;
+        const next = current.pending;
         if (next) {
-          renderState[pageId] = { rendering: false };
-          Promise.resolve().then(() => render(pageId, next.path, next.params));
+          renderState[pageId] = { rendering: false, token };
+          Promise.resolve().then(() => {
+            if (renderState[pageId]?.token === token) {
+              render(pageId, next.path, next.params);
+            }
+          });
         } else {
           delete renderState[pageId];
         }
@@ -23485,6 +23564,7 @@ var require_NavigatorService = __commonJS({
     var Router2 = __importStar(require_router());
     var router_1 = require_router();
     var runtime_1 = require_runtime();
+    var log_1 = require_log();
     async function runGuardsSafely(to, from) {
       try {
         return await Router2.runGuards(to, from);
@@ -23521,7 +23601,7 @@ var require_NavigatorService = __commonJS({
         const to = Router2.resolve(path, params);
         if (!to) {
           if (Router2.isNativeFallbackEnabled()) {
-            console.log(`[Navigator] No JS route for ${path}, delegating to native`);
+            (0, log_1.logDebug)(`[Navigator] No JS route for ${path}, delegating to native`);
             return _NavigatorService.pushRaw(path, params, pageId, true, prewarmMs);
           }
           console.warn(`[Navigator] No route matched for ${path}`);
@@ -23552,7 +23632,7 @@ var require_NavigatorService = __commonJS({
         const to = Router2.resolve(path, params);
         if (!to) {
           if (Router2.isNativeFallbackEnabled()) {
-            console.log(`[Navigator] No JS route for ${path}, delegating to native`);
+            (0, log_1.logDebug)(`[Navigator] No JS route for ${path}, delegating to native`);
             return dartCallNativeAsync("Navigator.pushReplace", {
               path,
               params,
@@ -24197,9 +24277,10 @@ var require_FlutterProps = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FlutterProps = void 0;
     var react_1 = __importDefault(require_react_production());
+    var constants_1 = require_constants();
     var FlutterProps3 = class extends react_1.default.Component {
       render() {
-        return react_1.default.createElement("FlutterProps", { propsKey: this.props.propsKey }, this.props.children);
+        return react_1.default.createElement(constants_1.FLUTTER_PROPS_TYPE, { propsKey: this.props.propsKey }, this.props.children);
       }
     };
     exports.FlutterProps = FlutterProps3;

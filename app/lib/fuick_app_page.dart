@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fuickjs_flutter/core/container/fuick_app_view.dart';
 
@@ -20,7 +19,7 @@ class FuickAppPage extends StatelessWidget {
       appName: appName,
       initialRoute: path,
       initialParams: params,
-      showMemoryMonitor: kDebugMode,
+      showMemoryMonitor: false,
       useAotCode: true,
     );
   }

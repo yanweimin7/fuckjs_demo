@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:math';
 import 'dart:typed_data';
@@ -6,6 +7,7 @@ import 'dart:typed_data';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fuickjs_flutter/core/service/base_fuick_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:pointycastle/key_derivators/api.dart';
 import 'package:pointycastle/key_derivators/argon2.dart';
@@ -113,13 +115,93 @@ class LocalAuthService extends BaseFuickService {
         accessibility: KeychainAccessibility.first_unlock_this_device,
       );
 
-  IOSOptions _getBiometricIOSOptions() => const IOSOptions(
-        accessibility: KeychainAccessibility.first_unlock_this_device,
-      );
+  /// macOS 上让钥匙材料（salt / 受保护 encryptionKey / 生物识别 key）
+  /// 与 FuickStorageService 保持一致走 plist(SharedPreferences) 兜底，
+  /// 而非依赖钥匙串，保证跨设备/环境行为一致。
+  /// 非 macOS 仍优先写钥匙串，钥匙串异常时自动降级到 plist。
+  bool _useFallback = Platform.isMacOS;
 
-  AndroidOptions _getBiometricAndroidOptions() => const AndroidOptions(
-        resetOnError: false,
+  Future<String?> _readSecure(String key) async {
+    if (_useFallback) {
+      final prefs = await SharedPreferences.getInstance();
+      var value = prefs.getString(key);
+      if (value == null) {
+        // 迁移：尝试从钥匙串恢复旧数据（系统密码变更前写入的）
+        try {
+          value = await _storage.read(
+            key: key,
+            iOptions: _getIOSOptions(),
+            aOptions: _getAndroidOptions(),
+          );
+        } catch (e) {
+          print('[LocalAuth] keychain read during migration failed: $e');
+        }
+        if (value != null) {
+          await prefs.setString(key, value);
+          print('[LocalAuth] migrated $key from keychain to plist');
+        }
+      }
+      return value;
+    }
+    try {
+      return await _storage.read(
+        key: key,
+        iOptions: _getIOSOptions(),
+        aOptions: _getAndroidOptions(),
       );
+    } catch (e) {
+      print('[LocalAuth] secure read failed, falling back to prefs: $e');
+      _useFallback = true;
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString(key);
+    }
+  }
+
+  Future<void> _writeSecure(String key, String value) async {
+    if (_useFallback) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(key, value);
+      return;
+    }
+    try {
+      await _storage.write(
+        key: key,
+        value: value,
+        iOptions: _getIOSOptions(),
+        aOptions: _getAndroidOptions(),
+      );
+    } catch (e) {
+      print('[LocalAuth] secure write failed, falling back to prefs: $e');
+      _useFallback = true;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(key, value);
+    }
+  }
+
+  Future<void> _deleteSecure(String key) async {
+    if (_useFallback) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(key);
+      return;
+    }
+    try {
+      await _storage.delete(
+        key: key,
+        iOptions: _getIOSOptions(),
+        aOptions: _getAndroidOptions(),
+      );
+    } catch (e) {
+      print('[LocalAuth] secure delete failed, falling back to prefs: $e');
+      _useFallback = true;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(key);
+    }
+  }
+
+  Future<bool> _containsSecure(String key) async {
+    final value = await _readSecure(key);
+    return value != null;
+  }
 
   String _generateSalt() {
     final random = Random.secure();
@@ -265,11 +347,7 @@ class LocalAuthService extends BaseFuickService {
 
     registerAsyncMethod('isPasswordSet', (args) async {
       try {
-        final hasSalt = await _storage.containsKey(
-          key: _saltKey,
-          iOptions: _getIOSOptions(),
-          aOptions: _getAndroidOptions(),
-        );
+          final hasSalt = await _containsSecure(_saltKey);
         print('[LocalAuth] isPasswordSet: $_saltKey exists = $hasSalt');
         return hasSalt.toString();
       } catch (e) {
@@ -306,18 +384,9 @@ class LocalAuthService extends BaseFuickService {
           print('[LocalAuth] initEncryptionKey: aes encrypt done');
 
           print('[LocalAuth] initEncryptionKey: writing to storage...');
-          await _storage.write(
-            key: _saltKey,
-            value: protection.salt!,
-            iOptions: _getIOSOptions(),
-            aOptions: _getAndroidOptions(),
-          );
-          await _storage.write(
-            key: _passwordProtectedKey,
-            value: protection.encryptedData.toBase64(),
-            iOptions: _getIOSOptions(),
-            aOptions: _getAndroidOptions(),
-          );
+          await _writeSecure(_saltKey, protection.salt!);
+          await _writeSecure(
+              _passwordProtectedKey, protection.encryptedData.toBase64());
           print('[LocalAuth] initEncryptionKey: stored salt to $_saltKey');
 
           return jsonEncode({
@@ -337,16 +406,8 @@ class LocalAuthService extends BaseFuickService {
         final password = args['password'] as String;
 
         try {
-          final salt = await _storage.read(
-            key: _saltKey,
-            iOptions: _getIOSOptions(),
-            aOptions: _getAndroidOptions(),
-          );
-          final encryptedDataStr = await _storage.read(
-            key: _passwordProtectedKey,
-            iOptions: _getIOSOptions(),
-            aOptions: _getAndroidOptions(),
-          );
+          final salt = await _readSecure(_saltKey);
+          final encryptedDataStr = await _readSecure(_passwordProtectedKey);
 
           if (salt == null || encryptedDataStr == null) {
             return jsonEncode({'success': false, 'error': 'Key not found'});
@@ -410,18 +471,9 @@ class LocalAuthService extends BaseFuickService {
             type: ProtectionType.biometric,
           );
 
-          await _storage.write(
-            key: _biometricProtectedKey,
-            value: protection.encryptedData.toBase64(),
-            iOptions: _getBiometricIOSOptions(),
-            aOptions: _getBiometricAndroidOptions(),
-          );
-          await _storage.write(
-            key: _biometricHardwareKey,
-            value: protection.hardwareKey!,
-            iOptions: _getBiometricIOSOptions(),
-            aOptions: _getBiometricAndroidOptions(),
-          );
+          await _writeSecure(
+              _biometricProtectedKey, protection.encryptedData.toBase64());
+          await _writeSecure(_biometricHardwareKey, protection.hardwareKey!);
 
           return jsonEncode({'success': true});
         } catch (e) {
@@ -432,35 +484,19 @@ class LocalAuthService extends BaseFuickService {
     });
 
     registerAsyncMethod('disableBiometric', (args) async {
-      await _storage.delete(
-        key: _biometricProtectedKey,
-        iOptions: _getBiometricIOSOptions(),
-        aOptions: _getBiometricAndroidOptions(),
-      );
-      await _storage.delete(
-        key: _biometricHardwareKey,
-        iOptions: _getBiometricIOSOptions(),
-        aOptions: _getBiometricAndroidOptions(),
-      );
+      await _deleteSecure(_biometricProtectedKey);
+      await _deleteSecure(_biometricHardwareKey);
       return jsonEncode({'success': true});
     });
 
     registerAsyncMethod('isBiometricEnabled', (args) async {
-      final hasKey = await _storage.containsKey(
-        key: _biometricProtectedKey,
-        iOptions: _getBiometricIOSOptions(),
-        aOptions: _getBiometricAndroidOptions(),
-      );
+      final hasKey = await _containsSecure(_biometricProtectedKey);
       return hasKey.toString();
     });
 
     registerAsyncMethod('unlockWithBiometric', (args) async {
       try {
-        final hasKey = await _storage.containsKey(
-          key: _biometricProtectedKey,
-          iOptions: _getBiometricIOSOptions(),
-          aOptions: _getBiometricAndroidOptions(),
-        );
+        final hasKey = await _containsSecure(_biometricProtectedKey);
 
         if (!hasKey) {
           return jsonEncode(
@@ -476,16 +512,8 @@ class LocalAuthService extends BaseFuickService {
           return jsonEncode({'success': false, 'error': 'Auth failed'});
         }
 
-        final encryptedDataStr = await _storage.read(
-          key: _biometricProtectedKey,
-          iOptions: _getBiometricIOSOptions(),
-          aOptions: _getBiometricAndroidOptions(),
-        );
-        final hardwareKey = await _storage.read(
-          key: _biometricHardwareKey,
-          iOptions: _getBiometricIOSOptions(),
-          aOptions: _getBiometricAndroidOptions(),
-        );
+        final encryptedDataStr = await _readSecure(_biometricProtectedKey);
+        final hardwareKey = await _readSecure(_biometricHardwareKey);
 
         if (encryptedDataStr == null || hardwareKey == null) {
           return jsonEncode({'success': false, 'error': 'Key not found'});

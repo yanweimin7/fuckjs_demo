@@ -86,16 +86,13 @@ function main() {
       tmpOut,
     ];
     if (hasJs) packArgs.push("--js", jsPath);
+    // 不打包 .qjc：本地 qjsc 不可用时字节码不会重编，若仍打进 zip，demo 会按
+    // codeForm: qjc 优先加载旧字节码，导致 JS 改动不生效。统一只打 .js，
+    // 由引擎在需要时回退到已验签的 bundle.js。
     if (hasQjc) {
-      const jsNewer =
-        hasJs && fs.statSync(jsPath).mtimeMs > fs.statSync(qjcPath).mtimeMs;
-      if (jsNewer) {
-        console.warn(
-          `WARN ${b.name}: .qjc 落后于 .js，仅打包 .js（请运行 qjsc 或 npm run build 重新编译字节码）`,
-        );
-      } else {
-        packArgs.push("--qjc", qjcPath);
-      }
+      console.warn(
+        `WARN ${b.name}: 跳过 .qjc，仅打包 .js（codeForm=js）`,
+      );
     }
     // bundle 主包携带 demo 图片资源（images/ → zip 内 assets/images/）
     if (b.name === "bundle" && fs.existsSync(ASSETS_ROOT)) {
