@@ -334,7 +334,10 @@ Message: ${n}.
       icon: 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2732%27 height=%2732%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%237c5cff%27/%3E%3C/svg%3E',
       version: '1.0.0',
       chains: ['solana:mainnet', 'solana:testnet', 'solana:devnet'],
-      accounts: currentAccounts(),
+      // \u5FC5\u987B\u662F\u300C\u5B9E\u65F6\u300Dgetter\uFF1A\u9002\u914D\u5668\u76F4\u63A5\u8BFB\u53D6 wallet.accounts[0] \u6765\u53D6\u9996\u4E2A\u8D26\u6237\uFF0C
+      // \u82E5\u5728\u8FD9\u91CC\u4E00\u6B21\u6027\u5FEB\u7167\uFF08buildApi \u65F6 _publicKey \u5C1A\u4E3A null\uFF09\uFF0Caccounts \u6C38\u8FDC\u4E3A
+      // []\uFF0C\u9002\u914D\u5668\u8FDE\u63A5\u65F6\u4F1A\u56E0\u53D6\u4E0D\u5230\u8D26\u6237\u629B\u51FA WalletAccountError \u800C\u8868\u73B0\u4E3A\u300C\u8FDE\u63A5\u540E\u65AD\u5F00\u300D\u3002
+      get accounts() { return currentAccounts(); },
       features: {
         // \u57FA\u7840\u6807\u51C6\u7279\u6027\uFF08@solana/wallet-adapter \u7684 isWalletAdapterCompatibleStandardWallet
         // \u786C\u6027\u8981\u6C42 standard:connect + standard:events\uFF0C\u5426\u5219\u94B1\u5305\u4F1A\u88AB\u9759\u9ED8\u4E22\u5F03\uFF09
