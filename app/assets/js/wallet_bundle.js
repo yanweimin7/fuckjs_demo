@@ -400,17 +400,21 @@ Message: ${n}.
   //  - \u65E7\u5951\u7EA6 navigator.wallets \u6570\u7EC4\uFF1Apush \u6211\u4EEC\u7684 announce \u56DE\u8C03
   function registerWalletStandard(api){
     if (typeof window === 'undefined') return;
+    // \u4E00\u65E6\u88AB dApp \u6210\u529F\u6CE8\u518C\uFF0C\u7ACB\u5373\u505C\u6B62\u91CD\u590D\u6D3E\u53D1\uFF0C\u5426\u5219\u6BCF\u6B21 register-wallet \u90FD\u4F1A\u8BA9
+    // dApp \u91CD\u5EFA\u9002\u914D\u5668\u5B9E\u4F8B\uFF0C\u5BFC\u81F4\u5DF2\u5EFA\u7ACB\u7684\u8FDE\u63A5\u77AC\u95F4\u88AB\u91CD\u7F6E\uFF08\u8868\u73B0\u4E3A\u300C\u8FDE\u63A5\u540E\u9A6C\u4E0A\u65AD\u5F00\u300D\uFF09\u3002
+    var announced = false;
     // \u63A5\u6536 dApp \u7684 register \u51FD\u6570\uFF08\u53EF\u80FD\u662F\u51FD\u6570\u672C\u8EAB\uFF0C\u6216 { register }\uFF09
     function acceptRegister(arg){
       var register = (arg && arg.register) ? arg.register : arg;
       if (typeof register === 'function') {
-        try { register(api); } catch (e) {}
+        try { register(api); announced = true; } catch (e) {}
       }
     }
     // \u94B1\u5305\u4E3B\u52A8\u6CE8\u518C\uFF1Adetail \u4E3A\u300C\u63A5\u6536 app register \u5E76\u6CE8\u518C\u81EA\u5DF1\u300D\u7684\u56DE\u8C03
     function announce(appRegister){ acceptRegister(appRegister); }
 
     function dispatch(){
+      if (announced) return;
       try { window.dispatchEvent(new CustomEvent('wallet-standard:register-wallet', { detail: announce })); } catch (e) {}
       try { window.dispatchEvent(new CustomEvent('wallet-standard:app-ready', { detail: announce })); } catch (e) {}
     }
@@ -445,10 +449,12 @@ Message: ${n}.
 
     // \u5173\u952E\u5BB9\u9519\uFF1AAndroid \u4E0A AT_DOCUMENT_START \u53EF\u80FD\u665A\u4E8E dApp \u81EA\u8EAB\u7684\u68C0\u6D4B\u811A\u672C\uFF0C
     // \u5BFC\u81F4 dApp \u7684 register-wallet \u76D1\u542C\u5668\u5728\u6211\u4EEC\u9996\u6B21\u6D3E\u53D1\u540E\u624D\u6CE8\u518C\u800C\u9519\u8FC7\u3002
-    // \u56E0\u6B64\u6301\u7EED\u8F6E\u8BE2\u91CD\u6D3E + \u91CD\u88C5 provider\uFF08\u7EA6 15s\uFF09\uFF0C\u786E\u4FDD\u4EFB\u4F55\u65F6\u673A\u7684\u76D1\u542C\u5668\u90FD\u80FD\u6355\u83B7\u3002
+    // \u56E0\u6B64\u505A\u6709\u9650\u6B21\u91CD\u6D3E + \u6301\u7EED\u91CD\u88C5 provider\uFF1B\u4F46\u4E00\u65E6\u88AB dApp \u6CE8\u518C\u6210\u529F\uFF08announced\uFF09\uFF0C
+    // \u5FC5\u987B\u7ACB\u5373\u505C\u6B62\u6CE8\u518C\u4E8B\u4EF6\u6D3E\u53D1\uFF0C\u907F\u514D\u9002\u914D\u5668\u88AB\u53CD\u590D\u91CD\u5EFA\u3002
     var retries = 0;
     var timer = setInterval(function(){
       install();
+      if (announced) { try { clearInterval(timer); } catch (e) {} return; }
       dispatch();
       retries++;
       if (retries >= 30) { try { clearInterval(timer); } catch (e) {} }
