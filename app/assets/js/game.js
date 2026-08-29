@@ -2349,39 +2349,39 @@ var require_core = __commonJS({
       }
     })(exports, function() {
       var CryptoJS = CryptoJS || function(Math2, undefined2) {
-        var crypto2;
+        var crypto;
         if (typeof window !== "undefined" && window.crypto) {
-          crypto2 = window.crypto;
+          crypto = window.crypto;
         }
         if (typeof self !== "undefined" && self.crypto) {
-          crypto2 = self.crypto;
+          crypto = self.crypto;
         }
         if (typeof globalThis !== "undefined" && globalThis.crypto) {
-          crypto2 = globalThis.crypto;
+          crypto = globalThis.crypto;
         }
-        if (!crypto2 && typeof window !== "undefined" && window.msCrypto) {
-          crypto2 = window.msCrypto;
+        if (!crypto && typeof window !== "undefined" && window.msCrypto) {
+          crypto = window.msCrypto;
         }
-        if (!crypto2 && typeof globalThis !== "undefined" && globalThis.crypto) {
-          crypto2 = globalThis.crypto;
+        if (!crypto && typeof globalThis !== "undefined" && globalThis.crypto) {
+          crypto = globalThis.crypto;
         }
-        if (!crypto2 && typeof __require === "function") {
+        if (!crypto && typeof __require === "function") {
           try {
-            crypto2 = __require("crypto");
+            crypto = __require("crypto");
           } catch (err) {
           }
         }
         var cryptoSecureRandomInt = function() {
-          if (crypto2) {
-            if (typeof crypto2.getRandomValues === "function") {
+          if (crypto) {
+            if (typeof crypto.getRandomValues === "function") {
               try {
-                return crypto2.getRandomValues(new Uint32Array(1))[0];
+                return crypto.getRandomValues(new Uint32Array(1))[0];
               } catch (err) {
               }
             }
-            if (typeof crypto2.randomBytes === "function") {
+            if (typeof crypto.randomBytes === "function") {
               try {
-                return crypto2.randomBytes(4).readInt32LE();
+                return crypto.randomBytes(4).readInt32LE();
               } catch (err) {
               }
             }
@@ -8804,10 +8804,10 @@ var require_blowfish = __commonJS({
           return { left: Xl, right: Xr };
         }
         function BlowFishInit(ctx, key, keysize) {
-          for (let Row56 = 0; Row56 < 4; Row56++) {
-            ctx.sbox[Row56] = [];
+          for (let Row = 0; Row < 4; Row++) {
+            ctx.sbox[Row] = [];
             for (let Col = 0; Col < 256; Col++) {
-              ctx.sbox[Row56][Col] = ORIG_S[Row56][Col];
+              ctx.sbox[Row][Col] = ORIG_S[Row][Col];
             }
           }
           let keyIndex = 0;
@@ -9184,7 +9184,7 @@ var require_structured_clone = __commonJS({
       return copy;
     }
     if (typeof global_1.default.structuredClone === "undefined") {
-      global_1.default.structuredClone = function structuredClone2(value) {
+      global_1.default.structuredClone = function structuredClone(value) {
         return clone(value, /* @__PURE__ */ new Map());
       };
     }
@@ -9731,7 +9731,7 @@ var require_fetch = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/ex/fetch.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.fetch = fetch3;
+    exports.fetch = fetch;
     var NetworkService_1 = require_NetworkService();
     var headers_1 = require_headers();
     function headersToObject(headers) {
@@ -9772,7 +9772,7 @@ var require_fetch = __commonJS({
       }
       return String(body);
     }
-    async function fetch3(url, options = {}) {
+    async function fetch(url, options = {}) {
       const { signal } = options;
       if (signal?.aborted) {
         throw signal.reason || new Error("AbortError");
@@ -9904,7 +9904,7 @@ var require_url = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.URL = exports.URLSearchParams = void 0;
-    var URLSearchParams2 = class _URLSearchParams {
+    var URLSearchParams = class _URLSearchParams {
       constructor(init) {
         this.params = /* @__PURE__ */ new Map();
         if (!init)
@@ -9978,8 +9978,8 @@ var require_url = __commonJS({
         return entries[Symbol.iterator]();
       }
     };
-    exports.URLSearchParams = URLSearchParams2;
-    var URL2 = class _URL {
+    exports.URLSearchParams = URLSearchParams;
+    var URL = class _URL {
       constructor(url, base) {
         this.protocol = "";
         this.hostname = "";
@@ -10015,7 +10015,7 @@ var require_url = __commonJS({
           this.search = match[7] || "";
           this.hash = match[8] || "";
         }
-        this.searchParams = new URLSearchParams2(this.search);
+        this.searchParams = new URLSearchParams(this.search);
       }
       get href() {
         let res = this.protocol + "//";
@@ -10057,7 +10057,7 @@ var require_url = __commonJS({
         return this.href;
       }
     };
-    exports.URL = URL2;
+    exports.URL = URL;
   }
 });
 
@@ -10081,14 +10081,14 @@ var require_events = __commonJS({
       }
     };
     exports.Event = Event;
-    var CustomEvent2 = class extends Event {
+    var CustomEvent = class extends Event {
       constructor(type, options = {}) {
         super(type, options);
         this.detail = options.detail;
       }
     };
-    exports.CustomEvent = CustomEvent2;
-    var EventTarget2 = class {
+    exports.CustomEvent = CustomEvent;
+    var EventTarget = class {
       constructor() {
         this.listeners = /* @__PURE__ */ new Map();
       }
@@ -10120,7 +10120,7 @@ var require_events = __commonJS({
         return !event.defaultPrevented;
       }
     };
-    exports.EventTarget = EventTarget2;
+    exports.EventTarget = EventTarget;
   }
 });
 
@@ -10184,7 +10184,7 @@ var require_xhr = __commonJS({
     exports.XMLHttpRequest = void 0;
     var events_1 = require_events();
     var NetworkService_1 = require_NetworkService();
-    var XMLHttpRequest2 = class _XMLHttpRequest extends events_1.EventTarget {
+    var XMLHttpRequest = class _XMLHttpRequest extends events_1.EventTarget {
       constructor() {
         super();
         this.readyState = _XMLHttpRequest.UNSENT;
@@ -10302,12 +10302,12 @@ var require_xhr = __commonJS({
         }
       }
     };
-    exports.XMLHttpRequest = XMLHttpRequest2;
-    XMLHttpRequest2.UNSENT = 0;
-    XMLHttpRequest2.OPENED = 1;
-    XMLHttpRequest2.HEADERS_RECEIVED = 2;
-    XMLHttpRequest2.LOADING = 3;
-    XMLHttpRequest2.DONE = 4;
+    exports.XMLHttpRequest = XMLHttpRequest;
+    XMLHttpRequest.UNSENT = 0;
+    XMLHttpRequest.OPENED = 1;
+    XMLHttpRequest.HEADERS_RECEIVED = 2;
+    XMLHttpRequest.LOADING = 3;
+    XMLHttpRequest.DONE = 4;
   }
 });
 
@@ -10484,7 +10484,7 @@ var require_websocket = __commonJS({
     };
     exports.MessageEvent = MessageEvent;
     var socketIdCounter = 0;
-    var WebSocket2 = class extends events_1.EventTarget {
+    var WebSocket = class extends events_1.EventTarget {
       constructor(url, protocols) {
         super();
         this._readyState = 0;
@@ -10689,7 +10689,7 @@ var require_websocket = __commonJS({
         super.removeEventListener(type, listener);
       }
     };
-    exports.WebSocket = WebSocket2;
+    exports.WebSocket = WebSocket;
     function arrayBufferToBase64(buffer) {
       const bytes = new Uint8Array(buffer);
       let binary = "";
@@ -10715,7 +10715,7 @@ var require_blob = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Blob = void 0;
-    var Blob2 = class _Blob {
+    var Blob = class _Blob {
       constructor(parts = [], options = {}) {
         this.type = (options.type ?? "").toLowerCase();
         this._buffer = _Blob._concat(parts);
@@ -10806,7 +10806,7 @@ var require_blob = __commonJS({
         return new Uint8Array(arr);
       }
     };
-    exports.Blob = Blob2;
+    exports.Blob = Blob;
   }
 });
 
@@ -10834,7 +10834,7 @@ var require_DeviceInfoService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DeviceInfoService = void 0;
-    var DeviceInfoService2 = class {
+    var DeviceInfoService = class {
       static getDeviceInfo() {
         return dartCallNativeAsync("DeviceInfo.getDeviceInfo", []);
       }
@@ -10854,7 +10854,7 @@ var require_DeviceInfoService = __commonJS({
         void dartCallNativeAsync("DeviceInfo.stopNetworkListener", {});
       }
     };
-    exports.DeviceInfoService = DeviceInfoService2;
+    exports.DeviceInfoService = DeviceInfoService;
   }
 });
 
@@ -12025,8 +12025,8 @@ var require_react_reconciler_production = __commonJS({
         0 === (nextRetryLane & 62914560) && (nextRetryLane = 4194304);
         return lane;
       }
-      function createLaneMap(initial2) {
-        for (var laneMap = [], i = 0; 31 > i; i++) laneMap.push(initial2);
+      function createLaneMap(initial) {
+        for (var laneMap = [], i = 0; 31 > i; i++) laneMap.push(initial);
         return laneMap;
       }
       function markRootUpdated$1(root, updateLane) {
@@ -12739,33 +12739,33 @@ var require_react_reconciler_production = __commonJS({
       function pingEngtangledActionScope() {
         if (0 === --currentEntangledPendingCount && null !== currentEntangledListeners) {
           null !== currentEntangledActionThenable && (currentEntangledActionThenable.status = "fulfilled");
-          var listeners2 = currentEntangledListeners;
+          var listeners = currentEntangledListeners;
           currentEntangledListeners = null;
           currentEntangledLane = 0;
           currentEntangledActionThenable = null;
-          for (var i = 0; i < listeners2.length; i++) (0, listeners2[i])();
+          for (var i = 0; i < listeners.length; i++) (0, listeners[i])();
         }
       }
       function chainThenableValue(thenable, result) {
-        var listeners2 = [], thenableWithOverride = {
+        var listeners = [], thenableWithOverride = {
           status: "pending",
           value: null,
           reason: null,
           then: function(resolve) {
-            listeners2.push(resolve);
+            listeners.push(resolve);
           }
         };
         thenable.then(
           function() {
             thenableWithOverride.status = "fulfilled";
             thenableWithOverride.value = result;
-            for (var i = 0; i < listeners2.length; i++) (0, listeners2[i])(result);
+            for (var i = 0; i < listeners.length; i++) (0, listeners[i])(result);
           },
           function(error) {
             thenableWithOverride.status = "rejected";
             thenableWithOverride.reason = error;
-            for (error = 0; error < listeners2.length; error++)
-              (0, listeners2[error])(void 0);
+            for (error = 0; error < listeners.length; error++)
+              (0, listeners[error])(void 0);
           }
         );
         return thenableWithOverride;
@@ -13149,9 +13149,9 @@ var require_react_reconciler_production = __commonJS({
         }
         function reconcileChildrenIterator(returnFiber, currentFirstChild, newChildren, lanes) {
           if (null == newChildren) throw Error(formatProdErrorMessage(151));
-          for (var resultingFirstChild = null, previousNewFiber = null, oldFiber = currentFirstChild, newIdx = currentFirstChild = 0, nextOldFiber = null, step = newChildren.next(); null !== oldFiber && !step.done; newIdx++, step = newChildren.next()) {
+          for (var resultingFirstChild = null, previousNewFiber = null, oldFiber = currentFirstChild, newIdx = currentFirstChild = 0, nextOldFiber = null, step2 = newChildren.next(); null !== oldFiber && !step2.done; newIdx++, step2 = newChildren.next()) {
             oldFiber.index > newIdx ? (nextOldFiber = oldFiber, oldFiber = null) : nextOldFiber = oldFiber.sibling;
-            var newFiber = updateSlot(returnFiber, oldFiber, step.value, lanes);
+            var newFiber = updateSlot(returnFiber, oldFiber, step2.value, lanes);
             if (null === newFiber) {
               null === oldFiber && (oldFiber = nextOldFiber);
               break;
@@ -13162,26 +13162,26 @@ var require_react_reconciler_production = __commonJS({
             previousNewFiber = newFiber;
             oldFiber = nextOldFiber;
           }
-          if (step.done)
+          if (step2.done)
             return deleteRemainingChildren(returnFiber, oldFiber), isHydrating && pushTreeFork(returnFiber, newIdx), resultingFirstChild;
           if (null === oldFiber) {
-            for (; !step.done; newIdx++, step = newChildren.next())
-              step = createChild(returnFiber, step.value, lanes), null !== step && (currentFirstChild = placeChild(
-                step,
+            for (; !step2.done; newIdx++, step2 = newChildren.next())
+              step2 = createChild(returnFiber, step2.value, lanes), null !== step2 && (currentFirstChild = placeChild(
+                step2,
                 currentFirstChild,
                 newIdx
-              ), null === previousNewFiber ? resultingFirstChild = step : previousNewFiber.sibling = step, previousNewFiber = step);
+              ), null === previousNewFiber ? resultingFirstChild = step2 : previousNewFiber.sibling = step2, previousNewFiber = step2);
             isHydrating && pushTreeFork(returnFiber, newIdx);
             return resultingFirstChild;
           }
-          for (oldFiber = mapRemainingChildren(oldFiber); !step.done; newIdx++, step = newChildren.next())
-            step = updateFromMap(
+          for (oldFiber = mapRemainingChildren(oldFiber); !step2.done; newIdx++, step2 = newChildren.next())
+            step2 = updateFromMap(
               oldFiber,
               returnFiber,
               newIdx,
-              step.value,
+              step2.value,
               lanes
-            ), null !== step && (shouldTrackSideEffects && null !== step.alternate && oldFiber.delete(null === step.key ? newIdx : step.key), currentFirstChild = placeChild(step, currentFirstChild, newIdx), null === previousNewFiber ? resultingFirstChild = step : previousNewFiber.sibling = step, previousNewFiber = step);
+            ), null !== step2 && (shouldTrackSideEffects && null !== step2.alternate && oldFiber.delete(null === step2.key ? newIdx : step2.key), currentFirstChild = placeChild(step2, currentFirstChild, newIdx), null === previousNewFiber ? resultingFirstChild = step2 : previousNewFiber.sibling = step2, previousNewFiber = step2);
           shouldTrackSideEffects && oldFiber.forEach(function(child) {
             return deleteChild(returnFiber, child);
           });
@@ -19116,14 +19116,14 @@ var require_react_reconciler_production = __commonJS({
       }
       var exports2 = {};
       "use strict";
-      var React98 = require_react_production(), Scheduler = require_scheduler_production(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
+      var React8 = require_react_production(), Scheduler = require_scheduler_production(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
       Symbol.for("react.scope");
       var REACT_ACTIVITY_TYPE = Symbol.for("react.activity");
       Symbol.for("react.legacy_hidden");
       Symbol.for("react.tracing_marker");
       var REACT_MEMO_CACHE_SENTINEL = Symbol.for("react.memo_cache_sentinel");
       Symbol.for("react.view_transition");
-      var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React98.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, rendererVersion = $$$config.rendererVersion, rendererPackageName = $$$config.rendererPackageName, extraDevToolsConfig = $$$config.extraDevToolsConfig, getPublicInstance = $$$config.getPublicInstance, getRootHostContext = $$$config.getRootHostContext, getChildHostContext = $$$config.getChildHostContext, prepareForCommit = $$$config.prepareForCommit, resetAfterCommit = $$$config.resetAfterCommit, createInstance = $$$config.createInstance;
+      var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React8.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, rendererVersion = $$$config.rendererVersion, rendererPackageName = $$$config.rendererPackageName, extraDevToolsConfig = $$$config.extraDevToolsConfig, getPublicInstance = $$$config.getPublicInstance, getRootHostContext = $$$config.getRootHostContext, getChildHostContext = $$$config.getChildHostContext, prepareForCommit = $$$config.prepareForCommit, resetAfterCommit = $$$config.resetAfterCommit, createInstance = $$$config.createInstance;
       $$$config.cloneMutableInstance;
       var appendInitialChild = $$$config.appendInitialChild, finalizeInitialChildren = $$$config.finalizeInitialChildren, shouldSetTextContent = $$$config.shouldSetTextContent, createTextInstance = $$$config.createTextInstance;
       $$$config.cloneMutableTextInstance;
@@ -19188,15 +19188,15 @@ var require_react_reconciler_production = __commonJS({
         }
         console.error(error);
       }, hasOwnProperty = Object.prototype.hasOwnProperty, prefix, suffix, reentry = false, CapturedStacks = /* @__PURE__ */ new WeakMap(), forkStack = [], forkStackIndex = 0, treeForkProvider = null, treeForkCount = 0, idStack = [], idStackIndex = 0, treeContextProvider = null, treeContextId = 1, treeContextOverflow = "", contextStackCursor = createCursor(null), contextFiberStackCursor = createCursor(null), rootInstanceStackCursor = createCursor(null), hostTransitionProviderCursor = createCursor(null), hydrationParentFiber = null, nextHydratableInstance = null, isHydrating = false, hydrationErrors = null, rootOrSingletonContext = false, HydrationMismatchException = Error(formatProdErrorMessage(519)), valueCursor = createCursor(null), currentlyRenderingFiber$1 = null, lastContextDependency = null, AbortControllerLocal = "undefined" !== typeof AbortController ? AbortController : function() {
-        var listeners2 = [], signal = this.signal = {
+        var listeners = [], signal = this.signal = {
           aborted: false,
           addEventListener: function(type, listener) {
-            listeners2.push(listener);
+            listeners.push(listener);
           }
         };
         this.abort = function() {
           signal.aborted = true;
-          listeners2.forEach(function(listener) {
+          listeners.forEach(function(listener) {
             return listener();
           });
         };
@@ -22016,13 +22016,13 @@ var require_Container = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Container = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Container89 = class extends react_1.default.Component {
+    var Container7 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Container", { ...this.props });
       }
     };
-    exports.Container = Container89;
-    exports.default = Container89;
+    exports.Container = Container7;
+    exports.default = Container7;
   }
 });
 
@@ -22036,13 +22036,13 @@ var require_Text = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Text = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Text96 = class extends react_1.default.Component {
+    var Text5 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Text", { ...this.props, isBoundary: false });
       }
     };
-    exports.Text = Text96;
-    exports.default = Text96;
+    exports.Text = Text5;
+    exports.default = Text5;
   }
 });
 
@@ -22146,13 +22146,13 @@ var require_router = __commonJS({
     exports._reset = _reset;
     var react_1 = __importDefault(require_react_production());
     var GenericPage_1 = require_GenericPage();
-    var routes2 = [];
+    var routes = [];
     var routesByName = /* @__PURE__ */ new Map();
     var globalGuards = [];
     var notFoundFactory = null;
     var nativeFallbackEnabled = true;
     var pageLocations = /* @__PURE__ */ new Map();
-    routes2.push({
+    routes.push({
       path: "/_generic_dialog",
       component: (args) => react_1.default.createElement(GenericPage_1.GenericPage, args)
     });
@@ -22179,7 +22179,7 @@ var require_router = __commonJS({
     function resolve(path, callerParams) {
       let matchedRoute = null;
       let pathParams = null;
-      for (const route of routes2) {
+      for (const route of routes) {
         const m = matchPath(route.path, path);
         if (m !== null) {
           matchedRoute = route;
@@ -22258,7 +22258,7 @@ var require_router = __commonJS({
     function config(options) {
       if (options.routes) {
         for (const r of options.routes) {
-          routes2.push(r);
+          routes.push(r);
           if (r.name)
             routesByName.set(r.name, r);
         }
@@ -22268,9 +22268,9 @@ var require_router = __commonJS({
       }
       if (options.notFound) {
         notFoundFactory = options.notFound;
-        const exists = routes2.some((r) => r.path === "*");
+        const exists = routes.some((r) => r.path === "*");
         if (!exists) {
-          routes2.push({ path: "*", component: options.notFound });
+          routes.push({ path: "*", component: options.notFound });
         }
       }
       if (options.nativeFallback !== void 0) {
@@ -22286,7 +22286,7 @@ var require_router = __commonJS({
         component: componentFactory,
         prewarmMs: routeConfig?.prewarmMs
       };
-      routes2.push(route);
+      routes.push(route);
     }
     function addGuard(guard) {
       globalGuards.push(guard);
@@ -22302,13 +22302,13 @@ var require_router = __commonJS({
       return resolve(path)?.matched;
     }
     function _reset() {
-      routes2.length = 0;
+      routes.length = 0;
       routesByName.clear();
       globalGuards = [];
       notFoundFactory = null;
       nativeFallbackEnabled = true;
       pageLocations.clear();
-      routes2.push({
+      routes.push({
         path: "/_generic_dialog",
         component: (args) => react_1.default.createElement(GenericPage_1.GenericPage, args)
       });
@@ -22536,7 +22536,7 @@ var require_page_render = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.setGlobalErrorFallback = setGlobalErrorFallback2;
+    exports.setGlobalErrorFallback = setGlobalErrorFallback;
     exports.setRouteGuardFallback = setRouteGuardFallback;
     exports.ensureRenderer = ensureRenderer;
     exports.render = render;
@@ -22563,7 +22563,7 @@ var require_page_render = __commonJS({
       r.notifyLifecycle(pageId, type);
     });
     var renderState = {};
-    function setGlobalErrorFallback2(fallback) {
+    function setGlobalErrorFallback(fallback) {
       globalErrorFallback = fallback;
     }
     function setRouteGuardFallback(fallback) {
@@ -22900,13 +22900,13 @@ var require_Column = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Column = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Column89 = class extends react_1.default.Component {
+    var Column3 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Column", { ...this.props });
       }
     };
-    exports.Column = Column89;
-    exports.default = Column89;
+    exports.Column = Column3;
+    exports.default = Column3;
   }
 });
 
@@ -22920,13 +22920,13 @@ var require_Row = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Row = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Row56 = class extends react_1.default.Component {
+    var Row = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Row", { ...this.props });
       }
     };
-    exports.Row = Row56;
-    exports.default = Row56;
+    exports.Row = Row;
+    exports.default = Row;
   }
 });
 
@@ -22940,15 +22940,15 @@ var require_Button = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Button = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Button48 = class extends react_1.default.Component {
+    var Button = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Button", {
           ...this.props
         });
       }
     };
-    exports.Button = Button48;
-    exports.default = Button48;
+    exports.Button = Button;
+    exports.default = Button;
   }
 });
 
@@ -22963,7 +22963,7 @@ var require_TextField = __commonJS({
     exports.TextField = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var TextField9 = class extends BaseWidget_1.BaseWidget {
+    var TextField = class extends BaseWidget_1.BaseWidget {
       setText(text) {
         this.callNativeCommand("setText", { text });
       }
@@ -22990,8 +22990,8 @@ var require_TextField = __commonJS({
         });
       }
     };
-    exports.TextField = TextField9;
-    exports.default = TextField9;
+    exports.TextField = TextField;
+    exports.default = TextField;
   }
 });
 
@@ -23005,13 +23005,13 @@ var require_Switch = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Switch = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Switch9 = class extends react_1.default.Component {
+    var Switch = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Switch", { ...this.props });
       }
     };
-    exports.Switch = Switch9;
-    exports.default = Switch9;
+    exports.Switch = Switch;
+    exports.default = Switch;
   }
 });
 
@@ -23025,13 +23025,13 @@ var require_Expanded = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Expanded = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Expanded13 = class extends react_1.default.Component {
+    var Expanded = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Expanded", { ...this.props });
       }
     };
-    exports.Expanded = Expanded13;
-    exports.default = Expanded13;
+    exports.Expanded = Expanded;
+    exports.default = Expanded;
   }
 });
 
@@ -23046,7 +23046,7 @@ var require_ListView = __commonJS({
     exports.ListView = void 0;
     var react_1 = __importDefault(require_react_production());
     var ScrollableBaseWidget_1 = require_ScrollableBaseWidget();
-    var ListView15 = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
+    var ListView = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
       animateTo(offset, duration = 300, curve = "easeInOut") {
         this.callNativeCommand("animateTo", { offset, duration, curve });
       }
@@ -23080,8 +23080,8 @@ var require_ListView = __commonJS({
         }, children);
       }
     };
-    exports.ListView = ListView15;
-    exports.default = ListView15;
+    exports.ListView = ListView;
+    exports.default = ListView;
   }
 });
 
@@ -23095,13 +23095,13 @@ var require_Padding = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Padding = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Padding65 = class extends react_1.default.Component {
+    var Padding = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Padding", { ...this.props });
       }
     };
-    exports.Padding = Padding65;
-    exports.default = Padding65;
+    exports.Padding = Padding;
+    exports.default = Padding;
   }
 });
 
@@ -23115,13 +23115,13 @@ var require_Image = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Image = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Image8 = class extends react_1.default.Component {
+    var Image = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Image", { ...this.props, isBoundary: false });
       }
     };
-    exports.Image = Image8;
-    exports.default = Image8;
+    exports.Image = Image;
+    exports.default = Image;
   }
 });
 
@@ -23135,13 +23135,13 @@ var require_SizedBox = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SizedBox = void 0;
     var react_1 = __importDefault(require_react_production());
-    var SizedBox45 = class extends react_1.default.Component {
+    var SizedBox4 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("SizedBox", { ...this.props });
       }
     };
-    exports.SizedBox = SizedBox45;
-    exports.default = SizedBox45;
+    exports.SizedBox = SizedBox4;
+    exports.default = SizedBox4;
   }
 });
 
@@ -23155,13 +23155,13 @@ var require_Center = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Center = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Center49 = class extends react_1.default.Component {
+    var Center = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Center", { ...this.props, isBoundary: false });
       }
     };
-    exports.Center = Center49;
-    exports.default = Center49;
+    exports.Center = Center;
+    exports.default = Center;
   }
 });
 
@@ -23175,13 +23175,13 @@ var require_Icon = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Icon = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Icon16 = class extends react_1.default.Component {
+    var Icon = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Icon", { ...this.props, isBoundary: false });
       }
     };
-    exports.Icon = Icon16;
-    exports.default = Icon16;
+    exports.Icon = Icon;
+    exports.default = Icon;
   }
 });
 
@@ -23195,12 +23195,12 @@ var require_Flex = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Flex = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Flex3 = class extends react_1.default.Component {
+    var Flex = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Flex", { ...this.props });
       }
     };
-    exports.Flex = Flex3;
+    exports.Flex = Flex;
   }
 });
 
@@ -23214,13 +23214,13 @@ var require_Flexible = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Flexible = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Flexible5 = class extends react_1.default.Component {
+    var Flexible = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Flexible", { ...this.props });
       }
     };
-    exports.Flexible = Flexible5;
-    exports.default = Flexible5;
+    exports.Flexible = Flexible;
+    exports.default = Flexible;
   }
 });
 
@@ -23234,13 +23234,13 @@ var require_GestureDetector = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.GestureDetector = void 0;
     var react_1 = __importDefault(require_react_production());
-    var GestureDetector4 = class extends react_1.default.Component {
+    var GestureDetector5 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("GestureDetector", { ...this.props });
       }
     };
-    exports.GestureDetector = GestureDetector4;
-    exports.default = GestureDetector4;
+    exports.GestureDetector = GestureDetector5;
+    exports.default = GestureDetector5;
   }
 });
 
@@ -23641,7 +23641,7 @@ var require_NavigatorService = __commonJS({
       }
       return "/" + result.join("/");
     }
-    var NavigatorService2 = class _NavigatorService {
+    var NavigatorService = class _NavigatorService {
       /**
        * 跳转到指定路径，等待目标页面 pop(result) 后返回。
        * 守卫拒绝时 resolve 为 null。
@@ -23797,7 +23797,7 @@ var require_NavigatorService = __commonJS({
         });
       }
     };
-    exports.NavigatorService = NavigatorService2;
+    exports.NavigatorService = NavigatorService;
   }
 });
 
@@ -23844,15 +23844,15 @@ var require_hooks = __commonJS({
     }();
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.usePageId = usePageId;
-    exports.useNavigator = useNavigator11;
-    exports.useRoute = useRoute2;
-    exports.useVisible = useVisible2;
-    exports.useInvisible = useInvisible2;
+    exports.useNavigator = useNavigator;
+    exports.useRoute = useRoute;
+    exports.useVisible = useVisible;
+    exports.useInvisible = useInvisible;
     exports.usePageConfig = usePageConfig;
-    exports.useRouteTransitionComplete = useRouteTransitionComplete2;
-    exports.useAppState = useAppState2;
-    exports.useTheme = useTheme2;
-    exports.useMediaQuery = useMediaQuery2;
+    exports.useRouteTransitionComplete = useRouteTransitionComplete;
+    exports.useAppState = useAppState;
+    exports.useTheme = useTheme;
+    exports.useMediaQuery = useMediaQuery;
     var react_1 = require_react_production();
     var PageContext_1 = require_PageContext();
     var PageRender = __importStar(require_page_render());
@@ -23865,7 +23865,7 @@ var require_hooks = __commonJS({
       const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
       return pageId;
     }
-    function useNavigator11() {
+    function useNavigator() {
       const pageId = usePageId();
       return {
         /**
@@ -23893,11 +23893,11 @@ var require_hooks = __commonJS({
         showDialog: (component, params, rootNavigator) => NavigatorService_1.NavigatorService.showDialog(component, params, pageId, rootNavigator)
       };
     }
-    function useRoute2() {
+    function useRoute() {
       const pageId = usePageId();
       return Router2.getLocation(pageId);
     }
-    function useVisible2(callback) {
+    function useVisible(callback) {
       const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
       const cbRef = (0, react_1.useRef)(callback);
       cbRef.current = callback;
@@ -23915,7 +23915,7 @@ var require_hooks = __commonJS({
         };
       }, [pageId]);
     }
-    function useInvisible2(callback) {
+    function useInvisible(callback) {
       const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
       const cbRef = (0, react_1.useRef)(callback);
       cbRef.current = callback;
@@ -23947,7 +23947,7 @@ var require_hooks = __commonJS({
         }
       }, [pageId, config.incrementalMode, config.dslCacheEnabled]);
     }
-    function useRouteTransitionComplete2(callback) {
+    function useRouteTransitionComplete(callback) {
       const { pageId } = (0, react_1.useContext)(PageContext_1.PageContext);
       (0, react_1.useEffect)(() => {
         const handler = (data) => {
@@ -23961,7 +23961,7 @@ var require_hooks = __commonJS({
         };
       }, [pageId, callback]);
     }
-    function useAppState2() {
+    function useAppState() {
       const [isInBackground, setIsInBackground] = (0, react_1.useState)(() => LifecycleService_1.LifecycleService.isInBackground);
       (0, react_1.useEffect)(() => {
         const unsubscribe = LifecycleService_1.LifecycleService.onChange((state) => {
@@ -23981,7 +23981,7 @@ var require_hooks = __commonJS({
       secondaryTextColor: "#FF757575",
       borderRadius: 8
     };
-    function useTheme2() {
+    function useTheme() {
       const pageId = usePageId();
       const [theme, setTheme] = (0, react_1.useState)(EMPTY_THEME);
       (0, react_1.useEffect)(() => {
@@ -24014,7 +24014,7 @@ var require_hooks = __commonJS({
       viewPadding: { top: 0, bottom: 0, left: 0, right: 0 },
       viewInsets: { top: 0, bottom: 0, left: 0, right: 0 }
     };
-    function useMediaQuery2() {
+    function useMediaQuery() {
       const pageId = usePageId();
       const [mq, setMq] = (0, react_1.useState)(EMPTY_MEDIA_QUERY);
       (0, react_1.useEffect)(() => {
@@ -24085,12 +24085,12 @@ var require_NavigationLink = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.NavigationLink = NavigationLink2;
+    exports.NavigationLink = NavigationLink;
     var react_1 = __importStar(require_react_production());
     var NavigatorService_1 = require_NavigatorService();
     var hooks_1 = require_hooks();
     var GestureDetector_1 = __importDefault(require_GestureDetector());
-    function NavigationLink2({ url, params = {}, rootNavigator = false, prewarmMs = 50, hitSlop = 8, children }) {
+    function NavigationLink({ url, params = {}, rootNavigator = false, prewarmMs = 50, hitSlop = 8, children }) {
       const pageId = (0, hooks_1.usePageId)();
       const tapDownTime = (0, react_1.useRef)(0);
       const handleTapDown = () => {
@@ -24122,7 +24122,7 @@ var require_NavigationLink = __commonJS({
       const padding = hitSlop > 0 ? { all: hitSlop } : void 0;
       return react_1.default.createElement(GestureDetector_1.default, { onTapDown: handleTapDown, onTapCancel: handleTapCancel, onTap: handleTap, padding }, children);
     }
-    exports.default = NavigationLink2;
+    exports.default = NavigationLink;
   }
 });
 
@@ -24136,13 +24136,13 @@ var require_InkWell = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.InkWell = void 0;
     var react_1 = __importDefault(require_react_production());
-    var InkWell11 = class extends react_1.default.Component {
+    var InkWell = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("InkWell", { ...this.props });
       }
     };
-    exports.InkWell = InkWell11;
-    exports.default = InkWell11;
+    exports.InkWell = InkWell;
+    exports.default = InkWell;
   }
 });
 
@@ -24156,13 +24156,13 @@ var require_Divider = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Divider = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Divider40 = class extends react_1.default.Component {
+    var Divider = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Divider", { ...this.props, isBoundary: false });
       }
     };
-    exports.Divider = Divider40;
-    exports.default = Divider40;
+    exports.Divider = Divider;
+    exports.default = Divider;
   }
 });
 
@@ -24177,7 +24177,7 @@ var require_SingleChildScrollView = __commonJS({
     exports.SingleChildScrollView = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var SingleChildScrollView51 = class extends BaseWidget_1.BaseWidget {
+    var SingleChildScrollView = class extends BaseWidget_1.BaseWidget {
       animateTo(offset, duration = 300, curve = "easeInOut") {
         this.callNativeCommand("animateTo", { offset, duration, curve });
       }
@@ -24195,8 +24195,8 @@ var require_SingleChildScrollView = __commonJS({
         });
       }
     };
-    exports.SingleChildScrollView = SingleChildScrollView51;
-    exports.default = SingleChildScrollView51;
+    exports.SingleChildScrollView = SingleChildScrollView;
+    exports.default = SingleChildScrollView;
   }
 });
 
@@ -24210,13 +24210,13 @@ var require_Stack = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Stack = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Stack7 = class extends react_1.default.Component {
+    var Stack4 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Stack", { ...this.props });
       }
     };
-    exports.Stack = Stack7;
-    exports.default = Stack7;
+    exports.Stack = Stack4;
+    exports.default = Stack4;
   }
 });
 
@@ -24250,13 +24250,13 @@ var require_Opacity = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Opacity = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Opacity4 = class extends react_1.default.Component {
+    var Opacity = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Opacity", { ...this.props, isBoundary: false });
       }
     };
-    exports.Opacity = Opacity4;
-    exports.default = Opacity4;
+    exports.Opacity = Opacity;
+    exports.default = Opacity;
   }
 });
 
@@ -24270,13 +24270,13 @@ var require_CircularProgressIndicator = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CircularProgressIndicator = void 0;
     var react_1 = __importDefault(require_react_production());
-    var CircularProgressIndicator4 = class extends react_1.default.Component {
+    var CircularProgressIndicator = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("CircularProgressIndicator", { ...this.props, isBoundary: false });
       }
     };
-    exports.CircularProgressIndicator = CircularProgressIndicator4;
-    exports.default = CircularProgressIndicator4;
+    exports.CircularProgressIndicator = CircularProgressIndicator;
+    exports.default = CircularProgressIndicator;
   }
 });
 
@@ -24288,17 +24288,17 @@ var require_LazyView = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.LazyView = LazyView2;
+    exports.LazyView = LazyView;
     var react_1 = __importDefault(require_react_production());
     var index_1 = require_dist();
-    function LazyView2({ load, fallback, builder }) {
+    function LazyView({ load, fallback, builder }) {
       const isLoaded = load;
       if (!isLoaded) {
         return fallback || react_1.default.createElement(index_1.SizedBox, { width: 0, height: 0 });
       }
       return builder();
     }
-    exports.default = LazyView2;
+    exports.default = LazyView;
   }
 });
 
@@ -24312,13 +24312,13 @@ var require_SafeArea = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SafeArea = void 0;
     var react_1 = __importDefault(require_react_production());
-    var SafeArea4 = class extends react_1.default.Component {
+    var SafeArea = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("SafeArea", { ...this.props, isBoundary: false });
       }
     };
-    exports.SafeArea = SafeArea4;
-    exports.default = SafeArea4;
+    exports.SafeArea = SafeArea;
+    exports.default = SafeArea;
   }
 });
 
@@ -24333,12 +24333,12 @@ var require_FlutterProps = __commonJS({
     exports.FlutterProps = void 0;
     var react_1 = __importDefault(require_react_production());
     var constants_1 = require_constants();
-    var FlutterProps3 = class extends react_1.default.Component {
+    var FlutterProps = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement(constants_1.FLUTTER_PROPS_TYPE, { propsKey: this.props.propsKey }, this.props.children);
       }
     };
-    exports.FlutterProps = FlutterProps3;
+    exports.FlutterProps = FlutterProps;
   }
 });
 
@@ -24353,7 +24353,7 @@ var require_Scaffold = __commonJS({
     exports.Scaffold = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var Scaffold95 = class extends react_1.default.Component {
+    var Scaffold2 = class extends react_1.default.Component {
       render() {
         const { appBar, floatingActionButton, drawer, endDrawer, bottomNavigationBar, bottomSheet, children, ...otherProps } = this.props;
         return react_1.default.createElement("Scaffold", {
@@ -24362,8 +24362,8 @@ var require_Scaffold = __commonJS({
         }, appBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "appBar" }, appBar), floatingActionButton && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "floatingActionButton" }, floatingActionButton), drawer && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "drawer" }, drawer), endDrawer && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "endDrawer" }, endDrawer), bottomNavigationBar && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottomNavigationBar" }, bottomNavigationBar), bottomSheet && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottomSheet" }, bottomSheet), children);
       }
     };
-    exports.Scaffold = Scaffold95;
-    exports.default = Scaffold95;
+    exports.Scaffold = Scaffold2;
+    exports.default = Scaffold2;
   }
 });
 
@@ -24378,14 +24378,14 @@ var require_AppBar = __commonJS({
     exports.AppBar = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var AppBar92 = class extends react_1.default.Component {
+    var AppBar = class extends react_1.default.Component {
       render() {
         const { title, leading, actions, flexibleSpace, bottom, children, ...otherProps } = this.props;
         return react_1.default.createElement("AppBar", { ...otherProps, isBoundary: true }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), flexibleSpace && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "flexibleSpace" }, flexibleSpace), bottom && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottom" }, bottom), children);
       }
     };
-    exports.AppBar = AppBar92;
-    exports.default = AppBar92;
+    exports.AppBar = AppBar;
+    exports.default = AppBar;
   }
 });
 
@@ -24400,7 +24400,7 @@ var require_PageView = __commonJS({
     exports.PageView = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var PageView4 = class extends BaseWidget_1.BaseWidget {
+    var PageView = class extends BaseWidget_1.BaseWidget {
       animateToPage(page, duration = 300, curve = "easeInOut") {
         this.callNativeCommand("animateToPage", { page, duration, curve });
       }
@@ -24416,8 +24416,8 @@ var require_PageView = __commonJS({
         }, children);
       }
     };
-    exports.PageView = PageView4;
-    exports.default = PageView4;
+    exports.PageView = PageView;
+    exports.default = PageView;
   }
 });
 
@@ -24432,7 +24432,7 @@ var require_GridView = __commonJS({
     exports.GridView = void 0;
     var react_1 = __importDefault(require_react_production());
     var ScrollableBaseWidget_1 = require_ScrollableBaseWidget();
-    var GridView4 = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
+    var GridView = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
       animateTo(offset, duration = 300, curve = "easeInOut") {
         this.callNativeCommand("animateTo", { offset, duration, curve });
       }
@@ -24465,8 +24465,8 @@ var require_GridView = __commonJS({
         }, children);
       }
     };
-    exports.GridView = GridView4;
-    exports.default = GridView4;
+    exports.GridView = GridView;
+    exports.default = GridView;
   }
 });
 
@@ -24481,14 +24481,14 @@ var require_ListTile = __commonJS({
     exports.ListTile = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var ListTile5 = class extends react_1.default.Component {
+    var ListTile = class extends react_1.default.Component {
       render() {
         const { leading, title, subtitle, trailing, children, ...otherProps } = this.props;
         return react_1.default.createElement("ListTile", { ...otherProps }, leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), subtitle && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "subtitle" }, subtitle), trailing && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "trailing" }, trailing), children);
       }
     };
-    exports.ListTile = ListTile5;
-    exports.default = ListTile5;
+    exports.ListTile = ListTile;
+    exports.default = ListTile;
   }
 });
 
@@ -24503,21 +24503,21 @@ var require_BottomNavigationBar = __commonJS({
     exports.BottomNavigationBar = exports.BottomNavigationBarItem = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var BottomNavigationBarItem3 = class extends react_1.default.Component {
+    var BottomNavigationBarItem = class extends react_1.default.Component {
       render() {
         const { icon, activeIcon, ...otherProps } = this.props;
         return react_1.default.createElement("BottomNavigationBarItem", { ...otherProps }, icon && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "icon" }, icon), activeIcon && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "activeIcon" }, activeIcon));
       }
     };
-    exports.BottomNavigationBarItem = BottomNavigationBarItem3;
-    var BottomNavigationBar3 = class extends react_1.default.Component {
+    exports.BottomNavigationBarItem = BottomNavigationBarItem;
+    var BottomNavigationBar = class extends react_1.default.Component {
       render() {
         const { items, children, ...otherProps } = this.props;
         return react_1.default.createElement("BottomNavigationBar", { ...otherProps }, items && items.map((item, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `item-${index}`, propsKey: "items" }, item)), children);
       }
     };
-    exports.BottomNavigationBar = BottomNavigationBar3;
-    exports.default = BottomNavigationBar3;
+    exports.BottomNavigationBar = BottomNavigationBar;
+    exports.default = BottomNavigationBar;
   }
 });
 
@@ -24532,7 +24532,7 @@ var require_CustomScrollView = __commonJS({
     exports.CustomScrollView = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var CustomScrollView4 = class extends BaseWidget_1.BaseWidget {
+    var CustomScrollView = class extends BaseWidget_1.BaseWidget {
       render() {
         const { children, ...rest } = this.props;
         return react_1.default.createElement("CustomScrollView", {
@@ -24540,8 +24540,8 @@ var require_CustomScrollView = __commonJS({
         }, children);
       }
     };
-    exports.CustomScrollView = CustomScrollView4;
-    exports.default = CustomScrollView4;
+    exports.CustomScrollView = CustomScrollView;
+    exports.default = CustomScrollView;
   }
 });
 
@@ -24556,7 +24556,7 @@ var require_SliverList = __commonJS({
     exports.SliverList = void 0;
     var react_1 = __importDefault(require_react_production());
     var ScrollableBaseWidget_1 = require_ScrollableBaseWidget();
-    var SliverList4 = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
+    var SliverList = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
       render() {
         const { children, ...rest } = this.props;
         return react_1.default.createElement("SliverList", {
@@ -24567,8 +24567,8 @@ var require_SliverList = __commonJS({
         }, children);
       }
     };
-    exports.SliverList = SliverList4;
-    exports.default = SliverList4;
+    exports.SliverList = SliverList;
+    exports.default = SliverList;
   }
 });
 
@@ -24583,7 +24583,7 @@ var require_SliverGrid = __commonJS({
     exports.SliverGrid = void 0;
     var react_1 = __importDefault(require_react_production());
     var ScrollableBaseWidget_1 = require_ScrollableBaseWidget();
-    var SliverGrid2 = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
+    var SliverGrid = class extends ScrollableBaseWidget_1.ScrollableBaseWidget {
       render() {
         const { children, ...rest } = this.props;
         return react_1.default.createElement("SliverGrid", {
@@ -24594,8 +24594,8 @@ var require_SliverGrid = __commonJS({
         }, children);
       }
     };
-    exports.SliverGrid = SliverGrid2;
-    exports.default = SliverGrid2;
+    exports.SliverGrid = SliverGrid;
+    exports.default = SliverGrid;
   }
 });
 
@@ -24610,7 +24610,7 @@ var require_SliverToBoxAdapter = __commonJS({
     exports.SliverToBoxAdapter = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var SliverToBoxAdapter4 = class extends BaseWidget_1.BaseWidget {
+    var SliverToBoxAdapter = class extends BaseWidget_1.BaseWidget {
       render() {
         const { children, ...rest } = this.props;
         return react_1.default.createElement("SliverToBoxAdapter", {
@@ -24619,8 +24619,8 @@ var require_SliverToBoxAdapter = __commonJS({
         }, children);
       }
     };
-    exports.SliverToBoxAdapter = SliverToBoxAdapter4;
-    exports.default = SliverToBoxAdapter4;
+    exports.SliverToBoxAdapter = SliverToBoxAdapter;
+    exports.default = SliverToBoxAdapter;
   }
 });
 
@@ -24636,7 +24636,7 @@ var require_SliverAppBar = __commonJS({
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
     var FlutterProps_1 = require_FlutterProps();
-    var SliverAppBar4 = class extends BaseWidget_1.BaseWidget {
+    var SliverAppBar = class extends BaseWidget_1.BaseWidget {
       render() {
         const { children, title, leading, actions, bottom, ...rest } = this.props;
         return react_1.default.createElement("SliverAppBar", {
@@ -24645,8 +24645,8 @@ var require_SliverAppBar = __commonJS({
         }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), actions && actions.map((action, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: `action-${index}`, propsKey: "actions" }, action)), bottom && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "bottom" }, bottom), children);
       }
     };
-    exports.SliverAppBar = SliverAppBar4;
-    exports.default = SliverAppBar4;
+    exports.SliverAppBar = SliverAppBar;
+    exports.default = SliverAppBar;
   }
 });
 
@@ -24661,7 +24661,7 @@ var require_SliverPersistentHeader = __commonJS({
     exports.SliverPersistentHeader = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var SliverPersistentHeader3 = class extends BaseWidget_1.BaseWidget {
+    var SliverPersistentHeader = class extends BaseWidget_1.BaseWidget {
       render() {
         const { children, ...rest } = this.props;
         return react_1.default.createElement("SliverPersistentHeader", {
@@ -24669,8 +24669,8 @@ var require_SliverPersistentHeader = __commonJS({
         }, children);
       }
     };
-    exports.SliverPersistentHeader = SliverPersistentHeader3;
-    exports.default = SliverPersistentHeader3;
+    exports.SliverPersistentHeader = SliverPersistentHeader;
+    exports.default = SliverPersistentHeader;
   }
 });
 
@@ -24685,31 +24685,31 @@ var require_Tabs = __commonJS({
     exports.Tab = exports.DefaultTabController = exports.TabBarView = exports.TabBar = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var TabBar5 = class extends react_1.default.Component {
+    var TabBar = class extends react_1.default.Component {
       render() {
         const { tabs, ...otherProps } = this.props;
         return react_1.default.createElement("TabBar", { ...otherProps, isBoundary: false }, tabs && tabs.map((tab, index) => react_1.default.createElement(FlutterProps_1.FlutterProps, { key: index, propsKey: "tabs" }, tab)));
       }
     };
-    exports.TabBar = TabBar5;
-    var TabBarView4 = class extends react_1.default.Component {
+    exports.TabBar = TabBar;
+    var TabBarView = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("TabBarView", { ...this.props, isBoundary: true });
       }
     };
-    exports.TabBarView = TabBarView4;
-    var DefaultTabController5 = class extends react_1.default.Component {
+    exports.TabBarView = TabBarView;
+    var DefaultTabController = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("DefaultTabController", { ...this.props, isBoundary: true });
       }
     };
-    exports.DefaultTabController = DefaultTabController5;
-    var Tab5 = class extends react_1.default.Component {
+    exports.DefaultTabController = DefaultTabController;
+    var Tab = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Tab", { ...this.props, isBoundary: false });
       }
     };
-    exports.Tab = Tab5;
+    exports.Tab = Tab;
   }
 });
 
@@ -24723,13 +24723,13 @@ var require_KeepAlive = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.KeepAlive = void 0;
     var react_1 = __importDefault(require_react_production());
-    var KeepAlive2 = class extends react_1.default.Component {
+    var KeepAlive = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("KeepAlive", { ...this.props, isBoundary: true });
       }
     };
-    exports.KeepAlive = KeepAlive2;
-    exports.default = KeepAlive2;
+    exports.KeepAlive = KeepAlive;
+    exports.default = KeepAlive;
   }
 });
 
@@ -24744,12 +24744,12 @@ var require_Wrap = __commonJS({
     exports.Wrap = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var Wrap13 = class extends BaseWidget_1.BaseWidget {
+    var Wrap = class extends BaseWidget_1.BaseWidget {
       render() {
         return react_1.default.createElement("Wrap", { ...this.props, isBoundary: true });
       }
     };
-    exports.Wrap = Wrap13;
+    exports.Wrap = Wrap;
   }
 });
 
@@ -24786,12 +24786,12 @@ var require_Checkbox = __commonJS({
     exports.Checkbox = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var Checkbox2 = class extends BaseWidget_1.BaseWidget {
+    var Checkbox = class extends BaseWidget_1.BaseWidget {
       render() {
         return react_1.default.createElement("Checkbox", { ...this.props });
       }
     };
-    exports.Checkbox = Checkbox2;
+    exports.Checkbox = Checkbox;
   }
 });
 
@@ -24805,13 +24805,13 @@ var require_IntrinsicWidth = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.IntrinsicWidth = void 0;
     var react_1 = __importDefault(require_react_production());
-    var IntrinsicWidth2 = class extends react_1.default.Component {
+    var IntrinsicWidth = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("IntrinsicWidth", { ...this.props });
       }
     };
-    exports.IntrinsicWidth = IntrinsicWidth2;
-    exports.default = IntrinsicWidth2;
+    exports.IntrinsicWidth = IntrinsicWidth;
+    exports.default = IntrinsicWidth;
   }
 });
 
@@ -24825,13 +24825,13 @@ var require_IntrinsicHeight = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.IntrinsicHeight = void 0;
     var react_1 = __importDefault(require_react_production());
-    var IntrinsicHeight2 = class extends react_1.default.Component {
+    var IntrinsicHeight = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("IntrinsicHeight", { ...this.props });
       }
     };
-    exports.IntrinsicHeight = IntrinsicHeight2;
-    exports.default = IntrinsicHeight2;
+    exports.IntrinsicHeight = IntrinsicHeight;
+    exports.default = IntrinsicHeight;
   }
 });
 
@@ -24845,13 +24845,13 @@ var require_AnimatedContainer = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedContainer = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedContainer3 = class extends react_1.default.Component {
+    var AnimatedContainer = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedContainer", { ...this.props });
       }
     };
-    exports.AnimatedContainer = AnimatedContainer3;
-    exports.default = AnimatedContainer3;
+    exports.AnimatedContainer = AnimatedContainer;
+    exports.default = AnimatedContainer;
   }
 });
 
@@ -24865,13 +24865,13 @@ var require_AnimatedOpacity = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedOpacity = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedOpacity3 = class extends react_1.default.Component {
+    var AnimatedOpacity = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedOpacity", { ...this.props });
       }
     };
-    exports.AnimatedOpacity = AnimatedOpacity3;
-    exports.default = AnimatedOpacity3;
+    exports.AnimatedOpacity = AnimatedOpacity;
+    exports.default = AnimatedOpacity;
   }
 });
 
@@ -24885,13 +24885,13 @@ var require_AnimatedAlign = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedAlign = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedAlign2 = class extends react_1.default.Component {
+    var AnimatedAlign = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedAlign", { ...this.props });
       }
     };
-    exports.AnimatedAlign = AnimatedAlign2;
-    exports.default = AnimatedAlign2;
+    exports.AnimatedAlign = AnimatedAlign;
+    exports.default = AnimatedAlign;
   }
 });
 
@@ -24905,13 +24905,13 @@ var require_AnimatedPositioned = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedPositioned = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedPositioned2 = class extends react_1.default.Component {
+    var AnimatedPositioned = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedPositioned", { ...this.props });
       }
     };
-    exports.AnimatedPositioned = AnimatedPositioned2;
-    exports.default = AnimatedPositioned2;
+    exports.AnimatedPositioned = AnimatedPositioned;
+    exports.default = AnimatedPositioned;
   }
 });
 
@@ -24925,13 +24925,13 @@ var require_AnimatedPadding = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedPadding = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedPadding2 = class extends react_1.default.Component {
+    var AnimatedPadding = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedPadding", { ...this.props });
       }
     };
-    exports.AnimatedPadding = AnimatedPadding2;
-    exports.default = AnimatedPadding2;
+    exports.AnimatedPadding = AnimatedPadding;
+    exports.default = AnimatedPadding;
   }
 });
 
@@ -24945,13 +24945,13 @@ var require_AnimatedScale = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedScale = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedScale3 = class extends react_1.default.Component {
+    var AnimatedScale = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedScale", { ...this.props });
       }
     };
-    exports.AnimatedScale = AnimatedScale3;
-    exports.default = AnimatedScale3;
+    exports.AnimatedScale = AnimatedScale;
+    exports.default = AnimatedScale;
   }
 });
 
@@ -24965,13 +24965,13 @@ var require_AnimatedRotation = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedRotation = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedRotation2 = class extends react_1.default.Component {
+    var AnimatedRotation = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedRotation", { ...this.props });
       }
     };
-    exports.AnimatedRotation = AnimatedRotation2;
-    exports.default = AnimatedRotation2;
+    exports.AnimatedRotation = AnimatedRotation;
+    exports.default = AnimatedRotation;
   }
 });
 
@@ -24985,13 +24985,13 @@ var require_AnimatedSlide = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedSlide = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedSlide2 = class extends react_1.default.Component {
+    var AnimatedSlide = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedSlide", { ...this.props });
       }
     };
-    exports.AnimatedSlide = AnimatedSlide2;
-    exports.default = AnimatedSlide2;
+    exports.AnimatedSlide = AnimatedSlide;
+    exports.default = AnimatedSlide;
   }
 });
 
@@ -25006,14 +25006,14 @@ var require_AlertDialog = __commonJS({
     exports.AlertDialog = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var AlertDialog3 = class extends react_1.default.Component {
+    var AlertDialog = class extends react_1.default.Component {
       render() {
         const { title, content, actions, ...otherProps } = this.props;
         return react_1.default.createElement("AlertDialog", { ...otherProps }, title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), content && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "content" }, content), actions && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "actions" }, actions));
       }
     };
-    exports.AlertDialog = AlertDialog3;
-    exports.default = AlertDialog3;
+    exports.AlertDialog = AlertDialog;
+    exports.default = AlertDialog;
   }
 });
 
@@ -25028,14 +25028,14 @@ var require_Dialog = __commonJS({
     exports.Dialog = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var Dialog2 = class extends BaseWidget_1.BaseWidget {
+    var Dialog = class extends BaseWidget_1.BaseWidget {
       render() {
         const { child, children, ...rest } = this.props;
         const content = child || children;
         return react_1.default.createElement("Dialog", { ...rest }, content);
       }
     };
-    exports.Dialog = Dialog2;
+    exports.Dialog = Dialog;
   }
 });
 
@@ -25049,13 +25049,13 @@ var require_RotationTransition = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.RotationTransition = void 0;
     var react_1 = __importDefault(require_react_production());
-    var RotationTransition4 = class extends react_1.default.Component {
+    var RotationTransition = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("RotationTransition", { ...this.props });
       }
     };
-    exports.RotationTransition = RotationTransition4;
-    exports.default = RotationTransition4;
+    exports.RotationTransition = RotationTransition;
+    exports.default = RotationTransition;
   }
 });
 
@@ -25069,13 +25069,13 @@ var require_ScaleTransition = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ScaleTransition = void 0;
     var react_1 = __importDefault(require_react_production());
-    var ScaleTransition4 = class extends react_1.default.Component {
+    var ScaleTransition = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("ScaleTransition", { ...this.props });
       }
     };
-    exports.ScaleTransition = ScaleTransition4;
-    exports.default = ScaleTransition4;
+    exports.ScaleTransition = ScaleTransition;
+    exports.default = ScaleTransition;
   }
 });
 
@@ -25089,13 +25089,13 @@ var require_SlideTransition = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SlideTransition = void 0;
     var react_1 = __importDefault(require_react_production());
-    var SlideTransition4 = class extends react_1.default.Component {
+    var SlideTransition = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("SlideTransition", { ...this.props });
       }
     };
-    exports.SlideTransition = SlideTransition4;
-    exports.default = SlideTransition4;
+    exports.SlideTransition = SlideTransition;
+    exports.default = SlideTransition;
   }
 });
 
@@ -25109,13 +25109,13 @@ var require_ConstrainedBox = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ConstrainedBox = void 0;
     var react_1 = __importDefault(require_react_production());
-    var ConstrainedBox2 = class extends react_1.default.Component {
+    var ConstrainedBox = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("ConstrainedBox", { ...this.props });
       }
     };
-    exports.ConstrainedBox = ConstrainedBox2;
-    exports.default = ConstrainedBox2;
+    exports.ConstrainedBox = ConstrainedBox;
+    exports.default = ConstrainedBox;
   }
 });
 
@@ -25129,13 +25129,13 @@ var require_FittedBox = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FittedBox = void 0;
     var react_1 = __importDefault(require_react_production());
-    var FittedBox2 = class extends react_1.default.Component {
+    var FittedBox = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("FittedBox", { ...this.props });
       }
     };
-    exports.FittedBox = FittedBox2;
-    exports.default = FittedBox2;
+    exports.FittedBox = FittedBox;
+    exports.default = FittedBox;
   }
 });
 
@@ -25169,12 +25169,12 @@ var require_Visibility = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Visibility = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Visibility2 = class extends react_1.default.Component {
+    var Visibility = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Visibility", { ...this.props });
       }
     };
-    exports.Visibility = Visibility2;
+    exports.Visibility = Visibility;
   }
 });
 
@@ -25190,7 +25190,7 @@ var require_CustomPaint = __commonJS({
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
     var controllerIdCounter = 1;
-    var Path2 = class {
+    var Path = class {
       constructor() {
         this.operations = [];
       }
@@ -25225,8 +25225,8 @@ var require_CustomPaint = __commonJS({
         return { operations: this.operations };
       }
     };
-    exports.Path = Path2;
-    var CustomPainter2 = class {
+    exports.Path = Path;
+    var CustomPainter = class {
       constructor(paintCallback) {
         this.commands = [];
         this.scopedRefId = null;
@@ -25303,8 +25303,8 @@ var require_CustomPaint = __commonJS({
         this.commands = [];
       }
     };
-    exports.CustomPainter = CustomPainter2;
-    var CustomPaint2 = class extends BaseWidget_1.BaseWidget {
+    exports.CustomPainter = CustomPainter;
+    var CustomPaint = class extends BaseWidget_1.BaseWidget {
       constructor(props) {
         super(props);
         this.state = { ...this.state, repaintTick: 0 };
@@ -25350,7 +25350,7 @@ var require_CustomPaint = __commonJS({
         }, child);
       }
     };
-    exports.CustomPaint = CustomPaint2;
+    exports.CustomPaint = CustomPaint;
   }
 });
 
@@ -25385,14 +25385,14 @@ var require_Material = __commonJS({
     exports.Material = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var Material2 = class extends BaseWidget_1.BaseWidget {
+    var Material = class extends BaseWidget_1.BaseWidget {
       render() {
         const { child, children, ...rest } = this.props;
         const content = child || children;
         return react_1.default.createElement("Material", { ...rest }, content);
       }
     };
-    exports.Material = Material2;
+    exports.Material = Material;
   }
 });
 
@@ -25406,13 +25406,13 @@ var require_PopScope = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.PopScope = void 0;
     var react_1 = __importDefault(require_react_production());
-    var PopScope2 = class extends react_1.default.Component {
+    var PopScope = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("PopScope", { ...this.props });
       }
     };
-    exports.PopScope = PopScope2;
-    exports.default = PopScope2;
+    exports.PopScope = PopScope;
+    exports.default = PopScope;
   }
 });
 
@@ -25426,13 +25426,13 @@ var require_Slider = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Slider = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Slider3 = class extends react_1.default.Component {
+    var Slider = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Slider", { ...this.props });
       }
     };
-    exports.Slider = Slider3;
-    exports.default = Slider3;
+    exports.Slider = Slider;
+    exports.default = Slider;
   }
 });
 
@@ -25446,13 +25446,13 @@ var require_Radio = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Radio = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Radio2 = class extends react_1.default.Component {
+    var Radio = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Radio", { ...this.props });
       }
     };
-    exports.Radio = Radio2;
-    exports.default = Radio2;
+    exports.Radio = Radio;
+    exports.default = Radio;
   }
 });
 
@@ -25486,13 +25486,13 @@ var require_FloatingActionButton = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FloatingActionButton = void 0;
     var react_1 = __importDefault(require_react_production());
-    var FloatingActionButton3 = class extends react_1.default.Component {
+    var FloatingActionButton = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("FloatingActionButton", { ...this.props });
       }
     };
-    exports.FloatingActionButton = FloatingActionButton3;
-    exports.default = FloatingActionButton3;
+    exports.FloatingActionButton = FloatingActionButton;
+    exports.default = FloatingActionButton;
   }
 });
 
@@ -25506,13 +25506,13 @@ var require_ClipRRect = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ClipRRect = void 0;
     var react_1 = __importDefault(require_react_production());
-    var ClipRRect4 = class extends react_1.default.Component {
+    var ClipRRect = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("ClipRRect", { ...this.props });
       }
     };
-    exports.ClipRRect = ClipRRect4;
-    exports.default = ClipRRect4;
+    exports.ClipRRect = ClipRRect;
+    exports.default = ClipRRect;
   }
 });
 
@@ -25527,7 +25527,7 @@ var require_RefreshIndicator = __commonJS({
     exports.RefreshIndicator = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var RefreshIndicator2 = class extends BaseWidget_1.BaseWidget {
+    var RefreshIndicator = class extends BaseWidget_1.BaseWidget {
       render() {
         return react_1.default.createElement("RefreshIndicator", {
           ...this.props,
@@ -25541,8 +25541,8 @@ var require_RefreshIndicator = __commonJS({
         this.callNativeCommand("show");
       }
     };
-    exports.RefreshIndicator = RefreshIndicator2;
-    exports.default = RefreshIndicator2;
+    exports.RefreshIndicator = RefreshIndicator;
+    exports.default = RefreshIndicator;
   }
 });
 
@@ -25556,13 +25556,13 @@ var require_AspectRatio = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AspectRatio = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AspectRatio3 = class extends react_1.default.Component {
+    var AspectRatio = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AspectRatio", { ...this.props });
       }
     };
-    exports.AspectRatio = AspectRatio3;
-    exports.default = AspectRatio3;
+    exports.AspectRatio = AspectRatio;
+    exports.default = AspectRatio;
   }
 });
 
@@ -25576,13 +25576,13 @@ var require_FractionallySizedBox = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FractionallySizedBox = void 0;
     var react_1 = __importDefault(require_react_production());
-    var FractionallySizedBox3 = class extends react_1.default.Component {
+    var FractionallySizedBox = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("FractionallySizedBox", { ...this.props });
       }
     };
-    exports.FractionallySizedBox = FractionallySizedBox3;
-    exports.default = FractionallySizedBox3;
+    exports.FractionallySizedBox = FractionallySizedBox;
+    exports.default = FractionallySizedBox;
   }
 });
 
@@ -25596,13 +25596,13 @@ var require_Drawer = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Drawer = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Drawer2 = class extends react_1.default.Component {
+    var Drawer = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Drawer", { ...this.props });
       }
     };
-    exports.Drawer = Drawer2;
-    exports.default = Drawer2;
+    exports.Drawer = Drawer;
+    exports.default = Drawer;
   }
 });
 
@@ -25616,13 +25616,13 @@ var require_BackdropFilter = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.BackdropFilter = void 0;
     var react_1 = __importDefault(require_react_production());
-    var BackdropFilter2 = class extends react_1.default.Component {
+    var BackdropFilter = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("BackdropFilter", { ...this.props });
       }
     };
-    exports.BackdropFilter = BackdropFilter2;
-    exports.default = BackdropFilter2;
+    exports.BackdropFilter = BackdropFilter;
+    exports.default = BackdropFilter;
   }
 });
 
@@ -25636,13 +25636,13 @@ var require_AnimatedSwitcher = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedSwitcher = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedSwitcher2 = class extends react_1.default.Component {
+    var AnimatedSwitcher = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedSwitcher", { ...this.props });
       }
     };
-    exports.AnimatedSwitcher = AnimatedSwitcher2;
-    exports.default = AnimatedSwitcher2;
+    exports.AnimatedSwitcher = AnimatedSwitcher;
+    exports.default = AnimatedSwitcher;
   }
 });
 
@@ -25656,13 +25656,13 @@ var require_AnimatedCrossFade = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedCrossFade = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedCrossFade2 = class extends react_1.default.Component {
+    var AnimatedCrossFade = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedCrossFade", { ...this.props });
       }
     };
-    exports.AnimatedCrossFade = AnimatedCrossFade2;
-    exports.default = AnimatedCrossFade2;
+    exports.AnimatedCrossFade = AnimatedCrossFade;
+    exports.default = AnimatedCrossFade;
   }
 });
 
@@ -25676,13 +25676,13 @@ var require_NestedScrollView = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NestedScrollView = void 0;
     var react_1 = __importDefault(require_react_production());
-    var NestedScrollView2 = class extends react_1.default.Component {
+    var NestedScrollView = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("NestedScrollView", { ...this.props });
       }
     };
-    exports.NestedScrollView = NestedScrollView2;
-    exports.default = NestedScrollView2;
+    exports.NestedScrollView = NestedScrollView;
+    exports.default = NestedScrollView;
   }
 });
 
@@ -25719,13 +25719,13 @@ var require_Align = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Align = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Align2 = class extends react_1.default.Component {
+    var Align = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Align", { ...this.props });
       }
     };
-    exports.Align = Align2;
-    exports.default = Align2;
+    exports.Align = Align;
+    exports.default = Align;
   }
 });
 
@@ -25739,13 +25739,13 @@ var require_Hero = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Hero = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Hero3 = class extends react_1.default.Component {
+    var Hero = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Hero", { ...this.props });
       }
     };
-    exports.Hero = Hero3;
-    exports.default = Hero3;
+    exports.Hero = Hero;
+    exports.default = Hero;
   }
 });
 
@@ -25759,13 +25759,13 @@ var require_FadeTransition = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FadeTransition = void 0;
     var react_1 = __importDefault(require_react_production());
-    var FadeTransition3 = class extends react_1.default.Component {
+    var FadeTransition = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("FadeTransition", { ...this.props });
       }
     };
-    exports.FadeTransition = FadeTransition3;
-    exports.default = FadeTransition3;
+    exports.FadeTransition = FadeTransition;
+    exports.default = FadeTransition;
   }
 });
 
@@ -25779,13 +25779,13 @@ var require_SizeTransition = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SizeTransition = void 0;
     var react_1 = __importDefault(require_react_production());
-    var SizeTransition3 = class extends react_1.default.Component {
+    var SizeTransition = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("SizeTransition", { ...this.props });
       }
     };
-    exports.SizeTransition = SizeTransition3;
-    exports.default = SizeTransition3;
+    exports.SizeTransition = SizeTransition;
+    exports.default = SizeTransition;
   }
 });
 
@@ -25799,13 +25799,13 @@ var require_PositionedTransition = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.PositionedTransition = void 0;
     var react_1 = __importDefault(require_react_production());
-    var PositionedTransition2 = class extends react_1.default.Component {
+    var PositionedTransition = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("PositionedTransition", { ...this.props });
       }
     };
-    exports.PositionedTransition = PositionedTransition2;
-    exports.default = PositionedTransition2;
+    exports.PositionedTransition = PositionedTransition;
+    exports.default = PositionedTransition;
   }
 });
 
@@ -25819,13 +25819,13 @@ var require_RichText = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.RichText = void 0;
     var react_1 = __importDefault(require_react_production());
-    var RichText2 = class extends react_1.default.Component {
+    var RichText = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("RichText", { ...this.props });
       }
     };
-    exports.RichText = RichText2;
-    exports.default = RichText2;
+    exports.RichText = RichText;
+    exports.default = RichText;
   }
 });
 
@@ -25839,13 +25839,13 @@ var require_Transform = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Transform = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Transform5 = class extends react_1.default.Component {
+    var Transform = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Transform", { ...this.props });
       }
     };
-    exports.Transform = Transform5;
-    exports.default = Transform5;
+    exports.Transform = Transform;
+    exports.default = Transform;
   }
 });
 
@@ -25979,13 +25979,13 @@ var require_IndexedStack = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.IndexedStack = void 0;
     var react_1 = __importDefault(require_react_production());
-    var IndexedStack2 = class extends react_1.default.Component {
+    var IndexedStack = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("IndexedStack", { ...this.props });
       }
     };
-    exports.IndexedStack = IndexedStack2;
-    exports.default = IndexedStack2;
+    exports.IndexedStack = IndexedStack;
+    exports.default = IndexedStack;
   }
 });
 
@@ -25999,13 +25999,13 @@ var require_AnimatedSize = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AnimatedSize = void 0;
     var react_1 = __importDefault(require_react_production());
-    var AnimatedSize2 = class extends react_1.default.Component {
+    var AnimatedSize = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("AnimatedSize", { ...this.props });
       }
     };
-    exports.AnimatedSize = AnimatedSize2;
-    exports.default = AnimatedSize2;
+    exports.AnimatedSize = AnimatedSize;
+    exports.default = AnimatedSize;
   }
 });
 
@@ -26019,13 +26019,13 @@ var require_Dismissible = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Dismissible = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Dismissible2 = class extends react_1.default.Component {
+    var Dismissible = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Dismissible", { ...this.props });
       }
     };
-    exports.Dismissible = Dismissible2;
-    exports.default = Dismissible2;
+    exports.Dismissible = Dismissible;
+    exports.default = Dismissible;
   }
 });
 
@@ -26224,7 +26224,7 @@ var require_useAnimation = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/hooks/useAnimation.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.useAnimation = useAnimation2;
+    exports.useAnimation = useAnimation;
     var react_1 = require_react_production();
     var hooks_1 = require_hooks();
     var NativeEvent_1 = require_NativeEvent();
@@ -26239,7 +26239,7 @@ var require_useAnimation = __commonJS({
       reverse: false,
       autoStart: false
     };
-    function useAnimation2(spec = {}) {
+    function useAnimation(spec = {}) {
       const pageId = (0, hooks_1.usePageId)();
       const id = (0, react_1.useMemo)(() => `anim_${pageId}_${(0, ids_1.refsId)()}`, [pageId]);
       const specRef = (0, react_1.useRef)(spec);
@@ -26368,7 +26368,7 @@ var require_ToastService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ToastService = void 0;
-    var ToastService3 = class {
+    var ToastService = class {
       static show(message, duration) {
         return dartCallNativeAsync("Toast.show", { message, duration });
       }
@@ -26376,7 +26376,7 @@ var require_ToastService = __commonJS({
         return dartCallNativeAsync("Toast.hide", {});
       }
     };
-    exports.ToastService = ToastService3;
+    exports.ToastService = ToastService;
   }
 });
 
@@ -26386,7 +26386,7 @@ var require_DialogService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DialogService = void 0;
-    var DialogService3 = class {
+    var DialogService = class {
       /**
        * Dismisses the current dialog.
        * @param result Optional result to return from the dialog.
@@ -26403,7 +26403,7 @@ var require_DialogService = __commonJS({
         return dartCallNativeAsync("Dialog.showActionSheet", options);
       }
     };
-    exports.DialogService = DialogService3;
+    exports.DialogService = DialogService;
   }
 });
 
@@ -26413,7 +26413,7 @@ var require_PickerService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.PickerService = void 0;
-    var PickerService2 = class {
+    var PickerService = class {
       /** 单列选择器 */
       static async show(options) {
         return await dartCallNativeAsync("Dialog.showPicker", {
@@ -26437,7 +26437,7 @@ var require_PickerService = __commonJS({
         return await dartCallNativeAsync("Dialog.showTimePicker", options);
       }
     };
-    exports.PickerService = PickerService2;
+    exports.PickerService = PickerService;
   }
 });
 
@@ -26554,12 +26554,12 @@ var require_SoundService = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SoundService = void 0;
-    var SoundService2 = class {
+    var SoundService = class {
       static play(type) {
         void dartCallNativeAsync("Sound.play", { type: type ?? "move" });
       }
     };
-    exports.SoundService = SoundService2;
+    exports.SoundService = SoundService;
   }
 });
 
@@ -26643,11 +26643,11 @@ var require_hooks3 = __commonJS({
   "../../fuickjs_framework/fuickjs/dist/i18n/hooks.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.useTranslation = useTranslation2;
+    exports.useTranslation = useTranslation;
     exports.useLocale = useLocale;
     var react_1 = require_react_production();
     var i18n_1 = require_i18n();
-    function useTranslation2() {
+    function useTranslation() {
       const [, forceUpdate] = (0, react_1.useReducer)((c) => c + 1, 0);
       (0, react_1.useEffect)(() => i18n_1.i18n.subscribe(() => forceUpdate()), []);
       const t = (0, react_1.useCallback)((key, params, options) => i18n_1.i18n.t(key, params, options), []);
@@ -26765,11568 +26765,740 @@ var require_dist = __commonJS({
   }
 });
 
-// ../../fuickjs_community/visibility_detector/dist/VisibilityDetector.js
-var require_VisibilityDetector = __commonJS({
-  "../../fuickjs_community/visibility_detector/dist/VisibilityDetector.js"(exports) {
-    "use strict";
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.VisibilityDetector = void 0;
-    var react_1 = __importDefault(require_react_production());
-    var VisibilityDetector2 = class extends react_1.default.Component {
-      render() {
-        return react_1.default.createElement("VisibilityDetector", { ...this.props }, this.props.children);
-      }
-    };
-    exports.VisibilityDetector = VisibilityDetector2;
-  }
-});
+// src/game-entry.tsx
+var import_react7 = __toESM(require_react_production());
+var import_fuickjs7 = __toESM(require_dist());
 
-// ../../fuickjs_community/visibility_detector/dist/index.js
-var require_dist2 = __commonJS({
-  "../../fuickjs_community/visibility_detector/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.VisibilityDetector = void 0;
-    var VisibilityDetector_1 = require_VisibilityDetector();
-    Object.defineProperty(exports, "VisibilityDetector", { enumerable: true, get: function() {
-      return VisibilityDetector_1.VisibilityDetector;
-    } });
-  }
-});
+// src/pages/game.tsx
+var import_react6 = __toESM(require_react_production());
+var import_fuickjs6 = __toESM(require_dist());
 
-// ../../fuickjs_community/video_player/dist/VideoPlayer.js
-var require_VideoPlayer = __commonJS({
-  "../../fuickjs_community/video_player/dist/VideoPlayer.js"(exports) {
-    "use strict";
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.VideoPlayer = void 0;
-    var react_1 = __importDefault(require_react_production());
-    var VideoPlayer2 = class extends react_1.default.Component {
-      get scopedRefId() {
-        return this.props.refId;
-      }
-      callNativeCommand(method, args) {
-        if (!this.scopedRefId)
-          return;
-        void dartCallNativeAsync("UI.componentCommand", {
-          refId: this.scopedRefId,
-          method,
-          args: args ?? null,
-          nodeType: "VideoPlayer"
-        });
-      }
-      play() {
-        this.callNativeCommand("play");
-      }
-      pause() {
-        this.callNativeCommand("pause");
-      }
-      stop() {
-        this.callNativeCommand("stop");
-      }
-      seekTo(position) {
-        this.callNativeCommand("seekTo", { position });
-      }
-      setVolume(volume) {
-        this.callNativeCommand("setVolume", { volume });
-      }
-      setLooping(looping) {
-        this.callNativeCommand("setLooping", { looping });
-      }
-      setPlaybackSpeed(speed) {
-        this.callNativeCommand("setPlaybackSpeed", { speed });
-      }
-      render() {
-        return react_1.default.createElement("VideoPlayer", {
-          ...this.props,
-          refId: this.scopedRefId
-        });
-      }
-    };
-    exports.VideoPlayer = VideoPlayer2;
-  }
-});
+// src/game/config.ts
+var TICK_RATE = 30;
+var DT = 1 / TICK_RATE;
+var VW = 360;
+var VH = 640;
+var CENTER_X = VW / 2;
+var CENTER_Y = VH / 2;
+var PLAYER_SPEED = 95;
+var JOY_MAX_R = 50;
+var ORBIT_SPEED = 0.7;
+var SPAWN_GAP_MIN = 24;
+var SPAWN_GAP_MAX = 70;
+var DESPAWN_DIST = 430;
+var CAPTURE_RANGE = 26;
+var TARGET_ENTITIES = 18;
+var DAMAGE = 25;
+var MAX_HEALTH = 100;
+var HIT_FLASH_FRAMES = 12;
+var BIG_PER_MINUTE = 2;
+var BIG_WINDOW = 60;
+var MATTER_FLOOR = 2;
+var MATTER_CAP = 2e3;
+var GROWTH = 0.6;
+var GROWTH_CAP = 1.2;
+var STAGES = [
+  { id: 1, name: "\u9668\u77F3", reachMatter: 0, r: 5, color: "#9e9e9e", canCapture: false, glow: false },
+  { id: 2, name: "\u5C0F\u884C\u661F", reachMatter: 100, r: 9, color: "#a1887f", canCapture: false, glow: false },
+  { id: 3, name: "\u77EE\u661F", reachMatter: 300, r: 14, color: "#ffcc80", canCapture: false, glow: false },
+  { id: 4, name: "\u5CA9\u77F3\u884C\u661F", reachMatter: 800, r: 20, color: "#8d6e63", canCapture: true, glow: false },
+  { id: 5, name: "\u6C14\u6001\u884C\u661F", reachMatter: 1e3, r: 27, color: "#ffb74d", canCapture: true, glow: false },
+  { id: 6, name: "\u77EE\u6052\u661F", reachMatter: 1500, r: 35, color: "#fff176", canCapture: true, glow: true },
+  { id: 7, name: "\u6052\u661F", reachMatter: 2e3, r: 45, color: "#ffd54f", canCapture: true, glow: true },
+  { id: 8, name: "\u8D85\u5DE8\u661F", reachMatter: 3e3, r: 57, color: "#ff7043", canCapture: true, glow: true },
+  { id: 9, name: "\u4E2D\u5B50\u661F", reachMatter: 3500, r: 70, color: "#b39ddb", canCapture: true, glow: true },
+  { id: 10, name: "\u9ED1\u6D1E", reachMatter: 4e3, r: 84, color: "#000000", canCapture: true, glow: true },
+  { id: 11, name: "\u5B87\u5B99", reachMatter: 5e3, r: 100, color: "#ffffff", canCapture: true, glow: true }
+];
+var FINAL_MATTER = 5e3;
 
-// ../../fuickjs_community/video_player/dist/index.js
-var require_dist3 = __commonJS({
-  "../../fuickjs_community/video_player/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.VideoPlayer = void 0;
-    var VideoPlayer_1 = require_VideoPlayer();
-    Object.defineProperty(exports, "VideoPlayer", { enumerable: true, get: function() {
-      return VideoPlayer_1.VideoPlayer;
-    } });
-  }
-});
-
-// ../../fuickjs_community/web_view/dist/WebView.js
-var require_WebView = __commonJS({
-  "../../fuickjs_community/web_view/dist/WebView.js"(exports) {
-    "use strict";
-    var __importDefault = exports && exports.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.WebView = void 0;
-    var react_1 = __importDefault(require_react_production());
-    var _idCounter = 0;
-    var WebView2 = class extends react_1.default.Component {
-      constructor() {
-        super(...arguments);
-        this._internalRefId = `__webview_${++_idCounter}`;
-      }
-      get _refId() {
-        return this.props.refId ?? this._internalRefId;
-      }
-      callNativeCommand(method, args) {
-        void dartCallNativeAsync("UI.componentCommand", {
-          refId: this._refId,
-          method,
-          args: args ?? null,
-          nodeType: "WebView"
-        });
-      }
-      loadUrl(url) {
-        this.callNativeCommand("loadUrl", { url });
-      }
-      reload() {
-        this.callNativeCommand("reload");
-      }
-      goBack() {
-        this.callNativeCommand("goBack");
-      }
-      goForward() {
-        this.callNativeCommand("goForward");
-      }
-      evaluateJavascript(js) {
-        this.callNativeCommand("evaluateJavascript", { js });
-      }
-      render() {
-        return react_1.default.createElement("WebView", { ...this.props, refId: this._refId });
-      }
-    };
-    exports.WebView = WebView2;
-  }
-});
-
-// ../../fuickjs_community/web_view/dist/index.js
-var require_dist4 = __commonJS({
-  "../../fuickjs_community/web_view/dist/index.js"(exports) {
-    "use strict";
-    var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
-      if (k2 === void 0) k2 = k;
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() {
-          return m[k];
-        } };
-      }
-      Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
-      if (k2 === void 0) k2 = k;
-      o[k2] = m[k];
-    });
-    var __exportStar = exports && exports.__exportStar || function(m, exports2) {
-      for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    __exportStar(require_WebView(), exports);
-  }
-});
-
-// ../../fuickjs_community/haptics/dist/HapticsService.js
-var require_HapticsService = __commonJS({
-  "../../fuickjs_community/haptics/dist/HapticsService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Haptics = exports.HAPTICS_SERVICE_NAME = void 0;
-    exports.HAPTICS_SERVICE_NAME = "Haptics";
-    var Haptics2 = class {
-      /** 冲击反馈，适用于按钮点击等操作 */
-      static impact(style = "medium") {
-        void dartCallNativeAsync(`${exports.HAPTICS_SERVICE_NAME}.impact`, { style });
-      }
-      /** 选择反馈，适用于滚轮/选项切换 */
-      static selection() {
-        void dartCallNativeAsync(`${exports.HAPTICS_SERVICE_NAME}.selection`, null);
-      }
-      /** 通知反馈，适用于操作结果提示 */
-      static notification(type = "success") {
-        void dartCallNativeAsync(`${exports.HAPTICS_SERVICE_NAME}.notification`, { type });
-      }
-      /** 振动 N 毫秒（Android 专用，iOS 忽略） */
-      static vibrate(duration = 100) {
-        void dartCallNativeAsync(`${exports.HAPTICS_SERVICE_NAME}.vibrate`, { duration });
-      }
-    };
-    exports.Haptics = Haptics2;
-  }
-});
-
-// ../../fuickjs_community/haptics/dist/index.js
-var require_dist5 = __commonJS({
-  "../../fuickjs_community/haptics/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.HAPTICS_SERVICE_NAME = exports.Haptics = void 0;
-    var HapticsService_1 = require_HapticsService();
-    Object.defineProperty(exports, "Haptics", { enumerable: true, get: function() {
-      return HapticsService_1.Haptics;
-    } });
-    Object.defineProperty(exports, "HAPTICS_SERVICE_NAME", { enumerable: true, get: function() {
-      return HapticsService_1.HAPTICS_SERVICE_NAME;
-    } });
-  }
-});
-
-// ../../fuickjs_community/launcher/dist/LauncherService.js
-var require_LauncherService = __commonJS({
-  "../../fuickjs_community/launcher/dist/LauncherService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Launcher = exports.LAUNCHER_SERVICE_NAME = void 0;
-    exports.LAUNCHER_SERVICE_NAME = "Launcher";
-    var Launcher2 = class _Launcher {
-      /** 打开 URL（http/https/自定义 scheme） */
-      static async openUrl(url, mode = "platformDefault") {
-        return dartCallNativeAsync(`${exports.LAUNCHER_SERVICE_NAME}.openUrl`, { url, mode });
-      }
-      /** 检查 URL 是否可以被打开 */
-      static async canOpenUrl(url) {
-        return dartCallNativeAsync(`${exports.LAUNCHER_SERVICE_NAME}.canOpenUrl`, { url });
-      }
-      /** 拨打电话 */
-      static async call(phone) {
-        return _Launcher.openUrl(`tel:${phone}`);
-      }
-      /** 发送短信，body 可选 */
-      static async sms(phone, body) {
-        const url = body ? `sms:${phone}?body=${encodeURIComponent(body)}` : `sms:${phone}`;
-        return _Launcher.openUrl(url);
-      }
-      /** 发送邮件 */
-      static async email(options) {
-        const params = new URLSearchParams();
-        if (options.subject)
-          params.set("subject", options.subject);
-        if (options.body)
-          params.set("body", options.body);
-        const query = params.toString();
-        const url = `mailto:${options.to}${query ? "?" + query : ""}`;
-        return _Launcher.openUrl(url);
-      }
-      /** 打开系统应用设置页 */
-      static async openAppSettings() {
-        return dartCallNativeAsync(`${exports.LAUNCHER_SERVICE_NAME}.openAppSettings`, null);
-      }
-      /** 打开系统设置 */
-      static async openSystemSettings() {
-        return _Launcher.openUrl("app-settings:");
-      }
-    };
-    exports.Launcher = Launcher2;
-  }
-});
-
-// ../../fuickjs_community/launcher/dist/index.js
-var require_dist6 = __commonJS({
-  "../../fuickjs_community/launcher/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.LAUNCHER_SERVICE_NAME = exports.Launcher = void 0;
-    var LauncherService_1 = require_LauncherService();
-    Object.defineProperty(exports, "Launcher", { enumerable: true, get: function() {
-      return LauncherService_1.Launcher;
-    } });
-    Object.defineProperty(exports, "LAUNCHER_SERVICE_NAME", { enumerable: true, get: function() {
-      return LauncherService_1.LAUNCHER_SERVICE_NAME;
-    } });
-  }
-});
-
-// ../../fuickjs_community/share/dist/ShareService.js
-var require_ShareService = __commonJS({
-  "../../fuickjs_community/share/dist/ShareService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Share = exports.SHARE_SERVICE_NAME = void 0;
-    exports.SHARE_SERVICE_NAME = "Share";
-    var Share2 = class _Share {
-      /** 弹出系统分享菜单 */
-      static async share(options) {
-        return dartCallNativeAsync(`${exports.SHARE_SERVICE_NAME}.share`, options);
-      }
-      /** 快捷分享纯文本 */
-      static async text(text, subject) {
-        return _Share.share({ text, subject });
-      }
-      /** 快捷分享文件列表 */
-      static async files(paths, text) {
-        return _Share.share({ files: paths, text });
-      }
-    };
-    exports.Share = Share2;
-  }
-});
-
-// ../../fuickjs_community/share/dist/index.js
-var require_dist7 = __commonJS({
-  "../../fuickjs_community/share/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.SHARE_SERVICE_NAME = exports.Share = void 0;
-    var ShareService_1 = require_ShareService();
-    Object.defineProperty(exports, "Share", { enumerable: true, get: function() {
-      return ShareService_1.Share;
-    } });
-    Object.defineProperty(exports, "SHARE_SERVICE_NAME", { enumerable: true, get: function() {
-      return ShareService_1.SHARE_SERVICE_NAME;
-    } });
-  }
-});
-
-// ../../fuickjs_community/app_info/dist/AppInfoService.js
-var require_AppInfoService = __commonJS({
-  "../../fuickjs_community/app_info/dist/AppInfoService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.AppInfo = exports.APP_INFO_SERVICE_NAME = void 0;
-    exports.APP_INFO_SERVICE_NAME = "AppInfo";
-    var AppInfo2 = class _AppInfo {
-      /** 获取应用信息（结果会被缓存） */
-      static async get() {
-        if (_AppInfo._cache)
-          return _AppInfo._cache;
-        const data = await dartCallNativeAsync(`${exports.APP_INFO_SERVICE_NAME}.get`, null);
-        _AppInfo._cache = data;
-        return data;
-      }
-      /** 清除缓存（测试用） */
-      static clearCache() {
-        _AppInfo._cache = null;
-      }
-    };
-    exports.AppInfo = AppInfo2;
-    AppInfo2._cache = null;
-  }
-});
-
-// ../../fuickjs_community/app_info/dist/index.js
-var require_dist8 = __commonJS({
-  "../../fuickjs_community/app_info/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.APP_INFO_SERVICE_NAME = exports.AppInfo = void 0;
-    var AppInfoService_1 = require_AppInfoService();
-    Object.defineProperty(exports, "AppInfo", { enumerable: true, get: function() {
-      return AppInfoService_1.AppInfo;
-    } });
-    Object.defineProperty(exports, "APP_INFO_SERVICE_NAME", { enumerable: true, get: function() {
-      return AppInfoService_1.APP_INFO_SERVICE_NAME;
-    } });
-  }
-});
-
-// ../../fuickjs_community/permissions/dist/PermissionsService.js
-var require_PermissionsService = __commonJS({
-  "../../fuickjs_community/permissions/dist/PermissionsService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Permissions = exports.PERMISSIONS_SERVICE_NAME = void 0;
-    exports.PERMISSIONS_SERVICE_NAME = "Permissions";
-    var Permissions2 = class _Permissions {
-      /** 检查权限状态（不弹窗） */
-      static async check(permission) {
-        return dartCallNativeAsync(`${exports.PERMISSIONS_SERVICE_NAME}.check`, { permission });
-      }
-      /** 请求权限（如已授权则直接返回） */
-      static async request(permission) {
-        return dartCallNativeAsync(`${exports.PERMISSIONS_SERVICE_NAME}.request`, { permission });
-      }
-      /** 批量请求权限，返回每项的状态 */
-      static async requestMultiple(permissions) {
-        return dartCallNativeAsync(`${exports.PERMISSIONS_SERVICE_NAME}.requestMultiple`, { permissions });
-      }
-      /** 是否已授权 */
-      static async isGranted(permission) {
-        const status = await _Permissions.check(permission);
-        return status === "granted" || status === "limited" || status === "provisional";
-      }
-      /** 是否被永久拒绝（需引导用户去系统设置） */
-      static async isPermanentlyDenied(permission) {
-        const status = await _Permissions.check(permission);
-        return status === "permanentlyDenied";
-      }
-    };
-    exports.Permissions = Permissions2;
-  }
-});
-
-// ../../fuickjs_community/permissions/dist/index.js
-var require_dist9 = __commonJS({
-  "../../fuickjs_community/permissions/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.PERMISSIONS_SERVICE_NAME = exports.Permissions = void 0;
-    var PermissionsService_1 = require_PermissionsService();
-    Object.defineProperty(exports, "Permissions", { enumerable: true, get: function() {
-      return PermissionsService_1.Permissions;
-    } });
-    Object.defineProperty(exports, "PERMISSIONS_SERVICE_NAME", { enumerable: true, get: function() {
-      return PermissionsService_1.PERMISSIONS_SERVICE_NAME;
-    } });
-  }
-});
-
-// ../../fuickjs_community/media/dist/MediaService.js
-var require_MediaService = __commonJS({
-  "../../fuickjs_community/media/dist/MediaService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Media = exports.MEDIA_SERVICE_NAME = void 0;
-    exports.MEDIA_SERVICE_NAME = "Media";
-    var Media2 = class {
-      static async chooseImage(count = 1, sourceType = ["album", "camera"]) {
-        return dartCallNativeAsync(`${exports.MEDIA_SERVICE_NAME}.chooseImage`, {
-          count,
-          sourceType
-        });
-      }
-      static async chooseVideo(sourceType = ["album", "camera"]) {
-        return dartCallNativeAsync(`${exports.MEDIA_SERVICE_NAME}.chooseVideo`, {
-          sourceType
-        });
-      }
-      static async previewImage(urls, current = 0) {
-        await dartCallNativeAsync(`${exports.MEDIA_SERVICE_NAME}.previewImage`, { urls, current });
-      }
-    };
-    exports.Media = Media2;
-  }
-});
-
-// ../../fuickjs_community/media/dist/index.js
-var require_dist10 = __commonJS({
-  "../../fuickjs_community/media/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.MEDIA_SERVICE_NAME = exports.Media = void 0;
-    var MediaService_1 = require_MediaService();
-    Object.defineProperty(exports, "Media", { enumerable: true, get: function() {
-      return MediaService_1.Media;
-    } });
-    Object.defineProperty(exports, "MEDIA_SERVICE_NAME", { enumerable: true, get: function() {
-      return MediaService_1.MEDIA_SERVICE_NAME;
-    } });
-  }
-});
-
-// ../../fuickjs_community/connectivity/dist/ConnectivityService.js
-var require_ConnectivityService = __commonJS({
-  "../../fuickjs_community/connectivity/dist/ConnectivityService.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Connectivity = exports.CONNECTIVITY_SERVICE_NAME = void 0;
-    exports.CONNECTIVITY_SERVICE_NAME = "Connectivity";
-    var Connectivity2 = class _Connectivity {
-      /** 获取当前网络类型 */
-      static async getNetworkType() {
-        const result = await dartCallNativeAsync(`${exports.CONNECTIVITY_SERVICE_NAME}.getNetworkType`, null);
-        return result.networkType;
-      }
-      /** 是否在线 */
-      static async isConnected() {
-        const type = await _Connectivity.getNetworkType();
-        return type !== "none";
-      }
-      /** 开始监听网络状态变化（事件通过 NativeEvent 分发） */
-      static startListener() {
-        void dartCallNativeAsync(`${exports.CONNECTIVITY_SERVICE_NAME}.startNetworkListener`, null);
-      }
-      /** 停止监听 */
-      static stopListener() {
-        void dartCallNativeAsync(`${exports.CONNECTIVITY_SERVICE_NAME}.stopNetworkListener`, null);
-      }
-    };
-    exports.Connectivity = Connectivity2;
-  }
-});
-
-// ../../fuickjs_community/connectivity/dist/index.js
-var require_dist11 = __commonJS({
-  "../../fuickjs_community/connectivity/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.CONNECTIVITY_SERVICE_NAME = exports.Connectivity = void 0;
-    var ConnectivityService_1 = require_ConnectivityService();
-    Object.defineProperty(exports, "Connectivity", { enumerable: true, get: function() {
-      return ConnectivityService_1.Connectivity;
-    } });
-    Object.defineProperty(exports, "CONNECTIVITY_SERVICE_NAME", { enumerable: true, get: function() {
-      return ConnectivityService_1.CONNECTIVITY_SERVICE_NAME;
-    } });
-  }
-});
-
-// src/app.tsx
-var import_react93 = __toESM(require_react_production());
-var import_fuickjs97 = __toESM(require_dist());
-
-// src/i18n/resources.ts
-var i18nResources = {
-  en: {
-    demo: {
-      title: "i18n Demo",
-      subtitle: "Translations resolve in JS before DSL; Flutter only renders final strings.",
-      currentLocale: "Current locale: {locale}",
-      greeting: "Hello, {name}!",
-      switchEn: "English",
-      switchZh: "\u4E2D\u6587",
-      pluralTitle: "Plural (count)",
-      cart: {
-        items: {
-          zero: "No items in cart",
-          one: "{count} item in cart",
-          other: "{count} items in cart"
-        }
-      },
-      addItem: "Add item",
-      removeItem: "Remove item",
-      nestedTitle: "Nested keys",
-      nestedSample: "Welcome to FuickJS",
-      interpolationTitle: "Interpolation",
-      switchTitle: "Switch language",
-      persistHint: "Language choice is persisted via LocalStorage."
-    }
-  },
-  "zh-CN": {
-    demo: {
-      title: "\u591A\u8BED\u8A00\u6F14\u793A",
-      subtitle: "\u6587\u6848\u5728 JS \u5C42\u7FFB\u8BD1\u540E\u518D\u751F\u6210 DSL\uFF0CFlutter \u53EA\u6E32\u67D3\u6700\u7EC8\u5B57\u7B26\u4E32\u3002",
-      currentLocale: "\u5F53\u524D\u8BED\u8A00\uFF1A{locale}",
-      greeting: "\u4F60\u597D\uFF0C{name}\uFF01",
-      switchEn: "English",
-      switchZh: "\u4E2D\u6587",
-      pluralTitle: "\u590D\u6570 (count)",
-      cart: {
-        items: {
-          zero: "\u8D2D\u7269\u8F66\u4E3A\u7A7A",
-          one: "\u8D2D\u7269\u8F66\u6709 {count} \u4EF6\u5546\u54C1",
-          other: "\u8D2D\u7269\u8F66\u6709 {count} \u4EF6\u5546\u54C1"
-        }
-      },
-      addItem: "\u52A0\u4E00\u4EF6",
-      removeItem: "\u51CF\u4E00\u4EF6",
-      nestedTitle: "\u5D4C\u5957 key",
-      nestedSample: "\u6B22\u8FCE\u4F7F\u7528 FuickJS",
-      interpolationTitle: "\u63D2\u503C",
-      switchTitle: "\u5207\u6362\u8BED\u8A00",
-      persistHint: "\u8BED\u8A00\u9009\u62E9\u4F1A\u901A\u8FC7 LocalStorage \u6301\u4E45\u5316\u3002"
-    }
-  }
-};
-
-// src/pages/home.tsx
-var import_react2 = __toESM(require_react_production());
-var import_fuickjs = __toESM(require_dist());
-
-// src/store/global.ts
-var import_react = __toESM(require_react_production());
-var globalValue = "Initial Global Value";
-var listeners = /* @__PURE__ */ new Set();
-var setGlobalValue = (newValue) => {
-  globalValue = newValue;
-  listeners.forEach((listener) => listener(globalValue));
-};
-var useGlobalValue = () => {
-  const [value, setValue] = (0, import_react.useState)(globalValue);
-  (0, import_react.useEffect)(() => {
-    const listener = (newValue) => {
-      setValue(newValue);
-    };
-    listeners.add(listener);
-    return () => {
-      listeners.delete(listener);
-    };
-  }, []);
-  return {
-    value,
-    setValue: setGlobalValue
+// src/game/engine.ts
+var rand = (min, max) => min + Math.random() * (max - min);
+function dist(ax, ay, bx, by) {
+  return Math.hypot(ax - bx, ay - by);
+}
+function createGame() {
+  const state = {
+    status: "playing",
+    player: {
+      id: 0,
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      radius: STAGES[0].r,
+      power: 0,
+      matterValue: 0,
+      isSatellite: false
+    },
+    entities: [],
+    satellites: [],
+    matter: 0,
+    stageIndex: 0,
+    health: MAX_HEALTH,
+    maxHealth: MAX_HEALTH,
+    time: 0,
+    bigSpawnTimes: [],
+    nextEntityId: 1,
+    hitFlash: 0,
+    blockFlash: 0
   };
-};
-
-// src/pages/home.tsx
-function HomePage() {
-  const navigator = (0, import_fuickjs.useNavigator)();
-  const { value, setValue } = useGlobalValue();
-  const menuItems = [
-    {
-      title: "\u822A\u5929\u65B0\u95FB",
-      subtitle: "\u67E5\u770B\u6700\u65B0\u7684\u822A\u5929\u8D44\u8BAF\u4E0E\u7814\u7A76\u62A5\u544A",
-      icon: "newspaper",
-      path: "/news",
-      color: "#2196F3"
-    },
-    {
-      title: "\u884C\u60C5\u4E2D\u5FC3",
-      subtitle: "\u81EA\u52A8\u8F6E\u64AD\u3001\u91D1\u521A\u4F4D\u4E0E\u5B9E\u65F6\u4EF7\u683C\u5217\u8868",
-      icon: "show_chart",
-      path: "/market",
-      color: "#FF9800"
-    },
-    {
-      title: "\u7EC4\u4EF6\u793A\u4F8B",
-      subtitle: "\u63A2\u7D22\u6240\u6709\u5DF2\u652F\u6301\u7684 Flutter \u7EC4\u4EF6 Demo",
-      icon: "category",
-      path: "/demos",
-      color: "#4CAF50"
-    },
-    {
-      title: "PatchOps \u9A8C\u8BC1",
-      subtitle: "\u590D\u6742\u9875\u9762\u589E\u91CF\u66F4\u65B0\u4E0E\u8282\u70B9\u53D8\u66F4",
-      icon: "analytics",
-      path: "/demo/ops",
-      color: "#03A9F4"
-    },
-    {
-      title: "\u6DF7\u5408\u5BFC\u822A",
-      subtitle: "Flutter\u4E0EReact Native\u6DF7\u5408\u6808\u7BA1\u7406",
-      icon: "sync_alt",
-      path: "/hybrid_demo",
-      color: "#9C27B0"
-    }
-  ];
-  return /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Scaffold, { appBar: /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.AppBar, { title: "FuickJS \u63A2\u7D22" }) }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Padding, { padding: 16 }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.SingleChildScrollView, null, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.SizedBox, { height: 20 }), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Text, { text: "\u6B22\u8FCE\u4F53\u9A8C\u52A8\u6001\u5316\u6E32\u67D3", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.SizedBox, { height: 8 }), /* @__PURE__ */ import_react2.default.createElement(
-    import_fuickjs.Text,
-    {
-      text: "\u57FA\u4E8E React \u8BED\u6CD5\u7684 Flutter \u9AD8\u6027\u80FD\u52A8\u6001\u5316\u6846\u67B6",
-      color: "#666666"
-    }
-  ), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.SizedBox, { height: 20 }), /* @__PURE__ */ import_react2.default.createElement(
-    import_fuickjs.InkWell,
-    {
-      onTap: () => setValue(
-        `Updated from Home: ${Math.floor(Math.random() * 100)}`
-      )
-    },
-    /* @__PURE__ */ import_react2.default.createElement(
-      import_fuickjs.Container,
-      {
-        padding: 10,
-        decoration: {
-          color: "#E3F2FD",
-          borderRadius: 8,
-          border: { color: "#2196F3", width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Text, { text: `Global Value: ${value}`, color: "#1565C0" })
-    )
-  ), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.SizedBox, { height: 40 }), menuItems.map((item, index) => /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Padding, { key: index, padding: { bottom: 16 } }, /* @__PURE__ */ import_react2.default.createElement(
-    import_fuickjs.InkWell,
-    {
-      onTap: async () => {
-        const result = await navigator.push(item.path, {});
-        if (result) {
-          setValue(
-            `Result from ${item.title}: ${JSON.stringify(result)}`
-          );
-        }
-      }
-    },
-    /* @__PURE__ */ import_react2.default.createElement(
-      import_fuickjs.Container,
-      {
-        padding: 20,
-        decoration: {
-          color: "#FFFFFF",
-          borderRadius: 12,
-          boxShadow: {
-            color: "#0000001A",
-            blurRadius: 8,
-            offset: { dx: 0, dy: 4 }
-          }
-        }
-      },
-      /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Row, null, /* @__PURE__ */ import_react2.default.createElement(
-        import_fuickjs.Container,
-        {
-          width: 48,
-          height: 48,
-          decoration: {
-            color: item.color + "1A",
-            borderRadius: 24
-          },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Icon, { name: item.icon, color: item.color, size: 24 })
-      ), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.SizedBox, { width: 16 }), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Expanded, null, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react2.default.createElement(
-        import_fuickjs.Text,
-        {
-          text: item.title,
-          fontSize: 18,
-          fontWeight: "bold"
-        }
-      ), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.SizedBox, { height: 4 }), /* @__PURE__ */ import_react2.default.createElement(
-        import_fuickjs.Text,
-        {
-          text: item.subtitle,
-          fontSize: 14,
-          color: "#757575"
-        }
-      ))), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs.Icon, { name: "chevron_right", color: "#BDBDBD" }))
-    )
-  )))))));
-}
-
-// src/pages/news.tsx
-var import_react3 = __toESM(require_react_production());
-var import_fuickjs2 = __toESM(require_dist());
-var CATEGORIES = [
-  { id: "articles", name: "\u65B0\u95FB", icon: "newspaper" },
-  { id: "blogs", name: "\u535A\u5BA2", icon: "book" },
-  { id: "reports", name: "\u62A5\u544A", icon: "assignment" },
-  { id: "favorites", name: "\u6536\u85CF", icon: "favorite" }
-];
-function NewsList({ category }) {
-  const navigator = (0, import_fuickjs2.useNavigator)();
-  const [articles, setArticles] = (0, import_react3.useState)([]);
-  const [loading, setLoading] = (0, import_react3.useState)(false);
-  const fetchNews = async () => {
-    if (category === "favorites") {
-      setArticles([]);
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await (0, import_fuickjs2.fetch)(
-        `https://api.spaceflightnewsapi.net/v4/${category}/?limit=10`
-      );
-      const data = await response.json();
-      setArticles(data.results || []);
-    } catch (e) {
-      console.error("Fetch news error:", e);
-    } finally {
-      setLoading(false);
-    }
-  };
-  (0, import_react3.useEffect)(() => {
-    fetchNews();
-  }, []);
-  if (loading && articles.length === 0) {
-    return /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Container, { alignment: "center", padding: 20 }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.CircularProgressIndicator, null));
+  while (state.entities.length < TARGET_ENTITIES) {
+    spawnEntity(state);
   }
-  return /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.KeepAlive, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.ListView, { padding: 12 }, articles.map((article) => /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Padding, { key: article.id, padding: { bottom: 12 } }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.InkWell, { onTap: () => navigator.push("/news_detail", { article }) }, /* @__PURE__ */ import_react3.default.createElement(
-    import_fuickjs2.Container,
-    {
-      padding: 12,
-      decoration: {
-        color: "#FFFFFF",
-        borderRadius: 8,
-        boxShadow: {
-          color: "#0000001A",
-          blurRadius: 4,
-          offset: { dx: 0, dy: 2 }
-        }
-      }
-    },
-    /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Row, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs2.Image,
-      {
-        url: article.image_url,
-        width: 100,
-        height: 80,
-        fit: "cover",
-        borderRadius: 4
-      }
-    ), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.SizedBox, { width: 12 }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Expanded, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs2.Text,
-      {
-        text: article.title,
-        fontSize: 16,
-        fontWeight: "bold",
-        maxLines: 2
-      }
-    ), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.SizedBox, { height: 4 }), /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs2.Text,
-      {
-        text: article.summary,
-        fontSize: 12,
-        color: "#666666",
-        maxLines: 2
-      }
-    ), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.SizedBox, { height: 8 }), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs2.Text,
-      {
-        text: article.news_site,
-        fontSize: 10,
-        color: "#1976D2"
-      }
-    ), /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs2.Text,
-      {
-        text: new Date(
-          article.published_at
-        ).toLocaleDateString(),
-        fontSize: 10,
-        color: "#999999"
-      }
-    )))))
-  ))))));
+  return state;
 }
-function NewsPage() {
-  const { value, setValue } = useGlobalValue();
-  return /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.DefaultTabController, { length: CATEGORIES.length, initialIndex: 0 }, /* @__PURE__ */ import_react3.default.createElement(
-    import_fuickjs2.Scaffold,
-    {
-      backgroundColor: "#F5F5F5",
-      appBar: /* @__PURE__ */ import_react3.default.createElement(
-        import_fuickjs2.AppBar,
-        {
-          title: "\u822A\u5929\u65B0\u95FB",
-          backgroundColor: "#FFFFFF",
-          foregroundColor: "#333333",
-          elevation: 0.5
-        }
-      )
-    },
-    /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Column, null, /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs2.InkWell,
-      {
-        onTap: () => setValue(`Updated from News: ${Math.floor(Math.random() * 100)}`)
-      },
-      /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Container, { padding: 10, color: "#E0F7FA", alignment: "center" }, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Text, { text: `Global Value: ${value}`, color: "#006064" }))
-    ), /* @__PURE__ */ import_react3.default.createElement(
-      import_fuickjs2.TabBar,
-      {
-        tabs: CATEGORIES.map((cat) => /* @__PURE__ */ import_react3.default.createElement(
-          import_fuickjs2.Tab,
-          {
-            key: cat.id,
-            text: cat.name,
-            icon: /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Icon, { name: cat.icon, size: 20 })
-          }
-        )),
-        isScrollable: false,
-        indicatorColor: "#2196F3",
-        indicatorWeight: 3,
-        labelColor: "#2196F3",
-        unselectedLabelColor: "#757575"
-      }
-    ), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.Expanded, null, /* @__PURE__ */ import_react3.default.createElement(import_fuickjs2.TabBarView, null, CATEGORIES.map((cat) => /* @__PURE__ */ import_react3.default.createElement(NewsList, { key: cat.id, category: cat.id })))))
-  ));
-}
-
-// src/pages/news_detail.tsx
-var import_react4 = __toESM(require_react_production());
-var import_fuickjs3 = __toESM(require_dist());
-function NewsDetailPage(props) {
-  const navigator = (0, import_fuickjs3.useNavigator)();
-  const article = props.article;
-  if (!article) {
-    return /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Container, { alignment: "center" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Text, { text: "\u672A\u627E\u5230\u6587\u7AE0\u5185\u5BB9" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Button, { text: "\u8FD4\u56DE", onTap: () => navigator.pop() }));
-  }
-  return /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react4.default.createElement(
-    import_fuickjs3.Container,
-    {
-      height: 60,
-      decoration: { color: "#1976D2" },
-      alignment: "topLeft",
-      padding: { horizontal: 16, top: 10 }
-    },
-    /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Row, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.InkWell, { onTap: () => navigator.pop() }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Container, { padding: 10 }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Text, { text: "<", fontSize: 24, color: "#FFFFFF" }))), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.SizedBox, { width: 16 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Container, { padding: { top: 8 } }, /* @__PURE__ */ import_react4.default.createElement(
-      import_fuickjs3.Text,
-      {
-        text: "\u65B0\u95FB\u8BE6\u60C5",
-        fontSize: 20,
-        color: "#FFFFFF",
-        fontWeight: "bold"
-      }
-    )))
-  ), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.SingleChildScrollView, null, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Image, { url: article.image_url, height: 250, fit: "cover" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Padding, { padding: 16 }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Text, { text: article.title, fontSize: 22, fontWeight: "bold" }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.SizedBox, { height: 12 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Text, { text: article.news_site, fontSize: 14, color: "#1976D2" }), /* @__PURE__ */ import_react4.default.createElement(
-    import_fuickjs3.Text,
-    {
-      text: new Date(article.published_at).toLocaleString(),
-      fontSize: 14,
-      color: "#999999"
-    }
-  )), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.SizedBox, { height: 20 }), /* @__PURE__ */ import_react4.default.createElement(import_fuickjs3.Text, { text: article.summary, fontSize: 16, color: "#333333" }))))));
-}
-
-// src/pages/market.tsx
-var import_react5 = __toESM(require_react_production());
-var import_fuickjs4 = __toESM(require_dist());
-var TABS = ["\u5168\u90E8", "\u6CAA\u6DF1", "\u6E2F\u80A1", "\u7F8E\u80A1"];
-var TAB_TO_PREFIXES = {
-  \u5168\u90E8: [],
-  \u6CAA\u6DF1: ["SH", "SZ"],
-  \u6E2F\u80A1: ["HK"],
-  \u7F8E\u80A1: ["US", "NAS"]
-};
-var generateStocks = (count) => {
-  const stocks = [];
-  const prefixes = ["SH", "SZ", "HK", "US", "NAS"];
-  const names = [
-    "\u79D1\u6280",
-    "\u80FD\u6E90",
-    "\u751F\u7269",
-    "\u91D1\u878D",
-    "\u534A\u5BFC\u4F53",
-    "\u4E92\u8054\u7F51",
-    "\u5236\u9020",
-    "\u533B\u7597",
-    "\u6C7D\u8F66",
-    "\u5730\u4EA7"
-  ];
-  for (let i = 0; i < count; i++) {
-    const prefix = prefixes[i % prefixes.length];
-    const code = (1e5 + i).toString();
-    const name = `${names[i % names.length]}${i + 1}`;
-    stocks.push({
-      symbol: `${prefix}.${code}`,
-      name,
-      price: 10 + Math.random() * 500,
-      change: -10 + Math.random() * 20,
-      volume: Math.floor(Math.random() * 1e6),
-      marketCap: Math.floor(Math.random() * 1e9)
-    });
-  }
-  return stocks;
-};
-var ALL_STOCKS = generateStocks(550);
-var BANNERS = [
-  "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&q=80",
-  "https://images.unsplash.com/photo-1535320903710-d993d3d77d29?w=800&q=80",
-  "https://images.unsplash.com/photo-1611974714658-058e1365994f?w=800&q=80"
-];
-var CATEGORIES2 = [
-  { name: "\u6CAA\u6DF1\u4EAC", icon: "show_chart", color: "#FF5252" },
-  { name: "\u6E2F\u7F8E\u80A1", icon: "language", color: "#2196F3" },
-  { name: "\u81EA\u9009", icon: "star", color: "#FFC107" },
-  { name: "\u65B0\u80A1", icon: "fiber_new", color: "#FF4081" },
-  { name: "\u6DA8\u5E45\u699C", icon: "trending_up", color: "#010101ff" },
-  { name: "ETF", icon: "pie_chart", color: "#9C27B0" },
-  { name: "\u6A21\u62DF\u76D8", icon: "games", color: "#795548" },
-  { name: "\u66F4\u591A", icon: "apps", color: "#607D8B" }
-];
-function StockItem({ stock }) {
-  const isUp = stock.change >= 0;
-  const color = isUp ? "#F44336" : "#4CAF50";
-  return /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Column, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.InkWell, { onTap: () => console.log(`Click stock: ${stock.symbol}`) }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Container, { color: "white" }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Padding, { padding: { left: 16, right: 16, top: 12, bottom: 12 } }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Row, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Text, { text: stock.name, fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SizedBox, { width: 6 }), /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Container,
-    {
-      color: "#F5F5F5",
-      borderRadius: 4,
-      padding: { left: 4, right: 4, top: 1, bottom: 1 }
-    },
-    /* @__PURE__ */ import_react5.default.createElement(
-      import_fuickjs4.Text,
-      {
-        text: stock.symbol.split(".")[0],
-        fontSize: 10,
-        color: "#666666"
-      }
-    )
-  )), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SizedBox, { height: 4 }), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Text, { text: stock.symbol, fontSize: 12, color: "#999999" })), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Row, null, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Icon,
-    {
-      name: isUp ? "trending_up" : "trending_down",
-      size: 20,
-      color: color + "44"
-    }
-  ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SizedBox, { width: 20 }), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Column, { crossAxisAlignment: "end" }, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Text,
-    {
-      text: stock.price.toFixed(2),
-      fontSize: 17,
-      fontWeight: "bold",
-      color
-    }
-  ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SizedBox, { height: 2 }), /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Text,
-    {
-      text: (isUp ? "+" : "") + stock.change.toFixed(2) + "%",
-      fontSize: 12,
-      color
-    }
-  ))))))), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Padding, { padding: { left: 16 } }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Divider, { height: 1, color: "#EEEEEE" })));
-}
-function MarketPage() {
-  const [marketData, setMarketData] = (0, import_react5.useState)({
-    tick: 0,
-    bannerIndex: 0,
-    stocks: ALL_STOCKS
-    // 初始值
-  });
-  const [activeTabIndex, setActiveTabIndex] = (0, import_react5.useState)(0);
-  const listRef = (0, import_react5.useRef)(null);
-  const pageViewRef = (0, import_react5.useRef)(null);
-  const { tick, stocks: stocksWithUpdate } = marketData;
-  const filteredStocks = (0, import_react5.useMemo)(() => {
-    const activeTab = TABS[activeTabIndex];
-    const prefixes = TAB_TO_PREFIXES[activeTab];
-    if (prefixes.length === 0) return ALL_STOCKS;
-    return ALL_STOCKS.filter(
-      (s) => prefixes.some((p) => s.symbol.startsWith(p))
+function spawnEntity(state) {
+  const pr = state.stageIndex;
+  const p = state.player;
+  const r = Math.random();
+  let category;
+  if (r < 0.5) category = "small";
+  else if (r < 0.85) category = "mid";
+  else category = "big";
+  if (category === "big") {
+    state.bigSpawnTimes = state.bigSpawnTimes.filter(
+      (t) => state.time - t <= BIG_WINDOW
     );
-  }, [activeTabIndex]);
-  (0, import_react5.useEffect)(() => {
-    setMarketData((prev) => ({ ...prev, stocks: filteredStocks }));
-  }, [filteredStocks]);
-  (0, import_react5.useEffect)(() => {
-    console.log("[MarketPage] Component MOUNTED");
+    if (state.bigSpawnTimes.length >= BIG_PER_MINUTE) {
+      category = "small";
+    }
+  }
+  let power;
+  let radius;
+  if (category === "small") {
+    power = Math.max(0, pr - 1 - Math.floor(Math.random() * 2));
+    radius = STAGES[power].r * rand(0.5, 0.85);
+  } else if (category === "mid") {
+    power = pr;
+    if (Math.random() < 0.5) {
+      radius = p.radius * rand(0.5, 0.85);
+    } else {
+      radius = p.radius * rand(1, 1.25);
+    }
+  } else {
+    power = Math.min(STAGES.length - 1, pr + 2 + Math.floor(Math.random() * 2));
+    radius = STAGES[power].r;
+    state.bigSpawnTimes.push(state.time);
+  }
+  radius = Math.max(1, radius);
+  const matterValue = Math.max(
+    MATTER_FLOOR,
+    Math.min(MATTER_CAP, Math.round(radius * 0.6))
+  );
+  const ang = Math.random() * Math.PI * 2;
+  const d = p.radius + radius + rand(SPAWN_GAP_MIN, SPAWN_GAP_MAX);
+  const sp = rand(8, 20);
+  const sang = Math.random() * Math.PI * 2;
+  state.entities.push({
+    id: state.nextEntityId++,
+    x: p.x + Math.cos(ang) * d,
+    y: p.y + Math.sin(ang) * d,
+    vx: Math.cos(sang) * sp,
+    vy: Math.sin(sang) * sp,
+    radius,
+    power,
+    matterValue,
+    isSatellite: false
+  });
+}
+function forceSpawnNext(state) {
+  const pr = state.stageIndex;
+  if (pr >= STAGES.length - 1) return;
+  const p = state.player;
+  const power = pr + 1;
+  const radius = STAGES[power].r;
+  const matterValue = Math.max(
+    MATTER_FLOOR,
+    Math.min(MATTER_CAP, Math.round(radius * 0.6))
+  );
+  const ang = Math.random() * Math.PI * 2;
+  const d = p.radius + radius + rand(SPAWN_GAP_MIN, SPAWN_GAP_MAX);
+  const sp = rand(8, 20);
+  const sang = Math.random() * Math.PI * 2;
+  state.entities.push({
+    id: state.nextEntityId++,
+    x: p.x + Math.cos(ang) * d,
+    y: p.y + Math.sin(ang) * d,
+    vx: Math.cos(sang) * sp,
+    vy: Math.sin(sang) * sp,
+    radius,
+    power,
+    matterValue,
+    isSatellite: false
+  });
+}
+function absorb(state, e) {
+  let gain = e.matterValue;
+  if (state.stageIndex >= 8 && e.power <= 6) {
+    gain += Math.round(e.matterValue * 0.5);
+  }
+  state.matter += gain;
+  const base = STAGES[state.stageIndex].r;
+  state.player.radius = Math.min(state.player.radius + GROWTH, base * GROWTH_CAP);
+  const heal = Math.min(state.maxHealth - state.health, 1);
+  state.health = Math.min(state.maxHealth, state.health + heal);
+  e.removed = true;
+}
+function resolveCollision(state, e) {
+  const p = state.player;
+  const pr = state.stageIndex;
+  const rr = p.radius + e.radius;
+  if (dist(p.x, p.y, e.x, e.y) >= rr) return;
+  if (e.power < pr) {
+    absorb(state, e);
+    return;
+  }
+  if (e.power > pr) {
+    state.health = 0;
+    state.hitFlash = HIT_FLASH_FRAMES;
+    state.status = "gameover";
+    return;
+  }
+  if (e.radius < p.radius * 0.95) {
+    absorb(state, e);
+    return;
+  }
+  const canShield = state.stageIndex >= 3 && state.satellites.length > 0;
+  if (canShield) {
+    state.satellites.splice(0, 1);
+    state.blockFlash = HIT_FLASH_FRAMES;
+  } else {
+    state.health -= DAMAGE;
+    state.hitFlash = HIT_FLASH_FRAMES;
+  }
+  e.removed = true;
+  if (state.health <= 0) {
+    state.health = 0;
+    state.status = "gameover";
+  }
+}
+function tryCapture(state) {
+  if (!STAGES[state.stageIndex].canCapture) return;
+  const p = state.player;
+  let bestIdx = -1;
+  let bestD = Infinity;
+  for (let i = 0; i < state.entities.length; i++) {
+    const e2 = state.entities[i];
+    const d = dist(p.x, p.y, e2.x, e2.y);
+    if (d <= p.radius + e2.radius + CAPTURE_RANGE && d < bestD) {
+      bestD = d;
+      bestIdx = i;
+    }
+  }
+  if (bestIdx < 0) return;
+  const e = state.entities[bestIdx];
+  state.entities.splice(bestIdx, 1);
+  e.isSatellite = true;
+  e.angle = Math.random() * Math.PI * 2;
+  e.orbitRadius = p.radius * (1.4 + 0.25 * state.satellites.length);
+  state.satellites.push(e);
+}
+function forceLevelUp(state) {
+  if (state.stageIndex >= STAGES.length - 1) return;
+  state.stageIndex++;
+  state.player.radius = STAGES[state.stageIndex].r;
+  state.player.power = state.stageIndex;
+  state.health = state.maxHealth;
+  state.matter = STAGES[state.stageIndex].reachMatter;
+}
+function step(state, input, dt = DT) {
+  if (state.status !== "playing") return;
+  state.time += dt;
+  if (state.hitFlash > 0) state.hitFlash--;
+  if (state.blockFlash > 0) state.blockFlash--;
+  const speed = PLAYER_SPEED;
+  const mag = Math.hypot(input.dx, input.dy);
+  if (mag > 1 && input.intensity > 0) {
+    const vx = input.dx / mag * speed * input.intensity;
+    const vy = input.dy / mag * speed * input.intensity;
+    state.player.x += vx * dt;
+    state.player.y += vy * dt;
+  }
+  for (const e of state.entities) {
+    e.x += e.vx * dt;
+    e.y += e.vy * dt;
+  }
+  for (const s of state.satellites) {
+    s.angle = (s.angle ?? 0) + ORBIT_SPEED * dt;
+  }
+  for (const e of state.entities) {
+    if (e.removed) continue;
+    resolveCollision(state, e);
+  }
+  state.entities = state.entities.filter((e) => !e.removed);
+  state.entities = state.entities.filter(
+    (e) => dist(state.player.x, state.player.y, e.x, e.y) <= DESPAWN_DIST
+  );
+  while (state.entities.length < TARGET_ENTITIES) {
+    spawnEntity(state);
+  }
+  if (state.stageIndex < STAGES.length - 1 && !state.entities.some((e) => e.power === state.stageIndex + 1)) {
+    forceSpawnNext(state);
+  }
+  while (state.stageIndex < STAGES.length - 1 && state.matter >= STAGES[state.stageIndex + 1].reachMatter) {
+    state.stageIndex++;
+    state.player.radius = STAGES[state.stageIndex].r;
+    state.player.power = state.stageIndex;
+    state.matter = STAGES[state.stageIndex].reachMatter;
+  }
+  if (state.stageIndex === STAGES.length - 1 && state.matter >= FINAL_MATTER) {
+    state.status = "win";
+  }
+}
+
+// src/store/game.ts
+var GameStore = class {
+  constructor() {
+    this.listeners = /* @__PURE__ */ new Set();
+    this.state = createGame();
+  }
+  getState() {
+    return this.state;
+  }
+  /** 覆盖整个状态（用于重新开始）。 */
+  setState(next) {
+    this.state = next;
+    this.notify();
+  }
+  /** 引擎就地修改后通知订阅者重渲染。 */
+  notify() {
+    this.listeners.forEach((l) => l());
+  }
+  subscribe(listener) {
+    this.listeners.add(listener);
     return () => {
-      console.log("[MarketPage] Component UNMOUNTING \u2014 all useEffect cleanups will run");
+      this.listeners.delete(listener);
     };
-  }, []);
-  (0, import_react5.useEffect)(() => {
-    const timer = setInterval(() => {
-      console.log("[MarketPage] setInterval tick fired");
-      setMarketData((prev) => {
-        const nextStocks = prev.stocks.map((s) => ({
-          ...s,
-          price: s.price + (Math.random() - 0.5),
-          change: s.change + (Math.random() - 0.5) * 0.1
-        }));
-        const nextBannerIndex = (prev.bannerIndex + 1) % BANNERS.length;
-        if (pageViewRef.current) {
-          pageViewRef.current.animateToPage(nextBannerIndex);
+  }
+  /** 重新开始一局。 */
+  reset() {
+    this.setState(createGame());
+  }
+};
+
+// src/components/GameField.tsx
+var import_react = __toESM(require_react_production());
+var import_fuickjs = __toESM(require_dist());
+var MARGIN = 80;
+var shade = (hex, amt) => {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.substr(0, 2), 16);
+  const g = parseInt(h.substr(2, 2), 16);
+  const b = parseInt(h.substr(4, 2), 16);
+  const t = amt < 0 ? 0 : 255;
+  const p = Math.abs(amt);
+  const mix = (c) => Math.round((t - c) * p + c);
+  const to2 = (n) => n.toString(16).padStart(2, "0");
+  return "#" + to2(mix(r)) + to2(mix(g)) + to2(mix(b));
+};
+var withAlpha = (hex6, a) => {
+  const al = Math.max(0, Math.min(255, Math.round(a * 255))).toString(16).padStart(2, "0");
+  return hex6 + al;
+};
+var visFor = (power) => {
+  const stage = STAGES[power] ?? STAGES[0];
+  const blackhole = stage.color === "#000000";
+  const light = stage.glow && !blackhole ? "#ffffff" : shade(stage.color, 0.35);
+  const dark = shade(stage.color, -0.45);
+  return { mid: stage.color, light, dark, glow: stage.glow, blackhole };
+};
+function GameField({ state }) {
+  const p = state.player;
+  const ox = CENTER_X - p.x;
+  const oy = CENTER_Y - p.y;
+  const renderBody = (sx, sy, body, isPlayer) => {
+    const r = body.radius;
+    const d = r * 2;
+    const vis = visFor(body.power);
+    const shadowColor = body.power === 10 ? "#7c4dff" : vis.mid;
+    let gradient;
+    if (vis.blackhole) {
+      gradient = {
+        type: "radial",
+        colors: ["#050505", "#000000", "#000000", "#ffb300", "#fff3e0", "#ff7043", "#1a0a00"],
+        stops: [0, 0.62, 0.74, 0.82, 0.9, 0.96, 1]
+      };
+    } else if (vis.glow) {
+      gradient = { type: "radial", colors: ["#ffffff", vis.mid, vis.dark], stops: [0, 0.4, 1] };
+    } else {
+      gradient = { type: "radial", colors: [vis.light, vis.mid, vis.dark], stops: [0, 0.55, 1] };
+    }
+    const glowColor = vis.glow ? vis.light : shadowColor;
+    const haloR = r + 22;
+    const bhR = r + 30;
+    const halo = vis.glow && !vis.blackhole ? /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Positioned, { left: sx - haloR, top: sy - haloR, width: haloR * 2, height: haloR * 2 }, /* @__PURE__ */ import_react.default.createElement(
+      import_fuickjs.Container,
+      {
+        width: haloR * 2,
+        height: haloR * 2,
+        decoration: {
+          color: withAlpha(glowColor, 0.25),
+          borderRadius: haloR,
+          boxShadow: { color: glowColor, blurRadius: 20 }
         }
-        if (listRef.current) {
-          const updates = nextStocks.map((stock, index) => ({
-            index,
-            dsl: /* @__PURE__ */ import_react5.default.createElement(StockItem, { key: stock.symbol, stock, index })
-          }));
-          listRef.current.updateItems(updates);
+      }
+    )) : vis.blackhole ? /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Positioned, { left: sx - bhR, top: sy - bhR, width: bhR * 2, height: bhR * 2 }, /* @__PURE__ */ import_react.default.createElement(
+      import_fuickjs.Container,
+      {
+        width: bhR * 2,
+        height: bhR * 2,
+        decoration: {
+          color: withAlpha("#7c4dff", 0.16),
+          borderRadius: bhR,
+          boxShadow: { color: "#7c4dff", blurRadius: 24 }
         }
-        return {
-          tick: prev.tick + 1,
-          bannerIndex: nextBannerIndex,
-          stocks: nextStocks
-        };
-      });
-    }, 3e3);
-    console.log(`[MarketPage] setInterval created, timerId=${timer}`);
-    return () => {
-      console.log(`[MarketPage] useEffect cleanup \u2014 clearing interval timerId=${timer}`);
-      clearInterval(timer);
-    };
-  }, []);
-  const itemBuilder = (0, import_react5.useCallback)(
-    (index) => {
-      const stock = stocksWithUpdate[index];
-      if (!stock) return null;
-      return /* @__PURE__ */ import_react5.default.createElement(StockItem, { key: stock.symbol, stock, index });
+      }
+    )) : null;
+    const core = /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Positioned, { left: sx - r, top: sy - r, width: d, height: d }, /* @__PURE__ */ import_react.default.createElement(
+      import_fuickjs.Container,
+      {
+        width: d,
+        height: d,
+        decoration: {
+          gradient,
+          borderRadius: r,
+          border: isPlayer ? { color: "#ffffff", width: 2 } : void 0
+        }
+      }
+    ));
+    return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, halo, core);
+  };
+  const bodies = [];
+  for (const e of state.entities) {
+    const sx = e.x + ox;
+    const sy = e.y + oy;
+    if (sx < -MARGIN || sx > VW + MARGIN || sy < -MARGIN || sy > VH + MARGIN) continue;
+    bodies.push(
+      /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, { key: `e${e.id}` }, renderBody(sx, sy, e, false))
+    );
+  }
+  const sats = [];
+  for (const s of state.satellites) {
+    const a = s.angle ?? 0;
+    const sx = CENTER_X + Math.cos(a) * (s.orbitRadius ?? 0);
+    const sy = CENTER_Y + Math.sin(a) * (s.orbitRadius ?? 0);
+    sats.push(
+      /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, { key: `s${s.id}` }, renderBody(sx, sy, s, false))
+    );
+  }
+  return /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Stack, null, /* @__PURE__ */ import_react.default.createElement(import_fuickjs.Container, { width: VW, height: VH, color: "#05060f" }), bodies, sats, /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, { key: "player" }, renderBody(CENTER_X, CENTER_Y, p, true)));
+}
+
+// src/components/Hud.tsx
+var import_react2 = __toESM(require_react_production());
+var import_fuickjs2 = __toESM(require_dist());
+var BAR_W = VW - 20;
+function Hud({ state }) {
+  const cur = STAGES[state.stageIndex];
+  let pct;
+  let nextName;
+  if (state.stageIndex < STAGES.length - 1) {
+    const next = STAGES[state.stageIndex + 1];
+    pct = (state.matter - cur.reachMatter) / (next.reachMatter - cur.reachMatter);
+    nextName = next.name;
+  } else {
+    pct = state.matter / FINAL_MATTER;
+    nextName = "\u53E6\u4E00\u4E2A\u5B87\u5B99";
+  }
+  pct = Math.max(0, Math.min(1, pct));
+  const maxH = state.maxHealth && state.maxHealth > 0 ? state.maxHealth : 100;
+  const hp = Math.max(0, Math.min(1, state.health / maxH));
+  return /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Container, { width: VW, padding: 10, color: "rgba(0,0,0,0.35)" }, /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react2.default.createElement(
+    import_fuickjs2.Text,
+    {
+      text: `${cur.name}\u3000\u7269\u8D28 ${Math.floor(state.matter)}`,
+      color: "#ffffff",
+      fontSize: 16,
+      fontWeight: "bold"
+    }
+  ), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { height: 6 }), /* @__PURE__ */ import_react2.default.createElement(
+    import_fuickjs2.LinearProgressIndicator,
+    {
+      value: pct,
+      color: "#4fc3f7",
+      backgroundColor: "rgba(255,255,255,0.20)",
+      strokeWidth: 10,
+      borderRadius: 5
+    }
+  ), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { height: 4 }), /* @__PURE__ */ import_react2.default.createElement(
+    import_fuickjs2.Text,
+    {
+      text: `\u8DDD\u300C${nextName}\u300D\u8FD8\u9700 ${Math.max(0, Math.ceil((state.stageIndex < STAGES.length - 1 ? STAGES[state.stageIndex + 1].reachMatter : FINAL_MATTER) - state.matter))}`,
+      color: "#cfd8dc",
+      fontSize: 12
+    }
+  ), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { height: 8 }), /* @__PURE__ */ import_react2.default.createElement(
+    import_fuickjs2.Text,
+    {
+      text: `HP ${Math.ceil(state.health)} / ${maxH}`,
+      color: "#ff8a80",
+      fontSize: 12,
+      fontWeight: "bold"
+    }
+  ), /* @__PURE__ */ import_react2.default.createElement(import_fuickjs2.SizedBox, { height: 3 }), /* @__PURE__ */ import_react2.default.createElement(
+    import_fuickjs2.LinearProgressIndicator,
+    {
+      value: hp,
+      color: hp > 0.5 ? "#66bb6a" : hp > 0.25 ? "#ffa726" : "#ef5350",
+      backgroundColor: "rgba(255,255,255,0.18)",
+      strokeWidth: 12,
+      borderRadius: 6
+    }
+  )));
+}
+
+// src/components/Joystick.tsx
+var import_react3 = __toESM(require_react_production());
+var import_fuickjs3 = __toESM(require_dist());
+var JOY_SIZE = 120;
+var KNOB = 46;
+var CENTER = JOY_SIZE / 2;
+function Joystick({ inputRef }) {
+  const accumRef = (0, import_react3.useRef)({ x: 0, y: 0 });
+  const [knob, setKnob] = (0, import_react3.useState)({
+    x: CENTER,
+    y: CENTER
+  });
+  const onPanStart = () => {
+    accumRef.current = { x: 0, y: 0 };
+    setKnob({ x: CENTER, y: CENTER });
+  };
+  const onPanUpdate = (e) => {
+    let ax = accumRef.current.x + e.dx;
+    let ay = accumRef.current.y + e.dy;
+    const len = Math.hypot(ax, ay);
+    if (len > JOY_MAX_R) {
+      ax = ax / len * JOY_MAX_R;
+      ay = ay / len * JOY_MAX_R;
+    }
+    accumRef.current = { x: ax, y: ay };
+    const intensity = Math.min(Math.hypot(ax, ay) / JOY_MAX_R, 1);
+    inputRef.current = { dx: ax, dy: ay, intensity };
+    setKnob({ x: CENTER + ax, y: CENTER + ay });
+  };
+  const onPanEnd = () => {
+    accumRef.current = { x: 0, y: 0 };
+    inputRef.current = { dx: 0, dy: 0, intensity: 0 };
+    setKnob({ x: CENTER, y: CENTER });
+  };
+  return /* @__PURE__ */ import_react3.default.createElement(
+    import_fuickjs3.GestureDetector,
+    {
+      onPanStart,
+      onPanUpdate,
+      onPanEnd
     },
-    [stocksWithUpdate]
+    /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Stack, null, /* @__PURE__ */ import_react3.default.createElement(
+      import_fuickjs3.Container,
+      {
+        width: JOY_SIZE,
+        height: JOY_SIZE,
+        decoration: {
+          color: "rgba(255,255,255,0.10)",
+          borderRadius: JOY_SIZE / 2
+        }
+      }
+    ), /* @__PURE__ */ import_react3.default.createElement(import_fuickjs3.Positioned, { left: CENTER - 26, top: CENTER - 26, width: 52, height: 52 }, /* @__PURE__ */ import_react3.default.createElement(
+      import_fuickjs3.Container,
+      {
+        width: 52,
+        height: 52,
+        decoration: { color: "rgba(255,255,255,0.18)", borderRadius: 26 }
+      }
+    )), /* @__PURE__ */ import_react3.default.createElement(
+      import_fuickjs3.Positioned,
+      {
+        left: knob.x - KNOB / 2,
+        top: knob.y - KNOB / 2,
+        width: KNOB,
+        height: KNOB
+      },
+      /* @__PURE__ */ import_react3.default.createElement(
+        import_fuickjs3.Container,
+        {
+          width: KNOB,
+          height: KNOB,
+          decoration: { color: "#4fc3f7", borderRadius: KNOB / 2 }
+        }
+      )
+    ))
   );
-  const bannerItems = (0, import_react5.useMemo)(
-    () => BANNERS.map((url, i) => /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Image, { key: i, url, fit: "cover", borderRadius: 12 })),
-    []
-  );
-  const categoriesGrid = (0, import_react5.useMemo)(
-    () => CATEGORIES2.map((cat, i) => /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Container, { key: i, color: "white", borderRadius: 12 }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react5.default.createElement(
+}
+
+// src/components/CaptureButton.tsx
+var import_react4 = __toESM(require_react_production());
+var import_fuickjs4 = __toESM(require_dist());
+function CaptureButton({
+  enabled,
+  onCapture
+}) {
+  return /* @__PURE__ */ import_react4.default.createElement(
+    import_fuickjs4.GestureDetector,
+    {
+      onTap: () => {
+        if (enabled) onCapture();
+      }
+    },
+    /* @__PURE__ */ import_react4.default.createElement(
       import_fuickjs4.Container,
       {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        color: cat.color + "15"
-      },
-      /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Center, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Icon, { name: cat.icon, color: cat.color, size: 24 }))
-    ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SizedBox, { height: 8 }), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Text, { text: cat.name, fontSize: 12, color: "#333333" })))),
-    []
-  );
-  const tabBarTabs = (0, import_react5.useMemo)(
-    () => TABS.map((t) => /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Tab, { key: t, text: t })),
-    []
-  );
-  return /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.DefaultTabController, { length: TABS.length, initialIndex: 0 }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Scaffold, { backgroundColor: "white" }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.CustomScrollView, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SliverAppBar, { pinned: true }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Container, { color: "#2196F3", isBoundary: true }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SafeArea, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Padding, { padding: { left: 16, right: 16, bottom: 8 } }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Column, { mainAxisAlignment: "center", crossAxisAlignment: "start" }, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Text,
-    {
-      text: "\u884C\u60C5\u4E2D\u5FC3",
-      fontSize: 18,
-      color: "white",
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Text,
-    {
-      text: `\u5168\u7F51\u5B9E\u65F6\u884C\u60C5 \xB7 \u5DF2\u66F4\u65B0 ${tick} \u6B21`,
-      fontSize: 11,
-      color: "white"
-    }
-  )))))), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SliverToBoxAdapter, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Padding, { padding: { left: 16, right: 16, top: 12, bottom: 0 } }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Container, { height: 44, color: "#F5F5F5", borderRadius: 22 }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Padding, { padding: { left: 16, right: 16 } }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Icon, { name: "search", size: 20, color: "#999999" }), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SizedBox, { width: 8 }), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Flexible, null, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.TextField,
-    {
-      hintText: "\u641C\u7D22\u4EE3\u7801/\u540D\u79F0/\u62FC\u97F3",
-      onChanged: (v) => console.log("Search:", v)
-    }
-  ))))))), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SliverToBoxAdapter, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Padding, { padding: { left: 16, right: 16, top: 16 } }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Container, { height: 150, borderRadius: 12 }, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.PageView,
-    {
-      ref: pageViewRef,
-      onPageChanged: (index) => setMarketData((prev) => ({ ...prev, bannerIndex: index }))
-    },
-    bannerItems
-  )))), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SliverToBoxAdapter, null, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.GridView,
-    {
-      padding: { left: 12, right: 12, bottom: 8 },
-      crossAxisCount: 4,
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
-      childAspectRatio: 0.8,
-      shrinkWrap: true,
-      physics: "never"
-    },
-    categoriesGrid
-  )), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SliverToBoxAdapter, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Padding, { padding: { left: 16, right: 16, top: 20, bottom: 0 } }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Text,
-    {
-      text: `${TABS[activeTabIndex]}\u699C\u5355`,
-      fontSize: 18,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Row, null, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Text,
-    {
-      text: `\u5168\u90E8${TABS[activeTabIndex]}`,
-      fontSize: 13,
-      color: "#2196F3"
-    }
-  ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Icon, { name: "chevron_right", size: 18, color: "#2196F3" }))))), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SliverPersistentHeader, { pinned: true, minExtent: 49, maxExtent: 49 }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Container, { color: "#FFFFFF" }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Column, null, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.TabBar,
-    {
-      tabs: tabBarTabs,
-      onTap: (index) => setActiveTabIndex(index),
-      labelColor: "#2196F3",
-      unselectedLabelColor: "#666666",
-      indicatorColor: "#2196F3",
-      indicatorWeight: 2
-    }
-  ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Divider, { height: 1, color: "#EEEEEE" })))), /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.SliverList,
-    {
-      ref: listRef,
-      itemCount: stocksWithUpdate.length,
-      itemBuilder
-    }
-  ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.SliverToBoxAdapter, null, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Container, { height: 60 }, /* @__PURE__ */ import_react5.default.createElement(import_fuickjs4.Center, null, /* @__PURE__ */ import_react5.default.createElement(
-    import_fuickjs4.Text,
-    {
-      text: `\u2014\u2014 \u5230\u5E95\u4E86\uFF0C\u5171 ${stocksWithUpdate.length} \u53EA\u80A1\u7968 \u2014\u2014`,
-      color: "#CCCCCC",
-      fontSize: 12
-    }
-  )))))));
-}
-
-// src/pages/demo_list.tsx
-var import_react6 = __toESM(require_react_production());
-var import_fuickjs5 = __toESM(require_dist());
-var demoCategories = [
-  {
-    title: "Layout & Containers",
-    items: [
-      { name: "Container", path: "/demo/container" },
-      { name: "Flex", path: "/demo/flex" },
-      { name: "Column", path: "/demo/column" },
-      { name: "Row", path: "/demo/row" },
-      { name: "Stack", path: "/demo/stack" },
-      { name: "Expanded", path: "/demo/flexible" },
-      // Flexible/Expanded
-      { name: "Box", path: "/demo/box" },
-      { name: "Layout", path: "/demo/layoutbasics" },
-      { name: "SingleScroll", path: "/demo/singlechildscrollview" },
-      { name: "SafeArea", path: "/demo/safearea" },
-      { name: "Intrinsic", path: "/demo/intrinsic" },
-      { name: "Divider", path: "/demo/divider" },
-      { name: "AspectRatio", path: "/demo/aspect_ratio" },
-      { name: "Fractional", path: "/demo/fractionally_sized_box" }
-    ]
-  },
-  {
-    title: "Basic Input & Controls",
-    items: [
-      { name: "Button", path: "/demo/button" },
-      { name: "TextField", path: "/demo/textfield" },
-      { name: "Controller", path: "/demo/textfield_controller" },
-      { name: "Switch", path: "/demo/switch" },
-      { name: "Slider", path: "/demo/slider" },
-      { name: "Radio", path: "/demo/radio" },
-      { name: "InkWell", path: "/demo/inkwell" },
-      { name: "Gesture", path: "/demo/gesturedetector" },
-      { name: "Dialog", path: "/demo/dialog" }
-    ]
-  },
-  {
-    title: "Display & Visuals",
-    items: [
-      { name: "RichText", path: "/demo/richtext" },
-      { name: "Image", path: "/demo/image" },
-      { name: "BundleImg", path: "/demo/bundle_local_image" },
-      { name: "Opacity", path: "/demo/opacity" },
-      { name: "Fade", path: "/demo/fade_transition" },
-      { name: "Size", path: "/demo/size_transition" },
-      { name: "Align", path: "/demo/align" },
-      { name: "Hero", path: "/demo/hero" },
-      { name: "PosTrn", path: "/demo/positioned_transition" },
-      { name: "ClipRRect", path: "/demo/cliprrect" },
-      { name: "Transform", path: "/demo/transform" },
-      { name: "CustomPaint", path: "/demo/custompaint" },
-      { name: "Progress", path: "/demo/progress" },
-      { name: "Material", path: "/demo/material" },
-      { name: "Backdrop", path: "/demo/backdrop_filter" }
-    ]
-  },
-  {
-    title: "Lists & Grids",
-    items: [
-      { name: "ListView", path: "/demo/listview" },
-      { name: "GridView", path: "/demo/gridview" },
-      { name: "PageView", path: "/demo/pageview" },
-      { name: "Sliver", path: "/demo/sliver" },
-      { name: "Header", path: "/demo/sliverpersistentheader" },
-      { name: "ReactList", path: "/demo/react_managed_list" },
-      { name: "StaticList", path: "/demo/static_list" },
-      { name: "NestedScroll", path: "/demo/nested_scroll_view" },
-      { name: "PerfTest", path: "/demo/performance" }
-    ]
-  },
-  {
-    title: "Navigation & Structure",
-    items: [
-      { name: "FAB", path: "/demo/fab" },
-      { name: "Scaffold", path: "/demo/scaffold" },
-      { name: "BottomNav", path: "/demo/bottomnav" },
-      { name: "Tabs", path: "/demo/tabs" },
-      { name: "Indexed", path: "/demo/indexed_stack" },
-      { name: "PopScope", path: "/demo/popscope" },
-      { name: "Drawer", path: "/demo/drawer" }
-    ]
-  },
-  {
-    title: "Framework",
-    items: [
-      { name: "I18n", path: "/demo/i18n" },
-      { name: "Lifecycle", path: "/demo/lifecycle" },
-      { name: "Router", path: "/demo/router" },
-      { name: "Theme", path: "/demo/theme" },
-      { name: "MediaQuery", path: "/demo/media_query" }
-    ]
-  },
-  {
-    title: "Advanced & Experimental",
-    items: [
-      { name: "FlutterProps", path: "/demo/flutter_props" },
-      { name: "Visibility", path: "/demo/visibility" },
-      { name: "Animation", path: "/demo/animation" },
-      { name: "Gestures", path: "/demo/gestures" },
-      { name: "ScrollCtrl", path: "/demo/scroll_control" },
-      { name: "Animated", path: "/demo/animated" },
-      { name: "Transition", path: "/demo/transition" },
-      { name: "TrAni", path: "/demo/transition_animated" },
-      { name: "Error", path: "/demo/error" },
-      { name: "Refresh", path: "/demo/refresh_indicator" },
-      { name: "Switcher", path: "/demo/animated_switcher" },
-      { name: "CrossFade", path: "/demo/animated_cross_fade" },
-      { name: "AniSize", path: "/demo/animated_size" },
-      { name: "Dismissible", path: "/demo/dismissible" },
-      { name: "Overlay", path: "/demo/overlay" }
-    ]
-  },
-  {
-    title: "Community Packages",
-    items: [
-      { name: "Haptics", path: "/demo/haptics" },
-      { name: "Launcher", path: "/demo/launcher" },
-      { name: "Share", path: "/demo/share" },
-      { name: "BrowserAPI", path: "/demo/browser_api" },
-      { name: "WebSocket", path: "/demo/websocket" },
-      { name: "AppInfo", path: "/demo/app_info" },
-      { name: "Permissions", path: "/demo/permissions" },
-      { name: "Media", path: "/demo/media" },
-      { name: "Connectivity", path: "/demo/connectivity" },
-      { name: "Sound", path: "/demo/sound" },
-      { name: "VideoPlayer", path: "/demo/video_player" },
-      { name: "VisDetector", path: "/demo/visibility_detector" },
-      { name: "WebView", path: "/demo/web_view" }
-    ]
-  }
-];
-function DemoListPage() {
-  const navigator = (0, import_fuickjs5.useNavigator)();
-  const { value, setValue } = useGlobalValue();
-  return /* @__PURE__ */ import_react6.default.createElement(import_fuickjs5.Scaffold, { appBar: /* @__PURE__ */ import_react6.default.createElement(import_fuickjs5.AppBar, { title: "FuickJS Demos" }) }, /* @__PURE__ */ import_react6.default.createElement(import_fuickjs5.ListView, { padding: 16 }, /* @__PURE__ */ import_react6.default.createElement(
-    import_fuickjs5.InkWell,
-    {
-      onTap: () => setValue(`Updated from Demos: ${Math.floor(Math.random() * 100)}`)
-    },
-    /* @__PURE__ */ import_react6.default.createElement(
-      import_fuickjs5.Container,
-      {
-        padding: 16,
-        color: "#FFF3E0",
+        width: 84,
+        height: 84,
         alignment: "center",
-        margin: { bottom: 16 },
         decoration: {
-          color: "#FFF3E0",
-          borderRadius: 8,
-          border: { width: 1, color: "#FFE0B2" }
+          color: enabled ? "rgba(255,193,7,0.85)" : "rgba(120,120,120,0.35)",
+          borderRadius: 42
         }
       },
-      /* @__PURE__ */ import_react6.default.createElement(
-        import_fuickjs5.Text,
+      /* @__PURE__ */ import_react4.default.createElement(
+        import_fuickjs4.Text,
         {
-          text: `Global Value: ${value}`,
-          color: "#E65100",
+          text: enabled ? "\u6355\u83B7" : "\u6355\u83B7",
+          color: enabled ? "#000000" : "#eeeeee",
+          fontSize: 18,
           fontWeight: "bold"
         }
       )
     )
-  ), demoCategories.map((category) => /* @__PURE__ */ import_react6.default.createElement(import_fuickjs5.Column, { key: category.title, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react6.default.createElement(import_fuickjs5.Padding, { padding: { vertical: 12 } }, /* @__PURE__ */ import_react6.default.createElement(
-    import_fuickjs5.Text,
-    {
-      text: category.title,
-      fontSize: 18,
-      fontWeight: "bold",
-      color: "#333333"
-    }
-  )), /* @__PURE__ */ import_react6.default.createElement(import_fuickjs5.Wrap, { spacing: 10, runSpacing: 10 }, category.items.map((item) => /* @__PURE__ */ import_react6.default.createElement(
-    import_fuickjs5.InkWell,
-    {
-      key: item.path,
-      onTap: () => navigator.push(item.path, {})
-    },
-    /* @__PURE__ */ import_react6.default.createElement(
-      import_fuickjs5.Container,
-      {
-        width: 72,
-        height: 60,
-        color: "white",
-        alignment: "center",
-        padding: 4,
-        decoration: {
-          color: "white",
-          borderRadius: 8,
-          boxShadow: {
-            color: "#0000001A",
-            blurRadius: 4,
-            offset: { dx: 0, dy: 2 }
-          }
-        }
-      },
-      /* @__PURE__ */ import_react6.default.createElement(
-        import_fuickjs5.Text,
-        {
-          text: item.name,
-          textAlign: "center",
-          fontSize: 12,
-          maxLines: 2,
-          overflow: "ellipsis"
-        }
-      )
-    )
-  ))))), /* @__PURE__ */ import_react6.default.createElement(import_fuickjs5.Container, { height: 40 })));
-}
-
-// src/demos/ColumnDemo.tsx
-var import_react7 = __toESM(require_react_production());
-var import_fuickjs6 = __toESM(require_dist());
-function ColumnDemo() {
-  return /* @__PURE__ */ import_react7.default.createElement(import_fuickjs6.Scaffold, { appBar: /* @__PURE__ */ import_react7.default.createElement(import_fuickjs6.AppBar, { title: "Column Demo" }) }, /* @__PURE__ */ import_react7.default.createElement(import_fuickjs6.Column, { crossAxisAlignment: "center", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react7.default.createElement(import_fuickjs6.Container, { color: "#ff0000", width: 100, height: 100 }), /* @__PURE__ */ import_react7.default.createElement(import_fuickjs6.Container, { color: "#00ff00", width: 100, height: 100 }), /* @__PURE__ */ import_react7.default.createElement(import_fuickjs6.Container, { color: "#0000ff", width: 100, height: 100 })));
-}
-
-// src/demos/RowDemo.tsx
-var import_react8 = __toESM(require_react_production());
-var import_fuickjs7 = __toESM(require_dist());
-function RowDemo() {
-  return /* @__PURE__ */ import_react8.default.createElement(import_fuickjs7.Scaffold, { appBar: /* @__PURE__ */ import_react8.default.createElement(import_fuickjs7.AppBar, { title: "Row Demo" }) }, /* @__PURE__ */ import_react8.default.createElement(import_fuickjs7.Row, { crossAxisAlignment: "center", mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react8.default.createElement(import_fuickjs7.Container, { color: "#ff0000", width: 80, height: 80 }), /* @__PURE__ */ import_react8.default.createElement(import_fuickjs7.Container, { color: "#00ff00", width: 80, height: 80 }), /* @__PURE__ */ import_react8.default.createElement(import_fuickjs7.Container, { color: "#0000ff", width: 80, height: 80 })));
-}
-
-// src/demos/ButtonDemo.tsx
-var import_react9 = __toESM(require_react_production());
-var import_fuickjs8 = __toESM(require_dist());
-function Section({ title, children }) {
-  return /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Text, { text: title, fontSize: 15, fontWeight: "bold", color: "#333" }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 10 }), children, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 24 }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Divider, { color: "#EEEEEE" }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 24 }));
-}
-function ButtonDemo() {
-  const [count, setCount] = (0, import_react9.useState)(0);
-  const [loading, setLoading] = (0, import_react9.useState)(false);
-  const [asyncResult, setAsyncResult] = (0, import_react9.useState)("\uFF08\u7B49\u5F85\u70B9\u51FB\uFF09");
-  function handleAsync() {
-    setLoading(true);
-    setAsyncResult("\u52A0\u8F7D\u4E2D...");
-    setTimeout(() => {
-      setLoading(false);
-      setAsyncResult(`\u5B8C\u6210\uFF01\u65F6\u95F4: ${(/* @__PURE__ */ new Date()).toLocaleTimeString()}`);
-    }, 2e3);
-  }
-  return /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Scaffold, { appBar: /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.AppBar, { title: "Button Demo" }) }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SingleChildScrollView, null, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react9.default.createElement(Section, { title: "1. \u57FA\u7840\u4EA4\u4E92\uFF08onTap\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u2212",
-      onTap: () => setCount(count - 1),
-      backgroundColor: "#EF5350",
-      paddingH: 20,
-      paddingV: 12
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Container,
-    {
-      width: 80,
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Text, { text: `${count}`, fontSize: 28, fontWeight: "bold", color: "#1565C0" })
-  ), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "+",
-      onTap: () => setCount(count + 1),
-      backgroundColor: "#43A047",
-      paddingH: 20,
-      paddingV: 12
-    }
-  )), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 8 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u91CD\u7F6E\u4E3A 0",
-      onTap: () => setCount(0),
-      backgroundColor: "#9E9E9E",
-      fontSize: 13,
-      paddingH: 12,
-      paddingV: 6
-    }
-  )), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "2. \u80CC\u666F\u8272\u4E0E\u6587\u5B57\u8272" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, null, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Button, { text: "Primary", backgroundColor: "#1976D2", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Button, { text: "Success", backgroundColor: "#388E3C", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Button, { text: "Warning", backgroundColor: "#F57C00", textColor: "#FFFFFF" }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Button, { text: "Danger", backgroundColor: "#D32F2F", textColor: "#FFFFFF" })), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 8 }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, null, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Button, { text: "Dark text", backgroundColor: "#FFF176", textColor: "#212121" }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Button, { text: "Purple", backgroundColor: "#7B1FA2", textColor: "#E1BEE7" }))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "3. Outlined \u6309\u94AE" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, null, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "Default",
-      outlined: true,
-      borderColor: "#1976D2",
-      textColor: "#1976D2"
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "Success",
-      outlined: true,
-      borderColor: "#388E3C",
-      textColor: "#388E3C"
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "Danger",
-      outlined: true,
-      borderColor: "#D32F2F",
-      textColor: "#D32F2F"
-    }
-  )), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 8 }), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, null, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u7C97\u8FB9\u6846 2px",
-      outlined: true,
-      borderColor: "#7B1FA2",
-      borderWidth: 2,
-      textColor: "#7B1FA2"
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u5706\u5F62\u8FB9\u6846",
-      outlined: true,
-      borderColor: "#00838F",
-      borderRadius: 50,
-      textColor: "#00838F"
-    }
-  ))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "4. \u5706\u89D2\uFF08borderRadius\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, { crossAxisAlignment: "center" }, [0, 4, 8, 16, 50].map((r) => /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Padding, { key: r, padding: { right: 8 } }, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: `r=${r}`,
-      backgroundColor: "#5C6BC0",
-      textColor: "#FFFFFF",
-      borderRadius: r,
-      fontSize: 12,
-      paddingH: 10
-    }
-  ))))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "5. \u5B57\u53F7\uFF08fontSize\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, { crossAxisAlignment: "center" }, [11, 14, 18, 22].map((fs2) => /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Padding, { key: fs2, padding: { right: 8 } }, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: `${fs2}px`,
-      backgroundColor: "#0277BD",
-      textColor: "#FFFFFF",
-      fontSize: fs2
-    }
-  ))))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "6. Elevation\uFF08\u9634\u5F71\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, { crossAxisAlignment: "center" }, [0, 2, 6, 12].map((e) => /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Padding, { key: e, padding: { right: 12 } }, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: `e=${e}`,
-      backgroundColor: "#FFFFFF",
-      textColor: "#333333",
-      elevation: e,
-      borderRadius: 8,
-      fontSize: 13
-    }
-  ))))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "7. \u5C3A\u5BF8\uFF08minWidth / minHeight\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u5C0F\u6309\u94AE",
-      backgroundColor: "#26C6DA",
-      minWidth: 80,
-      minHeight: 28,
-      fontSize: 12,
-      paddingH: 8,
-      paddingV: 4
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 8 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u4E2D\u6309\u94AE\uFF08\u9ED8\u8BA4\uFF09",
-      backgroundColor: "#26C6DA"
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 8 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u5BBD\u6309\u94AE\uFF08full width\uFF09",
-      backgroundColor: "#26C6DA",
-      minWidth: 9999
-    }
-  ))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "8. Disabled \u72B6\u6001" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, null, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u7981\u7528\uFF08\u9ED8\u8BA4\u8272\uFF09",
-      disabled: true,
-      onTap: () => {
-      }
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u7981\u7528\uFF08\u81EA\u5B9A\u4E49\u8272\uFF09",
-      disabled: true,
-      backgroundColor: "#1976D2",
-      textColor: "#FFFFFF",
-      onTap: () => {
-      }
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 8 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u7981\u7528 Outlined",
-      disabled: true,
-      outlined: true,
-      borderColor: "#9E9E9E",
-      textColor: "#9E9E9E",
-      onTap: () => {
-      }
-    }
-  ))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "9. Loading \u72B6\u6001\uFF08\u5F02\u6B65\u6A21\u62DF\uFF09" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: loading ? "" : "\u70B9\u51FB\u6A21\u62DF 2s \u5F02\u6B65",
-      loading,
-      backgroundColor: "#5C6BC0",
-      textColor: "#FFFFFF",
-      onTap: handleAsync,
-      minWidth: 200
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 10 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Container,
-    {
-      padding: 12,
-      decoration: { color: "#F5F5F5", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Text, { text: asyncResult, fontSize: 13, color: "#37474F" })
-  ))), /* @__PURE__ */ import_react9.default.createElement(Section, { title: "10. \u7EC4\u5408\u6837\u5F0F\u793A\u4F8B" }, /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Row, null, /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u767B\u5F55",
-      backgroundColor: "#1565C0",
-      textColor: "#FFFFFF",
-      borderRadius: 24,
-      fontSize: 16,
-      paddingH: 32,
-      paddingV: 12,
-      elevation: 4
-    }
-  ), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { width: 12 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u6CE8\u518C",
-      outlined: true,
-      borderColor: "#1565C0",
-      textColor: "#1565C0",
-      borderRadius: 24,
-      fontSize: 16,
-      paddingH: 32,
-      paddingV: 12
-    }
-  )), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.SizedBox, { height: 12 }), /* @__PURE__ */ import_react9.default.createElement(
-    import_fuickjs8.Button,
-    {
-      text: "\u5220\u9664\u8D26\u53F7",
-      backgroundColor: "#B71C1C",
-      textColor: "#FFFFFF",
-      borderRadius: 4,
-      fontSize: 14,
-      paddingH: 20,
-      paddingV: 10,
-      elevation: 0,
-      minWidth: 9999
-    }
-  )), /* @__PURE__ */ import_react9.default.createElement(import_fuickjs8.Container, { height: 40 }))));
-}
-
-// src/demos/TextFieldDemo.tsx
-var import_react10 = __toESM(require_react_production());
-var import_fuickjs9 = __toESM(require_dist());
-function Section2({ title, children }) {
-  return /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Text, { text: title, fontSize: 15, fontWeight: "bold", color: "#333" }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 10 }), children, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 24 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Divider, { color: "#EEEEEE" }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 24 }));
-}
-function TextFieldDemo() {
-  const ref = (0, import_react10.useRef)(null);
-  const [controlled, setControlled] = (0, import_react10.useState)("\u53EF\u7F16\u8F91\u5185\u5BB9");
-  const [liveText, setLiveText] = (0, import_react10.useState)("");
-  const [password, setPassword] = (0, import_react10.useState)("");
-  const [obscure, setObscure] = (0, import_react10.useState)(true);
-  const [limitText, setLimitText] = (0, import_react10.useState)("");
-  const [multiText, setMultiText] = (0, import_react10.useState)("");
-  const [submitted, setSubmitted] = (0, import_react10.useState)([]);
-  const [focused, setFocused] = (0, import_react10.useState)(false);
-  return /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Scaffold, { appBar: /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.AppBar, { title: "TextField Demo" }) }, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SingleChildScrollView, null, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Column, { padding: 16, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "1. Controlled Value" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      text: controlled,
-      hintText: "\u53D7\u63A7\u8F93\u5165\u6846",
-      onChanged: (v) => setControlled(v),
-      border: "outline"
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 8 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Row, null, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Button,
-    {
-      text: "\u91CD\u7F6E",
-      onTap: () => setControlled("\u53EF\u7F16\u8F91\u5185\u5BB9"),
-      backgroundColor: "#9E9E9E"
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { width: 8 }), /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Button,
-    {
-      text: "\u6E05\u7A7A",
-      onTap: () => setControlled(""),
-      backgroundColor: "#EF5350"
-    }
-  )), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 6 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Text, { text: `\u5F53\u524D\u503C: "${controlled}"`, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "2. \u5B9E\u65F6\u8F93\u5165\uFF08onChanged\uFF09" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      hintText: "\u8F93\u5165\u5185\u5BB9\u5B9E\u65F6\u663E\u793A...",
-      onChanged: (v) => setLiveText(v),
-      border: "outline"
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 8 }), /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Container,
-    {
-      padding: 12,
-      decoration: { color: "#F5F5F5", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react10.default.createElement(
-      import_fuickjs9.Text,
-      {
-        text: liveText.length > 0 ? `\u4F60\u8F93\u5165\u4E86: ${liveText}` : "\uFF08\u7B49\u5F85\u8F93\u5165\uFF09",
-        fontSize: 14,
-        color: liveText.length > 0 ? "#1565C0" : "#9E9E9E"
-      }
-    )
-  )), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "3. \u5BC6\u7801\u6846\uFF08obscureText\uFF09" }, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Expanded, null, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      hintText: "\u8F93\u5165\u5BC6\u7801",
-      obscureText: obscure,
-      onChanged: (v) => setPassword(v),
-      border: "outline",
-      keyboardType: "visiblePassword"
-    }
-  )), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { width: 8 }), /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Button,
-    {
-      text: obscure ? "\u663E\u793A" : "\u9690\u85CF",
-      onTap: () => setObscure(!obscure),
-      backgroundColor: "#5C6BC0"
-    }
-  )), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 6 }), /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Text,
-    {
-      text: obscure ? `\u5BC6\u7801\u957F\u5EA6: ${password.length} \u4F4D` : `\u5BC6\u7801: ${password}`,
-      fontSize: 13,
-      color: "#616161"
-    }
-  )), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "4. \u5B57\u6570\u9650\u5236\uFF08maxLength=20\uFF09" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      hintText: "\u6700\u591A\u8F93\u5165 20 \u4E2A\u5B57\u7B26",
-      maxLength: 20,
-      onChanged: (v) => setLimitText(v),
-      border: "outline"
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 6 }), /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Text,
-    {
-      text: `\u5DF2\u8F93\u5165 ${limitText.length} / 20 \u5B57`,
-      fontSize: 13,
-      color: limitText.length >= 20 ? "#E53935" : "#616161"
-    }
-  )), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "5. \u591A\u884C\u6587\u672C\uFF08maxLines=4\uFF09" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      hintText: "\u8BF7\u8F93\u5165\u591A\u884C\u5185\u5BB9...",
-      maxLines: 4,
-      keyboardType: "multiline",
-      onChanged: (v) => setMultiText(v),
-      border: "outline"
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 6 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Text, { text: `\u884C\u6570: ${multiText.split("\n").length}`, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "6. \u63D0\u4EA4\u4E8B\u4EF6\uFF08onSubmitted\uFF09" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      hintText: "\u8F93\u5165\u540E\u70B9\u51FB\u952E\u76D8\u786E\u8BA4...",
-      textInputAction: "done",
-      onSubmitted: (v) => {
-        if (v.trim()) setSubmitted((prev) => [v, ...prev].slice(0, 5));
-      },
-      border: "outline"
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 8 }), submitted.length === 0 ? /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Text, { text: "\uFF08\u5C1A\u672A\u63D0\u4EA4\uFF09", fontSize: 13, color: "#9E9E9E" }) : /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Text, { text: "\u5386\u53F2\u63D0\u4EA4\uFF08\u6700\u8FD15\u6761\uFF09:", fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 4 }), submitted.map((s, i) => /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Text, { key: i, text: `\u2022 ${s}`, fontSize: 13, color: "#1565C0" })))), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "7. Focus / Blur \u56DE\u8C03" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Container,
-    {
-      padding: 2,
-      decoration: {
-        borderRadius: 8,
-        border: { color: focused ? "#1976D2" : "#CCCCCC", width: focused ? 2 : 1 }
-      }
-    },
-    /* @__PURE__ */ import_react10.default.createElement(
-      import_fuickjs9.TextField,
-      {
-        hintText: "\u70B9\u51FB\u83B7\u5F97\u7126\u70B9...",
-        border: "none",
-        onFocus: () => setFocused(true),
-        onBlur: () => setFocused(false)
-      }
-    )
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 6 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Container,
-    {
-      width: 10,
-      height: 10,
-      decoration: { color: focused ? "#43A047" : "#E0E0E0", borderRadius: 5 }
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { width: 6 }), /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.Text,
-    {
-      text: focused ? "\u5DF2\u83B7\u5F97\u7126\u70B9" : "\u672A\u83B7\u5F97\u7126\u70B9",
-      fontSize: 13,
-      color: focused ? "#43A047" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "8. Keyboard \u7C7B\u578B" }, [
-    ["\u6587\u672C (text)", "text", "\u8F93\u5165\u6587\u672C"],
-    ["\u6570\u5B57 (number)", "number", "\u8F93\u5165\u6570\u5B57"],
-    ["\u7535\u8BDD (phone)", "phone", "\u8F93\u5165\u7535\u8BDD\u53F7\u7801"],
-    ["\u90AE\u7BB1 (emailAddress)", "emailAddress", "\u8F93\u5165\u90AE\u7BB1"],
-    ["URL (url)", "url", "\u8F93\u5165\u7F51\u5740"]
-  ].map(([label, kt, hint]) => /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Padding, { key: kt, padding: { bottom: 10 } }, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Container, { width: 130 }, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Text, { text: label, fontSize: 13, color: "#616161" })), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Expanded, null, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      hintText: hint,
-      keyboardType: kt,
-      border: "outline"
-    }
-  )))))), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "9. \u6587\u672C\u5BF9\u9F50\uFF08textAlign\uFF09" }, ["left", "center", "right"].map((align) => /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Padding, { key: align, padding: { bottom: 10 } }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      text: `textAlign="${align}"`,
-      textAlign: align,
-      border: "outline",
-      readOnly: true
-    }
-  )))), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "10. Ref \u547D\u4EE4\u63A7\u5236" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      ref,
-      text: "Hello, FuickJS!",
-      hintText: "\u53EF\u901A\u8FC7\u6309\u94AE\u63A7\u5236...",
-      border: "outline",
-      onChanged: () => {
-      }
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 10 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Row, null, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Button, { text: "Focus", onTap: () => ref.current?.focus(), backgroundColor: "#42A5F5" }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { width: 8 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Button, { text: "Unfocus", onTap: () => ref.current?.unfocus(), backgroundColor: "#78909C" }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { width: 8 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Button, { text: "Select All", onTap: () => ref.current?.selectAll(), backgroundColor: "#AB47BC" })), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 8 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Row, null, /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Button, { text: "Clear", onTap: () => ref.current?.clear(), backgroundColor: "#EF5350" }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { width: 8 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Button, { text: "Set 'FuickJS'", onTap: () => ref.current?.setText("FuickJS"), backgroundColor: "#26A69A" }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { width: 8 }), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Button, { text: "Sel[0,5]", onTap: () => ref.current?.setSelection(0, 5), backgroundColor: "#FFA726" }))), /* @__PURE__ */ import_react10.default.createElement(Section2, { title: "11. Disabled & ReadOnly" }, /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      text: "\u8FD9\u662F\u7981\u7528\u72B6\u6001",
-      enabled: false,
-      border: "outline"
-    }
-  ), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.SizedBox, { height: 10 }), /* @__PURE__ */ import_react10.default.createElement(
-    import_fuickjs9.TextField,
-    {
-      text: "\u8FD9\u662F\u53EA\u8BFB\u72B6\u6001\uFF08readOnly\uFF09",
-      readOnly: true,
-      border: "outline"
-    }
-  )), /* @__PURE__ */ import_react10.default.createElement(import_fuickjs9.Container, { height: 40 }))));
-}
-
-// src/demos/SwitchDemo.tsx
-var import_react11 = __toESM(require_react_production());
-var import_fuickjs10 = __toESM(require_dist());
-function SwitchDemo() {
-  const [value, setValue] = (0, import_react11.useState)(false);
-  return /* @__PURE__ */ import_react11.default.createElement(import_fuickjs10.Scaffold, { appBar: /* @__PURE__ */ import_react11.default.createElement(import_fuickjs10.AppBar, { title: "Switch Demo" }) }, /* @__PURE__ */ import_react11.default.createElement(import_fuickjs10.Center, null, /* @__PURE__ */ import_react11.default.createElement(import_fuickjs10.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react11.default.createElement(import_fuickjs10.Text, { text: `Status: ${value ? "ON" : "OFF"}`, fontSize: 18 }), /* @__PURE__ */ import_react11.default.createElement(import_fuickjs10.Padding, { padding: { left: 10 } }, /* @__PURE__ */ import_react11.default.createElement(import_fuickjs10.Switch, { value, onChanged: (v) => setValue(v) })))));
-}
-
-// src/demos/ListViewDemo.tsx
-var import_react12 = __toESM(require_react_production());
-var import_fuickjs11 = __toESM(require_dist());
-function ListViewDemo() {
-  const items = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`);
-  return /* @__PURE__ */ import_react12.default.createElement(import_fuickjs11.Scaffold, { appBar: /* @__PURE__ */ import_react12.default.createElement(import_fuickjs11.AppBar, { title: "ListView Demo" }) }, /* @__PURE__ */ import_react12.default.createElement(
-    import_fuickjs11.ListView,
-    {
-      itemCount: items.length,
-      itemBuilder: (index) => /* @__PURE__ */ import_react12.default.createElement(
-        import_fuickjs11.ListTile,
-        {
-          leading: /* @__PURE__ */ import_react12.default.createElement(import_fuickjs11.Icon, { name: "info", color: "#2196F3" }),
-          title: /* @__PURE__ */ import_react12.default.createElement(import_fuickjs11.Text, { text: items[index] }),
-          subtitle: /* @__PURE__ */ import_react12.default.createElement(import_fuickjs11.Text, { text: `Description for ${items[index]}` }),
-          onTap: () => console.log(`Tapped ${items[index]}`)
-        }
-      ),
-      onScroll: (e) => {
-        console.log(
-          `[ListView onScroll] pixels=${e.pixels.toFixed(0)}, maxScrollExtent=${e.maxScrollExtent.toFixed(0)}, axis=${e.axis}`
-        );
-      },
-      onScrollStartReached: () => {
-        console.log("[ListView onScrollStartReached] \u5DF2\u6EDA\u52A8\u5230\u9876\u90E8");
-      },
-      onScrollEndReached: () => {
-        console.log("[ListView onScrollEndReached] \u5DF2\u6EDA\u52A8\u5230\u5E95\u90E8");
-      },
-      endThreshold: 200
-    }
-  ));
-}
-
-// src/demos/SingleChildScrollViewDemo.tsx
-var import_react13 = __toESM(require_react_production());
-var import_fuickjs12 = __toESM(require_dist());
-function SingleChildScrollViewDemo() {
-  const items = Array.from({ length: 30 }, (_, i) => `Scroll Item ${i + 1}`);
-  return /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.Scaffold, { appBar: /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.AppBar, { title: "SingleChildScrollView Demo" }) }, /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.SingleChildScrollView, null, /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.Padding, { padding: 20 }, /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.Text, { text: "Header Section", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.Container, { height: 100, color: "#FFCDD2", margin: { vertical: 10 } }), items.map((item, index) => /* @__PURE__ */ import_react13.default.createElement(
-    import_fuickjs12.Container,
-    {
-      key: index,
-      height: 50,
-      color: index % 2 === 0 ? "#E1F5FE" : "#B3E5FC",
-      margin: { bottom: 5 },
-      padding: { left: 10 },
-      alignment: "topLeft"
-    },
-    /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.Text, { text: item })
-  )), /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.Text, { text: "Footer Section", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react13.default.createElement(import_fuickjs12.Container, { height: 100, color: "#C8E6C9", margin: { vertical: 10 } })))));
-}
-
-// src/demos/GridViewDemo.tsx
-var import_react14 = __toESM(require_react_production());
-var import_fuickjs13 = __toESM(require_dist());
-function GridViewDemo() {
-  const items = Array.from({ length: 50 }, (_, i) => `G ${i + 1}`);
-  return /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Scaffold, { appBar: /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.AppBar, { title: "GridView Demo" }) }, /* @__PURE__ */ import_react14.default.createElement(
-    import_fuickjs13.GridView,
-    {
-      crossAxisCount: 3,
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-      itemCount: items.length,
-      itemBuilder: (index) => /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Container, { color: "#E3F2FD", borderRadius: 8 }, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Center, null, /* @__PURE__ */ import_react14.default.createElement(import_fuickjs13.Text, { text: items[index], fontSize: 16, fontWeight: "bold" }))),
-      onScroll: (e) => {
-        console.log(
-          `[GridView onScroll] pixels=${e.pixels.toFixed(0)}, maxScrollExtent=${e.maxScrollExtent.toFixed(0)}, axis=${e.axis}`
-        );
-      },
-      onScrollStartReached: () => {
-        console.log("[GridView onScrollStartReached] \u5DF2\u6EDA\u52A8\u5230\u9876\u90E8");
-      },
-      onScrollEndReached: () => {
-        console.log("[GridView onScrollEndReached] \u5DF2\u6EDA\u52A8\u5230\u5E95\u90E8");
-      },
-      endThreshold: 200
-    }
-  ));
-}
-
-// src/demos/ImageDemo.tsx
-var import_react15 = __toESM(require_react_production());
-var import_fuickjs14 = __toESM(require_dist());
-var OWL = "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg";
-var BROKEN = "https://broken.url/not-exist.jpg";
-var PATCH_48 = "assets/images/patch_48.png";
-var FITS = [
-  "cover",
-  "contain",
-  "fill",
-  "fitWidth",
-  "fitHeight",
-  "none",
-  "scaleDown"
-];
-function SectionTitle({ text }) {
-  return /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text,
-      fontSize: 15,
-      fontWeight: "bold",
-      color: "#333",
-      margin: { top: 20, bottom: 8 }
-    }
-  );
-}
-function ImageDemo() {
-  const [loadStatus, setLoadStatus] = (0, import_react15.useState)("\u7B49\u5F85\u52A0\u8F7D...");
-  const [errorStatus, setErrorStatus] = (0, import_react15.useState)("\u7B49\u5F85\u52A0\u8F7D...");
-  return /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Scaffold, { appBar: /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.AppBar, { title: "Image Demo" }) }, /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.SingleChildScrollView, null, /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "src\uFF08\u63A8\u8350\uFF09vs url\uFF08\u5411\u540E\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Row, null, /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 100,
-      height: 100,
-      fit: "cover",
-      borderRadius: 8
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "src=",
-      fontSize: 11,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  )), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      url: OWL,
-      width: 100,
-      height: 100,
-      fit: "cover",
-      borderRadius: 8
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "url=\uFF08\u517C\u5BB9\uFF09",
-      fontSize: 11,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  ))), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "fit \u6A21\u5F0F\uFF0880\xD780 \u5BB9\u5668\uFF09" }), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Row, null, FITS.map((fit) => /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Column,
-    {
-      key: fit,
-      crossAxisAlignment: "center",
-      margin: { right: 8 }
-    },
-    /* @__PURE__ */ import_react15.default.createElement(
-      import_fuickjs14.Container,
-      {
-        width: 60,
-        height: 60,
-        decoration: { color: "#ECEFF1", borderRadius: 4 }
-      },
-      /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Image, { src: OWL, width: 60, height: 60, fit })
-    ),
-    /* @__PURE__ */ import_react15.default.createElement(
-      import_fuickjs14.Text,
-      {
-        text: fit,
-        fontSize: 9,
-        color: "#757575",
-        margin: { top: 2 }
-      }
-    )
-  ))), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "borderRadius \u88C1\u526A" }), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Row, null, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 80,
-      height: 80,
-      fit: "cover",
-      borderRadius: 8,
-      margin: { right: 12 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 80,
-      height: 80,
-      fit: "cover",
-      borderRadius: 40,
-      margin: { right: 12 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 80,
-      height: 80,
-      fit: "cover",
-      borderRadius: {
-        topLeft: 20,
-        topRight: 0,
-        bottomRight: 20,
-        bottomLeft: 0
-      }
-    }
-  )), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "tintColor \u989C\u8272\u53E0\u52A0\uFF08\u63A8\u8350\uFF09vs color\uFF08\u517C\u5BB9\uFF09" }), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Row, null, /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 80,
-      height: 80,
-      fit: "cover",
-      borderRadius: 8,
-      tintColor: "#1976D2"
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "tintColor=\u84DD",
-      fontSize: 10,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  )), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 80,
-      height: 80,
-      fit: "cover",
-      borderRadius: 8,
-      tintColor: "#E91E63"
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "tintColor=\u7C89",
-      fontSize: 10,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  )), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 80,
-      height: 80,
-      fit: "cover",
-      borderRadius: 8,
-      color: "#43A047"
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "color=\u7EFF\uFF08\u517C\u5BB9\uFF09",
-      fontSize: 10,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  ))), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "placeholderColor \u52A0\u8F7D\u5360\u4F4D\u8272\uFF08\u7F51\u7EDC\u56FE\u7247\uFF09" }), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Row, null, /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 100,
-      height: 100,
-      fit: "cover",
-      borderRadius: 8,
-      placeholderColor: "#BBDEFB"
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u84DD\u8272\u5360\u4F4D",
-      fontSize: 11,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  )), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 100,
-      height: 100,
-      fit: "cover",
-      borderRadius: 8
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u9ED8\u8BA4\u5360\u4F4D\uFF08\u7070\uFF09",
-      fontSize: 11,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  ))), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "errorSrc \u52A0\u8F7D\u5931\u8D25\u5907\u7528\u56FE" }), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Row, null, /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: BROKEN,
-      width: 100,
-      height: 100,
-      fit: "cover",
-      borderRadius: 8,
-      errorSrc: OWL
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u5931\u8D25\u2192\u5907\u7528\u56FE",
-      fontSize: 11,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  )), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: BROKEN,
-      width: 100,
-      height: 100,
-      fit: "cover",
-      borderRadius: 8
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u5931\u8D25\u2192broken_image",
-      fontSize: 11,
-      color: "#757575",
-      margin: { top: 4 }
-    }
-  ))), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "onLoad / onError \u56DE\u8C03" }), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Row, null, /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center", margin: { right: 12 } }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 100,
-      height: 100,
-      fit: "cover",
-      borderRadius: 8,
-      onLoad: () => setLoadStatus("\u2713 \u52A0\u8F7D\u6210\u529F"),
-      onError: () => setLoadStatus("\u2717 \u52A0\u8F7D\u5931\u8D25")
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: loadStatus,
-      fontSize: 11,
-      color: "#43A047",
-      margin: { top: 4 }
-    }
-  )), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: BROKEN,
-      width: 100,
-      height: 100,
-      fit: "cover",
-      borderRadius: 8,
-      onLoad: () => setErrorStatus("\u2713 \u52A0\u8F7D\u6210\u529F"),
-      onError: () => setErrorStatus("\u2717 \u52A0\u8F7D\u5931\u8D25")
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: errorStatus,
-      fontSize: 11,
-      color: "#E53935",
-      margin: { top: 4 }
-    }
-  ))), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\uFF08file:// & \u7EDD\u5BF9\u8DEF\u5F84\uFF09" }), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Container,
-    {
-      padding: 12,
-      decoration: {
-        color: "#FFF8E1",
-        borderRadius: 8,
-        border: { color: "#FFE082", width: 1 }
-      },
-      margin: { bottom: 8 }
-    },
-    /* @__PURE__ */ import_react15.default.createElement(
-      import_fuickjs14.Text,
-      {
-        text: "\u5728 Flutter \u4FA7\u901A\u8FC7 FileSystem \u670D\u52A1\u83B7\u53D6\u672C\u5730\u8DEF\u5F84\u540E\u4F20\u5165 src\uFF1A\n\u2022 file:///data/user/0/.../photo.jpg\n\u2022 /data/user/0/.../photo.jpg",
-        fontSize: 12,
-        color: "#795548"
-      }
-    )
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u793A\u4F8B\uFF08\u9700\u66FF\u6362\u4E3A\u8BBE\u5907\u4E0A\u5B9E\u9645\u5B58\u5728\u7684\u8DEF\u5F84\uFF09\uFF1A",
-      fontSize: 12,
-      color: "#9E9E9E",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: "file:///nonexistent/path/image.jpg",
-      width: 120,
-      height: 120,
-      fit: "cover",
-      borderRadius: 8,
-      errorSrc: OWL
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u6587\u4EF6\u4E0D\u5B58\u5728 \u2192 \u964D\u7EA7\u5230 errorSrc",
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "base64 \u5185\u8054\u56FE\u7247" }), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAFklEQVR4nGNQnPaZJMQwqmFUw/DVAACnNaoQK5bsTwAAAABJRU5ErkJggg==",
-      width: 40,
-      height: 40
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "16\xD716 \u84DD\u8272 PNG (base64)",
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "gaplessPlayback\uFF08\u5207\u6362 URL \u65F6\u4FDD\u7559\u65E7\u56FE\uFF09" }), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Image,
-    {
-      src: OWL,
-      width: 120,
-      height: 80,
-      fit: "cover",
-      borderRadius: 8,
-      gaplessPlayback: true
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "gaplessPlayback=true\uFF0CURL \u5207\u6362\u65F6\u4E0D\u95EA\u767D",
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(SectionTitle, { text: "centerSlice \u4E5D\u5BAB\u683C\u62C9\u4F38\uFF089-patch\uFF09" }), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Container,
-    {
-      padding: 10,
-      decoration: {
-        color: "#FFF3E0",
-        borderRadius: 6,
-        border: { color: "#FFE0B2", width: 1 }
-      },
-      margin: { bottom: 10 }
-    },
-    /* @__PURE__ */ import_react15.default.createElement(
-      import_fuickjs14.Text,
-      {
-        text: "centerSlice \u628A\u56FE\u6309 {left, top, right, bottom} \u5206\u6210 9 \u5757\uFF0C4 \u4E2A\u89D2\u6309\u539F\u5927\u5C0F\u7ED8\u5236\u30014 \u6761\u8FB9\u5355\u5411\u62C9\u4F38\u3001\u4E2D\u5FC3\u53CC\u5411\u62C9\u4F38\u3002\u5E38\u7528\u4E8E\u6C14\u6CE1/\u6309\u94AE\u80CC\u666F\u7684\u4EFB\u610F\u5C3A\u5BF8\u81EA\u9002\u5E94\u3002\u5750\u6807\u4EE5\u56FE\u7247\u539F\u59CB\u50CF\u7D20\u4E3A\u5355\u4F4D\u3002SVG \u4E0D\u652F\u6301\u6B64\u5C5E\u6027\uFF08\u5DF2\u81EA\u52A8\u5FFD\u7565\uFF09\u3002\u3010\u786C\u7EA6\u675F 1\u3011centerSlice \u5FC5\u987B\u914D fit=fill\uFF1B\u4F20\u5176\u4ED6 fit \u4F1A\u89E6\u53D1 Flutter \u65AD\u8A00\u5D29\u6E83\uFF0Cparser \u81EA\u52A8\u5F3A\u5236\u6539\u4E3A fill\u3002\u3010\u786C\u7EA6\u675F 2\u3011centerSlice \u8FB9\u6846 (left + imageWidth - right) \u5FC5\u987B <= widget \u5BBD\u5EA6\uFF0C\u4E0A\u4E0B\u540C\u7406\uFF1B\u5426\u5219 paintImage \u5185\u90E8 outputSize \u53D8\u8D1F\u5BFC\u81F4 applyBoxFit \u8FD4\u56DE Size.zero \u89E6\u53D1\u65AD\u8A00\u3002",
-        fontSize: 12,
-        color: "#E65100"
-      }
-    )
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u539F\u56FE\uFF0848\xD748\uFF0C\u653E\u5927 2\xD7\u663E\u793A\uFF09",
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Image, { src: PATCH_48, width: 96, height: 96, fit: "none" }), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Text, { text: " ", fontSize: 11 }), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "fit=fill + centerSlice=16/16/32/32 (240\xD7120 \u5BB9\u5668)",
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 12, bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Container,
-    {
-      width: 240,
-      height: 120,
-      decoration: {
-        color: "#FAFAFA",
-        border: { color: "#BDBDBD", width: 1 }
-      }
-    },
-    /* @__PURE__ */ import_react15.default.createElement(
-      import_fuickjs14.Image,
-      {
-        src: PATCH_48,
-        width: 240,
-        height: 120,
-        fit: "fill",
-        centerSlice: { left: 16, top: 16, right: 32, bottom: 32 }
-      }
-    )
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "4 \u4E2A 16\xD716 \u84DD\u89D2\u4FDD\u6301\u539F\u5927\u5C0F\uFF0C\u7EFF\u8FB9\u5355\u5411\u62C9\u4F38\uFF0C\u6A59\u4E2D\u5FC3\u53CC\u5411\u62C9\u4F38",
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u5BF9\u6BD4\uFF1Afit=fill \u65E0 centerSlice\uFF08240\xD7120\uFF0C\u6574\u56FE\u5747\u5300\u7F29\u653E\uFF09",
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 12, bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Container,
-    {
-      width: 240,
-      height: 120,
-      decoration: {
-        color: "#FAFAFA",
-        border: { color: "#BDBDBD", width: 1 }
-      }
-    },
-    /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Image, { src: PATCH_48, width: 240, height: 120, fit: "fill" })
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Text,
-    {
-      text: "\u5E26 tintColor + centerSlice",
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 12, bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react15.default.createElement(
-    import_fuickjs14.Container,
-    {
-      width: 240,
-      height: 80,
-      decoration: {
-        color: "#FAFAFA",
-        border: { color: "#BDBDBD", width: 1 }
-      }
-    },
-    /* @__PURE__ */ import_react15.default.createElement(
-      import_fuickjs14.Image,
-      {
-        src: PATCH_48,
-        width: 240,
-        height: 80,
-        fit: "fill",
-        centerSlice: { left: 16, top: 16, right: 32, bottom: 32 },
-        tintColor: "#1976D2"
-      }
-    )
-  ), /* @__PURE__ */ import_react15.default.createElement(import_fuickjs14.Container, { height: 40 }))));
-}
-
-// src/demos/BundleLocalImageDemo.tsx
-var import_react16 = __toESM(require_react_production());
-var import_fuickjs15 = __toESM(require_dist());
-var LOCAL_LOGO = "images/demo-logo.svg";
-var LOCAL_BANNER = "images/demo-banner.svg";
-var LOCAL_MISSING = "images/not-in-zip.png";
-function readBundleInfo() {
-  try {
-    const b = globalThis.__FUICK_BUNDLE__;
-    return b ?? {};
-  } catch {
-    return {};
-  }
-}
-function StatusBadge({ ok, label }) {
-  return /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Container,
-    {
-      padding: { horizontal: 8, vertical: 4 },
-      decoration: {
-        color: ok ? "#E8F5E9" : "#FFEBEE",
-        borderRadius: 4,
-        border: { width: 1, color: ok ? "#A5D6A7" : "#EF9A9A" }
-      },
-      margin: { right: 8, bottom: 8 }
-    },
-    /* @__PURE__ */ import_react16.default.createElement(import_fuickjs15.Text, { text: label, fontSize: 12, color: ok ? "#2E7D32" : "#C62828" })
-  );
-}
-function BundleLocalImageDemo() {
-  const bundle = readBundleInfo();
-  const [logoOk, setLogoOk] = (0, import_react16.useState)(null);
-  const [bannerOk, setBannerOk] = (0, import_react16.useState)(null);
-  const [missingFailed, setMissingFailed] = (0, import_react16.useState)(null);
-  const hasRoot = Boolean(bundle.root);
-  return /* @__PURE__ */ import_react16.default.createElement(import_fuickjs15.Scaffold, { appBar: /* @__PURE__ */ import_react16.default.createElement(import_fuickjs15.AppBar, { title: "Bundle \u672C\u5730\u56FE\u7247" }) }, /* @__PURE__ */ import_react16.default.createElement(import_fuickjs15.SingleChildScrollView, null, /* @__PURE__ */ import_react16.default.createElement(import_fuickjs15.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Text,
-    {
-      text: "\u9A8C\u8BC1 bundle \u89E3\u538B\u540E\uFF0C\u76F8\u5BF9\u8DEF\u5F84\u56FE\u7247\u80FD\u5426\u901A\u8FC7 __FUICK_BUNDLE__.root \u900F\u660E\u52A0\u8F7D\u3002",
-      fontSize: 14,
-      color: "#424242",
-      margin: { bottom: 12 }
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Container,
-    {
-      width: 9999,
-      padding: 12,
-      decoration: { color: "#EEF0FF", borderRadius: 8 },
-      margin: { bottom: 16 }
-    },
-    /* @__PURE__ */ import_react16.default.createElement(
-      import_fuickjs15.Text,
-      {
-        text: `bundle.name: ${bundle.name ?? "(\u672A\u6CE8\u5165)"}`,
-        fontSize: 12,
-        color: "#3949AB"
-      }
-    ),
-    /* @__PURE__ */ import_react16.default.createElement(
-      import_fuickjs15.Text,
-      {
-        text: `bundle.root: ${bundle.root ?? "(\u7A7A \u2192 \u8D70 Image.asset \u515C\u5E95)"}`,
-        fontSize: 12,
-        color: "#3949AB",
-        margin: { top: 4 }
-      }
-    )
-  ), /* @__PURE__ */ import_react16.default.createElement(import_fuickjs15.Row, { margin: { bottom: 8 } }, logoOk === true && /* @__PURE__ */ import_react16.default.createElement(StatusBadge, { ok: true, label: "logo \u2713" }), bannerOk === true && /* @__PURE__ */ import_react16.default.createElement(StatusBadge, { ok: true, label: "banner \u2713" }), missingFailed === true && /* @__PURE__ */ import_react16.default.createElement(StatusBadge, { ok: true, label: "missing \u2192 errorSrc \u2713" }), logoOk === false && /* @__PURE__ */ import_react16.default.createElement(StatusBadge, { ok: false, label: "logo \u2717" }), bannerOk === false && /* @__PURE__ */ import_react16.default.createElement(StatusBadge, { ok: false, label: "banner \u2717" })), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Text,
-    {
-      text: "1. SVG Logo\uFF08images/demo-logo.svg\uFF09",
-      fontSize: 15,
-      fontWeight: "bold",
-      color: "#333",
-      margin: { bottom: 8 }
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Image,
-    {
-      src: LOCAL_LOGO,
-      width: 120,
-      height: 120,
-      fit: "contain",
-      onLoad: () => setLogoOk(true),
-      onError: () => setLogoOk(false)
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Text,
-    {
-      text: `src="${LOCAL_LOGO}"`,
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 4, bottom: 16 }
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Text,
-    {
-      text: "2. SVG Banner\uFF08images/demo-banner.svg\uFF09",
-      fontSize: 15,
-      fontWeight: "bold",
-      color: "#333",
-      margin: { bottom: 8 }
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Image,
-    {
-      src: LOCAL_BANNER,
-      width: 320,
-      height: 80,
-      fit: "contain",
-      borderRadius: 8,
-      onLoad: () => setBannerOk(true),
-      onError: () => setBannerOk(false)
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Text,
-    {
-      text: `src="${LOCAL_BANNER}"`,
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 4, bottom: 16 }
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Text,
-    {
-      text: "3. \u7F3A\u5931\u6587\u4EF6 + errorSrc \u964D\u7EA7",
-      fontSize: 15,
-      fontWeight: "bold",
-      color: "#333",
-      margin: { bottom: 8 }
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Image,
-    {
-      src: LOCAL_MISSING,
-      errorSrc: LOCAL_LOGO,
-      width: 80,
-      height: 80,
-      fit: "cover",
-      borderRadius: 8,
-      onError: () => setMissingFailed(true)
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Text,
-    {
-      text: `src="${LOCAL_MISSING}" \u2192 errorSrc="${LOCAL_LOGO}"`,
-      fontSize: 11,
-      color: "#9E9E9E",
-      margin: { top: 4, bottom: 16 }
-    }
-  ), /* @__PURE__ */ import_react16.default.createElement(
-    import_fuickjs15.Container,
-    {
-      padding: 12,
-      decoration: {
-        color: hasRoot ? "#E8F5E9" : "#FFF3E0",
-        borderRadius: 8
-      }
-    },
-    /* @__PURE__ */ import_react16.default.createElement(
-      import_fuickjs15.Text,
-      {
-        text: hasRoot ? "\u2713 \u5DF2\u4ECE\u52A8\u6001\u5305\u76EE\u5F55\u52A0\u8F7D\uFF08zip \u89E3\u538B\u6210\u529F\u4E14 root \u5DF2\u6CE8\u5165\uFF09" : "\u26A0 root \u4E3A\u7A7A\uFF1A\u672A\u8D70\u52A8\u6001\u5305\uFF0C\u76F8\u5BF9\u8DEF\u5F84\u53EF\u80FD\u65E0\u6CD5\u52A0\u8F7D\uFF08\u68C0\u67E5 Offline \u662F\u5426 init\u3001\u662F\u5426\u4ECE zip \u89E3\u538B\uFF09",
-        fontSize: 13,
-        color: hasRoot ? "#2E7D32" : "#E65100"
-      }
-    )
-  ), /* @__PURE__ */ import_react16.default.createElement(import_fuickjs15.Container, { height: 32 }))));
-}
-
-// src/demos/StackDemo.tsx
-var import_react17 = __toESM(require_react_production());
-var import_fuickjs16 = __toESM(require_dist());
-function StackDemo() {
-  return /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.Scaffold, { appBar: /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.AppBar, { title: "Stack Demo" }) }, /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.Stack, null, /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.Container, { color: "#ff0000", width: 200, height: 200 }), /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.Positioned, { top: 50, left: 50 }, /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.Container, { color: "#00ff00", width: 100, height: 100 })), /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.Positioned, { bottom: 20, right: 20 }, /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.Container, { color: "#0000ff", width: 50, height: 50 }, /* @__PURE__ */ import_react17.default.createElement(import_fuickjs16.Text, { text: "Top", color: "#ffffff" })))));
-}
-
-// src/demos/SliverDemo.tsx
-var import_react18 = __toESM(require_react_production());
-var import_fuickjs17 = __toESM(require_dist());
-function SliverDemo() {
-  return /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Scaffold, null, /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.CustomScrollView, null, /* @__PURE__ */ import_react18.default.createElement(
-    import_fuickjs17.SliverAppBar,
-    {
-      pinned: true,
-      expandedHeight: 200,
-      backgroundColor: "#2196F3",
-      title: /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Text, { text: "Sliver Demo", color: "#ffffff" })
-    },
-    /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Container, { color: "#1976D2" })
-  ), /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.SliverToBoxAdapter, null, /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Padding, { padding: 16 }, /* @__PURE__ */ import_react18.default.createElement(
-    import_fuickjs17.Text,
-    {
-      text: "SliverToBoxAdapter: Section Title",
-      fontSize: 20,
-      fontWeight: "bold"
-    }
-  ))), /* @__PURE__ */ import_react18.default.createElement(
-    import_fuickjs17.SliverGrid,
-    {
-      gridDelegate: {
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 2
-      },
-      itemCount: 4,
-      itemBuilder: (index) => /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Container, { color: "#E3F2FD", borderRadius: 8 }, /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Center, null, /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Text, { text: `Grid Item ${index}` })))
-    }
-  ), /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.SliverToBoxAdapter, null, /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Padding, { padding: 16 }, /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Text, { text: "SliverList: Items", fontSize: 20, fontWeight: "bold" }))), /* @__PURE__ */ import_react18.default.createElement(
-    import_fuickjs17.SliverList,
-    {
-      itemCount: 10,
-      itemBuilder: (index) => /* @__PURE__ */ import_react18.default.createElement(
-        import_fuickjs17.Container,
-        {
-          height: 60,
-          color: index % 2 === 0 ? "#f5f5f5" : "#ffffff",
-          padding: { left: 16 }
-        },
-        /* @__PURE__ */ import_react18.default.createElement(import_fuickjs17.Text, { text: `List Item ${index}` })
-      )
-    }
-  )));
-}
-
-// src/demos/DividerDemo.tsx
-var import_react19 = __toESM(require_react_production());
-var import_fuickjs18 = __toESM(require_dist());
-function DividerDemo() {
-  return /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.Scaffold, { appBar: /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.AppBar, { title: "Divider Demo" }) }, /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.Padding, { padding: 20 }, /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.Column, null, /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.Text, { text: "Item 1", fontSize: 18 }), /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.Divider, { height: 20, thickness: 2, color: "#eeeeee" }), /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.Text, { text: "Item 2", fontSize: 18 }), /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.Divider, { height: 40, thickness: 5, color: "#2196F3" }), /* @__PURE__ */ import_react19.default.createElement(import_fuickjs18.Text, { text: "Item 3", fontSize: 18 }))));
-}
-
-// src/demos/OpacityDemo.tsx
-var import_react20 = __toESM(require_react_production());
-var import_fuickjs19 = __toESM(require_dist());
-function OpacityDemo() {
-  const [opacity, setOpacity] = (0, import_react20.useState)(1);
-  return /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.Scaffold, { appBar: /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.AppBar, { title: "Opacity Demo" }) }, /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.Padding, { padding: 20 }, /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.Opacity, { opacity }, /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.Container, { color: "#ff0000", width: 200, height: 200 })), /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.Text, { text: `Opacity: ${opacity.toFixed(1)}`, fontSize: 18 })), /* @__PURE__ */ import_react20.default.createElement(import_fuickjs19.Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react20.default.createElement(
-    import_fuickjs19.Button,
-    {
-      onTap: () => setOpacity(opacity > 0.1 ? opacity - 0.2 : 1),
-      text: "Change Opacity"
-    }
-  )))));
-}
-
-// src/demos/ProgressDemo.tsx
-var import_react21 = __toESM(require_react_production());
-var import_fuickjs20 = __toESM(require_dist());
-function ProgressDemo() {
-  return /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.Scaffold, { appBar: /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.AppBar, { title: "Progress Demo" }) }, /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.Center, null, /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.Padding, { padding: 20 }, /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.CircularProgressIndicator, null)), /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.Text, { text: "Loading...", fontSize: 16 }), /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.Padding, { padding: 40 }, /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.CircularProgressIndicator, { color: "#FF0000", strokeWidth: 5 })), /* @__PURE__ */ import_react21.default.createElement(import_fuickjs20.Text, { text: "Custom Progress", fontSize: 16 }))));
-}
-
-// src/demos/PageViewDemo.tsx
-var import_react22 = __toESM(require_react_production());
-var import_fuickjs21 = __toESM(require_dist());
-function PageViewDemo() {
-  return /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Scaffold, { appBar: /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.AppBar, { title: "PageView Demo" }) }, /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.PageView, null, /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Container, { color: "#FFEBEE" }, /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Center, null, /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Text, { text: "Page 1", fontSize: 32 }), /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Text, { text: "Swipe Left", fontSize: 16 }))), /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Container, { color: "#E3F2FD" }, /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Center, null, /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Text, { text: "Page 2", fontSize: 32 }))), /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Container, { color: "#E8F5E9" }, /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Center, null, /* @__PURE__ */ import_react22.default.createElement(import_fuickjs21.Text, { text: "Page 3", fontSize: 32 })))));
-}
-
-// src/demos/BottomNavDemo.tsx
-var import_react23 = __toESM(require_react_production());
-var import_fuickjs22 = __toESM(require_dist());
-function BottomNavDemo() {
-  const [currentIndex, setCurrentIndex] = (0, import_react23.useState)(0);
-  const pages = [
-    { name: "Home", icon: "home" },
-    { name: "Business", icon: "business" },
-    { name: "School", icon: "school" }
-  ];
-  return /* @__PURE__ */ import_react23.default.createElement(
-    import_fuickjs22.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react23.default.createElement(import_fuickjs22.AppBar, { title: `BottomNav: ${pages[currentIndex].name}` }),
-      bottomNavigationBar: /* @__PURE__ */ import_react23.default.createElement(
-        import_fuickjs22.BottomNavigationBar,
-        {
-          currentIndex,
-          onTap: (index) => setCurrentIndex(index),
-          items: pages.map((p) => /* @__PURE__ */ import_react23.default.createElement(
-            import_fuickjs22.BottomNavigationBarItem,
-            {
-              key: p.name,
-              label: p.name,
-              icon: /* @__PURE__ */ import_react23.default.createElement(import_fuickjs22.Icon, { name: p.icon })
-            }
-          ))
-        }
-      )
-    },
-    /* @__PURE__ */ import_react23.default.createElement(import_fuickjs22.Center, null, /* @__PURE__ */ import_react23.default.createElement(
-      import_fuickjs22.Text,
-      {
-        text: `Selected Page: ${pages[currentIndex].name}`,
-        fontSize: 24
-      }
-    ))
   );
 }
 
-// src/demos/FlexDemo.tsx
-var import_react24 = __toESM(require_react_production());
-var import_fuickjs23 = __toESM(require_dist());
-function FlexDemo() {
-  const [direction, setDirection] = (0, import_react24.useState)("horizontal");
-  const [mainAxisAlignment, setMainAxisAlignment] = (0, import_react24.useState)("start");
-  const [crossAxisAlignment, setCrossAxisAlignment] = (0, import_react24.useState)("center");
-  return /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Scaffold, { appBar: /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.AppBar, { title: "Flex Demo" }) }, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Column, { padding: 16 }, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Text, { text: "Flex Container:", fontSize: 18, fontWeight: "bold", margin: { bottom: 10 } }), /* @__PURE__ */ import_react24.default.createElement(
-    import_fuickjs23.Container,
-    {
-      height: 300,
-      width: 300,
-      color: "#eeeeee",
-      border: { width: 1, color: "#999999" }
-    },
-    /* @__PURE__ */ import_react24.default.createElement(
-      import_fuickjs23.Flex,
-      {
-        direction,
-        mainAxisAlignment,
-        crossAxisAlignment
-      },
-      /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Container, { color: "#ff0000", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Center, null, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Text, { text: "1", color: "white" }))),
-      /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Container, { color: "#00ff00", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Center, null, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Text, { text: "2", color: "white" }))),
-      /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Container, { color: "#0000ff", width: 50, height: 50, margin: 5 }, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Center, null, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Text, { text: "3", color: "white" })))
-    )
-  ), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Text, { text: "Direction:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setDirection("horizontal"), text: "Horizontal" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setDirection("vertical"), text: "Vertical" })), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Text, { text: "Main Axis Alignment:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setMainAxisAlignment("start"), text: "Start" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setMainAxisAlignment("end"), text: "End" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setMainAxisAlignment("center"), text: "Center" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setMainAxisAlignment("spaceBetween"), text: "SpaceBetween" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setMainAxisAlignment("spaceAround"), text: "SpaceAround" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setMainAxisAlignment("spaceEvenly"), text: "SpaceEvenly" })), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Text, { text: "Cross Axis Alignment:", fontSize: 16, fontWeight: "bold", margin: { top: 20, bottom: 8 } }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Wrap, { spacing: 8, runSpacing: 8 }, /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setCrossAxisAlignment("start"), text: "Start" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setCrossAxisAlignment("end"), text: "End" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setCrossAxisAlignment("center"), text: "Center" }), /* @__PURE__ */ import_react24.default.createElement(import_fuickjs23.Button, { onTap: () => setCrossAxisAlignment("stretch"), text: "Stretch" }))));
-}
-
-// src/demos/FlexibleDemo.tsx
-var import_react25 = __toESM(require_react_production());
-var import_fuickjs24 = __toESM(require_dist());
-function FlexibleDemo() {
-  return /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Scaffold, { appBar: /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.AppBar, { title: "Flexible Demo" }) }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Padding, { padding: 20 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Column, null, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Text, { text: "Flexible in Row", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Row, null, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Flexible, { flex: 1 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Container, { color: "#ff0000", height: 50 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Text, { text: "Flex 1", color: "#ffffff" }))), /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Flexible, { flex: 2 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Container, { color: "#00ff00", height: 50 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Text, { text: "Flex 2", color: "#ffffff" }))), /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Container, { color: "#0000ff", width: 50, height: 50 })), /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Padding, { padding: { top: 40 } }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Text, { text: "Flexible in Column", fontSize: 18, fontWeight: "bold" })), /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Container, { height: 200, color: "#eeeeee" }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Column, null, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Flexible, { flex: 1 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Container, { color: "#ff0000", width: 100 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Text, { text: "Flex 1", color: "#ffffff" }))), /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Flexible, { flex: 3 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Container, { color: "#00ff00", width: 100 }, /* @__PURE__ */ import_react25.default.createElement(import_fuickjs24.Text, { text: "Flex 3", color: "#ffffff" }))))))));
-}
-
-// src/demos/GestureDetectorDemo.tsx
-var import_react26 = __toESM(require_react_production());
-var import_fuickjs25 = __toESM(require_dist());
-function GestureDetectorDemo() {
-  const [status, setStatus] = (0, import_react26.useState)("Idle");
-  const [color, setColor] = (0, import_react26.useState)("#2196F3");
-  return /* @__PURE__ */ import_react26.default.createElement(import_fuickjs25.Scaffold, { appBar: /* @__PURE__ */ import_react26.default.createElement(import_fuickjs25.AppBar, { title: "GestureDetector Demo" }) }, /* @__PURE__ */ import_react26.default.createElement(import_fuickjs25.Center, null, /* @__PURE__ */ import_react26.default.createElement(import_fuickjs25.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react26.default.createElement(import_fuickjs25.Text, { text: `Status: ${status}`, fontSize: 20 }), /* @__PURE__ */ import_react26.default.createElement(import_fuickjs25.Padding, { padding: 20 }, /* @__PURE__ */ import_react26.default.createElement(
-    import_fuickjs25.GestureDetector,
-    {
-      onTap: () => {
-        setStatus("Tapped!");
-        setColor("#4CAF50");
-      },
-      onLongPress: () => {
-        setStatus("Long Pressed!");
-        setColor("#F44336");
-      },
-      onDoubleTap: () => {
-        setStatus("Double Tapped!");
-        setColor("#FFEB3B");
-      }
-    },
-    /* @__PURE__ */ import_react26.default.createElement(
-      import_fuickjs25.Container,
-      {
-        width: 200,
-        height: 200,
-        color,
-        borderRadius: 100
-      },
-      /* @__PURE__ */ import_react26.default.createElement(import_fuickjs25.Center, null, /* @__PURE__ */ import_react26.default.createElement(import_fuickjs25.Text, { text: "Interact Me", color: "#000000", fontWeight: "bold" }))
-    )
-  )), /* @__PURE__ */ import_react26.default.createElement(
-    import_fuickjs25.Text,
-    {
-      text: "Tap, Long Press or Double Tap",
-      fontSize: 14,
-      color: "#666666"
-    }
-  ))));
-}
-
-// src/demos/SafeAreaDemo.tsx
-var import_react27 = __toESM(require_react_production());
-var import_fuickjs26 = __toESM(require_dist());
-function SafeAreaDemo() {
-  return /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Container, { color: "#2196F3", height: 1e3 }, /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.SafeArea, null, /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Container, { color: "#ffffff" }, /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Container, { height: 50, color: "#E3F2FD" }, /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Text, { text: "This is inside SafeArea", fontSize: 18 })), /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Expanded, null, /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Container, { alignment: "center" }, /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Text, { text: "SafeArea avoids notches and status bars" }))), /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Container, { height: 50, color: "#E3F2FD" }, /* @__PURE__ */ import_react27.default.createElement(import_fuickjs26.Text, { text: "Bottom of SafeArea", fontSize: 18 }))))));
-}
-
-// src/demos/SliverPersistentHeaderDemo.tsx
-var import_react28 = __toESM(require_react_production());
-var import_fuickjs27 = __toESM(require_dist());
-function SliverPersistentHeaderDemo() {
-  return /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Scaffold, { appBar: /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.AppBar, { title: "SliverPersistentHeader Demo" }) }, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.CustomScrollView, null, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.SliverToBoxAdapter, null, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Container, { height: 150, color: "#E3F2FD" }, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Center, null, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Text, { text: "Scroll down to see sticky headers", fontSize: 18 })))), /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.SliverPersistentHeader, { pinned: true, minExtent: 50, maxExtent: 50 }, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Container, { color: "#2196F3", padding: { left: 16 }, alignment: "topLeft" }, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Center, null, /* @__PURE__ */ import_react28.default.createElement(
-    import_fuickjs27.Text,
-    {
-      text: "Sticky Header 1 (Pinned)",
-      color: "white",
-      fontWeight: "bold"
-    }
-  )))), /* @__PURE__ */ import_react28.default.createElement(
-    import_fuickjs27.SliverList,
-    {
-      itemCount: 15,
-      itemBuilder: (index) => /* @__PURE__ */ import_react28.default.createElement(
-        import_fuickjs27.Container,
-        {
-          height: 50,
-          padding: { left: 16 },
-          color: "white",
-          alignment: "topLeft"
-        },
-        /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Column, { crossAxisAlignment: "start", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Text, { text: `List Item ${index}` }), /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Divider, { height: 1, color: "#EEEEEE" }))
-      )
-    }
-  ), /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.SliverPersistentHeader, { pinned: true, minExtent: 50, maxExtent: 50 }, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Container, { color: "#4CAF50", padding: { left: 16 }, alignment: "topLeft" }, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Center, null, /* @__PURE__ */ import_react28.default.createElement(
-    import_fuickjs27.Text,
-    {
-      text: "Sticky Header 2 (Pinned)",
-      color: "white",
-      fontWeight: "bold"
-    }
-  )))), /* @__PURE__ */ import_react28.default.createElement(
-    import_fuickjs27.SliverList,
-    {
-      itemCount: 20,
-      itemBuilder: (index) => /* @__PURE__ */ import_react28.default.createElement(
-        import_fuickjs27.Container,
-        {
-          height: 50,
-          padding: { left: 16 },
-          color: "white",
-          alignment: "topLeft"
-        },
-        /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Column, { crossAxisAlignment: "start", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Text, { text: `Another List Item ${index}` }), /* @__PURE__ */ import_react28.default.createElement(import_fuickjs27.Divider, { height: 1, color: "#EEEEEE" }))
-      )
-    }
-  )));
-}
-
-// src/demos/TabDemo.tsx
-var import_react29 = __toESM(require_react_production());
-var import_fuickjs28 = __toESM(require_dist());
-function TabDemo() {
-  const [activeTab, setActiveTab] = (0, import_react29.useState)(0);
-  const tabs = ["Tab 1", "Tab 2", "Tab 3"];
-  return /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.DefaultTabController, { length: tabs.length }, /* @__PURE__ */ import_react29.default.createElement(
-    import_fuickjs28.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react29.default.createElement(
-        import_fuickjs28.AppBar,
-        {
-          title: "Tab Demo",
-          bottom: /* @__PURE__ */ import_react29.default.createElement(
-            import_fuickjs28.TabBar,
-            {
-              tabs: tabs.map((t) => /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Tab, { key: t, text: t })),
-              onTap: (index) => setActiveTab(index),
-              indicatorColor: "white",
-              labelColor: "white",
-              unselectedLabelColor: "rgba(255,255,255,0.7)"
-            }
-          )
-        }
-      )
-    },
-    /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.TabBarView, null, /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Container, { color: "#F5F5F5" }, /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Center, null, /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Text, { text: "This is Tab 1 Content", fontSize: 20 }), /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Padding, { padding: 10 }, /* @__PURE__ */ import_react29.default.createElement(
-      import_fuickjs28.Text,
-      {
-        text: `Active Index from state: ${activeTab}`,
-        color: "#666666"
-      }
-    ))))), /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Container, { color: "#E8F5E9" }, /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Center, null, /* @__PURE__ */ import_react29.default.createElement(
-      import_fuickjs28.Text,
-      {
-        text: "This is Tab 2 Content",
-        fontSize: 20,
-        color: "#2E7D32"
-      }
-    ))), /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Container, { color: "#FFF3E0" }, /* @__PURE__ */ import_react29.default.createElement(import_fuickjs28.Center, null, /* @__PURE__ */ import_react29.default.createElement(
-      import_fuickjs28.Text,
-      {
-        text: "This is Tab 3 Content",
-        fontSize: 20,
-        color: "#EF6C00"
-      }
-    ))))
-  ));
-}
-
-// src/demos/ContainerDemo.tsx
-var import_react30 = __toESM(require_react_production());
-var import_fuickjs29 = __toESM(require_dist());
-function ContainerDemo() {
-  return /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Scaffold, { appBar: /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.AppBar, { title: "Container Demo" }) }, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.SingleChildScrollView, null, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Padding, { padding: 16 }, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react30.default.createElement(
-    import_fuickjs29.Text,
-    {
-      text: "Basic Colors and Sizes",
-      fontWeight: "bold",
-      fontSize: 18
-    }
-  ), /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Center, null, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Text, { text: "100x100", color: "white" })))), /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Text, { text: "Rounded Corners", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react30.default.createElement(
-    import_fuickjs29.Container,
-    {
-      width: 200,
-      height: 60,
-      color: "#4CAF50",
-      borderRadius: 12
-    },
-    /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Center, null, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Text, { text: "borderRadius: 12", color: "white" }))
-  )), /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Text, { text: "Border", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react30.default.createElement(
-    import_fuickjs29.Container,
-    {
-      width: 200,
-      height: 60,
-      color: "#FFFFFF",
-      borderRadius: 8,
-      border: { color: "#2196F3", width: 2 }
-    },
-    /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Center, null, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Text, { text: "With Border", color: "#2196F3" }))
-  )), /* @__PURE__ */ import_react30.default.createElement(
-    import_fuickjs29.Text,
-    {
-      text: "BoxShadow (Decoration)",
-      fontWeight: "bold",
-      fontSize: 18
-    }
-  ), /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react30.default.createElement(
-    import_fuickjs29.Container,
-    {
-      width: 200,
-      height: 80,
-      decoration: {
-        color: "white",
-        borderRadius: 8,
-        boxShadow: {
-          color: "rgba(0,0,0,0.2)",
-          blurRadius: 10,
-          offset: { dx: 0, dy: 5 }
-        }
-      }
-    },
-    /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Center, null, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Text, { text: "With Shadow" }))
-  )), /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Text, { text: "Alignment", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react30.default.createElement(
-    import_fuickjs29.Container,
-    {
-      width: 300,
-      height: 100,
-      color: "#EEEEEE",
-      alignment: "bottomRight",
-      padding: 8
-    },
-    /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Container, { width: 50, height: 50, color: "#FF9800" }, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Center, null, /* @__PURE__ */ import_react30.default.createElement(import_fuickjs29.Text, { text: "BR", color: "white" })))
-  ))))));
-}
-
-// src/demos/LayoutBasicsDemo.tsx
-var import_react31 = __toESM(require_react_production());
-var import_fuickjs30 = __toESM(require_dist());
-function LayoutBasicsDemo() {
-  return /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Scaffold, { appBar: /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.AppBar, { title: "Layout Basics Demo" }) }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.SingleChildScrollView, null, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Padding, { padding: 16 }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react31.default.createElement(
-    import_fuickjs30.Text,
-    {
-      text: "Expanded vs Flexible in Row",
-      fontWeight: "bold",
-      fontSize: 18
-    }
-  ), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { height: 60, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Row, null, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { width: 50, color: "#F44336" }), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Expanded, null, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { color: "#2196F3" }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Center, null, /* @__PURE__ */ import_react31.default.createElement(
-    import_fuickjs30.Text,
-    {
-      text: "Expanded (takes all)",
-      color: "white",
-      fontSize: 12
-    }
-  )))), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { width: 50, color: "#4CAF50" })))), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Padding, { padding: { bottom: 16 } }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { height: 60, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Row, null, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { width: 50, color: "#F44336" }), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Flexible, null, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { width: 100, color: "#9C27B0" }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Center, null, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Text, { text: "Flexible", color: "white", fontSize: 12 })))), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { width: 50, color: "#4CAF50" })))), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Divider, { height: 32, color: "transparent" }), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Text, { text: "Column Alignment", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { height: 150, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react31.default.createElement(
-    import_fuickjs30.Column,
-    {
-      mainAxisAlignment: "spaceEvenly",
-      crossAxisAlignment: "center"
-    },
-    /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { width: 100, height: 30, color: "#FF9800" }),
-    /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { width: 150, height: 30, color: "#FF9800" }),
-    /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { width: 80, height: 30, color: "#FF9800" })
-  ))), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Divider, { height: 32, color: "transparent" }), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Text, { text: "Center Widget", fontWeight: "bold", fontSize: 18 }), /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Padding, { padding: { top: 8, bottom: 16 } }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Container, { height: 100, color: "#EEEEEE", width: 350 }, /* @__PURE__ */ import_react31.default.createElement(import_fuickjs30.Center, null, /* @__PURE__ */ import_react31.default.createElement(
-    import_fuickjs30.Container,
-    {
-      width: 60,
-      height: 60,
-      color: "#009688",
-      borderRadius: 30
-    }
-  ))))))));
-}
-
-// src/demos/InkWellDemo.tsx
-var import_react32 = __toESM(require_react_production());
-var import_fuickjs31 = __toESM(require_dist());
-function InkWellDemo() {
-  const [count, setCount] = (0, import_react32.useState)(0);
-  return /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Scaffold, { appBar: /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.AppBar, { title: "InkWell Demo" }) }, /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Center, null, /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Text, { text: `Count: ${count}`, fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Padding, { padding: 20 }, /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.InkWell, { onTap: () => setCount(count + 1) }, /* @__PURE__ */ import_react32.default.createElement(
-    import_fuickjs31.Container,
-    {
-      width: 200,
-      height: 60,
-      color: "#2196F3",
-      borderRadius: 8
-    },
-    /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Center, null, /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Text, { text: "Click with Ripple", color: "white" }))
-  ))), /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Padding, { padding: 10 }, /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.InkWell, { onTap: () => setCount(0) }, /* @__PURE__ */ import_react32.default.createElement(
-    import_fuickjs31.Container,
-    {
-      width: 150,
-      height: 40,
-      border: { color: "#F44336", width: 1 },
-      borderRadius: 20
-    },
-    /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Center, null, /* @__PURE__ */ import_react32.default.createElement(import_fuickjs31.Text, { text: "Reset", color: "#F44336" }))
-  ))))));
-}
-
-// src/demos/ScaffoldDemo.tsx
-var import_react33 = __toESM(require_react_production());
-var import_fuickjs32 = __toESM(require_dist());
-var ScaffoldDemo = () => {
-  const [currentIndex, setCurrentIndex] = (0, import_react33.useState)(0);
-  const [clickCount, setClickCount] = (0, import_react33.useState)(0);
-  const pages = [
-    /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Center, { key: "home" }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "home", size: 100, color: "#2196F3" }), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.SizedBox, { height: 20 }), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Text, { text: "\u8FD9\u662F\u9996\u9875\u5185\u5BB9", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.SizedBox, { height: 10 }), /* @__PURE__ */ import_react33.default.createElement(
-      import_fuickjs32.Text,
-      {
-        text: `FAB \u70B9\u51FB\u6B21\u6570: ${clickCount}`,
-        fontSize: 18,
-        color: "#666666"
-      }
-    ))),
-    /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Center, { key: "search" }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "search", size: 100, color: "#4CAF50" }), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.SizedBox, { height: 20 }), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Text, { text: "\u8FD9\u662F\u641C\u7D22\u9875\u9762", fontSize: 24, fontWeight: "bold" }))),
-    /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Center, { key: "profile" }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "person", size: 100, color: "#FF9800" }), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.SizedBox, { height: 20 }), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Text, { text: "\u8FD9\u662F\u4E2A\u4EBA\u4E2D\u5FC3", fontSize: 24, fontWeight: "bold" })))
-  ];
-  return /* @__PURE__ */ import_react33.default.createElement(
-    import_fuickjs32.Scaffold,
-    {
-      backgroundColor: "#F5F5F5",
-      appBar: /* @__PURE__ */ import_react33.default.createElement(
-        import_fuickjs32.AppBar,
-        {
-          title: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Text, { text: "Scaffold \u529F\u80FD\u6F14\u793A", color: "white" }),
-          backgroundColor: "#2196F3",
-          centerTitle: true,
-          leading: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.InkWell, { onTap: () => console.log("Menu tapped") }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Padding, { padding: { left: 16 } }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "menu", color: "white" }))),
-          actions: [
-            /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.InkWell, { key: "search", onTap: () => console.log("Search tapped") }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Padding, { padding: { right: 16 } }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "search", color: "white" })))
-          ]
-        }
-      ),
-      drawer: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Container, { width: 280, color: "white" }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.SafeArea, null, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react33.default.createElement(
-        import_fuickjs32.Container,
-        {
-          width: 60,
-          height: 60,
-          borderRadius: 30,
-          color: "#2196F3"
-        },
-        /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Center, null, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "person", color: "white", size: 30 }))
-      ), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.SizedBox, { height: 16 }), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Text, { text: "FuickJS \u7528\u6237", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react33.default.createElement(
-        import_fuickjs32.Text,
-        {
-          text: "fuickjs@example.com",
-          fontSize: 14,
-          color: "#666666"
-        }
-      ), /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.SizedBox, { height: 32 }), /* @__PURE__ */ import_react33.default.createElement(
-        import_fuickjs32.ListTile,
-        {
-          leading: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "settings" }),
-          title: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Text, { text: "\u8BBE\u7F6E" }),
-          onTap: () => console.log("Settings tapped")
-        }
-      ), /* @__PURE__ */ import_react33.default.createElement(
-        import_fuickjs32.ListTile,
-        {
-          leading: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "info" }),
-          title: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Text, { text: "\u5173\u4E8E" }),
-          onTap: () => console.log("About tapped")
-        }
-      ))))),
-      floatingActionButton: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.InkWell, { onTap: () => setClickCount((c) => c + 1) }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Container, { width: 56, height: 56, borderRadius: 28, color: "#2196F3" }, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Center, null, /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "add", color: "white", size: 28 })))),
-      bottomNavigationBar: /* @__PURE__ */ import_react33.default.createElement(
-        import_fuickjs32.BottomNavigationBar,
-        {
-          currentIndex,
-          onTap: (index) => setCurrentIndex(index),
-          selectedItemColor: "#2196F3",
-          unselectedItemColor: "#999999",
-          items: [
-            /* @__PURE__ */ import_react33.default.createElement(
-              import_fuickjs32.BottomNavigationBarItem,
-              {
-                key: "home",
-                icon: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "home" }),
-                label: "\u9996\u9875"
-              }
-            ),
-            /* @__PURE__ */ import_react33.default.createElement(
-              import_fuickjs32.BottomNavigationBarItem,
-              {
-                key: "search",
-                icon: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "search" }),
-                label: "\u641C\u7D22"
-              }
-            ),
-            /* @__PURE__ */ import_react33.default.createElement(
-              import_fuickjs32.BottomNavigationBarItem,
-              {
-                key: "profile",
-                icon: /* @__PURE__ */ import_react33.default.createElement(import_fuickjs32.Icon, { name: "person" }),
-                label: "\u6211\u7684"
-              }
-            )
-          ]
-        }
-      )
-    },
-    pages[currentIndex]
-  );
-};
-var ScaffoldDemo_default = ScaffoldDemo;
-
-// src/demos/AnimatedDemo.tsx
-var import_react34 = __toESM(require_react_production());
-var import_fuickjs33 = __toESM(require_dist());
-function AnimatedDemo() {
-  const [selected, setSelected] = (0, import_react34.useState)(false);
-  const [opacity, setOpacity] = (0, import_react34.useState)(1);
-  const [alignment, setAlignment] = (0, import_react34.useState)("topLeft");
-  const [positioned, setPositioned] = (0, import_react34.useState)(false);
-  const [padding, setPadding] = (0, import_react34.useState)(10);
-  const [scaleImplicit, setScaleImplicit] = (0, import_react34.useState)(1);
-  const [rotationImplicit, setRotationImplicit] = (0, import_react34.useState)(0);
-  const [slideImplicit, setSlideImplicit] = (0, import_react34.useState)({ dx: 0, dy: 0 });
-  const [animating, setAnimating] = (0, import_react34.useState)(false);
-  const [turns, setTurns] = (0, import_react34.useState)(0);
-  const [scaleExplicit, setScaleExplicit] = (0, import_react34.useState)(1);
-  const [offsetExplicit, setOffsetExplicit] = (0, import_react34.useState)({ dx: 0, dy: 0 });
-  (0, import_react34.useEffect)(() => {
-    let interval;
-    if (animating) {
-      interval = setInterval(() => {
-        setTurns((t) => (t + 0.01) % 1);
-        setScaleExplicit((s) => {
-          const newScale = s + 0.01;
-          return newScale > 1.5 ? 0.5 : newScale;
-        });
-        setOffsetExplicit((o) => {
-          let newDx = o.dx + 0.01;
-          if (newDx > 0.5) newDx = -0.5;
-          return { dx: newDx, dy: 0 };
-        });
-      }, 16);
-    }
-    return () => clearInterval(interval);
-  }, [animating]);
-  return /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Scaffold, { appBar: /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.AppBar, { title: /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "Animated & Transition" }) }) }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SingleChildScrollView, null, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Padding, { padding: 16 }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Text,
-    {
-      text: "Implicit Animations",
-      fontSize: 24,
-      fontWeight: "bold",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "AnimatedContainer", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.AnimatedContainer,
-    {
-      width: selected ? 200 : 100,
-      height: selected ? 100 : 200,
-      color: selected ? "#FF0000" : "#0000FF",
-      alignment: selected ? "center" : "topCenter",
-      duration: 1e3,
-      curve: "fastOutSlowIn"
-    },
-    /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "Click me!", color: "#FFFFFF" }))
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Button,
-    {
-      text: "Toggle Container",
-      onTap: () => setSelected(!selected)
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "AnimatedOpacity", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.AnimatedOpacity, { opacity, duration: 1e3 }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 100, height: 100, color: "#00FF00" })), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Button,
-    {
-      text: "Fade In/Out",
-      onTap: () => setOpacity(opacity === 1 ? 0 : 1)
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "AnimatedAlign", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 200, height: 200, color: "#EEEEEE" }, /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.AnimatedAlign,
-    {
-      alignment,
-      duration: 1e3,
-      curve: "easeInOut"
-    },
-    /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 50, height: 50, color: "#FF00FF" })
-  )), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Button,
-    {
-      text: "Move Align",
-      onTap: () => {
-        const aligns = [
-          "topLeft",
-          "topRight",
-          "bottomRight",
-          "bottomLeft",
-          "center"
-        ];
-        const currentIdx = aligns.indexOf(alignment);
-        const nextIdx = (currentIdx + 1) % aligns.length;
-        setAlignment(aligns[nextIdx]);
-      }
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "AnimatedPadding", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { color: "#EEEEEE" }, /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.AnimatedPadding,
-    {
-      padding,
-      duration: 500,
-      curve: "easeInOut"
-    },
-    /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 100, height: 100, color: "#00FFFF" })
-  )), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Button,
-    {
-      text: "Change Padding",
-      onTap: () => setPadding(padding === 10 ? 50 : 10)
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "AnimatedPositioned", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 300, height: 200, color: "#EEEEEE" }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Stack, null, /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.AnimatedPositioned,
-    {
-      left: positioned ? 10 : 150,
-      top: positioned ? 10 : 100,
-      width: positioned ? 200 : 50,
-      height: positioned ? 50 : 80,
-      duration: 1e3,
-      curve: "elasticInOut"
-    },
-    /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { color: "#FFA500" })
-  ))), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Button,
-    {
-      text: "Move Positioned",
-      onTap: () => setPositioned(!positioned)
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "AnimatedScale", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.AnimatedScale,
-    {
-      scale: scaleImplicit,
-      duration: 500,
-      curve: "easeInOut"
-    },
-    /* @__PURE__ */ import_react34.default.createElement(
-      import_fuickjs33.Container,
-      {
-        width: 100,
-        height: 100,
-        decoration: { color: "blue", borderRadius: 10 }
-      },
-      /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "Scale", color: "white" }))
-    )
-  )), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Button,
-    {
-      text: "Toggle Scale",
-      onTap: () => setScaleImplicit(scaleImplicit === 1 ? 1.5 : 1)
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "AnimatedRotation", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.AnimatedRotation,
-    {
-      turns: rotationImplicit,
-      duration: 500,
-      curve: "easeInOut"
-    },
-    /* @__PURE__ */ import_react34.default.createElement(
-      import_fuickjs33.Container,
-      {
-        width: 100,
-        height: 100,
-        decoration: { color: "green", borderRadius: 10 }
-      },
-      /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "Rotate", color: "white" }))
-    )
-  )), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Button,
-    {
-      text: "Add 0.25 Turns",
-      onTap: () => setRotationImplicit(rotationImplicit + 0.25)
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Divider, { margin: { top: 20, bottom: 20 } }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "AnimatedSlide", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Container,
-    {
-      width: 200,
-      height: 150,
-      decoration: { border: { color: "#ccc", width: 1 } }
-    },
-    /* @__PURE__ */ import_react34.default.createElement(
-      import_fuickjs33.AnimatedSlide,
-      {
-        offset: slideImplicit,
-        duration: 500,
-        curve: "easeInOut"
-      },
-      /* @__PURE__ */ import_react34.default.createElement(
-        import_fuickjs33.Container,
-        {
-          width: 50,
-          height: 50,
-          decoration: { color: "orange", borderRadius: 25 }
-        }
-      )
-    )
-  )), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Button,
-    {
-      text: "Toggle Slide",
-      onTap: () => setSlideImplicit(
-        slideImplicit.dx === 0 ? { dx: 1, dy: 0.5 } : { dx: 0, dy: 0 }
-      )
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Divider,
-    {
-      margin: { top: 40, bottom: 20 },
-      color: "black",
-      thickness: 2
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Text,
-    {
-      text: "Explicit Transitions (JS Driven)",
-      fontSize: 24,
-      fontWeight: "bold",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "Animate Loop", fontSize: 18 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { width: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Switch, { value: animating, onChanged: (v) => setAnimating(v) })), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 20 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "RotationTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.RotationTransition, { turns }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "Rotate", color: "white" })))), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: `Turns: ${turns.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "ScaleTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.ScaleTransition, { scale: scaleExplicit }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 100, height: 100, color: "#4CAF50" }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "Scale", color: "white" })))), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: `Scale: ${scaleExplicit.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SizedBox, { height: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "SlideTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 200, height: 100, color: "#EEEEEE" }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.SlideTransition, { position: offsetExplicit }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Container, { width: 100, height: 100, color: "#FF9800" }, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Center, null, /* @__PURE__ */ import_react34.default.createElement(import_fuickjs33.Text, { text: "Slide", color: "white" }))))), /* @__PURE__ */ import_react34.default.createElement(
-    import_fuickjs33.Text,
-    {
-      text: `Offset: ${offsetExplicit.dx.toFixed(2)}, ${offsetExplicit.dy.toFixed(2)}`,
-      margin: 10
-    }
-  )))));
-}
-
-// src/demos/DialogDemo.tsx
-var import_react35 = __toESM(require_react_production());
-var import_fuickjs34 = __toESM(require_dist());
-var dialogId = 0;
-function LifecycleContent({ label }) {
-  const id = ++dialogId;
-  (0, import_react35.useEffect)(() => {
-    console.log(`[${label} #${id}] mount`);
-    return () => console.log(`[${label} #${id}] unmount`);
-  }, []);
-  return null;
-}
-function DialogDemo() {
-  const [showCustom, setShowCustom] = (0, import_react35.useState)(false);
-  const [result, setResult] = (0, import_react35.useState)("");
-  const navigator = (0, import_fuickjs34.useNavigator)();
-  (0, import_react35.useEffect)(() => {
-    console.log("[DialogDemo] mount");
-    return () => console.log("[DialogDemo] unmount");
-  }, []);
-  const showDialog = () => {
-    navigator.showDialog(
-      /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Dialog, null, /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Column, { padding: 24 }, /* @__PURE__ */ import_react35.default.createElement(LifecycleContent, { label: "Dialog" }), /* @__PURE__ */ import_react35.default.createElement(
-        import_fuickjs34.Text,
-        {
-          text: "Dialog",
-          fontSize: 18,
-          fontWeight: "bold",
-          margin: { bottom: 12 }
-        }
-      ), /* @__PURE__ */ import_react35.default.createElement(
-        import_fuickjs34.Text,
-        {
-          text: "Opened via showDialog(). Check console for lifecycle logs.",
-          margin: { bottom: 20 }
-        }
-      ), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "Close", onTap: () => navigator.pop() })))
-    );
-  };
-  const showAlertDialog = () => {
-    navigator.showDialog(
-      /* @__PURE__ */ import_react35.default.createElement(
-        import_fuickjs34.AlertDialog,
-        {
-          title: /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Text, { text: "Alert" }),
-          content: /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Text, { text: "Opened via showDialog() with AlertDialog. Check console for lifecycle logs." }),
-          actions: [/* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { key: "ok", text: "OK", onTap: () => navigator.pop() })]
-        }
-      )
-    );
-  };
-  const showBottomSheet = () => {
-    navigator.showBottomSheet(
-      /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Column, { padding: 24 }, /* @__PURE__ */ import_react35.default.createElement(LifecycleContent, { label: "BottomSheet" }), /* @__PURE__ */ import_react35.default.createElement(
-        import_fuickjs34.Text,
-        {
-          text: "Bottom Sheet",
-          fontSize: 18,
-          fontWeight: "bold",
-          margin: { bottom: 12 }
-        }
-      ), /* @__PURE__ */ import_react35.default.createElement(
-        import_fuickjs34.Text,
-        {
-          text: "Opened via showBottomSheet(). Check console for lifecycle logs.",
-          margin: { bottom: 20 }
-        }
-      ), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "Close", onTap: () => navigator.pop() })),
-      { minHeight: 200, maxHeight: 500 }
-    );
-  };
-  const showConfirm = async () => {
-    const confirmed = await import_fuickjs34.DialogService.showModal({
-      title: "Confirm",
-      content: "Are you sure you want to proceed?",
-      showCancel: true,
-      cancelText: "No",
-      confirmText: "Yes"
-    });
-    setResult(`showModal result: ${confirmed}`);
-  };
-  const showActionSheet = async () => {
-    const index = await import_fuickjs34.DialogService.showActionSheet({
-      items: ["Take Photo", "Choose from Gallery", "Delete"]
-    });
-    setResult(`showActionSheet result: index=${index}`);
-  };
-  const showPicker = async () => {
-    const res = await import_fuickjs34.PickerService.show({
-      range: ["Apple", "Banana", "Cherry", "Durian", "Elderberry"],
-      title: "Pick a Fruit"
-    });
-    setResult(
-      `Picker result: ${res ? `${res.label} (index=${res.value})` : "cancelled"}`
-    );
-  };
-  const showDatePicker = async () => {
-    const date = await import_fuickjs34.PickerService.showDate({
-      start: "2020-01-01",
-      end: "2030-12-31"
-    });
-    setResult(`DatePicker result: ${date ?? "cancelled"}`);
-  };
-  const showTimePicker = async () => {
-    const time = await import_fuickjs34.PickerService.showTime();
-    setResult(`TimePicker result: ${time ?? "cancelled"}`);
-  };
-  return /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Scaffold, { appBar: /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.AppBar, { title: "Dialog Demo" }) }, /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react35.default.createElement(
-    import_fuickjs34.Text,
-    {
-      text: "showDialog",
-      fontWeight: "bold",
-      margin: { bottom: 8, top: 8 }
-    }
-  ), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "Dialog", onTap: showDialog }), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "AlertDialog", onTap: showAlertDialog })), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Text, { text: "showBottomSheet", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react35.default.createElement(
-    import_fuickjs34.Button,
-    {
-      text: "BottomSheet",
-      onTap: showBottomSheet,
-      margin: { bottom: 16 }
-    }
-  ), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Text, { text: "System Dialogs", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "showModal", onTap: showConfirm }), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "showActionSheet", onTap: showActionSheet })), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Text, { text: "Pickers", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Row, { mainAxisAlignment: "center", spacing: 8, margin: { bottom: 16 } }, /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "Picker", onTap: showPicker }), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "Date", onTap: showDatePicker }), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "Time", onTap: showTimePicker })), /* @__PURE__ */ import_react35.default.createElement(
-    import_fuickjs34.Text,
-    {
-      text: "Custom (Stack-based)",
-      fontWeight: "bold",
-      margin: { bottom: 8 }
-    }
-  ), /* @__PURE__ */ import_react35.default.createElement(
-    import_fuickjs34.Button,
-    {
-      text: showCustom ? "Hide Custom Dialog" : "Show Custom Dialog",
-      onTap: () => setShowCustom(!showCustom),
-      margin: { bottom: 16 }
-    }
-  ), result ? /* @__PURE__ */ import_react35.default.createElement(
-    import_fuickjs34.Container,
-    {
-      padding: 12,
-      margin: { bottom: 16 },
-      decoration: { color: "#E3F2FD", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Text, { text: result, fontSize: 13, color: "#1565C0" })
-  ) : null), showCustom && /* @__PURE__ */ import_react35.default.createElement(
-    import_fuickjs34.Container,
-    {
-      color: "#00000080",
-      alignment: "center",
-      position: "absolute",
-      left: 0,
-      top: 0,
-      right: 0,
-      bottom: 0
-    },
-    /* @__PURE__ */ import_react35.default.createElement(
-      import_fuickjs34.Container,
-      {
-        padding: 24,
-        decoration: { color: "white", borderRadius: 12 }
-      },
-      /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react35.default.createElement(
-        import_fuickjs34.Text,
-        {
-          text: "Custom Dialog",
-          fontSize: 18,
-          fontWeight: "bold",
-          margin: { bottom: 12 }
-        }
-      ), /* @__PURE__ */ import_react35.default.createElement(
-        import_fuickjs34.Text,
-        {
-          text: "Stack + state toggle. No overlay entry involved.",
-          margin: { bottom: 20 }
-        }
-      ), /* @__PURE__ */ import_react35.default.createElement(import_fuickjs34.Button, { text: "Close", onTap: () => setShowCustom(false) }))
-    )
-  ));
-}
-
-// src/demos/IntrinsicDemo.tsx
-var import_react36 = __toESM(require_react_production());
-var import_fuickjs35 = __toESM(require_dist());
-var IntrinsicDemo = class extends import_react36.default.Component {
-  render() {
-    return /* @__PURE__ */ import_react36.default.createElement(
-      import_fuickjs35.Scaffold,
-      {
-        appBar: /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.AppBar, { title: /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Intrinsic Widgets Demo" }) })
-      },
-      /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.SingleChildScrollView, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Column, { padding: { all: 16 } }, /* @__PURE__ */ import_react36.default.createElement(
-        import_fuickjs35.Text,
-        {
-          text: "IntrinsicWidth Demo",
-          fontSize: 18,
-          fontWeight: "bold",
-          margin: { bottom: 10 }
-        }
-      ), /* @__PURE__ */ import_react36.default.createElement(
-        import_fuickjs35.Text,
-        {
-          text: "Without IntrinsicWidth (Column expands to max width):",
-          margin: { bottom: 5 }
-        }
-      ), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#e0e0e0", padding: { all: 10 } }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#ffcdd2", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Short" }))), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#ef9a9a", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Medium Length" }))), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#e57373", height: 50 }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Very Long Text Content" }))))), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.SizedBox, { height: 20 }), /* @__PURE__ */ import_react36.default.createElement(
-        import_fuickjs35.Text,
-        {
-          text: "With IntrinsicWidth (Column matches widest child):",
-          margin: { bottom: 5 }
-        }
-      ), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.IntrinsicWidth, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#c8e6c9", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Short" }))), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#a5d6a7", height: 50, margin: { bottom: 5 } }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Medium Length" }))), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#81c784", height: 50 }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Very Long Text Content" })))))), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.SizedBox, { height: 30 }), /* @__PURE__ */ import_react36.default.createElement(
-        import_fuickjs35.Text,
-        {
-          text: "IntrinsicHeight Demo",
-          fontSize: 18,
-          fontWeight: "bold",
-          margin: { bottom: 10 }
-        }
-      ), /* @__PURE__ */ import_react36.default.createElement(
-        import_fuickjs35.Text,
-        {
-          text: "With IntrinsicHeight (Row items stretch to tallest):",
-          margin: { bottom: 5 }
-        }
-      ), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.IntrinsicHeight, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Row, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#bbdefb", width: 100 }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Height depends on neighbor" }))), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#90caf9", width: 100, padding: { all: 20 } }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "This is a taller item\\nthat forces the height\\nof the row to increase." })), /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Container, { color: "#64b5f6", width: 100 }, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Center, null, /* @__PURE__ */ import_react36.default.createElement(import_fuickjs35.Text, { text: "Me too" })))))))
-    );
-  }
-};
-
-// src/demos/TextFieldControllerDemo.tsx
-var React36 = __toESM(require_react_production());
-var import_fuickjs36 = __toESM(require_dist());
-function TextFieldControllerDemo() {
-  const textFieldRef = React36.useRef(null);
-  const [currentText] = React36.useState("Initial Text");
-  return /* @__PURE__ */ React36.createElement(
-    import_fuickjs36.Scaffold,
-    {
-      appBar: /* @__PURE__ */ React36.createElement(import_fuickjs36.AppBar, { title: /* @__PURE__ */ React36.createElement(import_fuickjs36.Text, { text: "TextField Controller Demo" }) })
-    },
-    /* @__PURE__ */ React36.createElement(import_fuickjs36.SingleChildScrollView, null, /* @__PURE__ */ React36.createElement(import_fuickjs36.Padding, { padding: 16 }, /* @__PURE__ */ React36.createElement(import_fuickjs36.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ React36.createElement(
-      import_fuickjs36.TextField,
-      {
-        ref: textFieldRef,
-        text: currentText,
-        hintText: "Type something...",
-        onChanged: (text) => {
-          console.log("Text changed:", text);
-        }
-      }
-    ), /* @__PURE__ */ React36.createElement(import_fuickjs36.SizedBox, { height: 20 }), /* @__PURE__ */ React36.createElement(import_fuickjs36.Text, { text: "Controller Actions:", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ React36.createElement(import_fuickjs36.SizedBox, { height: 10 }), /* @__PURE__ */ React36.createElement(
-      import_fuickjs36.Container,
-      {
-        decoration: {
-          border: { color: "#ccc", width: 1 },
-          borderRadius: 8
-        },
-        padding: 10
-      },
-      /* @__PURE__ */ React36.createElement(import_fuickjs36.Column, null, /* @__PURE__ */ React36.createElement(
-        import_fuickjs36.Button,
-        {
-          text: "Focus",
-          onTap: () => {
-            textFieldRef.current?.focus();
-          }
-        }
-      ), /* @__PURE__ */ React36.createElement(import_fuickjs36.SizedBox, { height: 10 }), /* @__PURE__ */ React36.createElement(
-        import_fuickjs36.Button,
-        {
-          text: "Unfocus",
-          onTap: () => {
-            textFieldRef.current?.unfocus();
-          }
-        }
-      ), /* @__PURE__ */ React36.createElement(import_fuickjs36.SizedBox, { height: 10 }), /* @__PURE__ */ React36.createElement(
-        import_fuickjs36.Button,
-        {
-          text: "Select All",
-          onTap: () => {
-            textFieldRef.current?.selectAll();
-          }
-        }
-      ), /* @__PURE__ */ React36.createElement(import_fuickjs36.SizedBox, { height: 10 }), /* @__PURE__ */ React36.createElement(
-        import_fuickjs36.Button,
-        {
-          text: "Select First 3 Chars",
-          onTap: () => {
-            textFieldRef.current?.setSelection(0, 3);
-          }
-        }
-      ), /* @__PURE__ */ React36.createElement(import_fuickjs36.SizedBox, { height: 10 }), /* @__PURE__ */ React36.createElement(
-        import_fuickjs36.Button,
-        {
-          text: "Clear",
-          onTap: () => {
-            textFieldRef.current?.clear();
-          }
-        }
-      ), /* @__PURE__ */ React36.createElement(import_fuickjs36.SizedBox, { height: 10 }), /* @__PURE__ */ React36.createElement(
-        import_fuickjs36.Button,
-        {
-          text: "Set Text to 'Hello World'",
-          onTap: () => {
-            textFieldRef.current?.setText("Hello World");
-          }
-        }
-      ))
-    ))))
-  );
-}
-
-// src/pages/hybrid_demo.tsx
-var import_react37 = __toESM(require_react_production());
-var import_fuickjs37 = __toESM(require_dist());
-function HybridDemoPage(props) {
-  const navigator = (0, import_fuickjs37.useNavigator)();
-  const [result, setResult] = import_react37.default.useState(null);
-  return /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.Scaffold, { appBar: /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.AppBar, { title: "Hybrid Navigation Demo" }) }, /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.Center, null, /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.Column, null, /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.Text, { text: "This is a JS Page", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.SizedBox, { height: 10 }), /* @__PURE__ */ import_react37.default.createElement(
-    import_fuickjs37.Text,
-    {
-      text: `Params: ${JSON.stringify(props)}`,
-      fontSize: 14,
-      color: "grey"
-    }
-  ), result && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.SizedBox, { height: 20 }), /* @__PURE__ */ import_react37.default.createElement(
-    import_fuickjs37.Text,
-    {
-      text: `Result from Native: ${result}`,
-      fontSize: 16,
-      color: "blue"
-    }
-  )), /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.SizedBox, { height: 20 }), /* @__PURE__ */ import_react37.default.createElement(
-    import_fuickjs37.Button,
-    {
-      text: "\u8FD4\u56DE\u4E0A\u4E00\u4E2A\u9875\u9762\uFF0C\u5E76\u5E26\u6709\u53C2\u6570",
-      onTap: () => {
-        navigator.pop({
-          message: "\u6211\u662Fjs\u9875\u9762\u8FD4\u56DE\u7684\u53C2\u6570",
-          timestamp: Date.now()
-        });
-      }
-    }
-  ), /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.SizedBox, { height: 20 }), /* @__PURE__ */ import_react37.default.createElement(
-    import_fuickjs37.Button,
-    {
-      text: "\u6253\u5F00\u539F\u751F\u9875\u9762",
-      onTap: async () => {
-        const res = await navigator.push(
-          "/natie_demo_page",
-          { data: "\u6211\u662Fjs\u9875\u9762\u6253\u5F00\u7684\u53C2\u6570" },
-          true
-        );
-        if (res) {
-          setResult(JSON.stringify(res));
-        }
-      }
-    }
-  ), /* @__PURE__ */ import_react37.default.createElement(import_fuickjs37.SizedBox, { height: 20 }), /* @__PURE__ */ import_react37.default.createElement(
-    import_fuickjs37.Button,
-    {
-      text: "\u6253\u5F00js\u9875\u9762",
-      onTap: async () => {
-        const res = await navigator.push("/hybrid_demo", {
-          data: "\u6211\u662Fjs\u9875\u9762\u6253\u5F00\u7684\u53C2\u6570"
-        });
-        if (res) {
-          setResult(JSON.stringify(res));
-        }
-      }
-    }
-  ))));
-}
-
-// src/demos/TransitionDemo.tsx
-var import_react38 = __toESM(require_react_production());
-var import_fuickjs38 = __toESM(require_dist());
-function TransitionDemo() {
-  const [animating, setAnimating] = (0, import_react38.useState)(false);
-  const [turns, setTurns] = (0, import_react38.useState)(0);
-  const [scale, setScale] = (0, import_react38.useState)(1);
-  const [offset, setOffset] = (0, import_react38.useState)({ dx: 0, dy: 0 });
-  (0, import_react38.useEffect)(() => {
-    let interval;
-    if (animating) {
-      interval = setInterval(() => {
-        setTurns((t) => (t + 0.01) % 1);
-        setScale((s) => {
-          const newScale = s + 0.01;
-          return newScale > 1.5 ? 0.5 : newScale;
-        });
-        setOffset((o) => {
-          let newDx = o.dx + 0.01;
-          if (newDx > 0.5) newDx = -0.5;
-          return { dx: newDx, dy: 0 };
-        });
-      }, 16);
-    }
-    return () => clearInterval(interval);
-  }, [animating]);
-  return /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Scaffold, { appBar: /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.AppBar, { title: /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: "Transition Widgets" }) }) }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.SingleChildScrollView, null, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Padding, { padding: 16 }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: "Animate" }), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.SizedBox, { width: 10 }), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Switch, { value: animating, onChanged: (v) => setAnimating(v) })), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Divider, null), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: "RotationTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.RotationTransition, { turns }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Container, { width: 100, height: 100, color: "#2196F3" }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Center, null, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: "Rotate", color: "white" })))), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: `Turns: ${turns.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Divider, null), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: "ScaleTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.ScaleTransition, { scale }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Container, { width: 100, height: 100, color: "#4CAF50" }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Center, null, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: "Scale", color: "white" })))), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: `Scale: ${scale.toFixed(2)}`, margin: 10 }), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Divider, null), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: "SlideTransition", fontSize: 18, margin: 10 }), /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Container, { width: 200, height: 100, color: "#EEEEEE" }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.SlideTransition, { position: offset }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Container, { width: 100, height: 100, color: "#FF9800" }, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Center, null, /* @__PURE__ */ import_react38.default.createElement(import_fuickjs38.Text, { text: "Slide", color: "white" }))))), /* @__PURE__ */ import_react38.default.createElement(
-    import_fuickjs38.Text,
-    {
-      text: `Offset: ${offset.dx.toFixed(2)}, ${offset.dy.toFixed(2)}`,
-      margin: 10
-    }
-  )))));
-}
-
-// src/demos/BoxDemo.tsx
-var import_react39 = __toESM(require_react_production());
-var import_fuickjs39 = __toESM(require_dist());
-function BoxDemo() {
-  return /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Scaffold, { appBar: /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.AppBar, { title: /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Text, { text: "Box Widgets Demo" }) }) }, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.SingleChildScrollView, null, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Padding, { padding: 16 }, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Text,
-    {
-      text: "Container with Constraints",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Text,
-    {
-      text: "Min Width 100, Min Height 100",
-      color: "grey",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Container,
-    {
-      color: "blue",
-      constraints: {
-        minWidth: 100,
-        minHeight: 100,
-        maxWidth: 200,
-        maxHeight: 200
-      }
-    },
-    /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Text, { text: "Small Text", color: "white" })
-  ), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.SizedBox, { height: 20 }), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Divider, null), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.SizedBox, { height: 20 }), /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Text,
-    {
-      text: "ConstrainedBox",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Text,
-    {
-      text: "Forces child to be at least 150x50",
-      color: "grey",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.ConstrainedBox,
-    {
-      constraints: {
-        minWidth: 150,
-        minHeight: 50
-      }
-    },
-    /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Container, { color: "red", width: 10, height: 10 }, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Center, null, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Text, { text: "I was 10x10", color: "white" })))
-  ), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.SizedBox, { height: 20 }), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Divider, null), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.SizedBox, { height: 20 }), /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Text,
-    {
-      text: "FittedBox (BoxFit.contain)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.FittedBox, { fit: "contain" }, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Container, { width: 50, height: 50, color: "green" }))), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.SizedBox, { height: 10 }), /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Text,
-    {
-      text: "FittedBox (BoxFit.fill)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.FittedBox, { fit: "fill" }, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Container, { width: 50, height: 50, color: "green" }))), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.SizedBox, { height: 10 }), /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Text,
-    {
-      text: "FittedBox (BoxFit.fitWidth)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.Container, { width: 200, height: 100, color: "yellow" }, /* @__PURE__ */ import_react39.default.createElement(import_fuickjs39.FittedBox, { fit: "fitWidth" }, /* @__PURE__ */ import_react39.default.createElement(
-    import_fuickjs39.Text,
-    {
-      text: "Very long text that should fit width",
-      fontSize: 50
-    }
-  )))))));
-}
-
-// src/demos/VisibilityDemo.tsx
-var import_react40 = __toESM(require_react_production());
-var import_fuickjs40 = __toESM(require_dist());
-function VisibilityDemo() {
-  const [isVisible, setIsVisible] = (0, import_react40.useState)(true);
-  const [maintainSize, setMaintainSize] = (0, import_react40.useState)(false);
-  return /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Scaffold, { appBar: /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.AppBar, { title: /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "Visibility Demo" }) }) }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.SingleChildScrollView, null, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Padding, { padding: 16 }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react40.default.createElement(
-    import_fuickjs40.Text,
-    {
-      text: "Basic Visibility",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "Is Visible?" }), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Switch, { value: isVisible, onChanged: setIsVisible })), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Visibility, { visible: isVisible }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Container, { width: 100, height: 100, color: "blue" }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Center, null, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "I am Visible", color: "white" }))))), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.SizedBox, { height: 20 }), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Divider, null), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.SizedBox, { height: 20 }), /* @__PURE__ */ import_react40.default.createElement(
-    import_fuickjs40.Text,
-    {
-      text: "Replacement",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react40.default.createElement(
-    import_fuickjs40.Visibility,
-    {
-      visible: isVisible,
-      replacement: /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Container, { width: 100, height: 100, color: "red" }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Center, null, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "I am Replacement", color: "white" })))
-    },
-    /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Container, { width: 100, height: 100, color: "blue" }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Center, null, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "I am Visible", color: "white" })))
-  )), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.SizedBox, { height: 20 }), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Divider, null), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.SizedBox, { height: 20 }), /* @__PURE__ */ import_react40.default.createElement(
-    import_fuickjs40.Text,
-    {
-      text: "Maintain Size (Invisible but takes space)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "Maintain Size?" }), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Switch, { value: maintainSize, onChanged: setMaintainSize })), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Container, { color: "grey", padding: 10, margin: { vertical: 10 } }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Column, null, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "Item Above" }), /* @__PURE__ */ import_react40.default.createElement(
-    import_fuickjs40.Visibility,
-    {
-      visible: isVisible,
-      maintainSize,
-      maintainAnimation: maintainSize,
-      maintainState: maintainSize
-    },
-    /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Container, { width: 100, height: 100, color: "green" }, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Center, null, /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "Maintain Size", color: "white" })))
-  ), /* @__PURE__ */ import_react40.default.createElement(import_fuickjs40.Text, { text: "Item Below" })))))));
-}
-
-// src/pages/demo_ops.tsx
-var import_react41 = __toESM(require_react_production());
-var import_fuickjs41 = __toESM(require_dist());
-var DemoOpsPage = () => {
-  const [theme, setTheme] = (0, import_react41.useState)("light");
-  const [compact, setCompact] = (0, import_react41.useState)(false);
-  const [showBanner, setShowBanner] = (0, import_react41.useState)(true);
-  const [progress, setProgress] = (0, import_react41.useState)(0.35);
-  const [stats, setStats] = (0, import_react41.useState)([
-    { id: 1, label: "\u6D3B\u8DC3", value: 12, color: "#4CAF50" },
-    { id: 2, label: "\u544A\u8B66", value: 3, color: "#FF7043" },
-    { id: 3, label: "\u5DE5\u5355", value: 28, color: "#42A5F5" },
-    { id: 4, label: "\u5EF6\u8FDF", value: 6, color: "#AB47BC" }
-  ]);
-  const [items, setItems] = (0, import_react41.useState)([
-    { id: 101, title: "\u8BA2\u5355\u540C\u6B65", count: 2, color: "#FF7043", active: true },
-    { id: 102, title: "\u5E93\u5B58\u68C0\u67E5", count: 4, color: "#42A5F5", active: true },
-    { id: 103, title: "\u6D88\u606F\u5206\u53D1", count: 1, color: "#26A69A", active: false },
-    { id: 104, title: "\u65E5\u5FD7\u5F52\u6863", count: 5, color: "#7E57C2", active: true }
-  ]);
-  const palette = theme === "dark" ? {
-    bg: "#121212",
-    card: "#1E1E1E",
-    text: "#F5F5F5",
-    sub: "#BDBDBD",
-    border: "#333333",
-    accent: "#64B5F6"
-  } : {
-    bg: "#F5F5F5",
-    card: "#FFFFFF",
-    text: "#212121",
-    sub: "#757575",
-    border: "#BDBDBD",
-    accent: "#1976D2"
-  };
-  const itemPadding = compact ? 8 : 14;
-  const addItem = () => {
-    const newId = Date.now();
-    const newItems = [
-      ...items,
-      {
-        id: newId,
-        title: `\u4EFB\u52A1 ${items.length + 1}`,
-        count: 1,
-        color: "#FFA726",
-        active: true
-      }
-    ];
-    setItems(newItems);
-  };
-  const deleteItem = (id) => {
-    const newItems = items.filter((item) => item.id !== id);
-    setItems(newItems);
-  };
-  const updateItem = (id) => {
-    const newItems = items.map(
-      (item) => item.id === id ? {
-        ...item,
-        title: `${item.title} \xB7 ${Date.now() % 1e3}`,
-        count: item.count + 1,
-        color: item.active ? "#EF5350" : "#9E9E9E",
-        active: !item.active
-      } : item
-    );
-    setItems(newItems);
-  };
-  const toggleItem = (id) => {
-    const newItems = items.map(
-      (item) => item.id === id ? { ...item, active: !item.active } : item
-    );
-    setItems(newItems);
-  };
-  const reverseItems = () => {
-    const newItems = [...items].reverse();
-    setItems(newItems);
-  };
-  const shuffleItems = () => {
-    const newItems = [...items].sort(() => Math.random() - 0.5);
-    setItems(newItems);
-  };
-  const bumpProgress = () => {
-    setProgress((p) => (p + 0.17) % 1);
-  };
-  const randomizeStats = () => {
-    setStats(
-      stats.map((s) => ({ ...s, value: Math.floor(Math.random() * 100) }))
-    );
-  };
-  return /* @__PURE__ */ import_react41.default.createElement(
-    import_fuickjs41.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.AppBar, { title: /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Text, { text: "PatchOps \u590D\u6742\u9875\u9762" }) }),
-      backgroundColor: palette.bg
-    },
-    /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SingleChildScrollView, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Text,
-      {
-        text: "\u5B9E\u65F6\u770B\u677F",
-        fontSize: 22,
-        fontWeight: "bold",
-        color: palette.text
-      }
-    ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 8 }), /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Text,
-      {
-        text: "\u5207\u6362\u6A21\u5F0F\u5E76\u66F4\u65B0\u4E0D\u540C\u8282\u70B9\u5C5E\u6027\uFF0C\u9A8C\u8BC1 patchOps",
-        color: palette.sub
-      }
-    ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 16 }), /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Container,
-      {
-        padding: 12,
-        decoration: {
-          color: palette.card,
-          borderRadius: 12,
-          border: { color: palette.border, width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Column, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Icon, { name: "palette", color: palette.accent, size: 18 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { width: 8 }), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: `\u4E3B\u9898: ${theme === "dark" ? "Dark" : "Light"}`,
-          color: palette.text
-        }
-      )), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Switch,
-        {
-          value: theme === "dark",
-          onChanged: (v) => setTheme(v ? "dark" : "light")
-        }
-      )), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 10 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Icon,
-        {
-          name: "density_medium",
-          color: palette.accent,
-          size: 18
-        }
-      ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { width: 8 }), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: `\u7D27\u51D1\u5E03\u5C40: ${compact ? "\u5F00\u542F" : "\u5173\u95ED"}`,
-          color: palette.text
-        }
-      )), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Switch, { value: compact, onChanged: setCompact })), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 10 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Icon, { name: "campaign", color: palette.accent, size: 18 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { width: 8 }), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: `\u6A2A\u5E45: ${showBanner ? "\u663E\u793A" : "\u9690\u85CF"}`,
-          color: palette.text
-        }
-      )), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Switch, { value: showBanner, onChanged: setShowBanner })))
-    ), showBanner && /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Container,
-      {
-        margin: { top: 16 },
-        padding: 12,
-        decoration: {
-          color: theme === "dark" ? "#1E3A5F" : "#E3F2FD",
-          borderRadius: 10,
-          border: { color: palette.border, width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: "\u4ECA\u5929\u7684\u7CFB\u7EDF\u8D1F\u8F7D\u5904\u4E8E\u826F\u597D\u533A\u95F4",
-          color: palette.text
-        }
-      ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u5237\u65B0", onTap: randomizeStats }))
-    ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 20 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Text,
-      {
-        text: "\u5173\u952E\u6307\u6807",
-        fontSize: 18,
-        fontWeight: "bold",
-        color: palette.text
-      }
-    ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u968F\u673A\u66F4\u65B0", onTap: randomizeStats })), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 12 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Column, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, stats.slice(0, 2).map((stat) => /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Expanded, { key: stat.id }, /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Container,
-      {
-        padding: 12,
-        margin: { right: stat.id === 1 ? 8 : 0 },
-        decoration: {
-          color: palette.card,
-          borderRadius: 10,
-          border: { color: palette.border, width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Text, { text: stat.label, color: palette.sub }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 6 }), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: `${stat.value}`,
-          fontSize: 20,
-          fontWeight: "bold",
-          color: stat.color
-        }
-      ))
-    )))), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 8 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, stats.slice(2, 4).map((stat) => /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Expanded, { key: stat.id }, /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Container,
-      {
-        padding: 12,
-        margin: { right: stat.id === 3 ? 8 : 0 },
-        decoration: {
-          color: palette.card,
-          borderRadius: 10,
-          border: { color: palette.border, width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Text, { text: stat.label, color: palette.sub }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 6 }), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: `${stat.value}`,
-          fontSize: 20,
-          fontWeight: "bold",
-          color: stat.color
-        }
-      ))
-    ))))), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 20 }), /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Container,
-      {
-        padding: 12,
-        decoration: {
-          color: palette.card,
-          borderRadius: 12,
-          border: { color: palette.border, width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Column, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Text, { text: "\u8FDB\u5EA6", color: palette.text }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u63A8\u8FDB", onTap: bumpProgress })), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 10 }), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Container,
-        {
-          height: 10,
-          color: theme === "dark" ? "#2C2C2C" : "#EEEEEE",
-          decoration: { borderRadius: 8 }
-        },
-        /* @__PURE__ */ import_react41.default.createElement(
-          import_fuickjs41.Container,
-          {
-            height: 10,
-            width: 260 * progress,
-            decoration: { color: palette.accent, borderRadius: 8 }
-          }
-        )
-      ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 6 }), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: `${Math.round(progress * 100)}%`,
-          color: palette.sub
-        }
-      ))
-    ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 20 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Text,
-      {
-        text: "\u4EFB\u52A1\u5217\u8868",
-        fontSize: 18,
-        fontWeight: "bold",
-        color: palette.text
-      }
-    ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u53CD\u8F6C", onTap: reverseItems }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { width: 8 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u6253\u4E71", onTap: shuffleItems }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { width: 8 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u6DFB\u52A0", onTap: addItem }))), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Divider, { height: 16 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.ListView, null, items.map((item) => /* @__PURE__ */ import_react41.default.createElement(
-      import_fuickjs41.Container,
-      {
-        key: item.id,
-        padding: { all: itemPadding },
-        margin: { bottom: compact ? 8 : 12 },
-        decoration: {
-          color: item.active ? item.color + "1A" : palette.card,
-          borderRadius: 12,
-          border: {
-            color: item.active ? item.color : palette.border,
-            width: 1
-          }
-        }
-      },
-      /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: item.title,
-          fontSize: 16,
-          fontWeight: "bold",
-          color: palette.text
-        }
-      ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 6 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Container,
-        {
-          padding: { left: 8, right: 8, top: 4, bottom: 4 },
-          decoration: {
-            color: item.active ? item.color : "#BDBDBD",
-            borderRadius: 10
-          }
-        },
-        /* @__PURE__ */ import_react41.default.createElement(
-          import_fuickjs41.Text,
-          {
-            text: item.active ? "\u8FD0\u884C\u4E2D" : "\u6682\u505C",
-            color: "white",
-            fontSize: 12
-          }
-        )
-      ), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { width: 8 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Text, { text: `\u6B21\u6570 ${item.count}`, color: palette.sub }))), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Column, { crossAxisAlignment: "end" }, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Row, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u66F4\u65B0", onTap: () => updateItem(item.id) }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { width: 8 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u5207\u6362", onTap: () => toggleItem(item.id) }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { width: 8 }), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Button, { text: "\u5220\u9664", onTap: () => deleteItem(item.id) })), /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.SizedBox, { height: 8 }), /* @__PURE__ */ import_react41.default.createElement(
-        import_fuickjs41.Text,
-        {
-          text: `\u4F18\u5148\u7EA7 ${item.active ? "\u9AD8" : "\u4F4E"}`,
-          color: item.active ? item.color : palette.sub
-        }
-      )))
-    ))), items.length === 0 && /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Center, null, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Padding, { padding: { top: 40 } }, /* @__PURE__ */ import_react41.default.createElement(import_fuickjs41.Text, { text: "\u5217\u8868\u4E3A\u7A7A", color: palette.sub }))))))
-  );
-};
-
-// src/pages/error_demo.tsx
-var import_react42 = __toESM(require_react_production());
-var import_fuickjs42 = __toESM(require_dist());
-function parseUserData(raw) {
-  const data = raw;
-  const score = data.profile.score;
-  return score * 100;
-}
-function processOrder(order) {
-  const result = parseUserData(order);
-  return { total: result };
-}
-function handleCheckout(cartData) {
-  return processOrder(cartData);
-}
-function ErrorDemoPage() {
-  const [errorLog, setErrorLog] = (0, import_react42.useState)([]);
-  const [triggerRenderError, setTriggerRenderError] = (0, import_react42.useState)(false);
-  (0, import_react42.useEffect)(() => {
-    import_fuickjs42.ErrorHandler.set((error, source) => {
-      const err = error;
-      const message = `[${source}] ${err?.message || String(error)}`;
-      setErrorLog((prev) => [...prev, message].slice(-8));
-      throw error;
-    });
-    return () => {
-      import_fuickjs42.ErrorHandler.set(null);
-    };
-  }, []);
-  if (triggerRenderError) {
-    throw new Error("Render error demo");
-  }
-  (0, import_react42.useEffect)(() => {
-  }, []);
-  return /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.Scaffold, { appBar: /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.AppBar, { title: /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.Text, { text: "\u5F02\u5E38\u6355\u83B7\u6F14\u793A" }) }) }, /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.SingleChildScrollView, null, /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.Padding, { padding: { all: 16 } }, /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react42.default.createElement(
-    import_fuickjs42.Container,
-    {
-      padding: 12,
-      decoration: {
-        color: "#FFFFFF",
-        borderRadius: 12,
-        border: { color: "#E0E0E0", width: 1 }
-      }
-    },
-    /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.Text, { text: "\u89E6\u53D1\u4E0D\u540C\u7C7B\u578B\u9519\u8BEF", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.SizedBox, { height: 10 }), /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.ListView, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react42.default.createElement(
-      import_fuickjs42.Button,
-      {
-        text: "\u6E32\u67D3\u9519\u8BEF",
-        onTap: () => setTriggerRenderError(true)
-      }
-    ), /* @__PURE__ */ import_react42.default.createElement(
-      import_fuickjs42.Button,
-      {
-        text: "\u4E8B\u4EF6\u9519\u8BEF",
-        onTap: () => {
-          throw new Error("Event handler error demo");
-        }
-      }
-    ), /* @__PURE__ */ import_react42.default.createElement(
-      import_fuickjs42.Button,
-      {
-        text: "\u5B9A\u65F6\u5668\u9519\u8BEF",
-        onTap: () => setTimeout(() => {
-          throw new Error("Timer error demo");
-        }, 80)
-      }
-    ), /* @__PURE__ */ import_react42.default.createElement(
-      import_fuickjs42.Button,
-      {
-        text: "Promise \u9519\u8BEF",
-        onTap: () => Promise.resolve().then(() => {
-          throw new Error("Promise error demo");
-        })
-      }
-    )), /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.SizedBox, { height: 12 }), /* @__PURE__ */ import_react42.default.createElement(
-      import_fuickjs42.Button,
-      {
-        text: "\u6DF1\u5C42\u8C03\u7528\u94FE\u9519\u8BEF\uFF08sourcemap \u6F14\u793A\uFF09",
-        onTap: () => {
-          handleCheckout({ name: "test" });
-        }
-      }
-    ), /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.SizedBox, { height: 12 }), /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.Column, null, errorLog.length === 0 && /* @__PURE__ */ import_react42.default.createElement(import_fuickjs42.Text, { text: "\u6682\u65E0\u6355\u83B7\u8BB0\u5F55", color: "#757575" }), errorLog.map((item, index) => /* @__PURE__ */ import_react42.default.createElement(
-      import_fuickjs42.Text,
-      {
-        key: `${item}-${index}`,
-        text: item,
-        color: "#757575"
-      }
-    ))))
-  )))));
-}
-
-// src/demos/FlutterPropsDemo.tsx
-var import_react43 = __toESM(require_react_production());
-var import_fuickjs43 = __toESM(require_dist());
-var FloatingActionButton = (props) => import_react43.default.createElement(
-  "FloatingActionButton",
-  { ...props, isBoundary: true },
-  props.child
-);
-function FlutterPropsDemo() {
-  const [count, setCount] = (0, import_react43.useState)(0);
-  const [showAction, setShowAction] = (0, import_react43.useState)(true);
-  const [fabVisible, setFabVisible] = (0, import_react43.useState)(true);
-  return /* @__PURE__ */ import_react43.default.createElement(
-    import_fuickjs43.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react43.default.createElement(
-        import_fuickjs43.AppBar,
-        {
-          title: /* @__PURE__ */ import_react43.default.createElement(import_fuickjs43.Text, { text: `FlutterProps Demo ${count}` }),
-          actions: showAction ? [
-            /* @__PURE__ */ import_react43.default.createElement(
-              import_fuickjs43.GestureDetector,
-              {
-                key: "btn1",
-                onTap: () => console.log("Action 1 pressed")
-              },
-              /* @__PURE__ */ import_react43.default.createElement(import_fuickjs43.Icon, { name: "add" })
-            ),
-            /* @__PURE__ */ import_react43.default.createElement(
-              import_fuickjs43.GestureDetector,
-              {
-                key: "btn2",
-                onTap: () => console.log("Action 2 pressed")
-              },
-              /* @__PURE__ */ import_react43.default.createElement(import_fuickjs43.Icon, { name: "remove" })
-            )
-          ] : []
-        }
-      ),
-      floatingActionButton: fabVisible ? /* @__PURE__ */ import_react43.default.createElement(
-        FloatingActionButton,
-        {
-          onPressed: () => {
-            setCount((c) => c + 1);
-          },
-          child: /* @__PURE__ */ import_react43.default.createElement(import_fuickjs43.Icon, { name: "add" })
-        }
-      ) : null
-    },
-    /* @__PURE__ */ import_react43.default.createElement(import_fuickjs43.Center, null, /* @__PURE__ */ import_react43.default.createElement(import_fuickjs43.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react43.default.createElement(import_fuickjs43.Text, { text: `Count: ${count}` }), /* @__PURE__ */ import_react43.default.createElement(
-      import_fuickjs43.Button,
-      {
-        text: "Toggle Actions",
-        onTap: () => setShowAction((s) => !s)
-      }
-    ), /* @__PURE__ */ import_react43.default.createElement(import_fuickjs43.Button, { text: "Toggle FAB", onTap: () => setFabVisible((v) => !v) })))
-  );
-}
-
-// src/demos/CustomPaintDemo.tsx
-var import_react44 = __toESM(require_react_production());
-var import_fuickjs44 = __toESM(require_dist());
-var drawBackground = (p) => {
-  p.drawRect(
-    { left: 0, top: 0, width: 300, height: 300 },
-    { color: "#E0E0E0", style: "fill" }
-  );
-  for (let i = 0; i <= 300; i += 30) {
-    p.drawLine(
-      { dx: i, dy: 0 },
-      { dx: i, dy: 300 },
-      { color: "#CCCCCC", strokeWidth: 1 }
-    );
-    p.drawLine(
-      { dx: 0, dy: i },
-      { dx: 300, dy: i },
-      { color: "#CCCCCC", strokeWidth: 1 }
-    );
-  }
-};
-function CustomPaintDemo() {
-  const painterRef = (0, import_react44.useRef)(null);
-  if (!painterRef.current) {
-    painterRef.current = new import_fuickjs44.CustomPainter();
-    drawBackground(painterRef.current);
-  }
-  const painter = painterRef.current;
-  const addRandomCircle = () => {
-    const x = Math.random() * 300;
-    const y = Math.random() * 300;
-    const r = Math.random() * 20 + 5;
-    const colors2 = ["red", "green", "blue", "orange", "purple", "#80FFA500"];
-    const color = colors2[Math.floor(Math.random() * colors2.length)];
-    painter.drawCircle(
-      { dx: x, dy: y },
-      r,
-      { color, style: "fill" }
-    );
-    painter.repaint();
-  };
-  const addRotatedRect = () => {
-    const x = Math.random() * 200 + 50;
-    const y = Math.random() * 200 + 50;
-    const w = Math.random() * 40 + 20;
-    const h = Math.random() * 40 + 20;
-    const angle = Math.random() * Math.PI * 2;
-    const color = "rgba(0, 0, 255, 0.5)";
-    painter.save();
-    painter.translate(x, y);
-    painter.rotate(angle);
-    painter.drawRRect(
-      { left: -w / 2, top: -h / 2, width: w, height: h, radius: 10 },
-      { color, style: "fill" }
-    );
-    painter.restore();
-    painter.repaint();
-  };
-  const clearCanvas = () => {
-    painter.clear();
-    drawBackground(painter);
-    painter.repaint();
-  };
-  const addStarPath = () => {
-    const path = new import_fuickjs44.Path();
-    const cx = Math.random() * 200 + 50;
-    const cy = Math.random() * 200 + 50;
-    const outerR = 25;
-    const innerR = 12;
-    path.moveTo(cx, cy - outerR);
-    for (let i = 0; i < 5; i++) {
-      const outerAngle = Math.PI / 2 + i * 2 * Math.PI / 5;
-      const innerAngle = outerAngle + Math.PI / 5;
-      path.lineTo(cx + outerR * Math.cos(outerAngle), cy - outerR * Math.sin(outerAngle));
-      path.lineTo(cx + innerR * Math.cos(innerAngle), cy - innerR * Math.sin(innerAngle));
-    }
-    path.close();
-    painter.drawPath(path, { color: "#FFD700", style: "fill" });
-    painter.repaint();
-  };
-  const addBezierPath = () => {
-    const path = new import_fuickjs44.Path();
-    const startX = Math.random() * 50 + 20;
-    const startY = Math.random() * 50 + 150;
-    path.moveTo(startX, startY);
-    path.cubicTo(
-      startX + 50,
-      startY - 80,
-      startX + 150,
-      startY + 80,
-      startX + 200,
-      startY
-    );
-    painter.drawPath(path, { color: "#FF4444", style: "stroke", strokeWidth: 3 });
-    painter.repaint();
-  };
-  return /* @__PURE__ */ import_react44.default.createElement(
-    import_fuickjs44.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react44.default.createElement(
-        import_fuickjs44.AppBar,
-        {
-          title: /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "CustomPaint Interactive Demo" })
-        }
-      )
-    },
-    /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Center, null, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Column, { mainAxisSize: "min" }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "Interactive Canvas", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 10 }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "Click buttons to add shapes dynamically", fontSize: 14, color: "grey" }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 20 }), /* @__PURE__ */ import_react44.default.createElement(
-      import_fuickjs44.Container,
-      {
-        decoration: {
-          border: { color: "black", width: 2 }
-        }
-      },
-      /* @__PURE__ */ import_react44.default.createElement(
-        import_fuickjs44.CustomPaint,
-        {
-          size: { width: 300, height: 300 },
-          painter
-        }
-      )
-    ), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 20 }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Add Circle", onTap: addRandomCircle }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Add Rect", onTap: addRotatedRect }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Add Star", onTap: addStarPath }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Add Bezier", onTap: addBezierPath }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Clear", onTap: clearCanvas })), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 20 }), /* @__PURE__ */ import_react44.default.createElement(
-      import_fuickjs44.Container,
-      {
-        width: 200,
-        padding: 10,
-        color: "#f0f0f0",
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "Changes are applied immediately without full re-render", fontSize: 12, textAlign: "center" })
-    )))
-  );
-}
-
-// src/demos/VisibilityDetectorDemo.tsx
-var import_react45 = __toESM(require_react_production());
-var import_fuickjs45 = __toESM(require_dist());
-var import_visibility_detector = __toESM(require_dist2());
-function VisibilityDetectorDemo() {
-  const [visibleItems, setVisibleItems] = (0, import_react45.useState)(/* @__PURE__ */ new Set());
-  const handleVisibilityChanged = (index, visible) => {
-    setVisibleItems((prev) => {
-      const next = new Set(prev);
-      if (visible) {
-        next.add(index);
-      } else {
-        next.delete(index);
-      }
-      return next;
-    });
-  };
-  return /* @__PURE__ */ import_react45.default.createElement(import_fuickjs45.Scaffold, { appBar: /* @__PURE__ */ import_react45.default.createElement(import_fuickjs45.AppBar, { title: "VisibilityDetector Demo" }) }, /* @__PURE__ */ import_react45.default.createElement(import_fuickjs45.Column, null, /* @__PURE__ */ import_react45.default.createElement(import_fuickjs45.Container, { padding: 16, color: "#E3F2FD" }, /* @__PURE__ */ import_react45.default.createElement(
-    import_fuickjs45.Text,
-    {
-      text: `Visible Items: ${Array.from(visibleItems).sort((a, b) => a - b).join(", ")}`,
-      fontSize: 16
-    }
-  )), /* @__PURE__ */ import_react45.default.createElement(
-    import_fuickjs45.ListView,
-    {
-      itemCount: 50,
-      itemBuilder: (index) => /* @__PURE__ */ import_react45.default.createElement(
-        import_visibility_detector.VisibilityDetector,
-        {
-          key: index,
-          onVisibilityChanged: (info) => {
-            const isVisible = info.visibleFraction > 0.5;
-            handleVisibilityChanged(index, isVisible);
-          }
-        },
-        /* @__PURE__ */ import_react45.default.createElement(
-          import_fuickjs45.Container,
-          {
-            margin: { all: 10 },
-            padding: 20,
-            color: visibleItems.has(index) ? "#81C784" : "#E0E0E0",
-            alignment: "center"
-          },
-          /* @__PURE__ */ import_react45.default.createElement(
-            import_fuickjs45.Text,
-            {
-              text: `Item ${index} (${visibleItems.has(index) ? "Visible" : "Hidden"})`,
-              fontSize: 18,
-              color: visibleItems.has(index) ? "white" : "black"
-            }
-          )
-        )
-      )
-    }
-  )));
-}
-
-// src/demos/VideoPlayerDemo.tsx
-var import_react46 = __toESM(require_react_production());
-var import_fuickjs46 = __toESM(require_dist());
-var import_video_player = __toESM(require_dist3());
-function VideoPlayerDemo() {
-  const playerRef = (0, import_react46.useRef)(null);
-  const [status, setStatus] = (0, import_react46.useState)("Idle");
-  const [duration, setDuration] = (0, import_react46.useState)(0);
-  const videoUrl = "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
-  return /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.Scaffold, { appBar: /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.AppBar, { title: "VideoPlayer Demo" }) }, /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.SingleChildScrollView, null, /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.Column, { padding: 16 }, /* @__PURE__ */ import_react46.default.createElement(
-    import_fuickjs46.Text,
-    {
-      text: "Network Video",
-      fontSize: 20,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react46.default.createElement(
-    import_fuickjs46.Container,
-    {
-      height: 240,
-      color: "black",
-      alignment: "center",
-      margin: { bottom: 20 }
-    },
-    /* @__PURE__ */ import_react46.default.createElement(
-      import_video_player.VideoPlayer,
-      {
-        ref: playerRef,
-        url: videoUrl,
-        autoPlay: false,
-        looping: true,
-        showControls: true,
-        onInitialized: (info) => {
-          setStatus("Initialized");
-          setDuration(info.duration);
-          console.log("Video Initialized:", info);
-        },
-        onVideoEnd: () => {
-          setStatus("Ended");
-          console.log("Video Ended");
-        },
-        onError: (e) => {
-          setStatus(`Error: ${e.error}`);
-          console.error("Video Error:", e);
-        }
-      }
-    )
-  ), /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.Container, { padding: 10, color: "#F5F5F5", margin: { bottom: 20 } }, /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.Text, { text: `Status: ${status}` }), /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.Text, { text: `Duration: ${duration}ms` })), /* @__PURE__ */ import_react46.default.createElement(
-    import_fuickjs46.Text,
-    {
-      text: "Controls",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.Row, { mainAxisAlignment: "spaceEvenly", margin: { bottom: 10 } }, /* @__PURE__ */ import_react46.default.createElement(
-    import_fuickjs46.Button,
-    {
-      text: "Play",
-      onTap: () => {
-        playerRef.current?.play();
-        setStatus("Playing");
-      }
-    }
-  ), /* @__PURE__ */ import_react46.default.createElement(
-    import_fuickjs46.Button,
-    {
-      text: "Pause",
-      onTap: () => {
-        playerRef.current?.pause();
-        setStatus("Paused");
-      }
-    }
-  ), /* @__PURE__ */ import_react46.default.createElement(
-    import_fuickjs46.Button,
-    {
-      text: "Stop",
-      onTap: () => {
-        playerRef.current?.stop();
-        setStatus("Stopped");
-      }
-    }
-  )), /* @__PURE__ */ import_react46.default.createElement(import_fuickjs46.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react46.default.createElement(
-    import_fuickjs46.Button,
-    {
-      text: "Seek to 0s",
-      onTap: () => playerRef.current?.seekTo(0)
-    }
-  ), /* @__PURE__ */ import_react46.default.createElement(
-    import_fuickjs46.Button,
-    {
-      text: "Loop: Toggle",
-      onTap: () => {
-        playerRef.current?.setLooping(false);
-      }
-    }
-  )))));
-}
-
-// src/demos/ClipRRectDemo.tsx
-var React47 = __toESM(require_react_production());
-var import_fuickjs47 = __toESM(require_dist());
-var ClipRRect = "ClipRRect";
-function ClipRRectDemo() {
-  return /* @__PURE__ */ React47.createElement(
-    import_fuickjs47.Scaffold,
-    {
-      appBar: /* @__PURE__ */ React47.createElement(import_fuickjs47.AppBar, { title: "ClipRRect Demo" })
-    },
-    /* @__PURE__ */ React47.createElement(import_fuickjs47.Center, null, /* @__PURE__ */ React47.createElement(ClipRRect, { borderRadius: 20, clipBehavior: "hardEdge" }, /* @__PURE__ */ React47.createElement(
-      import_fuickjs47.Container,
-      {
-        width: 200,
-        height: 200,
-        color: "#FF5722",
-        alignment: "center"
-      },
-      /* @__PURE__ */ React47.createElement(import_fuickjs47.Text, { text: "Rounded Corners", color: "#FFFFFF", fontWeight: "bold", fontSize: 24 })
-    )))
-  );
-}
-
-// src/demos/RefreshIndicatorDemo.tsx
-var React48 = __toESM(require_react_production());
-var import_fuickjs48 = __toESM(require_dist());
-var RefreshIndicator = "RefreshIndicator";
-function RefreshIndicatorDemo() {
-  const [count, setCount] = React48.useState(0);
-  const refreshControl = React48.useRef(null);
-  const onRefresh = async () => {
-    try {
-      console.log("Refreshing...");
-      await new Promise((resolve) => setTimeout(resolve, 2e3));
-      setCount((c) => c + 1);
-      console.log("Refreshed!");
-    } finally {
-      if (refreshControl.current && refreshControl.current.complete) {
-        refreshControl.current.complete();
-      } else {
-        console.warn("RefreshIndicator ref not ready or complete method missing");
-      }
-    }
-  };
-  return /* @__PURE__ */ React48.createElement(
-    import_fuickjs48.Scaffold,
-    {
-      appBar: /* @__PURE__ */ React48.createElement(import_fuickjs48.AppBar, { title: "RefreshIndicator Demo" })
-    },
-    /* @__PURE__ */ React48.createElement(
-      RefreshIndicator,
-      {
-        ref: refreshControl,
-        onRefresh,
-        color: "#FFFFFF",
-        backgroundColor: "#2196F3"
-      },
-      /* @__PURE__ */ React48.createElement(import_fuickjs48.SingleChildScrollView, null, /* @__PURE__ */ React48.createElement(import_fuickjs48.Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ React48.createElement(import_fuickjs48.Text, { text: "Pull down to refresh!", textAlign: "center", color: "#757575", fontSize: 18 }), /* @__PURE__ */ React48.createElement(import_fuickjs48.SizedBox, { height: 20 }), /* @__PURE__ */ React48.createElement(import_fuickjs48.Text, { text: `Refresh count: ${count}`, textAlign: "center", fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ React48.createElement(import_fuickjs48.SizedBox, { height: 500 }), /* @__PURE__ */ React48.createElement(import_fuickjs48.Text, { text: "Scroll up to see content", textAlign: "center", color: "#9E9E9E" })))
-    )
-  );
-}
-
-// src/demos/RichTextDemo.tsx
-var React49 = __toESM(require_react_production());
-var import_fuickjs49 = __toESM(require_dist());
-var OWL2 = "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg";
-function RichTextDemo() {
-  return /* @__PURE__ */ React49.createElement(import_fuickjs49.Scaffold, { appBar: /* @__PURE__ */ React49.createElement(import_fuickjs49.AppBar, { title: "RichText Demo" }) }, /* @__PURE__ */ React49.createElement(import_fuickjs49.SingleChildScrollView, null, /* @__PURE__ */ React49.createElement(import_fuickjs49.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ React49.createElement(import_fuickjs49.Text, { text: "\u57FA\u7840\u6587\u5B57\u6837\u5F0F", fontSize: 15, fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ React49.createElement(import_fuickjs49.Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React49.createElement(
-    import_fuickjs49.RichText,
-    {
-      text: {
-        children: [
-          { text: "\u666E\u901A \xB7 ", style: { color: "#333", fontSize: 16 } },
-          { text: "\u52A0\u7C97 \xB7 ", style: { fontWeight: "bold", color: "#E91E63", fontSize: 16 } },
-          { text: "\u659C\u4F53 \xB7 ", style: { fontStyle: "italic", color: "#2196F3", fontSize: 16 } },
-          { text: "\u4E0B\u5212\u7EBF", style: { decoration: "underline", color: "#009688", fontSize: 16 } }
-        ]
-      }
-    }
-  )), /* @__PURE__ */ React49.createElement(import_fuickjs49.Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React49.createElement(import_fuickjs49.Text, { text: "\u591A\u5C3A\u5BF8\u6DF7\u5408", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React49.createElement(import_fuickjs49.Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React49.createElement(
-    import_fuickjs49.RichText,
-    {
-      text: {
-        children: [
-          { text: "\u5C0F", style: { fontSize: 12, color: "#9E9E9E" } },
-          { text: "\u4E2D", style: { fontSize: 16, color: "#333" } },
-          { text: "\u5927", style: { fontSize: 24, color: "#1976D2", fontWeight: "bold" } },
-          { text: "\u5B57", style: { fontSize: 36, color: "#E91E63", fontWeight: "bold" } },
-          { text: "\u4F53", style: { fontSize: 20, color: "#43A047" } }
-        ]
-      }
-    }
-  )), /* @__PURE__ */ React49.createElement(import_fuickjs49.Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React49.createElement(import_fuickjs49.Text, { text: "\u53EF\u70B9\u51FB span", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React49.createElement(import_fuickjs49.Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React49.createElement(
-    import_fuickjs49.RichText,
-    {
-      text: {
-        children: [
-          { text: "\u9605\u8BFB\u6211\u4EEC\u7684 ", style: { fontSize: 15, color: "#333" } },
-          {
-            text: "\u7528\u6237\u534F\u8BAE",
-            style: { fontSize: 15, color: "#1976D2", decoration: "underline" },
-            onTap: () => console.log("\u7528\u6237\u534F\u8BAE tapped")
-          },
-          { text: " \u548C ", style: { fontSize: 15, color: "#333" } },
-          {
-            text: "\u9690\u79C1\u653F\u7B56",
-            style: { fontSize: 15, color: "#1976D2", decoration: "underline" },
-            onTap: () => console.log("\u9690\u79C1\u653F\u7B56 tapped")
-          }
-        ]
-      }
-    }
-  )), /* @__PURE__ */ React49.createElement(import_fuickjs49.Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React49.createElement(import_fuickjs49.Text, { text: "\u56FE\u6587\u6DF7\u6392\uFF08WidgetSpan\uFF09", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React49.createElement(import_fuickjs49.Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React49.createElement(
-    import_fuickjs49.RichText,
-    {
-      text: {
-        children: [
-          { text: "\u732B\u5934\u9E70 ", style: { fontSize: 16, color: "#333" } },
-          {
-            type: "widget",
-            alignment: "middle",
-            widget: { type: "Image", props: { src: OWL2, width: 40, height: 40, fit: "cover" }, children: [] }
-          },
-          { text: " \u5D4C\u5165\u884C\u5185\u56FE\u7247\u6548\u679C", style: { fontSize: 16, color: "#333" } }
-        ]
-      }
-    }
-  )), /* @__PURE__ */ React49.createElement(import_fuickjs49.Padding, { padding: { top: 16, bottom: 8 } }, /* @__PURE__ */ React49.createElement(import_fuickjs49.Text, { text: "\u56FE\u6807 + \u6587\u5B57\u6DF7\u6392", fontSize: 15, fontWeight: "bold" })), /* @__PURE__ */ React49.createElement(import_fuickjs49.Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React49.createElement(
-    import_fuickjs49.RichText,
-    {
-      text: {
-        children: [
-          {
-            type: "widget",
-            alignment: "middle",
-            widget: { type: "Icon", props: { icon: "star", size: 20, color: "#FDD835" }, children: [] }
-          },
-          { text: " \u6536\u85CF\u6570 ", style: { fontSize: 15, color: "#333" } },
-          { text: "1,234", style: { fontSize: 15, fontWeight: "bold", color: "#E91E63" } },
-          { text: "  ", style: { fontSize: 15 } },
-          {
-            type: "widget",
-            alignment: "middle",
-            widget: { type: "Icon", props: { icon: "thumb_up", size: 20, color: "#42A5F5" }, children: [] }
-          },
-          { text: " \u70B9\u8D5E ", style: { fontSize: 15, color: "#333" } },
-          { text: "567", style: { fontSize: 15, fontWeight: "bold", color: "#1976D2" } }
-        ]
-      }
-    }
-  )), /* @__PURE__ */ React49.createElement(import_fuickjs49.Container, { height: 40 }))));
-}
-
-// src/demos/TransformDemo.tsx
-var React50 = __toESM(require_react_production());
-var import_fuickjs50 = __toESM(require_dist());
-function TransformDemo() {
-  return /* @__PURE__ */ React50.createElement(
-    import_fuickjs50.Scaffold,
-    {
-      appBar: /* @__PURE__ */ React50.createElement(import_fuickjs50.AppBar, { title: "Transform Demo" })
-    },
-    /* @__PURE__ */ React50.createElement(import_fuickjs50.SingleChildScrollView, null, /* @__PURE__ */ React50.createElement(import_fuickjs50.Center, null, /* @__PURE__ */ React50.createElement(import_fuickjs50.Column, { padding: 20, crossAxisAlignment: "center" }, /* @__PURE__ */ React50.createElement(import_fuickjs50.Text, { text: "Rotate (45 deg)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React50.createElement(import_fuickjs50.Transform, { rotate: 0.785, alignment: "center" }, /* @__PURE__ */ React50.createElement(import_fuickjs50.Container, { width: 100, height: 100, color: "#9C27B0", alignment: "center" }, /* @__PURE__ */ React50.createElement(import_fuickjs50.Text, { text: "Rotated", color: "white" }))), /* @__PURE__ */ React50.createElement(import_fuickjs50.SizedBox, { height: 60 }), /* @__PURE__ */ React50.createElement(import_fuickjs50.Text, { text: "Scale (1.5x)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React50.createElement(import_fuickjs50.Transform, { scale: 1.5, alignment: "center" }, /* @__PURE__ */ React50.createElement(import_fuickjs50.Container, { width: 80, height: 80, color: "#3F51B5", alignment: "center" }, /* @__PURE__ */ React50.createElement(import_fuickjs50.Text, { text: "Scaled", color: "white" }))), /* @__PURE__ */ React50.createElement(import_fuickjs50.SizedBox, { height: 60 }), /* @__PURE__ */ React50.createElement(import_fuickjs50.Text, { text: "Translate (x: 20, y: 10)", margin: { bottom: 10 }, fontSize: 16 }), /* @__PURE__ */ React50.createElement(import_fuickjs50.Container, { color: "#DDDDDD", width: 150, height: 120 }, /* @__PURE__ */ React50.createElement(import_fuickjs50.Transform, { translate: { x: 20, y: 10 } }, /* @__PURE__ */ React50.createElement(import_fuickjs50.Container, { width: 80, height: 80, color: "#009688", alignment: "center" }, /* @__PURE__ */ React50.createElement(import_fuickjs50.Text, { text: "Translated", color: "white" })))))))
-  );
-}
-
-// src/demos/OverlayDemo.tsx
-var import_react47 = __toESM(require_react_production());
-var import_fuickjs51 = __toESM(require_dist());
-function OverlayDemo() {
-  const [showSimple, setShowSimple] = (0, import_react47.useState)(false);
-  const [showFull, setShowFull] = (0, import_react47.useState)(false);
-  return /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Scaffold, { appBar: /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.AppBar, { title: "Overlay Demo" }) }, /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react47.default.createElement(
-    import_fuickjs51.Button,
-    {
-      text: showSimple ? "Hide Simple Overlay" : "Show Simple Overlay",
-      onTap: () => setShowSimple(!showSimple),
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react47.default.createElement(
-    import_fuickjs51.Button,
-    {
-      text: showFull ? "Hide Full Overlay" : "Show Full Overlay",
-      onTap: () => setShowFull(!showFull)
-    }
-  )), /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Overlay, { visible: showSimple, overlayKey: "simple" }, /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Center, null, /* @__PURE__ */ import_react47.default.createElement(
-    import_fuickjs51.Container,
-    {
-      color: "#AA000000",
-      padding: 20,
-      borderRadius: 8
-    },
-    /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Text, { text: "Simple Overlay", color: "white" }),
-    /* @__PURE__ */ import_react47.default.createElement(
-      import_fuickjs51.Button,
-      {
-        text: "Close",
-        onTap: () => setShowSimple(false)
-      }
-    )
-  ))), /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Overlay, { visible: showFull, overlayKey: "fullscreen" }, /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Container, { color: "#88000000" }, /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Center, null, /* @__PURE__ */ import_react47.default.createElement(
-    import_fuickjs51.Container,
-    {
-      color: "white",
-      padding: 30,
-      borderRadius: 16
-    },
-    /* @__PURE__ */ import_react47.default.createElement(import_fuickjs51.Column, null, /* @__PURE__ */ import_react47.default.createElement(
-      import_fuickjs51.Text,
-      {
-        text: "Full Screen Overlay",
-        fontSize: 20,
-        fontWeight: "bold",
-        margin: { bottom: 20 }
-      }
-    ), /* @__PURE__ */ import_react47.default.createElement(
-      import_fuickjs51.Button,
-      {
-        text: "Close",
-        onTap: () => setShowFull(false)
-      }
-    ))
-  )))));
-}
-
-// src/demos/MaterialDemo.tsx
-var import_react48 = __toESM(require_react_production());
-var import_fuickjs52 = __toESM(require_dist());
-function MaterialDemo() {
-  return /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Scaffold, { appBar: /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.AppBar, { title: "Material Demo" }) }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.SingleChildScrollView, null, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Column, null, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { padding: 20 }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Standard Material (Canvas)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.SizedBox, { height: 10 }), /* @__PURE__ */ import_react48.default.createElement(
-    import_fuickjs52.Material,
-    {
-      elevation: 4,
-      color: "white",
-      borderRadius: 8
-    },
-    /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { padding: 20 }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Elevation: 4, Radius: 8" }))
-  )), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { padding: 20 }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Circle Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.SizedBox, { height: 10 }), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Center, null, /* @__PURE__ */ import_react48.default.createElement(
-    import_fuickjs52.Material,
-    {
-      type: "circle",
-      elevation: 8,
-      color: "blue"
-    },
-    /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { width: 100, height: 100, alignment: "center" }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Circle", color: "white" }))
-  ))), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { padding: 20 }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Card Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.SizedBox, { height: 10 }), /* @__PURE__ */ import_react48.default.createElement(
-    import_fuickjs52.Material,
-    {
-      type: "card",
-      elevation: 2,
-      color: "#f0f0f0",
-      borderRadius: 12,
-      clipBehavior: "antiAlias"
-    },
-    /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Column, null, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { height: 100, color: "grey", alignment: "center" }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Image Placeholder", color: "white" })), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { padding: 10 }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Card Content" })))
-  )), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { padding: 20 }, /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Transparency Material", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.SizedBox, { height: 10 }), /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Container, { color: "grey", padding: 20 }, /* @__PURE__ */ import_react48.default.createElement(
-    import_fuickjs52.Material,
-    {
-      type: "transparency"
-    },
-    /* @__PURE__ */ import_react48.default.createElement(import_fuickjs52.Text, { text: "Transparent Text on Grey Background", color: "white" })
-  ))))));
-}
-
-// src/demos/PopScopeDemo.tsx
-var import_react49 = __toESM(require_react_production());
-var import_fuickjs53 = __toESM(require_dist());
-function PopScopeDemo() {
-  const [canPop, setCanPop] = (0, import_react49.useState)(false);
-  const [showConfirm, setShowConfirm] = (0, import_react49.useState)(false);
-  const nav = (0, import_fuickjs53.useNavigator)();
-  return /* @__PURE__ */ import_react49.default.createElement(
-    import_fuickjs53.PopScope,
-    {
-      canPop,
-      onPopInvoked: (didPop) => {
-        console.log("Pop invoked, didPop:", didPop);
-        if (!didPop) {
-          setShowConfirm(true);
-        }
-      }
-    },
-    /* @__PURE__ */ import_react49.default.createElement(import_fuickjs53.Scaffold, { appBar: /* @__PURE__ */ import_react49.default.createElement(import_fuickjs53.AppBar, { title: "PopScope Demo" }) }, /* @__PURE__ */ import_react49.default.createElement(import_fuickjs53.Stack, null, /* @__PURE__ */ import_react49.default.createElement(import_fuickjs53.Column, { padding: 16, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react49.default.createElement(
-      import_fuickjs53.Text,
-      {
-        text: `canPop: ${canPop}`,
-        fontSize: 20,
-        fontWeight: "bold",
-        margin: { bottom: 20 }
-      }
-    ), /* @__PURE__ */ import_react49.default.createElement(
-      import_fuickjs53.Container,
-      {
-        padding: 16,
-        color: "#f5f5f5",
-        borderRadius: 8,
-        margin: { bottom: 20 }
-      },
-      /* @__PURE__ */ import_react49.default.createElement(import_fuickjs53.Text, { text: "When canPop is false, the system back button (or gesture) will be intercepted. We show a dialog to confirm." })
-    ), /* @__PURE__ */ import_react49.default.createElement(
-      import_fuickjs53.Button,
-      {
-        text: canPop ? "Lock Page" : "Unlock Page",
-        onTap: () => setCanPop(!canPop)
-      }
-    ), /* @__PURE__ */ import_react49.default.createElement(
-      import_fuickjs53.Text,
-      {
-        text: "Try to go back using system back button or gesture.",
-        margin: { top: 20 },
-        color: "#666666",
-        textAlign: "center"
-      }
-    )), showConfirm && /* @__PURE__ */ import_react49.default.createElement(import_fuickjs53.Positioned, { left: 0, top: 0, right: 0, bottom: 0 }, /* @__PURE__ */ import_react49.default.createElement(
-      import_fuickjs53.Container,
-      {
-        color: "#00000080",
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react49.default.createElement(
-        import_fuickjs53.AlertDialog,
-        {
-          title: /* @__PURE__ */ import_react49.default.createElement(import_fuickjs53.Text, { text: "Confirm Exit" }),
-          content: /* @__PURE__ */ import_react49.default.createElement(import_fuickjs53.Text, { text: "Are you sure you want to leave this page?" }),
-          actions: [
-            /* @__PURE__ */ import_react49.default.createElement(
-              import_fuickjs53.Button,
-              {
-                key: "cancel",
-                text: "Cancel",
-                onTap: () => setShowConfirm(false)
-              }
-            ),
-            /* @__PURE__ */ import_react49.default.createElement(
-              import_fuickjs53.Button,
-              {
-                key: "exit",
-                text: "Exit",
-                onTap: () => {
-                  nav.pop();
-                }
-              }
-            )
-          ]
-        }
-      )
-    ))))
-  );
-}
-
-// src/demos/BrowserApiDemo.tsx
-var import_react50 = __toESM(require_react_production());
-var import_fuickjs54 = __toESM(require_dist());
-function BrowserApiDemo() {
-  const [logs, setLogs] = (0, import_react50.useState)([
-    "Click a button to test APIs..."
-  ]);
-  const addLog = (msg) => {
-    setLogs(
-      (prev) => [`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`, ...prev].slice(0, 20)
-    );
-    console.log(msg);
-  };
-  const testBase64 = () => {
-    const raw = "Hello FuickJS! \u{1F680}";
-    try {
-      const encoded = btoa(raw);
-      const decoded = atob(encoded);
-      addLog(`Base64: "${raw}" -> "${encoded}" -> "${decoded}"`);
-    } catch (e) {
-      addLog(`Base64 Error: ${e.message}`);
-    }
-  };
-  const testURL = () => {
-    const url = new URL(
-      "https://user:pass@example.com:8080/p/a/t/h?query=1&name=fuick#hash"
-    );
-    addLog(`URL Host: ${url.host}, Path: ${url.pathname}`);
-    addLog(`URL Param 'name': ${url.searchParams.get("name")}`);
-    url.searchParams.append("new", "value");
-    addLog(`Updated URL: ${url.href}`);
-  };
-  const testStorage = () => {
-    localStorage.setItem("test_key", "FuickData_" + Date.now());
-    const val = localStorage.getItem("test_key");
-    addLog(`LocalStorage: set/get test_key = ${val}`);
-    sessionStorage.setItem("session_key", "SessionData");
-    addLog(`SessionStorage: length = ${sessionStorage.length}`);
-  };
-  const testPerformance = () => {
-    const start = performance.now();
-    for (let i = 0; i < 1e6; i++) {
-    }
-    const end = performance.now();
-    addLog(`Performance: took ${(end - start).toFixed(4)}ms`);
-  };
-  const testEvents = () => {
-    const target = new EventTarget();
-    const handler = (e) => addLog(`Event Received: ${e.type}, detail: ${JSON.stringify(e.detail)}`);
-    target.addEventListener("custom-event", handler);
-    target.dispatchEvent(
-      new CustomEvent("custom-event", { detail: { ok: true } })
-    );
-    target.removeEventListener("custom-event", handler);
-  };
-  const testFetchAbort = async () => {
-    const controller = new AbortController();
-    addLog("Fetch: Starting request and aborting in 10ms...");
-    fetch("https://httpbin.org/delay/5", { signal: controller.signal }).then(() => addLog("Fetch: Success (Should not happen)")).catch((e) => addLog(`Fetch Catch: ${e.name} - ${e.message}`));
-    setTimeout(() => {
-      controller.abort();
-      addLog("Fetch: Controller.abort() called");
-    }, 10);
-  };
-  const testXHR = () => {
-    addLog("XHR: Starting GET request...");
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://httpbin.org/get?foo=bar");
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        addLog(`XHR Done: Status ${xhr.status}`);
-        if (xhr.status === 200) {
-          addLog(`XHR Response: ${xhr.responseText.substring(0, 50)}...`);
-        }
-      }
-    };
-    xhr.send();
-  };
-  const testFetchGet = async () => {
-    addLog("Fetch GET: Starting request...");
-    try {
-      const response = await fetch("https://httpbin.org/get?foo=bar");
-      const data = await response.json();
-      addLog(
-        `Fetch GET: Status ${response.status}, args: ${JSON.stringify(data.args)}`
-      );
-    } catch (e) {
-      addLog(`Fetch GET Error: ${e.message}`);
-    }
-  };
-  const testFetchPost = async () => {
-    addLog("Fetch POST: Starting request...");
-    try {
-      const response = await fetch("https://httpbin.org/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Custom-Header": "test-value"
-        },
-        body: JSON.stringify({ name: "fuickjs", version: "1.0" })
-      });
-      const data = await response.json();
-      addLog(
-        `Fetch POST: Status ${response.status}, headers: ${JSON.stringify(data.headers)}`
-      );
-    } catch (e) {
-      addLog(`Fetch POST Error: ${e.message}`);
-    }
-  };
-  const testStructuredClone = () => {
-    const original = {
-      name: "FuickJS",
-      nested: { version: 1, tags: ["a", "b"] },
-      date: new Date(2024, 0, 1),
-      map: /* @__PURE__ */ new Map([["k", 42]]),
-      set: /* @__PURE__ */ new Set([1, 2, 3]),
-      buf: new Uint8Array([1, 2, 3])
-    };
-    const copy = structuredClone(original);
-    copy.nested.version = 99;
-    copy.nested.tags.push("c");
-    copy.buf[0] = 255;
-    addLog(`structuredClone: original.nested.version=${original.nested.version} (should be 1)`);
-    addLog(`structuredClone: copy.nested.version=${copy.nested.version} (should be 99)`);
-    addLog(`structuredClone: original.nested.tags=${JSON.stringify(original.nested.tags)} (len 2)`);
-    addLog(`structuredClone: original.buf[0]=${original.buf[0]} (should be 1, not 255)`);
-    addLog(`structuredClone: date=${copy.date.toISOString().slice(0, 10)}`);
-    addLog(`structuredClone: map.k=${copy.map.get("k")}, set.size=${copy.set.size}`);
-  };
-  const testRandomUUID = () => {
-    const ids = Array.from({ length: 3 }, () => crypto.randomUUID());
-    ids.forEach((id) => addLog(`randomUUID: ${id}`));
-    const valid = ids.every(
-      (id) => /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(id)
-    );
-    addLog(`randomUUID format valid: ${valid}`);
-  };
-  const testConsoleMethods = () => {
-    console.time("myTimer");
-    let x = 0;
-    for (let i = 0; i < 5e5; i++) x += i;
-    console.timeEnd("myTimer");
-    console.group("GroupA");
-    console.log("inside group");
-    console.groupEnd();
-    console.table([
-      { name: "Alice", age: 30 },
-      { name: "Bob", age: 25 }
-    ]);
-    console.table({ a: 1, b: 2 });
-    addLog("console.time/timeEnd/table/group \u2014 check native logs");
-  };
-  const testBlob = async () => {
-    const b = new Blob(['{"hello":"world"}'], { type: "application/json" });
-    addLog(`Blob size: ${b.size}, type: ${b.type}`);
-    const text = await b.text();
-    addLog(`Blob.text(): ${text}`);
-    const buf = await b.arrayBuffer();
-    addLog(`Blob.arrayBuffer() byteLength: ${buf.byteLength}`);
-    const slice = b.slice(1, 8);
-    addLog(`Blob.slice(1,8) text: ${await slice.text()}`);
-    const multipart = new Blob(["part1", "part2", new Uint8Array([32, 33])]);
-    addLog(`Concat Blob size: ${multipart.size} (should be 12)`);
-  };
-  const testFetchRPC = async () => {
-    addLog("Fetch RPC: Querying ETH balance via JSON-RPC...");
-    try {
-      const response = await fetch("https://eth.llamarpc.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          jsonrpc: "2.0",
-          method: "eth_blockNumber",
-          params: [],
-          id: 1
-        })
-      });
-      const data = await response.json();
-      addLog(
-        `Fetch RPC: Status ${response.status}, blockNumber: ${data.result}`
-      );
-    } catch (e) {
-      addLog(`Fetch RPC Error: ${e.message}`);
-    }
-  };
-  return /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Scaffold, { appBar: /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.AppBar, { title: "Browser API Demo" }) }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Column, null, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Container, { height: 200, decoration: { color: "#f0f0f0" }, padding: 10 }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.SingleChildScrollView, null, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Column, { crossAxisAlignment: "start" }, logs.map((log, i) => /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Text, { key: i, text: log, fontSize: 12, margin: { bottom: 4 } }))))), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Divider, null), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Expanded, null, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.SingleChildScrollView, null, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Padding, { padding: 16 }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Column, null, /* @__PURE__ */ import_react50.default.createElement(Section3, { title: "Basic Utils" }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "Base64", onTap: testBase64 }), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "URL", onTap: testURL }), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "Performance", onTap: testPerformance }))), /* @__PURE__ */ import_react50.default.createElement(Section3, { title: "Storage & Events" }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "Storage", onTap: testStorage }), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "Events", onTap: testEvents }))), /* @__PURE__ */ import_react50.default.createElement(Section3, { title: "Networking" }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react50.default.createElement(
-    import_fuickjs54.Button,
-    {
-      text: "Fetch + Abort",
-      onTap: testFetchAbort,
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react50.default.createElement(
-    import_fuickjs54.Button,
-    {
-      text: "XMLHttpRequest (AJAX)",
-      onTap: testXHR,
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react50.default.createElement(
-    import_fuickjs54.Button,
-    {
-      text: "Fetch GET",
-      onTap: testFetchGet,
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react50.default.createElement(
-    import_fuickjs54.Button,
-    {
-      text: "Fetch POST",
-      onTap: testFetchPost,
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "Fetch JSON-RPC", onTap: testFetchRPC }))), /* @__PURE__ */ import_react50.default.createElement(Section3, { title: "Console Methods" }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react50.default.createElement(
-    import_fuickjs54.Button,
-    {
-      text: "log/info",
-      onTap: () => {
-        console.log("Log test");
-        console.info("Info test");
-        addLog("Check native logs");
-      }
-    }
-  ), /* @__PURE__ */ import_react50.default.createElement(
-    import_fuickjs54.Button,
-    {
-      text: "warn/error",
-      onTap: () => {
-        console.warn("Warn test");
-        console.error("Error test");
-        addLog("Check native logs");
-      }
-    }
-  ), /* @__PURE__ */ import_react50.default.createElement(
-    import_fuickjs54.Button,
-    {
-      text: "trace",
-      onTap: () => {
-        console.trace();
-        addLog("Check native logs for stack");
-      }
-    }
-  )), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "time/table/group", onTap: testConsoleMethods }))), /* @__PURE__ */ import_react50.default.createElement(Section3, { title: "New APIs" }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "structuredClone", onTap: testStructuredClone }), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "randomUUID", onTap: testRandomUUID }), /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Button, { text: "Blob", onTap: testBlob })))))))));
-}
-function Section3({
-  title,
-  children
+// src/components/Overlay.tsx
+var import_react5 = __toESM(require_react_production());
+var import_fuickjs5 = __toESM(require_dist());
+function Overlay({
+  win,
+  stageName,
+  matter,
+  onRestart
 }) {
-  return /* @__PURE__ */ import_react50.default.createElement(import_fuickjs54.Column, { crossAxisAlignment: "start", margin: { bottom: 20 } }, /* @__PURE__ */ import_react50.default.createElement(
-    import_fuickjs54.Text,
+  return /* @__PURE__ */ import_react5.default.createElement(
+    import_fuickjs5.Container,
     {
-      text: title,
-      fontSize: 16,
-      fontWeight: "bold",
-      margin: { bottom: 10 },
-      color: "#333"
-    }
-  ), children);
-}
-
-// src/demos/WebSocketDemo.tsx
-var import_react51 = __toESM(require_react_production());
-var import_fuickjs55 = __toESM(require_dist());
-function WebSocketDemo() {
-  const [url, setUrl] = (0, import_react51.useState)("wss://echo.websocket.org/");
-  const [message, setMessage] = (0, import_react51.useState)("");
-  const [logs, setLogs] = (0, import_react51.useState)([
-    "WebSocket Demo - Click Connect to start..."
-  ]);
-  const [isConnected, setIsConnected] = (0, import_react51.useState)(false);
-  const wsRef = (0, import_react51.useRef)(null);
-  const addLog = (msg) => {
-    const timestamp = (/* @__PURE__ */ new Date()).toLocaleTimeString();
-    const logEntry = `[${timestamp}] ${msg}`;
-    setLogs((prev) => [logEntry, ...prev].slice(0, 100));
-    console.log(logEntry);
-  };
-  const connect = () => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
-      addLog("Already connected");
-      return;
-    }
-    try {
-      addLog(`Connecting to ${url}...`);
-      const ws = new WebSocket(url);
-      wsRef.current = ws;
-      ws.onopen = () => {
-        setIsConnected(true);
-        addLog("Connected successfully");
-        addLog(`Protocol: ${ws.protocol || "none"}`);
-      };
-      ws.onmessage = (event) => {
-        const data = event.data;
-        let displayData;
-        if (data instanceof ArrayBuffer) {
-          const bytes = new Uint8Array(data);
-          displayData = `Binary(${bytes.length} bytes)`;
-        } else {
-          displayData = String(data).substring(0, 100);
-          if (String(data).length > 100) displayData += "...";
-        }
-        addLog(`Received: ${displayData}`);
-      };
-      ws.onerror = () => {
-        addLog("WebSocket error occurred");
-      };
-      ws.onclose = (event) => {
-        setIsConnected(false);
-        addLog(
-          `Closed - Code: ${event.code}, Reason: ${event.reason || "No reason"}, Clean: ${event.wasClean}`
-        );
-        wsRef.current = null;
-      };
-    } catch (e) {
-      addLog(`Connection failed: ${e.message}`);
-    }
-  };
-  const disconnect = () => {
-    if (wsRef.current) {
-      addLog("Disconnecting...");
-      wsRef.current.close(1e3, "User requested disconnect");
-    } else {
-      addLog("Not connected");
-    }
-  };
-  const sendMessage = () => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
-      addLog("Not connected");
-      return;
-    }
-    if (!message.trim()) {
-      addLog("Message is empty");
-      return;
-    }
-    try {
-      wsRef.current.send(message);
-      addLog(`Sent: ${message}`);
-      setMessage("");
-    } catch (e) {
-      addLog(`Send failed: ${e.message}`);
-    }
-  };
-  const sendBinary = () => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
-      addLog("Not connected");
-      return;
-    }
-    try {
-      const binaryData = new Uint8Array([72, 101, 108, 108, 111]);
-      wsRef.current.send(binaryData.buffer);
-      addLog(`Sent binary: ${binaryData.length} bytes`);
-    } catch (e) {
-      addLog(`Send binary failed: ${e.message}`);
-    }
-  };
-  const clearLogs = () => {
-    setLogs(["Logs cleared"]);
-  };
-  const checkState = () => {
-    if (!wsRef.current) {
-      addLog("No WebSocket instance");
-      return;
-    }
-    const states = ["CONNECTING", "OPEN", "CLOSING", "CLOSED"];
-    const state = states[wsRef.current.readyState] || "UNKNOWN";
-    addLog(`State: ${state} (${wsRef.current.readyState})`);
-  };
-  (0, import_react51.useEffect)(() => {
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, []);
-  return /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Scaffold, { appBar: /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.AppBar, { title: "WebSocket Demo" }) }, /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Column, null, /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Container, { height: 180, decoration: { color: "#f5f5f5" }, padding: 10 }, /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.SingleChildScrollView, null, /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Column, { crossAxisAlignment: "start" }, logs.map((log, i) => /* @__PURE__ */ import_react51.default.createElement(
-    import_fuickjs55.Text,
-    {
-      key: i,
-      text: log,
-      fontSize: 11,
-      margin: { bottom: 2 },
-      color: "#2e7d32"
-    }
-  ))))), /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Divider, null), /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.SingleChildScrollView, null, /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Padding, { padding: 16 }, /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Column, null, /* @__PURE__ */ import_react51.default.createElement(Section4, { title: "Connection" }, /* @__PURE__ */ import_react51.default.createElement(
-    import_fuickjs55.TextField,
-    {
-      hintText: "WebSocket URL",
-      text: url,
-      onChanged: setUrl
-    }
-  ), /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react51.default.createElement(
-    import_fuickjs55.Button,
-    {
-      text: isConnected ? "Disconnect" : "Connect",
-      onTap: isConnected ? disconnect : connect
-    }
-  ), /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Button, { text: "Check State", onTap: checkState }))), /* @__PURE__ */ import_react51.default.createElement(Section4, { title: "Send Message" }, /* @__PURE__ */ import_react51.default.createElement(
-    import_fuickjs55.TextField,
-    {
-      hintText: "Enter message...",
-      text: message,
-      onChanged: setMessage
-    }
-  ), /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Row, { mainAxisAlignment: "spaceAround", margin: { top: 10 } }, /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Button, { text: "Send Text", onTap: sendMessage }), /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Button, { text: "Send Binary", onTap: sendBinary }))), /* @__PURE__ */ import_react51.default.createElement(Section4, { title: "Controls" }, /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Button, { text: "Clear Logs", onTap: clearLogs })))))));
-}
-function Section4({
-  title,
-  children
-}) {
-  return /* @__PURE__ */ import_react51.default.createElement(import_fuickjs55.Column, { crossAxisAlignment: "start", margin: { bottom: 20 } }, /* @__PURE__ */ import_react51.default.createElement(
-    import_fuickjs55.Text,
-    {
-      text: title,
-      fontSize: 16,
-      fontWeight: "bold",
-      margin: { bottom: 10 },
-      color: "#333"
-    }
-  ), children);
-}
-
-// src/demos/SliderDemo.tsx
-var import_react52 = __toESM(require_react_production());
-var import_fuickjs56 = __toESM(require_dist());
-function SliderDemo() {
-  const [val1, setVal1] = (0, import_react52.useState)(0.5);
-  const [val2, setVal2] = (0, import_react52.useState)(30);
-  const [val3, setVal3] = (0, import_react52.useState)(0);
-  return /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Scaffold, { appBar: /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.AppBar, { title: "Slider Demo" }) }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.SingleChildScrollView, null, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: "\u57FA\u7840 Slider\uFF080.0 ~ 1.0\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Slider, { value: val1, min: 0, max: 1, onChanged: (v) => setVal1(v) })), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: `\u503C: ${val1.toFixed(2)}`, fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: "\u81EA\u5B9A\u4E49\u8303\u56F4\uFF080 ~ 100\uFF0Cstep=5\uFF09", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Slider, { value: val2, min: 0, max: 100, step: 5, onChanged: (v) => setVal2(v) })), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: `\u503C: ${val2}`, fontSize: 13, color: "#616161" }), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Padding, { padding: { top: 20 } }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: "\u81EA\u5B9A\u4E49\u989C\u8272", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Padding, { padding: { top: 8, bottom: 4 } }, /* @__PURE__ */ import_react52.default.createElement(
-    import_fuickjs56.Slider,
-    {
-      value: val3,
-      min: 0,
-      max: 1,
-      activeColor: "#E91E63",
-      inactiveColor: "#F8BBD0",
-      onChanged: (v) => setVal3(v)
-    }
-  )), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: `\u503C: ${val3.toFixed(2)}`, fontSize: 13, color: "#E91E63" }), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Padding, { padding: { top: 24 } }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: "LinearProgressIndicator\uFF08\u8DDF\u968F val2\uFF09", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Padding, { padding: { top: 12 } }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: "\u8FDB\u5EA6\uFF1A" }), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Container, { width: 200 }, /* @__PURE__ */ import_react52.default.createElement(
-    import_fuickjs56.LinearProgressIndicator,
-    {
-      value: val2 / 100,
-      color: "#1976D2",
-      backgroundColor: "#BBDEFB",
-      strokeWidth: 8,
-      borderRadius: 4
-    }
-  )), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Text, { text: `${val2}%`, margin: { left: 8 }, fontSize: 13, color: "#1976D2" }))), /* @__PURE__ */ import_react52.default.createElement(import_fuickjs56.Container, { height: 40 }))));
-}
-
-// src/demos/RadioDemo.tsx
-var import_react53 = __toESM(require_react_production());
-var import_fuickjs57 = __toESM(require_dist());
-var FRUITS = ["\u82F9\u679C", "\u9999\u8549", "\u6A59\u5B50", "\u8461\u8404"];
-var COLORS = [
-  { label: "\u7EA2\u8272", value: "red", color: "#F44336" },
-  { label: "\u84DD\u8272", value: "blue", color: "#2196F3" },
-  { label: "\u7EFF\u8272", value: "green", color: "#4CAF50" }
-];
-function RadioDemo() {
-  const [fruit, setFruit] = (0, import_react53.useState)("\u82F9\u679C");
-  const [color, setColor] = (0, import_react53.useState)("red");
-  return /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Scaffold, { appBar: /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.AppBar, { title: "Radio Demo" }) }, /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.SingleChildScrollView, null, /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Text, { text: "\u57FA\u7840 Radio", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Padding, { padding: { top: 8 } }, /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Column, null, FRUITS.map((f) => /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Row, { key: f, crossAxisAlignment: "center", padding: { vertical: 4 } }, /* @__PURE__ */ import_react53.default.createElement(
-    import_fuickjs57.Radio,
-    {
-      value: f,
-      groupValue: fruit,
-      onChanged: (v) => setFruit(v)
-    }
-  ), /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Text, { text: f, margin: { left: 8 }, fontSize: 15 }))))), /* @__PURE__ */ import_react53.default.createElement(
-    import_fuickjs57.Container,
-    {
-      padding: 8,
-      margin: { top: 8 },
-      decoration: { color: "#F5F5F5", borderRadius: 6 }
-    },
-    /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Text, { text: `\u9009\u4E2D: ${fruit}`, fontSize: 13, color: "#616161" })
-  ), /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Padding, { padding: { top: 24 } }, /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Text, { text: "\u81EA\u5B9A\u4E49 activeColor", fontSize: 16, fontWeight: "bold" })), /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Padding, { padding: { top: 8 } }, /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Column, null, COLORS.map((c) => /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Row, { key: c.value, crossAxisAlignment: "center", padding: { vertical: 4 } }, /* @__PURE__ */ import_react53.default.createElement(
-    import_fuickjs57.Radio,
-    {
-      value: c.value,
-      groupValue: color,
-      activeColor: c.color,
-      onChanged: (v) => setColor(v)
-    }
-  ), /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Text, { text: c.label, margin: { left: 8 }, color: c.color, fontSize: 15 }))))), /* @__PURE__ */ import_react53.default.createElement(
-    import_fuickjs57.Container,
-    {
-      padding: 8,
-      margin: { top: 8 },
-      decoration: { color: "#F5F5F5", borderRadius: 6 }
-    },
-    /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Text, { text: `\u9009\u4E2D: ${color}`, fontSize: 13, color: "#616161" })
-  ), /* @__PURE__ */ import_react53.default.createElement(import_fuickjs57.Container, { height: 40 }))));
-}
-
-// src/demos/FloatingActionButtonDemo.tsx
-var import_react54 = __toESM(require_react_production());
-var import_fuickjs58 = __toESM(require_dist());
-function FloatingActionButtonDemo() {
-  const [count, setCount] = (0, import_react54.useState)(0);
-  return /* @__PURE__ */ import_react54.default.createElement(
-    import_fuickjs58.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.AppBar, { title: "FloatingActionButton Demo" }),
-      floatingActionButton: /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.FloatingActionButton, { onPressed: () => setCount((c) => c + 1) }, /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Icon, { icon: "add", color: "white", size: 24 }))
-    },
-    /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Center, null, /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Text, { text: "\u70B9\u51FB\u53F3\u4E0B\u89D2 FAB \u6309\u94AE", fontSize: 16, color: "#616161" }), /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Padding, { padding: { top: 16 } }, /* @__PURE__ */ import_react54.default.createElement(
-      import_fuickjs58.Container,
-      {
-        padding: { horizontal: 32, vertical: 16 },
-        decoration: {
-          color: "#E3F2FD",
-          borderRadius: 12,
-          border: { color: "#90CAF9", width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react54.default.createElement(
-        import_fuickjs58.Text,
-        {
-          text: `${count}`,
-          fontSize: 48,
-          fontWeight: "bold",
-          color: "#1565C0",
-          textAlign: "center"
-        }
-      )
-    )), /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Padding, { padding: { top: 12 } }, /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Text, { text: "\u70B9\u51FB\u6B21\u6570", fontSize: 14, color: "#9E9E9E" })), /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Padding, { padding: { top: 32 } }, /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Row, null, /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.FloatingActionButton, { onPressed: () => setCount((c) => Math.max(0, c - 1)) }, /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Icon, { icon: "remove", color: "white", size: 24 })), /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Container, { width: 16 }), /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.FloatingActionButton, { onPressed: () => setCount(0) }, /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Icon, { icon: "refresh", color: "white", size: 24 })))), /* @__PURE__ */ import_react54.default.createElement(import_fuickjs58.Text, { text: "\u51CF\u5C11 / \u91CD\u7F6E", fontSize: 12, color: "#9E9E9E", margin: { top: 8 } })))
-  );
-}
-
-// src/demos/AspectRatioDemo.tsx
-var import_react55 = __toESM(require_react_production());
-var import_fuickjs59 = __toESM(require_dist());
-function AspectRatioDemo() {
-  return /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Scaffold, { appBar: /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.AppBar, { title: /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "AspectRatio" }) }) }, /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.SingleChildScrollView, null, /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Padding, { padding: 16 }, /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "16:9", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.SizedBox, { height: 8 }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Container, { color: "#E3F2FD", width: 300 }, /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.AspectRatio, { aspectRatio: 16 / 9 }, /* @__PURE__ */ import_react55.default.createElement(
-    import_fuickjs59.Container,
-    {
-      decoration: { color: "#2196F3", borderRadius: 8 },
+      width: VW,
+      height: VH,
+      color: "rgba(0,0,0,0.72)",
       alignment: "center"
     },
-    /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "16 : 9", color: "white", fontSize: 18, fontWeight: "bold" })
-  ))), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.SizedBox, { height: 24 }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "4:3", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.SizedBox, { height: 8 }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Container, { color: "#E8F5E9", width: 300 }, /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.AspectRatio, { aspectRatio: 4 / 3 }, /* @__PURE__ */ import_react55.default.createElement(
-    import_fuickjs59.Container,
-    {
-      decoration: { color: "#4CAF50", borderRadius: 8 },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "4 : 3", color: "white", fontSize: 18, fontWeight: "bold" })
-  ))), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.SizedBox, { height: 24 }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "1:1", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.SizedBox, { height: 8 }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Container, { color: "#FFF3E0", width: 150 }, /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.AspectRatio, { aspectRatio: 1 }, /* @__PURE__ */ import_react55.default.createElement(
-    import_fuickjs59.Container,
-    {
-      decoration: { color: "#FF9800", borderRadius: 8 },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "1 : 1", color: "white", fontSize: 18, fontWeight: "bold" })
-  ))), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.SizedBox, { height: 24 }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "2:1 (\u5BBD\u5C4F)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.SizedBox, { height: 8 }), /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Container, { color: "#F3E5F5", width: 300 }, /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.AspectRatio, { aspectRatio: 2 }, /* @__PURE__ */ import_react55.default.createElement(
-    import_fuickjs59.Container,
-    {
-      decoration: { color: "#9C27B0", borderRadius: 8 },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react55.default.createElement(import_fuickjs59.Text, { text: "2 : 1", color: "white", fontSize: 18, fontWeight: "bold" })
-  )))))));
-}
-
-// src/demos/FractionallySizedBoxDemo.tsx
-var import_react56 = __toESM(require_react_production());
-var import_fuickjs60 = __toESM(require_dist());
-function FractionallySizedBoxDemo() {
-  const items = [
-    { factor: 0.25, label: "25%", color: "#E91E63" },
-    { factor: 0.5, label: "50%", color: "#FF9800" },
-    { factor: 0.75, label: "75%", color: "#4CAF50" },
-    { factor: 1, label: "100%", color: "#2196F3" }
-  ];
-  return /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Scaffold, { appBar: /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.AppBar, { title: /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Text, { text: "FractionallySizedBox" }) }) }, /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.SingleChildScrollView, null, /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Padding, { padding: 16 }, /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Text, { text: "widthFactor \u793A\u4F8B", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.SizedBox, { height: 12 }), items.map((item) => /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Column, { key: item.label, crossAxisAlignment: "start" }, /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Text, { text: item.label, fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.SizedBox, { height: 4 }), /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Container, { height: 50, color: "#F5F5F5" }, /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.FractionallySizedBox, { widthFactor: item.factor, alignment: "centerLeft" }, /* @__PURE__ */ import_react56.default.createElement(
-    import_fuickjs60.Container,
-    {
-      decoration: { color: item.color, borderRadius: 4 },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Text, { text: item.label, color: "white", fontWeight: "bold" })
-  ))), /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.SizedBox, { height: 12 }))), /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.SizedBox, { height: 16 }), /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Text, { text: "heightFactor \u793A\u4F8B", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.SizedBox, { height: 12 }), /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Container, { height: 200, color: "#F5F5F5" }, /* @__PURE__ */ import_react56.default.createElement(
-    import_fuickjs60.FractionallySizedBox,
-    {
-      widthFactor: 0.6,
-      heightFactor: 0.5,
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react56.default.createElement(
-      import_fuickjs60.Container,
+    /* @__PURE__ */ import_react5.default.createElement(import_fuickjs5.Column, { crossAxisAlignment: "center", mainAxisAlignment: "center" }, /* @__PURE__ */ import_react5.default.createElement(
+      import_fuickjs5.Text,
       {
-        decoration: { color: "#673AB7", borderRadius: 8 },
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react56.default.createElement(import_fuickjs60.Text, { text: "60% x 50%", color: "white", fontWeight: "bold" })
-    )
-  ))))));
-}
-
-// src/demos/DrawerDemo.tsx
-var import_react57 = __toESM(require_react_production());
-var import_fuickjs61 = __toESM(require_dist());
-function DrawerContent() {
-  return /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Container, { height: 120, color: "#2196F3", alignment: "bottomLeft", padding: 16 }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Text, { text: "FuickJS Menu", fontSize: 22, color: "white", fontWeight: "bold" })), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.InkWell, { onTap: () => console.log("Home tapped") }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Padding, { padding: 16 }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Row, null, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Icon, { data: "home", size: 24, color: "#333" }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.SizedBox, { width: 16 }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Text, { text: "Home", fontSize: 16 })))), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Divider, null), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.InkWell, { onTap: () => console.log("Settings tapped") }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Padding, { padding: 16 }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Row, null, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Icon, { data: "settings", size: 24, color: "#333" }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.SizedBox, { width: 16 }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Text, { text: "Settings", fontSize: 16 })))), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Divider, null), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.InkWell, { onTap: () => console.log("Info tapped") }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Padding, { padding: 16 }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Row, null, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Icon, { data: "info", size: 24, color: "#333" }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.SizedBox, { width: 16 }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Text, { text: "About", fontSize: 16 })))));
-}
-function DrawerDemo() {
-  return /* @__PURE__ */ import_react57.default.createElement(
-    import_fuickjs61.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.AppBar, { title: /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Text, { text: "Drawer Demo" }) }),
-      drawer: /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Drawer, { backgroundColor: "#FFFFFF", elevation: 8, width: 280 }, /* @__PURE__ */ import_react57.default.createElement(DrawerContent, null))
-    },
-    /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Padding, { padding: 24 }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Icon, { data: "swap_horiz", size: 64, color: "#2196F3" }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.SizedBox, { height: 16 }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Text, { text: "\u4ECE\u5DE6\u4FA7\u8FB9\u7F18\u5411\u53F3\u6ED1\u52A8", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.SizedBox, { height: 8 }), /* @__PURE__ */ import_react57.default.createElement(import_fuickjs61.Text, { text: "\u6216\u70B9\u51FB\u5DE6\u4E0A\u89D2\u83DC\u5355\u6309\u94AE\u6253\u5F00 Drawer", fontSize: 14, color: "#666" })))
-  );
-}
-
-// src/demos/BackdropFilterDemo.tsx
-var import_react58 = __toESM(require_react_production());
-var import_fuickjs62 = __toESM(require_dist());
-function BackdropFilterDemo() {
-  return /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Scaffold, { appBar: /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.AppBar, { title: /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "BackdropFilter" }) }) }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.SingleChildScrollView, null, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Padding, { padding: 16 }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "Blur \u6548\u679C", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.SizedBox, { height: 8 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "sigmaX=5, sigmaY=5", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.SizedBox, { height: 12 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Container, { width: 320, height: 200 }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Stack, null, /* @__PURE__ */ import_react58.default.createElement(
-    import_fuickjs62.Container,
-    {
-      decoration: { color: "#E8F5E9", borderRadius: 12 },
-      alignment: "center",
-      padding: 16
-    },
-    /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "Background", fontSize: 28, fontWeight: "bold", color: "#2E7D32" }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "\u8FD9\u6BB5\u6587\u5B57\u5728\u6A21\u7CCA\u5C42\u540E\u9762", fontSize: 16, color: "#388E3C" }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.SizedBox, { height: 8 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Container, { width: 30, height: 30, color: "#F44336", margin: 4 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Container, { width: 30, height: 30, color: "#FF9800", margin: 4 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Container, { width: 30, height: 30, color: "#4CAF50", margin: 4 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Container, { width: 30, height: 30, color: "#2196F3", margin: 4 })))
-  ), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Container, { alignment: "center" }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.ClipRRect, { borderRadius: 8 }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.BackdropFilter, { sigmaX: 5, sigmaY: 5 }, /* @__PURE__ */ import_react58.default.createElement(
-    import_fuickjs62.Container,
-    {
-      width: 180,
-      height: 70,
-      color: "#ffffff55",
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "\u6A21\u7CCA\u533A\u57DF", fontSize: 16, color: "#333", fontWeight: "bold" })
-  )))))), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.SizedBox, { height: 32 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "\u5F3A\u6A21\u7CCA", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.SizedBox, { height: 8 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "sigmaX=15, sigmaY=15", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.SizedBox, { height: 12 }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Container, { width: 320, height: 200 }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Stack, null, /* @__PURE__ */ import_react58.default.createElement(
-    import_fuickjs62.Container,
-    {
-      decoration: { color: "#FFF3E0", borderRadius: 12 },
-      alignment: "center",
-      padding: 16
-    },
-    /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "Sharp Text", fontSize: 28, fontWeight: "bold", color: "#E65100" }), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "Clear details here", fontSize: 16, color: "#F57C00" }))
-  ), /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Container, { alignment: "center" }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.ClipRRect, { borderRadius: 12 }, /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.BackdropFilter, { sigmaX: 15, sigmaY: 15 }, /* @__PURE__ */ import_react58.default.createElement(
-    import_fuickjs62.Container,
-    {
-      width: 200,
-      height: 100,
-      color: "#ffffff44",
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react58.default.createElement(import_fuickjs62.Text, { text: "Heavy Blur", fontSize: 18, color: "#333", fontWeight: "bold" })
-  ))))))))));
-}
-
-// src/demos/AnimatedSwitcherDemo.tsx
-var import_react59 = __toESM(require_react_production());
-var import_fuickjs63 = __toESM(require_dist());
-var colors = ["#2196F3", "#FF5722", "#4CAF50", "#9C27B0", "#FF9800"];
-function AnimatedSwitcherDemo() {
-  const [count, setCount] = (0, import_react59.useState)(0);
-  const [textIndex, setTextIndex] = (0, import_react59.useState)(0);
-  const texts = ["Hello", "World", "FuickJS", "Flutter", "React"];
-  return /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Scaffold, { appBar: /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.AppBar, { title: /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Text, { text: "AnimatedSwitcher" }) }) }, /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Padding, { padding: 16 }, /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Text, { text: "\u6570\u5B57\u5207\u6362", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.SizedBox, { height: 8 }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Text, { text: "key \u53D8\u5316\u89E6\u53D1\u6DE1\u5165\u6DE1\u51FA\u52A8\u753B", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.SizedBox, { height: 16 }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.AnimatedSwitcher, { duration: 500, switchInCurve: "easeIn", switchOutCurve: "easeOut" }, /* @__PURE__ */ import_react59.default.createElement(
-    import_fuickjs63.Container,
-    {
-      key: `num-${count}`,
-      width: 140,
-      height: 100,
-      decoration: {
-        color: colors[count % colors.length],
-        borderRadius: 16
-      },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Text, { text: `${count}`, fontSize: 48, color: "white", fontWeight: "bold" })
-  )), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.SizedBox, { height: 16 }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Row, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Button, { text: " - ", onTap: () => setCount(count - 1) }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.SizedBox, { width: 16 }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Button, { text: " + ", onTap: () => setCount(count + 1) })), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Divider, { margin: { top: 32, bottom: 32 } }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Text, { text: "\u6587\u5B57\u5207\u6362", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.SizedBox, { height: 8 }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.Text, { text: "switchInCurve: easeInOut", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.SizedBox, { height: 16 }), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.AnimatedSwitcher, { duration: 300, switchInCurve: "easeInOut" }, /* @__PURE__ */ import_react59.default.createElement(
-    import_fuickjs63.Text,
-    {
-      key: `text-${textIndex}`,
-      text: texts[textIndex],
-      fontSize: 36,
-      fontWeight: "bold",
-      color: "#333"
-    }
-  )), /* @__PURE__ */ import_react59.default.createElement(import_fuickjs63.SizedBox, { height: 16 }), /* @__PURE__ */ import_react59.default.createElement(
-    import_fuickjs63.Button,
-    {
-      text: "Next Text",
-      onTap: () => setTextIndex((textIndex + 1) % texts.length)
-    }
-  ))));
-}
-
-// src/demos/AnimatedCrossFadeDemo.tsx
-var import_react60 = __toESM(require_react_production());
-var import_fuickjs64 = __toESM(require_dist());
-function AnimatedCrossFadeDemo() {
-  const [showFirst1, setShowFirst1] = (0, import_react60.useState)(true);
-  const [showFirst2, setShowFirst2] = (0, import_react60.useState)(true);
-  return /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Scaffold, { appBar: /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.AppBar, { title: /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "AnimatedCrossFade" }) }) }, /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Padding, { padding: 16 }, /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "\u57FA\u672C\u4EA4\u53C9\u6DE1\u5165\u6DE1\u51FA", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 8 }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "\u4E24\u4E2A\u5B50\u7EC4\u4EF6\u4E4B\u95F4\u5E73\u6ED1\u8FC7\u6E21", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 16 }), /* @__PURE__ */ import_react60.default.createElement(
-    import_fuickjs64.AnimatedCrossFade,
-    {
-      crossFadeState: showFirst1 ? "showFirst" : "showSecond",
-      duration: 600
-    },
-    /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.FlutterProps, { propsKey: "firstChild" }, /* @__PURE__ */ import_react60.default.createElement(
-      import_fuickjs64.Container,
-      {
-        width: 240,
-        height: 120,
-        decoration: { color: "#4CAF50", borderRadius: 16 },
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Icon, { data: "home", size: 36, color: "white" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 8 }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "First Child", fontSize: 20, color: "white", fontWeight: "bold" }))
-    )),
-    /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.FlutterProps, { propsKey: "secondChild" }, /* @__PURE__ */ import_react60.default.createElement(
-      import_fuickjs64.Container,
-      {
-        width: 240,
-        height: 160,
-        decoration: { color: "#FF9800", borderRadius: 16 },
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Icon, { data: "settings", size: 36, color: "white" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 8 }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "Second Child", fontSize: 20, color: "white", fontWeight: "bold" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "(\u66F4\u9AD8)", fontSize: 14, color: "white" }))
-    ))
-  ), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 16 }), /* @__PURE__ */ import_react60.default.createElement(
-    import_fuickjs64.Button,
-    {
-      text: showFirst1 ? "Show Second" : "Show First",
-      onTap: () => setShowFirst1(!showFirst1)
-    }
-  ), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Divider, { margin: { top: 32, bottom: 32 } }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "\u81EA\u5B9A\u4E49 Curve", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 8 }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "firstCurve: easeIn, secondCurve: easeOut", fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 16 }), /* @__PURE__ */ import_react60.default.createElement(
-    import_fuickjs64.AnimatedCrossFade,
-    {
-      crossFadeState: showFirst2 ? "showFirst" : "showSecond",
-      duration: 800,
-      firstCurve: "easeIn",
-      secondCurve: "easeOut",
-      sizeCurve: "fastOutSlowIn"
-    },
-    /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.FlutterProps, { propsKey: "firstChild" }, /* @__PURE__ */ import_react60.default.createElement(
-      import_fuickjs64.Container,
-      {
-        width: 200,
-        height: 80,
-        decoration: { color: "#2196F3", borderRadius: 12 },
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "Compact", fontSize: 18, color: "white", fontWeight: "bold" })
-    )),
-    /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.FlutterProps, { propsKey: "secondChild" }, /* @__PURE__ */ import_react60.default.createElement(
-      import_fuickjs64.Container,
-      {
-        width: 280,
-        height: 140,
-        decoration: { color: "#E91E63", borderRadius: 12 },
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Column, { mainAxisAlignment: "center" }, /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "Expanded", fontSize: 22, color: "white", fontWeight: "bold" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 4 }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "More content here", fontSize: 14, color: "white" }), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.Text, { text: "With multiple lines", fontSize: 14, color: "white" }))
-    ))
-  ), /* @__PURE__ */ import_react60.default.createElement(import_fuickjs64.SizedBox, { height: 16 }), /* @__PURE__ */ import_react60.default.createElement(
-    import_fuickjs64.Button,
-    {
-      text: showFirst2 ? "Expand" : "Compact",
-      onTap: () => setShowFirst2(!showFirst2)
-    }
-  ))));
-}
-
-// src/demos/NestedScrollViewDemo.tsx
-var import_react61 = __toESM(require_react_production());
-var import_fuickjs65 = __toESM(require_dist());
-var categories = [
-  { icon: "home", label: "Home", color: "#2196F3" },
-  { icon: "star", label: "Favorites", color: "#FF9800" },
-  { icon: "person", label: "Profile", color: "#4CAF50" },
-  { icon: "settings", label: "Settings", color: "#9C27B0" }
-];
-function NestedScrollViewDemo() {
-  return /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Scaffold, null, /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.NestedScrollView, null, /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.FlutterProps, { propsKey: "headerSliverBuilder" }, /* @__PURE__ */ import_react61.default.createElement(
-    import_fuickjs65.SliverAppBar,
-    {
-      pinned: true,
-      expandedHeight: 180,
-      backgroundColor: "#673AB7",
-      title: /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Text, { text: "NestedScrollView", color: "white" })
-    },
-    /* @__PURE__ */ import_react61.default.createElement(
-      import_fuickjs65.Container,
-      {
-        color: "#512DA8",
-        alignment: "center",
-        padding: { bottom: 60, left: 16, right: 16 }
-      },
-      /* @__PURE__ */ import_react61.default.createElement(
-        import_fuickjs65.Text,
-        {
-          text: "\u5411\u4E0A\u6ED1\u52A8\uFF0CAppBar \u4F1A\u6298\u53E0\u5E76\u56FA\u5B9A",
-          color: "white",
-          fontSize: 16
-        }
-      )
-    )
-  )), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.FlutterProps, { propsKey: "body" }, /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.ListView, { shrinkWrap: false, physics: "never" }, /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Padding, { padding: 16 }, /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Text, { text: "Quick Actions", fontSize: 18, fontWeight: "bold" }), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.SizedBox, { height: 12 }), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Row, { mainAxisAlignment: "spaceAround" }, categories.map((cat) => /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Column, { key: cat.label, crossAxisAlignment: "center" }, /* @__PURE__ */ import_react61.default.createElement(
-    import_fuickjs65.Container,
-    {
-      width: 50,
-      height: 50,
-      decoration: { color: cat.color, borderRadius: 25 },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Icon, { data: cat.icon, color: "white", size: 24 })
-  ), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.SizedBox, { height: 4 }), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Text, { text: cat.label, fontSize: 12, color: "#666" })))), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.SizedBox, { height: 16 }), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Text, { text: "All Items", fontSize: 18, fontWeight: "bold" }))), Array.from({ length: 29 }, (_, i) => /* @__PURE__ */ import_react61.default.createElement(
-    import_fuickjs65.Container,
-    {
-      key: `item-${i}`,
-      height: 60,
-      color: i % 2 === 0 ? "#FAFAFA" : "#FFFFFF",
-      padding: { left: 16, right: 16 },
-      alignment: "centerLeft"
-    },
-    /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Row, null, /* @__PURE__ */ import_react61.default.createElement(
-      import_fuickjs65.Container,
-      {
-        width: 36,
-        height: 36,
-        decoration: {
-          color: categories[i % categories.length].color,
-          borderRadius: 18
-        },
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Text, { text: `${i}`, color: "white", fontSize: 14, fontWeight: "bold" })
-    ), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.SizedBox, { width: 12 }), /* @__PURE__ */ import_react61.default.createElement(import_fuickjs65.Text, { text: `List Item ${i}`, fontSize: 16 }))
-  ))))));
-}
-
-// src/demos/ReactManagedListDemo.tsx
-var import_react62 = __toESM(require_react_production());
-var import_fuickjs66 = __toESM(require_dist());
-function CounterItem({ index }) {
-  const [count, setCount] = (0, import_react62.useState)(0);
-  const [active, setActive] = (0, import_react62.useState)(false);
-  return /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Container, { padding: { left: 16, right: 8, top: 10, bottom: 10 } }, /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react62.default.createElement(
-    import_fuickjs66.Container,
-    {
-      width: 36,
-      height: 36,
-      alignment: "center",
-      margin: { right: 12 },
-      decoration: {
-        color: active ? "#E3F2FD" : "#F5F5F5",
-        borderRadius: 18,
-        border: { width: 1, color: active ? "#2196F3" : "#E0E0E0" }
-      },
-      onTap: () => setActive((a) => !a)
-    },
-    /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: String(count), fontSize: 14, fontWeight: "bold", color: active ? "#2196F3" : "#757575" })
-  ), /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: `Item ${index + 1}`, fontSize: 14 }), /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: active ? "Active" : "Inactive", fontSize: 11, color: "#999" }))), /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react62.default.createElement(
-    import_fuickjs66.Container,
-    {
-      width: 28,
-      height: 28,
-      alignment: "center",
-      margin: { right: 6 },
-      decoration: { color: "#FFEBEE", borderRadius: 14 },
-      onTap: () => setCount((c) => c - 1)
-    },
-    /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: "\u2212", fontSize: 16, color: "#E53935" })
-  ), /* @__PURE__ */ import_react62.default.createElement(
-    import_fuickjs66.Container,
-    {
-      width: 28,
-      height: 28,
-      alignment: "center",
-      decoration: { color: "#E8F5E9", borderRadius: 14 },
-      onTap: () => setCount((c) => c + 1)
-    },
-    /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: "+", fontSize: 16, color: "#43A047" })
-  ))));
-}
-function TimerItem({ index }) {
-  const [seconds, setSeconds] = (0, import_react62.useState)(0);
-  const [running, setRunning] = (0, import_react62.useState)(true);
-  (0, import_react62.useEffect)(() => {
-    if (!running) return;
-    const id = setInterval(() => {
-      setSeconds((s) => s + 1);
-    }, 1e3);
-    console.log(`[TimerItem ${index}] setInterval started: ${id}`);
-    return () => {
-      console.log(`[TimerItem ${index}] clearInterval: ${id}`);
-      clearInterval(id);
-    };
-  }, [running]);
-  return /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Container, { padding: { left: 16, right: 16, top: 8, bottom: 8 } }, /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: `Timer #${index + 1}`, fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: `${seconds}s elapsed`, fontSize: 12, color: running ? "#4CAF50" : "#9E9E9E" })), /* @__PURE__ */ import_react62.default.createElement(
-    import_fuickjs66.Container,
-    {
-      padding: { left: 12, right: 12, top: 6, bottom: 6 },
-      decoration: {
-        color: running ? "#E8F5E9" : "#FFF3E0",
-        borderRadius: 16
-      },
-      onTap: () => setRunning((r) => !r)
-    },
-    /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: running ? "Pause" : "Resume", fontSize: 12, color: running ? "#2E7D32" : "#E65100" })
-  )));
-}
-function LoadingItem({ index }) {
-  const [loaded, setLoaded] = (0, import_react62.useState)(false);
-  const [data, setData] = (0, import_react62.useState)("Loading...");
-  (0, import_react62.useEffect)(() => {
-    const timer = setTimeout(() => {
-      setLoaded(true);
-      setData(`Item ${index + 1} data loaded`);
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
-  return /* @__PURE__ */ import_react62.default.createElement(
-    import_fuickjs66.Container,
-    {
-      padding: 16,
-      margin: { bottom: 1 },
-      color: loaded ? "#FFFFFF" : "#FAFAFA"
-    },
-    /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react62.default.createElement(
-      import_fuickjs66.Text,
-      {
-        text: data,
-        fontSize: 14,
-        color: loaded ? "#333333" : "#BDBDBD"
-      }
-    ), /* @__PURE__ */ import_react62.default.createElement(
-      import_fuickjs66.Container,
-      {
-        width: 8,
-        height: 8,
-        decoration: {
-          color: loaded ? "#4CAF50" : "#FFC107",
-          borderRadius: 4
-        }
-      }
-    ))
-  );
-}
-function ReactManagedListDemo() {
-  const [tab, setTab] = (0, import_react62.useState)("counter");
-  const [itemCount, setItemCount] = (0, import_react62.useState)(15);
-  const tabs = [
-    { key: "counter", label: "Counter (useState)" },
-    { key: "timer", label: "Timer (useEffect)" },
-    { key: "loading", label: "Loading (useEffect init)" }
-  ];
-  const itemBuilder = (index) => {
-    switch (tab) {
-      case "counter":
-        return /* @__PURE__ */ import_react62.default.createElement(CounterItem, { index });
-      case "timer":
-        return /* @__PURE__ */ import_react62.default.createElement(TimerItem, { index });
-      case "loading":
-        return /* @__PURE__ */ import_react62.default.createElement(LoadingItem, { index });
-    }
-  };
-  return /* @__PURE__ */ import_react62.default.createElement(
-    import_fuickjs66.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.AppBar, { title: "React Managed List" })
-    },
-    /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Column, null, /* @__PURE__ */ import_react62.default.createElement(
-      import_fuickjs66.Container,
-      {
-        padding: 8,
-        color: "#F5F5F5"
-      },
-      /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Row, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, tabs.map((t) => /* @__PURE__ */ import_react62.default.createElement(
-        import_fuickjs66.Container,
-        {
-          key: t.key,
-          padding: { left: 12, right: 12, top: 8, bottom: 8 },
-          margin: { left: 4, right: 4 },
-          decoration: {
-            color: tab === t.key ? "#2196F3" : "#FFFFFF",
-            borderRadius: 16
-          },
-          onTap: () => {
-            setTab(t.key);
-            setItemCount(15);
-          }
-        },
-        /* @__PURE__ */ import_react62.default.createElement(
-          import_fuickjs66.Text,
-          {
-            text: t.label,
-            fontSize: 12,
-            color: tab === t.key ? "#FFFFFF" : "#666666"
-          }
-        )
-      )))
-    ), /* @__PURE__ */ import_react62.default.createElement(
-      import_fuickjs66.Container,
-      {
-        padding: { left: 16, right: 16, top: 8, bottom: 8 },
-        color: "#FAFAFA"
-      },
-      /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Row, { mainAxisAlignment: "spaceBetween", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: `Items: ${itemCount}`, fontSize: 14, color: "#666" }), /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Row, null, /* @__PURE__ */ import_react62.default.createElement(
-        import_fuickjs66.Container,
-        {
-          width: 36,
-          height: 36,
-          alignment: "center",
-          margin: { right: 8 },
-          decoration: { color: "#FFEBEE", borderRadius: 18 },
-          onTap: () => setItemCount((n) => Math.max(1, n - 5))
-        },
-        /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: "\u22125", fontSize: 12, color: "#E53935" })
-      ), /* @__PURE__ */ import_react62.default.createElement(
-        import_fuickjs66.Container,
-        {
-          width: 36,
-          height: 36,
-          alignment: "center",
-          decoration: { color: "#E8F5E9", borderRadius: 18 },
-          onTap: () => setItemCount((n) => n + 5)
-        },
-        /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Text, { text: "+5", fontSize: 12, color: "#43A047" })
-      )))
-    ), /* @__PURE__ */ import_react62.default.createElement(import_fuickjs66.Expanded, null, /* @__PURE__ */ import_react62.default.createElement(
-      import_fuickjs66.ListView,
-      {
-        itemCount,
-        itemBuilder,
-        cacheKey: tab,
-        stateful: true
-      }
-    )))
-  );
-}
-
-// src/demos/StaticListDemo.tsx
-var import_react63 = __toESM(require_react_production());
-var import_fuickjs67 = __toESM(require_dist());
-var COLORS2 = ["#E3F2FD", "#FFF3E0", "#E8F5E9", "#FCE4EC", "#F3E5F5", "#FFF9C4"];
-var ICONS = ["star", "favorite", "bookmark", "cloud", "flight", "music_note"];
-function StaticListDemo() {
-  return /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.Scaffold, { appBar: /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.AppBar, { title: "Static List (Stateless)" }) }, /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.Column, null, /* @__PURE__ */ import_react63.default.createElement(
-    import_fuickjs67.Container,
-    {
-      padding: { left: 16, right: 16, top: 12, bottom: 8 },
-      color: "#F5F5F5"
-    },
-    /* @__PURE__ */ import_react63.default.createElement(
-      import_fuickjs67.Text,
-      {
-        text: "itemBuilder \u4E2D\u4E0D\u4F7F\u7528 useState/useEffect\uFF0C\u5217\u8868\u9879\u65E0\u751F\u547D\u5468\u671F\uFF0C\u7EAF\u5C55\u793A\u578B",
-        fontSize: 12,
-        color: "#666",
-        maxLines: 2
-      }
-    )
-  ), /* @__PURE__ */ import_react63.default.createElement(
-    import_fuickjs67.Container,
-    {
-      padding: { left: 16, top: 8, bottom: 4 }
-    },
-    /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.Text, { text: "Contacts", fontSize: 18, fontWeight: "bold", color: "#333" })
-  ), /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.Expanded, null, /* @__PURE__ */ import_react63.default.createElement(
-    import_fuickjs67.ListView,
-    {
-      itemCount: 30,
-      stateful: false,
-      itemBuilder: (index) => /* @__PURE__ */ import_react63.default.createElement(
-        import_fuickjs67.Container,
-        {
-          padding: { left: 16, right: 16, top: 10, bottom: 10 },
-          decoration: {
-            color: index % 2 === 0 ? "#FFFFFF" : "#FAFAFA",
-            border: { width: 0, color: "transparent" }
-          },
-          onTap: () => console.log(`Tapped contact ${index + 1}`)
-        },
-        /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react63.default.createElement(
-          import_fuickjs67.Container,
-          {
-            width: 40,
-            height: 40,
-            alignment: "center",
-            margin: { right: 12 },
-            decoration: {
-              color: COLORS2[index % COLORS2.length],
-              borderRadius: 20
-            }
-          },
-          /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.Icon, { name: ICONS[index % ICONS.length], fontSize: 18, color: "#555" })
-        ), /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react63.default.createElement(import_fuickjs67.Text, { text: `Contact ${index + 1}`, fontSize: 14 }), /* @__PURE__ */ import_react63.default.createElement(
-          import_fuickjs67.Text,
-          {
-            text: `+1 (555) ${String(1e3 + index).slice(1)}-${String(1e4 + index * 7).slice(1)}`,
-            fontSize: 12,
-            color: "#999"
-          }
-        )))
-      )
-    }
-  ))));
-}
-
-// src/demos/PerformanceDemo.tsx
-var import_react64 = __toESM(require_react_production());
-var import_fuickjs68 = __toESM(require_dist());
-var Transform2 = "Transform";
-var COLORS3 = [
-  "#E3F2FD",
-  "#F3E5F5",
-  "#FFF3E0",
-  "#E8F5E9",
-  "#FFEBEE",
-  "#E0F7FA",
-  "#FCE4EC",
-  "#F1F8E9",
-  "#FFF8E1",
-  "#EDE7F6",
-  "#E8EAF6",
-  "#E1F5FE",
-  "#FBE9E7",
-  "#F9FBE7",
-  "#E0F2F1"
-];
-var ICONS2 = [
-  "home",
-  "star",
-  "favorite",
-  "person",
-  "settings",
-  "search",
-  "notifications",
-  "shopping_cart",
-  "cloud",
-  "camera",
-  "music_note",
-  "location_on",
-  "phone",
-  "email",
-  "bookmark"
-];
-function SectionHeader({
-  title,
-  subtitle
-}) {
-  return /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      padding: { left: 16, top: 20, right: 16, bottom: 8 },
-      color: "#FAFAFA"
-    },
-    /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: title, fontSize: 20, fontWeight: "bold", color: "#212121" }),
-    subtitle && /* @__PURE__ */ import_react64.default.createElement(
-      import_fuickjs68.Text,
-      {
-        text: subtitle,
-        fontSize: 13,
-        color: "#757575",
-        margin: { top: 4 }
-      }
-    )
-  );
-}
-function CardItem({ index }) {
-  const color = COLORS3[index % COLORS3.length];
-  const icon = ICONS2[index % ICONS2.length];
-  return /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      margin: { left: 8, right: 8, bottom: 8 },
-      padding: 12,
-      decoration: {
-        color: "white",
-        borderRadius: 12,
-        boxShadow: {
-          color: "#00000012",
-          blurRadius: 8,
-          offset: { dx: 0, dy: 2 }
-        }
-      }
-    },
-    /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, /* @__PURE__ */ import_react64.default.createElement(
-      import_fuickjs68.Container,
-      {
-        width: 48,
-        height: 48,
-        decoration: { color, borderRadius: 24 },
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Icon, { name: icon, color: "#424242", size: 24 })
-    ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 12 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: `Card Item ${index}`, fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react64.default.createElement(
-      import_fuickjs68.Text,
-      {
-        text: `Description text for card item ${index}`,
-        fontSize: 13,
-        color: "#757575"
-      }
-    ))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Icon, { name: "chevron_right", color: "#BDBDBD", size: 20 }))
-  );
-}
-function StatCard({
-  label,
-  value,
-  color
-}) {
-  return /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      padding: 16,
-      margin: { left: 4, right: 4 },
-      decoration: {
-        color,
-        borderRadius: 12
-      }
-    },
-    /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Center, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: value, fontSize: 24, fontWeight: "bold", color: "white" }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 4 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: label, fontSize: 12, color: "rgba(255,255,255,0.85)" })))
-  );
-}
-function AvatarRow({ count }) {
-  const avatarWidth = 36;
-  const overlap = 8;
-  const totalWidth = avatarWidth + (count - 1) * (avatarWidth - overlap) + avatarWidth + overlap;
-  return /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { width: totalWidth, height: 36 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Stack, null, Array.from({ length: count }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Positioned, { key: i, left: i * (avatarWidth - overlap), top: 0 }, /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      width: avatarWidth,
-      height: avatarWidth,
-      decoration: {
-        color: COLORS3[i % COLORS3.length],
-        borderRadius: 18,
-        border: { color: "white", width: 2 }
-      },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react64.default.createElement(
-      import_fuickjs68.Text,
-      {
-        text: String(i + 1),
-        fontSize: 12,
-        color: "white",
+        text: win ? "\u53E6\u4E00\u4E2A\u5B87\u5B99" : "\u6E38\u620F\u7ED3\u675F",
+        color: win ? "#7c4dff" : "#ef5350",
+        fontSize: 30,
         fontWeight: "bold"
       }
-    )
-  ))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Positioned, { left: count * (avatarWidth - overlap), top: 0 }, /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      width: avatarWidth,
-      height: avatarWidth,
-      decoration: {
-        color: "#EEEEEE",
-        borderRadius: 18,
-        border: { color: "white", width: 2 }
-      },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "+9", fontSize: 10, color: "#757575" })
-  ))));
-}
-function TagChip({ text, color }) {
-  return /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      padding: { left: 12, top: 6, right: 12, bottom: 6 },
-      decoration: {
-        color,
-        borderRadius: 16
-      }
-    },
-    /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text, fontSize: 12, color: "#424242" })
-  );
-}
-function ProgressBar({ progress, color }) {
-  return /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { height: 8, decoration: { color: "#E0E0E0", borderRadius: 4 } }, /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      width: progress * 100,
-      height: 8,
-      decoration: { color, borderRadius: 4 }
-    }
-  ));
-}
-function PerformanceDemo() {
-  const [switchVal1, setSwitchVal1] = (0, import_react64.useState)(false);
-  const [switchVal2, setSwitchVal2] = (0, import_react64.useState)(true);
-  const [switchVal3, setSwitchVal3] = (0, import_react64.useState)(false);
-  const [sliderVal, setSliderVal] = (0, import_react64.useState)(50);
-  const [animToggle, setAnimToggle] = (0, import_react64.useState)(false);
-  const [isReady, setIsReady] = (0, import_react64.useState)(false);
-  (0, import_fuickjs68.useRouteTransitionComplete)((result) => {
-    console.log(`\u8DEF\u7531\u52A8\u753B\u5B8C\u6210: pageId=${result.pageId}, path=${result.path}`);
-    setIsReady(true);
-  });
-  return /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Scaffold, { appBar: /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.AppBar, { title: "Performance Stress Test" }) }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SingleChildScrollView, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { height: 200, padding: 20, color: "#1565C0" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { mainAxisAlignment: "center", crossAxisAlignment: "start" }, /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Text,
-    {
-      text: "Performance Stress Test",
-      fontSize: 28,
-      fontWeight: "bold",
-      color: "white"
-    }
-  ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Text,
-    {
-      text: "A very complex page with many widgets to verify rendering performance",
-      fontSize: 14,
-      color: "rgba(255,255,255,0.85)"
-    }
-  ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 16 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      padding: { left: 16, top: 8, right: 16, bottom: 8 },
-      decoration: {
-        color: "rgba(255,255,255,0.25)",
-        borderRadius: 20
-      }
-    },
-    /* @__PURE__ */ import_react64.default.createElement(
-      import_fuickjs68.Text,
+    ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs5.SizedBox, { height: 12 }), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs5.Text, { text: `\u7B49\u7EA7\uFF1A${stageName}`, color: "#ffffff", fontSize: 16 }), /* @__PURE__ */ import_react5.default.createElement(
+      import_fuickjs5.Text,
       {
-        text: "Explore",
-        fontSize: 14,
-        fontWeight: "bold",
-        color: "white"
-      }
-    )
-  ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 12 }), /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      padding: { left: 16, top: 8, right: 16, bottom: 8 },
-      decoration: {
-        color: "rgba(255,255,255,0.15)",
-        borderRadius: 20,
-        border: { color: "rgba(255,255,255,0.5)", width: 1 }
-      }
-    },
-    /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Learn More", fontSize: 14, color: "white" })
-  )))), /* @__PURE__ */ import_react64.default.createElement(
-    SectionHeader,
-    {
-      title: "Statistics",
-      subtitle: "Key metrics at a glance"
-    }
-  ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(StatCard, { label: "Users", value: "12.5K", color: "#1E88E5" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(StatCard, { label: "Revenue", value: "$48K", color: "#43A047" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(StatCard, { label: "Orders", value: "3.2K", color: "#FB8C00" })))), /* @__PURE__ */ import_react64.default.createElement(
-    SectionHeader,
-    {
-      title: "Quick Actions",
-      subtitle: "8 action buttons in a grid"
-    }
-  ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Wrap, { spacing: 12, runSpacing: 12 }, Array.from({ length: 8 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.Container,
-    {
-      key: i,
-      width: 76,
-      height: 76,
-      decoration: {
-        color: COLORS3[i % COLORS3.length],
-        borderRadius: 16
-      },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react64.default.createElement(
-      import_fuickjs68.Column,
-      {
-        crossAxisAlignment: "center",
-        mainAxisAlignment: "center"
-      },
-      /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Icon,
-        {
-          name: ICONS2[i % ICONS2.length],
-          color: "#424242",
-          size: 28
-        }
-      ),
-      /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 4 }),
-      /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Text,
-        {
-          text: `Action ${i + 1}`,
-          fontSize: 11,
-          color: "#616161"
-        }
-      )
-    )
-  )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-    SectionHeader,
-    {
-      title: "GridView (3 columns, 30 items)",
-      subtitle: "Grid layout with colored cards"
-    }
-  ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { height: 400, padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.GridView,
-    {
-      crossAxisCount: 3,
-      mainAxisSpacing: 8,
-      crossAxisSpacing: 8,
-      itemCount: 30,
-      itemBuilder: (index) => /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          decoration: {
-            color: COLORS3[index % COLORS3.length],
-            borderRadius: 12,
-            boxShadow: {
-              color: "#00000008",
-              blurRadius: 4,
-              offset: { dx: 0, dy: 1 }
-            }
-          },
-          padding: 8
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Icon,
-          {
-            name: ICONS2[index % ICONS2.length],
-            color: "#616161",
-            size: 20
-          }
-        ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 6 }), /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `Grid ${index + 1}`,
-            fontSize: 13,
-            fontWeight: "bold"
-          }
-        ), /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `Subtitle ${index + 1}`,
-            fontSize: 10,
-            color: "#9E9E9E"
-          }
-        ))
-      )
-    }
-  )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-    import_fuickjs68.LazyView,
-    {
-      load: isReady,
-      builder: () => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "PageView (5 swipeable pages)",
-          subtitle: "Horizontal swipe between pages"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 180,
-          padding: { left: 12, right: 12, bottom: 12 }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.PageView, null, Array.from({ length: 5 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            key: i,
-            margin: { left: 4, right: 4 },
-            decoration: {
-              color: COLORS3[i * 3 % COLORS3.length],
-              borderRadius: 16
-            },
-            padding: 20
-          },
-          /* @__PURE__ */ import_react64.default.createElement(
-            import_fuickjs68.Column,
-            {
-              mainAxisAlignment: "center",
-              crossAxisAlignment: "start"
-            },
-            /* @__PURE__ */ import_react64.default.createElement(
-              import_fuickjs68.Text,
-              {
-                text: `Page ${i + 1}`,
-                fontSize: 24,
-                fontWeight: "bold",
-                color: "#424242"
-              }
-            ),
-            /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }),
-            /* @__PURE__ */ import_react64.default.createElement(
-              import_fuickjs68.Text,
-              {
-                text: `Swipe to see page ${i + 2 <= 5 ? i + 2 : 1}`,
-                fontSize: 14,
-                color: "#757575"
-              }
-            ),
-            /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 12 }),
-            /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, Array.from({ length: 3 }, (_2, j) => /* @__PURE__ */ import_react64.default.createElement(
-              import_fuickjs68.Container,
-              {
-                key: j,
-                width: 40,
-                height: 40,
-                margin: { right: 8 },
-                decoration: {
-                  color: "rgba(255,255,255,0.6)",
-                  borderRadius: 8
-                },
-                alignment: "center"
-              },
-              /* @__PURE__ */ import_react64.default.createElement(
-                import_fuickjs68.Icon,
-                {
-                  name: ICONS2[(i + j) % ICONS2.length],
-                  size: 20
-                }
-              )
-            )))
-          )
-        )))
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "ListView (20 list tiles)",
-          subtitle: "Scrollable list with icons"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 400,
-          padding: { left: 8, right: 8, bottom: 8 }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.ListView,
-          {
-            itemCount: 20,
-            itemBuilder: (index) => /* @__PURE__ */ import_react64.default.createElement(
-              import_fuickjs68.ListTile,
-              {
-                leading: /* @__PURE__ */ import_react64.default.createElement(
-                  import_fuickjs68.Container,
-                  {
-                    width: 44,
-                    height: 44,
-                    decoration: {
-                      color: COLORS3[index % COLORS3.length],
-                      borderRadius: 22
-                    },
-                    alignment: "center"
-                  },
-                  /* @__PURE__ */ import_react64.default.createElement(
-                    import_fuickjs68.Icon,
-                    {
-                      name: ICONS2[index % ICONS2.length],
-                      color: "#424242",
-                      size: 22
-                    }
-                  )
-                ),
-                title: /* @__PURE__ */ import_react64.default.createElement(
-                  import_fuickjs68.Text,
-                  {
-                    text: `List Item ${index + 1}`,
-                    fontSize: 15,
-                    fontWeight: "bold"
-                  }
-                ),
-                subtitle: /* @__PURE__ */ import_react64.default.createElement(
-                  import_fuickjs68.Text,
-                  {
-                    text: `Secondary text for item ${index + 1}`,
-                    fontSize: 13,
-                    color: "#757575"
-                  }
-                ),
-                trailing: /* @__PURE__ */ import_react64.default.createElement(
-                  import_fuickjs68.Icon,
-                  {
-                    name: "chevron_right",
-                    color: "#BDBDBD",
-                    size: 20
-                  }
-                ),
-                onTap: () => console.log(`Tapped ${index}`)
-              }
-            )
-          }
-        )
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Card List (15 cards)",
-          subtitle: "Cards with avatars and descriptions"
-        }
-      ), Array.from({ length: 15 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(CardItem, { key: i, index: i })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#806565ff" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Stack & Positioned",
-          subtitle: "Overlapping elements"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 200,
-          padding: { left: 16, right: 16, bottom: 12 }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Stack, null, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            width: 350,
-            height: 200,
-            decoration: {
-              color: "#E8EAF6",
-              borderRadius: 16
-            }
-          }
-        ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Positioned, { top: 20, left: 20 }, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            width: 80,
-            height: 80,
-            decoration: { color: "#3F51B5", borderRadius: 40 },
-            alignment: "center"
-          },
-          /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Icon, { name: "person", color: "white", size: 36 })
-        )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Positioned, { top: 30, left: 120 }, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: "Stack Demo",
-            fontSize: 22,
-            fontWeight: "bold",
-            color: "#1A237E"
-          }
-        )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Positioned, { top: 60, left: 120 }, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: "Overlapping elements positioned absolutely",
-            fontSize: 13,
-            color: "#5C6BC0"
-          }
-        )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Positioned, { bottom: 20, right: 20 }, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            padding: { left: 16, top: 8, right: 16, bottom: 8 },
-            decoration: {
-              color: "#3F51B5",
-              borderRadius: 20
-            }
-          },
-          /* @__PURE__ */ import_react64.default.createElement(
-            import_fuickjs68.Text,
-            {
-              text: "Follow",
-              fontSize: 13,
-              color: "white",
-              fontWeight: "bold"
-            }
-          )
-        )))
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Avatar Groups",
-          subtitle: "Overlapping avatar rows"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Team Alpha", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "10 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(AvatarRow, { count: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 16 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Team Beta", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "8 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(AvatarRow, { count: 6 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 16 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Team Gamma", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "12 members", fontSize: 13, color: "#9E9E9E" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(AvatarRow, { count: 10 }))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Tags & Chips",
-          subtitle: "Wrap layout with many tags"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Wrap, { spacing: 8, runSpacing: 8 }, Array.from({ length: 20 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(
-        TagChip,
-        {
-          key: i,
-          text: `Tag ${i + 1}`,
-          color: COLORS3[i % COLORS3.length]
-        }
-      )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Progress Bars",
-          subtitle: "Multiple progress indicators"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, [
-        { label: "Storage", progress: 0.72, color: "#1E88E5" },
-        { label: "Memory", progress: 0.45, color: "#43A047" },
-        { label: "CPU", progress: 0.88, color: "#E53935" },
-        { label: "Network", progress: 0.33, color: "#FB8C00" },
-        { label: "Battery", progress: 0.61, color: "#8E24AA" },
-        { label: "Disk I/O", progress: 0.55, color: "#00897B" },
-        { label: "GPU", progress: 0.92, color: "#D81B60" },
-        { label: "Cache", progress: 0.28, color: "#5E35B1" }
-      ].map((item, i) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { key: i, margin: { bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Row,
-        {
-          mainAxisAlignment: "spaceBetween",
-          margin: { bottom: 4 }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: item.label,
-            fontSize: 13,
-            color: "#424242"
-          }
-        ),
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `${Math.round(item.progress * 100)}%`,
-            fontSize: 13,
-            color: "#9E9E9E"
-          }
-        )
-      ), /* @__PURE__ */ import_react64.default.createElement(
-        ProgressBar,
-        {
-          progress: item.progress,
-          color: item.color
-        }
-      ))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Circular Progress",
-          subtitle: "Loading indicators"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.CircularProgressIndicator, { color: "#1E88E5" }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Blue", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.CircularProgressIndicator,
-        {
-          color: "#43A047",
-          strokeWidth: 3
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Green", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.CircularProgressIndicator,
-        {
-          color: "#E53935",
-          strokeWidth: 6
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Red", fontSize: 12, color: "#757575" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.CircularProgressIndicator,
-        {
-          color: "#FB8C00",
-          strokeWidth: 2
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Orange", fontSize: 12, color: "#757575" })))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Form Controls",
-          subtitle: "Switches, sliders, text fields"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Dark Mode", fontSize: 15 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Switch,
-        {
-          value: switchVal1,
-          onChanged: (v) => setSwitchVal1(v)
-        }
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Notifications", fontSize: 15 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Switch,
-        {
-          value: switchVal2,
-          onChanged: (v) => setSwitchVal2(v)
-        }
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Auto Sync", fontSize: 15 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Switch,
-        {
-          value: switchVal3,
-          onChanged: (v) => setSwitchVal3(v)
-        }
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 16 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: `Volume: ${sliderVal}%`, fontSize: 14 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Slider,
-        {
-          value: sliderVal,
-          onChanged: (v) => setSliderVal(v)
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 12 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.TextField, { hintText: "Enter your name" }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.TextField, { hintText: "Enter your email" }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.TextField, { hintText: "Search..." }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 12 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { margin: { right: 8 } }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Button,
-        {
-          text: "Submit",
-          onTap: () => console.log("submit")
-        }
-      ))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { margin: { left: 8 } }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Button,
-        {
-          text: "Cancel",
-          onTap: () => console.log("cancel")
-        }
-      )))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Animated Widgets",
-          subtitle: "Toggle to see animations"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Button,
-        {
-          text: "Toggle Animations",
-          onTap: () => setAnimToggle(!animToggle)
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 16 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.AnimatedContainer,
-        {
-          width: animToggle ? 100 : 60,
-          height: animToggle ? 60 : 100,
-          color: animToggle ? "#E53935" : "#1E88E5",
-          duration: 500,
-          curve: "easeInOut"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.AnimatedOpacity,
-        {
-          opacity: animToggle ? 0.3 : 1,
-          duration: 500
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            width: 80,
-            height: 80,
-            decoration: { color: "#43A047", borderRadius: 40 }
-          }
-        )
-      ), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.AnimatedScale,
-        {
-          scale: animToggle ? 1.3 : 1,
-          duration: 500,
-          curve: "easeInOut"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            width: 60,
-            height: 60,
-            decoration: { color: "#FB8C00", borderRadius: 30 }
-          }
-        )
-      )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Opacity Variations",
-          subtitle: "10 levels of opacity"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceAround" }, Array.from({ length: 10 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Opacity, { key: i, opacity: 1 - i * 0.1 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 28,
-          height: 28,
-          decoration: { color: "#1E88E5", borderRadius: 4 }
-        }
-      ))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Transform",
-          subtitle: "Scaled and rotated containers"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react64.default.createElement(Transform2, { scale: 1.2 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 50,
-          height: 50,
-          decoration: { color: "#E53935", borderRadius: 8 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "1.2x", fontSize: 11, color: "white" })
-      )), /* @__PURE__ */ import_react64.default.createElement(Transform2, { rotate: 0.3 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 50,
-          height: 50,
-          decoration: { color: "#43A047", borderRadius: 8 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "0.3r", fontSize: 11, color: "white" })
-      )), /* @__PURE__ */ import_react64.default.createElement(Transform2, { scale: 0.8 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 50,
-          height: 50,
-          decoration: { color: "#1E88E5", borderRadius: 8 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "0.8x", fontSize: 11, color: "white" })
-      )), /* @__PURE__ */ import_react64.default.createElement(Transform2, { rotate: -0.2 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 50,
-          height: 50,
-          decoration: { color: "#FB8C00", borderRadius: 8 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "-0.2r", fontSize: 11, color: "white" })
-      )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "ClipRRect",
-          subtitle: "Rounded clipping containers"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.ClipRRect, { borderRadius: 8 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 70,
-          height: 70,
-          color: "#E53935",
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "8px", fontSize: 12, color: "white" })
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.ClipRRect, { borderRadius: 20 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 70,
-          height: 70,
-          color: "#43A047",
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "20px", fontSize: 12, color: "white" })
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.ClipRRect, { borderRadius: 35 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 70,
-          height: 70,
-          color: "#1E88E5",
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "35px", fontSize: 12, color: "white" })
-      )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Tab Section",
-          subtitle: "TabBar with TabBarView"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.DefaultTabController, { length: 3 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.TabBar,
-        {
-          tabs: ["Popular", "Newest", "Trending"].map((t) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Tab, { key: t, text: t })),
-          onTap: (index) => console.log(`Tab ${index}`),
-          indicatorColor: "#1E88E5",
-          labelColor: "#1E88E5",
-          unselectedLabelColor: "#9E9E9E"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { height: 150 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.TabBarView, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#E3F2FD", padding: 16 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 32,
-          height: 32,
-          decoration: {
-            color: COLORS3[i % COLORS3.length],
-            borderRadius: 16
-          },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `${i + 1}`,
-            fontSize: 12,
-            color: "white"
-          }
-        )
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 8 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Text,
-        {
-          text: `Popular item ${i + 1}`,
-          fontSize: 14
-        }
-      ))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#E8F5E9", padding: 16 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 32,
-          height: 32,
-          decoration: {
-            color: COLORS3[(i + 5) % COLORS3.length],
-            borderRadius: 16
-          },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `${i + 1}`,
-            fontSize: 12,
-            color: "white"
-          }
-        )
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 8 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Text,
-        {
-          text: `Newest item ${i + 1}`,
-          fontSize: 14
-        }
-      ))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#FFF3E0", padding: 16 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, Array.from({ length: 4 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { key: i, margin: { bottom: 8 } }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          width: 32,
-          height: 32,
-          decoration: {
-            color: COLORS3[(i + 10) % COLORS3.length],
-            borderRadius: 16
-          },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `${i + 1}`,
-            fontSize: 12,
-            color: "white"
-          }
-        )
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 8 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Text,
-        {
-          text: `Trending item ${i + 1}`,
-          fontSize: 14
-        }
-      )))))))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Image Grid (2 columns, 8 images)",
-          subtitle: "Network images with rounded corners"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.GridView,
-        {
-          crossAxisCount: 2,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          itemCount: 8,
-          itemBuilder: (index) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.ClipRRect, { borderRadius: 12 }, /* @__PURE__ */ import_react64.default.createElement(
-            import_fuickjs68.Container,
-            {
-              height: 120,
-              color: COLORS3[index % COLORS3.length]
-            },
-            /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Stack, null, /* @__PURE__ */ import_react64.default.createElement(
-              import_fuickjs68.Image,
-              {
-                src: `https://picsum.photos/200/120?random=${index}`,
-                width: 200,
-                height: 120,
-                fit: "cover",
-                placeholderColor: COLORS3[index % COLORS3.length]
-              }
-            ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Positioned, { bottom: 8, left: 8 }, /* @__PURE__ */ import_react64.default.createElement(
-              import_fuickjs68.Container,
-              {
-                padding: {
-                  left: 8,
-                  top: 4,
-                  right: 8,
-                  bottom: 4
-                },
-                decoration: {
-                  color: "rgba(0,0,0,0.5)",
-                  borderRadius: 4
-                }
-              },
-              /* @__PURE__ */ import_react64.default.createElement(
-                import_fuickjs68.Text,
-                {
-                  text: `Photo ${index + 1}`,
-                  fontSize: 12,
-                  color: "white"
-                }
-              )
-            )))
-          ))
-        }
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Flex Layout",
-          subtitle: "Flexible and expanded children"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 60,
-          decoration: { color: "#E3F2FD", borderRadius: 8 },
-          margin: { right: 4 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "flex: 1", fontSize: 13 })
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 2 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 60,
-          decoration: { color: "#F3E5F5", borderRadius: 8 },
-          margin: { left: 4 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "flex: 2", fontSize: 13 })
-      ))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 60,
-          decoration: { color: "#FFF3E0", borderRadius: 8 },
-          margin: { right: 4 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "flex: 1", fontSize: 13 })
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 60,
-          decoration: { color: "#E8F5E9", borderRadius: 8 },
-          margin: { left: 2, right: 2 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "flex: 1", fontSize: 13 })
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 60,
-          decoration: { color: "#FFEBEE", borderRadius: 8 },
-          margin: { left: 4 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "flex: 1", fontSize: 13 })
-      ))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flex, { direction: "horizontal" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 3 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 60,
-          decoration: { color: "#E0F7FA", borderRadius: 8 },
-          margin: { right: 4 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "flex: 3", fontSize: 13 })
-      )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 60,
-          decoration: { color: "#FCE4EC", borderRadius: 8 },
-          margin: { left: 4 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "flex: 1", fontSize: 13 })
-      ))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "AspectRatio",
-          subtitle: "Different aspect ratio containers"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 80, height: 80 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.AspectRatio, { aspectRatio: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#E3F2FD", alignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "1:1", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 4 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Square", fontSize: 11, color: "#757575" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 100, height: 56 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.AspectRatio, { aspectRatio: 16 / 9 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#F3E5F5", alignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "16:9", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 4 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Widescreen", fontSize: 11, color: "#757575" })), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 100, height: 75 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.AspectRatio, { aspectRatio: 4 / 3 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#FFF3E0", alignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "4:3", fontSize: 16, fontWeight: "bold" })))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 4 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "Standard", fontSize: 11, color: "#757575" })))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Color Palette",
-          subtitle: "50 color swatches"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Wrap, { spacing: 6, runSpacing: 6 }, Array.from({ length: 50 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          key: i,
-          width: 36,
-          height: 36,
-          decoration: {
-            color: COLORS3[i % COLORS3.length],
-            borderRadius: 8,
-            border: { color: "#E0E0E0", width: 0.5 }
-          },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: `${i + 1}`, fontSize: 9, color: "#424242" })
-      )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Long Text Content",
-          subtitle: "Multiple paragraphs of text"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, Array.from({ length: 6 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { key: i, margin: { bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Text,
-        {
-          text: `Paragraph ${i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`,
-          fontSize: 14,
-          color: "#424242"
-        }
-      ))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Mixed Row Cards",
-          subtitle: "Various card layouts"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, Array.from({ length: 6 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          key: i,
-          margin: { bottom: 8 },
-          padding: 12,
-          decoration: {
-            color: "white",
-            borderRadius: 12,
-            boxShadow: {
-              color: "#0000000A",
-              blurRadius: 6,
-              offset: { dx: 0, dy: 2 }
-            }
-          }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            width: 80,
-            height: 80,
-            decoration: {
-              color: COLORS3[i % COLORS3.length],
-              borderRadius: 12
-            },
-            alignment: "center"
-          },
-          /* @__PURE__ */ import_react64.default.createElement(
-            import_fuickjs68.Icon,
-            {
-              name: ICONS2[i % ICONS2.length],
-              size: 32,
-              color: "#424242"
-            }
-          )
-        ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 12 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `Mixed Card ${i + 1}`,
-            fontSize: 16,
-            fontWeight: "bold"
-          }
-        ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 4 }), /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: "Short description text here",
-            fontSize: 13,
-            color: "#757575"
-          }
-        ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, /* @__PURE__ */ import_react64.default.createElement(
-          TagChip,
-          {
-            text: "Tag A",
-            color: COLORS3[(i + 1) % COLORS3.length]
-          }
-        ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 6 }), /* @__PURE__ */ import_react64.default.createElement(
-          TagChip,
-          {
-            text: "Tag B",
-            color: COLORS3[(i + 2) % COLORS3.length]
-          }
-        )))))
-      )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "InkWell Buttons",
-          subtitle: "12 tappable buttons"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Wrap, { spacing: 10, runSpacing: 10 }, Array.from({ length: 12 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.InkWell, { key: i, onTap: () => console.log(`Button ${i}`) }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          padding: { left: 20, top: 10, right: 20, bottom: 10 },
-          decoration: {
-            color: COLORS3[i % COLORS3.length],
-            borderRadius: 8
-          }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `Btn ${i + 1}`,
-            fontSize: 14,
-            color: "#424242"
-          }
-        )
-      ))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Nested Layouts",
-          subtitle: "Deep nesting stress test"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, Array.from({ length: 4 }, (_, row) => /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          key: row,
-          margin: { bottom: 8 },
-          padding: 8,
-          decoration: {
-            color: COLORS3[row % COLORS3.length],
-            borderRadius: 8
-          }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `Level 0 - Row ${row + 1}`,
-            fontSize: 14,
-            fontWeight: "bold",
-            margin: { bottom: 4 }
-          }
-        ),
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, Array.from({ length: 3 }, (_2, col) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { key: col, flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            margin: {
-              left: col > 0 ? 4 : 0,
-              right: col < 2 ? 4 : 0
-            },
-            padding: 8,
-            decoration: {
-              color: "rgba(255,255,255,0.7)",
-              borderRadius: 6
-            }
-          },
-          /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, /* @__PURE__ */ import_react64.default.createElement(
-            import_fuickjs68.Text,
-            {
-              text: `L1-${row}-${col}`,
-              fontSize: 12,
-              fontWeight: "bold"
-            }
-          ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { margin: { top: 4 } }, Array.from({ length: 2 }, (_3, inner) => /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { key: inner, flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(
-            import_fuickjs68.Container,
-            {
-              margin: {
-                left: inner > 0 ? 2 : 0,
-                right: inner < 1 ? 2 : 0
-              },
-              height: 24,
-              decoration: {
-                color: COLORS3[(row + col + inner) % COLORS3.length],
-                borderRadius: 4
-              },
-              alignment: "center"
-            },
-            /* @__PURE__ */ import_react64.default.createElement(
-              import_fuickjs68.Text,
-              {
-                text: `${inner}`,
-                fontSize: 9,
-                color: "#616161"
-              }
-            )
-          )))))
-        ))))
-      )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "FractionallySizedBox",
-          subtitle: "Width/Height as fractions"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 16, right: 16, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.FractionallySizedBox, { widthFactor: 0.5, heightFactor: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#E3F2FD", alignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "50% width", fontSize: 12 })))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.FractionallySizedBox, { widthFactor: 0.75, heightFactor: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#F3E5F5", alignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "75% width", fontSize: 12 })))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { width: 300, height: 60 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.FractionallySizedBox, { widthFactor: 1, heightFactor: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { color: "#FFF3E0", alignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Text, { text: "100% width", fontSize: 12 }))))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Large GridView (4 columns, 40 items)",
-          subtitle: "Stress test with many grid items"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          height: 500,
-          padding: { left: 12, right: 12, bottom: 12 }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.GridView,
-          {
-            crossAxisCount: 4,
-            mainAxisSpacing: 6,
-            crossAxisSpacing: 6,
-            itemCount: 40,
-            itemBuilder: (index) => /* @__PURE__ */ import_react64.default.createElement(
-              import_fuickjs68.Container,
-              {
-                decoration: {
-                  color: COLORS3[index % COLORS3.length],
-                  borderRadius: 8
-                },
-                alignment: "center"
-              },
-              /* @__PURE__ */ import_react64.default.createElement(
-                import_fuickjs68.Column,
-                {
-                  crossAxisAlignment: "center",
-                  mainAxisAlignment: "center"
-                },
-                /* @__PURE__ */ import_react64.default.createElement(
-                  import_fuickjs68.Icon,
-                  {
-                    name: ICONS2[index % ICONS2.length],
-                    size: 18,
-                    color: "#616161"
-                  }
-                ),
-                /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 2 }),
-                /* @__PURE__ */ import_react64.default.createElement(
-                  import_fuickjs68.Text,
-                  {
-                    text: `${index + 1}`,
-                    fontSize: 10,
-                    color: "#616161"
-                  }
-                )
-              )
-            )
-          }
-        )
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(
-        SectionHeader,
-        {
-          title: "Notification Cards (10)",
-          subtitle: "Cards with time stamps and status"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, null, Array.from({ length: 10 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          key: i,
-          margin: { bottom: 8 },
-          padding: 12,
-          decoration: {
-            color: i < 3 ? "#E3F2FD" : "white",
-            borderRadius: 12,
-            boxShadow: {
-              color: "#00000008",
-              blurRadius: 4,
-              offset: { dx: 0, dy: 1 }
-            }
-          }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, null, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Container,
-          {
-            width: 8,
-            height: 8,
-            margin: { right: 8, top: 6 },
-            decoration: {
-              color: i < 3 ? "#1E88E5" : "#BDBDBD",
-              borderRadius: 4
-            }
-          }
-        ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Flexible, { flex: 1 }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `Notification ${i + 1}`,
-            fontSize: 14,
-            fontWeight: "bold"
-          }
-        ), /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `${i + 1}h ago`,
-            fontSize: 11,
-            color: "#9E9E9E"
-          }
-        )), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 4 }), /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: `This is the content of notification ${i + 1}. It contains some details about the event.`,
-            fontSize: 13,
-            color: "#616161"
-          }
-        ))))
-      )))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Divider, { height: 1, color: "#EEEEEE" }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Container, { padding: 24, color: "#FAFAFA" }, /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Text,
-        {
-          text: "End of Performance Stress Test",
-          fontSize: 16,
-          fontWeight: "bold",
-          color: "#424242"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 8 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Text,
-        {
-          text: "If you can scroll here smoothly, the performance is good!",
-          fontSize: 13,
-          color: "#9E9E9E"
-        }
-      ), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 16 }), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.Row, { mainAxisAlignment: "center" }, Array.from({ length: 5 }, (_, i) => /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          key: i,
-          width: 8,
-          height: 8,
-          margin: { left: 3, right: 3 },
-          decoration: {
-            color: i === 2 ? "#1E88E5" : "#BDBDBD",
-            borderRadius: 4
-          }
-        }
-      ))), /* @__PURE__ */ import_react64.default.createElement(import_fuickjs68.SizedBox, { height: 16 }), /* @__PURE__ */ import_react64.default.createElement(
-        import_fuickjs68.Container,
-        {
-          padding: { left: 24, top: 10, right: 24, bottom: 10 },
-          decoration: { color: "#1E88E5", borderRadius: 24 }
-        },
-        /* @__PURE__ */ import_react64.default.createElement(
-          import_fuickjs68.Text,
-          {
-            text: "Back to Top",
-            fontSize: 14,
-            color: "white",
-            fontWeight: "bold"
-          }
-        )
-      ))))
-    }
-  ))));
-}
-
-// src/demos/AlignDemo.tsx
-var import_react65 = __toESM(require_react_production());
-var import_fuickjs69 = __toESM(require_dist());
-var alignments = [
-  "topLeft",
-  "topCenter",
-  "topRight",
-  "centerLeft",
-  "center",
-  "centerRight",
-  "bottomLeft",
-  "bottomCenter",
-  "bottomRight"
-];
-var factorOptions = [null, 0.5, 0.25];
-function AlignDemo() {
-  const [align, setAlign] = (0, import_react65.useState)("center");
-  const [widthFactor, setWidthFactor] = (0, import_react65.useState)(null);
-  return /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Scaffold, { appBar: /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.AppBar, { title: /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Text, { text: "Align" }) }) }, /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.SingleChildScrollView, null, /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Padding, { padding: 16 }, /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react65.default.createElement(
-    import_fuickjs69.Text,
-    {
-      text: "Align \u901A\u8FC7 alignment / widthFactor / heightFactor \u7CBE\u786E\u63A7\u5236\u5B50\u7EC4\u4EF6\u5728\u7236\u5BB9\u5668\u5185\u7684\u4F4D\u7F6E\u3002",
-      fontSize: 14,
-      color: "#555555"
-    }
-  ), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.SizedBox, { height: 16 }), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Text, { text: "1. alignment \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.SizedBox, { height: 8 }), /* @__PURE__ */ import_react65.default.createElement(
-    import_fuickjs69.Container,
-    {
-      color: "#FFF3E0",
-      width: 300,
-      height: 180,
-      decoration: { color: "#FFF3E0", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Align, { alignment: align }, /* @__PURE__ */ import_react65.default.createElement(
-      import_fuickjs69.Container,
-      {
-        width: 70,
-        height: 50,
-        decoration: { color: "#1976D2", borderRadius: 6 }
-      },
-      /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Center, null, /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Text, { text: "box", color: "white", fontSize: 13 }))
-    ))
-  ), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.SizedBox, { height: 8 }), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Wrap, { spacing: 8 }, alignments.map((a) => /* @__PURE__ */ import_react65.default.createElement(
-    import_fuickjs69.Button,
-    {
-      key: a,
-      text: a,
-      onTap: () => setAlign(a),
-      backgroundColor: a === align ? "#1976D2" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Divider, null), /* @__PURE__ */ import_react65.default.createElement(
-    import_fuickjs69.Text,
-    {
-      text: "2. widthFactor \u7F29\u7D27\u5BB9\u5668",
-      fontSize: 16,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.SizedBox, { height: 8 }), /* @__PURE__ */ import_react65.default.createElement(
-    import_fuickjs69.Text,
-    {
-      text: "widthFactor \u975E null \u65F6\uFF0CAlign \u81EA\u8EAB\u5BBD\u5EA6 = \u5B50\u8282\u70B9\u5BBD\u5EA6 \xD7 factor\u3002",
-      fontSize: 13,
-      color: "#666666"
-    }
-  ), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.SizedBox, { height: 8 }), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Row, null, /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Text, { text: `widthFactor: ${widthFactor ?? "null"}` }), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Padding, { padding: { left: 12 } }, /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Wrap, { spacing: 8 }, factorOptions.map((f) => /* @__PURE__ */ import_react65.default.createElement(
-    import_fuickjs69.Button,
-    {
-      key: String(f),
-      text: `set ${f ?? "null"}`,
-      onTap: () => setWidthFactor(f),
-      backgroundColor: f === widthFactor ? "#9C27B0" : "#9E9E9E"
-    }
-  ))))), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.SizedBox, { height: 8 }), /* @__PURE__ */ import_react65.default.createElement(
-    import_fuickjs69.Container,
-    {
-      color: "#FAFAFA",
-      width: 300,
-      decoration: { color: "#FAFAFA", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Align, { alignment: "center", widthFactor }, /* @__PURE__ */ import_react65.default.createElement(
-      import_fuickjs69.Container,
-      {
-        width: 120,
-        height: 40,
-        decoration: { color: "#9C27B0", borderRadius: 4 }
-      },
-      /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Center, null, /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.Text, { text: "child 120x40", color: "white", fontSize: 12 }))
-    ))
-  ), /* @__PURE__ */ import_react65.default.createElement(import_fuickjs69.SizedBox, { height: 8 }), /* @__PURE__ */ import_react65.default.createElement(
-    import_fuickjs69.Text,
-    {
-      text: "\u5916\u5C42 Container \u7070\u8272\u80CC\u666F\u4FBF\u4E8E\u89C2\u5BDF Align \u5B9E\u9645\u5360\u4F4D\uFF08widthFactor \u751F\u6548\u65F6\u7070\u8272\u533A\u57DF\u4E5F\u4F1A\u88AB\u538B\u7F29\uFF09\u3002",
-      fontSize: 12,
-      color: "#888888"
-    }
-  )))));
-}
-
-// src/demos/HeroDemo.tsx
-var import_react66 = __toESM(require_react_production());
-var import_fuickjs70 = __toESM(require_dist());
-var HERO_TAG = "hero-demo-circle";
-var TARGET_PATH = "/demo/hero_detail";
-function HeroDemo() {
-  (0, import_react66.useEffect)(() => {
-    import_fuickjs70.NavigatorService.prewarm(TARGET_PATH, {});
-    const timers = [];
-    for (let i = 1; i <= 5; i++) {
-      timers.push(
-        window.setTimeout(() => {
-          import_fuickjs70.NavigatorService.prewarm(TARGET_PATH, {});
-        }, i * 200)
-      );
-    }
-    return () => timers.forEach((t) => clearTimeout(t));
-  }, []);
-  return /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Scaffold, { appBar: /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.AppBar, { title: /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Text, { text: "Hero" }) }) }, /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.SingleChildScrollView, null, /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Padding, { padding: 16 }, /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react66.default.createElement(
-    import_fuickjs70.Text,
-    {
-      text: "\u4E24\u4E2A\u76F8\u540C tag \u7684 Hero \u5728\u8DEF\u7531\u5207\u6362\u65F6\u81EA\u52A8\u64AD\u653E\u98DE\u884C\u52A8\u753B\u3002\u672C demo \u5728\u672C\u9875\u653E\u4E00\u4E2A\u5C0F Hero\uFF0C\u76EE\u6807\u9875\u653E\u4E00\u4E2A\u5927 Hero\uFF0Ctag \u76F8\u540C\u3002",
-      fontSize: 14,
-      color: "#555555"
-    }
-  ), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.SizedBox, { height: 16 }), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Text, { text: "1. \u6E90 Hero\uFF08\u5C0F\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.SizedBox, { height: 8 }), /* @__PURE__ */ import_react66.default.createElement(
-    import_fuickjs70.Container,
-    {
-      color: "#FFF3E0",
-      width: 300,
-      height: 140,
-      decoration: { color: "#FFF3E0", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Center, null, /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Hero, { tag: HERO_TAG }, /* @__PURE__ */ import_react66.default.createElement(
-      import_fuickjs70.Container,
-      {
-        width: 50,
-        height: 50,
-        decoration: {
-          color: "#1976D2",
-          borderRadius: 25
-        }
-      }
-    )))
-  ), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.SizedBox, { height: 8 }), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.NavigationLink, { url: TARGET_PATH, prewarmMs: 300 }, /* @__PURE__ */ import_react66.default.createElement(
-    import_fuickjs70.Container,
-    {
-      width: 300,
-      height: 44,
-      decoration: { color: "#1976D2", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Center, null, /* @__PURE__ */ import_react66.default.createElement(
-      import_fuickjs70.Text,
-      {
-        text: "\u6253\u5F00\u76EE\u6807\u9875 (tag \u76F8\u540C)",
-        color: "white",
+        text: `\u7269\u8D28\uFF1A${Math.floor(matter)}`,
+        color: "#cfd8dc",
         fontSize: 16
       }
-    ))
-  )), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Divider, null), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Text, { text: "2. \u98DE\u884C\u52A8\u753B\u539F\u7406", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.SizedBox, { height: 8 }), /* @__PURE__ */ import_react66.default.createElement(
-    import_fuickjs70.Container,
-    {
-      color: "#E3F2FD",
-      decoration: { color: "#E3F2FD", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Padding, { padding: 16 }, /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Text, { text: "\u2022 Hero \u7684 tag \u662F\u5B83\u7684\u552F\u4E00\u6807\u8BC6\uFF0C\u6E90/\u76EE\u6807\u9875 tag \u4E00\u81F4\u5373\u5339\u914D\u3002" }), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Text, { text: "\u2022 \u5207\u6362\u9875\u9762\u65F6\uFF0CFlutter \u4F1A\u5728 Overlay \u4E2D\u751F\u6210\u4E00\u4E2A\u4E34\u65F6\u98DE\u884C\u4F53\uFF08flightShuttle\uFF09\uFF0C\u6309 RectTween \u5728\u4E24\u7AEF\u4F4D\u7F6E\u4E4B\u95F4\u63D2\u503C\u3002" }), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Text, { text: "\u2022 \u5B50\u8282\u70B9\u5FC5\u987B\u5B58\u5728\uFF1Btag \u7F3A\u5931\u65F6\u9000\u5316\u4E3A\u5B50\u8282\u70B9\u6E32\u67D3\uFF08\u4E0D\u629B\u9519\uFF09\u3002" }), /* @__PURE__ */ import_react66.default.createElement(import_fuickjs70.Text, { text: "\u2022 \u63A8\u8350\u628A Hero \u653E\u5728\u80FD\u611F\u77E5\u5C3A\u5BF8\u7684\u5BB9\u5668\u5185\uFF0C\u5426\u5219\u98DE\u884C\u4F53\u53EF\u80FD\u6CA1\u76EE\u6807\u4F4D\u7F6E\u3002" })))
-  )))));
-}
-
-// src/demos/HeroDetailPage.tsx
-var import_react67 = __toESM(require_react_production());
-var import_fuickjs71 = __toESM(require_dist());
-var HERO_TAG2 = "hero-demo-circle";
-function HeroDetailPage() {
-  const navigator = (0, import_fuickjs71.useNavigator)();
-  return /* @__PURE__ */ import_react67.default.createElement(
-    import_fuickjs71.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.AppBar, { title: /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.Text, { text: "Hero \u76EE\u6807\u9875" }) })
-    },
-    /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.Padding, { padding: 16 }, /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react67.default.createElement(
-      import_fuickjs71.Text,
+    ), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs5.SizedBox, { height: 24 }), /* @__PURE__ */ import_react5.default.createElement(import_fuickjs5.GestureDetector, { onTap: onRestart }, /* @__PURE__ */ import_react5.default.createElement(
+      import_fuickjs5.Container,
       {
-        text: "\u672C\u9875 Hero \u4E0E\u6E90\u9875 tag \u4E00\u81F4\u3002\u70B9\u51FB\u8FD4\u56DE\u4F1A\u770B\u5230\u98DE\u884C\u56DE\u5F39\u52A8\u753B\u3002",
-        fontSize: 14,
-        color: "#555555"
-      }
-    ), /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.SizedBox, { height: 24 }), /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.Text, { text: "2. \u76EE\u6807 Hero\uFF08\u5927\uFF09", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.SizedBox, { height: 8 }), /* @__PURE__ */ import_react67.default.createElement(
-      import_fuickjs71.Container,
-      {
-        color: "#FFF3E0",
-        width: 300,
-        height: 220,
-        decoration: { color: "#FFF3E0", borderRadius: 8 }
+        width: 160,
+        height: 48,
+        alignment: "center",
+        decoration: { color: "#4fc3f7", borderRadius: 24 }
       },
-      /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.Center, null, /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.Hero, { tag: HERO_TAG2 }, /* @__PURE__ */ import_react67.default.createElement(
-        import_fuickjs71.Container,
+      /* @__PURE__ */ import_react5.default.createElement(
+        import_fuickjs5.Text,
         {
-          width: 150,
-          height: 150,
-          decoration: {
-            color: "#1976D2",
-            borderRadius: 75
-          }
-        },
-        /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.Center, null, /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.Text, { text: "BIG", color: "white", fontSize: 24, fontWeight: "bold" }))
-      )))
-    ), /* @__PURE__ */ import_react67.default.createElement(import_fuickjs71.SizedBox, { height: 16 }), /* @__PURE__ */ import_react67.default.createElement(
-      import_fuickjs71.Button,
-      {
-        text: "\u8FD4\u56DE (\u770B\u98DE\u884C\u52A8\u753B)",
-        onTap: () => navigator.pop(),
-        backgroundColor: "#9C27B0"
-      }
+          text: "\u91CD\u65B0\u5F00\u59CB",
+          color: "#000000",
+          fontSize: 18,
+          fontWeight: "bold"
+        }
+      )
     )))
   );
 }
 
-// src/demos/FadeTransitionDemo.tsx
-var import_react68 = __toESM(require_react_production());
-var import_fuickjs72 = __toESM(require_dist());
-var opacities = [0, 0.25, 0.5, 0.75, 1];
-function FadeTransitionDemo() {
-  const [opacity, setOpacity] = (0, import_react68.useState)(1);
-  const [animating, setAnimating] = (0, import_react68.useState)(false);
-  (0, import_react68.useEffect)(() => {
-    if (!animating) return;
+// src/pages/game.tsx
+function GamePage() {
+  const storeRef = (0, import_react6.useRef)(null);
+  if (!storeRef.current) storeRef.current = new GameStore();
+  const store = storeRef.current;
+  const inputRef = (0, import_react6.useRef)({ dx: 0, dy: 0, intensity: 0 });
+  const [, setTick] = (0, import_react6.useState)(0);
+  (0, import_react6.useEffect)(() => store.subscribe(() => setTick((t) => t + 1)), [store]);
+  (0, import_react6.useEffect)(() => {
     const id = setInterval(() => {
-      setOpacity((o) => {
-        const next = o - 0.05;
-        return next < 0 ? 1 : next;
-      });
-    }, 80);
+      step(store.getState(), inputRef.current, DT);
+      store.notify();
+    }, 1e3 / TICK_RATE);
     return () => clearInterval(id);
-  }, [animating]);
-  return /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Scaffold, { appBar: /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.AppBar, { title: /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Text, { text: "FadeTransition" }) }) }, /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.SingleChildScrollView, null, /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Padding, { padding: 16 }, /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react68.default.createElement(
-    import_fuickjs72.Text,
+  }, [store]);
+  const state = store.getState();
+  const canCapture = STAGES[state.stageIndex].canCapture;
+  const hasCapturable = canCapture && state.entities.some(
+    (e) => Math.hypot(e.x - state.player.x, e.y - state.player.y) <= state.player.radius + CAPTURE_RANGE
+  );
+  const stageName = STAGES[state.stageIndex].name;
+  return /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Scaffold, { backgroundColor: "#000000" }, /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Container, { alignment: "center", color: "#000000" }, /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.SizedBox, { width: VW, height: VH }, /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Stack, null, /* @__PURE__ */ import_react6.default.createElement(GameField, { state }), /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Positioned, { left: 0, top: 0, width: VW }, /* @__PURE__ */ import_react6.default.createElement(Hud, { state })), /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Positioned, { left: 10, top: 120 }, /* @__PURE__ */ import_react6.default.createElement(
+    import_fuickjs6.GestureDetector,
     {
-      text: "FadeTransition \u5728\u9759\u6001\u7EC8\u6001\u6A21\u5F0F\u4E0B\u4F7F\u7528 AlwaysStoppedAnimation\u3002\u4E0B\u5217\u4EA4\u4E92\u53EF\u5373\u65F6\u6539\u53D8 opacity\u3002",
-      fontSize: 14,
-      color: "#555555"
-    }
-  ), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.SizedBox, { height: 16 }), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Text, { text: "1. \u9759\u6001 opacity", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.SizedBox, { height: 8 }), /* @__PURE__ */ import_react68.default.createElement(
-    import_fuickjs72.Container,
-    {
-      color: "#FFF3E0",
-      width: 300,
-      height: 120,
-      decoration: { color: "#FFF3E0", borderRadius: 8 }
+      onTap: () => {
+        forceLevelUp(store.getState());
+        store.notify();
+      }
     },
-    /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Center, null, /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.FadeTransition, { opacity }, /* @__PURE__ */ import_react68.default.createElement(
-      import_fuickjs72.Container,
+    /* @__PURE__ */ import_react6.default.createElement(
+      import_fuickjs6.Container,
       {
-        width: 80,
-        height: 80,
-        decoration: { color: "#1976D2", borderRadius: 8 }
-      },
-      /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Center, null, /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Text, { text: "box", color: "white" }))
-    )))
-  ), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.SizedBox, { height: 8 }), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Text, { text: `opacity = ${opacity.toFixed(2)}` }), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.SizedBox, { height: 8 }), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Wrap, { spacing: 8 }, opacities.map((o) => /* @__PURE__ */ import_react68.default.createElement(
-    import_fuickjs72.Button,
-    {
-      key: o,
-      text: o.toString(),
-      onTap: () => setOpacity(o),
-      backgroundColor: Math.abs(o - opacity) < 0.01 ? "#1976D2" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Divider, null), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Text, { text: "2. \u81EA\u52A8\u547C\u5438 (setInterval \u6A21\u62DF\u52A8\u753B)", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.SizedBox, { height: 8 }), /* @__PURE__ */ import_react68.default.createElement(
-    import_fuickjs72.Text,
-    {
-      text: "\u70B9\u51FB\u4E0B\u65B9\u6309\u94AE\u53EF\u542F\u505C\u4E00\u6BB5\u81EA\u9A71\u52A8\u7684 opacity \u52A8\u753B\u3002\u6846\u67B6\u9ED8\u8BA4\u7528\u9759\u6001 Animation\uFF1B\u672C demo \u7528 useState + setInterval \u6A21\u62DF\u3002",
-      fontSize: 13,
-      color: "#666666"
-    }
-  ), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.SizedBox, { height: 8 }), /* @__PURE__ */ import_react68.default.createElement(import_fuickjs72.Row, null, /* @__PURE__ */ import_react68.default.createElement(
-    import_fuickjs72.Button,
-    {
-      text: animating ? "\u505C\u6B62" : "\u5F00\u59CB",
-      onTap: () => setAnimating((v) => !v),
-      backgroundColor: animating ? "#E53935" : "#43A047"
-    }
-  ))))));
-}
-
-// src/demos/SizeTransitionDemo.tsx
-var import_react69 = __toESM(require_react_production());
-var import_fuickjs73 = __toESM(require_dist());
-var sizeOptions = [0, 0.25, 0.5, 0.75, 1];
-var axisOptions = [
-  { value: "vertical", label: "vertical" },
-  { value: "horizontal", label: "horizontal" }
-];
-var alignmentOptions = [
-  "topLeft",
-  "center",
-  "bottomRight"
-];
-function SizeTransitionDemo() {
-  const [sizeFactor, setSizeFactor] = (0, import_react69.useState)(1);
-  const [axis, setAxis] = (0, import_react69.useState)("vertical");
-  const [axisAlignment, setAxisAlignment] = (0, import_react69.useState)("center");
-  return /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Scaffold, { appBar: /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.AppBar, { title: /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Text, { text: "SizeTransition" }) }) }, /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.SingleChildScrollView, null, /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Padding, { padding: 16 }, /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react69.default.createElement(
-    import_fuickjs73.Text,
-    {
-      text: "SizeTransition \u5728\u9759\u6001\u7EC8\u6001\u4E0B\u901A\u8FC7 sizeFactor \u63A7\u5236\u5B50\u8282\u70B9\u6CBF axis \u65B9\u5411\u7F29\u653E\uFF0CaxisAlignment \u63A7\u5236\u53E6\u4E00\u8F74\u5BF9\u9F50\u3002",
-      fontSize: 14,
-      color: "#555555"
-    }
-  ), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.SizedBox, { height: 16 }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Text, { text: "1. sizeFactor \u8C03\u8282", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.SizedBox, { height: 8 }), /* @__PURE__ */ import_react69.default.createElement(
-    import_fuickjs73.Container,
-    {
-      color: "#FFF3E0",
-      width: 300,
-      decoration: { color: "#FFF3E0", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Center, null, /* @__PURE__ */ import_react69.default.createElement(
-      import_fuickjs73.SizeTransition,
-      {
-        sizeFactor,
-        axis,
-        axisAlignment
-      },
-      /* @__PURE__ */ import_react69.default.createElement(
-        import_fuickjs73.Container,
-        {
-          width: 180,
-          height: 120,
-          decoration: { color: "#1976D2", borderRadius: 8 }
-        },
-        /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Center, null, /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Text, { text: "child 180x120", color: "white" }))
-      )
-    ))
-  ), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.SizedBox, { height: 8 }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Text, { text: `sizeFactor = ${sizeFactor.toFixed(2)}` }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.SizedBox, { height: 8 }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Wrap, { spacing: 8 }, sizeOptions.map((s) => /* @__PURE__ */ import_react69.default.createElement(
-    import_fuickjs73.Button,
-    {
-      key: s,
-      text: s.toString(),
-      onTap: () => setSizeFactor(s),
-      backgroundColor: Math.abs(s - sizeFactor) < 0.01 ? "#1976D2" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Divider, null), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Text, { text: "2. axis \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.SizedBox, { height: 8 }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Row, null, axisOptions.map((a) => /* @__PURE__ */ import_react69.default.createElement(
-    import_fuickjs73.Button,
-    {
-      key: a.value,
-      text: a.label,
-      onTap: () => setAxis(a.value),
-      backgroundColor: axis === a.value ? "#43A047" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Divider, null), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Text, { text: "3. axisAlignment \u5207\u6362", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.SizedBox, { height: 8 }), /* @__PURE__ */ import_react69.default.createElement(
-    import_fuickjs73.Text,
-    {
-      text: "\u503C\u6620\u5C04: top* -> 0.0, center* -> 0.5, bottom* -> 1.0",
-      fontSize: 12,
-      color: "#888888"
-    }
-  ), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.SizedBox, { height: 8 }), /* @__PURE__ */ import_react69.default.createElement(import_fuickjs73.Row, null, alignmentOptions.map((a) => /* @__PURE__ */ import_react69.default.createElement(
-    import_fuickjs73.Button,
-    {
-      key: a,
-      text: a,
-      onTap: () => setAxisAlignment(a),
-      backgroundColor: axisAlignment === a ? "#9C27B0" : "#9E9E9E"
-    }
-  )))))));
-}
-
-// src/demos/PositionedTransitionDemo.tsx
-var import_react70 = __toESM(require_react_production());
-var import_fuickjs74 = __toESM(require_dist());
-var presets = [
-  { label: "\u539F\u70B9", value: { left: 0, top: 0, right: 0, bottom: 0 } },
-  { label: "\u5DE6\u4E0A", value: { left: 20, top: 20, right: 0, bottom: 0 } },
-  { label: "\u5C45\u4E2D", value: { left: 80, top: 60, right: 80, bottom: 60 } },
-  { label: "\u53F3\u4E0B", value: { left: 0, top: 0, right: 20, bottom: 20 } }
-];
-function PositionedTransitionDemo() {
-  const [end, setEnd] = (0, import_react70.useState)({ left: 0, top: 0, right: 0, bottom: 0 });
-  return /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Scaffold, { appBar: /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.AppBar, { title: /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Text, { text: "PositionedTransition" }) }) }, /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.SingleChildScrollView, null, /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Padding, { padding: 16 }, /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react70.default.createElement(
-    import_fuickjs74.Text,
-    {
-      text: "PositionedTransition \u5FC5\u987B\u653E\u5728 Stack \u5185\uFF1B\u672C demo \u7528\u9759\u6001\u7EC8\u6001\u7248\uFF08AlwaysStoppedAnimation\uFF09\uFF0Cbegin \u9ED8\u8BA4 RelativeRect.zero\u3002",
-      fontSize: 14,
-      color: "#555555"
-    }
-  ), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.SizedBox, { height: 16 }), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Text, { text: "1. end \u77E9\u5F62\u9009\u62E9", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.SizedBox, { height: 8 }), /* @__PURE__ */ import_react70.default.createElement(
-    import_fuickjs74.Container,
-    {
-      color: "#FFF3E0",
-      width: 300,
-      height: 220,
-      decoration: { color: "#FFF3E0", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Stack, null, /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.PositionedTransition, { end }, /* @__PURE__ */ import_react70.default.createElement(
-      import_fuickjs74.Container,
-      {
-        width: 100,
-        height: 100,
-        decoration: { color: "#1976D2", borderRadius: 8 }
-      },
-      /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Center, null, /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Text, { text: "100x100", color: "white", fontSize: 12 }))
-    )))
-  ), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.SizedBox, { height: 8 }), /* @__PURE__ */ import_react70.default.createElement(
-    import_fuickjs74.Text,
-    {
-      text: `end = { left: ${end.left}, top: ${end.top}, right: ${end.right}, bottom: ${end.bottom} }`,
-      fontSize: 12
-    }
-  ), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.SizedBox, { height: 8 }), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Row, null, presets.map((p) => /* @__PURE__ */ import_react70.default.createElement(
-    import_fuickjs74.Button,
-    {
-      key: p.label,
-      text: p.label,
-      onTap: () => setEnd(p.value),
-      backgroundColor: "#9C27B0"
-    }
-  ))), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Divider, null), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Text, { text: "2. \u7AEF\u70B9\u542B\u4E49", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.SizedBox, { height: 8 }), /* @__PURE__ */ import_react70.default.createElement(
-    import_fuickjs74.Container,
-    {
-      color: "#E3F2FD",
-      decoration: { color: "#E3F2FD", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Padding, { padding: 16 }, /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Text, { text: "\u2022 left/top: \u5B50\u8282\u70B9\u8DDD Stack \u5DE6/\u4E0A\u8FB9\u7684\u504F\u79FB\uFF08\u50CF\u7D20\uFF09\u3002" }), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Text, { text: "\u2022 right/bottom: \u5B50\u8282\u70B9\u8DDD Stack \u53F3/\u4E0B\u8FB9\u7684\u504F\u79FB\uFF1B\u4E3A 0 \u8868\u793A\u8D34\u8FB9\u3002" }), /* @__PURE__ */ import_react70.default.createElement(import_fuickjs74.Text, { text: "\u2022 \u5B9E\u9645\u4F4D\u7F6E = Stack \u8FB9\u957F - \u5B50\u8282\u70B9\u5C3A\u5BF8 - \u5BF9\u5E94\u7AEF\u70B9\u503C\u3002" })))
-  )))));
-}
-
-// src/demos/IndexedStackDemo.tsx
-var import_react71 = __toESM(require_react_production());
-var import_fuickjs75 = __toESM(require_dist());
-function IndexedStackDemo() {
-  const [index, setIndex] = (0, import_react71.useState)(0);
-  const [sizing, setSizing] = (0, import_react71.useState)("loose");
-  const [alignment, setAlignment] = (0, import_react71.useState)("center");
-  const pages = [
-    {
-      label: "Home",
-      color: "#E3F2FD",
-      tag: "#1565C0",
-      list: Array.from({ length: 30 }, (_, i) => `Home item #${i + 1}`)
-    },
-    {
-      label: "Messages",
-      color: "#FFF3E0",
-      tag: "#E65100",
-      list: Array.from({ length: 30 }, (_, i) => `Message #${i + 1}`)
-    },
-    {
-      label: "Profile",
-      color: "#E8F5E9",
-      tag: "#2E7D32",
-      list: Array.from({ length: 30 }, (_, i) => `Profile row #${i + 1}`)
-    }
-  ];
-  return /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Scaffold, { appBar: /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.AppBar, { title: /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Text, { text: "IndexedStack" }) }) }, /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Padding, { padding: 16 }, /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react71.default.createElement(
-    import_fuickjs75.Text,
-    {
-      text: "IndexedStack \u5207\u6362\u4E0D\u91CD\u5EFA",
-      fontSize: 15,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.SizedBox, { height: 4 }), /* @__PURE__ */ import_react71.default.createElement(
-    import_fuickjs75.Text,
-    {
-      text: "\u5207\u5230 Messages \u6EDA\u5230\u4E2D\u95F4\uFF0C\u518D\u5207\u5230 Home \u7136\u540E\u5207\u56DE Messages\uFF0C\u6EDA\u52A8\u4F4D\u7F6E\u4F9D\u7136\u4FDD\u7559\u3002",
-      fontSize: 13,
-      color: "#666666"
-    }
-  ))), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Padding, { padding: { horizontal: 16, top: 12, bottom: 8 } }, /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Row, { mainAxisAlignment: "spaceBetween" }, pages.map((p, i) => /* @__PURE__ */ import_react71.default.createElement(
-    import_fuickjs75.Button,
-    {
-      key: p.label,
-      text: p.label,
-      onTap: () => setIndex(i),
-      backgroundColor: i === index ? p.tag : "#9E9E9E"
-    }
-  )))), /* @__PURE__ */ import_react71.default.createElement(
-    import_fuickjs75.Container,
-    {
-      width: 300,
-      height: 300,
-      color: "#FFFFFF",
-      decoration: { borderRadius: 8 },
-      margin: { horizontal: 16 }
-    },
-    /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.IndexedStack, { index, alignment, sizing }, pages.map((p) => /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Container, { key: p.label, color: p.color, width: 300, height: 300 }, /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.ListView, { padding: 12 }, p.list.map((item) => /* @__PURE__ */ import_react71.default.createElement(
-      import_fuickjs75.Container,
-      {
-        key: item,
-        padding: { vertical: 8, horizontal: 12 },
-        margin: { bottom: 6 },
-        decoration: {
-          color: "#FFFFFF",
-          borderRadius: 6,
-          border: { width: 1, color: "#E0E0E0" }
-        }
-      },
-      /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Text, { text: item, fontSize: 14, color: "#333333" })
-    ))))))
-  ), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Container, { color: "#F5F5F5", height: 1, margin: { top: 16 } }), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Padding, { padding: 16 }, /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Text, { text: "sizing \u63A7\u5236\u5E03\u5C40\u884C\u4E3A", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.SizedBox, { height: 6 }), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Wrap, { spacing: 8 }, /* @__PURE__ */ import_react71.default.createElement(
-    import_fuickjs75.Button,
-    {
-      text: "stack (expand)",
-      onTap: () => setSizing("stack"),
-      backgroundColor: sizing === "stack" ? "#1976D2" : "#9E9E9E"
-    }
-  ), /* @__PURE__ */ import_react71.default.createElement(
-    import_fuickjs75.Button,
-    {
-      text: "loose (\u6309\u5B50\u8282\u70B9)",
-      onTap: () => setSizing("loose"),
-      backgroundColor: sizing === "loose" ? "#1976D2" : "#9E9E9E"
-    }
-  )), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.SizedBox, { height: 16 }), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Text, { text: "alignment \u5BF9\u9F50\u951A\u70B9", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.SizedBox, { height: 6 }), /* @__PURE__ */ import_react71.default.createElement(import_fuickjs75.Wrap, { spacing: 8 }, ["topLeft", "center", "bottomRight"].map((a) => /* @__PURE__ */ import_react71.default.createElement(
-    import_fuickjs75.Button,
-    {
-      key: a,
-      text: a,
-      onTap: () => setAlignment(a),
-      backgroundColor: a === alignment ? "#9C27B0" : "#9E9E9E"
-    }
-  )))))));
-}
-
-// src/demos/AnimatedSizeDemo.tsx
-var import_react72 = __toESM(require_react_production());
-var import_fuickjs76 = __toESM(require_dist());
-function AnimatedSizeDemo() {
-  const [expanded, setExpanded] = (0, import_react72.useState)(false);
-  const [boxSize, setBoxSize] = (0, import_react72.useState)(120);
-  const [duration, setDuration] = (0, import_react72.useState)(300);
-  const [curve, setCurve] = (0, import_react72.useState)("easeInOut");
-  const [axis, setAxis] = (0, import_react72.useState)("none");
-  return /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Scaffold, { appBar: /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.AppBar, { title: /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Text, { text: "AnimatedSize" }) }) }, /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SingleChildScrollView, null, /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Padding, { padding: 16 }, /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Text,
-    {
-      text: "AnimatedSize\uFF1A\u5305\u88F9\u52A8\u6001\u5C3A\u5BF8\u5B50\u8282\u70B9\uFF0C\u5207\u6362\u65F6\u81EA\u52A8\u8FC7\u6E21\u3002",
-      fontSize: 14,
-      color: "#666666"
-    }
-  ))), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Padding, { padding: 16 }, /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Text,
-    {
-      text: "1. \u5C55\u5F00 / \u6298\u53E0\uFF08\u53D7\u63A7 visibility\uFF09",
-      fontSize: 15,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 8 }), /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Text,
-    {
-      text: "\u901A\u8FC7 width/height 0\u2194target \u89E6\u53D1\u5C3A\u5BF8\u63D2\u503C\u3002",
-      fontSize: 13,
-      color: "#666666"
-    }
-  ), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 12 }), /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Container,
-    {
-      width: 350,
-      padding: 12,
-      color: "#FAFAFA",
-      decoration: { borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Center, null, /* @__PURE__ */ import_react72.default.createElement(
-      import_fuickjs76.AnimatedSize,
-      {
-        duration,
-        curve,
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react72.default.createElement(
-        import_fuickjs76.Container,
-        {
-          width: expanded ? 220 : 0,
-          height: expanded ? 120 : 0,
-          color: "#1976D2",
-          decoration: { borderRadius: 8 },
-          alignment: "center"
-        },
-        expanded ? /* @__PURE__ */ import_react72.default.createElement(
-          import_fuickjs76.Text,
-          {
-            text: "\u{1F44B} \u6211\u5728\u8FD9\u91CC",
-            color: "white",
-            fontSize: 18,
-            fontWeight: "bold"
-          }
-        ) : null
-      )
-    ))
-  ), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 12 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Row, null, /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Button,
-    {
-      text: expanded ? "\u6298\u53E0" : "\u5C55\u5F00",
-      onTap: () => setExpanded(!expanded),
-      backgroundColor: expanded ? "#E91E63" : "#1976D2"
-    }
-  )))), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Divider, null), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Padding, { padding: 16 }, /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Text,
-    {
-      text: "2. \u5C3A\u5BF8\u5FAA\u73AF\uFF08\u624B\u52A8\u8C03\u8282\uFF09",
-      fontSize: 15,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 8 }), /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Text,
-    {
-      text: `\u5F53\u524D boxSize: ${boxSize}px`,
-      fontSize: 13,
-      color: "#666666"
-    }
-  ), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 12 }), /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Container,
-    {
-      width: 300,
-      height: 300,
-      color: "#FAFAFA",
-      decoration: { borderRadius: 8 },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react72.default.createElement(
-      import_fuickjs76.AnimatedSize,
-      {
-        duration,
-        curve,
+        width: 56,
+        height: 56,
         alignment: "center",
-        axis: axis === "none" ? void 0 : axis
-      },
-      /* @__PURE__ */ import_react72.default.createElement(
-        import_fuickjs76.Container,
-        {
-          width: boxSize,
-          height: boxSize,
-          color: "#FF9800",
-          decoration: { borderRadius: 12 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react72.default.createElement(
-          import_fuickjs76.Text,
-          {
-            text: `${boxSize}`,
-            color: "white",
-            fontSize: 20,
-            fontWeight: "bold"
-          }
-        )
-      )
-    )
-  ), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 12 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Wrap, { spacing: 8 }, /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Button,
-    {
-      text: "\u5C0F",
-      onTap: () => setBoxSize(80),
-      backgroundColor: "#9E9E9E"
-    }
-  ), /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Button,
-    {
-      text: "\u4E2D",
-      onTap: () => setBoxSize(160),
-      backgroundColor: "#9E9E9E"
-    }
-  ), /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Button,
-    {
-      text: "\u5927",
-      onTap: () => setBoxSize(240),
-      backgroundColor: "#9E9E9E"
-    }
-  )))), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Divider, null), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Padding, { padding: 16 }, /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Text, { text: "3. \u53C2\u6570\u63A7\u5236", fontSize: 15, fontWeight: "bold" }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 8 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Text, { text: "duration (ms)", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 6 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Wrap, { spacing: 8 }, [150, 300, 600, 1e3].map((d) => /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Button,
-    {
-      key: d,
-      text: `${d}`,
-      onTap: () => setDuration(d),
-      backgroundColor: d === duration ? "#1976D2" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 12 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Text, { text: "curve", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 6 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Wrap, { spacing: 8 }, [
-    "easeInOut",
-    "easeIn",
-    "easeOut",
-    "linear",
-    "fastOutSlowIn"
-  ].map((c) => /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Button,
-    {
-      key: c,
-      text: c,
-      onTap: () => setCurve(c),
-      backgroundColor: c === curve ? "#9C27B0" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 12 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Text, { text: "axis", fontSize: 13, fontWeight: "bold" }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.SizedBox, { height: 6 }), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Wrap, { spacing: 8 }, ["none", "horizontal", "vertical"].map((a) => /* @__PURE__ */ import_react72.default.createElement(
-    import_fuickjs76.Button,
-    {
-      key: a,
-      text: a,
-      onTap: () => setAxis(a),
-      backgroundColor: a === axis ? "#009688" : "#9E9E9E"
-    }
-  ))))), /* @__PURE__ */ import_react72.default.createElement(import_fuickjs76.Container, { height: 40 })));
-}
-
-// src/demos/DismissibleDemo.tsx
-var import_react73 = __toESM(require_react_production());
-var import_fuickjs77 = __toESM(require_dist());
-var initial = [
-  {
-    id: "1",
-    title: "\u6536\u4EF6\u7BB1 \xB7 \u98DE\u4E66",
-    subtitle: "\u4ECA\u5929 09:12",
-    tag: "#1976D2"
-  },
-  {
-    id: "2",
-    title: "GitHub \xB7 4 PR \u5F85 review",
-    subtitle: "\u6628\u5929 18:30",
-    tag: "#43A047"
-  },
-  {
-    id: "3",
-    title: "Notion \xB7 \u5468\u62A5",
-    subtitle: "\u6628\u5929 12:01",
-    tag: "#FB8C00"
-  },
-  {
-    id: "4",
-    title: "Calendar \xB7 \u56E2\u961F\u5468\u4F1A",
-    subtitle: "\u5468\u4E00 10:00",
-    tag: "#8E24AA"
-  },
-  {
-    id: "5",
-    title: "Slack \xB7 #design \u9891\u9053",
-    subtitle: "\u4ECA\u5929 08:45",
-    tag: "#E53935"
-  },
-  {
-    id: "6",
-    title: "\u90AE\u4EF6 \xB7 \u4EA7\u54C1\u53CD\u9988",
-    subtitle: "\u524D\u5929 21:20",
-    tag: "#00897B"
-  },
-  {
-    id: "7",
-    title: "\u77E5\u4E4E \xB7 \u63A8\u8350",
-    subtitle: "\u4ECA\u5929 07:30",
-    tag: "#3949AB"
-  },
-  {
-    id: "8",
-    title: "\u6398\u91D1 \xB7 \u6CB8\u70B9",
-    subtitle: "\u4ECA\u5929 11:08",
-    tag: "#F4511E"
-  }
-];
-function DismissibleDemo() {
-  const [items, setItems] = (0, import_react73.useState)(initial);
-  const [direction, setDirection] = (0, import_react73.useState)("horizontal");
-  const [lastEvent, setLastEvent] = (0, import_react73.useState)("\uFF08\u65E0\uFF09");
-  const reset = () => {
-    setItems(initial);
-    setLastEvent("\u5DF2\u91CD\u7F6E");
-  };
-  const onItemDismissed = (id) => (dirName) => {
-    setItems((prev) => prev.filter((it) => it.id !== id));
-    setLastEvent(`dismissed id=${id} dir=${dirName}`);
-  };
-  const isHorizontalLike = direction === "horizontal" || direction === "endToStart" || direction === "startToEnd";
-  return /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Scaffold, { appBar: /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.AppBar, { title: /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Text, { text: "Dismissible" }) }) }, /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Padding, { padding: 16 }, /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react73.default.createElement(
-    import_fuickjs77.Text,
-    {
-      text: "Dismissible\uFF1A\u6ED1\u52A8\u5217\u8868\u9879\u6267\u884C\u64CD\u4F5C\uFF08\u5220\u9664/\u5F52\u6863\uFF09\u3002",
-      fontSize: 14,
-      color: "#666666"
-    }
-  ), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.SizedBox, { height: 6 }), /* @__PURE__ */ import_react73.default.createElement(
-    import_fuickjs77.Text,
-    {
-      text: `\u5F53\u524D\u5217\u8868 ${items.length} \u6761 \xB7 \u6700\u8FD1\u4E8B\u4EF6\uFF1A${lastEvent}`,
-      fontSize: 12,
-      color: "#999999"
-    }
-  ))), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Padding, { padding: 16 }, /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Text, { text: "direction", fontSize: 14, fontWeight: "bold" }), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.SizedBox, { height: 6 }), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Wrap, { spacing: 8 }, [
-    "horizontal",
-    "vertical",
-    "endToStart",
-    "startToEnd"
-  ].map((d) => /* @__PURE__ */ import_react73.default.createElement(
-    import_fuickjs77.Button,
-    {
-      key: d,
-      text: d,
-      onTap: () => setDirection(d),
-      backgroundColor: d === direction ? "#1976D2" : "#9E9E9E"
-    }
-  )), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Button, { text: "\u91CD\u7F6E", onTap: reset, backgroundColor: "#9E9E9E" })))), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Container, { color: "#F5F5F5", height: 1 }), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.ListView, { padding: 0 }, items.length === 0 ? /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Container, { height: 200, color: "#FAFAFA", alignment: "center" }, /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Column, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Text, { text: "\u{1F5D1}\uFE0F \u5217\u8868\u5DF2\u6E05\u7A7A", fontSize: 16, color: "#999" }), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.SizedBox, { height: 8 }), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Button, { text: "\u91CD\u7F6E", onTap: reset, backgroundColor: "#1976D2" }))) : items.map((it) => /* @__PURE__ */ import_react73.default.createElement(
-    import_fuickjs77.Dismissible,
-    {
-      key: it.id,
-      direction,
-      movementDuration: 150,
-      resizeDuration: 250,
-      background: isHorizontalLike ? {
-        type: "Container",
-        props: {
-          color: "#4CAF50",
-          alignment: "centerLeft",
-          padding: { horizontal: 20 }
-        },
-        children: [
-          {
-            type: "Text",
-            props: {
-              text: "\u2713 \u6807\u4E3A\u5DF2\u8BFB",
-              color: "white",
-              fontSize: 14,
-              fontWeight: "bold"
-            }
-          }
-        ]
-      } : void 0,
-      secondaryBackground: isHorizontalLike ? {
-        type: "Container",
-        props: {
-          color: "#F44336",
-          alignment: "centerRight",
-          padding: { horizontal: 20 }
-        },
-        children: [
-          {
-            type: "Text",
-            props: {
-              text: "\u{1F5D1} \u5220\u9664",
-              color: "white",
-              fontSize: 14,
-              fontWeight: "bold"
-            }
-          }
-        ]
-      } : void 0,
-      onDismissed: onItemDismissed(it.id)
-    },
-    /* @__PURE__ */ import_react73.default.createElement(
-      import_fuickjs77.Container,
-      {
-        color: "#FFFFFF",
-        padding: 16,
         decoration: {
-          color: "#FFFFFF",
-          border: { width: 0.5, color: "#E0E0E0" }
+          color: "rgba(76,175,80,0.85)",
+          borderRadius: 28,
+          border: { color: "#ffffff", width: 2 }
         }
       },
-      /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Row, null, /* @__PURE__ */ import_react73.default.createElement(
-        import_fuickjs77.Container,
+      /* @__PURE__ */ import_react6.default.createElement(
+        import_fuickjs6.Text,
         {
-          width: 36,
-          height: 36,
-          decoration: { color: it.tag, borderRadius: 18 },
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react73.default.createElement(
-          import_fuickjs77.Text,
-          {
-            text: it.title.charAt(0),
-            color: "white",
-            fontSize: 14,
-            fontWeight: "bold"
-          }
-        )
-      ), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.SizedBox, { width: 12 }), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react73.default.createElement(
-        import_fuickjs77.Text,
-        {
-          text: it.title,
-          fontSize: 15,
-          color: "#333",
+          text: "\u5347\u7EA7",
+          color: "#ffffff",
+          fontSize: 16,
           fontWeight: "bold"
         }
-      ), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.SizedBox, { height: 2 }), /* @__PURE__ */ import_react73.default.createElement(import_fuickjs77.Text, { text: it.subtitle, fontSize: 12, color: "#999" })))
+      )
     )
-  )))));
-}
-
-// src/demos/TransitionAnimatedDemo.tsx
-var import_react74 = __toESM(require_react_production());
-var import_fuickjs78 = __toESM(require_dist());
-var opacityOptions = [0, 0.3, 0.6, 1];
-var scaleOptions = [0.5, 0.8, 1, 1.3];
-var turnsOptions = [0, 0.25, 0.5, 0.75];
-var sizeOptions2 = [0.2, 0.5, 0.8, 1];
-var offsetOptions = [
-  { dx: 0, dy: 0 },
-  { dx: 0.5, dy: 0 },
-  { dx: -0.5, dy: 0 },
-  { dx: 0, dy: 0.3 }
-];
-var curveOptions = ["linear", "ease", "easeInOut", "bounceOut", "elasticOut"];
-function TransitionAnimatedDemo() {
-  const [opacity, setOpacity] = (0, import_react74.useState)(1);
-  const [scale, setScale] = (0, import_react74.useState)(1);
-  const [turns, setTurns] = (0, import_react74.useState)(0);
-  const [sizeFactor, setSizeFactor] = (0, import_react74.useState)(1);
-  const [offset, setOffset] = (0, import_react74.useState)({ dx: 0, dy: 0 });
-  const [duration, setDuration] = (0, import_react74.useState)(600);
-  const [curve, setCurve] = (0, import_react74.useState)("easeInOut");
-  return /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Scaffold, { appBar: /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.AppBar, { title: /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "Transition Animated" }) }) }, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SingleChildScrollView, null, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Padding, { padding: 16 }, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Text,
+  )), /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Positioned, { left: 18, bottom: 28 }, /* @__PURE__ */ import_react6.default.createElement(Joystick, { inputRef })), /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Positioned, { right: 22, bottom: 40 }, /* @__PURE__ */ import_react6.default.createElement(
+    CaptureButton,
     {
-      text: "\u4F20 duration \u540E\uFF0CTransition \u7EC4\u4EF6\u5185\u90E8\u8D70 TweenAnimationBuilder\uFF0Cprops \u53D8\u5316\u65F6\u81EA\u52A8\u8865\u95F4\u3002",
-      fontSize: 14,
-      color: "#555555"
-    }
-  ), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 12 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "\u5168\u5C40\u914D\u7F6E", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Row, null, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "duration:" }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { width: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Wrap, { spacing: 6 }, [0, 300, 600, 1200].map((d) => /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Button,
-    {
-      key: d,
-      text: d === 0 ? "static" : `${d}ms`,
-      onTap: () => setDuration(d),
-      backgroundColor: duration === d ? "#1976D2" : "#9E9E9E"
-    }
-  )))), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Row, null, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "curve:" }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { width: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Wrap, { spacing: 6 }, curveOptions.map((c) => /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Button,
-    {
-      key: c,
-      text: c,
-      onTap: () => setCurve(c),
-      backgroundColor: curve === c ? "#43A047" : "#9E9E9E"
-    }
-  )))), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Divider, null), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "1. FadeTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Container,
-    {
-      width: 300,
-      height: 120,
-      decoration: { color: "#FFF3E0", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(
-      import_fuickjs78.FadeTransition,
-      {
-        opacity,
-        duration,
-        curve
-      },
-      /* @__PURE__ */ import_react74.default.createElement(
-        import_fuickjs78.Container,
-        {
-          width: 80,
-          height: 80,
-          decoration: { color: "#1976D2", borderRadius: 8 }
-        },
-        /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "fade", color: "white" }))
-      )
-    ))
-  ), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: `opacity = ${opacity.toFixed(2)}` }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Wrap, { spacing: 6 }, opacityOptions.map((o) => /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Button,
-    {
-      key: o,
-      text: o.toString(),
-      onTap: () => setOpacity(o),
-      backgroundColor: Math.abs(o - opacity) < 0.01 ? "#1976D2" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Divider, null), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "2. ScaleTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Container,
-    {
-      width: 300,
-      height: 140,
-      decoration: { color: "#E8F5E9", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(
-      import_fuickjs78.ScaleTransition,
-      {
-        scale,
-        duration,
-        curve
-      },
-      /* @__PURE__ */ import_react74.default.createElement(
-        import_fuickjs78.Container,
-        {
-          width: 80,
-          height: 80,
-          decoration: { color: "#43A047", borderRadius: 8 }
-        },
-        /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "scale", color: "white" }))
-      )
-    ))
-  ), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: `scale = ${scale.toFixed(2)}` }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Wrap, { spacing: 6 }, scaleOptions.map((s) => /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Button,
-    {
-      key: s,
-      text: s.toString(),
-      onTap: () => setScale(s),
-      backgroundColor: Math.abs(s - scale) < 0.01 ? "#43A047" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Divider, null), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "3. RotationTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Container,
-    {
-      width: 300,
-      height: 140,
-      decoration: { color: "#FCE4EC", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(
-      import_fuickjs78.RotationTransition,
-      {
-        turns,
-        duration,
-        curve
-      },
-      /* @__PURE__ */ import_react74.default.createElement(
-        import_fuickjs78.Container,
-        {
-          width: 80,
-          height: 80,
-          decoration: { color: "#C2185B", borderRadius: 8 }
-        },
-        /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "rot", color: "white" }))
-      )
-    ))
-  ), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: `turns = ${turns.toFixed(2)}` }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Wrap, { spacing: 6 }, turnsOptions.map((t) => /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Button,
-    {
-      key: t,
-      text: t.toString(),
-      onTap: () => setTurns(t),
-      backgroundColor: Math.abs(t - turns) < 0.01 ? "#C2185B" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Divider, null), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "4. SizeTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Container,
-    {
-      width: 300,
-      height: 140,
-      decoration: { color: "#EDE7F6", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(
-      import_fuickjs78.SizeTransition,
-      {
-        sizeFactor,
-        axis: "vertical",
-        duration,
-        curve
-      },
-      /* @__PURE__ */ import_react74.default.createElement(
-        import_fuickjs78.Container,
-        {
-          width: 140,
-          height: 120,
-          decoration: { color: "#5E35B1", borderRadius: 8 }
-        },
-        /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "size", color: "white" }))
-      )
-    ))
-  ), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: `sizeFactor = ${sizeFactor.toFixed(2)}` }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Wrap, { spacing: 6 }, sizeOptions2.map((s) => /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Button,
-    {
-      key: s,
-      text: s.toString(),
-      onTap: () => setSizeFactor(s),
-      backgroundColor: Math.abs(s - sizeFactor) < 0.01 ? "#5E35B1" : "#9E9E9E"
-    }
-  ))), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Divider, null), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "5. SlideTransition", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Container,
-    {
-      width: 300,
-      height: 140,
-      decoration: { color: "#FFF8E1", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(
-      import_fuickjs78.SlideTransition,
-      {
-        position: offset,
-        duration,
-        curve
-      },
-      /* @__PURE__ */ import_react74.default.createElement(
-        import_fuickjs78.Container,
-        {
-          width: 60,
-          height: 60,
-          decoration: { color: "#FB8C00", borderRadius: 30 }
-        },
-        /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Center, null, /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: "slide", color: "white", fontSize: 11 }))
-      )
-    ))
-  ), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.SizedBox, { height: 8 }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Text, { text: `offset = (${offset.dx.toFixed(2)}, ${offset.dy.toFixed(2)})` }), /* @__PURE__ */ import_react74.default.createElement(import_fuickjs78.Wrap, { spacing: 6 }, offsetOptions.map((o, i) => /* @__PURE__ */ import_react74.default.createElement(
-    import_fuickjs78.Button,
-    {
-      key: i,
-      text: `(${o.dx},${o.dy})`,
-      onTap: () => setOffset(o),
-      backgroundColor: o.dx === offset.dx && o.dy === offset.dy ? "#FB8C00" : "#9E9E9E"
-    }
-  )))))));
-}
-
-// src/demos/ThemeDemo.tsx
-var import_react75 = __toESM(require_react_production());
-var import_fuickjs79 = __toESM(require_dist());
-function Field({ label, value }) {
-  return /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Container, { padding: { vertical: 6, horizontal: 12 }, margin: { bottom: 6 } }, /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Text, { text: `${label}: ${value}`, fontSize: 14, color: "#424242" }));
-}
-function Swatch({ name, color }) {
-  return /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Container, { margin: { right: 8, bottom: 8 } }, /* @__PURE__ */ import_react75.default.createElement(
-    import_fuickjs79.Container,
-    {
-      width: 56,
-      height: 56,
-      decoration: { color, borderRadius: 8 }
-    }
-  ), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SizedBox, { height: 4 }), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Text, { text: name, fontSize: 11, color: "#555555" }));
-}
-function ThemeDemo() {
-  const theme = (0, import_fuickjs79.useTheme)();
-  const bg = theme.isDark ? "#121212" : "#FAFAFA";
-  const cardBg = theme.isDark ? "#1E1E1E" : "#FFFFFF";
-  const titleColor = theme.isDark ? "#FFFFFF" : "#212121";
-  const subColor = theme.isDark ? "#B0BEC5" : "#757575";
-  return /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Scaffold, { appBar: /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.AppBar, { title: /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Text, { text: "useTheme" }) }) }, /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Container, { color: bg }, /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SingleChildScrollView, null, /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Padding, { padding: 16 }, /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react75.default.createElement(
-    import_fuickjs79.Container,
-    {
-      padding: 16,
-      decoration: {
-        color: cardBg,
-        borderRadius: theme.borderRadius
+      enabled: hasCapturable,
+      onCapture: () => {
+        tryCapture(store.getState());
+        store.notify();
       }
-    },
-    /* @__PURE__ */ import_react75.default.createElement(
-      import_fuickjs79.Text,
-      {
-        text: theme.isDark ? "Dark Mode" : "Light Mode",
-        fontSize: 22,
-        fontWeight: "bold",
-        color: titleColor
-      }
-    ),
-    /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SizedBox, { height: 4 }),
-    /* @__PURE__ */ import_react75.default.createElement(
-      import_fuickjs79.Text,
-      {
-        text: `brightness: ${theme.brightness}`,
-        fontSize: 13,
-        color: subColor
-      }
-    )
-  ), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SizedBox, { height: 16 }), /* @__PURE__ */ import_react75.default.createElement(
-    import_fuickjs79.Text,
-    {
-      text: "\u8272\u677F",
-      fontSize: 16,
-      fontWeight: "bold",
-      color: titleColor
     }
-  ), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SizedBox, { height: 8 }), /* @__PURE__ */ import_react75.default.createElement(
-    import_fuickjs79.Container,
+  )), state.hitFlash > 0 && /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Positioned, { left: 0, top: 0, right: 0, bottom: 0 }, /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Container, { color: "rgba(255,0,0,0.22)" })), state.status !== "playing" && /* @__PURE__ */ import_react6.default.createElement(import_fuickjs6.Positioned, { left: 0, top: 0, right: 0, bottom: 0 }, /* @__PURE__ */ import_react6.default.createElement(
+    Overlay,
     {
-      padding: 12,
-      decoration: { color: cardBg, borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react75.default.createElement(Swatch, { name: "primary", color: theme.primaryColor }),
-    /* @__PURE__ */ import_react75.default.createElement(Swatch, { name: "scaffold", color: theme.scaffoldBackgroundColor }),
-    /* @__PURE__ */ import_react75.default.createElement(Swatch, { name: "surface", color: theme.surfaceColor }),
-    theme.textColor ? /* @__PURE__ */ import_react75.default.createElement(Swatch, { name: "text", color: theme.textColor }) : null,
-    theme.secondaryTextColor ? /* @__PURE__ */ import_react75.default.createElement(Swatch, { name: "subText", color: theme.secondaryTextColor }) : null
-  ), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SizedBox, { height: 16 }), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.Divider, null), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SizedBox, { height: 16 }), /* @__PURE__ */ import_react75.default.createElement(
-    import_fuickjs79.Text,
-    {
-      text: "\u5B8C\u6574\u5FEB\u7167",
-      fontSize: 16,
-      fontWeight: "bold",
-      color: titleColor
-    }
-  ), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SizedBox, { height: 8 }), /* @__PURE__ */ import_react75.default.createElement(
-    import_fuickjs79.Container,
-    {
-      padding: 12,
-      decoration: { color: cardBg, borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react75.default.createElement(Field, { label: "brightness", value: theme.brightness }),
-    /* @__PURE__ */ import_react75.default.createElement(Field, { label: "isDark", value: String(theme.isDark) }),
-    /* @__PURE__ */ import_react75.default.createElement(Field, { label: "primaryColor", value: theme.primaryColor }),
-    /* @__PURE__ */ import_react75.default.createElement(
-      Field,
-      {
-        label: "scaffoldBg",
-        value: theme.scaffoldBackgroundColor
-      }
-    ),
-    /* @__PURE__ */ import_react75.default.createElement(Field, { label: "surfaceColor", value: theme.surfaceColor }),
-    /* @__PURE__ */ import_react75.default.createElement(Field, { label: "textColor", value: theme.textColor ?? "(unset)" }),
-    /* @__PURE__ */ import_react75.default.createElement(
-      Field,
-      {
-        label: "secondaryText",
-        value: theme.secondaryTextColor ?? "(unset)"
-      }
-    ),
-    /* @__PURE__ */ import_react75.default.createElement(
-      Field,
-      {
-        label: "borderRadius",
-        value: theme.borderRadius.toString()
-      }
-    )
-  ), /* @__PURE__ */ import_react75.default.createElement(import_fuickjs79.SizedBox, { height: 24 }), /* @__PURE__ */ import_react75.default.createElement(
-    import_fuickjs79.Text,
-    {
-      text: "\u63D0\u793A\uFF1A\u5207\u6362\u7CFB\u7EDF\u6697\u9ED1\u6A21\u5F0F\u6216\u4FEE\u6539\u5BBF\u4E3B ThemeData \u540E\u56DE\u5230\u6B64\u9875\uFF0C\u4E3B\u9898\u5FEB\u7167\u4F1A\u81EA\u52A8\u66F4\u65B0\u3002",
-      fontSize: 12,
-      color: subColor
+      win: state.status === "win",
+      stageName,
+      matter: state.matter,
+      onRestart: () => store.reset()
     }
   ))))));
 }
 
-// src/demos/MediaQueryDemo.tsx
-var import_react76 = __toESM(require_react_production());
-var import_fuickjs80 = __toESM(require_dist());
-function Stat({
-  label,
-  value,
-  hint
-}) {
-  return /* @__PURE__ */ import_react76.default.createElement(
-    import_fuickjs80.Container,
-    {
-      padding: { vertical: 8, horizontal: 12 },
-      margin: { bottom: 6 },
-      decoration: {
-        color: "#F5F5F5",
-        borderRadius: 6
-      }
-    },
-    /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Text, { text: label, fontSize: 12, color: "#757575" }),
-    /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 2 }),
-    /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Text, { text: value, fontSize: 16, color: "#212121", fontWeight: "bold" }),
-    hint ? /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 2 }) : null,
-    hint ? /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Text, { text: hint, fontSize: 11, color: "#9E9E9E" }) : null
-  );
-}
-function MediaQueryDemo() {
-  const mq = (0, import_fuickjs80.useMediaQuery)();
-  const isLandscape = mq.screenWidth > mq.screenHeight;
-  const keyboardHeight = mq.viewInsets.bottom;
-  const isKeyboardOpen = keyboardHeight > 0;
-  const topInset = mq.viewPadding.top;
-  const bottomInset = mq.viewPadding.bottom;
-  return /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Scaffold, { appBar: /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.AppBar, { title: /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Text, { text: "useMediaQuery" }) }) }, /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SingleChildScrollView, null, /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Padding, { padding: 16 }, /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react76.default.createElement(
-    import_fuickjs80.Container,
-    {
-      padding: 16,
-      decoration: {
-        color: mq.isDark ? "#1E1E1E" : "#E3F2FD",
-        borderRadius: 12
-      }
-    },
-    /* @__PURE__ */ import_react76.default.createElement(
-      import_fuickjs80.Text,
-      {
-        text: isLandscape ? "\u6A2A\u5C4F Landscape" : "\u7AD6\u5C4F Portrait",
-        fontSize: 22,
-        fontWeight: "bold",
-        color: mq.isDark ? "#FFFFFF" : "#0D47A1"
-      }
-    ),
-    /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 4 }),
-    /* @__PURE__ */ import_react76.default.createElement(
-      import_fuickjs80.Text,
-      {
-        text: `${Math.round(mq.screenWidth)} \xD7 ${Math.round(mq.screenHeight)} @${mq.pixelRatio}x`,
-        fontSize: 14,
-        color: mq.isDark ? "#B0BEC5" : "#1565C0"
-      }
-    )
-  ), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 16 }), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Text, { text: "\u5C4F\u5E55", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 8 }), /* @__PURE__ */ import_react76.default.createElement(
-    Stat,
-    {
-      label: "screenWidth",
-      value: mq.screenWidth.toString(),
-      hint: "\u903B\u8F91\u50CF\u7D20\uFF0C\u975E\u7269\u7406\u50CF\u7D20"
-    }
-  ), /* @__PURE__ */ import_react76.default.createElement(Stat, { label: "screenHeight", value: mq.screenHeight.toString() }), /* @__PURE__ */ import_react76.default.createElement(
-    Stat,
-    {
-      label: "pixelRatio",
-      value: `${mq.pixelRatio.toString()} x`,
-      hint: "\u7269\u7406\u50CF\u7D20 = \u903B\u8F91\u50CF\u7D20 \xD7 pixelRatio"
-    }
-  ), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 12 }), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Divider, null), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 12 }), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Text, { text: "\u5916\u89C2", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 8 }), /* @__PURE__ */ import_react76.default.createElement(
-    Stat,
-    {
-      label: "platformBrightness",
-      value: mq.platformBrightness,
-      hint: mq.isDark ? "\u6697\u9ED1\u6A21\u5F0F\u5DF2\u6FC0\u6D3B" : "\u660E\u4EAE\u6A21\u5F0F"
-    }
-  ), /* @__PURE__ */ import_react76.default.createElement(
-    Stat,
-    {
-      label: "textScaleFactor",
-      value: `${mq.textScaleFactor.toString()} x`,
-      hint: "\u7CFB\u7EDF\u5B57\u53F7\u7F29\u653E\uFF0C\u53D7\u8BBE\u7F6E \u2192 \u663E\u793A \u2192 \u5B57\u4F53\u5927\u5C0F\u5F71\u54CD"
-    }
-  ), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 12 }), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Divider, null), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 12 }), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.Text, { text: "\u5B89\u5168\u533A\u57DF / \u63D2\u5165", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 8 }), /* @__PURE__ */ import_react76.default.createElement(
-    Stat,
-    {
-      label: "viewPadding.top",
-      value: topInset.toString(),
-      hint: "\u72B6\u6001\u680F / \u5218\u6D77\u9AD8\u5EA6"
-    }
-  ), /* @__PURE__ */ import_react76.default.createElement(
-    Stat,
-    {
-      label: "viewPadding.bottom",
-      value: bottomInset.toString(),
-      hint: "Home Indicator \u9AD8\u5EA6"
-    }
-  ), /* @__PURE__ */ import_react76.default.createElement(
-    Stat,
-    {
-      label: "viewInsets.bottom",
-      value: keyboardHeight.toString(),
-      hint: isKeyboardOpen ? `\u952E\u76D8\u5DF2\u5F39\u8D77\uFF08\u9AD8\u5EA6 ${Math.round(keyboardHeight)}\uFF09` : "\u952E\u76D8\u672A\u5F39\u8D77"
-    }
-  ), /* @__PURE__ */ import_react76.default.createElement(import_fuickjs80.SizedBox, { height: 16 }), /* @__PURE__ */ import_react76.default.createElement(
-    import_fuickjs80.Text,
-    {
-      text: "\u63D0\u793A\uFF1A\u65CB\u8F6C\u5C4F\u5E55 / \u5F39\u8D77\u952E\u76D8 / \u5207\u6362\u6697\u9ED1\u6A21\u5F0F / \u6539\u5B57\u53F7\uFF0C\u6240\u6709\u6570\u636E\u4F1A\u81EA\u52A8\u66F4\u65B0\u3002",
-      fontSize: 12,
-      color: "#9E9E9E"
-    }
-  )))));
-}
-
-// src/demos/AnimationDemo.tsx
-var import_react77 = __toESM(require_react_production());
-var import_fuickjs81 = __toESM(require_dist());
-function AnimationDemo() {
-  const [fadeToggle, setFadeToggle] = (0, import_react77.useState)(false);
-  const [bounceToggle, setBounceToggle] = (0, import_react77.useState)(false);
-  const [width, setWidth] = (0, import_react77.useState)(false);
-  const fade = (0, import_fuickjs81.useAnimation)({
-    from: 0,
-    to: 1,
-    duration: 600,
-    curve: "easeOut"
-  });
-  fade.onComplete(() => {
-    import_fuickjs81.ToastService.show("Fade \u5B8C\u6210 \u2705");
-  });
-  const bounce = (0, import_fuickjs81.useAnimation)({
-    to: 0.6,
-    duration: 400,
-    curve: "easeOut",
-    autoStart: true,
-    loop: true,
-    reverse: true
-  });
-  const spin = (0, import_fuickjs81.useAnimation)({
-    to: 2 * Math.PI,
-    duration: 1200,
-    curve: "easeInOut"
-  });
-  const size = (0, import_fuickjs81.useAnimation)({
-    from: 80,
-    to: 200,
-    duration: 700,
-    curve: "easeOut"
-  });
-  const move = (0, import_fuickjs81.useAnimation)({
-    from: 0,
-    to: 120,
-    duration: 500,
-    curve: "easeOut"
-  });
-  const progress = (0, import_fuickjs81.useAnimation)({ from: 0, to: 300, duration: 500 });
-  return /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Scaffold, { appBar: /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.AppBar, { title: "useAnimation \u7A0B\u5E8F\u5316\u52A8\u753B" }) }, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Column, { padding: 16, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "1. \u6DE1\u5165 (autoStart + onComplete)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react77.default.createElement(
-    import_fuickjs81.Button,
-    {
-      text: fadeToggle ? "\u64AD\u653E\u6DE1\u5165" : "\u91CD\u65B0\u64AD\u653E",
-      onTap: () => {
-        setFadeToggle(!fadeToggle);
-        fade.start();
-      }
-    }
-  ), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { height: 10 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Opacity, { opacity: fade.value }, /* @__PURE__ */ import_react77.default.createElement(
-    import_fuickjs81.Container,
-    {
-      height: 60,
-      color: "#FF7043",
-      alignment: "center",
-      decoration: { color: "#FF7043", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "Hello Animation \u{1F44B}", color: "white", fontWeight: "bold" })
-  )), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Divider, { height: 24 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "2. \u5FAA\u73AF\u5F39\u8DF3 (loop + reverse)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react77.default.createElement(
-    import_fuickjs81.Button,
-    {
-      text: bounceToggle ? "\u505C\u6B62\u5F39\u8DF3" : "\u5F00\u59CB\u5F39\u8DF3",
-      onTap: () => {
-        setBounceToggle(!bounceToggle);
-        bounceToggle ? bounce.stop() : bounce.start();
-      }
-    }
-  ), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { height: 10 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Center, null, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Transform, { scale: bounce.transform.scale() }, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { width: 80, height: 80, color: "#42A5F5", decoration: { color: "#42A5F5", borderRadius: 40 } }))), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Divider, { height: 24 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "3. \u65CB\u8F6C + \u53CD\u5411", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Row, null, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "\u65CB\u8F6C 360\xB0", onTap: () => spin.start(), margin: { right: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "\u53CD\u5411", onTap: () => spin.reverse(), margin: { right: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "\u590D\u4F4D", onTap: () => spin.reset() })), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { height: 10 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Center, null, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Transform, { rotate: spin.transform.rotate() }, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { width: 80, height: 80, color: "#AB47BC", decoration: { color: "#AB47BC", borderRadius: 8 } }, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Center, null, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "\u{1F300}", fontSize: 28 }))))), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Divider, { height: 24 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "4. \u5C3A\u5BF8\u52A8\u753B (width/height)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react77.default.createElement(
-    import_fuickjs81.Button,
-    {
-      text: width ? "\u6536\u56DE\u53BB" : "\u5C55\u5F00",
-      onTap: () => {
-        setWidth(!width);
-        width ? size.reverse() : size.start();
-      }
-    }
-  ), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { height: 10 }), /* @__PURE__ */ import_react77.default.createElement(
-    import_fuickjs81.Container,
-    {
-      width: size.value,
-      height: size.value,
-      color: "#66BB6A",
-      alignment: "center",
-      decoration: { color: "#66BB6A", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "\u{1F340}", fontSize: 24 })
-  ), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Divider, { height: 24 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "5. \u4F4D\u79FB (setValue / setTo)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Row, null, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "\u53F3\u79FB 120", onTap: () => move.start(), margin: { right: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "setTo 60", onTap: () => move.setTo(60), margin: { right: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "setValue 30", onTap: () => move.setValue(30), margin: { right: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "\u5F52\u4F4D", onTap: () => move.reset() })), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { height: 10 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Transform, { translate: move.transform.translateX() }, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { width: 60, height: 60, color: "#FFA726", decoration: { color: "#FFA726", borderRadius: 30 } })), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Divider, { height: 24 }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Text, { text: "6. \u8FDB\u5EA6\u6761 (setTo)", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Row, null, /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "25%", onTap: () => progress.setTo(75), margin: { right: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "50%", onTap: () => progress.setTo(150), margin: { right: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "100%", onTap: () => progress.setTo(300), margin: { right: 8 } }), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Button, { text: "\u590D\u4F4D", onTap: () => progress.reset() })), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.Container, { height: 10 }), /* @__PURE__ */ import_react77.default.createElement(
-    import_fuickjs81.Container,
-    {
-      height: 20,
-      color: "#ECEFF1",
-      decoration: { color: "#ECEFF1", borderRadius: 10 }
-    },
-    /* @__PURE__ */ import_react77.default.createElement(
-      import_fuickjs81.Container,
-      {
-        width: progress.value,
-        height: 20,
-        color: "#26C6DA",
-        decoration: { color: "#26C6DA", borderRadius: 10 }
-      }
-    )
-  ), /* @__PURE__ */ import_react77.default.createElement(import_fuickjs81.SizedBox, { height: 30 })));
-}
-
-// src/demos/GesturesDemo.tsx
-var import_react78 = __toESM(require_react_production());
-var import_fuickjs82 = __toESM(require_dist());
-function GesturesDemo() {
-  const [scale, setScale] = (0, import_react78.useState)(1);
-  const [dragOffset, setDragOffset] = (0, import_react78.useState)({ x: 0, y: 0 });
-  const [longPressDrag, setLongPressDrag] = (0, import_react78.useState)({ x: 0, y: 0 });
-  const [verticalDrag, setVerticalDrag] = (0, import_react78.useState)(0);
-  const [horizontalDrag, setHorizontalDrag] = (0, import_react78.useState)(0);
-  const [panInfo, setPanInfo] = (0, import_react78.useState)("\u62D6\u52A8\u7EA2\u8272\u65B9\u5757\u8BD5\u8BD5");
-  const [scaleInfo, setScaleInfo] = (0, import_react78.useState)("\u53CC\u6307\u7F29\u653E\u56FE\u7247 (scale: 1.0)");
-  return /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Scaffold, { appBar: /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.AppBar, { title: "\u624B\u52BF\u6269\u5C55 (GestureDetector)" }) }, /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Column, { padding: 16, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "1. \u53CC\u6307\u7F29\u653E onScale*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(
-    import_fuickjs82.GestureDetector,
-    {
-      onScaleStart: (e) => setScaleInfo(`\u7F29\u653E\u5F00\u59CB (fingers: ${e.pointerCount})`),
-      onScaleUpdate: (e) => {
-        setScale(e.scale);
-        setScaleInfo(`scale=${e.scale.toFixed(2)} focal=(${e.focalX.toFixed(0)}, ${e.focalY.toFixed(0)})`);
-      },
-      onScaleEnd: () => setScaleInfo("\u7F29\u653E\u7ED3\u675F")
-    },
-    /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Transform, { scale }, /* @__PURE__ */ import_react78.default.createElement(
-      import_fuickjs82.Container,
-      {
-        width: 140,
-        height: 140,
-        color: "#1E88E5",
-        alignment: "center",
-        decoration: { color: "#1E88E5", borderRadius: 12 }
-      },
-      /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "\u{1F446}\u{1F90F}", fontSize: 32 })
-    ))
-  )), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: scaleInfo, fontSize: 12, color: "#666666", margin: { top: 6 } })), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Divider, { height: 20 }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "2. \u81EA\u7531\u62D6\u62FD onPan*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(
-    import_fuickjs82.GestureDetector,
-    {
-      onPanStart: () => setPanInfo("\u5F00\u59CB\u62D6\u52A8"),
-      onPanUpdate: (e) => setDragOffset((prev) => ({ x: prev.x + e.dx, y: prev.y + e.dy })),
-      onPanEnd: () => setPanInfo("\u62D6\u52A8\u7ED3\u675F")
-    },
-    /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Transform, { translate: dragOffset }, /* @__PURE__ */ import_react78.default.createElement(
-      import_fuickjs82.Container,
-      {
-        width: 100,
-        height: 60,
-        color: "#E53935",
-        alignment: "center",
-        decoration: { color: "#E53935", borderRadius: 8 }
-      },
-      /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "\u62D6\u6211", color: "white" })
-    ))
-  )), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: panInfo, fontSize: 12, color: "#666666", margin: { top: 6 } })), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Divider, { height: 20 }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "3. \u957F\u6309\u62D6\u62FD onLongPress*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(
-    import_fuickjs82.GestureDetector,
-    {
-      onLongPressStart: (e) => console.log("\u957F\u6309\u5F00\u59CB", e),
-      onLongPressMoveUpdate: (e) => setLongPressDrag({ x: e.dx, y: e.dy }),
-      onLongPressEnd: () => console.log("\u957F\u6309\u7ED3\u675F")
-    },
-    /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Transform, { translate: longPressDrag }, /* @__PURE__ */ import_react78.default.createElement(
-      import_fuickjs82.Container,
-      {
-        width: 100,
-        height: 60,
-        color: "#8E24AA",
-        alignment: "center",
-        decoration: { color: "#8E24AA", borderRadius: 8 }
-      },
-      /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "\u957F\u6309\u62D6\u52A8", color: "white" })
-    ))
-  )), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(
-    import_fuickjs82.Text,
-    {
-      text: `\u504F\u79FB (${longPressDrag.x.toFixed(0)}, ${longPressDrag.y.toFixed(0)})`,
-      fontSize: 12,
-      color: "#666666",
-      margin: { top: 6 }
-    }
-  )), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Divider, { height: 20 }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "4. \u5782\u76F4\u62D6\u52A8 onVerticalDrag*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(
-    import_fuickjs82.GestureDetector,
-    {
-      onVerticalDragUpdate: (e) => setVerticalDrag((prev) => prev + e.dy)
-    },
-    /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Transform, { translate: { x: 0, y: verticalDrag } }, /* @__PURE__ */ import_react78.default.createElement(
-      import_fuickjs82.Container,
-      {
-        width: 100,
-        height: 50,
-        color: "#00897B",
-        alignment: "center",
-        decoration: { color: "#00897B", borderRadius: 8 }
-      },
-      /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "\u4E0A\u4E0B\u62D6", color: "white" })
-    ))
-  )), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: `\u5782\u76F4\u4F4D\u79FB: ${verticalDrag.toFixed(0)}`, fontSize: 12, color: "#666666", margin: { top: 6 } })), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Divider, { height: 20 }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "5. \u6C34\u5E73\u62D6\u52A8 onHorizontalDrag*", fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(
-    import_fuickjs82.GestureDetector,
-    {
-      onHorizontalDragUpdate: (e) => setHorizontalDrag((prev) => prev + e.dx)
-    },
-    /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Transform, { translate: { x: horizontalDrag, y: 0 } }, /* @__PURE__ */ import_react78.default.createElement(
-      import_fuickjs82.Container,
-      {
-        width: 100,
-        height: 50,
-        color: "#F4511E",
-        alignment: "center",
-        decoration: { color: "#F4511E", borderRadius: 8 }
-      },
-      /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "\u5DE6\u53F3\u62D6", color: "white" })
-    ))
-  )), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Center, null, /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: `\u6C34\u5E73\u4F4D\u79FB: ${horizontalDrag.toFixed(0)}`, fontSize: 12, color: "#666666", margin: { top: 6 } })), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Container, { height: 16 }), /* @__PURE__ */ import_react78.default.createElement(
-    import_fuickjs82.GestureDetector,
-    {
-      onTap: () => {
-        setScale(1);
-        setDragOffset({ x: 0, y: 0 });
-        setLongPressDrag({ x: 0, y: 0 });
-        setVerticalDrag(0);
-        setHorizontalDrag(0);
-        setPanInfo("\u5DF2\u91CD\u7F6E");
-      }
-    },
-    /* @__PURE__ */ import_react78.default.createElement(
-      import_fuickjs82.Container,
-      {
-        height: 44,
-        color: "#E0E0E0",
-        alignment: "center",
-        decoration: { color: "#E0E0E0", borderRadius: 22 }
-      },
-      /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Text, { text: "\u91CD\u7F6E\u6240\u6709\u624B\u52BF", color: "#424242", fontWeight: "bold" })
-    )
-  ), /* @__PURE__ */ import_react78.default.createElement(import_fuickjs82.Container, { height: 30 })));
-}
-
-// src/demos/ScrollControlDemo.tsx
-var import_react79 = __toESM(require_react_production());
-var import_fuickjs83 = __toESM(require_dist());
-var TOTAL = 200;
-function ScrollControlDemo() {
-  const listRef = (0, import_react79.useRef)(null);
-  const [scrollInfo, setScrollInfo] = (0, import_react79.useState)("pixels: 0 / 0");
-  const [loaded, setLoaded] = (0, import_react79.useState)(40);
-  return /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Scaffold, { appBar: /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.AppBar, { title: "\u6EDA\u52A8\u63A7\u5236 (Scroll Control)" }) }, /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Column, { padding: 12, crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Text, { text: `${scrollInfo}`, fontSize: 12, color: "#666666" }), /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Row, { margin: { top: 8, bottom: 8 } }, /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Button, { text: "\u56DE\u9876", onTap: () => listRef.current?.scrollToTop() }), /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Button, { text: "\u5230\u5E95", onTap: () => listRef.current?.scrollToBottom() })), /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Row, { margin: { bottom: 8 } }, /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Button, { text: "\u8DF3\u5230 #50", onTap: () => listRef.current?.scrollToIndex(50) }), /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Button, { text: "\u8DF3\u5230 #150", onTap: () => listRef.current?.scrollToIndex(150) })), /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Row, { margin: { bottom: 8 } }, /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Button, { text: "jumpTo 1000", onTap: () => listRef.current?.jumpTo(1e3) }), /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Button, { text: "animateTo 3000", onTap: () => listRef.current?.animateTo(3e3, 600) }), /* @__PURE__ */ import_react79.default.createElement(
-    import_fuickjs83.Button,
-    {
-      text: `\u52A0\u8F7D\u66F4\u591A(${loaded})`,
-      onTap: () => setLoaded((n) => Math.min(n + 40, TOTAL))
-    }
-  )), /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Expanded, null, /* @__PURE__ */ import_react79.default.createElement(
-    import_fuickjs83.ListView,
-    {
-      ref: listRef,
-      itemCount: loaded,
-      itemExtent: 52,
-      stateful: true,
-      cacheKey: loaded,
-      onScroll: (e) => setScrollInfo(
-        `pixels: ${e.pixels.toFixed(0)} / max: ${e.maxScrollExtent.toFixed(0)}`
-      ),
-      onScrollEndReached: () => {
-        setLoaded((n) => Math.min(n + 20, TOTAL));
-      },
-      itemBuilder: (index) => /* @__PURE__ */ import_react79.default.createElement(
-        import_fuickjs83.Container,
-        {
-          height: 52,
-          margin: { bottom: 4 },
-          padding: { left: 12 },
-          alignment: "center",
-          decoration: {
-            color: index % 10 === 0 ? "#FFE0B2" : "#F5F5F5",
-            borderRadius: 8
-          }
-        },
-        /* @__PURE__ */ import_react79.default.createElement(
-          import_fuickjs83.Text,
-          {
-            text: `Item #${index}${index % 10 === 0 ? " (\u5341\u7684\u500D\u6570)" : ""}`,
-            color: index % 10 === 0 ? "#E65100" : "#424242",
-            fontWeight: index % 10 === 0 ? "bold" : "normal"
-          }
-        )
-      )
-    }
-  )), /* @__PURE__ */ import_react79.default.createElement(import_fuickjs83.Center, null, /* @__PURE__ */ import_react79.default.createElement(
-    import_fuickjs83.Text,
-    {
-      text: "\u63D0\u793A: itemExtent=52 \u65F6 scrollToIndex \u7CBE\u786E\u6EDA\u52A8\uFF1B\u6EDA\u5230\u5E95\u90E8\u81EA\u52A8\u52A0\u8F7D\u66F4\u591A",
-      fontSize: 11,
-      color: "#999999",
-      margin: { top: 6 }
-    }
-  ))));
-}
-
-// src/demos/WebViewDemo.tsx
-var import_react80 = __toESM(require_react_production());
-var import_fuickjs84 = __toESM(require_dist());
-var import_web_view = __toESM(require_dist4());
-function WebViewDemo() {
-  const webViewRef = (0, import_react80.useRef)(null);
-  const [title, setTitle] = (0, import_react80.useState)("Loading...");
-  const [progress, setProgress] = (0, import_react80.useState)(0);
-  const [inputUrl, setInputUrl] = (0, import_react80.useState)("https://flutter.dev");
-  return /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Scaffold, { appBar: /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.AppBar, { title: "WebView Demo" }) }, /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Column, null, /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Row, { padding: { horizontal: 8, vertical: 6 } }, /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Expanded, null, /* @__PURE__ */ import_react80.default.createElement(
-    import_fuickjs84.TextField,
-    {
-      value: inputUrl,
-      onChanged: (v) => setInputUrl(v),
-      decoration: { labelText: "URL" }
-    }
-  )), /* @__PURE__ */ import_react80.default.createElement(
-    import_fuickjs84.Button,
-    {
-      text: "Go",
-      onTap: () => webViewRef.current?.loadUrl(inputUrl)
-    }
-  )), /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Container, { padding: { horizontal: 12 }, margin: { bottom: 4 } }, /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Text, { text: `Title: ${title}`, fontSize: 13, color: "#555555", maxLines: 1, overflow: "ellipsis" }), /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Text, { text: `Progress: ${progress}%`, fontSize: 13, color: "#888888" })), /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Expanded, null, /* @__PURE__ */ import_react80.default.createElement(
-    import_web_view.WebView,
-    {
-      ref: webViewRef,
-      refId: "main_webview",
-      url: "https://flutter.dev",
-      javaScriptEnabled: true,
-      onTitleChanged: (t) => setTitle(t),
-      onProgressChanged: (p) => setProgress(p),
-      onLoadStart: (url) => console.log("Load start:", url),
-      onLoadStop: (url) => console.log("Load stop:", url),
-      onLoadError: (info) => console.error("Load error:", info)
-    }
-  )), /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Row, { mainAxisAlignment: "spaceEvenly", padding: { vertical: 8 } }, /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Button, { text: "Back", onTap: () => webViewRef.current?.goBack() }), /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Button, { text: "Forward", onTap: () => webViewRef.current?.goForward() }), /* @__PURE__ */ import_react80.default.createElement(import_fuickjs84.Button, { text: "Reload", onTap: () => webViewRef.current?.reload() }))));
-}
-
-// src/demos/HapticsDemo.tsx
-var import_react81 = __toESM(require_react_production());
-var import_fuickjs85 = __toESM(require_dist());
-var import_haptics = __toESM(require_dist5());
-function HapticsDemo() {
-  return /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Scaffold, { appBar: /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.AppBar, { title: "Haptics Demo" }) }, /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.SingleChildScrollView, null, /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Padding, { padding: 16 }, /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Column, null, /* @__PURE__ */ import_react81.default.createElement(
-    import_fuickjs85.Text,
-    {
-      text: "\u89E6\u89C9\u53CD\u9988 (Haptics)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react81.default.createElement(
-    import_fuickjs85.Text,
-    {
-      text: "\u5728\u771F\u673A\u4E0A\u8FD0\u884C\uFF0C\u6A21\u62DF\u5668\u65E0\u632F\u611F\u3002",
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react81.default.createElement(Section5, { title: "Impact \u2014 \u51B2\u51FB\u53CD\u9988" }, /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Button, { text: "Light", onTap: () => import_haptics.Haptics.impact("light") }), /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Button, { text: "Medium", onTap: () => import_haptics.Haptics.impact("medium") }), /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Button, { text: "Heavy", onTap: () => import_haptics.Haptics.impact("heavy") }))), /* @__PURE__ */ import_react81.default.createElement(Section5, { title: "Selection \u2014 \u9009\u62E9\u53CD\u9988" }, /* @__PURE__ */ import_react81.default.createElement(
-    import_fuickjs85.Button,
-    {
-      text: "Selection Click",
-      onTap: () => import_haptics.Haptics.selection()
-    }
-  )), /* @__PURE__ */ import_react81.default.createElement(Section5, { title: "Notification \u2014 \u901A\u77E5\u53CD\u9988" }, /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react81.default.createElement(
-    import_fuickjs85.Button,
-    {
-      text: "\u2705 Success",
-      onTap: () => import_haptics.Haptics.notification("success"),
-      backgroundColor: "#4CAF50"
-    }
-  ), /* @__PURE__ */ import_react81.default.createElement(
-    import_fuickjs85.Button,
-    {
-      text: "\u26A0\uFE0F Warning",
-      onTap: () => import_haptics.Haptics.notification("warning"),
-      backgroundColor: "#FF9800"
-    }
-  ), /* @__PURE__ */ import_react81.default.createElement(
-    import_fuickjs85.Button,
-    {
-      text: "\u274C Error",
-      onTap: () => import_haptics.Haptics.notification("error"),
-      backgroundColor: "#F44336"
-    }
-  ))), /* @__PURE__ */ import_react81.default.createElement(Section5, { title: "Vibrate \u2014 \u9707\u52A8\uFF08Android\uFF09" }, /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Button, { text: "Vibrate 200ms", onTap: () => import_haptics.Haptics.vibrate(200) }))))));
-}
-function Section5({
-  title,
-  children
-}) {
-  return /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react81.default.createElement(import_fuickjs85.Divider, { margin: { bottom: 10 } }), children);
-}
-
-// src/demos/LauncherDemo.tsx
-var import_react82 = __toESM(require_react_production());
-var import_fuickjs86 = __toESM(require_dist());
-var import_launcher = __toESM(require_dist6());
-function LauncherDemo() {
-  const [phone, setPhone] = (0, import_react82.useState)("10086");
-  const [url, setUrl] = (0, import_react82.useState)("https://flutter.dev");
-  const [result, setResult] = (0, import_react82.useState)("");
-  const log = (msg) => {
-    setResult(`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`);
-  };
-  return /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Scaffold, { appBar: /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.AppBar, { title: "Launcher Demo" }) }, /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.SingleChildScrollView, null, /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Padding, { padding: 16 }, /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Column, null, /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Text,
-    {
-      text: "\u7CFB\u7EDF\u8DF3\u8F6C (Launcher)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Text,
-    {
-      text: "\u8C03\u7528\u7CFB\u7EDF\u6253\u5F00\u5916\u94FE / \u62E8\u53F7 / \u53D1\u4FE1 / \u90AE\u4EF6 / \u8BBE\u7F6E\u3002",
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react82.default.createElement(Section6, { title: "Open URL" }, /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.TextField,
-    {
-      text: url,
-      onChanged: setUrl,
-      border: "outline",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Button,
-    {
-      text: "Default",
-      onTap: async () => {
-        const ok = await import_launcher.Launcher.openUrl(url);
-        log(`openUrl: ${ok}`);
-      }
-    }
-  ), /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Button,
-    {
-      text: "In-App",
-      onTap: async () => {
-        const ok = await import_launcher.Launcher.openUrl(url, "inAppBrowserView");
-        log(`openUrl (in-app): ${ok}`);
-      }
-    }
-  ), /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Button,
-    {
-      text: "External",
-      onTap: async () => {
-        const ok = await import_launcher.Launcher.openUrl(
-          url,
-          "externalApplication"
-        );
-        log(`openUrl (external): ${ok}`);
-      }
-    }
-  ))), /* @__PURE__ */ import_react82.default.createElement(Section6, { title: "Phone / SMS" }, /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.TextField,
-    {
-      text: phone,
-      onChanged: setPhone,
-      border: "outline",
-      keyboardType: "phone",
-      margin: { bottom: 10 }
-    }
-  ), /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Button,
-    {
-      text: "\u{1F4DE} Call",
-      onTap: async () => log(`call: ${await import_launcher.Launcher.call(phone)}`)
-    }
-  ), /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Button,
-    {
-      text: "\u{1F4AC} SMS",
-      onTap: async () => log(
-        `sms: ${await import_launcher.Launcher.sms(phone, "Hello from FuickJS")}`
-      )
-    }
-  ))), /* @__PURE__ */ import_react82.default.createElement(Section6, { title: "Email" }, /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Button,
-    {
-      text: "\u{1F4E7} Send Mail",
-      onTap: async () => log(
-        `email: ${await import_launcher.Launcher.email({
-          to: "test@example.com",
-          subject: "Hi",
-          body: "from FuickJS"
-        })}`
-      )
-    }
-  )), /* @__PURE__ */ import_react82.default.createElement(Section6, { title: "System Settings" }, /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Button,
-    {
-      text: "App Settings",
-      onTap: async () => log(`appSettings: ${await import_launcher.Launcher.openAppSettings()}`)
-    }
-  ), /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Button,
-    {
-      text: "Can Open weixin://",
-      onTap: async () => log(
-        `canOpen weixin:// = ${await import_launcher.Launcher.canOpenUrl("weixin://")}`
-      )
-    }
-  ))), result ? /* @__PURE__ */ import_react82.default.createElement(
-    import_fuickjs86.Container,
-    {
-      margin: { top: 16 },
-      padding: 12,
-      decoration: { color: "#f0f0f0", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Text, { text: result, fontSize: 12, color: "#333" })
-  ) : null))));
-}
-function Section6({
-  title,
-  children
-}) {
-  return /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react82.default.createElement(import_fuickjs86.Divider, { margin: { bottom: 10 } }), children);
-}
-
-// src/demos/ShareDemo.tsx
-var import_react83 = __toESM(require_react_production());
-var import_fuickjs87 = __toESM(require_dist());
-var import_share = __toESM(require_dist7());
-function ShareDemo() {
-  const [result, setResult] = (0, import_react83.useState)("");
-  const log = (msg) => {
-    setResult(`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`);
-  };
-  return /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.Scaffold, { appBar: /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.AppBar, { title: "Share Demo" }) }, /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.SingleChildScrollView, null, /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.Padding, { padding: 16 }, /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.Column, null, /* @__PURE__ */ import_react83.default.createElement(
-    import_fuickjs87.Text,
-    {
-      text: "\u7CFB\u7EDF\u5206\u4EAB (Share)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react83.default.createElement(
-    import_fuickjs87.Text,
-    {
-      text: "\u8C03\u8D77\u7CFB\u7EDF\u5206\u4EAB\u83DC\u5355\uFF0C\u5206\u4EAB\u6587\u672C / \u94FE\u63A5 / \u6587\u4EF6\u3002",
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react83.default.createElement(Section7, { title: "Share Text" }, /* @__PURE__ */ import_react83.default.createElement(
-    import_fuickjs87.Button,
-    {
-      text: "\u5206\u4EAB\u7EAF\u6587\u672C",
-      onTap: async () => {
-        const r = await import_share.Share.text("Hello from FuickJS! \u{1F680}");
-        log(`status: ${r.status}`);
-      }
-    }
-  )), /* @__PURE__ */ import_react83.default.createElement(Section7, { title: "Share with Subject" }, /* @__PURE__ */ import_react83.default.createElement(
-    import_fuickjs87.Button,
-    {
-      text: "\u5206\u4EAB\u6587\u672C + \u6807\u9898",
-      onTap: async () => {
-        const r = await import_share.Share.text(
-          "Check out FuickJS \u2014 React + QuickJS + Flutter",
-          "FuickJS"
-        );
-        log(`status: ${r.status}`);
-      }
-    }
-  )), /* @__PURE__ */ import_react83.default.createElement(Section7, { title: "Share URL" }, /* @__PURE__ */ import_react83.default.createElement(
-    import_fuickjs87.Button,
-    {
-      text: "\u5206\u4EAB\u94FE\u63A5",
-      onTap: async () => {
-        const r = await import_share.Share.share({
-          text: "https://flutter.dev",
-          subject: "Flutter"
-        });
-        log(`status: ${r.status}`);
-      }
-    }
-  )), result ? /* @__PURE__ */ import_react83.default.createElement(
-    import_fuickjs87.Container,
-    {
-      margin: { top: 16 },
-      padding: 12,
-      decoration: { color: "#f0f0f0", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.Text, { text: result, fontSize: 12, color: "#333" })
-  ) : null))));
-}
-function Section7({
-  title,
-  children
-}) {
-  return /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react83.default.createElement(import_fuickjs87.Divider, { margin: { bottom: 10 } }), children);
-}
-
-// src/demos/AppInfoDemo.tsx
-var import_react84 = __toESM(require_react_production());
-var import_fuickjs88 = __toESM(require_dist());
-var import_app_info = __toESM(require_dist8());
-function AppInfoDemo() {
-  const [info, setInfo] = (0, import_react84.useState)(null);
-  const [loading, setLoading] = (0, import_react84.useState)(false);
-  const load = async () => {
-    setLoading(true);
-    import_app_info.AppInfo.clearCache();
-    const data = await import_app_info.AppInfo.get();
-    setInfo(data);
-    setLoading(false);
-  };
-  (0, import_react84.useEffect)(() => {
-    load();
-  }, []);
-  const rows = info ? [
-    { label: "App Name", value: info.appName },
-    { label: "Package", value: info.packageName },
-    { label: "Version", value: info.version },
-    { label: "Build Number", value: info.buildNumber },
-    { label: "Build Signature", value: info.buildSignature ?? "\u2014" },
-    { label: "Installer", value: info.installerStore ?? "\u2014" }
-  ] : [];
-  return /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Scaffold, { appBar: /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.AppBar, { title: "AppInfo Demo" }) }, /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.SingleChildScrollView, null, /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Padding, { padding: 16 }, /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Column, null, /* @__PURE__ */ import_react84.default.createElement(
-    import_fuickjs88.Text,
-    {
-      text: "\u5E94\u7528\u4FE1\u606F (AppInfo)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react84.default.createElement(
-    import_fuickjs88.Text,
-    {
-      text: "\u8BFB\u53D6\u7248\u672C\u53F7\u3001\u6784\u5EFA\u53F7\u3001\u5305\u540D\u7B49\u3002\u7ED3\u679C\u5728 JS \u4FA7\u7F13\u5B58\u3002",
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 20 }
-    }
-  ), loading && /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Text, { text: "Loading...", color: "#999" }), rows.map((row) => /* @__PURE__ */ import_react84.default.createElement(
-    import_fuickjs88.Container,
-    {
-      key: row.label,
-      margin: { bottom: 1 },
-      padding: { horizontal: 12, vertical: 10 },
-      decoration: {
-        color: "#fafafa",
-        border: { color: "#eee", width: 1 }
-      }
-    },
-    /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Text, { text: row.label, fontSize: 11, color: "#999" }), /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Text, { text: row.value, fontSize: 15, fontWeight: "w500" }))
-  )), /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Divider, { margin: { vertical: 16 } }), /* @__PURE__ */ import_react84.default.createElement(import_fuickjs88.Button, { text: "\u5237\u65B0\uFF08\u6E05\u9664\u7F13\u5B58\uFF09", onTap: load })))));
-}
-
-// src/demos/PermissionsDemo.tsx
-var import_react85 = __toESM(require_react_production());
-var import_fuickjs89 = __toESM(require_dist());
-var import_permissions = __toESM(require_dist9());
-var ALL_PERMS = [
-  "camera",
-  "microphone",
-  "photos",
-  "notification",
-  "locationWhenInUse",
-  "contacts"
-];
-var statusColor = {
-  granted: "#4CAF50",
-  denied: "#FF9800",
-  restricted: "#9E9E9E",
-  permanentlyDenied: "#F44336",
-  limited: "#2196F3",
-  provisional: "#2196F3"
-};
-function PermissionsDemo() {
-  const [states, setStates] = (0, import_react85.useState)({});
-  const check = async (p) => {
-    const s = await import_permissions.Permissions.check(p);
-    setStates((prev) => ({ ...prev, [p]: s }));
-  };
-  const request = async (p) => {
-    const s = await import_permissions.Permissions.request(p);
-    setStates((prev) => ({ ...prev, [p]: s }));
-  };
-  const requestAll = async () => {
-    const r = await import_permissions.Permissions.requestMultiple(ALL_PERMS);
-    setStates(r);
-  };
-  return /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Scaffold, { appBar: /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.AppBar, { title: "Permissions Demo" }) }, /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.SingleChildScrollView, null, /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Padding, { padding: 16 }, /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Column, null, /* @__PURE__ */ import_react85.default.createElement(
-    import_fuickjs89.Text,
-    {
-      text: "\u8FD0\u884C\u65F6\u6743\u9650 (Permissions)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react85.default.createElement(
-    import_fuickjs89.Text,
-    {
-      text: "iOS/Android \u9700\u8981\u9884\u5148\u5728 Info.plist / AndroidManifest \u58F0\u660E\u3002",
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react85.default.createElement(
-    import_fuickjs89.Button,
-    {
-      text: "\u6279\u91CF\u8BF7\u6C42\u6240\u6709\u6743\u9650",
-      onTap: requestAll,
-      margin: { bottom: 20 }
-    }
-  ), ALL_PERMS.map((p) => /* @__PURE__ */ import_react85.default.createElement(
-    import_fuickjs89.Container,
-    {
-      key: p,
-      margin: { bottom: 8 },
-      padding: 12,
-      decoration: {
-        color: "#fafafa",
-        borderRadius: 8,
-        border: { color: "#eee", width: 1 }
-      }
-    },
-    /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react85.default.createElement(
-      import_fuickjs89.Row,
-      {
-        mainAxisAlignment: "spaceBetween",
-        crossAxisAlignment: "center"
-      },
-      /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Text, { text: p, fontSize: 15, fontWeight: "w500" }),
-      states[p] ? /* @__PURE__ */ import_react85.default.createElement(
-        import_fuickjs89.Container,
-        {
-          padding: { horizontal: 8, vertical: 4 },
-          decoration: {
-            color: statusColor[states[p]],
-            borderRadius: 4
-          }
-        },
-        /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Text, { text: states[p], fontSize: 11, color: "#fff" })
-      ) : /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Text, { text: "\u2014", fontSize: 11, color: "#aaa" })
-    ), /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Row, { margin: { top: 10 } }, /* @__PURE__ */ import_react85.default.createElement(
-      import_fuickjs89.Button,
-      {
-        text: "Check",
-        onTap: () => check(p),
-        margin: { right: 8 }
-      }
-    ), /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Button, { text: "Request", onTap: () => request(p) })))
-  )), /* @__PURE__ */ import_react85.default.createElement(import_fuickjs89.Divider, { margin: { vertical: 16 } }), /* @__PURE__ */ import_react85.default.createElement(
-    import_fuickjs89.Text,
-    {
-      text: "\u72B6\u6001\uFF1Agranted(\u5DF2\u6388\u6743) / denied(\u672C\u6B21\u62D2\u7EDD) / permanentlyDenied(\u6C38\u4E45\u62D2\u7EDD\uFF0C\u9700\u53BB\u7CFB\u7EDF\u8BBE\u7F6E)",
-      fontSize: 11,
-      color: "#999"
-    }
-  )))));
-}
-
-// src/demos/MediaDemo.tsx
-var import_react86 = __toESM(require_react_production());
-var import_fuickjs90 = __toESM(require_dist());
-var import_media = __toESM(require_dist10());
-function MediaDemo() {
-  const [images, setImages] = (0, import_react86.useState)([]);
-  const [video, setVideo] = (0, import_react86.useState)(
-    null
-  );
-  const [log, setLog] = (0, import_react86.useState)("");
-  const addLog = (msg) => setLog(`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`);
-  const pickImages = async (count) => {
-    const result = await import_media.Media.chooseImage(count, ["album", "camera"]);
-    if (result) {
-      setImages(result.tempFilePaths);
-      addLog(`picked ${result.tempFilePaths.length} image(s)`);
-    } else {
-      addLog("cancelled");
-    }
-  };
-  const pickVideo = async () => {
-    const result = await import_media.Media.chooseVideo(["album", "camera"]);
-    if (result) {
-      setVideo({ path: result.tempFilePath, size: result.size });
-      addLog(`video: ${(result.size / 1024).toFixed(1)} KB`);
-    } else {
-      addLog("cancelled");
-    }
-  };
-  return /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Scaffold, { appBar: /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.AppBar, { title: "Media Demo" }) }, /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.SingleChildScrollView, null, /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Padding, { padding: 16 }, /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Column, null, /* @__PURE__ */ import_react86.default.createElement(
-    import_fuickjs90.Text,
-    {
-      text: "\u5A92\u4F53\u9009\u62E9 (Media)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react86.default.createElement(
-    import_fuickjs90.Text,
-    {
-      text: "\u9009\u53D6\u56FE\u7247 / \u89C6\u9891\uFF0C\u652F\u6301\u76F8\u518C\u548C\u76F8\u673A\u3002\u9700\u8981\u76F8\u5173\u6743\u9650\u3002",
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react86.default.createElement(Section8, { title: "\u9009\u62E9\u56FE\u7247" }, /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Button, { text: "\u5355\u9009", onTap: () => pickImages(1) }), /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Button, { text: "\u591A\u9009 (\u6700\u591A3)", onTap: () => pickImages(3) }), /* @__PURE__ */ import_react86.default.createElement(
-    import_fuickjs90.Button,
-    {
-      text: "\u9884\u89C8",
-      onTap: () => {
-        if (images.length === 0) {
-          addLog("\u5148\u9009\u62E9\u56FE\u7247");
-          return;
-        }
-        import_media.Media.previewImage(images, 0);
-      }
-    }
-  )), images.length > 0 && /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Wrap, { spacing: 8, runSpacing: 8, margin: { top: 12 } }, images.map((src, i) => /* @__PURE__ */ import_react86.default.createElement(
-    import_fuickjs90.Image,
-    {
-      key: i,
-      src,
-      width: 100,
-      height: 100,
-      fit: "cover"
-    }
-  )))), /* @__PURE__ */ import_react86.default.createElement(Section8, { title: "\u9009\u62E9\u89C6\u9891" }, /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Button, { text: "\u9009\u62E9\u89C6\u9891", onTap: pickVideo }), video && /* @__PURE__ */ import_react86.default.createElement(
-    import_fuickjs90.Container,
-    {
-      margin: { top: 12 },
-      padding: 10,
-      decoration: { color: "#f5f5f5", borderRadius: 6 }
-    },
-    /* @__PURE__ */ import_react86.default.createElement(
-      import_fuickjs90.Text,
-      {
-        text: `\u8DEF\u5F84: ${video.path}`,
-        fontSize: 11,
-        color: "#555",
-        maxLines: 2
-      }
-    ),
-    /* @__PURE__ */ import_react86.default.createElement(
-      import_fuickjs90.Text,
-      {
-        text: `\u5927\u5C0F: ${(video.size / 1024).toFixed(1)} KB`,
-        fontSize: 11,
-        color: "#555",
-        margin: { top: 4 }
-      }
-    )
-  )), log ? /* @__PURE__ */ import_react86.default.createElement(
-    import_fuickjs90.Container,
-    {
-      padding: 10,
-      decoration: { color: "#f0f0f0", borderRadius: 6 }
-    },
-    /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Text, { text: log, fontSize: 12, color: "#444" })
-  ) : null))));
-}
-function Section8({
-  title,
-  children
-}) {
-  return /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react86.default.createElement(import_fuickjs90.Divider, { margin: { bottom: 10 } }), children);
-}
-
-// src/demos/ConnectivityDemo.tsx
-var import_react87 = __toESM(require_react_production());
-var import_fuickjs91 = __toESM(require_dist());
-var import_connectivity = __toESM(require_dist11());
-var typeColor = {
-  wifi: "#4CAF50",
-  "4g": "#2196F3",
-  ethernet: "#9C27B0",
-  none: "#F44336",
-  unknown: "#9E9E9E"
-};
-function ConnectivityDemo() {
-  const [current, setCurrent] = (0, import_react87.useState)("unknown");
-  const [listening, setListening] = (0, import_react87.useState)(false);
-  const [events, setEvents] = (0, import_react87.useState)([]);
-  const refresh = async () => {
-    const t = await import_connectivity.Connectivity.getNetworkType();
-    setCurrent(t);
-  };
-  (0, import_react87.useEffect)(() => {
-    refresh();
-  }, []);
-  (0, import_react87.useEffect)(() => {
-    if (!listening) return;
-    const unlisten = import_fuickjs91.NativeEvent.on("networkStatusChange", (data) => {
-      const msg = `${(/* @__PURE__ */ new Date()).toLocaleTimeString()} \u2014 ${data.networkType} (${data.isConnected ? "online" : "offline"})`;
-      setEvents((prev) => [msg, ...prev].slice(0, 10));
-      setCurrent(data.networkType);
-    });
-    import_connectivity.Connectivity.startListener();
-    return () => {
-      import_connectivity.Connectivity.stopListener();
-      unlisten();
-    };
-  }, [listening]);
-  return /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Scaffold, { appBar: /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.AppBar, { title: "Connectivity Demo" }) }, /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.SingleChildScrollView, null, /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Padding, { padding: 16 }, /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Column, null, /* @__PURE__ */ import_react87.default.createElement(
-    import_fuickjs91.Text,
-    {
-      text: "\u7F51\u7EDC\u72B6\u6001 (Connectivity)",
-      fontSize: 18,
-      fontWeight: "bold",
-      margin: { bottom: 4 }
-    }
-  ), /* @__PURE__ */ import_react87.default.createElement(
-    import_fuickjs91.Text,
-    {
-      text: "\u76D1\u542C WiFi / \u79FB\u52A8\u7F51\u7EDC\u5207\u6362\u3002",
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react87.default.createElement(Section9, { title: "\u5F53\u524D\u72B6\u6001" }, /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react87.default.createElement(
-    import_fuickjs91.Container,
-    {
-      padding: { horizontal: 14, vertical: 8 },
-      decoration: {
-        color: typeColor[current] || "#9E9E9E",
-        borderRadius: 16
-      },
-      margin: { right: 10 }
-    },
-    /* @__PURE__ */ import_react87.default.createElement(
-      import_fuickjs91.Text,
-      {
-        text: current.toUpperCase(),
-        color: "#fff",
-        fontSize: 13,
-        fontWeight: "bold"
-      }
-    )
-  ), /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Button, { text: "Refresh", onTap: refresh }))), /* @__PURE__ */ import_react87.default.createElement(Section9, { title: "\u5B9E\u65F6\u76D1\u542C" }, /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react87.default.createElement(
-    import_fuickjs91.Button,
-    {
-      text: listening ? "Stop Listener" : "Start Listener",
-      onTap: () => setListening((v) => !v),
-      backgroundColor: listening ? "#F44336" : "#4CAF50"
-    }
-  )), events.length > 0 && /* @__PURE__ */ import_react87.default.createElement(
-    import_fuickjs91.Container,
-    {
-      margin: { top: 12 },
-      padding: 10,
-      decoration: { color: "#f5f5f5", borderRadius: 6 }
-    },
-    events.map((e, i) => /* @__PURE__ */ import_react87.default.createElement(
-      import_fuickjs91.Text,
-      {
-        key: i,
-        text: e,
-        fontSize: 11,
-        color: "#555",
-        margin: { bottom: 4 }
-      }
-    ))
-  )), /* @__PURE__ */ import_react87.default.createElement(
-    import_fuickjs91.Text,
-    {
-      text: "\u63D0\u793A\uFF1A\u5F00\u542F\u76D1\u542C\u540E\uFF0C\u5207\u6362 WiFi/\u98DE\u884C\u6A21\u5F0F\u53EF\u4EE5\u770B\u5230\u4E8B\u4EF6\u3002",
-      fontSize: 11,
-      color: "#999"
-    }
-  )))));
-}
-function Section9({
-  title,
-  children
-}) {
-  return /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react87.default.createElement(import_fuickjs91.Divider, { margin: { bottom: 10 } }), children);
-}
-
-// src/demos/SoundServiceDemo.tsx
-var import_react88 = __toESM(require_react_production());
-var import_fuickjs92 = __toESM(require_dist());
-function SoundServiceDemo() {
-  const handleMove = () => {
-    import_fuickjs92.SoundService.play("move");
-  };
-  const handleCapture = () => {
-    import_fuickjs92.SoundService.play("capture");
-  };
-  const handleCheck = () => {
-    import_fuickjs92.SoundService.play("check");
-  };
-  const handleWin = () => {
-    import_fuickjs92.SoundService.play("win");
-  };
-  return /* @__PURE__ */ import_react88.default.createElement(
-    import_fuickjs92.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.AppBar, { title: /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "Sound Service Demo" }) })
-    },
-    /* @__PURE__ */ import_react88.default.createElement(
-      import_fuickjs92.Column,
-      {
-        padding: 20,
-        crossAxisAlignment: "center",
-        mainAxisAlignment: "center"
-      },
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "Sound & Haptic Feedback", fontSize: 20, fontWeight: "bold" }),
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { height: 10 }),
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Text, { text: "Each button triggers a haptic + sound combo", fontSize: 14, color: "#666" }),
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { height: 30 }),
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Button, { text: "Move (light)", onTap: handleMove }), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Button, { text: "Capture (medium)", onTap: handleCapture })),
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { height: 20 }),
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Button, { text: "Check (heavy)", onTap: handleCheck }), /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.Button, { text: "Win (heavy)", onTap: handleWin })),
-      /* @__PURE__ */ import_react88.default.createElement(import_fuickjs92.SizedBox, { height: 30 }),
-      /* @__PURE__ */ import_react88.default.createElement(
-        import_fuickjs92.Container,
-        {
-          width: 200,
-          padding: 10,
-          color: "#f0f0f0",
-          alignment: "center"
-        },
-        /* @__PURE__ */ import_react88.default.createElement(
-          import_fuickjs92.Text,
-          {
-            text: "SoundService.play(type)\\nmove / capture / check / win",
-            fontSize: 12,
-            textAlign: "center",
-            color: "#555"
-          }
-        )
-      )
-    )
-  );
-}
-
-// src/demos/I18nDemo.tsx
-var import_react89 = __toESM(require_react_production());
-var import_fuickjs93 = __toESM(require_dist());
-function I18nDemo() {
-  const { t, locale, setLocale } = (0, import_fuickjs93.useTranslation)();
-  const [itemCount, setItemCount] = (0, import_react89.useState)(0);
-  const [systemLocale, setSystemLocale] = (0, import_react89.useState)("\u2014");
-  (0, import_react89.useEffect)(() => {
-    import_fuickjs93.DeviceInfoService.getDeviceInfo().then((info) => setSystemLocale(info.locale)).catch(() => setSystemLocale("\u2014"));
-  }, []);
-  const switchTo = (loc) => () => setLocale(loc);
-  return /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Scaffold, { appBar: /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.AppBar, { title: t("demo.title") }) }, /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.SingleChildScrollView, null, /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Padding, { padding: 16 }, /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Column, { crossAxisAlignment: "stretch" }, /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Text,
-    {
-      text: t("demo.subtitle"),
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 16 }
-    }
-  ), /* @__PURE__ */ import_react89.default.createElement(
-    InfoCard,
-    {
-      label: t("demo.currentLocale", { locale }),
-      hint: `System (DeviceInfo): ${systemLocale}`
-    }
-  ), /* @__PURE__ */ import_react89.default.createElement(Section10, { title: t("demo.nestedTitle") }, /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Text, { text: t("demo.nestedSample"), fontSize: 16 })), /* @__PURE__ */ import_react89.default.createElement(Section10, { title: t("demo.interpolationTitle") }, /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Text,
-    {
-      text: t("demo.greeting", {
-        name: locale.startsWith("zh") ? "\u5C0F\u660E" : "Alex"
-      }),
-      fontSize: 16,
-      fontWeight: "w500"
-    }
-  )), /* @__PURE__ */ import_react89.default.createElement(Section10, { title: t("demo.pluralTitle") }, /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Text,
-    {
-      text: t(
-        "demo.cart.items",
-        { count: itemCount },
-        { count: itemCount }
-      ),
-      fontSize: 16,
-      margin: { bottom: 12 }
-    }
-  ), /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Button,
-    {
-      text: t("demo.removeItem"),
-      onTap: () => setItemCount((c) => Math.max(0, c - 1))
-    }
-  ), /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Button,
-    {
-      text: t("demo.addItem"),
-      onTap: () => setItemCount((c) => c + 1)
-    }
-  ))), /* @__PURE__ */ import_react89.default.createElement(Section10, { title: t("demo.switchTitle") }, /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Button,
-    {
-      text: t("demo.switchEn"),
-      onTap: switchTo("en"),
-      backgroundColor: locale === "en" ? "#1976D2" : void 0
-    }
-  ), /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Button,
-    {
-      text: t("demo.switchZh"),
-      onTap: switchTo("zh-CN"),
-      backgroundColor: locale === "zh-cn" ? "#1976D2" : void 0
-    }
-  )), /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Text,
-    {
-      text: t("demo.persistHint"),
-      fontSize: 12,
-      color: "#999",
-      margin: { top: 12 }
-    }
-  ))))));
-}
-function Section10({
-  title,
-  children
-}) {
-  return /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Divider, { margin: { bottom: 10 } }), children);
-}
-function InfoCard({ label, hint }) {
-  return /* @__PURE__ */ import_react89.default.createElement(
-    import_fuickjs93.Container,
-    {
-      margin: { bottom: 20 },
-      padding: 12,
-      decoration: {
-        color: "#E3F2FD",
-        borderRadius: 8,
-        border: { width: 1, color: "#90CAF9" }
-      }
-    },
-    /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Text, { text: label, fontSize: 15, fontWeight: "w600" }), /* @__PURE__ */ import_react89.default.createElement(import_fuickjs93.Text, { text: hint, fontSize: 12, color: "#666", margin: { top: 6 } }))
-  );
-}
-
-// src/demos/LifecycleDemo.tsx
-var import_react90 = __toESM(require_react_production());
-var import_fuickjs94 = __toESM(require_dist());
-var INFO_COLOR = "#1976D2";
-var SUCCESS_COLOR = "#388E3C";
-var WARNING_COLOR = "#F57C00";
-function LogLine({ text, color, time }) {
-  const ts = time ? `[+${time}ms]` : `[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}]`;
-  return /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: `${ts} ${text}`,
-      fontSize: 12,
-      color: color ?? "#333",
-      margin: { bottom: 3 }
-    }
-  );
-}
-function VisibilityTracker({ onLog }) {
-  (0, import_fuickjs94.useVisible)(() => {
-    onLog("useVisible \u2014 page became visible", SUCCESS_COLOR);
-  });
-  (0, import_fuickjs94.useInvisible)(() => {
-    onLog("useInvisible \u2014 page became invisible", WARNING_COLOR);
-  });
-  return /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Container,
-    {
-      padding: 12,
-      margin: { top: 8 },
-      decoration: { color: "#E8F5E9", borderRadius: 8 },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Text, { text: "\u{1F441} Visibility Tracker Active", fontSize: 13, color: SUCCESS_COLOR, fontWeight: "bold" }),
-    /* @__PURE__ */ import_react90.default.createElement(
-      import_fuickjs94.Text,
-      {
-        text: "useVisible / useInvisible hooks registered",
-        fontSize: 11,
-        color: "#666",
-        margin: { top: 4 }
-      }
-    )
-  );
-}
-function LifecycleDemo() {
-  const [logs, setLogs] = (0, import_react90.useState)([]);
-  const [appState, setAppState] = (0, import_react90.useState)("\u2014");
-  const { isInBackground } = (0, import_fuickjs94.useAppState)();
-  const startRef = (0, import_react90.useRef)(Date.now());
-  const addLog = (msg, color) => {
-    const elapsed = Date.now() - startRef.current;
-    setLogs((prev) => {
-      const prefix = color ? `%%COLOR:${color}%%` : "";
-      return [`${prefix}[+${elapsed}ms] ${msg}`, ...prev].slice(0, 30);
-    });
-  };
-  (0, import_react90.useEffect)(() => {
-    const unlisten = import_fuickjs94.LifecycleService.onChange((state) => {
-      if (state === "background") {
-        addLog("LifecycleService.onChange \u2192 background", WARNING_COLOR);
-      } else {
-        addLog("LifecycleService.onChange \u2192 foreground", SUCCESS_COLOR);
-      }
-    });
-    return unlisten;
-  }, []);
-  (0, import_react90.useEffect)(() => {
-    import_fuickjs94.LifecycleService.getState().then((s) => setAppState(s)).catch(() => setAppState("error"));
-  }, []);
-  const handleQueryState = async () => {
-    try {
-      const s = await import_fuickjs94.LifecycleService.getState();
-      setAppState(s);
-      addLog(`getState() \u2192 "${s}"`, INFO_COLOR);
-    } catch {
-      addLog("getState() failed", "#D32F2F");
-    }
-  };
-  const handleCheckDirect = () => {
-    addLog(
-      `LifecycleService.isInBackground = ${import_fuickjs94.LifecycleService.isInBackground}`,
-      INFO_COLOR
-    );
-  };
-  const handleClear = () => {
-    setLogs([]);
-    addLog("Logs cleared");
-  };
-  const navigator = (0, import_fuickjs94.useNavigator)();
-  return /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Scaffold, { appBar: /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.AppBar, { title: "LifecycleService Demo" }) }, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.SingleChildScrollView, null, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Padding, { padding: 16 }, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Column, null, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Text, { text: "App \u751F\u547D\u5468\u671F", fontSize: 18, fontWeight: "bold", margin: { bottom: 4 } }), /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: "\u5728\u771F\u673A\u4E0A\u5207\u5230\u540E\u53F0/\u524D\u53F0\u89C2\u5BDF\u4E8B\u4EF6\u3002\u6A21\u62DF\u5668\u7528\u547D\u4EE4\u884C\u6A21\u62DF\u3002",
-      fontSize: 13,
-      color: "#888",
-      margin: { bottom: 20 }
-    }
-  ), /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Container, { margin: { bottom: 16 } }, /* @__PURE__ */ import_react90.default.createElement(VisibilityTracker, { onLog: addLog })), /* @__PURE__ */ import_react90.default.createElement(Section11, { title: "\u9875\u9762\u7EA7\u53EF\u89C1\u6027\uFF08push / pop\uFF09" }, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Button,
-    {
-      text: "Push \u5B50\u9875\u9762 \u2192",
-      onTap: () => navigator.push("/demo/lifecycle_sub")
-    }
-  )), /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: "Push \u540E\u5F53\u524D\u9875 useInvisible \u89E6\u53D1\uFF0C\u5B50\u9875 useVisible \u89E6\u53D1\u3002\u8FD4\u56DE\u540E\u5F53\u524D\u9875 useVisible \u518D\u6B21\u89E6\u53D1\u3002",
-      fontSize: 11,
-      color: "#999",
-      margin: { top: 8 }
-    }
-  )), /* @__PURE__ */ import_react90.default.createElement(Section11, { title: "useAppState() Hook" }, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Container,
-    {
-      padding: { horizontal: 20, vertical: 12 },
-      decoration: {
-        color: isInBackground ? "#FFEBEE" : "#E8F5E9",
-        borderRadius: 10,
-        border: {
-          width: 2,
-          color: isInBackground ? "#EF5350" : "#66BB6A"
-        }
-      },
-      alignment: "center"
-    },
-    /* @__PURE__ */ import_react90.default.createElement(
-      import_fuickjs94.Text,
-      {
-        text: isInBackground ? "\u{1F319} \u540E\u53F0" : "\u2600\uFE0F \u524D\u53F0",
-        fontSize: 20,
-        fontWeight: "bold",
-        color: isInBackground ? "#C62828" : "#2E7D32"
-      }
-    )
-  )), /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: "useAppState() \u54CD\u5E94\u5F0F\u8FFD\u8E2A App \u524D\u540E\u53F0\u72B6\u6001",
-      fontSize: 11,
-      color: "#999",
-      textAlign: "center",
-      margin: { top: 8 }
-    }
-  )), /* @__PURE__ */ import_react90.default.createElement(Section11, { title: "App \u524D\u540E\u53F0\uFF08useVisible / useInvisible \u81EA\u52A8\u54CD\u5E94\uFF09" }, /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: "\u5207\u540E\u53F0\u65F6\u4E0B\u65B9 Visibility Tracker \u7684 useInvisible \u81EA\u52A8\u89E6\u53D1\uFF0C\u56DE\u524D\u53F0\u65F6 useVisible \u89E6\u53D1\u3002",
-      fontSize: 11,
-      color: "#999",
-      margin: { bottom: 8 }
-    }
-  )), /* @__PURE__ */ import_react90.default.createElement(Section11, { title: "LifecycleService API" }, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Row, { mainAxisAlignment: "spaceAround" }, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Button, { text: "getState()", onTap: handleQueryState }), /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Button, { text: "isInBackground", onTap: handleCheckDirect, backgroundColor: "#546E7A" }), /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Button, { text: "Clear Logs", onTap: handleClear, backgroundColor: "#EF5350" })), /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: `\u5F53\u524D native state: ${appState}`,
-      fontSize: 13,
-      color: "#555",
-      margin: { top: 12 }
-    }
-  ), /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: `\u540C\u6B65 isInBackground: ${String(isInBackground)}`,
-      fontSize: 13,
-      color: "#555",
-      margin: { top: 4 }
-    }
-  )), /* @__PURE__ */ import_react90.default.createElement(Section11, { title: "\u6D4B\u8BD5\u65B9\u6CD5" }, /* @__PURE__ */ import_react90.default.createElement(Tip, null, /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: "\u2022 \u771F\u673A\uFF1A\u6309 Home \u952E / \u5207\u5230\u5176\u4ED6 App \u2192 \u7B49\u5F85 2 \u79D2 \u2192 \u5207\u56DE\u6765",
-      fontSize: 13,
-      color: "#333"
-    }
-  )), /* @__PURE__ */ import_react90.default.createElement(Tip, null, /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: "\u2022 iOS \u6A21\u62DF\u5668\uFF1AHardware \u2192 Home",
-      fontSize: 13,
-      color: "#333"
-    }
-  )), /* @__PURE__ */ import_react90.default.createElement(Tip, null, /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: "\u2022 Android \u6A21\u62DF\u5668\uFF1Aadb shell am start -W -a android.intent.action.MAIN -c android.intent.category.HOME",
-      fontSize: 13,
-      color: "#333"
-    }
-  )), /* @__PURE__ */ import_react90.default.createElement(Tip, null, /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Text,
-    {
-      text: "\u9884\u671F\uFF1A\u5207\u540E\u53F0\u65F6 isInBackground \u2192 true\uFF0CuseInvisible \u89E6\u53D1\u3002\u56DE\u524D\u53F0\u65F6 isInBackground \u2192 false\uFF0CuseVisible \u89E6\u53D1\u3002",
-      fontSize: 13,
-      color: "#666"
-    }
-  ))), /* @__PURE__ */ import_react90.default.createElement(Section11, { title: "\u4E8B\u4EF6\u65E5\u5FD7\uFF08\u6700\u8FD1 30 \u6761\uFF09" }, logs.length === 1 && /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Text, { text: logs[0], fontSize: 12, color: "#999" }), logs.filter((l) => l.length > 0).map((line, i) => {
-    const colorMatch = line.match(/^%%COLOR:(#[0-9A-Fa-f]+)%%/);
-    if (colorMatch) {
-      const color = colorMatch[1];
-      const text = line.slice(colorMatch[0].length);
-      return /* @__PURE__ */ import_react90.default.createElement(LogLine, { key: i, text, color });
-    }
-    return /* @__PURE__ */ import_react90.default.createElement(LogLine, { key: i, text: line });
-  })), /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Container, { height: 40 })))));
-}
-function LifecycleSubPage() {
-  const navigator = (0, import_fuickjs94.useNavigator)();
-  const [logs, setLogs] = (0, import_react90.useState)([]);
-  const startRef = (0, import_react90.useRef)(Date.now());
-  const addLog = (msg, color) => {
-    const elapsed = Date.now() - startRef.current;
-    setLogs((prev) => {
-      const prefix = color ? `%%COLOR:${color}%%` : "";
-      return [`${prefix}[+${elapsed}ms] SUB ${msg}`, ...prev].slice(0, 20);
-    });
-  };
-  return /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react90.default.createElement(
-        import_fuickjs94.AppBar,
-        {
-          title: "Lifecycle Sub Page",
-          leading: /* @__PURE__ */ import_react90.default.createElement(
-            import_fuickjs94.Button,
-            {
-              text: "\u2190 Back",
-              onTap: () => navigator.pop(),
-              backgroundColor: "transparent"
-            }
-          )
-        }
-      )
-    },
-    /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.SingleChildScrollView, null, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Padding, { padding: 16 }, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Column, null, /* @__PURE__ */ import_react90.default.createElement(VisibilityTracker, { onLog: addLog }), /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Container, { margin: { top: 20 } }, /* @__PURE__ */ import_react90.default.createElement(
-      import_fuickjs94.Text,
-      {
-        text: "\u5B50\u9875\u9762\u4E8B\u4EF6\u65E5\u5FD7",
-        fontSize: 14,
-        color: "#555",
-        margin: { bottom: 8 }
-      }
-    ), /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Divider, { margin: { bottom: 8 } }), logs.filter((l) => l.length > 0).map((line, i) => {
-      const colorMatch = line.match(/^%%COLOR:(#[0-9A-Fa-f]+)%%/);
-      if (colorMatch) {
-        return /* @__PURE__ */ import_react90.default.createElement(
-          LogLine,
-          {
-            key: i,
-            text: line.slice(colorMatch[0].length),
-            color: colorMatch[1]
-          }
-        );
-      }
-      return /* @__PURE__ */ import_react90.default.createElement(LogLine, { key: i, text: line });
-    })), /* @__PURE__ */ import_react90.default.createElement(
-      import_fuickjs94.Container,
-      {
-        margin: { top: 24 },
-        padding: 12,
-        decoration: { color: "#E3F2FD", borderRadius: 8 }
-      },
-      /* @__PURE__ */ import_react90.default.createElement(
-        import_fuickjs94.Text,
-        {
-          text: "\u6309\u8FD4\u56DE\u6309\u94AE\u5173\u95ED\u5B50\u9875\u9762\uFF0C\u56DE\u5230\u4E3B\u9875\u9762\u540E\u89C2\u5BDF\u4E3B\u9875\u9762 useVisible \u89E6\u53D1\u3002",
-          fontSize: 12,
-          color: "#1565C0"
-        }
-      )
-    ))))
-  );
-}
-function Section11({ title, children }) {
-  return /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Column, { crossAxisAlignment: "start", margin: { bottom: 24 } }, /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Text, { text: title, fontSize: 14, color: "#555", margin: { bottom: 10 } }), /* @__PURE__ */ import_react90.default.createElement(import_fuickjs94.Divider, { margin: { bottom: 10 } }), children);
-}
-function Tip({ children }) {
-  return /* @__PURE__ */ import_react90.default.createElement(
-    import_fuickjs94.Container,
-    {
-      padding: { vertical: 3, horizontal: 0 }
-    },
-    children
-  );
-}
-
-// src/pages/file_obfuscator.tsx
-var import_react91 = __toESM(require_react_production());
-var import_fuickjs95 = __toESM(require_dist());
-var DEFAULT_DIRS = {};
-async function loadDefaultDirs() {
-  try {
-    const dirs = await import_fuickjs95.fs.getDirectories();
-    return dirs || {};
-  } catch (e) {
-    return {};
-  }
-}
-function joinPath(base, name) {
-  if (!base) return name;
-  if (base.endsWith("/")) return base + name;
-  return base + "/" + name;
-}
-function matchesExt(name, exts) {
-  if (exts.length === 0) return true;
-  const dot = name.lastIndexOf(".");
-  if (dot === -1) return false;
-  const ext = name.substring(dot + 1).toLowerCase();
-  return exts.some((e) => e.toLowerCase() === ext);
-}
-async function walkDir(root, exts, maxDepth = 99) {
-  const result = [];
-  const visited = /* @__PURE__ */ new Set();
-  async function walk(dir, depth) {
-    if (depth > maxDepth) return;
-    if (visited.has(dir)) return;
-    visited.add(dir);
-    let entries = [];
-    try {
-      entries = await import_fuickjs95.fs.readdir(dir);
-    } catch (e) {
-      console.warn("[walkDir] readdir failed:", dir, e);
-      return;
-    }
-    for (const name of entries) {
-      if (name.startsWith(".")) continue;
-      const full = joinPath(dir, name);
-      let stat = null;
-      try {
-        stat = await import_fuickjs95.fs.stat(full);
-      } catch (e) {
-        console.warn("[walkDir] stat failed:", full, e);
-        continue;
-      }
-      if (!stat) continue;
-      if (stat.isFile()) {
-        if (matchesExt(name, exts)) {
-          result.push({
-            path: full,
-            name,
-            size: stat.size,
-            status: "pending",
-            isDestroyed: false,
-            selected: true
-          });
-        }
-      } else if (stat.isDirectory()) {
-        console.log("[walkDir] recursing into:", full);
-        await walk(full, depth + 1);
-      }
-    }
-  }
-  await walk(root, 0);
-  return result;
-}
-function FileObfuscatorPage() {
-  const [dir, setDir] = (0, import_react91.useState)("");
-  const [extInput, setExtInput] = (0, import_react91.useState)(
-    "png,mp4,jpg,jpeg,gif,mp3,webp"
-  );
-  const [mode, setMode] = (0, import_react91.useState)("destroy");
-  const [files, setFiles] = (0, import_react91.useState)([]);
-  const [scanning, setScanning] = (0, import_react91.useState)(false);
-  const [running, setRunning] = (0, import_react91.useState)(false);
-  const [stopped, setStopped] = (0, import_react91.useState)(false);
-  const [progress, setProgress] = (0, import_react91.useState)({ done: 0, total: 0 });
-  const [log, setLog] = (0, import_react91.useState)([]);
-  const stopFlag = (0, import_react91.useRef)(false);
-  const exts = (0, import_react91.useMemo)(
-    () => extInput.split(/[,\s]+/).map((s) => s.trim().replace(/^\./, "")).filter(Boolean),
-    [extInput]
-  );
-  const selectedCount = (0, import_react91.useMemo)(
-    () => files.filter((f) => f.selected).length,
-    [files]
-  );
-  const allSelected = (0, import_react91.useMemo)(
-    () => files.length > 0 && files.every((f) => f.selected),
-    [files]
-  );
-  (0, import_react91.useEffect)(() => {
-    (async () => {
-      try {
-        const dirs = await loadDefaultDirs();
-        Object.assign(DEFAULT_DIRS, dirs);
-        if (dirs.documents) setDir(dirs.documents);
-      } catch (e) {
-        console.warn("[FileObfuscator] loadDefaultDirs failed:", e);
-      }
-    })();
-  }, []);
-  const appendLog = (msg) => {
-    setLog(
-      (prev) => [`[${(/* @__PURE__ */ new Date()).toLocaleTimeString()}] ${msg}`, ...prev].slice(0, 50)
-    );
-  };
-  const handlePickDirectory = async () => {
-    console.log("[FileObfuscator] handlePickDirectory clicked");
-    console.log(
-      "[FileObfuscator] dartCallNativeAsync =",
-      typeof globalThis.dartCallNativeAsync
-    );
-    try {
-      const result = await globalThis.dartCallNativeAsync(
-        "FilePicker.pickDirectory",
-        {
-          initialDirectory: dir || void 0
-        }
-      );
-      console.log("[FileObfuscator] pickDirectory result:", result);
-      if (result) {
-        setDir(result);
-        appendLog(`\u5DF2\u9009\u62E9\u76EE\u5F55: ${result}`);
-      } else {
-        appendLog("\u672A\u9009\u62E9\u76EE\u5F55");
-      }
-    } catch (e) {
-      console.error("[FileObfuscator] pickDirectory error:", e);
-      appendLog(`\u9009\u62E9\u76EE\u5F55\u5931\u8D25: ${e?.message || e}`);
-    }
-  };
-  const handleScan = async () => {
-    if (!dir) {
-      await import_fuickjs95.DialogService.showModal({
-        title: "\u63D0\u793A",
-        content: "\u8BF7\u5148\u586B\u5199\u76EE\u5F55\u8DEF\u5F84",
-        showCancel: false
-      });
-      return;
-    }
-    setScanning(true);
-    setFiles([]);
-    setLog([]);
-    import_fuickjs95.ToastService.show("\u5F00\u59CB\u626B\u63CF...");
-    appendLog("walkDir \u5165\u53E3: " + dir);
-    try {
-      const exists = await import_fuickjs95.fs.exists(dir);
-      if (!exists) {
-        await import_fuickjs95.DialogService.showModal({
-          title: "\u76EE\u5F55\u4E0D\u5B58\u5728",
-          content: dir,
-          showCancel: false
-        });
-        return;
-      }
-      const result = await walkDir(dir, exts);
-      const inspectTasks = result.map(async (f) => {
-        try {
-          const r = await globalThis.dartCallNativeAsync(
-            "FileObfuscator.inspectFile",
-            { path: f.path }
-          );
-          if (r.ok) {
-            f.isDestroyed = !!r.isDestroyed;
-          }
-        } catch (e) {
-        }
-        return f;
-      });
-      const inspected = await Promise.all(inspectTasks);
-      setFiles(inspected);
-      const destroyedCount = inspected.filter((f) => f.isDestroyed).length;
-      appendLog(
-        `\u626B\u63CF\u5B8C\u6210\uFF1A${inspected.length} \u4E2A\u6587\u4EF6\uFF0C\u5176\u4E2D\u5DF2\u7834\u574F ${destroyedCount} \u4E2A`
-      );
-      import_fuickjs95.ToastService.show(`\u627E\u5230 ${inspected.length} \u4E2A\u6587\u4EF6`);
-    } catch (e) {
-      appendLog(`\u626B\u63CF\u5931\u8D25: ${e?.message || e}`);
-    } finally {
-      setScanning(false);
-    }
-  };
-  const updateFile = (idx, patch) => {
-    setFiles((prev) => {
-      const copy = prev.slice();
-      copy[idx] = { ...copy[idx], ...patch };
-      return copy;
-    });
-  };
-  const toggleSelect = (idx) => {
-    setFiles((prev) => {
-      const copy = prev.slice();
-      copy[idx] = { ...copy[idx], selected: !copy[idx].selected };
-      return copy;
-    });
-  };
-  const selectAll = () => {
-    setFiles((prev) => prev.map((f) => ({ ...f, selected: true })));
-  };
-  const deselectAll = () => {
-    setFiles((prev) => prev.map((f) => ({ ...f, selected: false })));
-  };
-  const invertSelection = () => {
-    setFiles((prev) => prev.map((f) => ({ ...f, selected: !f.selected })));
-  };
-  const handleExecute = async () => {
-    if (files.length === 0) {
-      await import_fuickjs95.DialogService.showModal({
-        title: "\u63D0\u793A",
-        content: "\u8BF7\u5148\u626B\u63CF\u6587\u4EF6",
-        showCancel: false
-      });
-      return;
-    }
-    const actionLabel = mode === "destroy" ? "\u7834\u574F" : "\u8FD8\u539F";
-    const targets = [];
-    for (let i = 0; i < files.length; i++) {
-      const f = files[i];
-      if (!f.selected) continue;
-      if (mode === "destroy" && f.isDestroyed) continue;
-      if (mode === "restore" && !f.isDestroyed) continue;
-      targets.push(i);
-    }
-    if (targets.length === 0) {
-      const noneSelected = selectedCount === 0;
-      await import_fuickjs95.DialogService.showModal({
-        title: "\u65E0\u9700\u5904\u7406",
-        content: noneSelected ? "\u8BF7\u5148\u52FE\u9009\u8981\u5904\u7406\u7684\u6587\u4EF6" : mode === "destroy" ? "\u6240\u9009\u6587\u4EF6\u5747\u5DF2\u7834\u574F" : "\u6240\u9009\u6587\u4EF6\u5747\u672A\u7834\u574F\uFF0C\u65E0\u9700\u8FD8\u539F",
-        showCancel: false
-      });
-      return;
-    }
-    const confirmed = await import_fuickjs95.DialogService.showModal({
-      title: `\u786E\u8BA4${actionLabel}`,
-      content: `\u5C06\u5BF9 ${targets.length} \u4E2A\u6587\u4EF6\u6267\u884C\u3010${actionLabel}\u3011\u64CD\u4F5C\uFF0C\u662F\u5426\u7EE7\u7EED\uFF1F`,
-      showCancel: true,
-      cancelText: "\u53D6\u6D88",
-      confirmText: actionLabel
-    });
-    if (!confirmed) return;
-    stopFlag.current = false;
-    setStopped(false);
-    setRunning(true);
-    setProgress({ done: 0, total: targets.length });
-    appendLog(`\u5F00\u59CB${actionLabel}\uFF1A${targets.length} \u4E2A\u6587\u4EF6`);
-    let done = 0;
-    let success = 0;
-    let fail = 0;
-    let interrupted = false;
-    for (const i of targets) {
-      if (stopFlag.current) {
-        interrupted = true;
-        break;
-      }
-      const f = files[i];
-      updateFile(i, { status: "processing", message: void 0 });
-      try {
-        const result = await globalThis.dartCallNativeAsync(
-          "FileObfuscator.obfuscateFileSafe",
-          { path: f.path, mode }
-        );
-        if (!result.ok) {
-          throw new Error(result.error || "unknown error");
-        }
-        let isDestroyed = mode === "destroy";
-        try {
-          const inspect = await globalThis.dartCallNativeAsync(
-            "FileObfuscator.inspectFile",
-            { path: f.path }
-          );
-          if (inspect.ok && typeof inspect.isDestroyed === "boolean") {
-            isDestroyed = inspect.isDestroyed;
-          }
-        } catch (_) {
-        }
-        updateFile(i, {
-          status: "done",
-          message: "OK",
-          isDestroyed
-        });
-        success++;
-      } catch (e) {
-        let isDestroyed = false;
-        try {
-          const inspect = await globalThis.dartCallNativeAsync(
-            "FileObfuscator.inspectFile",
-            { path: f.path }
-          );
-          if (inspect.ok && typeof inspect.isDestroyed === "boolean") {
-            isDestroyed = inspect.isDestroyed;
-          }
-        } catch (_) {
-        }
-        updateFile(i, {
-          status: "error",
-          message: e?.message || String(e),
-          isDestroyed
-        });
-        fail++;
-      }
-      done++;
-      setProgress({ done, total: targets.length });
-    }
-    if (interrupted) {
-      setStopped(true);
-      appendLog(
-        `${actionLabel}\u4E2D\u65AD\uFF1A\u5B8C\u6210 ${success}/${targets.length}\uFF0C\u6E90\u6587\u4EF6\u4FDD\u6301\u5B8C\u6574`
-      );
-      await import_fuickjs95.ToastService.show(`\u5DF2\u4E2D\u65AD\uFF0C\u6210\u529F ${success}`);
-    } else {
-      appendLog(
-        `${actionLabel}\u5B8C\u6210\uFF1A\u6210\u529F ${success}\uFF0C\u5931\u8D25 ${fail}\uFF0C\u603B\u8BA1 ${targets.length}`
-      );
-      await import_fuickjs95.ToastService.show(`${actionLabel}\u5B8C\u6210\uFF1A\u6210\u529F ${success}`);
-    }
-    setRunning(false);
-  };
-  const handleStop = () => {
-    if (!running) return;
-    stopFlag.current = true;
-    appendLog("\u6B63\u5728\u4E2D\u65AD...");
-    import_fuickjs95.ToastService.show("\u6B63\u5728\u4E2D\u65AD\uFF0C\u5DF2\u5904\u7406\u7684\u6587\u4EF6\u4FDD\u6301\u5B8C\u6574");
-  };
-  const handleClear = () => {
-    setFiles([]);
-    setLog([]);
-    setProgress({ done: 0, total: 0 });
-  };
-  return /* @__PURE__ */ import_react91.default.createElement(
-    import_fuickjs95.Scaffold,
-    {
-      appBar: /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.AppBar,
-        {
-          title: /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Text, { text: "\u{1F6E1}\uFE0F", fontSize: 18, margin: { right: 8 } }), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Text, { text: "\u6587\u4EF6\u4FDD\u62A4\u5DE5\u5177", fontSize: 16, fontWeight: "bold" }))
-        }
-      )
-    },
-    /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Container, { decoration: { color: "#0D0D1A" } }, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Expanded, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Column, null, /* @__PURE__ */ import_react91.default.createElement(
-      import_fuickjs95.Container,
-      {
-        margin: 12,
-        padding: 16,
-        decoration: {
-          color: "#1A1A2E",
-          borderRadius: 16,
-          border: { color: "#2A2A4A", width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Column, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { crossAxisAlignment: "center", margin: { bottom: 16 } }, /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          padding: { horizontal: 10, vertical: 5 },
-          decoration: {
-            color: mode === "destroy" ? "rgba(255,92,92,0.15)" : "rgba(76,175,80,0.15)",
-            borderRadius: 20
-          }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Text,
-          {
-            text: mode === "destroy" ? "\u{1F525} \u7834\u574F\u6A21\u5F0F" : "\u2728 \u8FD8\u539F\u6A21\u5F0F",
-            fontSize: 13,
-            fontWeight: "bold",
-            color: mode === "destroy" ? "#FF5C5C" : "#4CAF50"
-          }
-        )
-      ), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SizedBox, { width: 8 }), /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          decoration: {
-            color: "#222240",
-            borderRadius: 20,
-            border: { color: "#333355", width: 1 }
-          },
-          padding: { horizontal: 4, vertical: 3 }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.InkWell, { onTap: () => setMode("destroy") }, /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Container,
-          {
-            padding: { horizontal: 12, vertical: 5 },
-            decoration: {
-              color: mode === "destroy" ? "#FF5C5C" : "transparent",
-              borderRadius: 16
-            }
-          },
-          /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Text,
-            {
-              text: "\u7834\u574F",
-              fontSize: 12,
-              fontWeight: "bold",
-              color: mode === "destroy" ? "#FFF" : "#666688"
-            }
-          )
-        )), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.InkWell, { onTap: () => setMode("restore") }, /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Container,
-          {
-            padding: { horizontal: 12, vertical: 5 },
-            decoration: {
-              color: mode === "restore" ? "#4CAF50" : "transparent",
-              borderRadius: 16
-            }
-          },
-          /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Text,
-            {
-              text: "\u8FD8\u539F",
-              fontSize: 12,
-              fontWeight: "bold",
-              color: mode === "restore" ? "#FFF" : "#666688"
-            }
-          )
-        )))
-      )), /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Text,
-        {
-          text: "\u{1F4C1} \u76EE\u6807\u76EE\u5F55",
-          fontSize: 12,
-          color: "#8888AA",
-          fontWeight: "bold",
-          margin: { bottom: 6 }
-        }
-      ), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Expanded, null, /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          decoration: {
-            color: "#222240",
-            borderRadius: 12,
-            border: { color: "#333355", width: 1 }
-          },
-          padding: { left: 12, right: 4, top: 2, bottom: 2 }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.TextField,
-          {
-            hint: "\u8F93\u5165\u6216\u9009\u62E9\u76EE\u5F55\u8DEF\u5F84",
-            text: dir,
-            onChanged: setDir,
-            maxLines: 1
-          }
-        )
-      )), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SizedBox, { width: 8 }), /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Button,
-        {
-          text: "\u{1F4C2}",
-          onTap: handlePickDirectory,
-          backgroundColor: "#6C63FF",
-          textColor: "#FFF"
-        }
-      )), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SizedBox, { height: 14 }), /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Text,
-        {
-          text: "\u{1F50D} \u6269\u5C55\u540D\u8FC7\u6EE4",
-          fontSize: 12,
-          color: "#8888AA",
-          fontWeight: "bold",
-          margin: { bottom: 6 }
-        }
-      ), /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          decoration: {
-            color: "#222240",
-            borderRadius: 12,
-            border: { color: "#333355", width: 1 }
-          },
-          padding: { left: 12, right: 4, top: 2, bottom: 2 }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.TextField,
-          {
-            hint: "png, mp4, jpg...",
-            text: extInput,
-            onChanged: setExtInput
-          }
-        )
-      ), Object.keys(DEFAULT_DIRS).length > 0 ? /* @__PURE__ */ import_react91.default.createElement(import_react91.default.Fragment, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SizedBox, { height: 14 }), /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Text,
-        {
-          text: "\u26A1 \u5FEB\u901F\u9009\u62E9",
-          fontSize: 12,
-          color: "#8888AA",
-          fontWeight: "bold",
-          margin: { bottom: 6 }
-        }
-      ), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { mainAxisAlignment: "start" }, Object.entries(DEFAULT_DIRS).map(([k, v]) => /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.InkWell, { key: k, onTap: () => setDir(v) }, /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          margin: { right: 6, bottom: 4 },
-          padding: { horizontal: 12, vertical: 6 },
-          decoration: {
-            color: "#6C63FF",
-            borderRadius: 20
-          }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Text,
-          {
-            text: k,
-            fontSize: 12,
-            color: "#FFFFFF",
-            fontWeight: "bold"
-          }
-        )
-      ))))) : null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SizedBox, { height: 16 }), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Button,
-        {
-          text: scanning ? "\u23F3 \u626B\u63CF\u4E2D..." : "\u{1F50E} \u626B\u63CF\u6587\u4EF6",
-          onTap: handleScan,
-          disabled: scanning || running,
-          outlined: true,
-          borderColor: "#6C63FF",
-          textColor: "#6C63FF"
-        }
-      ), running ? /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Button,
-        {
-          text: "\u23F9 \u505C\u6B62",
-          onTap: handleStop,
-          backgroundColor: "#FF6F00",
-          textColor: "#FFFFFF"
-        }
-      ) : null, /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Button,
-        {
-          text: running ? `\u23F3 ${progress.done}/${progress.total}` : mode === "destroy" ? `\u{1F4A5} \u7834\u574F\u9009\u4E2D (${selectedCount})` : `\u267B\uFE0F \u8FD8\u539F\u9009\u4E2D (${selectedCount})`,
-          onTap: handleExecute,
-          disabled: running || selectedCount === 0,
-          backgroundColor: mode === "destroy" ? "#FF5C5C" : "#4CAF50",
-          textColor: "#FFFFFF"
-        }
-      )))
-    ), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Expanded, null, /* @__PURE__ */ import_react91.default.createElement(
-      import_fuickjs95.Container,
-      {
-        margin: { left: 12, right: 12, top: 0, bottom: 12 },
-        padding: 16,
-        decoration: {
-          color: "#1A1A2E",
-          borderRadius: 16,
-          border: { color: "#2A2A4A", width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Column, null, /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Row,
-        {
-          mainAxisAlignment: "spaceBetween",
-          crossAxisAlignment: "center",
-          margin: { bottom: 12 }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Text, { text: "\u{1F4C4}", fontSize: 16, margin: { right: 8 } }), /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Text,
-          {
-            text: `\u6587\u4EF6\u5217\u8868`,
-            fontSize: 15,
-            fontWeight: "bold",
-            color: "#EEE"
-          }
-        ), /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Container,
-          {
-            margin: { left: 8 },
-            padding: { horizontal: 8, vertical: 3 },
-            decoration: {
-              color: selectedCount === files.length && files.length > 0 ? "#4CAF50" : "#6C63FF",
-              borderRadius: 12
-            }
-          },
-          /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Text,
-            {
-              text: `${selectedCount}/${files.length}`,
-              fontSize: 11,
-              fontWeight: "bold",
-              color: "#FFF"
-            }
-          )
-        )),
-        files.length > 0 ? /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.InkWell,
-          {
-            onTap: allSelected ? deselectAll : selectAll
-          },
-          /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Container,
-            {
-              padding: { horizontal: 10, vertical: 5 },
-              margin: { right: 6 },
-              decoration: {
-                color: "rgba(108,99,255,0.15)",
-                borderRadius: 8
-              }
-            },
-            /* @__PURE__ */ import_react91.default.createElement(
-              import_fuickjs95.Text,
-              {
-                text: allSelected ? "\u53D6\u6D88\u5168\u9009" : "\u5168\u9009",
-                fontSize: 12,
-                color: "#6C63FF",
-                fontWeight: "bold"
-              }
-            )
-          )
-        ), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.InkWell, { onTap: invertSelection }, /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Container,
-          {
-            padding: { horizontal: 10, vertical: 5 },
-            margin: { right: 6 },
-            decoration: {
-              color: "rgba(108,99,255,0.15)",
-              borderRadius: 8
-            }
-          },
-          /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Text,
-            {
-              text: "\u53CD\u9009",
-              fontSize: 12,
-              color: "#6C63FF",
-              fontWeight: "bold"
-            }
-          )
-        )), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.InkWell, { onTap: handleClear }, /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Container,
-          {
-            padding: { horizontal: 10, vertical: 5 },
-            decoration: {
-              color: "rgba(255,255,255,0.05)",
-              borderRadius: 8
-            }
-          },
-          /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Text,
-            {
-              text: "\u{1F5D1}\uFE0F \u6E05\u7A7A",
-              fontSize: 12,
-              color: "#8888AA"
-            }
-          )
-        ))) : null
-      ), running || progress.total > 0 ? /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          height: 4,
-          margin: { bottom: 10 },
-          decoration: {
-            color: "#222240",
-            borderRadius: 2
-          }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Container,
-          {
-            width: progress.total > 0 ? Math.round(
-              progress.done / progress.total * 100
-            ) : 0,
-            height: 4,
-            decoration: {
-              color: mode === "destroy" ? "#FF5C5C" : "#4CAF50",
-              borderRadius: 2
-            }
-          }
-        )
-      ) : null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Expanded, null, files.length === 0 ? /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          padding: 30,
-          alignment: "center",
-          decoration: {
-            color: "#222240",
-            borderRadius: 12
-          }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Text,
-          {
-            text: "\u{1F4C2}",
-            fontSize: 36,
-            margin: { bottom: 10 }
-          }
-        ),
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Text,
-          {
-            text: "\u6682\u65E0\u6587\u4EF6",
-            fontSize: 16,
-            fontWeight: "bold",
-            color: "#666688"
-          }
-        ),
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Text,
-          {
-            text: "\u9009\u62E9\u76EE\u5F55\u540E\u70B9\u51FB\u300C\u626B\u63CF\u6587\u4EF6\u300D\u5F00\u59CB",
-            fontSize: 12,
-            color: "#555577",
-            margin: { top: 4 }
-          }
-        )
-      ) : /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.ListView, null, files.map((f, i) => {
-        const ext = f.name.lastIndexOf(".") >= 0 ? f.name.substring(f.name.lastIndexOf(".") + 1).toLowerCase() : "";
-        const iconMap = {
-          png: "\u{1F5BC}\uFE0F",
-          jpg: "\u{1F5BC}\uFE0F",
-          jpeg: "\u{1F5BC}\uFE0F",
-          gif: "\u{1F5BC}\uFE0F",
-          webp: "\u{1F5BC}\uFE0F",
-          mp4: "\u{1F3AC}",
-          mov: "\u{1F3AC}",
-          avi: "\u{1F3AC}",
-          mp3: "\u{1F3B5}",
-          wav: "\u{1F3B5}",
-          aac: "\u{1F3B5}",
-          m4a: "\u{1F3B5}",
-          pdf: "\u{1F4C4}",
-          doc: "\u{1F4DD}",
-          docx: "\u{1F4DD}",
-          txt: "\u{1F4C3}"
-        };
-        const icon = iconMap[ext] || "\u{1F4C4}";
-        return /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.InkWell, { onTap: () => toggleSelect(i) }, /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Container,
-          {
-            key: f.path,
-            padding: 12,
-            margin: { bottom: 6 },
-            decoration: {
-              color: f.selected ? "rgba(108,99,255,0.08)" : "#222240",
-              borderRadius: 12,
-              border: {
-                color: f.status === "processing" ? "#6C63FF" : f.status === "error" ? "#FF5C5C" : f.selected ? "rgba(108,99,255,0.4)" : "transparent",
-                width: 1
-              }
-            }
-          },
-          /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { mainAxisAlignment: "spaceBetween" }, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, null, /* @__PURE__ */ import_react91.default.createElement(Checkbox, { checked: f.selected }), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SizedBox, { width: 10 }), /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Container,
-            {
-              width: 40,
-              height: 40,
-              alignment: "center",
-              decoration: {
-                color: f.isDestroyed ? "rgba(255,92,92,0.12)" : "rgba(108,99,255,0.12)",
-                borderRadius: 10
-              }
-            },
-            /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Text, { text: icon, fontSize: 20 })
-          ), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SizedBox, { width: 10 }), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Column, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Text,
-            {
-              text: f.name,
-              fontSize: 13,
-              fontWeight: "bold",
-              color: "#DDD"
-            }
-          ), f.isDestroyed ? /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Container,
-            {
-              margin: { left: 6 },
-              padding: {
-                horizontal: 6,
-                vertical: 2
-              },
-              decoration: {
-                color: "rgba(255,92,92,0.2)",
-                borderRadius: 4
-              }
-            },
-            /* @__PURE__ */ import_react91.default.createElement(
-              import_fuickjs95.Text,
-              {
-                text: "\u5DF2\u7834\u574F",
-                fontSize: 9,
-                color: "#FF5C5C",
-                fontWeight: "bold"
-              }
-            )
-          ) : null), /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Text,
-            {
-              text: `${(f.size / 1024).toFixed(1)} KB`,
-              fontSize: 11,
-              color: "#666688",
-              margin: { top: 2 }
-            }
-          ), f.message ? /* @__PURE__ */ import_react91.default.createElement(
-            import_fuickjs95.Text,
-            {
-              text: f.message,
-              fontSize: 10,
-              color: f.status === "error" ? "#FF5C5C" : "#4CAF50",
-              margin: { top: 1 }
-            }
-          ) : null)), /* @__PURE__ */ import_react91.default.createElement(StatusBadge2, { status: f.status }))
-        ));
-      }))))
-    )))), /* @__PURE__ */ import_react91.default.createElement(
-      import_fuickjs95.Container,
-      {
-        width: 260,
-        margin: { top: 12, bottom: 12, right: 12 },
-        padding: 14,
-        decoration: {
-          color: "#111122",
-          borderRadius: 16,
-          border: { color: "#2A2A4A", width: 1 }
-        }
-      },
-      /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Column, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { crossAxisAlignment: "center", margin: { bottom: 10 } }, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Text, { text: "\u{1F4CB}", fontSize: 14, margin: { right: 6 } }), /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Text,
-        {
-          text: "\u8FD0\u884C\u65E5\u5FD7",
-          fontSize: 13,
-          color: "#8888AA",
-          fontWeight: "bold"
-        }
-      ), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SizedBox, { width: 6 }), /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          width: 6,
-          height: 6,
-          decoration: {
-            color: "#4CAF50",
-            borderRadius: 3
-          }
-        }
-      )), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Divider, null), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Expanded, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.SingleChildScrollView, null, /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Column, { crossAxisAlignment: "start" }, log.length === 0 ? /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Container, { padding: 20, alignment: "center" }, /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Text,
-        {
-          text: "\u7B49\u5F85\u64CD\u4F5C...",
-          fontSize: 11,
-          color: "#444466"
-        }
-      )) : log.map((l, i) => /* @__PURE__ */ import_react91.default.createElement(
-        import_fuickjs95.Container,
-        {
-          key: i,
-          padding: { top: 4, bottom: 4, left: 4, right: 4 },
-          margin: { top: 2 },
-          decoration: {
-            color: i === 0 ? "rgba(108,99,255,0.08)" : "transparent",
-            borderRadius: 4
-          }
-        },
-        /* @__PURE__ */ import_react91.default.createElement(
-          import_fuickjs95.Text,
-          {
-            text: l,
-            fontSize: 11,
-            color: i === 0 ? "#B0B0D0" : "#666688"
-          }
-        )
-      ))))))
-    )))
-  );
-}
-function Checkbox({ checked }) {
-  return /* @__PURE__ */ import_react91.default.createElement(
-    import_fuickjs95.Container,
-    {
-      width: 22,
-      height: 22,
-      alignment: "center",
-      decoration: {
-        color: checked ? "#6C63FF" : "transparent",
-        borderRadius: 6,
-        border: {
-          color: checked ? "#6C63FF" : "#444466",
-          width: 1.5
-        }
-      }
-    },
-    checked ? /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Text, { text: "\u2713", fontSize: 14, color: "#FFF", fontWeight: "bold" }) : null
-  );
-}
-function StatusBadge2({ status }) {
-  const map = {
-    pending: {
-      color: "#8888AA",
-      bg: "rgba(136,136,170,0.12)",
-      label: "\u5F85\u5904\u7406",
-      dot: "#8888AA"
-    },
-    processing: {
-      color: "#6C63FF",
-      bg: "rgba(108,99,255,0.15)",
-      label: "\u5904\u7406\u4E2D",
-      dot: "#6C63FF"
-    },
-    done: {
-      color: "#4CAF50",
-      bg: "rgba(76,175,80,0.15)",
-      label: "\u5B8C\u6210",
-      dot: "#4CAF50"
-    },
-    error: {
-      color: "#FF5C5C",
-      bg: "rgba(255,92,92,0.15)",
-      label: "\u5931\u8D25",
-      dot: "#FF5C5C"
-    }
-  };
-  const s = map[status];
-  return /* @__PURE__ */ import_react91.default.createElement(
-    import_fuickjs95.Container,
-    {
-      padding: { horizontal: 10, vertical: 5 },
-      decoration: { color: s.bg, borderRadius: 20 }
-    },
-    /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Row, { crossAxisAlignment: "center" }, /* @__PURE__ */ import_react91.default.createElement(
-      import_fuickjs95.Container,
-      {
-        width: 6,
-        height: 6,
-        margin: { right: 5 },
-        decoration: { color: s.dot, borderRadius: 3 }
-      }
-    ), /* @__PURE__ */ import_react91.default.createElement(import_fuickjs95.Text, { text: s.label, fontSize: 11, color: s.color, fontWeight: "bold" }))
-  );
-}
-
-// src/demos/RouterDemo.tsx
-var import_react92 = __toESM(require_react_production());
-var import_fuickjs96 = __toESM(require_dist());
-var authState = { loggedIn: false };
-function RouterDemo() {
-  const nav = (0, import_fuickjs96.useNavigator)();
-  const route = (0, import_fuickjs96.useRoute)();
-  const [, force] = (0, import_react92.useState)(0);
-  return /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Scaffold, { appBar: /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.AppBar, { title: /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: "Router Demo" }) }) }, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SingleChildScrollView, null, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Padding, { padding: 16 }, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "\u5F53\u524D\u8DEF\u7531\u4FE1\u606F (useRoute)",
-      fontSize: 16,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Container,
-    {
-      padding: 12,
-      decoration: { color: "#F5F5F5", borderRadius: 8 }
-    },
-    /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react92.default.createElement(
-      import_fuickjs96.Text,
-      {
-        text: `path: ${route?.path ?? "-"}`,
-        fontSize: 13,
-        color: "#666"
-      }
-    ), /* @__PURE__ */ import_react92.default.createElement(
-      import_fuickjs96.Text,
-      {
-        text: `name: ${route?.name ?? "-"}`,
-        fontSize: 13,
-        color: "#666"
-      }
-    ), /* @__PURE__ */ import_react92.default.createElement(
-      import_fuickjs96.Text,
-      {
-        text: `params: ${JSON.stringify(route?.params ?? {})}`,
-        fontSize: 13,
-        color: "#666"
-      }
-    ), /* @__PURE__ */ import_react92.default.createElement(
-      import_fuickjs96.Text,
-      {
-        text: `meta: ${JSON.stringify(route?.meta ?? {})}`,
-        fontSize: 13,
-        color: "#666"
-      }
-    ))
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: "\u5B88\u536B\u6F14\u793A\uFF1A\u767B\u5F55\u72B6\u6001", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Row, null, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: `\u5DF2\u767B\u5F55: ${authState.loggedIn}` }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Padding, { padding: { left: 12 } }, /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: authState.loggedIn ? "\u767B\u51FA" : "\u767B\u5F55",
-      backgroundColor: authState.loggedIn ? "#E53935" : "#43A047",
-      onTap: () => {
-        authState.loggedIn = !authState.loggedIn;
-        force((n) => n + 1);
-      }
-    }
-  ))), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Divider, null), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "1. \u8DEF\u5F84\u53C2\u6570 /demo/router/user/:id",
-      fontSize: 16,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "\u8DEF\u5F84\u4E2D\u7684 :id \u4F1A\u88AB\u89E3\u6790\u5230 params.id",
-      fontSize: 12,
-      color: "#666"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Wrap, { spacing: 8 }, /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: "user/123",
-      onTap: () => nav.push("/demo/router/user/123")
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: "user/456",
-      onTap: () => nav.push("/demo/router/user/456")
-    }
-  )), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "2. \u547D\u540D\u8DEF\u7531 pushByName",
-      fontSize: 16,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "\u901A\u8FC7 name \u8DF3\u8F6C\uFF0C\u81EA\u52A8\u6784\u9020\u8DEF\u5F84",
-      fontSize: 12,
-      color: "#666"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: "pushByName('user', { id: 789 })",
-      backgroundColor: "#1976D2",
-      onTap: () => nav.pushByName("user", { id: 789 })
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "3. \u5B88\u536B\u4FDD\u62A4\u9875\u9762 (meta.requiresAuth)",
-      fontSize: 16,
-      fontWeight: "bold"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "\u672A\u767B\u5F55\u65F6\u8DF3\u8F6C\u4F1A\u88AB\u5B88\u536B\u62D2\u7EDD\uFF0C\u663E\u793A Access Denied\uFF1B\u767B\u5F55\u540E\u653E\u884C",
-      fontSize: 12,
-      color: "#666"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: "\u8BBF\u95EE\u53D7\u4FDD\u62A4\u9875\u9762",
-      backgroundColor: "#FF9800",
-      onTap: () => nav.push("/demo/router/protected")
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: "4. \u91CD\u5B9A\u5411 redirect", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "/demo/router/old \u914D\u7F6E\u4E86 redirect: /demo/router",
-      fontSize: 12,
-      color: "#666"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: "\u8BBF\u95EE /demo/router/old",
-      backgroundColor: "#795548",
-      onTap: () => nav.push("/demo/router/old")
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: "5. 404 \u515C\u5E95", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "\u672A\u5339\u914D\u4EFB\u4F55\u8DEF\u7531\u65F6\u663E\u793A\u9ED8\u8BA4 404 UI",
-      fontSize: 12,
-      color: "#666"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: "\u8BBF\u95EE\u4E0D\u5B58\u5728\u7684\u9875\u9762",
-      backgroundColor: "#9E9E9E",
-      onTap: () => nav.push("/demo/router/not-exist-xxx")
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: "6. push \u7B49\u5F85\u8FD4\u56DE\u7ED3\u679C", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "\u8DF3\u8F6C\u540E\u5728\u5B50\u9875\u9762 pop(result)\uFF0C\u7236\u9875\u9762 await \u62FF\u5230 result",
-      fontSize: 12,
-      color: "#666"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: "\u8DF3\u8F6C user/123 \u5E76\u7B49\u5F85\u8FD4\u56DE",
-      backgroundColor: "#9C27B0",
-      onTap: async () => {
-        const result = await nav.push("/demo/router/user/123", {
-          from: "push"
-        });
-        nav.showDialog(
-          /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Container, { padding: 20 }, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: "\u6536\u5230\u8FD4\u56DE\u7ED3\u679C:", fontWeight: "bold" }), /* @__PURE__ */ import_react92.default.createElement(
-            import_fuickjs96.Text,
-            {
-              text: JSON.stringify(result),
-              fontSize: 13,
-              color: "#666"
-            }
-          )))
-        );
-      }
-    }
-  )))));
-}
-function RouterUserPage() {
-  const route = (0, import_fuickjs96.useRoute)();
-  const nav = (0, import_fuickjs96.useNavigator)();
-  const id = route?.params?.id;
-  return /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Scaffold, { appBar: /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.AppBar, { title: /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: `User ${id}` }) }) }, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Center, null, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: `User ID: ${id}`, fontSize: 24, fontWeight: "bold" }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: `params: ${JSON.stringify(route?.params)}`,
-      fontSize: 12,
-      color: "#666"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 20 }), /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Button,
-    {
-      text: "\u8FD4\u56DE\u5E76\u4F20\u7ED3\u679C",
-      backgroundColor: "#9C27B0",
-      onTap: () => nav.pop({ userId: id, timestamp: Date.now() })
-    }
-  ))));
-}
-function RouterProtectedPage() {
-  return /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Scaffold, { appBar: /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.AppBar, { title: /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: "Protected" }) }) }, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Center, null, /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Column, { mainAxisAlignment: "center", crossAxisAlignment: "center" }, /* @__PURE__ */ import_react92.default.createElement(
-    import_fuickjs96.Text,
-    {
-      text: "\u53D7\u4FDD\u62A4\u9875\u9762",
-      fontSize: 24,
-      fontWeight: "bold",
-      color: "#43A047"
-    }
-  ), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.SizedBox, { height: 8 }), /* @__PURE__ */ import_react92.default.createElement(import_fuickjs96.Text, { text: "\u53EA\u6709\u767B\u5F55\u540E\u624D\u80FD\u8BBF\u95EE\u6B64\u9875\u9762", fontSize: 14, color: "#666" }))));
-}
-
-// src/app.tsx
-var CustomErrorUI = (error) => /* @__PURE__ */ import_react93.default.createElement(import_fuickjs97.Container, { color: "#E0F7FA" }, /* @__PURE__ */ import_react93.default.createElement(import_fuickjs97.Column, { mainAxisAlignment: "center", crossAxisAlignment: "center", padding: 30 }, /* @__PURE__ */ import_react93.default.createElement(
-  import_fuickjs97.Text,
-  {
-    text: "Oops! Something went wrong",
-    fontSize: 22,
-    color: "#006064",
-    fontWeight: "bold",
-    margin: { bottom: 16 }
-  }
-), /* @__PURE__ */ import_react93.default.createElement(
-  import_fuickjs97.Container,
-  {
-    padding: 12,
-    decoration: {
-      color: "#FFFFFF",
-      borderRadius: 8,
-      border: { width: 1, color: "#B2EBF2" }
-    },
-    margin: { bottom: 20 }
-  },
-  /* @__PURE__ */ import_react93.default.createElement(
-    import_fuickjs97.Text,
-    {
-      text: error?.message || "Unknown Error",
-      fontSize: 14,
-      color: "#00838F",
-      maxLines: 5,
-      overflow: "ellipsis"
-    }
-  )
-), /* @__PURE__ */ import_react93.default.createElement(
-  import_fuickjs97.Button,
-  {
-    text: "Go Back Home",
-    onTap: () => console.log("Navigate to home...")
-  }
-)));
-var routes = [
-  // 业务页
-  { path: "/", component: HomePage },
-  { path: "/hybrid_demo", component: HybridDemoPage },
-  { path: "/news", component: NewsPage },
-  { path: "/news_detail", component: NewsDetailPage },
-  { path: "/market", component: MarketPage },
-  { path: "/demos", component: DemoListPage },
-  // 布局与基础组件
-  { path: "/demo/column", component: ColumnDemo },
-  { path: "/demo/row", component: RowDemo },
-  { path: "/demo/box", component: BoxDemo },
-  { path: "/demo/container", component: ContainerDemo },
-  { path: "/demo/layoutbasics", component: LayoutBasicsDemo },
-  { path: "/demo/scaffold", component: ScaffoldDemo_default },
-  { path: "/demo/stack", component: StackDemo },
-  { path: "/demo/safearea", component: SafeAreaDemo },
-  { path: "/demo/divider", component: DividerDemo },
-  { path: "/demo/opacity", component: OpacityDemo },
-  { path: "/demo/intrinsic", component: IntrinsicDemo },
-  // 交互组件
-  { path: "/demo/button", component: ButtonDemo },
-  { path: "/demo/inkwell", component: InkWellDemo },
-  { path: "/demo/gesturedetector", component: GestureDetectorDemo },
-  { path: "/demo/fab", component: FloatingActionButtonDemo },
-  { path: "/demo/slider", component: SliderDemo },
-  { path: "/demo/radio", component: RadioDemo },
-  { path: "/demo/switch", component: SwitchDemo },
-  { path: "/demo/dismissible", component: DismissibleDemo },
-  { path: "/demo/dialog", component: DialogDemo },
-  { path: "/demo/refresh_indicator", component: RefreshIndicatorDemo },
-  // 文本与富文本
-  { path: "/demo/textfield", component: TextFieldDemo },
-  { path: "/demo/textfield_controller", component: TextFieldControllerDemo },
-  { path: "/demo/richtext", component: RichTextDemo },
-  // 列表与网格
-  { path: "/demo/listview", component: ListViewDemo },
-  { path: "/demo/singlechildscrollview", component: SingleChildScrollViewDemo },
-  { path: "/demo/gridview", component: GridViewDemo },
-  { path: "/demo/sliver", component: SliverDemo },
-  {
-    path: "/demo/sliverpersistentheader",
-    component: SliverPersistentHeaderDemo
-  },
-  { path: "/demo/nested_scroll_view", component: NestedScrollViewDemo },
-  { path: "/demo/react_managed_list", component: ReactManagedListDemo },
-  { path: "/demo/static_list", component: StaticListDemo },
-  // 媒体与图片
-  { path: "/demo/image", component: ImageDemo },
-  { path: "/demo/bundle_local_image", component: BundleLocalImageDemo },
-  { path: "/demo/visibility", component: VisibilityDemo },
-  { path: "/demo/visibility_detector", component: VisibilityDetectorDemo },
-  { path: "/demo/cliprrect", component: ClipRRectDemo },
-  { path: "/demo/transform", component: TransformDemo },
-  { path: "/demo/backdrop_filter", component: BackdropFilterDemo },
-  { path: "/demo/custompaint", component: CustomPaintDemo },
-  // 进度与页面
-  { path: "/demo/progress", component: ProgressDemo },
-  { path: "/demo/pageview", component: PageViewDemo },
-  { path: "/demo/popscope", component: PopScopeDemo },
-  { path: "/demo/tabs", component: TabDemo },
-  { path: "/demo/indexed_stack", component: IndexedStackDemo },
-  { path: "/demo/bottomnav", component: BottomNavDemo },
-  { path: "/demo/drawer", component: DrawerDemo },
-  { path: "/demo/material", component: MaterialDemo },
-  { path: "/demo/overlay", component: OverlayDemo },
-  // 弹性布局
-  { path: "/demo/flex", component: FlexDemo },
-  { path: "/demo/flexible", component: FlexibleDemo },
-  { path: "/demo/aspect_ratio", component: AspectRatioDemo },
-  { path: "/demo/fractionally_sized_box", component: FractionallySizedBoxDemo },
-  { path: "/demo/align", component: AlignDemo },
-  // 动画
-  { path: "/demo/animation", component: AnimationDemo },
-  { path: "/demo/gestures", component: GesturesDemo },
-  { path: "/demo/scroll_control", component: ScrollControlDemo },
-  { path: "/demo/animated", component: AnimatedDemo },
-  { path: "/demo/transition", component: TransitionDemo },
-  { path: "/demo/transition_animated", component: TransitionAnimatedDemo },
-  { path: "/demo/animated_switcher", component: AnimatedSwitcherDemo },
-  { path: "/demo/animated_cross_fade", component: AnimatedCrossFadeDemo },
-  { path: "/demo/animated_size", component: AnimatedSizeDemo },
-  { path: "/demo/fade_transition", component: FadeTransitionDemo },
-  { path: "/demo/size_transition", component: SizeTransitionDemo },
-  { path: "/demo/positioned_transition", component: PositionedTransitionDemo },
-  { path: "/demo/hero", component: HeroDemo },
-  { path: "/demo/hero_detail", component: HeroDetailPage },
-  // 性能与调试
-  { path: "/demo/performance", component: PerformanceDemo },
-  { path: "/demo/error", component: ErrorDemoPage },
-  { path: "/demo/ops", component: DemoOpsPage },
-  { path: "/demo/flutter_props", component: FlutterPropsDemo },
-  { path: "/demo/browser_api", component: BrowserApiDemo },
-  { path: "/demo/websocket", component: WebSocketDemo },
-  // 主题与适配
-  { path: "/demo/theme", component: ThemeDemo },
-  { path: "/demo/media_query", component: MediaQueryDemo },
-  // Community 扩展包
-  { path: "/demo/haptics", component: HapticsDemo },
-  { path: "/demo/launcher", component: LauncherDemo },
-  { path: "/demo/share", component: ShareDemo },
-  { path: "/demo/app_info", component: AppInfoDemo },
-  { path: "/demo/permissions", component: PermissionsDemo },
-  { path: "/demo/media", component: MediaDemo },
-  { path: "/demo/connectivity", component: ConnectivityDemo },
-  { path: "/demo/web_view", component: WebViewDemo },
-  { path: "/demo/video_player", component: VideoPlayerDemo },
-  { path: "/demo/sound", component: SoundServiceDemo },
-  { path: "/demo/i18n", component: I18nDemo },
-  { path: "/demo/lifecycle", component: LifecycleDemo },
-  { path: "/demo/lifecycle_sub", component: LifecycleSubPage },
-  { path: "/demo/file_obfuscator", component: FileObfuscatorPage },
-  // 路由系统演示
-  { path: "/demo/router", component: RouterDemo },
-  { path: "/demo/router/user/:id", component: RouterUserPage }
-];
+// src/game-entry.tsx
 function initApp() {
   try {
-    import_fuickjs97.Runtime.configure({ prewarm: false, prewarmMs: 50 });
-    import_fuickjs97.Runtime.bindGlobals();
-    import_fuickjs97.i18n.configure({ fallbackLocale: "en", resources: i18nResources });
-    void import_fuickjs97.i18n.init().catch((e) => console.warn("[i18n] init failed:", e));
-    (0, import_fuickjs97.setGlobalErrorFallback)(CustomErrorUI);
-    for (const r of routes) {
-      import_fuickjs97.Router.register(r.path, () => import_react93.default.createElement(r.component));
-    }
-    import_fuickjs97.Router.config({
-      routes: [
-        {
-          path: "/demo/router/protected",
-          component: () => /* @__PURE__ */ import_react93.default.createElement(RouterProtectedPage, null),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: "/demo/router/old",
-          redirect: "/demo/router"
-        },
-        {
-          path: "/demo/router/user/:id",
-          name: "user",
-          component: () => /* @__PURE__ */ import_react93.default.createElement(RouterUserPage, null)
-        }
-      ]
-    });
-    import_fuickjs97.Router.addGuard((to) => {
-      if (to.meta?.requiresAuth && !authState.loggedIn) {
-        console.log("[Guard] \u9700\u8981\u767B\u5F55\uFF0C\u62D2\u7EDD\u8BBF\u95EE:", to.path);
-        return false;
-      }
-      return true;
-    });
-    console.log("App Initialized");
+    import_fuickjs7.Runtime.configure({ prewarm: false, prewarmMs: 50 });
+    import_fuickjs7.Runtime.bindGlobals();
+    import_fuickjs7.Router.register("/", () => import_react7.default.createElement(GamePage));
+    console.log("Game Bundle Initialized");
   } catch (e) {
     console.error("initApp error:", e);
   }
 }
-
-// src/index.ts
 globalThis.initApp = initApp;
 initApp();
 /*! Bundled license information:

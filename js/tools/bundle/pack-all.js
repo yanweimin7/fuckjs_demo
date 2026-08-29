@@ -24,6 +24,7 @@ const BUNDLES = [
   { name: "dart-demo", label: "Dart Demo", initialRoute: "/" },
   { name: "wallet_bundle", label: "Fuick Wallet", initialRoute: "/" },
   { name: "xiangqi", label: "象棋", initialRoute: "/" },
+  { name: "game", label: "宇宙进化", initialRoute: "/" },
 ];
 
 function sha256File(file) {

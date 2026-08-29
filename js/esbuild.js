@@ -64,22 +64,6 @@ async function build() {
         __dirname,
         "../../fuickjs_framework/fuickjs/dist/index.js",
       ),
-      "@tarojs/components-fuickjs": path.resolve(
-        __dirname,
-        "../../taro-fuickjs/packages/components-fuickjs/dist/index.js",
-      ),
-      "@tarojs/taro-fuickjs": path.resolve(
-        __dirname,
-        "../../taro-fuickjs/packages/taro-fuickjs/dist/index.js",
-      ),
-      "taro-css-to-fuickjs/runtime": path.resolve(
-        __dirname,
-        "../../taro-fuickjs/packages/taro-css-to-fuickjs/dist/runtime.js",
-      ),
-      "taro-css-to-fuickjs": path.resolve(
-        __dirname,
-        "../../taro-fuickjs/packages/taro-css-to-fuickjs/dist/index.js",
-      ),
     },
   };
 
@@ -113,6 +97,49 @@ async function build() {
       stdio: "inherit",
       cwd: __dirname,
     });
+  }
+
+  // ── Web build (IIFE，best-effort) ─────────────────────────────────────────
+  // 供 Flutter Web 宿主经 <script src> 加载；失败不影响 native 构建。
+  try {
+    const webDestDir = path.resolve(__dirname, "dist/web");
+    if (!fs.existsSync(webDestDir)) fs.mkdirSync(webDestDir, { recursive: true });
+
+    // Web 构建必须与 native 使用相同的 react / react-reconciler / scheduler
+    // 别名，统一指向 fuickjs_demo/js/node_modules 下的同一份物理副本。
+    // 否则 framework 的 dist/index.js（被 alias 到 framework）内部 require('react')
+    // 会解析到 fuickjs_framework/.../node_modules/react，与 demo 源码的 react
+    // 成为两份不同实例；reconciler 只在它自己的那份上设置 hooks dispatcher
+    // （ReactSharedInternals.H），而组件用的另一份 H 为 null → 崩溃。
+    await esbuild.build({
+      ...commonOptions,
+      platform: "browser",
+      format: "iife",
+      mainFields: ["browser", "module", "main"],
+      entryPoints: ["src/index.ts"],
+      outfile: path.join(webDestDir, "bundle.js"),
+      alias: { ...buildOptions.alias },
+    });
+
+    const appWebDir = path.resolve(__dirname, "../app/web");
+    if (!fs.existsSync(appWebDir)) fs.mkdirSync(appWebDir, { recursive: true });
+    fs.copyFileSync(
+      path.join(webDestDir, "bundle.js"),
+      path.join(appWebDir, "bundle.js"),
+    );
+
+    const workerSrc = path.resolve(
+      __dirname,
+      "../../fuickjs_framework/fuickjs/dist/worker/entry.js",
+    );
+    if (fs.existsSync(workerSrc)) {
+      fs.copyFileSync(workerSrc, path.join(appWebDir, "fuick-worker.js"));
+    }
+    console.log("Web (IIFE) bundle built: " + path.join(appWebDir, "bundle.js"));
+  } catch (e) {
+    console.warn(
+      "[web] skipped web bundle build (non-fatal): " + (e?.message ?? e),
+    );
   }
 
   console.log("Build complete.");

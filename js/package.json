@@ -6,6 +6,7 @@
   "main": "dist/bundle.js",
   "scripts": {
     "build": "node esbuild.js",
+    "build:game": "node esbuild.game.js",
     "dev": "node esbuild.js --watch",
     "start": "node debug_server.js",
     "lint": "eslint src",
