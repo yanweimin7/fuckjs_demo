@@ -95,8 +95,8 @@ function main() {
         `WARN ${b.name}: 跳过 .qjc，仅打包 .js（codeForm=js）`,
       );
     }
-    // bundle 主包携带 demo 图片资源（images/ → zip 内 assets/images/）
-    if (b.name === "bundle" && fs.existsSync(ASSETS_ROOT)) {
+    // bundle 主包 & game 宇宙进化包携带图片资源（images/ → zip 内 assets/images/）
+    if ((b.name === "bundle" || b.name === "game") && fs.existsSync(ASSETS_ROOT)) {
       packArgs.push("--assets", ASSETS_ROOT);
     }
 

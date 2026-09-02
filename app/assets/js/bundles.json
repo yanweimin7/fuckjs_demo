@@ -3,7 +3,7 @@
     {
       "name": "bundle",
       "version": "1.0.0",
-      "sha256": "aba5520d3c6a9945268bdff154298b352e7e00dd826017d8573629544c875ca2",
+      "sha256": "d4ee1a99c158bf32ca280ef32c46bda675ff810def59de9da60a3b3c36effbb2",
       "minAppVersion": "1.0.0",
       "label": "示例",
       "initialRoute": "/"
@@ -11,7 +11,7 @@
     {
       "name": "taro-demo",
       "version": "1.0.0",
-      "sha256": "9d8039fd0f7b5b0c94178b14457147591976a670a23c9d8c4f6c600bdac484ae",
+      "sha256": "8423ebc70939ccd412a8d8309b6aeb5b51849665bebf4aac808fe3f3791d25c4",
       "minAppVersion": "1.0.0",
       "label": "Taro Demo",
       "initialRoute": "/"
@@ -19,7 +19,7 @@
     {
       "name": "wallet_bundle",
       "version": "1.0.0",
-      "sha256": "813befe188cc8c2c803f034f5aeba9d93dcdc920c00dc5c2c94ea234019105b3",
+      "sha256": "13b65580458bc56c580cd85ab3231afc58fb0edbc2abc0a576a2541b61bebdec",
       "minAppVersion": "1.0.0",
       "label": "Fuick Wallet",
       "initialRoute": "/"
@@ -27,7 +27,7 @@
     {
       "name": "xiangqi",
       "version": "1.0.0",
-      "sha256": "e66991607f9771ce7f3dd7ece581a4b091b82ec6dad26595326fae826a9d4f1f",
+      "sha256": "d5210d310aa6df8a5fec89b22d9a4903234416ccc60d5f8e50e705bfc0cf6eef",
       "minAppVersion": "1.0.0",
       "label": "象棋",
       "initialRoute": "/"
@@ -35,7 +35,7 @@
     {
       "name": "game",
       "version": "1.0.0",
-      "sha256": "985170be6dcf5fb164988d31a5b9dbd584b80f3f87f99353de0b502d87d36602",
+      "sha256": "2c859b0a95e46060b4565350d4ba0b5c55f266b66969fb40fda2ce4b55b6d93b",
       "minAppVersion": "1.0.0",
       "label": "宇宙进化",
       "initialRoute": "/"
