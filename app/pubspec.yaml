@@ -55,6 +55,8 @@ dependencies:
   pointycastle: ^3.9.1
   file_picker: ^8.1.4
   path: ^1.9.0
+  path_provider: ^2.1.0
+  archive: ^4.0.4
 
 dev_dependencies:
   flutter_test:
