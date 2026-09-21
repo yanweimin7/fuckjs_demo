@@ -67,7 +67,6 @@ class _FuickSwipeTabPageState extends State<FuickSwipeTabPage> {
                 appName: 'bundle',
                 initialRoute: t.initialRoute,
                 useAotCode: true,
-                showMemoryMonitor: true,
               ),
             ),
         ],

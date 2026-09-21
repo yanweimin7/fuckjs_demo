@@ -47,6 +47,33 @@ void *qjs_create_runtime(void);
 void qjs_destroy_runtime(void *handle);
 void qjs_set_max_stack_size(void *handle, size_t stack_size);
 
+// 设置 runtime 的 QuickJS allocator 最大内存(字节)。超过后 QuickJS 在分配点
+// 直接失败(体现为 JS 侧的 OOM 异常),而非无限增长到系统级 OOM。
+// FFI 包装层直接 malloc/strdup 的临时缓冲不计入该上限。
+// limit<=0 表示不限制。必须在 qjs_create_runtime 之后、业务代码执行之前调用。
+void qjs_set_memory_limit(void *handle, int64_t limit);
+
+// 设置触发周期性 GC(打破循环引用)的 malloc 增量阈值(字节)。
+// QuickJS 的默认值是 256 KiB(会自动周期 GC),不是"不 GC"——不要把 0 当成
+// "用默认值"来传。threshold<0 才表示显式关闭自动周期 GC;不调用本函数才是
+// 保留 QuickJS 默认阈值。
+void qjs_set_gc_threshold(void *handle, int64_t threshold);
+
+// 启用同步 JS 执行的时间预算能力(注册 interrupt handler)。
+// 需配合 qjs_set_execution_deadline 才会真正生效,建议在 qjs_create_runtime
+// 后立即调用一次。
+void qjs_enable_interrupt_handler(void *handle);
+
+// 设置本次同步 JS 执行允许运行到的截止时间(ms,单调时钟,见 qjs_now_ms_public)。
+// 超过后当前正在执行的 JS 会被中断并抛错,仅影响这一次 eval/invoke 调用,
+// 不影响同一 runtime 下其它 context 后续的调度。deadline_ms<=0 取消限制。
+// 内部使用原子写，允许未来由独立 native watchdog/cancel 线程更新。
+void qjs_set_execution_deadline(void *handle, int64_t deadline_ms);
+
+// 单调时钟当前时间(ms),供 Dart 侧按同一时钟基准计算 deadline
+// (now_ms() + budget),避免与系统时间(wall clock)语义错位。
+int64_t qjs_now_ms_public(void);
+
 void qjs_get_global_object(void *handle, QjsResult *out);
 void qjs_set_property(void *handle, QjsResult *obj_res, const char *prop,
                       QjsResult *val_res);

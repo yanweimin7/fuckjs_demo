@@ -498,16 +498,24 @@ var process=process||{env:{NODE_ENV:"production"}};if(typeof console==="undefine
       }
       if (!global_1.default.crypto?.getRandomValues) {
         global_1.default.crypto.getRandomValues = function(array) {
-          const bytes = new Uint8Array(array.byteLength);
-          for (let i = 0; i < bytes.length; i++) {
-            bytes[i] = Math.floor(Math.random() * 256);
+          if (!ArrayBuffer.isView(array) || array instanceof DataView || array instanceof Float32Array || array instanceof Float64Array) {
+            throw new TypeError("crypto.getRandomValues requires an integer TypedArray");
           }
-          if (array instanceof Uint8Array) {
-            array.set(bytes);
-            return array;
+          if (array.byteLength > 65536) {
+            throw new RangeError("crypto.getRandomValues cannot fill more than 65536 bytes");
+          }
+          const nativeBytes = dartCallNative("Crypto.randomBytes", { length: array.byteLength });
+          if (!Array.isArray(nativeBytes) || nativeBytes.length !== array.byteLength) {
+            throw new Error("Crypto.randomBytes returned an invalid byte array");
           }
           const view = new Uint8Array(array.buffer, array.byteOffset, array.byteLength);
-          view.set(bytes);
+          for (let i = 0; i < nativeBytes.length; i++) {
+            const value = nativeBytes[i];
+            if (typeof value !== "number" || !Number.isInteger(value) || value < 0 || value > 255) {
+              throw new Error(`Crypto.randomBytes returned an invalid byte at index ${i}`);
+            }
+            view[i] = value;
+          }
           return array;
         };
       }
@@ -9549,16 +9557,18 @@ ${stack}`;
         const id = nextTimerId++;
         const delay = ms || 0;
         if (delay === 0) {
+          timerMap.set(id, { fn, type: "timeout", native: false });
           Promise.resolve().then(() => {
+            const entry = timerMap.get(id);
+            if (!entry)
+              return;
+            timerMap.delete(id);
             try {
-              fn();
+              entry.fn();
             } catch (e) {
               ErrorHandler_1.ErrorHandler.notify(e, "timer", { id });
-            } finally {
-              timerMap.delete(id);
             }
           });
-          timerMap.set(id, { fn, type: "timeout", native: false });
           return id;
         }
         timerMap.set(id, { fn, type: "timeout", native: true });
@@ -9873,21 +9883,21 @@ ${stack}`;
       exports.atob = atob2;
       var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
       function btoa2(input) {
-        const str = encodeURIComponent(input).replace(/%([0-9A-F]{2})/g, (_match, p1) => {
-          return String.fromCharCode(parseInt(p1, 16));
-        });
+        const str = String(input);
+        for (let i = 0; i < str.length; i++) {
+          if (str.charCodeAt(i) > 255) {
+            throw new Error("'btoa' failed: The string to be encoded contains characters outside of the Latin1 range.");
+          }
+        }
         let output = "";
         for (let block = 0, charCode, i = 0, map = chars; str.charAt(i | 0) || (map = "=", i % 1); output += map.charAt(63 & block >> 8 - i % 1 * 8)) {
           charCode = str.charCodeAt(i += 3 / 4);
-          if (charCode > 255) {
-            throw new Error("'btoa' failed: The string to be encoded contains characters outside of the Latin1 range.");
-          }
           block = block << 8 | charCode;
         }
         return output;
       }
       function atob2(input) {
-        const str = String(input).replace(/[=]+$/, "");
+        const str = String(input).replace(/[\t\n\f\r ]/g, "").replace(/[=]+$/, "");
         if (str.length % 4 === 1) {
           throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
         }
@@ -9895,13 +9905,7 @@ ${stack}`;
         for (let bc = 0, bs = 0, buffer, i = 0; buffer = str.charAt(i++); ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer, bc++ % 4) ? binary += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0) {
           buffer = chars.indexOf(buffer);
         }
-        try {
-          return decodeURIComponent(Array.prototype.map.call(binary, (c) => {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          }).join(""));
-        } catch (e) {
-          return binary;
-        }
+        return binary;
       }
     }
   });
@@ -10363,6 +10367,15 @@ ${stack}`;
         static getItem(key) {
           return dartCallNativeAsync("LocalStorage.getItem", [key]);
         }
+        /**
+         * 一次取回 fuickjs 命名空间下的全部键值（值统一按字符串返回）。
+         *
+         * Native 侧只枚举本命名空间，宿主 App 自己写进 `SharedPreferences` 的数据
+         * 不会出现在结果里。主要供 `ex/storage.ts` 水合同步 `localStorage` 使用。
+         */
+        static getAll() {
+          return dartCallNativeAsync("LocalStorage.getAll", []);
+        }
         static setItem(key, value) {
           return new Promise((resolve, reject) => {
             if (pendingWrites === null) {
@@ -10383,28 +10396,102 @@ ${stack}`;
     }
   });
 
+  // ../../fuickjs_framework/fuickjs/dist/utils/env.js
+  var require_env = __commonJS({
+    "../../fuickjs_framework/fuickjs/dist/utils/env.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.getHost = getHost;
+      exports.isBrowserHost = isBrowserHost;
+      exports.hasNativeWebApis = hasNativeWebApis;
+      exports.hasNativeStorage = hasNativeStorage;
+      var HOST_FLAG = "__FUICK_HOST__";
+      function getHost() {
+        const explicit = globalThis[HOST_FLAG];
+        if (explicit === "browser" || explicit === "browser-worker" || explicit === "engine") {
+          return explicit;
+        }
+        if (typeof globalThis.document !== "undefined")
+          return "browser";
+        return "engine";
+      }
+      function isBrowserHost() {
+        return getHost() === "browser";
+      }
+      function hasNativeWebApis() {
+        return getHost() !== "engine";
+      }
+      function hasNativeStorage() {
+        return getHost() === "browser";
+      }
+    }
+  });
+
   // ../../fuickjs_framework/fuickjs/dist/ex/storage.js
   var require_storage = __commonJS({
     "../../fuickjs_framework/fuickjs/dist/ex/storage.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.sessionStorage = exports.localStorage = exports.Storage = void 0;
+      exports.hydrateStorage = hydrateStorage;
       var LocalStorageService_1 = require_LocalStorageService();
+      var env_1 = require_env();
       var Storage = class {
         constructor(type) {
           this.data = /* @__PURE__ */ new Map();
+          this.dirty = /* @__PURE__ */ new Set();
+          this.cleared = false;
+          this.hydrating = null;
+          this.hydrated = false;
           this.type = type;
-          if (type === "local") {
-          }
+        }
+        /** 是否已完成一次水合。`sessionStorage` 恒为 true（本就没有持久化数据）。 */
+        get isHydrated() {
+          return this.type === "session" ? true : this.hydrated;
+        }
+        /**
+         * 从 Native 拉取本命名空间下的持久化数据填入内存表。
+         *
+         * `localStorage` 是同步 API，而跨 isolate / 跨线程读取只能异步，因此不在
+         * 启动时预注入，改由业务在入口处显式 `await` 一次；未水合前同步读到的只有
+         * 本会话写入的值。幂等且并发安全，重复调用返回同一个 Promise。
+         *
+         * 已被本会话 `setItem`/`removeItem`/`clear` 改过的 key 不会被 Native 旧值
+         * 覆盖 —— 内存里的才是更新的那份。
+         */
+        hydrate() {
+          if (this.type === "session")
+            return Promise.resolve();
+          const inflight = this.hydrating;
+          if (inflight)
+            return inflight;
+          const task = LocalStorageService_1.LocalStorageService.getAll().then((entries) => {
+            if (entries && typeof entries === "object") {
+              for (const [key, value] of Object.entries(entries)) {
+                const sKey = String(key);
+                if (this.cleared || this.dirty.has(sKey))
+                  continue;
+                this.data.set(sKey, String(value));
+              }
+            }
+            this.hydrated = true;
+          }).catch((err) => {
+            this.hydrating = null;
+            throw err;
+          });
+          this.hydrating = task;
+          return task;
         }
         getItem(key) {
-          return this.data.get(String(key)) || null;
+          const sKey = String(key);
+          return this.data.has(sKey) ? this.data.get(sKey) : null;
         }
         setItem(key, value) {
           const sKey = String(key);
           const sValue = String(value);
           this.data.set(sKey, sValue);
           if (this.type === "local") {
+            this.dirty.add(sKey);
             LocalStorageService_1.LocalStorageService.setItem(sKey, sValue);
           }
         }
@@ -10412,12 +10499,14 @@ ${stack}`;
           const sKey = String(key);
           this.data.delete(sKey);
           if (this.type === "local") {
+            this.dirty.add(sKey);
             LocalStorageService_1.LocalStorageService.removeItem(sKey);
           }
         }
         clear() {
           this.data.clear();
           if (this.type === "local") {
+            this.cleared = true;
             LocalStorageService_1.LocalStorageService.clear();
           }
         }
@@ -10426,12 +10515,17 @@ ${stack}`;
         }
         key(index) {
           const keys = Array.from(this.data.keys());
-          return keys[index] || null;
+          return index >= 0 && index < keys.length ? keys[index] : null;
         }
       };
       exports.Storage = Storage;
       exports.localStorage = new Storage("local");
       exports.sessionStorage = new Storage("session");
+      function hydrateStorage() {
+        if ((0, env_1.hasNativeStorage)())
+          return Promise.resolve();
+        return exports.localStorage.hydrate();
+      }
     }
   });
 
@@ -10499,6 +10593,7 @@ ${stack}`;
           this._bufferedAmount = 0;
           this._extensions = "";
           this._protocol = "";
+          this._closeDispatched = false;
           this.onopen = null;
           this.onmessage = null;
           this.onerror = null;
@@ -10571,6 +10666,18 @@ ${stack}`;
               protocols: Array.isArray(this._protocols) ? this._protocols : [this._protocols]
             });
             (0, log_1.logDebug)(`[WebSocket] connect result for socketId=${this._socketId}: success=${result.success}, error=${result.error}`);
+            if (this._readyState === 2 || this._readyState === 3) {
+              if (result.success) {
+                (0, log_1.logDebug)(`[WebSocket] closed while connecting, re-sending close socketId=${this._socketId}`);
+                void dartCallNativeAsync("WebSocket.close", {
+                  socketId: this._socketId,
+                  code: 1e3,
+                  reason: ""
+                });
+              }
+              this._handleClose(1e3, "", true);
+              return;
+            }
             if (result.success) {
               this._readyState = 1;
               this._protocol = result.protocol ?? "";
@@ -10581,43 +10688,32 @@ ${stack}`;
                 this.onopen(openEvent);
               }
             } else {
-              this._readyState = 3;
               console.warn(`[WebSocket] Connection failed for socketId=${this._socketId}: ${result.error}`);
-              const errorEvent = new events_1.Event("error");
-              this.dispatchEvent(errorEvent);
-              if (this.onerror) {
-                this.onerror(errorEvent);
-              }
-              const closeEvent = new CloseEvent("close", {
-                code: 1006,
-                reason: result.error ?? "Connection failed",
-                wasClean: false
-              });
-              this.dispatchEvent(closeEvent);
-              if (this.onclose) {
-                this.onclose(closeEvent);
-              }
-              this._cleanupGlobalRef();
+              this._failConnection(result.error ?? "Connection failed");
             }
           } catch (error) {
-            this._readyState = 3;
             console.error(`[WebSocket] Exception in _initConnection for socketId=${this._socketId}:`, error);
+            this._failConnection(error instanceof Error ? error.message : "Connection failed");
+          }
+        }
+        /**
+         * 连接失败（握手失败或桥本身异常）的统一收尾。
+         *
+         * 走 [_handleClose] 而不是自己派发 close：业务可能在连接期间就调了 close()，
+         * 那时收尾已被接管，这里再派发一遍调用方就会收到两次 close。
+         */
+        _failConnection(reason) {
+          if (this._closeDispatched)
+            return;
+          if (this._readyState !== 2) {
+            this._readyState = 3;
             const errorEvent = new events_1.Event("error");
             this.dispatchEvent(errorEvent);
             if (this.onerror) {
               this.onerror(errorEvent);
             }
-            const closeEvent = new CloseEvent("close", {
-              code: 1006,
-              reason: error instanceof Error ? error.message : "Connection failed",
-              wasClean: false
-            });
-            this.dispatchEvent(closeEvent);
-            if (this.onclose) {
-              this.onclose(closeEvent);
-            }
-            this._cleanupGlobalRef();
           }
+          this._handleClose(1006, reason, false);
         }
         // Called by native when a message is received
         _handleMessage(data) {
@@ -10632,6 +10728,11 @@ ${stack}`;
         }
         // Called by native when the connection is closed
         _handleClose(code, reason, wasClean) {
+          if (this._closeDispatched) {
+            (0, log_1.logDebug)(`[WebSocket] _handleClose() ignored, already closed socketId=${this._socketId}`);
+            return;
+          }
+          this._closeDispatched = true;
           (0, log_1.logDebug)(`[WebSocket] _handleClose() socketId=${this._socketId}, code=${code}, reason=${reason}, wasClean=${wasClean}`);
           this._readyState = 3;
           const closeEvent = new CloseEvent("close", { code, reason, wasClean });
@@ -10684,10 +10785,19 @@ ${stack}`;
           }
           (0, log_1.logDebug)(`[WebSocket] close() socketId=${this._socketId}, code=${code ?? 1e3}`);
           this._readyState = 2;
-          void dartCallNativeAsync("WebSocket.close", {
-            socketId: this._socketId,
-            code: code ?? 1e3,
-            reason: reason ?? ""
+          try {
+            void Promise.resolve(dartCallNativeAsync("WebSocket.close", {
+              socketId: this._socketId,
+              code: code ?? 1e3,
+              reason: reason ?? ""
+            })).catch((e) => {
+              console.warn(`[WebSocket] native close failed for socketId=${this._socketId}:`, e);
+            });
+          } catch (e) {
+            console.warn(`[WebSocket] native close threw for socketId=${this._socketId}:`, e);
+          }
+          void Promise.resolve().then(() => {
+            this._handleClose(code ?? 1e3, reason ?? "", true);
           });
         }
         addEventListener(type, listener) {
@@ -11241,37 +11351,6 @@ ${stack}`;
           exports.navigator._updateDeviceInfo(info);
         } catch {
         }
-      }
-    }
-  });
-
-  // ../../fuickjs_framework/fuickjs/dist/utils/env.js
-  var require_env = __commonJS({
-    "../../fuickjs_framework/fuickjs/dist/utils/env.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.getHost = getHost;
-      exports.isBrowserHost = isBrowserHost;
-      exports.hasNativeWebApis = hasNativeWebApis;
-      exports.hasNativeStorage = hasNativeStorage;
-      var HOST_FLAG = "__FUICK_HOST__";
-      function getHost() {
-        const explicit = globalThis[HOST_FLAG];
-        if (explicit === "browser" || explicit === "browser-worker" || explicit === "engine") {
-          return explicit;
-        }
-        if (typeof globalThis.document !== "undefined")
-          return "browser";
-        return "engine";
-      }
-      function isBrowserHost() {
-        return getHost() === "browser";
-      }
-      function hasNativeWebApis() {
-        return getHost() !== "engine";
-      }
-      function hasNativeStorage() {
-        return getHost() === "browser";
       }
     }
   });
@@ -19959,6 +20038,7 @@ ${stack}`;
         return true;
       }
       var DSL_EQUAL_OPTIONS = { treatFunctionsAsEqual: true };
+      var EMPTY_HOST_CONTEXT = Object.freeze({});
       function diffProps(oldProps, newProps) {
         const updatePayload = [];
         let hasChanges = false;
@@ -20089,8 +20169,12 @@ ${stack}`;
           },
           waitForCommitToBeReady: () => null,
           getPublicInstance: (inst) => inst,
-          getRootHostContext: (_root) => null,
-          getChildHostContext: (_parentHostContext, _type, _root) => null,
+          // 本 renderer 不需要 host context（没有 HTML 那样的命名空间切换），但**不能
+          // 返回 null**：null 正是 React 的「没有 context」哨兵，requiredContext() 会对每
+          // 次 getHostContext() 打一条 "Expected host context to exist" 错误。返回同一个
+          // 常量即可 —— 身份不变，React 才不会把它当成 context 变化而重新处理子树。
+          getRootHostContext: (_root) => EMPTY_HOST_CONTEXT,
+          getChildHostContext: (parentHostContext, _type, _root) => parentHostContext,
           shouldSetTextContent: (_type, _props) => false,
           createInstance: (type, props, container) => {
             return container.createInstance(type, props);
@@ -20154,7 +20238,7 @@ ${stack}`;
             instance.destroy();
           },
           clearContainer: (container) => {
-            container.root = null;
+            container.clearRoot();
           },
           // React 19: prepareUpdate's return value (updatePayload) is no longer passed to
           // commitUpdate, so there is no benefit to diffing here. Always return a truthy
@@ -20223,6 +20307,7 @@ ${stack}`;
       };
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Node = exports.TEXT_TYPE = void 0;
+      exports.resolveBundleAssetPath = resolveBundleAssetPath;
       var react_1 = __importDefault(require_react_production());
       var PageContainer_1 = require_PageContainer();
       var constants_1 = require_constants();
@@ -20239,7 +20324,6 @@ ${stack}`;
         const rel = src.replace(/^\.?\//, "");
         return `file://${root}/assets/${rel}`;
       }
-      var IMAGE_ASSET_PROP_KEYS = ["src", "url", "errorSrc", "errorUrl"];
       var Node = class {
         constructor(type, props, container) {
           this.children = [];
@@ -20371,13 +20455,6 @@ ${stack}`;
           if (!type)
             return null;
           const props = this.container ? this.container.processProps(this.id, this.props, type) : {};
-          if (type === "Image") {
-            for (const k of IMAGE_ASSET_PROP_KEYS) {
-              if (props[k] !== void 0) {
-                props[k] = resolveBundleAssetPath(props[k]);
-              }
-            }
-          }
           const refId = this.props?.refId;
           const children = [];
           for (const child of this.children) {
@@ -20494,8 +20571,8 @@ ${stack}`;
          * 同步获取当前页面的主题快照（来自宿主 ThemeData）。
          * 主题切换时由 Flutter 端推送 'themeChange' 事件，配合 useTheme hook 触发重渲染。
          *
-         * 注意：worker isolate 中 UIService 未注册,sync 路径会 fallback 到主 isolate 并返回 Promise,
-         * 把 Promise 当对象用会得到 undefined。必须走 async 路径。
+         * 注意：worker isolate 中 UIService 未注册,用同步桥 dartCallNative 调会直接抛错,
+         * 必须走 async 路径。
          */
         static getTheme(pageId) {
           return dartCallNativeAsync("UI.getTheme", { pageId });
@@ -20504,8 +20581,8 @@ ${stack}`;
          * 同步获取当前页面的 MediaQuery 快照（屏幕尺寸、暗黑模式、键盘弹起等）。
          * 屏幕旋转 / 键盘 / 暗黑切换时由 Flutter 端推送 'mediaQueryChange' 事件。
          *
-         * 注意：worker isolate 中 UIService 未注册,sync 路径会 fallback 到主 isolate 并返回 Promise,
-         * 把 Promise 当 Map 用会得到 undefined。这里必须走 async 路径,等真实数据回来后再读。
+         * 注意：worker isolate 中 UIService 未注册,用同步桥 dartCallNative 调会直接抛错,
+         * 这里必须走 async 路径,等真实数据回来后再读。
          */
         static getMediaQuery(pageId) {
           return dartCallNativeAsync("UI.getMediaQuery", { pageId });
@@ -20944,6 +21021,7 @@ ${stack}`;
           this._nextNodeId = 0;
           this._elementToDslNextNodeId = 1e8;
           this.itemSyntheticCallbackIds = /* @__PURE__ */ new Map();
+          this.nodeSyntheticCallbackIds = /* @__PURE__ */ new Map();
           this.isVisible = false;
           this.isFirstRender = true;
           this.pageId = pageId;
@@ -20961,6 +21039,7 @@ ${stack}`;
           if (node.props?.refId) {
             this.nodesByRefId.delete(String(node.props.refId));
           }
+          this.clearNodeSyntheticCallbacks(node.id);
         }
         getNodeByRefId(refId) {
           return this.nodesByRefId.get(refId);
@@ -21012,11 +21091,95 @@ ${stack}`;
           const range = this.itemSyntheticCallbackIds.get(itemKey);
           if (!range)
             return;
+          this.clearSyntheticRange(range);
+          this.itemSyntheticCallbackIds.delete(itemKey);
+        }
+        /**
+         * 给宿主 Node 的某个顶层 prop 的合成回调记账，并回收它上一轮那批。
+         *
+         * 元素型 prop（`<Scaffold appBar={<AppBar onTap={fn}/>}>`）走 [elementToDsl]，
+         * 每次序列化都会铸一批新的合成 nodeId 并把回调登记进去。合成 id 没有对应
+         * Node，不会被 `Node.destroy` 回收，于是宿主节点每更新一次就漏一批。
+         *
+         * 记账按 **(宿主 nodeId, 顶层 prop 名)**，而不是按宿主节点整体、也不是按完整
+         * prop 路径：
+         *  - 不按节点整体：增量 UPDATE 只带变更过的 key，没重新序列化的 prop 其旧合成
+         *    id 仍被 Flutter 持有（事件还会派发过来），一把清掉就等于把还在用的 appBar
+         *    回调删了；
+         *  - 不按完整路径：一来 `['a.b']` 和 `['a','b']` 拼出来的 key 会撞，二来
+         *    `actions={[<A/>,<B/>]}` 缩短成 `[<A/>]` 时 `actions[1]` 这条路径这轮压根
+         *    不会被访问，旧区间就永远留下了。顶层 prop 的值总是整体重新序列化，一个
+         *    区间盖住它整棵子树，缩短/置空都能收干净。
+         *
+         * [before] 是序列化该 prop 之前的 `elementToDslNextNodeId`。这一轮没铸出新 id
+         * （prop 改成了 null / 普通值 / 函数）时区间为空，只做回收。
+         *
+         * 先铸新、后清旧：合成 id 单调递增，两批必然不重叠。
+         */
+        trackSyntheticProp(nodeId, key, before) {
+          const after = this.elementToDslNextNodeId;
+          let perProp = this.nodeSyntheticCallbackIds.get(nodeId);
+          if (after <= before) {
+            const previous2 = perProp?.get(key);
+            if (!previous2)
+              return;
+            this.clearSyntheticRange(previous2);
+            perProp.delete(key);
+            if (perProp.size === 0)
+              this.nodeSyntheticCallbackIds.delete(nodeId);
+            return;
+          }
+          if (!perProp) {
+            perProp = /* @__PURE__ */ new Map();
+            this.nodeSyntheticCallbackIds.set(nodeId, perProp);
+          }
+          const previous = perProp.get(key);
+          if (previous)
+            this.clearSyntheticRange(previous);
+          perProp.set(key, [before + 1, after]);
+        }
+        /** 回收某个宿主 Node 所有元素型 prop 的合成回调（节点注销时）。 */
+        clearNodeSyntheticCallbacks(nodeId) {
+          const perProp = this.nodeSyntheticCallbackIds.get(nodeId);
+          if (!perProp)
+            return;
+          for (const range of perProp.values()) {
+            this.clearSyntheticRange(range);
+          }
+          this.nodeSyntheticCallbackIds.delete(nodeId);
+        }
+        /**
+         * 按区间清除合成 nodeId 的回调。
+         *
+         * 走 [clearNodeCallbacks] 而不是直接删 map：[ItemContainer] 把回调登记在主
+         * container 上，直接删自己的表会漏。
+         */
+        clearSyntheticRange(range) {
           const [start, end] = range;
           for (let id = start; id <= end; id++) {
-            this.eventCallbacks.delete(id);
+            this.clearNodeCallbacks(id);
           }
-          this.itemSyntheticCallbackIds.delete(itemKey);
+        }
+        /**
+         * 按 `pageId:refId:` 前缀批量回收无状态列表项的合成回调。
+         *
+         * [minIndex] > 0 时只回收下标 >= minIndex 的项（列表截断场景）。
+         */
+        clearItemSyntheticCallbacksByPrefix(prefix, minIndex = 0) {
+          const keys = [];
+          for (const key of this.itemSyntheticCallbackIds.keys()) {
+            if (!key.startsWith(prefix))
+              continue;
+            if (minIndex > 0) {
+              const index = Number(key.slice(prefix.length));
+              if (!Number.isFinite(index) || index < minIndex)
+                continue;
+            }
+            keys.push(key);
+          }
+          for (const key of keys) {
+            this.clearItemSyntheticCallbacks(key);
+          }
         }
         registerVisibleCallback(fn) {
           this.onVisibleCallbacks.add(fn);
@@ -21084,6 +21247,23 @@ ${stack}`;
             this.diffStrategy.markChanged(parent);
           }
         }
+        /**
+         * 将 React host tree 的 children 下标映射到 Flutter DSL children 下标。
+         *
+         * FlutterProps 等透明节点会被提升为宿主节点的命名属性，不会进入 DSL
+         * `children`。增量 INSERT 必须使用 Flutter 实际看到的下标，否则父节点前面
+         * 存在 appBar/drawer 等透明槽位时，insertBefore 会向后偏移。
+         */
+        visibleChildIndex(parent, rawIndex) {
+          let visibleIndex = 0;
+          const end = Math.min(Math.max(rawIndex, 0), parent.children.length);
+          for (let i = 0; i < end; i++) {
+            if (!(0, constants_1.isTransparentType)(parent.children[i].type)) {
+              visibleIndex++;
+            }
+          }
+          return visibleIndex;
+        }
         markChanged(node) {
           if (this.isFirstRender) {
             if (node)
@@ -21124,7 +21304,8 @@ ${stack}`;
           parent.children.push(child);
           parent.invalidateDslCache();
           if (this.incrementalMode) {
-            this.recordInsert(parent, child, parent.children.length - 1);
+            const rawIndex = parent.children.length - 1;
+            this.recordInsert(parent, child, this.visibleChildIndex(parent, rawIndex));
           } else {
             this.markChanged(parent);
           }
@@ -21162,8 +21343,8 @@ ${stack}`;
           }
           parent.invalidateDslCache();
           if (this.incrementalMode) {
-            const newIndex = i >= 0 ? i : parent.children.length - 1;
-            this.recordInsert(parent, child, newIndex);
+            const rawIndex = i >= 0 ? i : parent.children.length - 1;
+            this.recordInsert(parent, child, this.visibleChildIndex(parent, rawIndex));
           } else {
             this.markChanged(parent);
           }
@@ -21193,6 +21374,18 @@ ${stack}`;
             this.root = null;
           }
           child.destroy();
+        }
+        /** 清空 root 并销毁旧树（hostConfig 的 `clearContainer`）。 */
+        clearRoot() {
+          const previous = this.root;
+          this.root = null;
+          if (!previous)
+            return;
+          try {
+            previous.destroy();
+          } catch (e) {
+            console.error(`[PageContainer] Error destroying cleared root for page ${this.pageId}:`, e);
+          }
         }
         commitTextUpdate(node, text) {
           const oldText = node.props.text;
@@ -21382,8 +21575,9 @@ ${stack}`;
         processProps(nodeId, props, nodeType, path = [], depth = 0, visited) {
           if (!props || typeof props !== "object")
             return props;
-          if (react_1.default.isValidElement(props))
+          if (react_1.default.isValidElement(props)) {
             return this.elementToDsl(props, depth + 1, visited);
+          }
           if (!visited)
             visited = /* @__PURE__ */ new WeakSet();
           if (visited.has(props)) {
@@ -21406,6 +21600,7 @@ ${stack}`;
           }
           const processedProps = {};
           const propsObj = props;
+          const trackSynthetic = path.length === 0 && this.nodes.has(nodeId);
           for (const key in propsObj) {
             if (path.length === 0 && (key === "children" || key === "key" || key === "ref" || key === "isBoundary"))
               continue;
@@ -21413,6 +21608,7 @@ ${stack}`;
               continue;
             }
             const value = propsObj[key];
+            const syntheticBefore = trackSynthetic ? this.elementToDslNextNodeId : 0;
             if (typeof value === "function") {
               const fullKey = this.buildPath(path, key);
               this.registerCallback(nodeId, fullKey, value);
@@ -21434,6 +21630,8 @@ ${stack}`;
             } else {
               processedProps[key] = value;
             }
+            if (trackSynthetic)
+              this.trackSyntheticProp(nodeId, key, syntheticBefore);
           }
           return processedProps;
         }
@@ -21469,6 +21667,7 @@ ${stack}`;
           }
           this.eventCallbacks.clear();
           this.itemSyntheticCallbackIds.clear();
+          this.nodeSyntheticCallbackIds.clear();
           this.onVisibleCallbacks.clear();
           this.onInvisibleCallbacks.clear();
           this.nodes.clear();
@@ -21638,9 +21837,20 @@ ${stack}`;
         getItemDSL(pageId, refId, index, itemBuilder, mainContainer) {
           const key = this.itemKey(pageId, refId, index);
           let entry = this.items.get(key);
-          const element = itemBuilder(index);
+          let element;
+          try {
+            element = itemBuilder(index);
+          } catch (e) {
+            console.error(`[ListItemManager] Error building item key=${key}:`, e);
+            ErrorHandler_1.ErrorHandler.notify(e, "render", { pageId, refId, index });
+            if (entry)
+              this.unmountEntry(key, entry);
+            mainContainer.clearItemSyntheticCallbacks(key);
+            return null;
+          }
           if (!entry) {
             const container = new ItemContainer_1.ItemContainer(pageId, mainContainer);
+            const uncaught = { current: null };
             const root = this.reconciler.createContainer(
               container,
               1,
@@ -21649,19 +21859,24 @@ ${stack}`;
               false,
               null,
               "",
-              null,
+              (error, errorInfo) => {
+                uncaught.current = error;
+                ErrorHandler_1.ErrorHandler.notify(error, "render", errorInfo);
+              },
               // onUncaughtError
-              null,
-              // onCaughtError
+              () => {
+              },
+              // onCaughtError —— 上报由 ErrorBoundary.componentDidCatch 负责
               this.handleRecoverableError,
               // onRecoverableError
               () => {
               }
             );
-            entry = { container, root };
+            entry = { container, root, uncaught };
             this.items.set(key, entry);
             (0, log_1.logDebug)(`[ListItemManager] Created sub-root for key=${key}`);
           }
+          entry.uncaught.current = null;
           try {
             if (this.reconciler.flushSyncFromReconciler) {
               this.reconciler.flushSyncFromReconciler(() => {
@@ -21674,15 +21889,34 @@ ${stack}`;
             } else {
               this.reconciler.updateContainer(element, entry.root, null, null);
             }
+            if (entry.uncaught.current !== null) {
+              throw entry.uncaught.current;
+            }
             entry.container.markInitialRenderDone();
             const dsl = entry.container.toDsl();
             return dsl;
           } catch (e) {
             console.error(`[ListItemManager] Error rendering item key=${key}:`, e);
             ErrorHandler_1.ErrorHandler.notify(e, "render", { pageId, refId, index });
+            console.warn(`[ListItemManager] Dropping errored sub-root key=${key}`);
+            this.unmountEntry(key, entry);
             console.warn(`[ListItemManager] Falling back to elementToDsl for key=${key}`);
-            return mainContainer.elementToDslForItem(key, element);
+            try {
+              return mainContainer.elementToDslForItem(key, element);
+            } catch (fallbackError) {
+              console.error(`[ListItemManager] Fallback render failed for key=${key}:`, fallbackError);
+              return null;
+            }
           }
+        }
+        /** 卸载并移除一个 entry；卸载失败不影响移除。 */
+        unmountEntry(key, entry) {
+          try {
+            this.flushSyncUnmount(entry.root);
+          } catch (e) {
+            console.error(`[ListItemManager] Error disposing item key=${key}:`, e);
+          }
+          this.items.delete(key);
         }
         /**
          * 销毁指定列表项的 sub-root，触发 useEffect cleanup。
@@ -21695,39 +21929,60 @@ ${stack}`;
             return;
           }
           (0, log_1.logDebug)(`[ListItemManager] Disposing item key=${key}`);
-          try {
-            this.flushSyncUnmount(entry.root);
-          } catch (e) {
-            console.error(`[ListItemManager] Error disposing item key=${key}:`, e);
+          this.unmountEntry(key, entry);
+        }
+        /**
+         * 销毁某个列表（pageId + refId）的 sub-root。
+         *
+         * sub-root 以下标为 key，因此列表换了一批数据后，同一个 index 会复用上一批
+         * 数据留下的 Fiber 树和 useState —— 必须在数据身份变化时整体回收。
+         *
+         * [fromIndex] 用于列表截断：只回收下标 >= fromIndex 的项，保留仍然有效的
+         * 前缀部分。缺省 0 表示全部回收。
+         */
+        disposeItems(pageId, refId, fromIndex = 0) {
+          const count = this.disposeByPrefix(`${pageId}:${refId}:`, fromIndex);
+          if (count > 0) {
+            (0, log_1.logDebug)(`[ListItemManager] Disposed ${count} items for ${pageId}:${refId} from=${fromIndex}`);
           }
-          this.items.delete(key);
         }
         /**
          * 销毁指定页面所有列表项的 sub-root。
          * 在页面 destroy 时调用。
          */
         disposePageItems(pageId) {
-          const prefix = `${pageId}:`;
+          const count = this.disposeByPrefix(`${pageId}:`);
+          if (count > 0) {
+            (0, log_1.logDebug)(`[ListItemManager] Disposing ${count} items for pageId=${pageId}`);
+          }
+        }
+        /**
+         * 按 key 前缀批量卸载 sub-root，返回回收数量。
+         *
+         * [minIndex] > 0 时只回收 key 尾部下标 >= minIndex 的项；调用方需保证 prefix
+         * 之后剩下的正好是下标（即 `pageId:refId:` 形式），否则不要传该参数。
+         */
+        disposeByPrefix(prefix, minIndex = 0) {
           const keysToDispose = [];
           for (const key of this.items.keys()) {
-            if (key.startsWith(prefix)) {
-              keysToDispose.push(key);
+            if (!key.startsWith(prefix))
+              continue;
+            if (minIndex > 0) {
+              const index = Number(key.slice(prefix.length));
+              if (!Number.isFinite(index) || index < minIndex)
+                continue;
             }
+            keysToDispose.push(key);
           }
-          if (keysToDispose.length > 0) {
-            (0, log_1.logDebug)(`[ListItemManager] Disposing ${keysToDispose.length} items for pageId=${pageId}`);
-            for (const key of keysToDispose) {
-              const entry = this.items.get(key);
-              if (entry) {
-                try {
-                  this.flushSyncUnmount(entry.root);
-                } catch (e) {
-                  console.error(`[ListItemManager] Error disposing item key=${key}:`, e);
-                }
-              }
+          for (const key of keysToDispose) {
+            const entry = this.items.get(key);
+            if (entry) {
+              this.unmountEntry(key, entry);
+            } else {
               this.items.delete(key);
             }
           }
+          return keysToDispose.length;
         }
         /**
          * 获取当前活跃的 sub-root 数量（调试用）。
@@ -21756,6 +22011,7 @@ ${stack}`;
       var ErrorHandler_1 = require_ErrorHandler();
       var ListItemManager_1 = require_ListItemManager();
       var log_1 = require_log();
+      var MAX_ITEM_DSL_RANGE = 200;
       var containers = {};
       var roots = {};
       var destroyingPages = /* @__PURE__ */ new Set();
@@ -21788,6 +22044,11 @@ ${stack}`;
         const handleRecoverableError = (error, errorInfo) => {
           ErrorHandler_1.ErrorHandler.notify(error, "render", errorInfo);
         };
+        const handleUncaughtError = (error, errorInfo) => {
+          ErrorHandler_1.ErrorHandler.notify(error, "render", errorInfo);
+        };
+        const handleCaughtError = () => {
+        };
         const listItemManager = new ListItemManager_1.ListItemManager(reconciler, handleRecoverableError);
         function ensureRoot(pageId) {
           if (roots[pageId])
@@ -21797,7 +22058,7 @@ ${stack}`;
             container = new PageContainer_1.PageContainer(pageId);
             containers[pageId] = container;
           }
-          const root = reconciler.createContainer(container, 1, null, false, null, "", null, null, handleRecoverableError, () => {
+          const root = reconciler.createContainer(container, 1, null, false, null, "", handleUncaughtError, handleCaughtError, handleRecoverableError, () => {
           });
           roots[pageId] = root;
           return root;
@@ -21816,6 +22077,39 @@ ${stack}`;
           }
         }
         const renderedPages = /* @__PURE__ */ new Set();
+        function resolveItemSource(pageId, refId) {
+          if (destroyingPages.has(pageId)) {
+            console.warn(`[Renderer] item DSL request ignored: pageId=${pageId} is destroying.`);
+            return null;
+          }
+          const container = containers[pageId];
+          if (!container)
+            return null;
+          const node = container.getNodeByRefId(refId);
+          if (!node)
+            return null;
+          const props = node.props;
+          const itemBuilder = props?.itemBuilder;
+          if (typeof itemBuilder !== "function")
+            return null;
+          return {
+            container,
+            itemBuilder,
+            // 有状态列表走 reconciler sub-root，列表项拥有完整 React 生命周期
+            stateful: props?.stateful === true
+          };
+        }
+        function buildItemDsl(pageId, refId, index, src) {
+          if (src.stateful) {
+            return listItemManager.getItemDSL(pageId, refId, index, src.itemBuilder, src.container);
+          }
+          try {
+            return src.container.elementToDslForItem(`${pageId}:${refId}:${index}`, src.itemBuilder(index));
+          } catch (e) {
+            console.error(`[Renderer] Error in stateless getItemDSL for refId ${refId} at index ${index}:`, e);
+            return null;
+          }
+        }
         return {
           update(element, pageId) {
             if (destroyingPages.has(pageId)) {
@@ -21828,7 +22122,6 @@ ${stack}`;
             let retryCount = 0;
             const maxRetries = 100;
             const performUpdate = () => {
-              const updateStart = Date.now();
               try {
                 if (isFirstRender) {
                   if (reconciler.flushSyncFromReconciler) {
@@ -21846,7 +22139,6 @@ ${stack}`;
                 } else {
                   reconciler.updateContainer(element, root, null, null);
                 }
-                const updateEnd = Date.now();
                 retryCount = 0;
               } catch (e) {
                 const msg = e.message || String(e);
@@ -21926,35 +22218,34 @@ ${stack}`;
           },
           dispatchEvent,
           getItemDSL(pageId, refId, index) {
-            if (destroyingPages.has(pageId)) {
-              console.warn(`[Renderer] getItemDSL() ignored: pageId=${pageId} is destroying.`);
+            const src = resolveItemSource(pageId, refId);
+            if (!src)
               return null;
+            return buildItemDsl(pageId, refId, index, src);
+          },
+          getItemDSLRange(pageId, refId, start, end) {
+            const src = resolveItemSource(pageId, refId);
+            if (!src)
+              return [];
+            const from = Math.max(0, Math.floor(start));
+            const to = Math.min(Math.floor(end), from + MAX_ITEM_DSL_RANGE);
+            const entries = [];
+            for (let index = from; index < to; index++) {
+              const dsl = buildItemDsl(pageId, refId, index, src);
+              if (dsl != null)
+                entries.push({ index, dsl });
             }
-            const container = containers[pageId];
-            if (!container)
-              return null;
-            const node = container.getNodeByRefId(refId);
-            if (!node)
-              return null;
-            const itemBuilder = node.props?.itemBuilder;
-            if (typeof itemBuilder !== "function")
-              return null;
-            const stateful = node.props?.stateful === true;
-            if (stateful) {
-              return listItemManager.getItemDSL(pageId, refId, index, itemBuilder, container);
-            } else {
-              try {
-                const element = itemBuilder(index);
-                return container.elementToDslForItem(`${pageId}:${refId}:${index}`, element);
-              } catch (e) {
-                console.error(`[Renderer] Error in stateless getItemDSL for refId ${refId} at index ${index}:`, e);
-                return null;
-              }
-            }
+            (0, log_1.perfLog)(`[Renderer] getItemDSLRange page=${pageId} refId=${refId} [${from},${to}) \u2192 ${entries.length} items`);
+            return entries;
           },
           disposeItem(pageId, refId, index) {
             listItemManager.disposeItem(pageId, refId, index);
             containers[pageId]?.clearItemSyntheticCallbacks(`${pageId}:${refId}:${index}`);
+          },
+          disposeItems(pageId, refId, fromIndex = 0) {
+            const from = Math.max(0, Math.floor(fromIndex));
+            listItemManager.disposeItems(pageId, refId, from);
+            containers[pageId]?.clearItemSyntheticCallbacksByPrefix(`${pageId}:${refId}:`, from);
           },
           elementToDsl(pageId, element) {
             let container = containers[pageId];
@@ -22366,10 +22657,15 @@ ${stack}`;
       var ErrorBoundary = class extends react_1.default.Component {
         constructor(props) {
           super(props);
-          this.state = { hasError: false, error: null };
+          this.state = { hasError: false, error: null, resetKey: props.resetKey };
         }
         static getDerivedStateFromError(error) {
           return { hasError: true, error };
+        }
+        static getDerivedStateFromProps(props, state) {
+          if (props.resetKey === state.resetKey)
+            return null;
+          return { hasError: false, error: null, resetKey: props.resetKey };
         }
         componentDidCatch(error, errorInfo) {
           console.error("[ErrorBoundary] Caught error:", error, errorInfo);
@@ -22550,7 +22846,9 @@ ${stack}`;
       exports.render = render;
       exports.destroy = destroy;
       exports.getItemDSL = getItemDSL;
+      exports.getItemDSLRange = getItemDSLRange;
       exports.disposeItem = disposeItem;
+      exports.disposeItems = disposeItems;
       exports.elementToDsl = elementToDsl;
       exports.notifyLifecycle = notifyLifecycle;
       exports.getContainer = getContainer;
@@ -22571,6 +22869,7 @@ ${stack}`;
         r.notifyLifecycle(pageId, type);
       });
       var renderState = {};
+      var renderGeneration = {};
       function setGlobalErrorFallback2(fallback) {
         globalErrorFallback = fallback;
       }
@@ -22641,7 +22940,16 @@ ${stack}`;
       }
       function wrapWithProviders(pageId, app) {
         const fallbackUI = globalErrorFallback || defaultErrorFallback;
-        return react_1.default.createElement(PageContext_1.PageContext.Provider, { value: { pageId } }, react_1.default.createElement(ErrorBoundary_1.ErrorBoundary, { fallback: fallbackUI }, app));
+        const generation = (renderGeneration[pageId] ?? 0) + 1;
+        renderGeneration[pageId] = generation;
+        return react_1.default.createElement(
+          PageContext_1.PageContext.Provider,
+          { value: { pageId } },
+          // 同一 pageId 再次 render 代表一轮明确的页面重试/替换，用 resetKey 清掉上一轮
+          // 的 hasError，否则页面会永久停在 fallback。注意不能改 React key —— 那会把
+          // 没出错的页面也整棵重新挂载，hooks state 全丢。
+          react_1.default.createElement(ErrorBoundary_1.ErrorBoundary, { resetKey: generation, fallback: fallbackUI }, app)
+        );
       }
       async function doRenderAsync(pageId, path, params, token) {
         (0, perf_timing_1.markStart)(pageId);
@@ -22732,6 +23040,7 @@ ${stack}`;
       function destroy(pageId) {
         const r = ensureRenderer();
         delete renderState[pageId];
+        delete renderGeneration[pageId];
         Router2.clearLocation(pageId);
         LifecycleService_1.LifecycleService._onPageLifecycle(pageId, "invisible");
         r.destroy(pageId);
@@ -22740,9 +23049,17 @@ ${stack}`;
         const r = ensureRenderer();
         return r.getItemDSL(pageId, refId, index);
       }
+      function getItemDSLRange(pageId, refId, start, end) {
+        const r = ensureRenderer();
+        return r.getItemDSLRange(pageId, refId, start, end);
+      }
       function disposeItem(pageId, refId, index) {
         const r = ensureRenderer();
         r.disposeItem(pageId, refId, index);
+      }
+      function disposeItems(pageId, refId, fromIndex = 0) {
+        const r = ensureRenderer();
+        r.disposeItems(pageId, refId, fromIndex);
       }
       function elementToDsl(pageId, element) {
         const r = ensureRenderer();
@@ -22781,11 +23098,16 @@ ${stack}`;
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       };
       Object.defineProperty(exports, "__esModule", { value: true });
+      exports.resolveBundleAssetPath = void 0;
       __exportStar(require_renderer(), exports);
       __exportStar(require_page_render(), exports);
       __exportStar(require_PageContext(), exports);
       __exportStar(require_ErrorBoundary(), exports);
       __exportStar(require_ErrorHandler(), exports);
+      var node_1 = require_node();
+      Object.defineProperty(exports, "resolveBundleAssetPath", { enumerable: true, get: function() {
+        return node_1.resolveBundleAssetPath;
+      } });
     }
   });
 
@@ -23123,9 +23445,18 @@ ${stack}`;
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.Image = void 0;
       var react_1 = __importDefault(require_react_production());
+      var node_1 = require_node();
+      var IMAGE_ASSET_KEYS = ["src", "url", "errorSrc", "errorUrl"];
       var Image8 = class extends react_1.default.Component {
         render() {
-          return react_1.default.createElement("Image", { ...this.props, isBoundary: false });
+          const hostProps = { ...this.props, isBoundary: false };
+          for (const key of IMAGE_ASSET_KEYS) {
+            const value = hostProps[key];
+            if (value !== void 0) {
+              hostProps[key] = (0, node_1.resolveBundleAssetPath)(value);
+            }
+          }
+          return react_1.default.createElement("Image", hostProps);
         }
       };
       exports.Image = Image8;
@@ -23557,7 +23888,9 @@ ${stack}`;
           render: PageRender.render,
           destroy: PageRender.destroy,
           getItemDSL: PageRender.getItemDSL,
+          getItemDSLRange: PageRender.getItemDSLRange,
           disposeItem: PageRender.disposeItem,
+          disposeItems: PageRender.disposeItems,
           notifyLifecycle: PageRender.notifyLifecycle,
           dispatchEvent: (eventObj, payload) => {
             const r = PageRender.ensureRenderer();
@@ -26317,6 +26650,113 @@ ${stack}`;
     }
   });
 
+  // ../../fuickjs_framework/fuickjs/dist/hooks/useTimer.js
+  var require_useTimer = __commonJS({
+    "../../fuickjs_framework/fuickjs/dist/hooks/useTimer.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.useTimeout = useTimeout;
+      exports.useInterval = useInterval;
+      var react_1 = require_react_production();
+      function useTimeout(fn, delay) {
+        const fnRef = (0, react_1.useRef)(fn);
+        fnRef.current = fn;
+        (0, react_1.useEffect)(() => {
+          if (delay === null || delay === void 0)
+            return;
+          const id = setTimeout(() => fnRef.current(), delay);
+          return () => clearTimeout(id);
+        }, [delay]);
+      }
+      function useInterval(fn, delay) {
+        const fnRef = (0, react_1.useRef)(fn);
+        fnRef.current = fn;
+        (0, react_1.useEffect)(() => {
+          if (delay === null || delay === void 0)
+            return;
+          const id = setInterval(() => fnRef.current(), delay);
+          return () => clearInterval(id);
+        }, [delay]);
+      }
+    }
+  });
+
+  // ../../fuickjs_framework/fuickjs/dist/hooks/useWebSocket.js
+  var require_useWebSocket = __commonJS({
+    "../../fuickjs_framework/fuickjs/dist/hooks/useWebSocket.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.useWebSocket = useWebSocket;
+      var react_1 = require_react_production();
+      var OPEN = 1;
+      var CLOSED = 3;
+      function useWebSocket(url, options = {}) {
+        const { protocols, enabled = true } = options;
+        const optionsRef = (0, react_1.useRef)(options);
+        optionsRef.current = options;
+        const socketRef = (0, react_1.useRef)(null);
+        const [readyState, setReadyState] = (0, react_1.useState)(CLOSED);
+        const protocolsKey = JSON.stringify(protocols ?? "");
+        (0, react_1.useEffect)(() => {
+          if (!enabled || !url) {
+            setReadyState(CLOSED);
+            return;
+          }
+          const Ctor = globalThis.WebSocket;
+          if (typeof Ctor !== "function") {
+            console.warn("[useWebSocket] globalThis.WebSocket is unavailable; the connection was skipped.");
+            return;
+          }
+          const socket = new Ctor(url, protocols);
+          socketRef.current = socket;
+          setReadyState(socket.readyState);
+          socket.onopen = () => {
+            setReadyState(OPEN);
+            optionsRef.current.onOpen?.();
+          };
+          socket.onmessage = (event) => {
+            optionsRef.current.onMessage?.(event?.data);
+          };
+          socket.onerror = () => {
+            optionsRef.current.onError?.();
+          };
+          socket.onclose = (event) => {
+            setReadyState(CLOSED);
+            optionsRef.current.onClose?.({
+              code: event?.code ?? 1006,
+              reason: event?.reason ?? "",
+              wasClean: event?.wasClean ?? false
+            });
+          };
+          return () => {
+            socketRef.current = null;
+            socket.onopen = null;
+            socket.onmessage = null;
+            socket.onerror = null;
+            socket.onclose = null;
+            try {
+              socket.close(1e3, "unmounted");
+            } catch (e) {
+              console.warn("[useWebSocket] close() on unmount failed:", e);
+            }
+          };
+        }, [url, protocolsKey, enabled]);
+        const send = (0, react_1.useCallback)((data) => {
+          const socket = socketRef.current;
+          if (!socket || socket.readyState !== OPEN) {
+            console.warn(`[useWebSocket] send() ignored: socket is not open (readyState=${socket?.readyState ?? "none"}).`);
+            return;
+          }
+          socket.send(data);
+        }, []);
+        const close = (0, react_1.useCallback)((code, reason) => {
+          socketRef.current?.close(code, reason);
+        }, []);
+        return { readyState, send, close };
+      }
+    }
+  });
+
   // ../../fuickjs_framework/fuickjs/dist/hooks/index.js
   var require_hooks2 = __commonJS({
     "../../fuickjs_framework/fuickjs/dist/hooks/index.js"(exports) {
@@ -26340,6 +26780,8 @@ ${stack}`;
       Object.defineProperty(exports, "__esModule", { value: true });
       __exportStar(require_hooks(), exports);
       __exportStar(require_useAnimation(), exports);
+      __exportStar(require_useTimer(), exports);
+      __exportStar(require_useWebSocket(), exports);
     }
   });
 
@@ -26746,7 +27188,7 @@ ${stack}`;
         for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports2, p)) __createBinding(exports2, m, p);
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.MessageEvent = exports.CloseEvent = exports.WebSocket = void 0;
+      exports.MessageEvent = exports.CloseEvent = exports.WebSocket = exports.hydrateStorage = void 0;
       require_polyfill();
       __exportStar(require_core2(), exports);
       __exportStar(require_widgets(), exports);
@@ -26759,6 +27201,10 @@ ${stack}`;
       __exportStar(require_timer(), exports);
       __exportStar(require_console(), exports);
       __exportStar(require_fetch(), exports);
+      var storage_1 = require_storage();
+      Object.defineProperty(exports, "hydrateStorage", { enumerable: true, get: function() {
+        return storage_1.hydrateStorage;
+      } });
       var websocket_1 = require_websocket();
       Object.defineProperty(exports, "WebSocket", { enumerable: true, get: function() {
         return websocket_1.WebSocket;

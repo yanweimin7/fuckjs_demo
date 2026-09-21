@@ -28,5 +28,7 @@ class FuickAppPage extends StatelessWidget {
       bundleUrl: isWeb ? '$appName.js' : null,
       workerUrl: isWeb ? 'fuick-worker.js' : null,
     );
+      workerUrl: isWeb ? 'fuick-worker.js' : null,
+    );
   }
 }
