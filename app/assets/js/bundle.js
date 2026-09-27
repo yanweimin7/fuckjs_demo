@@ -23417,13 +23417,13 @@ var require_Padding = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Padding = void 0;
     var react_1 = __importDefault(require_react_production());
-    var Padding65 = class extends react_1.default.Component {
+    var Padding66 = class extends react_1.default.Component {
       render() {
         return react_1.default.createElement("Padding", { ...this.props });
       }
     };
-    exports.Padding = Padding65;
-    exports.default = Padding65;
+    exports.Padding = Padding66;
+    exports.default = Padding66;
   }
 });
 
@@ -24510,7 +24510,7 @@ var require_SingleChildScrollView = __commonJS({
     exports.SingleChildScrollView = void 0;
     var react_1 = __importDefault(require_react_production());
     var BaseWidget_1 = require_BaseWidget();
-    var SingleChildScrollView51 = class extends BaseWidget_1.BaseWidget {
+    var SingleChildScrollView52 = class extends BaseWidget_1.BaseWidget {
       animateTo(offset, duration = 300, curve = "easeInOut") {
         this.callNativeCommand("animateTo", { offset, duration, curve });
       }
@@ -24528,8 +24528,8 @@ var require_SingleChildScrollView = __commonJS({
         });
       }
     };
-    exports.SingleChildScrollView = SingleChildScrollView51;
-    exports.default = SingleChildScrollView51;
+    exports.SingleChildScrollView = SingleChildScrollView52;
+    exports.default = SingleChildScrollView52;
   }
 });
 
@@ -24814,14 +24814,14 @@ var require_ListTile = __commonJS({
     exports.ListTile = void 0;
     var react_1 = __importDefault(require_react_production());
     var FlutterProps_1 = require_FlutterProps();
-    var ListTile5 = class extends react_1.default.Component {
+    var ListTile6 = class extends react_1.default.Component {
       render() {
         const { leading, title, subtitle, trailing, children, ...otherProps } = this.props;
         return react_1.default.createElement("ListTile", { ...otherProps }, leading && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "leading" }, leading), title && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "title" }, title), subtitle && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "subtitle" }, subtitle), trailing && react_1.default.createElement(FlutterProps_1.FlutterProps, { propsKey: "trailing" }, trailing), children);
       }
     };
-    exports.ListTile = ListTile5;
-    exports.default = ListTile5;
+    exports.ListTile = ListTile6;
+    exports.default = ListTile6;
   }
 });
 
@@ -25593,6 +25593,15 @@ var require_CustomPaint = __commonJS({
       rotate(radians) {
         this.commands.push({ type: "rotate", radians });
       }
+      clipRect(rect, options) {
+        this.commands.push({ type: "clipRect", rect, ...options });
+      }
+      clipRRect(rrect, options) {
+        this.commands.push({ type: "clipRRect", rrect, ...options });
+      }
+      clipPath(path, options) {
+        this.commands.push({ type: "clipPath", path: path.serialize(), ...options });
+      }
       drawLine(p1, p2, paint) {
         this.commands.push({ type: "drawLine", p1, p2, paint });
       }
@@ -25613,6 +25622,20 @@ var require_CustomPaint = __commonJS({
       }
       drawPath(path, paint) {
         this.commands.push({ type: "drawPath", path: path.serialize(), paint });
+      }
+      /**
+       * 绘制文本。文字样式与 Text 组件对齐；布局宽度默认整个绘制区域。
+       * 注意：文本在 Flutter 端按段落一次性布局，`offset` 为段落左上角。
+       */
+      drawText(text, offset, style) {
+        this.commands.push({ type: "drawText", text, offset, style });
+      }
+      /**
+       * 绘制位图。`src` 支持网络 / asset / base64 / 本地文件（栅格图）；SVG 不支持。
+       * 位图异步解析，加载完成后自动重绘；未就绪时该命令跳过。
+       */
+      drawImage(src, rect, options) {
+        this.commands.push({ type: "drawImage", src, rect, ...options });
       }
       serialize() {
         return this.commands;
@@ -31545,6 +31568,7 @@ function FlutterPropsDemo() {
 // src/demos/CustomPaintDemo.tsx
 var import_react44 = __toESM(require_react_production());
 var import_fuickjs44 = __toESM(require_dist());
+var OWL2 = "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg";
 var drawBackground = (p) => {
   p.drawRect(
     { left: 0, top: 0, width: 300, height: 300 },
@@ -31563,7 +31587,175 @@ var drawBackground = (p) => {
     );
   }
 };
+var gradientPainter = (() => {
+  const p = new import_fuickjs44.CustomPainter();
+  p.drawRRect(
+    { left: 0, top: 0, width: 300, height: 140, radius: 16 },
+    {
+      gradient: {
+        type: "linear",
+        colors: ["#FF6B6B", "#4ECDC4"],
+        begin: "topLeft",
+        end: "bottomRight"
+      }
+    }
+  );
+  p.drawCircle({ dx: 240, dy: 70 }, 45, {
+    gradient: {
+      type: "radial",
+      colors: ["#FFFFFF", "#FFD93D"],
+      rect: { left: 195, top: 25, width: 90, height: 90 }
+    }
+  });
+  return p;
+})();
+var clipPainter = (() => {
+  const p = new import_fuickjs44.CustomPainter();
+  p.save();
+  p.clipRRect({ left: 0, top: 0, width: 140, height: 140, radius: 24 });
+  p.drawRect(
+    { left: 0, top: 0, width: 140, height: 140 },
+    {
+      gradient: {
+        type: "linear",
+        colors: ["#4F46E5", "#22D3EE"],
+        begin: "topLeft",
+        end: "bottomRight"
+      }
+    }
+  );
+  for (let i = -140; i < 140; i += 20) {
+    p.drawLine(
+      { dx: i, dy: 0 },
+      { dx: i + 140, dy: 140 },
+      { color: "rgba(255,255,255,0.35)", strokeWidth: 6 }
+    );
+  }
+  p.restore();
+  const star = new import_fuickjs44.Path();
+  const cx = 230;
+  const cy = 70;
+  const outerR = 60;
+  const innerR = 26;
+  star.moveTo(cx, cy - outerR);
+  for (let i = 0; i < 5; i++) {
+    const outerAngle = Math.PI / 2 + i * 2 * Math.PI / 5;
+    const innerAngle = outerAngle + Math.PI / 5;
+    star.lineTo(
+      cx + outerR * Math.cos(outerAngle),
+      cy - outerR * Math.sin(outerAngle)
+    );
+    star.lineTo(
+      cx + innerR * Math.cos(innerAngle),
+      cy - innerR * Math.sin(innerAngle)
+    );
+  }
+  star.close();
+  p.save();
+  p.clipPath(star);
+  p.drawRect(
+    { left: 160, top: 0, width: 140, height: 140 },
+    { color: "#FDE047" }
+  );
+  for (let y = 0; y < 140; y += 12) {
+    p.drawCircle({ dx: 230, dy: y }, 3, { color: "#F97316" });
+  }
+  p.restore();
+  return p;
+})();
+var blurPainter = (() => {
+  const p = new import_fuickjs44.CustomPainter();
+  p.drawCircle({ dx: 60, dy: 70 }, 40, { color: "#3B82F6", blur: 16 });
+  p.drawCircle({ dx: 130, dy: 70 }, 40, { color: "#EF4444", blur: 4 });
+  p.drawCircle({ dx: 200, dy: 70 }, 40, { color: "#10B981" });
+  return p;
+})();
+var textPainter = (() => {
+  const p = new import_fuickjs44.CustomPainter();
+  p.drawText(
+    "Hello CustomPaint",
+    { dx: 16, dy: 16 },
+    { color: "#111827", fontSize: 22, fontWeight: "bold" }
+  );
+  p.drawText(
+    "\u6E10\u53D8 \xB7 \u88C1\u526A \xB7 \u6A21\u7CCA \xB7 \u6587\u672C \xB7 \u56FE\u7247",
+    { dx: 16, dy: 52 },
+    { color: "#6B7280", fontSize: 14 }
+  );
+  p.drawText(
+    "\u8FD9\u662F\u4E00\u6BB5\u4F1A\u88AB\u7701\u7565\u7684\u8D85\u957F\u5C45\u4E2D\u6587\u672C\u5185\u5BB9\u793A\u4F8B",
+    { dx: 16, dy: 80 },
+    {
+      color: "#2563EB",
+      fontSize: 14,
+      textAlign: "center",
+      maxLines: 1,
+      ellipsis: true
+    }
+  );
+  return p;
+})();
+var imagePainter = (() => {
+  const p = new import_fuickjs44.CustomPainter();
+  p.save();
+  p.clipRRect({ left: 0, top: 0, width: 140, height: 140, radius: 20 });
+  p.drawImage(
+    OWL2,
+    { left: 0, top: 0, width: 140, height: 140 },
+    { fit: "cover" }
+  );
+  p.restore();
+  p.drawImage(
+    OWL2,
+    { left: 160, top: 0, width: 140, height: 140 },
+    { fit: "contain", paint: { color: "rgba(255,255,255,0.6)" } }
+  );
+  return p;
+})();
+var EXAMPLES = [
+  {
+    key: "gradient",
+    title: "1. \u6E10\u53D8 Gradient",
+    subtitle: "linear / radial\uFF0Crect \u9650\u5B9A shader \u8303\u56F4",
+    width: 300,
+    height: 140,
+    painter: gradientPainter
+  },
+  {
+    key: "clip",
+    title: "2. \u88C1\u526A Clip",
+    subtitle: "clipRRect / clipPath",
+    width: 300,
+    height: 140,
+    painter: clipPainter
+  },
+  {
+    key: "blur",
+    title: "3. \u6A21\u7CCA Blur",
+    subtitle: "MaskFilter.blur\uFF0C\u4E0D\u540C sigma",
+    width: 300,
+    height: 140,
+    painter: blurPainter
+  },
+  {
+    key: "text",
+    title: "4. \u6587\u672C DrawText",
+    subtitle: "\u6837\u5F0F / \u5BF9\u9F50 / \u7701\u7565",
+    width: 300,
+    height: 120,
+    painter: textPainter
+  },
+  {
+    key: "image",
+    title: "5. \u56FE\u7247 DrawImage",
+    subtitle: "cover \u5706\u89D2\u88C1\u526A / contain \u534A\u900F\u660E",
+    width: 300,
+    height: 140,
+    painter: imagePainter
+  }
+];
 function CustomPaintDemo() {
+  const [openKey, setOpenKey] = (0, import_react44.useState)(null);
   const painterRef = (0, import_react44.useRef)(null);
   if (!painterRef.current) {
     painterRef.current = new import_fuickjs44.CustomPainter();
@@ -31576,11 +31768,7 @@ function CustomPaintDemo() {
     const r = Math.random() * 20 + 5;
     const colors2 = ["red", "green", "blue", "orange", "purple", "#80FFA500"];
     const color = colors2[Math.floor(Math.random() * colors2.length)];
-    painter.drawCircle(
-      { dx: x, dy: y },
-      r,
-      { color, style: "fill" }
-    );
+    painter.drawCircle({ dx: x, dy: y }, r, { color, style: "fill" });
     painter.repaint();
   };
   const addRotatedRect = () => {
@@ -31615,8 +31803,14 @@ function CustomPaintDemo() {
     for (let i = 0; i < 5; i++) {
       const outerAngle = Math.PI / 2 + i * 2 * Math.PI / 5;
       const innerAngle = outerAngle + Math.PI / 5;
-      path.lineTo(cx + outerR * Math.cos(outerAngle), cy - outerR * Math.sin(outerAngle));
-      path.lineTo(cx + innerR * Math.cos(innerAngle), cy - innerR * Math.sin(innerAngle));
+      path.lineTo(
+        cx + outerR * Math.cos(outerAngle),
+        cy - outerR * Math.sin(outerAngle)
+      );
+      path.lineTo(
+        cx + innerR * Math.cos(innerAngle),
+        cy - innerR * Math.sin(innerAngle)
+      );
     }
     path.close();
     painter.drawPath(path, { color: "#FFD700", style: "fill" });
@@ -31635,44 +31829,76 @@ function CustomPaintDemo() {
       startX + 200,
       startY
     );
-    painter.drawPath(path, { color: "#FF4444", style: "stroke", strokeWidth: 3 });
+    painter.drawPath(path, {
+      color: "#FF4444",
+      style: "stroke",
+      strokeWidth: 3
+    });
     painter.repaint();
   };
-  return /* @__PURE__ */ import_react44.default.createElement(
-    import_fuickjs44.Scaffold,
+  const toggle = (key) => setOpenKey((prev) => prev === key ? null : key);
+  return /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Scaffold, { appBar: /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.AppBar, { title: /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "CustomPaint Demo" }) }) }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SingleChildScrollView, null, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Padding, { padding: 16 }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Center, null, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Column, { mainAxisSize: "min" }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "\u4EA4\u4E92\u753B\u5E03", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 8 }), /* @__PURE__ */ import_react44.default.createElement(
+    import_fuickjs44.Text,
     {
-      appBar: /* @__PURE__ */ import_react44.default.createElement(
-        import_fuickjs44.AppBar,
-        {
-          title: /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "CustomPaint Interactive Demo" })
-        }
-      )
+      text: "\u70B9\u51FB\u6309\u94AE\u52A8\u6001\u8FFD\u52A0\u56FE\u5F62\u6307\u4EE4",
+      fontSize: 14,
+      color: "grey"
+    }
+  ), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 16 }), /* @__PURE__ */ import_react44.default.createElement(
+    import_fuickjs44.Container,
+    {
+      decoration: { border: { color: "black", width: 2 } }
     },
-    /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Center, null, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Column, { mainAxisSize: "min" }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "Interactive Canvas", fontSize: 20, fontWeight: "bold" }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 10 }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "Click buttons to add shapes dynamically", fontSize: 14, color: "grey" }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 20 }), /* @__PURE__ */ import_react44.default.createElement(
+    /* @__PURE__ */ import_react44.default.createElement(
+      import_fuickjs44.CustomPaint,
+      {
+        size: { width: 300, height: 300 },
+        painter
+      }
+    )
+  ), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 20 }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Circle", onTap: addRandomCircle }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Rect", onTap: addRotatedRect }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Star", onTap: addStarPath }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Bezier", onTap: addBezierPath }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Clear", onTap: clearCanvas })))), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 28 }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "2D \u80FD\u529B\u793A\u4F8B", fontSize: 16, fontWeight: "bold" }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 8 }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "\u70B9\u51FB\u6761\u76EE\u5C55\u5F00\u5BF9\u5E94\u793A\u4F8B", fontSize: 12, color: "#6B7280" }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 12 }), EXAMPLES.map((ex) => {
+    const expanded = openKey === ex.key;
+    return /* @__PURE__ */ import_react44.default.createElement(
       import_fuickjs44.Container,
       {
+        key: ex.key,
+        margin: { bottom: 10 },
         decoration: {
-          border: { color: "black", width: 2 }
+          border: { color: "#E5E7EB", width: 1 },
+          borderRadius: 10
         }
       },
-      /* @__PURE__ */ import_react44.default.createElement(
+      /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Column, { crossAxisAlignment: "start" }, /* @__PURE__ */ import_react44.default.createElement(
+        import_fuickjs44.ListTile,
+        {
+          title: /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: ex.title, fontSize: 15, fontWeight: "bold" }),
+          subtitle: /* @__PURE__ */ import_react44.default.createElement(
+            import_fuickjs44.Text,
+            {
+              text: ex.subtitle,
+              fontSize: 12,
+              color: "#6B7280"
+            }
+          ),
+          trailing: /* @__PURE__ */ import_react44.default.createElement(
+            import_fuickjs44.Text,
+            {
+              text: expanded ? "\u25BE" : "\u25B8",
+              fontSize: 18,
+              color: "#6B7280"
+            }
+          ),
+          onTap: () => toggle(ex.key)
+        }
+      ), expanded && /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Padding, { padding: { left: 12, right: 12, bottom: 12 } }, /* @__PURE__ */ import_react44.default.createElement(
         import_fuickjs44.CustomPaint,
         {
-          size: { width: 300, height: 300 },
-          painter
+          size: { width: ex.width, height: ex.height },
+          painter: ex.painter
         }
-      )
-    ), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 20 }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Row, { mainAxisAlignment: "spaceEvenly" }, /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Add Circle", onTap: addRandomCircle }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Add Rect", onTap: addRotatedRect }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Add Star", onTap: addStarPath }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Add Bezier", onTap: addBezierPath }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Button, { text: "Clear", onTap: clearCanvas })), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 20 }), /* @__PURE__ */ import_react44.default.createElement(
-      import_fuickjs44.Container,
-      {
-        width: 200,
-        padding: 10,
-        color: "#f0f0f0",
-        alignment: "center"
-      },
-      /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.Text, { text: "Changes are applied immediately without full re-render", fontSize: 12, textAlign: "center" })
-    )))
-  );
+      )))
+    );
+  }), /* @__PURE__ */ import_react44.default.createElement(import_fuickjs44.SizedBox, { height: 24 })))));
 }
 
 // src/demos/VisibilityDetectorDemo.tsx
@@ -31898,7 +32124,7 @@ function RefreshIndicatorDemo() {
 // src/demos/RichTextDemo.tsx
 var React49 = __toESM(require_react_production());
 var import_fuickjs49 = __toESM(require_dist());
-var OWL2 = "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg";
+var OWL3 = "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg";
 function RichTextDemo() {
   return /* @__PURE__ */ React49.createElement(import_fuickjs49.Scaffold, { appBar: /* @__PURE__ */ React49.createElement(import_fuickjs49.AppBar, { title: "RichText Demo" }) }, /* @__PURE__ */ React49.createElement(import_fuickjs49.SingleChildScrollView, null, /* @__PURE__ */ React49.createElement(import_fuickjs49.Column, { padding: 16, crossAxisAlignment: "start" }, /* @__PURE__ */ React49.createElement(import_fuickjs49.Text, { text: "\u57FA\u7840\u6587\u5B57\u6837\u5F0F", fontSize: 15, fontWeight: "bold", margin: { bottom: 8 } }), /* @__PURE__ */ React49.createElement(import_fuickjs49.Container, { color: "#FFFFFF", padding: 12, decoration: { borderRadius: 8 } }, /* @__PURE__ */ React49.createElement(
     import_fuickjs49.RichText,
@@ -31954,7 +32180,7 @@ function RichTextDemo() {
           {
             type: "widget",
             alignment: "middle",
-            widget: { type: "Image", props: { src: OWL2, width: 40, height: 40, fit: "cover" }, children: [] }
+            widget: { type: "Image", props: { src: OWL3, width: 40, height: 40, fit: "cover" }, children: [] }
           },
           { text: " \u5D4C\u5165\u884C\u5185\u56FE\u7247\u6548\u679C", style: { fontSize: 16, color: "#333" } }
         ]
