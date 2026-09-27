@@ -6,9 +6,12 @@ const { execSync, execFileSync } = require("child_process");
 const watch = process.argv.includes("--watch");
 
 // qjsc 编译器路径（可选，不存在时跳过字节码编译）
+// 注意：qjsc 必须与引擎同版本编译，否则 .qjc 的 BC_VERSION 与引擎不匹配，
+// 运行时会报 "invalid version (NN expected=MM)"。
+// 生成方式：fuickjs_engine 目录下执行 ./build.sh qjsc
 const QJSC_PATH = path.resolve(
   __dirname,
-  "../../fuickjs_engine/src/main/jni/quickjs/build_macos/qjsc",
+  "../../fuickjs_engine/src/main/jni/vendor/quickjs/build_qjsc/qjsc",
 );
 
 async function build() {
@@ -87,6 +90,17 @@ async function build() {
     console.log("Compiling bundle to QuickJS bytecode...");
     execSync(`${QJSC_PATH} -b -o ${destBin} ${src}`);
     console.log(`Compiled to ${destBin}`);
+  } else {
+    // 不能静默跳过：残留的旧 .qjc 会被引擎当字节码加载并因 BC_VERSION 不匹配报错。
+    console.warn(
+      `[warn] qjsc not found at ${QJSC_PATH}\n` +
+        `       跳过字节码编译（将回退到 bundle.js 源码模式）。\n` +
+        `       先执行 ./build.sh qjsc 重新编译与引擎同版本的 qjsc。`,
+    );
+    if (fs.existsSync(destBin)) {
+      fs.unlinkSync(destBin);
+      console.warn(`[warn] 已删除过期字节码 ${destBin}`);
+    }
   }
 
   // Pack all bundles into zip files — skip in debug mode（SOURCEMAP 时不需要 zip）
