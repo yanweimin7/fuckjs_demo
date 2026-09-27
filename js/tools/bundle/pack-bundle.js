@@ -68,9 +68,20 @@ function copyAs(src, destDir, destName) {
   return destName;
 }
 
+// 操作系统与版本控制的元数据，不是应用资源，且不应进包：
+//   .DS_Store   Finder 的 per-machine 视图状态，每台机器内容都不同——即使
+//               mtime 已归一，它仍会让相同内容打出不同 sha256，抵消可复现构建。
+//   __MACOSX    macOS 存放 AppleDouble/resource fork 的目录，由 zip 自动生成。
+//   .git        版本控制内部结构。
+//   Thumbs.db / desktop.ini  Windows 的同类元数据。
+// 注意：.gitkeep 保留——它是空目录的占位，109 字节且内容确定，无害；而若一并
+// 排除，assets/images/ 仍会由 copyDir 建出空目录条目，行为不变但没必要多改。
+const EXCLUDE = new Set(['.DS_Store', '__MACOSX', '.git', 'Thumbs.db', 'desktop.ini']);
+
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    if (EXCLUDE.has(entry.name)) continue;
     const s = path.join(src, entry.name);
     const d = path.join(dest, entry.name);
     if (entry.isDirectory()) copyDir(s, d);
