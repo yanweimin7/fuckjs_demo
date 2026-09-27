@@ -39,6 +39,28 @@ function sha256File(file) {
   return crypto.createHash('sha256').update(buf).digest('hex');
 }
 
+// zip 会把每个条目的 mtime 写进 local header 和 central directory，因此同一份
+// 源码在不同时间打包会得到不同的 zip sha256。这不是无害的：zip sha256 就是端上
+// 的缓存目录名（<name>-<version>-<sha>/），一旦漂移，所有用户本地已编译好的
+// .qjc 字节码缓存全部失效并重新下载，而内容其实一模一样。
+//
+// 打包前把 staging 内所有文件与目录的 mtime 归一，使相同内容 → 相同 sha256。
+//
+// 取本地时间的 1980-01-02 12:00：Info-ZIP 按本地墙钟写 DOS 时间戳，所以结果与
+// 时区无关；选 12:00 而非 00:00 是为了远离 DOS 纪元下界（UTC+14 下 00:00 会退到
+// 1979-12-31，越界后 zip 会钳位或告警）。
+const STAMP = new Date(1980, 0, 2, 12, 0, 0);
+
+function normalizeMtimes(dir) {
+  // 先递归处理子项，最后再改 dir 自身——写入子项会刷新父目录 mtime。
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name);
+    if (entry.isDirectory()) normalizeMtimes(p);
+    else fs.utimesSync(p, STAMP, STAMP);
+  }
+  fs.utimesSync(dir, STAMP, STAMP);
+}
+
 function copyAs(src, destDir, destName) {
   fs.mkdirSync(destDir, { recursive: true });
   const dest = path.join(destDir, destName);
@@ -130,6 +152,7 @@ function main() {
     fs.mkdirSync(outDir, { recursive: true });
     const zipPath = path.join(outDir, `${name}-${version}.zip`);
     if (fs.existsSync(zipPath)) fs.unlinkSync(zipPath);
+    normalizeMtimes(staging);
     execFileSync('zip', ['-r', '-X', '-q', zipPath, '.'], { cwd: staging });
 
     // 7. 整包 SHA-256。
