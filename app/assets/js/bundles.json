@@ -39,6 +39,14 @@
       "minAppVersion": "1.0.0",
       "label": "象棋",
       "initialRoute": "/"
+    },
+    {
+      "name": "anylink_controller",
+      "version": "1.0.0",
+      "sha256": "2c5c4f79b9af605c62d2674ef9b397ec92d38abaebcfe62dffaf994c78789aa8",
+      "minAppVersion": "1.0.0",
+      "label": "AnyLink",
+      "initialRoute": "/"
     }
   ]
 }
