@@ -35,7 +35,7 @@
     {
       "name": "wallet_bundle",
       "version": "1.0.0",
-      "sha256": "b416f9954abfb26d52ca91d3a7b3b91160b03802654e756886aff3d8d85d0996",
+      "sha256": "c19bb01618221703b29aadd8eea758d760340015de0fe8fb370fbce9382fa693",
       "minAppVersion": "1.0.0",
       "label": "Fuick Wallet",
       "initialRoute": "/"
