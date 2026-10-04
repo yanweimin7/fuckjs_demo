@@ -5,12 +5,10 @@ import {
   Text,
   Column,
   Container,
-  Center,
   SizedBox,
   Padding,
   Button,
   AnimatedCrossFade,
-  FlutterProps,
   Divider,
   Icon,
 } from "fuickjs";
@@ -31,8 +29,7 @@ export default function AnimatedCrossFadeDemo() {
           <AnimatedCrossFade
             crossFadeState={showFirst1 ? "showFirst" : "showSecond"}
             duration={600}
-          >
-            <FlutterProps propsKey="firstChild">
+            firstChild={
               <Container
                 width={240}
                 height={120}
@@ -42,11 +39,16 @@ export default function AnimatedCrossFadeDemo() {
                 <Column mainAxisAlignment="center">
                   <Icon data="home" size={36} color="white" />
                   <SizedBox height={8} />
-                  <Text text="First Child" fontSize={20} color="white" fontWeight="bold" />
+                  <Text
+                    text="First Child"
+                    fontSize={20}
+                    color="white"
+                    fontWeight="bold"
+                  />
                 </Column>
               </Container>
-            </FlutterProps>
-            <FlutterProps propsKey="secondChild">
+            }
+            secondChild={
               <Container
                 width={240}
                 height={160}
@@ -56,12 +58,17 @@ export default function AnimatedCrossFadeDemo() {
                 <Column mainAxisAlignment="center">
                   <Icon data="settings" size={36} color="white" />
                   <SizedBox height={8} />
-                  <Text text="Second Child" fontSize={20} color="white" fontWeight="bold" />
+                  <Text
+                    text="Second Child"
+                    fontSize={20}
+                    color="white"
+                    fontWeight="bold"
+                  />
                   <Text text="(更高)" fontSize={14} color="white" />
                 </Column>
               </Container>
-            </FlutterProps>
-          </AnimatedCrossFade>
+            }
+          />
           <SizedBox height={16} />
           <Button
             text={showFirst1 ? "Show Second" : "Show First"}
@@ -72,7 +79,11 @@ export default function AnimatedCrossFadeDemo() {
 
           <Text text="自定义 Curve" fontSize={18} fontWeight="bold" />
           <SizedBox height={8} />
-          <Text text="firstCurve: easeIn, secondCurve: easeOut" fontSize={14} color="#666" />
+          <Text
+            text="firstCurve: easeIn, secondCurve: easeOut"
+            fontSize={14}
+            color="#666"
+          />
           <SizedBox height={16} />
 
           <AnimatedCrossFade
@@ -81,18 +92,22 @@ export default function AnimatedCrossFadeDemo() {
             firstCurve="easeIn"
             secondCurve="easeOut"
             sizeCurve="fastOutSlowIn"
-          >
-            <FlutterProps propsKey="firstChild">
+            firstChild={
               <Container
                 width={200}
                 height={80}
                 decoration={{ color: "#2196F3", borderRadius: 12 }}
                 alignment="center"
               >
-                <Text text="Compact" fontSize={18} color="white" fontWeight="bold" />
+                <Text
+                  text="Compact"
+                  fontSize={18}
+                  color="white"
+                  fontWeight="bold"
+                />
               </Container>
-            </FlutterProps>
-            <FlutterProps propsKey="secondChild">
+            }
+            secondChild={
               <Container
                 width={280}
                 height={140}
@@ -100,14 +115,23 @@ export default function AnimatedCrossFadeDemo() {
                 alignment="center"
               >
                 <Column mainAxisAlignment="center">
-                  <Text text="Expanded" fontSize={22} color="white" fontWeight="bold" />
+                  <Text
+                    text="Expanded"
+                    fontSize={22}
+                    color="white"
+                    fontWeight="bold"
+                  />
                   <SizedBox height={4} />
                   <Text text="More content here" fontSize={14} color="white" />
-                  <Text text="With multiple lines" fontSize={14} color="white" />
+                  <Text
+                    text="With multiple lines"
+                    fontSize={14}
+                    color="white"
+                  />
                 </Column>
               </Container>
-            </FlutterProps>
-          </AnimatedCrossFade>
+            }
+          />
           <SizedBox height={16} />
           <Button
             text={showFirst2 ? "Expand" : "Compact"}

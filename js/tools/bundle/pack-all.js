@@ -39,7 +39,6 @@ function parseArgs() {
     key: KEY_DEFAULT,
     keyId: "demo-key",
     version: "1.0.0",
-    minAppVersion: "1.0.0",
   };
   for (let i = 2; i < process.argv.length; i++) {
     const a = process.argv[i];
@@ -51,7 +50,7 @@ function parseArgs() {
 }
 
 function main() {
-  const { key, keyId, version, minAppVersion } = parseArgs();
+  const { key, keyId, version } = parseArgs();
   if (!fs.existsSync(key)) {
     console.error("私钥不存在，请先运行: npm run bundle:keys");
     process.exit(1);
@@ -81,8 +80,6 @@ function main() {
       key,
       "--keyId",
       keyId,
-      "--minAppVersion",
-      minAppVersion,
       "--out",
       tmpOut,
     ];
@@ -110,7 +107,6 @@ function main() {
       name: b.name,
       version,
       sha256,
-      minAppVersion,
       label: b.label,
       initialRoute: b.initialRoute,
     });

@@ -54,7 +54,10 @@
 **/macos/Flutter/flutter_export_environment.sh
 
 # Web related
-**/web/index.html
+# web/index.html **必须入库**：它是 flutter build web 的必需输入（Flutter 从
+# <project>/web/ 拷贝模板到 build/web/），缺了直接 `Missing index.html` 构建失败。
+# 构建产物 build/web/ 已由上面的 build/ 规则忽略，这里不需要再挡一次。
+# 注意 app/web/ 下的 bundle.js / fuick-worker.js / game.js 也都是刻意入库的。
 
 # Symbols
 app.*.symbols

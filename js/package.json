@@ -12,7 +12,9 @@
     "lint:fix": "eslint src --fix",
     "bundle:keys": "node tools/bundle/gen-keys.js tools/bundle",
     "bundle:pack": "node tools/bundle/pack-bundle.js",
-    "bundle:pack:all": "node tools/bundle/pack-all.js"
+    "bundle:pack:all": "node tools/bundle/pack-all.js",
+    "bundle:golden": "node tools/bundle/canonical-golden.js",
+    "bundle:golden:write": "node tools/bundle/canonical-golden.js --write"
   },
   "dependencies": {
     "@faker-js/faker": "8.4.1",

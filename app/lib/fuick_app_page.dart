@@ -17,15 +17,14 @@ class FuickAppPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Web 不走离线包 / QuickJS 引擎，改用 <script src> 静态加载。
-    // bundleUrl 对应 web/ 下部署的 <appName>.js，workerUrl 对应 fuick-worker.js。
+    // bundleUrl 是**每个 bundle 各自的** <appName>.js，所以留在这里；
+    // AOT 开关与 worker 入口脚本是全局的，配在 main 的 FuickConfig 里。
     final isWeb = kIsWeb;
     return FuickAppView(
       appName: appName,
       initialRoute: path,
       initialParams: params,
-      useAotCode: !isWeb,
       bundleUrl: isWeb ? '$appName.js' : null,
-      workerUrl: isWeb ? 'fuick-worker.js' : null,
     );
   }
 }

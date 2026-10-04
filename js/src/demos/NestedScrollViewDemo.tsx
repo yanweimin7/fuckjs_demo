@@ -4,7 +4,6 @@ import {
   Text,
   Container,
   NestedScrollView,
-  FlutterProps,
   SliverAppBar,
   ListView,
   Padding,
@@ -24,9 +23,9 @@ const categories = [
 export default function NestedScrollViewDemo() {
   return (
     <Scaffold>
-      <NestedScrollView>
-        {/* headerSliverBuilder 必须是 Sliver 系列组件 */}
-        <FlutterProps propsKey="headerSliverBuilder">
+      <NestedScrollView
+        headerSliverBuilder={
+          /* headerSliverBuilder 必须是 Sliver 系列组件 */
           <SliverAppBar
             pinned={true}
             expandedHeight={180}
@@ -45,10 +44,9 @@ export default function NestedScrollViewDemo() {
               />
             </Container>
           </SliverAppBar>
-        </FlutterProps>
-
-        {/* body 必须是普通可滚动 Widget（如 ListView），不能是 Sliver */}
-        <FlutterProps propsKey="body">
+        }
+        body={
+          /* body 必须是普通可滚动 Widget（如 ListView），不能是 Sliver */
           <ListView shrinkWrap={false} physics="never">
             <Padding padding={16}>
               <Column crossAxisAlignment="start">
@@ -92,7 +90,12 @@ export default function NestedScrollViewDemo() {
                     }}
                     alignment="center"
                   >
-                    <Text text={`${i}`} color="white" fontSize={14} fontWeight="bold" />
+                    <Text
+                      text={`${i}`}
+                      color="white"
+                      fontSize={14}
+                      fontWeight="bold"
+                    />
                   </Container>
                   <SizedBox width={12} />
                   <Text text={`List Item ${i}`} fontSize={16} />
@@ -100,8 +103,8 @@ export default function NestedScrollViewDemo() {
               </Container>
             ))}
           </ListView>
-        </FlutterProps>
-      </NestedScrollView>
+        }
+      />
     </Scaffold>
   );
 }

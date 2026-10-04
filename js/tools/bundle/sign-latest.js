@@ -10,7 +10,7 @@
  *
  * 输入：bundles.json 格式（demo 现成的）：
  *   { "packages": [ { "name": "...", "version": "...", "sha256": "...",
- *                      "url": "...", "minAppVersion": "..." }, ... ] }
+ *                      "url": "...", ... ] }
  *
  * 输出：latest.json（与 _fetchRemotePackages 返回结构一致）：
  *   {
@@ -39,23 +39,27 @@ function parseArgs(argv) {
   return args;
 }
 
-function escape(s) {
-  return s.replaceAll('\\', '\\\\').replaceAll('"', '\\"');
+// 字符串转义一律交给 JSON.stringify —— 手写版本漏掉单独出现的反斜杠与控制
+// 字符，与 Dart 侧 jsonEncode 产出不同字节，含 `\` 的 payload 会签名恒不匹配。
+// 两端同为 RFC 8259 转义规则，逐字节一致（golden vector 见
+// fuickjs_flutter/test/offline/canonical_json_golden_test.dart）。
+function encodeString(s) {
+  return JSON.stringify(s);
 }
 
 function encodeValue(v) {
   if (v === null) return 'null';
   if (typeof v === 'boolean') return v.toString();
   if (typeof v === 'number') return v.toString();
-  if (typeof v === 'string') return `"${escape(v)}"`;
+  if (typeof v === 'string') return encodeString(v);
   if (Array.isArray(v)) return `[${v.map(encodeValue).join(',')}]`;
   if (typeof v === 'object') return canonicalize(v);
-  return `"${escape(String(v))}"`;
+  return encodeString(String(v));
 }
 
 function canonicalize(obj) {
   const keys = Object.keys(obj).sort();
-  return `{${keys.map((k) => `"${escape(k)}":${encodeValue(obj[k])}`).join(',')}}`;
+  return `{${keys.map((k) => `${encodeString(k)}:${encodeValue(obj[k])}`).join(',')}}`;
 }
 
 function main() {
@@ -93,4 +97,7 @@ function main() {
   console.log(`  _sig    : ${signed._sig.slice(0, 32)}...`);
 }
 
-main();
+// 导出 canonicalize 供 golden vector 脚本复用；直接执行时才跑 main。
+module.exports = { canonicalize, encodeValue };
+
+if (require.main === module) main();

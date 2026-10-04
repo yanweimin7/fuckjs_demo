@@ -5,15 +5,19 @@
  *   node pack-bundle.js \
  *     --name wallet_bundle --version 1.2.0 \
  *     --key ./bundle_signing_key.pem --keyId key-2026-01 \
- *     --minAppVersion 3.0.0 \
- *     --qjc ../../../app/assets/js/wallet_bundle.qjc \
  *     --js  ../../../app/assets/js/wallet_bundle.js \
  *     --assets ../../../app/assets/js/assets \
  *     --out ./dist
  *
  * 产物：<out>/<name>-<version>.zip
- *   zip 内：manifest.json + manifest.sig + bundle.qjc/bundle.js + assets/（图片不入 manifest、不加密）
+ *   zip 内：manifest.json + manifest.sig + bundle.js + assets/（图片不入 manifest、不加密）
  * 同时打印整包 SHA-256，供版本元数据接口下发。
+ *
+ * 注意：**不再打包 .qjc 字节码**。字节码不进 manifest（sha256 不固定），端上
+ * 却会被优先于已验签的 .js 执行，等于在签名清单外开了一条执行路径。字节码改为
+ * 端上 BundleCompiler 在验签通过后由已验签的 .js 本地编译产出——顺带保证
+ * BC_VERSION 一定匹配本机引擎，zip 也少了 2.5 倍体积的那份产物。
+ * 客户端 DownloadService 会在解压阶段丢弃包内任何 .qjc，传了也不会生效。
  */
 const crypto = require('node:crypto');
 const fs = require('node:fs');
@@ -98,36 +102,29 @@ function main() {
     process.exit(1);
   }
   const keyId = args.keyId || null;
-  const minAppVersion = args.minAppVersion || null;
   const outDir = path.resolve(args.out || './dist');
 
   // 1. 准备 staging。
   const staging = fs.mkdtempSync(path.join(os.tmpdir(), 'fuick-bundle-'));
   try {
-    // 2. zip 内代码文件统一命名为 bundle.qjc / bundle.js（与包 name 无关）。
-    //    manifest.files 只收录 .js：.qjc 是 QuickJS 字节码，可能是本地编译的
-    //    （引擎版本升级后 BundleCompiler 重新编译），sha256 不固定，不参与验签。
-    //    .qjc 被篡改不会执行恶意代码——字节码格式不匹配时引擎加载失败 →
-    //    回退到已验签的 bundle.js。.js 必须存在，作为验签与回退基准。
+    // 2. zip 内代码文件统一命名为 bundle.js（与包 name 无关）。
+    //    包内只放 .js，且全部进 manifest.files 参与逐文件 SHA-256 —— 包目录里
+    //    不存在任何验签豁免文件。字节码由端上本地编译（见文件头说明）。
     const files = [];
-    let entry = null;
-    let codeForm = null;
 
-    if (args.qjc && fs.existsSync(args.qjc)) {
-      copyAs(args.qjc, staging, 'bundle.qjc');
-      entry = 'bundle.qjc';
-      codeForm = 'qjc';
+    if (args.qjc) {
+      console.error(
+        '--qjc 已废弃：字节码不再随包下发（客户端解压时会丢弃）。' +
+          '请只传 --js，字节码由端上 BundleCompiler 在验签后本地编译。',
+      );
+      process.exit(1);
     }
     if (args.js && fs.existsSync(args.js)) {
       const rel = copyAs(args.js, staging, 'bundle.js');
       files.push({ path: rel, sha256: sha256File(path.join(staging, rel)) });
-      if (!entry) {
-        entry = 'bundle.js';
-        codeForm = 'js';
-      }
     }
     if (files.length === 0) {
-      console.error('找不到代码文件（--js 必填，作为验签与回退基准）');
+      console.error('找不到代码文件（--js 必填）');
       process.exit(1);
     }
 
@@ -137,13 +134,15 @@ function main() {
     }
 
     // 4. 写 manifest.json（只声明代码）。
+    //    字段务必保持最小：每一项都必须有端上消费方。
+    //    name/version 供端上校验与元数据声明的身份一致；
+    //    keyId 选公钥；files 做逐文件 SHA-256。
+    //    曾有的 entry/codeForm 已删除——加载器按固定文件名探测，从不读 manifest，
+    //    两者全链路无人消费（codeForm 更会误导人以为它能约束加载哪份代码）。
     const manifest = {
       name,
       version,
-      minAppVersion,
       keyId,
-      entry,
-      codeForm,
       files,
     };
     const manifestStr = JSON.stringify(manifest, null, 2);
@@ -170,12 +169,11 @@ function main() {
     const zipSha256 = sha256File(zipPath);
     console.log('Bundle packed:', zipPath);
     console.log('  version      :', version);
-    console.log('  codeForm     :', codeForm);
     console.log('  zip sha256   :', zipSha256);
     console.log('\n版本元数据示例：');
     console.log(
       JSON.stringify(
-        { name, version, sha256: zipSha256, url: `https://YOUR_CDN/${name}-${version}.zip`, minAppVersion },
+        { name, version, sha256: zipSha256, url: `https://YOUR_CDN/${name}-${version}.zip` },
         null,
         2,
       ),

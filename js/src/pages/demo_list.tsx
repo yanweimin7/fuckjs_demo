@@ -107,6 +107,7 @@ const demoCategories = [
     title: "Advanced & Experimental",
     items: [
       { name: "FlutterProps", path: "/demo/flutter_props" },
+      { name: "ScaffoldTextField", path: "/demo/scaffold_body_textfield" },
       { name: "Visibility", path: "/demo/visibility" },
       { name: "Animation", path: "/demo/animation" },
       { name: "Gestures", path: "/demo/gestures" },

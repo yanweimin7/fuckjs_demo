@@ -53,6 +53,7 @@ import VisibilityDemo from "./demos/VisibilityDemo";
 import { DemoOpsPage } from "./pages/demo_ops";
 import ErrorDemoPage from "./pages/error_demo";
 import FlutterPropsDemo from "./demos/FlutterPropsDemo";
+import ScaffoldBodyTextFieldDemo from "./demos/ScaffoldBodyTextFieldDemo";
 import CustomPaintDemo from "./demos/CustomPaintDemo";
 import VisibilityDetectorDemo from "./demos/VisibilityDetectorDemo";
 import VideoPlayerDemo from "./demos/VideoPlayerDemo";
@@ -260,6 +261,7 @@ const routes: { path: string; component: React.ComponentType<any> }[] = [
   { path: "/demo/error", component: ErrorDemoPage },
   { path: "/demo/ops", component: DemoOpsPage },
   { path: "/demo/flutter_props", component: FlutterPropsDemo },
+  { path: "/demo/scaffold_body_textfield", component: ScaffoldBodyTextFieldDemo },
   { path: "/demo/browser_api", component: BrowserApiDemo },
   { path: "/demo/websocket", component: WebSocketDemo },
 

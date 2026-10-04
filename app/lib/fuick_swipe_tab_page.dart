@@ -66,7 +66,6 @@ class _FuickSwipeTabPageState extends State<FuickSwipeTabPage> {
                 key: ValueKey(t.initialRoute),
                 appName: 'bundle',
                 initialRoute: t.initialRoute,
-                useAotCode: true,
               ),
             ),
         ],

@@ -1,18 +1,13 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fuickjs_flutter/core/container/fuick_app_controller.dart'
-    as fuick;
-import 'package:fuickjs_flutter/core/container/fuick_navigation_delegate.dart';
-import 'package:fuickjs_flutter/core/logger.dart';
+import 'package:fuickjs_flutter/core/fuick_config.dart';
+import 'package:fuickjs_flutter/core/fuick_js.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wujie/fuick_swipe_tab_page.dart';
 
 import 'debug_page.dart';
+import 'error_page.dart';
 import 'fuick_app_page.dart';
+import 'bundle_config.dart';
 
 // Web 版 demo 入口：复用与 native 相同的首页网格 + 路由，但跳过 QuickJS 引擎 /
 // 离线包 / 原生服务初始化（这些在 Web 上不编译），bundle 通过 <script src> 加载。
@@ -20,67 +15,31 @@ import 'fuick_app_page.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
-class BundleConfig {
-  final String name;
-  final String label;
-  final String initialRoute;
-
-  const BundleConfig({
-    required this.name,
-    required this.label,
-    required this.initialRoute,
-  });
-
-  factory BundleConfig.fromJson(Map<String, dynamic> json) => BundleConfig(
-        name: json['name'] as String,
-        label: json['label'] as String? ?? json['name'] as String,
-        initialRoute: json['initialRoute'] as String? ?? '/',
-      );
-}
-
-Future<List<BundleConfig>> loadBundleConfigs() async {
-  final raw = await rootBundle.loadString('assets/js/bundles.json');
-  final decoded = jsonDecode(raw);
-  final List<dynamic> list;
-  if (decoded is Map<String, dynamic>) {
-    list = decoded['packages'] as List<dynamic>? ?? [];
-  } else if (decoded is List<dynamic>) {
-    list = decoded;
-  } else {
-    return [];
-  }
-  return list
-      .map((e) => BundleConfig.fromJson(e as Map<String, dynamic>))
-      .toList();
-}
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // 与 native 入口共用同一份初始化调用。engine / offline 在 Web 上是 no-op
+  // （Web 没有 QuickJS/JSC 引擎，bundle 由 <script src> 直接加载），所以这里
+  // 不传这两项，其余行为完全一致。
+  FuickJS.init(FuickConfig(
+    // Web 上加载走 <script src> 而非引擎，AOT 字节码无从谈起。
+    useAotCode: false,
+    // 一个应用只有一份 worker 脚本，配一次，所有 FuickAppView 共用。
+    // 取不到/浏览器不支持 Worker 都会自动回退到主线程渲染。
+    workerUrl: 'fuick-worker.js',
+    // 与 native 入口共用同一个错误页（它读的 isWorkerPermanentlyFailed 在 Web
+    // 上走空实现恒为 false，于是自然只显示「普通失败」那套文案）。
+    errorBuilder: (context, error, retry) =>
+        FuickErrorPage(error: error, onRetry: retry),
+    onRootPush: (path, params) async {
+      final ctx = rootNavigatorKey.currentContext;
+      if (ctx != null) {
+        return await ctx.push(path, extra: params);
+      }
+      return null;
+    },
+  ));
 
-  FuickNavigationDelegate.onRootPush = (path, params) async {
-    final ctx = rootNavigatorKey.currentContext;
-    if (ctx != null) {
-      return await ctx.push(path, extra: params);
-    }
-    return null;
-  };
-
-  // Web 不注册原生服务 / 解析器（它们在 Web 上不可编译），也不预热 QuickJS 引擎。
+  // Web 不注册原生服务 / 解析器（它们在 Web 上不可编译）。
   final bundles = await loadBundleConfigs();
-
-  FlutterError.onError = (FlutterErrorDetails details) {
-    logger.e('===== FLUTTER ERROR =====');
-    logger.e('Exception: ${details.exception}');
-    logger.e('Stack: ${details.stack}');
-  };
-
-  PlatformDispatcher.instance.onError = (error, stack) {
-    debugPrint('===== UNCAUGHT ERROR =====');
-    debugPrint('Error: $error');
-    debugPrint('Stack: $stack');
-    return true;
-  };
-
   runApp(MyApp(bundles: bundles));
 }
 
