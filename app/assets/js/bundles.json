@@ -3,7 +3,7 @@
     {
       "name": "game",
       "version": "1.0.0",
-      "sha256": "bba34d50764c4de80fe8a6a174d1f40e991f0076a24646f9dfe92fab958ad4c8",
+      "sha256": "71ba5225a003fbb4b0cbcf9b24943d1681ab7de934b09562e6d2e6193461d0cd",
       "minAppVersion": "1.0.0",
       "label": "宇宙进化",
       "initialRoute": "/"
@@ -33,7 +33,7 @@
     {
       "name": "wallet_bundle",
       "version": "1.0.0",
-      "sha256": "6cbe91af8c28005396fbd79102a664fe61e849a13207ec2301d694e46b433da2",
+      "sha256": "29e4dd9e5bf9463431457b72d0b49b2358add8baa5770f2a49c20b80e1841c31",
       "label": "Fuick Wallet",
       "initialRoute": "/"
     },

@@ -17,6 +17,7 @@ import 'community/haptics_service.dart';
 import 'community/launcher_service.dart';
 import 'community/media_service.dart';
 import 'community/permissions_service.dart';
+import 'community/scene3d_parser.dart';
 import 'community/share_service.dart';
 import 'community/video_player_parser.dart';
 import 'community/visibility_detector_parser.dart';
@@ -33,22 +34,42 @@ import 'service/file_picker_service.dart';
 import 'service/fuick_storage_service.dart';
 import 'service/local_auth_service.dart';
 import 'bundle_config.dart';
+import 'in_app_log_page.dart';
+import 'service/in_app_log.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
+  // 尽早挂上 app 内日志缓冲：后台几小时再回来时，console 里的东西早没了，
+  // 而这类问题只能在当时留痕。装在 FuickJS.init 之前，保证框架启动日志也进得来。
+  InAppLog.install();
+
   // 框架自身的启动职责 —— binding、日志级别、引擎参数、bundle 下发、路由钩子 ——
   // 全部收敛到这一次调用里。
   FuickJS.init(FuickConfig(
     // 强制 iOS 也使用 QuickJS 引擎（默认走 JSC 回退）。JSC 不支持字节码与
     // ES Module，字节码编译 / 模块加载等能力需要 QuickJS 引擎。
-    engine: const FuickEngineConfig(useJscOnIos: false),
+    engine: const FuickEngineConfig(
+      useJscOnIos: false,
+      // 内存增长看门狗保持关闭（enableMemoryWatchdog 默认 false）：
+      // 它会直接触发 worker 重启，而重启会把所有 context 丢掉、整棵 Navigator
+      // 塌回 loading spinner —— 排查"放久后打不开"时不想引入这个干扰变量。
+      // 排查完泄漏再按需单独打开。
+      //
+      // QuickJS allocator 硬上限（字节）。不设的话 JS 堆可以一直涨到被系统
+      // OOM kill（isolate 被杀，页面永久白屏）。这道是纯兜底，不主动重启。
+      memoryLimitBytes: 384 * 1024 * 1024,
+    ),
     // bundle 动态下发（内置 zip 验签 + 懒解压；远程默认关闭）。
     // 后台启动：首个 FuickAppView 打开时会等它落地，这里不必 await。
     offline: DemoOfflineBootstrap.config(),
     // 运行模式：优先加载 AOT 字节码。native 上全局一致，配一次即可，
     // 不用在每个 FuickAppView 挂载点重复传。
     useAotCode: true,
+    // 右上角叠加 QuickJS 内存面板（malloc/used + obj/str/atom/shape 分项与
+    // 对象数）。每次采样前先 runGC，所以显示的是"真实存活对象"，上涨即泄漏，
+    // 不会把待回收垃圾误判成泄漏。定位"放久后打不开"的问题时开着。
+    showMemoryMonitor: false,
     // 自定义引擎错误页：框架内置的「灰图标 + 重试」是给所有宿主兜底的，
     // demo 换成自己那套（并能区分「引擎熔断」与普通失败，见 error_page.dart）。
     errorBuilder: (context, error, retry) =>
@@ -82,6 +103,7 @@ void main() async {
   fuick.widgetFactory.register(VideoPlayerParser());
   fuick.widgetFactory.register(VisibilityDetectorParser());
   fuick.widgetFactory.register(WebViewParser());
+  fuick.widgetFactory.register(Scene3DParser());
 
   // ── 以下是宿主自己的调试兜底 ──
   // 这两个全局钩子属于宿主 App，**框架不碰**（FuickJS.init 不会覆盖它们）。
@@ -147,6 +169,10 @@ class MyApp extends StatelessWidget {
               GoRoute(
                 path: 'compile_test',
                 builder: (context, state) => const CompileTestPage(),
+              ),
+              GoRoute(
+                path: 'in_app_log',
+                builder: (context, state) => const InAppLogPage(),
               ),
               GoRoute(
                 path: 'engine_resilience',
@@ -246,6 +272,11 @@ class _MyHomePageState extends State<MyHomePage> {
             tooltip: '字节码编译测试',
             icon: const Icon(Icons.memory, color: Color(0xFF5C6BC0)),
             onPressed: () => context.push('/compile_test'),
+          ),
+          IconButton(
+            tooltip: 'App 内日志',
+            icon: const Icon(Icons.notes, color: Color(0xFF5C6BC0)),
+            onPressed: () => context.push('/in_app_log'),
           ),
           IconButton(
             tooltip: '引擎健壮性测试',

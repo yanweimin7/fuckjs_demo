@@ -57,6 +57,15 @@ dependencies:
   path: ^1.9.0
   path_provider: ^2.1.0
   archive: ^4.0.4
+  # app 内日志缓冲（lib/service/in_app_log.dart）直接监听 logger 的全局日志流，
+  # 因此需要直接依赖，而不是只靠 fuickjs_flutter 传递。
+  logger: ^2.8.0
+  # 3D 场景（@fuickjs-community/scene3d）：冷行星 GLB 真实模型渲染。
+  # flutter_scene 必须锁 0.16.0（0.17+ 与本机引擎的 flutter_gpu API 不兼容）。
+  flutter_scene: 0.16.0
+  vector_math: ^2.2.0
+  flutter_gpu:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

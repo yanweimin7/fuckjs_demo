@@ -1,0 +1,1 @@
+../../../../fuickjs_community/scene3d/flutter/scene3d_parser.dart
