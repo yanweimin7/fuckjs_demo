@@ -3,7 +3,7 @@
     {
       "name": "game",
       "version": "1.0.0",
-      "sha256": "26a78d0c58d6a08ffb4eac879d60f9bdc16fa18e0bec6cb4818bc5c243e1df65",
+      "sha256": "8453b9e3e350a739261159f849b93e1fee5c538f3b2741f1dfd5494da7bd6b1e",
       "minAppVersion": "1.0.0",
       "label": "宇宙进化",
       "initialRoute": "/"
